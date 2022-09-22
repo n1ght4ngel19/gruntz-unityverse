@@ -2,10 +2,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class TopDownController : MonoBehaviour
-{
-    public Rigidbody2D body;
+public class Grunt : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
+    
     public List<Sprite> walkSpritesNorth;
     public List<Sprite> walkSpritesNorthEast;
     public List<Sprite> walkSpritesNorthWest;
@@ -24,10 +23,7 @@ public class TopDownController : MonoBehaviour
     public List<Sprite> idleSpritesEast;
     public List<Sprite> idleSpritesWest;
 
-
-    public static List<TopDownController> gruntz = new List<TopDownController>();
-    
-    private int tileSize = 32;
+    public static List<Grunt> gruntz = new List<Grunt>();
     
     // TODO: 10f / 6f
     private float timeToMove = 5f;
@@ -44,13 +40,20 @@ public class TopDownController : MonoBehaviour
     private float idleFrameRate = 8;
     private float idleTime;
 
+    private PathFinder pathFinder;
+    private List<NavTile> path;
+    private NavTile start;
+    private NavTile end;
+
+    public SelectorCircle selectorCircle;
+    
     private void Start() {
         gruntz.Add(this);
         targetPosition = transform.position;
 
+        pathFinder = new PathFinder();
     }
 
-    // Update is called once per frame
     void Update() {
         if (!hasMoved) {
             float playTime = Time.time - idleTime;
@@ -61,37 +64,46 @@ public class TopDownController : MonoBehaviour
         
         if (Input.GetMouseButtonDown(1) && isSelected) {
             isMoving = true;
-            targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            targetPosition = selectorCircle.transform.position;
             targetPosition.z = transform.position.z;
 
             if (!hasMoved)
                 hasMoved = true;
         }
         
-        diffVector = Custom.Round(targetPosition) - Custom.Round(transform.position);
+        var startKey = new Vector2Int(
+            (int)Mathf.Floor(transform.position.x),
+            (int)Mathf.Floor(transform.position.y)
+        );
+        
+        if (MapManager.Instance.map.ContainsKey(startKey)) {
+            start = MapManager.Instance.map[startKey];            
+        } else {
+            start = MapManager.Instance.map[startKey + Vector2Int.up];
+        }
 
-        // if (diffVector.x > 0) {
-        //     transform.position = Vector3.MoveTowards(
-        //         transform.position,
-        //         Custom.Round(Vector3.right),
-        //         timeToMove * Time.deltaTime
-        //     );
-        // }
-        // else {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                Custom.Round(targetPosition),
-                timeToMove * Time.deltaTime
-            );
-        // }
+        var endKey = new Vector2Int(
+            (int)Mathf.Floor(targetPosition.x),
+            (int)Mathf.Floor(targetPosition.y)
+        );
+
+        if (MapManager.Instance.map.ContainsKey(endKey)) {
+            end = MapManager.Instance.map[endKey];
+        } else {
+            end = MapManager.Instance.map[endKey + Vector2Int.up];
+        }
         
+        path = pathFinder.FindPath(start, end);
+
+        var destination = new Vector2(path[0].gridLocation.x, path[0].gridLocation.y);
         
-        
-        
-        
-        
-        
-        
+        transform.position = Vector2.MoveTowards(
+            transform.position,
+            destination,
+            timeToMove * Time.deltaTime
+        );
+
+        path.RemoveAt(0);
         
         if (isMoving) {
             List<Sprite> walkSprites = GetWalkSprites();
@@ -122,10 +134,9 @@ public class TopDownController : MonoBehaviour
     private void OnMouseDown() {
         isSelected = true;
 
-        foreach (TopDownController grunt in gruntz) {
+        foreach (Grunt grunt in gruntz) {
             if (grunt != this)
                 grunt.isSelected = false;
-                
         }
     }
 
@@ -201,6 +212,7 @@ public class TopDownController : MonoBehaviour
 
         return selectedSprites;
     }
+
     // private IEnumerator MoveActor(Vector3 directionToMove)
     // {
     //     isMoving = true;
