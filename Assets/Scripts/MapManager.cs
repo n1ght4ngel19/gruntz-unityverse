@@ -11,8 +11,10 @@ public class MapManager : MonoBehaviour {
   }
 
   public Tilemap baseMap;
+  public Tilemap collisionMap;
   public NavTile navtilePrefab;
   public GameObject tileContainer;
+  public Grunt[] gruntz;
 
   public Dictionary<Vector2Int, NavTile> map;
 
@@ -24,25 +26,83 @@ public class MapManager : MonoBehaviour {
   }
 
   private void Start() {
-    Tilemap tilemap = gameObject.GetComponentInChildren<Tilemap>();
     map = new Dictionary<Vector2Int, NavTile>();
 
-    BoundsInt bounds = tilemap.cellBounds;
+    BoundsInt bounds = baseMap.cellBounds;
+  
+    AddNavTilesBasedOnMap(bounds);
+    AddNavTilesForStaticBridges();
+    AddNavTilesForBlueToggleSwitches();
+  }
 
+  // TODO: Refactor this! Only check if changed, make bridgez and otherz play "anim"ationz instead of iterating through arrayz and setting framez there
+  private void Update() {
+
+  }
+
+  private void AddNavTilesForStaticBridges() {
+    WaterBridgeStatic[] bridgez = baseMap.GetComponentsInChildren<WaterBridgeStatic>();
+    
+    foreach (WaterBridgeStatic bridge in bridgez) {
+      Vector3Int tileLocation = new(Mathf.FloorToInt(bridge.transform.position.x), Mathf.FloorToInt(bridge.transform.position.y), 0);
+      Vector2Int tileKey = new(Mathf.FloorToInt(bridge.transform.position.x), Mathf.FloorToInt(bridge.transform.position.y));
+
+      if (map.ContainsKey(tileKey))
+        continue;
+
+      NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
+      Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
+        
+      navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
+      navTile.gridLocation = tileLocation;
+        
+      map.Add(tileKey, navTile);
+    }
+  }
+
+  private void AddNavTilesForBlueToggleSwitches() {
+    BlueHoldSwitch[] blueToggleSwitches = baseMap.GetComponentsInChildren<BlueHoldSwitch>();
+    
+    foreach (BlueHoldSwitch blueToggleSwitch in blueToggleSwitches) {
+      Vector3Int tileLocation = new(
+        Mathf.FloorToInt(blueToggleSwitch.transform.position.x),
+        Mathf.FloorToInt(blueToggleSwitch.transform.position.y),
+        0
+      );
+      Vector2Int tileKey = new(
+        Mathf.FloorToInt(blueToggleSwitch.transform.position.x),
+        Mathf.FloorToInt(blueToggleSwitch.transform.position.y)
+      );
+
+      if (map.ContainsKey(tileKey))
+        continue;
+
+      NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
+      Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
+        
+      navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
+      navTile.gridLocation = tileLocation;
+        
+      map.Add(tileKey, navTile);
+    }
+  }
+
+  private void AddNavTilesBasedOnMap(BoundsInt bounds) {
     for (int y = bounds.min.y; y < bounds.max.y; y++) {
       for (int x = bounds.min.x; x < bounds.max.x; x++) {
         Vector3Int tileLocation = new(x, y, 0);
         Vector2Int tileKey = new(x, y);
 
-        if (baseMap.HasTile(tileLocation) && !map.ContainsKey(tileKey)) {
-          NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
-          Vector3 cellWorldPosition = tilemap.GetCellCenterWorld(tileLocation);
+        if (!baseMap.HasTile(tileLocation) || map.ContainsKey(tileKey))
+          continue;
 
-          navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
-          navTile.gridLocation = tileLocation;
+        NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
+        Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
 
-          map.Add(tileKey, navTile);
-        }
+        navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
+        navTile.gridLocation = tileLocation;
+
+        map.Add(tileKey, navTile);
       }
     }
   }
