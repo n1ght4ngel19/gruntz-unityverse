@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class SelectorCircle : MonoBehaviour {
-    void Update() {
-        transform.position = CustomStuff.Round(Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward);
-    }
+  public Camera mainCamera;
+
+  private void Update() {
+    transform.position = CustomStuff.SetSelectorCirclePosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+  }
 }
