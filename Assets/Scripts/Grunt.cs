@@ -55,19 +55,15 @@ public class Grunt : MonoBehaviour {
   private void Update() {
     PlaySouthIdleAnimationByDefault();
     
-    // SetTargetPosition();   
-    
     if (Input.GetMouseButtonDown(1) && isSelected) {
       isMoving = true;
       targetPosition = selectorCircle.transform.position;
-      Debug.Log(targetPosition);
       
       targetPosition.z = transform.position.z;
 
       if (!hasMoved)
         hasMoved = true;
     }
-    
 
     Vector2Int startKey = new(
       (int)Mathf.Floor(transform.position.x),
@@ -89,9 +85,10 @@ public class Grunt : MonoBehaviour {
 
     path = PathFinder.FindPath(startNode, endNode);
 
-    Vector2 destination = new(
+    Vector3 destination = new(
       Mathf.Floor(path[0].gridLocation.x) + 0.5f,
-      Mathf.Floor(path[0].gridLocation.y) + 0.5f
+      Mathf.Floor(path[0].gridLocation.y) + 0.5f,
+      -5
     );
 
     transform.position = destination;
