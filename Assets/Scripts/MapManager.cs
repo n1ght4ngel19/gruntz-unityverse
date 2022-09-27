@@ -33,17 +33,18 @@ public class MapManager : MonoBehaviour {
     AddNavTilesBasedOnMap(bounds);
     AddNavTilesForStaticBridges();
     AddNavTilesForBlueToggleSwitches();
+    AddNavTilesForBlueHoldSwitches();
   }
 
-  // TODO: Refactor this! Only check if changed, make bridgez and otherz play "anim"ationz instead of iterating through arrayz and setting framez there
+  // TODO: Refactor this! Only check if changed, make bridgez and otherz play animationz instead of iterating through arrayz and setting framez there
   private void Update() {
 
   }
 
   private void AddNavTilesForStaticBridges() {
-    WaterBridgeStatic[] bridgez = baseMap.GetComponentsInChildren<WaterBridgeStatic>();
+    WaterBridgeStatic[] staticWaterBridges = baseMap.GetComponentsInChildren<WaterBridgeStatic>();
     
-    foreach (WaterBridgeStatic bridge in bridgez) {
+    foreach (WaterBridgeStatic bridge in staticWaterBridges) {
       Vector3Int tileLocation = new(Mathf.FloorToInt(bridge.transform.position.x), Mathf.FloorToInt(bridge.transform.position.y), 0);
       Vector2Int tileKey = new(Mathf.FloorToInt(bridge.transform.position.x), Mathf.FloorToInt(bridge.transform.position.y));
 
@@ -61,9 +62,9 @@ public class MapManager : MonoBehaviour {
   }
 
   private void AddNavTilesForBlueToggleSwitches() {
-    BlueHoldSwitch[] blueToggleSwitches = baseMap.GetComponentsInChildren<BlueHoldSwitch>();
+    BlueToggleSwitch[] blueToggleSwitches = baseMap.GetComponentsInChildren<BlueToggleSwitch>();
     
-    foreach (BlueHoldSwitch blueToggleSwitch in blueToggleSwitches) {
+    foreach (BlueToggleSwitch blueToggleSwitch in blueToggleSwitches) {
       Vector3Int tileLocation = new(
         Mathf.FloorToInt(blueToggleSwitch.transform.position.x),
         Mathf.FloorToInt(blueToggleSwitch.transform.position.y),
@@ -72,6 +73,33 @@ public class MapManager : MonoBehaviour {
       Vector2Int tileKey = new(
         Mathf.FloorToInt(blueToggleSwitch.transform.position.x),
         Mathf.FloorToInt(blueToggleSwitch.transform.position.y)
+      );
+
+      if (map.ContainsKey(tileKey))
+        continue;
+
+      NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
+      Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
+        
+      navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
+      navTile.gridLocation = tileLocation;
+        
+      map.Add(tileKey, navTile);
+    }
+  }
+  
+  private void AddNavTilesForBlueHoldSwitches() {
+    BlueHoldSwitch[] blueToggleSwitches = baseMap.GetComponentsInChildren<BlueHoldSwitch>();
+    
+    foreach (BlueHoldSwitch blueHoldSwitch in blueToggleSwitches) {
+      Vector3Int tileLocation = new(
+        Mathf.FloorToInt(blueHoldSwitch.transform.position.x),
+        Mathf.FloorToInt(blueHoldSwitch.transform.position.y),
+        0
+      );
+      Vector2Int tileKey = new(
+        Mathf.FloorToInt(blueHoldSwitch.transform.position.x),
+        Mathf.FloorToInt(blueHoldSwitch.transform.position.y)
       );
 
       if (map.ContainsKey(tileKey))

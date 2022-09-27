@@ -4,27 +4,25 @@ using System.Linq;
 using UnityEngine;
 
 public class WaterBridge : MonoBehaviour {
-  public BlueHoldSwitch controllerSwitch;
+  public BlueToggleSwitch controllerSwitch;
   public List<Sprite> animFrames;
-  private Vector3Int tileLocation;
-  private Vector2Int tileKey;
 
   private void Update() {
-    // handleBlueToggleSwitches();
-    handleBlueHoldSwitches();
+    HandleBlueToggleSwitch();
+    // HandleBlueHoldSwitch();
   }
 
-  private void handleBlueToggleSwitches() {
+  private void HandleBlueHoldSwitch() {
     switch (controllerSwitch.isPressed) {
       case true: {
         Debug.Log("I'M PRESSED");
       
-        tileLocation = new Vector3Int(
+        Vector3Int tileLocation = new(
           Mathf.FloorToInt(transform.position.x),
           Mathf.FloorToInt(transform.position.y),
           0
         );
-        tileKey = new Vector2Int(
+        Vector2Int tileKey = new(
           Mathf.FloorToInt(transform.position.x),
           Mathf.FloorToInt(transform.position.y)
         );
@@ -46,12 +44,12 @@ public class WaterBridge : MonoBehaviour {
       case false: {
         Debug.Log("I AIN'T BEIN' PRESSED");
       
-        tileLocation = new Vector3Int(
+        Vector3Int tileLocation = new(
           Mathf.FloorToInt(transform.position.x),
           Mathf.FloorToInt(transform.position.y),
           0
         );
-        tileKey = new Vector2Int(
+        Vector2Int tileKey = new(
           Mathf.FloorToInt(transform.position.x),
           Mathf.FloorToInt(transform.position.y)
         );
@@ -75,17 +73,17 @@ public class WaterBridge : MonoBehaviour {
     }    
   }
   
-  private void handleBlueHoldSwitches() {
+  private void HandleBlueToggleSwitch() {
     switch (controllerSwitch.isPressed) {
       case true: {
         Debug.Log("I'M PRESSED");
       
-        tileLocation = new Vector3Int(
+        Vector3Int tileLocation = new(
           Mathf.FloorToInt(transform.position.x),
           Mathf.FloorToInt(transform.position.y),
           0
         );
-        tileKey = new Vector2Int(
+        Vector2Int tileKey = new(
           Mathf.FloorToInt(transform.position.x),
           Mathf.FloorToInt(transform.position.y)
         );
@@ -111,12 +109,12 @@ public class WaterBridge : MonoBehaviour {
       case false: {
         Debug.Log("I AIN'T BEIN' PRESSED");
       
-        tileLocation = new Vector3Int(
+        Vector3Int tileLocation = new(
           Mathf.FloorToInt(transform.position.x),
           Mathf.FloorToInt(transform.position.y),
           0
         );
-        tileKey = new Vector2Int(
+        Vector2Int tileKey = new(
           Mathf.FloorToInt(transform.position.x),
           Mathf.FloorToInt(transform.position.y)
         );
