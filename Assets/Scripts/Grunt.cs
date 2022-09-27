@@ -23,6 +23,33 @@ public class Grunt : MonoBehaviour {
   public List<Sprite> idleSpritesSouthWest;
   public List<Sprite> idleSpritesEast;
   public List<Sprite> idleSpritesWest;
+  
+  public List<Sprite> attackSpritesNorth;
+  public List<Sprite> attackSpritesNorthEast;
+  public List<Sprite> attackSpritesNorthWest;
+  public List<Sprite> attackSpritesSouth;
+  public List<Sprite> attackSpritesSouthEast;
+  public List<Sprite> attackSpritesSouthWest;
+  public List<Sprite> attackSpritesEast;
+  public List<Sprite> attackSpritesWest;
+
+  public List<Sprite> struckSpritesNorth;
+  public List<Sprite> struckSpritesNorthEast;
+  public List<Sprite> struckSpritesNorthWest;
+  public List<Sprite> struckSpritesSouth;
+  public List<Sprite> struckSpritesSouthEast;
+  public List<Sprite> struckSpritesSouthWest;
+  public List<Sprite> struckSpritesEast;
+  public List<Sprite> struckSpritesWest;
+  
+  public List<Sprite> itemSpritesNorth;
+  public List<Sprite> itemSpritesNorthEast;
+  public List<Sprite> itemSpritesNorthWest;
+  public List<Sprite> itemSpritesSouth;
+  public List<Sprite> itemSpritesSouthEast;
+  public List<Sprite> itemSpritesSouthWest;
+  public List<Sprite> itemSpritesEast;
+  public List<Sprite> itemSpritesWest;
 
   private static List<Grunt> gruntz = new();
 
@@ -45,8 +72,6 @@ public class Grunt : MonoBehaviour {
   private NavTile startNode;
   private NavTile endNode;
 
-  public SelectorCircle selectorCircle;
-
   private void Start() {
     gruntz.Add(this);
     targetPosition = transform.position;
@@ -57,9 +82,9 @@ public class Grunt : MonoBehaviour {
     
     if (Input.GetMouseButtonDown(1) && isSelected) {
       isMoving = true;
-      targetPosition = selectorCircle.transform.position;
+      targetPosition = SelectorCircle.Instance.transform.position;
       
-      targetPosition.z = transform.position.z;
+      targetPosition.z = -5;
 
       if (!hasMoved)
         hasMoved = true;

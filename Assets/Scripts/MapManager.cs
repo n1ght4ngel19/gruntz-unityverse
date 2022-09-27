@@ -9,15 +9,7 @@ public class MapManager : MonoBehaviour {
   public static MapManager Instance {
     get => _instance;
   }
-
-  public Tilemap baseMap;
-  public Tilemap collisionMap;
-  public NavTile navtilePrefab;
-  public GameObject tileContainer;
-  public Grunt[] gruntz;
-
-  public Dictionary<Vector2Int, NavTile> map;
-
+  
   private void Awake() {
     if (_instance != null && _instance != this)
       Destroy(gameObject);
@@ -25,11 +17,22 @@ public class MapManager : MonoBehaviour {
       _instance = this;
   }
 
-  private void Start() {
-    map = new Dictionary<Vector2Int, NavTile>();
+  public Tilemap baseMap;
+  public Tilemap collisionMap;
+  public NavTile navtilePrefab;
+  public GameObject tileContainer;
+  public List<Grunt> gruntz;
 
+  public Dictionary<Vector2Int, NavTile> map;
+
+  private void Start() {
+    foreach (Grunt grunt in GameObject.Find("PlayerGruntz").GetComponentsInChildren<Grunt>()) {
+      gruntz.Add(grunt);
+    }
+    
+    map = new Dictionary<Vector2Int, NavTile>();
     BoundsInt bounds = baseMap.cellBounds;
-  
+    
     AddNavTilesBasedOnMap(bounds);
     AddNavTilesForStaticBridges();
     AddNavTilesForBlueToggleSwitches();
