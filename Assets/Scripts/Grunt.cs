@@ -5,51 +5,51 @@ using UnityEngine;
 
 public class Grunt : MonoBehaviour {
   public SpriteRenderer spriteRenderer;
-
-  public List<Sprite> walkSpritesNorth;
-  public List<Sprite> walkSpritesNorthEast;
-  public List<Sprite> walkSpritesNorthWest;
-  public List<Sprite> walkSpritesSouth;
-  public List<Sprite> walkSpritesSouthEast;
-  public List<Sprite> walkSpritesSouthWest;
-  public List<Sprite> walkSpritesEast;
-  public List<Sprite> walkSpritesWest;
-
-  public List<Sprite> idleSpritesNorth;
-  public List<Sprite> idleSpritesNorthEast;
-  public List<Sprite> idleSpritesNorthWest;
-  public List<Sprite> idleSpritesSouth;
-  public List<Sprite> idleSpritesSouthEast;
-  public List<Sprite> idleSpritesSouthWest;
-  public List<Sprite> idleSpritesEast;
-  public List<Sprite> idleSpritesWest;
   
+  public List<Sprite> attackSpritesEast;
   public List<Sprite> attackSpritesNorth;
   public List<Sprite> attackSpritesNorthEast;
   public List<Sprite> attackSpritesNorthWest;
   public List<Sprite> attackSpritesSouth;
   public List<Sprite> attackSpritesSouthEast;
   public List<Sprite> attackSpritesSouthWest;
-  public List<Sprite> attackSpritesEast;
   public List<Sprite> attackSpritesWest;
 
-  public List<Sprite> struckSpritesNorth;
-  public List<Sprite> struckSpritesNorthEast;
-  public List<Sprite> struckSpritesNorthWest;
-  public List<Sprite> struckSpritesSouth;
-  public List<Sprite> struckSpritesSouthEast;
-  public List<Sprite> struckSpritesSouthWest;
-  public List<Sprite> struckSpritesEast;
-  public List<Sprite> struckSpritesWest;
-  
+  public List<Sprite> idleSpritesEast;
+  public List<Sprite> idleSpritesNorth;
+  public List<Sprite> idleSpritesNorthEast;
+  public List<Sprite> idleSpritesNorthWest;
+  public List<Sprite> idleSpritesSouth;
+  public List<Sprite> idleSpritesSouthEast;
+  public List<Sprite> idleSpritesSouthWest;
+  public List<Sprite> idleSpritesWest;
+
+  public List<Sprite> itemSpritesEast;
   public List<Sprite> itemSpritesNorth;
   public List<Sprite> itemSpritesNorthEast;
   public List<Sprite> itemSpritesNorthWest;
   public List<Sprite> itemSpritesSouth;
   public List<Sprite> itemSpritesSouthEast;
   public List<Sprite> itemSpritesSouthWest;
-  public List<Sprite> itemSpritesEast;
   public List<Sprite> itemSpritesWest;
+
+  public List<Sprite> struckSpritesEast;
+  public List<Sprite> struckSpritesNorth;
+  public List<Sprite> struckSpritesNorthEast;
+  public List<Sprite> struckSpritesNorthWest;
+  public List<Sprite> struckSpritesSouth;
+  public List<Sprite> struckSpritesSouthEast;
+  public List<Sprite> struckSpritesSouthWest;
+  public List<Sprite> struckSpritesWest;
+  
+  public List<Sprite> walkSpritesEast;
+  public List<Sprite> walkSpritesNorth;
+  public List<Sprite> walkSpritesNorthEast;
+  public List<Sprite> walkSpritesNorthWest;
+  public List<Sprite> walkSpritesSouth;
+  public List<Sprite> walkSpritesSouthEast;
+  public List<Sprite> walkSpritesSouthWest;
+  public List<Sprite> walkSpritesWest;
 
   private static List<Grunt> gruntz = new();
 
