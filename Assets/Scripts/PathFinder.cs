@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Singletonz;
+
 using UnityEngine;
 
 public static class PathFinder {
