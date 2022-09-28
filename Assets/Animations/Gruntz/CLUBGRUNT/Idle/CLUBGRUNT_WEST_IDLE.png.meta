@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -69,6 +69,54 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -78,7 +126,427 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_0
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 100
+        width: 40
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdd34f345b52e834eb675554c765e56b
+      internalID: -1310316656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_1
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 99
+        width: 35
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd2f31ac737cdac489e9ff85a2f5224b
+      internalID: 1827921914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_2
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 99
+        width: 33
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23b16d0418b24614a8299f4596bd6ef1
+      internalID: -1504579800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_3
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 100
+        width: 33
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 044863cac7d42534c9b797920eb267c3
+      internalID: -322090832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_4
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 93
+        width: 38
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62fe4d4f26d5ee744abb949d7b80b963
+      internalID: 1632018415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_5
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 91
+        width: 37
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59c691eab10076c4c8bca39c0111e434
+      internalID: -453812314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_6
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 87
+        width: 31
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 569e830a2d05e604bbb6b00884645e4e
+      internalID: 500520884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_7
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 91
+        width: 44
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfe10f5576db68049b8183140c1a56f3
+      internalID: 2128033875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_8
+      rect:
+        serializedVersion: 2
+        x: 757
+        y: 92
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1525721f24bc6984bbb4dc13ce90c878
+      internalID: -372855132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_9
+      rect:
+        serializedVersion: 2
+        x: 843
+        y: 94
+        width: 41
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46d7289d3dff01c40b54869b14ac43a9
+      internalID: 868801262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_10
+      rect:
+        serializedVersion: 2
+        x: 934
+        y: 91
+        width: 42
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7e0b4f9aa6c7fc4a93ad56604e319f3
+      internalID: -1279157805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_11
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 5
+        width: 42
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a3513f1f2d093c4dbfb073daa9a76a5
+      internalID: 644340945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_12
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 6
+        width: 40
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 164ff86e564f5bc44995324a716d856b
+      internalID: -294702117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_13
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 24
+        width: 46
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34550e741ac117b439ac9c74f1ab0d34
+      internalID: 562468070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_14
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 23
+        width: 54
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5a467d584e342942af75f77d3a80a1a
+      internalID: -1758894899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_15
+      rect:
+        serializedVersion: 2
+        x: 377
+        y: 25
+        width: 64
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45884d96e2cfbea4e991d9b1c390eb9b
+      internalID: 849915120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_16
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 2
+        width: 89
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfb02cfa43ed6ae4ea8275c693f1ef23
+      internalID: 1785503682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_17
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 2
+        width: 67
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c9e6ec0c841df54e801a11da6d004a1
+      internalID: -154183669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_18
+      rect:
+        serializedVersion: 2
+        x: 649
+        y: 7
+        width: 65
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41b846cb16fdf004f8e905512c1d1c7d
+      internalID: 1378136980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_WEST_IDLE_19
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 23
+        width: 56
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cb97bc1bef926c419151b9e259d32b2
+      internalID: 86911777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -89,7 +557,29 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      CLUBGRUNT_WEST_IDLE_19: 86911777
+      CLUBGRUNT_WEST_IDLE_12: -294702117
+      CLUBGRUNT_WEST_IDLE_3: -322090832
+      CLUBGRUNT_WEST_IDLE_16: 1785503682
+      CLUBGRUNT_WEST_IDLE_10: -1279157805
+      CLUBGRUNT_WEST_IDLE_14: -1758894899
+      CLUBGRUNT_WEST_IDLE_20: -725721383
+      CLUBGRUNT_WEST_IDLE_6: 500520884
+      CLUBGRUNT_WEST_IDLE_2: -1504579800
+      CLUBGRUNT_WEST_IDLE_8: -372855132
+      CLUBGRUNT_WEST_IDLE_7: 2128033875
+      CLUBGRUNT_WEST_IDLE_9: 868801262
+      CLUBGRUNT_WEST_IDLE_5: -453812314
+      CLUBGRUNT_WEST_IDLE_11: 644340945
+      CLUBGRUNT_WEST_IDLE_13: 562468070
+      CLUBGRUNT_WEST_IDLE_15: 849915120
+      CLUBGRUNT_WEST_IDLE_17: -154183669
+      CLUBGRUNT_WEST_IDLE_18: 1378136980
+      CLUBGRUNT_WEST_IDLE_21: -760741008
+      CLUBGRUNT_WEST_IDLE_1: 1827921914
+      CLUBGRUNT_WEST_IDLE_0: -1310316656
+      CLUBGRUNT_WEST_IDLE_4: 1632018415
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

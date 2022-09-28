@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -69,6 +69,54 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -78,7 +126,448 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 119
+        width: 37
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33eb5d213cbb9e747a2add6fcc6bbac5
+      internalID: -1702874293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_1
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 118
+        width: 37
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a6a470181d280b4e9f3289b006909a6
+      internalID: -1664636786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_2
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 117
+        width: 38
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef4ef343f1b1661409ae3cc55cce7919
+      internalID: -426252684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_3
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 118
+        width: 38
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3921ebce4c53b84ca438531a60cb406
+      internalID: -565761807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_4
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 118
+        width: 64
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1422bb4492627ed41a7ce014d7144e19
+      internalID: 1433631052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_5
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 112
+        width: 37
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f155ae9c7de45e4e97ebb007a6338e6
+      internalID: -894154807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_6
+      rect:
+        serializedVersion: 2
+        x: 477
+        y: 124
+        width: 58
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99977fa8fe0f259448cac80231da519d
+      internalID: -940626179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_7
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 126
+        width: 46
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d751e43db3d6f14da38fbb58489b627
+      internalID: 1340227178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_8
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 110
+        width: 36
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 951d34f202255054e8a390179054daf7
+      internalID: 1343489962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_9
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 125
+        width: 76
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f6b21f6608778d44a04d0c24b2728fc
+      internalID: -485356570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_10
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 126
+        width: 66
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1a24e2d83c29ce45b59fa188440e05e
+      internalID: 565867728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_11
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 121
+        width: 56
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9111d6f486f05b74baf84f2ff96e535c
+      internalID: 957726693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_12
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 119
+        width: 28
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ff7910e7f2143b4186d13d29c8d092e
+      internalID: -2042976357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_13
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 23
+        width: 28
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8751a41841b433c4b9e0f203975a155f
+      internalID: 135254946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_14
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 21
+        width: 34
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65db49e38442f4d4e8a40a24a2502f3d
+      internalID: -2011357062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_15
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 4
+        width: 33
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2f87dd449f833e4692ae8a19b9a94e8
+      internalID: 2140125745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_16
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 2
+        width: 34
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad4866659be81864ea211ffc8c78f4be
+      internalID: 1003899077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_17
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 7
+        width: 27
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9090c582390981645a29c8da80b73850
+      internalID: 189780615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_18
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 18
+        width: 24
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b5a9882a2cc33e4e894fa17b06f4333
+      internalID: 1353480726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_19
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 20
+        width: 24
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 769ee6c7ba056374eafc867d2e63c0c2
+      internalID: -342836092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CLUBGRUNT_SOUTH_ATTACK_20
+      rect:
+        serializedVersion: 2
+        x: 571
+        y: 24
+        width: 25
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb3d503f159cd3a459ea401f591bc3b6
+      internalID: -2074428746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -89,7 +578,28 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      CLUBGRUNT_SOUTH_ATTACK_10: 565867728
+      CLUBGRUNT_SOUTH_ATTACK_4: 1433631052
+      CLUBGRUNT_SOUTH_ATTACK_6: -940626179
+      CLUBGRUNT_SOUTH_ATTACK_3: -565761807
+      CLUBGRUNT_SOUTH_ATTACK_11: 957726693
+      CLUBGRUNT_SOUTH_ATTACK_13: 135254946
+      CLUBGRUNT_SOUTH_ATTACK_17: 189780615
+      CLUBGRUNT_SOUTH_ATTACK_9: -485356570
+      CLUBGRUNT_SOUTH_ATTACK_1: -1664636786
+      CLUBGRUNT_SOUTH_ATTACK_15: 2140125745
+      CLUBGRUNT_SOUTH_ATTACK_20: -2074428746
+      CLUBGRUNT_SOUTH_ATTACK_8: 1343489962
+      CLUBGRUNT_SOUTH_ATTACK_12: -2042976357
+      CLUBGRUNT_SOUTH_ATTACK_19: -342836092
+      CLUBGRUNT_SOUTH_ATTACK_14: -2011357062
+      CLUBGRUNT_SOUTH_ATTACK_5: -894154807
+      CLUBGRUNT_SOUTH_ATTACK_16: 1003899077
+      CLUBGRUNT_SOUTH_ATTACK_2: -426252684
+      CLUBGRUNT_SOUTH_ATTACK_0: -1702874293
+      CLUBGRUNT_SOUTH_ATTACK_7: 1340227178
+      CLUBGRUNT_SOUTH_ATTACK_18: 1353480726
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
