@@ -1,3 +1,5 @@
 using UnityEngine;
 
-public class WaterBridgeStatic : MonoBehaviour {}
+namespace Bridgez {
+  public class WaterBridgeStatic : MonoBehaviour {}
+}
