@@ -32,6 +32,8 @@ namespace Singletonz {
     public Dictionary<Vector2Int, NavTile> map;
 
     private void Start() {
+      Application.targetFrameRate = 30;
+      
       foreach (Grunt grunt in GameObject.Find("PlayerGruntz").GetComponentsInChildren<Grunt>()) {
         gruntz.Add(grunt);
       }
@@ -42,6 +44,7 @@ namespace Singletonz {
       AddNavTilesBasedOnMap(bounds);
       AddNavTilesForSwitches();
       AddNavTilesForBridges();
+      AddNavTilesForRocks();
     }
 
     private void AddNavTilesForSwitches() {
@@ -52,8 +55,16 @@ namespace Singletonz {
       AddNavTilesForSecretSwitches();
     }
 
+    private void AddNavTilesForRocks() {
+      Rock[] rocks = baseMap.GetComponentsInChildren<Rock>();
+
+      foreach (Rock rock in rocks) {
+        RemoveNavTileAt(rock.transform.position);
+      }
+    }
+    
     private void AddNavTilesForPyramids() {
-      
+
     }
 
     private void AddNavTilesForBridges() {

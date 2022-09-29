@@ -64,8 +64,7 @@ public class Grunt : MonoBehaviour {
   private bool isMoving;
   private bool hasMoved;
 
-  private Vector3 diffVector;
-  private Vector3 moveVector;
+  public Vector3 diffVector;
   private string facingDirection = "SOUTH";
 
   private const float WalkFrameRate = 12;
@@ -120,6 +119,7 @@ public class Grunt : MonoBehaviour {
       -5
     );
 
+    diffVector = destination - transform.position;
     transform.position = destination;
 
     path.RemoveAt(0);
