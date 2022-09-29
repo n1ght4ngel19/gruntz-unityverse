@@ -6,8 +6,8 @@ using Singletonz;
 using UnityEngine;
 
 namespace Switchez {
-  public class CheckpointSwitch : MonoBehaviour {
-    public ItemType requirement;
+  public class CheckpointSwitchTool : MonoBehaviour {
+    public ToolType requirement;
     public bool isChecked;
     public List<Sprite> animFrames;
     public SpriteRenderer spriteRenderer;

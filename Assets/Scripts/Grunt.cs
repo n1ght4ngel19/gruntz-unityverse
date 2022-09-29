@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class Grunt : MonoBehaviour {
   public SpriteRenderer spriteRenderer;
-  public ItemType tool;
+  public ToolType tool;
+  public ToyType toy;
   
   public List<Sprite> attackSpritesEast;
   public List<Sprite> attackSpritesNorth;
@@ -54,7 +55,7 @@ public class Grunt : MonoBehaviour {
   public List<Sprite> walkSpritesSouthWest;
   public List<Sprite> walkSpritesWest;
 
-  private static List<Grunt> gruntz = new();
+  private static List<Grunt> _gruntz = new();
 
   // TODO: 10f / 6f
   private const float TimeToMove = 5f;
@@ -76,7 +77,7 @@ public class Grunt : MonoBehaviour {
   private NavTile endNode;
 
   private void Start() {
-    gruntz.Add(this);
+    _gruntz.Add(this);
     targetPosition = transform.position;
   }
 
@@ -129,7 +130,7 @@ public class Grunt : MonoBehaviour {
   private void OnMouseDown() {
     isSelected = true;
 
-    foreach (Grunt grunt in gruntz.Where(grunt => grunt != this)) {
+    foreach (Grunt grunt in _gruntz.Where(grunt => grunt != this)) {
       grunt.isSelected = false;
     }
   }

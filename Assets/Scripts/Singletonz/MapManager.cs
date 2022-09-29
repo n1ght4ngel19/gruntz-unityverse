@@ -47,7 +47,8 @@ namespace Singletonz {
     private void AddNavTilesForSwitches() {
       AddNavTilesForBlueToggleSwitches();
       AddNavTilesForBlueHoldSwitches();
-      AddNavTilesForCheckpointSwitches();
+      AddNavTilesForToolCheckpointSwitches();
+      AddNavTilesForToyCheckpointSwitches();
       AddNavTilesForSecretSwitches();
     }
 
@@ -133,10 +134,17 @@ namespace Singletonz {
       }
     }
 
-    private void AddNavTilesForCheckpointSwitches() {
-      CheckpointSwitch[] checkpointSwitches = baseMap.GetComponentsInChildren<CheckpointSwitch>();
+    private void AddNavTilesForToolCheckpointSwitches() {
+      CheckpointSwitchTool[] checkpointSwitches = baseMap.GetComponentsInChildren<CheckpointSwitchTool>();
     
-      foreach (CheckpointSwitch checkpointSwitch in checkpointSwitches) {
+      foreach (CheckpointSwitchTool checkpointSwitch in checkpointSwitches) {
+        AddNavTileAt(checkpointSwitch.transform.position);
+      }
+    }
+    private void AddNavTilesForToyCheckpointSwitches() {
+      CheckpointSwitchToy[] checkpointSwitches = baseMap.GetComponentsInChildren<CheckpointSwitchToy>();
+    
+      foreach (CheckpointSwitchToy checkpointSwitch in checkpointSwitches) {
         AddNavTileAt(checkpointSwitch.transform.position);
       }
     }

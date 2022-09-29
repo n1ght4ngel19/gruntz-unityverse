@@ -8,13 +8,22 @@ using UnityEngine;
 
 namespace Pyramidz {
   public class CheckpointPyramid : MonoBehaviour {
-    public CheckpointSwitch checkpointSwitch;
+    public CheckpointSwitchTool toolCheckpointSwitch;
+    public CheckpointSwitchToy toyCheckpointSwitch;
     public List<Sprite> animFrames;
     public SpriteRenderer spriteRenderer;
 
     private void Update() {
-      if (!checkpointSwitch.isChecked) {
-        return;
+      if (toolCheckpointSwitch) {
+        if (!toolCheckpointSwitch.isChecked) {
+          return;
+        }
+      }
+
+      if (toyCheckpointSwitch) {
+        if (!toyCheckpointSwitch.isChecked) {
+          return;
+        }
       }
 
       MapManager.Instance.AddNavTileAt(transform.position);
