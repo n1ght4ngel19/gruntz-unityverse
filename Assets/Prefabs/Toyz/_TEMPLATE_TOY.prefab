@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1934257392109653503}
   - component: {fileID: 4565323179322397732}
   m_Layer: 0
-  m_Name: ToolGauntletz
+  m_Name: _TEMPLATE_TOY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 177609813, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_Size: {x: 0.84375, y: 0.71875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4565323179322397732
@@ -97,21 +97,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d695939679cf430783c968b1e9f333a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 1934257392109653503}
-  animFrames:
-  - {fileID: 177609813, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -482372231, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: 1729126310, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -566598684, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -1175226358, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: 719841207, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: 445630484, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -863249490, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -2084453992, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -1296968046, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: 110179103, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -327288599, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -1414951255, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -1747215551, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  - {fileID: -456616656, guid: 4302593700e4862469ffc70e7f8e3d8e, type: 3}
-  type: 3
+  animFrames: []
+  spriteRenderer: {fileID: 0}
