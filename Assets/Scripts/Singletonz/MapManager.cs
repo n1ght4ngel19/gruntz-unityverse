@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net;
 
 using Bridgez;
 
@@ -50,12 +51,36 @@ namespace Singletonz {
 
     }
 
+    public void AddNavTileAt(Vector3 position) {
+      Vector3Int tileLocation = new(
+        Mathf.FloorToInt(position.x),
+        Mathf.FloorToInt(position.y),
+        0
+      );
+      Vector2Int tileKey = new(
+        tileLocation.x,
+        tileLocation.y
+      );
+
+      if (!map.ContainsKey(tileKey)) {
+        return;
+      }
+
+      NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
+      Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
+        
+      navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
+      navTile.gridLocation = tileLocation;
+        
+      map.Add(tileKey, navTile);
+    }
+    
     private void AddNavTilesForStaticBridges() {
       WaterBridgeStatic[] staticWaterBridges = baseMap.GetComponentsInChildren<WaterBridgeStatic>();
     
       foreach (WaterBridgeStatic bridge in staticWaterBridges) {
         Vector3Int tileLocation = new(Mathf.FloorToInt(bridge.transform.position.x), Mathf.FloorToInt(bridge.transform.position.y), 0);
-        Vector2Int tileKey = new(Mathf.FloorToInt(bridge.transform.position.x), Mathf.FloorToInt(bridge.transform.position.y));
+        Vector2Int tileKey = new(tileLocation.x, tileLocation.y);
 
         if (map.ContainsKey(tileKey))
           continue;
