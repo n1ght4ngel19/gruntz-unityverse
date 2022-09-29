@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Net;
+using System.Linq;
 
 using Bridgez;
 
@@ -40,17 +40,25 @@ namespace Singletonz {
       BoundsInt bounds = baseMap.cellBounds;
     
       AddNavTilesBasedOnMap(bounds);
-      AddNavTilesForStaticBridges();
+      AddNavTilesForSwitches();
+      AddNavTilesForBridges();
+    }
+
+    private void AddNavTilesForSwitches() {
       AddNavTilesForBlueToggleSwitches();
       AddNavTilesForBlueHoldSwitches();
       AddNavTilesForCheckpointSwitches();
+      AddNavTilesForSecretSwitches();
     }
 
-    // TODO: Refactor this! Only check if changed, make bridgez and otherz play animationz instead of iterating through arrayz and setting framez there
-    private void Update() {
-
+    private void AddNavTilesForPyramids() {
+      
     }
 
+    private void AddNavTilesForBridges() {
+      AddNavTilesForStaticBridges();
+    }
+    
     public void AddNavTileAt(Vector3 position) {
       Vector3Int tileLocation = new(
         Mathf.FloorToInt(position.x),
@@ -62,7 +70,7 @@ namespace Singletonz {
         tileLocation.y
       );
 
-      if (!map.ContainsKey(tileKey)) {
+      if (map.ContainsKey(tileKey)) {
         return;
       }
 
@@ -74,24 +82,38 @@ namespace Singletonz {
         
       map.Add(tileKey, navTile);
     }
+
+    public void RemoveNavTileAt(Vector3 position) {
+      Vector3Int tileLocation = new(
+        Mathf.FloorToInt(position.x),
+        Mathf.FloorToInt(position.y),
+        0
+      );
+      Vector2Int tileKey = new(
+        Mathf.FloorToInt(position.x),
+        Mathf.FloorToInt(position.y)
+      );
+
+      if (!map.ContainsKey(tileKey)) {
+        return;
+      }
+
+      map.Remove(tileKey);
+
+      foreach (NavTile navTile in tileContainer
+                .GetComponentsInChildren<NavTile>()
+                .Where(navTile => navTile.transform.position.x == tileLocation.x + 0.5f
+                                  && navTile.transform.position.y == tileLocation.y + 0.5f)
+      ) {
+        Destroy(navTile);
+      }
+    }
     
     private void AddNavTilesForStaticBridges() {
       WaterBridgeStatic[] staticWaterBridges = baseMap.GetComponentsInChildren<WaterBridgeStatic>();
-    
+
       foreach (WaterBridgeStatic bridge in staticWaterBridges) {
-        Vector3Int tileLocation = new(Mathf.FloorToInt(bridge.transform.position.x), Mathf.FloorToInt(bridge.transform.position.y), 0);
-        Vector2Int tileKey = new(tileLocation.x, tileLocation.y);
-
-        if (map.ContainsKey(tileKey))
-          continue;
-
-        NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
-        Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
-        
-        navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
-        navTile.gridLocation = tileLocation;
-        
-        map.Add(tileKey, navTile);
+        AddNavTileAt(bridge.transform.position);
       }
     }
 
@@ -99,56 +121,34 @@ namespace Singletonz {
       BlueToggleSwitch[] blueToggleSwitches = baseMap.GetComponentsInChildren<BlueToggleSwitch>();
     
       foreach (BlueToggleSwitch blueToggleSwitch in blueToggleSwitches) {
-        Vector3Int tileLocation = new(
-          Mathf.FloorToInt(blueToggleSwitch.transform.position.x),
-          Mathf.FloorToInt(blueToggleSwitch.transform.position.y),
-          0
-        );
-        Vector2Int tileKey = new(
-          Mathf.FloorToInt(blueToggleSwitch.transform.position.x),
-          Mathf.FloorToInt(blueToggleSwitch.transform.position.y)
-        );
-
-        if (map.ContainsKey(tileKey))
-          continue;
-
-        NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
-        Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
-        
-        navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
-        navTile.gridLocation = tileLocation;
-        
-        map.Add(tileKey, navTile);
+        AddNavTileAt(blueToggleSwitch.transform.position);
       }
     }
   
     private void AddNavTilesForBlueHoldSwitches() {
-      BlueHoldSwitch[] blueToggleSwitches = baseMap.GetComponentsInChildren<BlueHoldSwitch>();
+      BlueHoldSwitch[] blueHoldSwitches = baseMap.GetComponentsInChildren<BlueHoldSwitch>();
     
-      foreach (BlueHoldSwitch blueHoldSwitch in blueToggleSwitches) {
-        Vector3Int tileLocation = new(
-          Mathf.FloorToInt(blueHoldSwitch.transform.position.x),
-          Mathf.FloorToInt(blueHoldSwitch.transform.position.y),
-          0
-        );
-        Vector2Int tileKey = new(
-          Mathf.FloorToInt(blueHoldSwitch.transform.position.x),
-          Mathf.FloorToInt(blueHoldSwitch.transform.position.y)
-        );
-
-        if (map.ContainsKey(tileKey))
-          continue;
-
-        NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
-        Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
-        
-        navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
-        navTile.gridLocation = tileLocation;
-        
-        map.Add(tileKey, navTile);
+      foreach (BlueHoldSwitch blueHoldSwitch in blueHoldSwitches) {
+        AddNavTileAt(blueHoldSwitch.transform.position);
       }
     }
 
+    private void AddNavTilesForCheckpointSwitches() {
+      CheckpointSwitch[] checkpointSwitches = baseMap.GetComponentsInChildren<CheckpointSwitch>();
+    
+      foreach (CheckpointSwitch checkpointSwitch in checkpointSwitches) {
+        AddNavTileAt(checkpointSwitch.transform.position);
+      }
+    }
+    
+    private void AddNavTilesForSecretSwitches() {
+      SecretSwitch[] secretSwitches = baseMap.GetComponentsInChildren<SecretSwitch>();
+    
+      foreach (SecretSwitch secretSwitch in secretSwitches) {
+        AddNavTileAt(secretSwitch.transform.position);
+      }
+    }
+    
     private void AddNavTilesBasedOnMap(BoundsInt bounds) {
       for (int y = bounds.min.y; y < bounds.max.y; y++) {
         for (int x = bounds.min.x; x < bounds.max.x; x++) {
@@ -166,33 +166,6 @@ namespace Singletonz {
 
           map.Add(tileKey, navTile);
         }
-      }
-    }
-    
-    private void AddNavTilesForCheckpointSwitches() {
-      CheckpointSwitch[] checkpointSwitches = baseMap.GetComponentsInChildren<CheckpointSwitch>();
-    
-      foreach (CheckpointSwitch checkpointSwitch in checkpointSwitches) {
-        Vector3Int tileLocation = new(
-          Mathf.FloorToInt(checkpointSwitch.transform.position.x),
-          Mathf.FloorToInt(checkpointSwitch.transform.position.y),
-          0
-        );
-        Vector2Int tileKey = new(
-          Mathf.FloorToInt(checkpointSwitch.transform.position.x),
-          Mathf.FloorToInt(checkpointSwitch.transform.position.y)
-        );
-
-        if (map.ContainsKey(tileKey))
-          continue;
-
-        NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
-        Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
-        
-        navTile.transform.position = CustomStuff.SetNavTilePosition(cellWorldPosition);
-        navTile.gridLocation = tileLocation;
-        
-        map.Add(tileKey, navTile);
       }
     }
   }
