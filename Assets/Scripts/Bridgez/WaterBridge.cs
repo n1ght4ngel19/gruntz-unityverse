@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 using Singletonz;
@@ -8,8 +9,11 @@ using UnityEngine;
 
 namespace Bridgez {
   public class WaterBridge : MonoBehaviour {
+    public SpriteRenderer spriteRenderer;
+
     // You can only assign a BTS or a BHS to a WaterBridge
     public BlueToggleSwitch blueToggleSwitch;
+
     // You can only assign a BTS or a BHS to a WaterBridge
     public BlueHoldSwitch blueHoldSwitch;
     public List<Sprite> animFrames;
@@ -25,25 +29,33 @@ namespace Bridgez {
     private void HandleBlueSwitch(bool isPressed) {
       switch (isPressed) {
         case true: {
+          StartCoroutine(RaiseBridge());
           MapManager.Instance.AddNavTileAt(transform.position);
-
-          for (int i = animFrames.Count - 1; i >= 0; i--) {
-            gameObject.GetComponent<SpriteRenderer>()
-              .sprite = animFrames[i];
-          }
 
           break;
         }
         case false: {
+          StartCoroutine(LowerBridge());
           MapManager.Instance.RemoveNavTileAt(transform.position);
-
-          foreach (Sprite frame in animFrames) {
-            gameObject.GetComponent<SpriteRenderer>()
-              .sprite = frame;
-          }
 
           break;
         }
+      }
+    }
+
+    private IEnumerator LowerBridge() {
+      foreach (Sprite frame in animFrames) {
+        spriteRenderer.sprite = frame;
+
+        yield return null;
+      }
+    }
+
+    private IEnumerator RaiseBridge() {
+      for (int i = animFrames.Count - 1; i >= 0; i--) {
+        spriteRenderer.sprite = animFrames[i];
+
+        yield return null;
       }
     }
   }

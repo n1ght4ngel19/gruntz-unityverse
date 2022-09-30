@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 using Singletonz;
@@ -26,10 +27,16 @@ namespace Pyramidz {
         }
       }
 
-      MapManager.Instance.AddNavTileAt(transform.position);
+      StartCoroutine(LowerPyramid());
 
+      MapManager.Instance.AddNavTileAt(transform.position);
+    }
+
+    private IEnumerator LowerPyramid() {
       foreach (Sprite frame in animFrames) {
         spriteRenderer.sprite = frame;
+
+        yield return null;
       }
     }
   }
