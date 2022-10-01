@@ -10,19 +10,14 @@ public class Rock : MonoBehaviour {
   public SpriteRenderer spriteRenderer;
   public List<Sprite> blowUpFrames;
   public bool isToBeBroken;
-  private bool ranAllFrames;
 
   private void Update() {
-    if (!isToBeBroken || !isGauntletzGruntAdjacent()) {
-      return;
+    if (isToBeBroken && isGauntletzGruntAdjacent()) {
+      StartCoroutine(BlowUpRock());
     }
-
-    StartCoroutine(blowUpRock());
-      
-    
   }
 
-  IEnumerator blowUpRock() {
+  private IEnumerator BlowUpRock() {
     foreach (Sprite frame in blowUpFrames) {
       spriteRenderer.sprite = frame;
       yield return null;

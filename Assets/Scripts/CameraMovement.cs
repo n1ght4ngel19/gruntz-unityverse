@@ -7,7 +7,7 @@ public class CameraMovement : MonoBehaviour {
   [SerializeField] private Camera cam;
 
   // The smaller the ScrollRate, the faster the camera moves
-  private const int ScrollRate = 30;
+  private const int ScrollRate = 4;
 
   private float targetZoom;
   private const float ZoomFactor = 3f;
