@@ -55,34 +55,58 @@ public class Grunt : MonoBehaviour {
   public List<Sprite> walkSpritesSouthWest;
   public List<Sprite> walkSpritesWest;
 
-  private static List<Grunt> _gruntz = new();
-
   // TODO: 10f / 6f
-  private const float TimeToMove = 5f;
-  private Vector3 targetPosition;
-  private bool isSelected;
-  private bool isMoving;
-  private bool hasMoved;
+  protected const float TimeToMove = 5f;
+  protected Vector3 targetPosition;
+  public bool isSelected;
+  protected bool isMoving;
+  protected bool hasMoved;
 
   public Vector3 diffVector;
-  private string facingDirection = "SOUTH";
+  protected string facingDirection = "SOUTH";
 
-  private const float WalkFrameRate = 12;
-  private const float IdleFrameRate = 8;
-  private float idleTime;
+  protected const float WalkFrameRate = 12;
+  protected const float IdleFrameRate = 8;
+  protected float idleTime;
 
-  private List<NavTile> path;
-  private NavTile startNode;
-  private NavTile endNode;
+  protected List<NavTile> path;
+  protected NavTile startNode;
+  protected NavTile endNode;
 
   private void Start() {
-    _gruntz.Add(this);
     targetPosition = transform.position;
   }
 
   private void Update() {
     PlaySouthIdleAnimationByDefault();
-    
+       
+    SetTargetPosition();
+
+    SetPath();
+
+    Vector3 destination = new(
+      Mathf.Floor(path[0].gridLocation.x) + 0.5f,
+      Mathf.Floor(path[0].gridLocation.y) + 0.5f,
+      -5
+    );
+
+    diffVector = destination - transform.position;
+    transform.position = destination;
+
+    path.RemoveAt(0);
+  }
+  
+  protected void PlaySouthIdleAnimationByDefault() {
+    if (hasMoved)
+      return;
+
+    float playTime = Time.time - idleTime;
+    int frame = (int)((playTime * IdleFrameRate) % idleSpritesSouth.Count);
+
+    spriteRenderer.sprite = idleSpritesSouth[frame];
+  }
+
+  protected void SetTargetPosition() {
     if (Input.GetMouseButtonDown(1) && isSelected) {
       isMoving = true;
       targetPosition = SelectorCircle.Instance.transform.position;
@@ -92,7 +116,9 @@ public class Grunt : MonoBehaviour {
       if (!hasMoved)
         hasMoved = true;
     }
+  }
 
+  protected void SetPath() {
     Vector2Int startKey = new(
       (int)Mathf.Floor(transform.position.x),
       (int)Mathf.Floor(transform.position.y)
@@ -112,25 +138,12 @@ public class Grunt : MonoBehaviour {
       : MapManager.Instance.map[endKey + Vector2Int.up];
 
     path = PathFinder.FindPath(startNode, endNode);
-
-    Vector3 destination = new(
-      Mathf.Floor(path[0].gridLocation.x) + 0.5f,
-      Mathf.Floor(path[0].gridLocation.y) + 0.5f,
-      -5
-    );
-
-    diffVector = destination - transform.position;
-    transform.position = destination;
-
-    path.RemoveAt(0);
-
-    PlayWalkAndIdleAnimations();
   }
-
-  private void OnMouseDown() {
+  
+  protected void OnMouseDown() {
     isSelected = true;
 
-    foreach (Grunt grunt in _gruntz.Where(grunt => grunt != this)) {
+    foreach (Grunt grunt in MapManager.Instance.gruntz.Where(grunt => grunt != this)) {
       grunt.isSelected = false;
     }
   }
@@ -237,15 +250,5 @@ public class Grunt : MonoBehaviour {
         idleTime = Time.time;
       }
     }
-  }
-
-  private void PlaySouthIdleAnimationByDefault() {
-    if (hasMoved)
-      return;
-
-    float playTime = Time.time - idleTime;
-    int frame = (int)((playTime * IdleFrameRate) % idleSpritesSouth.Count);
-
-    spriteRenderer.sprite = idleSpritesSouth[frame];
   }
 }

@@ -16,9 +16,11 @@ namespace Singletonz {
     }
 
     public Camera mainCamera;
+    public Vector2 twoDimPosition;
 
 
     private void Update() {
+      twoDimPosition = transform.position;
       transform.position = CustomStuff.SetSelectorCirclePosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
     }
   }

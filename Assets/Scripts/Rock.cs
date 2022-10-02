@@ -10,9 +10,12 @@ public class Rock : MonoBehaviour {
   public SpriteRenderer spriteRenderer;
   public List<Sprite> blowUpFrames;
   public bool isToBeBroken;
+  public Vector2 twoDimPosition;
 
   private void Update() {
-    if (isToBeBroken && isGauntletzGruntAdjacent()) {
+    twoDimPosition = transform.position;
+
+    if (isToBeBroken && IsGauntletzGruntAdjacent()) {
       StartCoroutine(BlowUpRock());
     }
   }
@@ -23,17 +26,18 @@ public class Rock : MonoBehaviour {
       yield return null;
     }
     
-    yield return StartCoroutine(destroyRock());
+    yield return StartCoroutine(DestroyRock());
   }
 
-  IEnumerator destroyRock() {
+  private IEnumerator DestroyRock() {
     MapManager.Instance.AddNavTileAt(transform.position);
+    MapManager.Instance.rockz.RemoveAll(rock => rock.twoDimPosition == twoDimPosition);
     Destroy(gameObject);
 
     yield return null;
   }
 
-  private bool isGauntletzGruntAdjacent() {
+  private bool IsGauntletzGruntAdjacent() {
     return MapManager.Instance.gruntz
       .Any(grunt => grunt.tool == ToolType.Gauntletz
                     && ((Vector2)grunt.transform.position + Vector2.up == (Vector2)transform.position

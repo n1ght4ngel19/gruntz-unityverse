@@ -28,6 +28,7 @@ namespace Singletonz {
     public NavTile navtilePrefab;
     public GameObject tileContainer;
     public List<Grunt> gruntz;
+    public List<Rock> rockz;
 
     public Dictionary<Vector2Int, NavTile> map;
 
@@ -36,6 +37,9 @@ namespace Singletonz {
       
       foreach (Grunt grunt in GameObject.Find("PlayerGruntz").GetComponentsInChildren<Grunt>()) {
         gruntz.Add(grunt);
+      }
+      foreach (Rock rock in GameObject.Find("Rockz").GetComponentsInChildren<Rock>()) {
+        rockz.Add(rock);
       }
     
       map = new Dictionary<Vector2Int, NavTile>();
