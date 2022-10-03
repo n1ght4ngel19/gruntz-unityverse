@@ -27,6 +27,7 @@ namespace Singletonz {
     public Tilemap collisionMap;
     public NavTile navtilePrefab;
     public GameObject tileContainer;
+    public GameObject playerGruntz;
     public List<Grunt> gruntz;
     public List<Rock> rockz;
 
@@ -35,7 +36,7 @@ namespace Singletonz {
     private void Start() {
       Application.targetFrameRate = 30;
       
-      foreach (Grunt grunt in GameObject.Find("PlayerGruntz").GetComponentsInChildren<Grunt>()) {
+      foreach (Grunt grunt in playerGruntz.GetComponentsInChildren<Grunt>()) {
         gruntz.Add(grunt);
       }
       foreach (Rock rock in GameObject.Find("Rockz").GetComponentsInChildren<Rock>()) {

@@ -1,4 +1,6 @@
-public enum ToyType {
-  None,
-  Beachball
+namespace Itemz {
+  public enum ToyType {
+    None,
+    Beachball
+  }
 }

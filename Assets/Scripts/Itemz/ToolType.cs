@@ -1,5 +1,7 @@
-public enum ToolType {
-  None,
-  Club,
-  Gauntletz,
+namespace Itemz {
+  public enum ToolType {
+    None,
+    Club,
+    Gauntletz
+  }
 }

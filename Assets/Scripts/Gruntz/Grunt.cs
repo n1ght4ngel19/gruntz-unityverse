@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Itemz;
+
 using Singletonz;
 
 using UnityEngine;
@@ -101,7 +103,7 @@ public class Grunt : MonoBehaviour {
       return;
 
     float playTime = Time.time - idleTime;
-    int frame = (int)((playTime * IdleFrameRate) % idleSpritesSouth.Count);
+    int frame = (int)(playTime * IdleFrameRate % idleSpritesSouth.Count);
 
     spriteRenderer.sprite = idleSpritesSouth[frame];
   }
