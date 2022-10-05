@@ -97,7 +97,7 @@ public class Grunt : MonoBehaviour {
 
     path.RemoveAt(0);
   }
-  
+
   protected void PlaySouthIdleAnimationByDefault() {
     if (hasMoved)
       return;

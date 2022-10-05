@@ -14,7 +14,8 @@ public static class PathFinder {
     openList.Add(startNode);
 
     while (openList.Count > 0) {
-      NavTile currentNode = openList.OrderBy(x => x.F).First();
+      // Ordering Nodes based on their F cost
+      NavTile currentNode = openList.OrderBy(node => node.F).First();
 
       openList.Remove(currentNode);
       closedList.Add(currentNode);
@@ -25,13 +26,15 @@ public static class PathFinder {
 
       IEnumerable<NavTile> neighbourTiles = GetNeighbourTiles(currentNode);
 
+      // Checking for the neighbours that can be stepped on, and haven't been checked already
       foreach (NavTile neighbour in neighbourTiles.Where(neighbour => !neighbour.isBlocked && !closedList.Contains(neighbour))) {
         neighbour.G = GetChebyshevDistance(startNode, neighbour);
         neighbour.H = GetChebyshevDistance(endNode, neighbour);
         neighbour.previous = currentNode;
 
-        if (!openList.Contains(neighbour))
+        if (!openList.Contains(neighbour)) {
           openList.Add(neighbour);
+        }
       }
     }
 

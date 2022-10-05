@@ -25,11 +25,13 @@ namespace Singletonz {
 
     public Tilemap baseMap;
     public Tilemap collisionMap;
+    public Tilemap secretMap;
     public NavTile navtilePrefab;
     public GameObject tileContainer;
     public GameObject playerGruntz;
     public List<Grunt> gruntz;
     public List<Rock> rockz;
+    public List<SecretTile> secretTilez;
 
     public Dictionary<Vector2Int, NavTile> map;
 
@@ -42,7 +44,10 @@ namespace Singletonz {
       foreach (Rock rock in GameObject.Find("Rockz").GetComponentsInChildren<Rock>()) {
         rockz.Add(rock);
       }
-    
+      foreach (SecretTile secretTile in secretMap.GetComponentsInChildren<SecretTile>()) {
+        secretTilez.Add(secretTile);
+      }
+
       map = new Dictionary<Vector2Int, NavTile>();
       BoundsInt bounds = baseMap.cellBounds;
     
@@ -157,6 +162,7 @@ namespace Singletonz {
         AddNavTileAt(checkpointSwitch.transform.position);
       }
     }
+
     private void AddNavTilesForToyCheckpointSwitches() {
       CheckpointSwitchToy[] checkpointSwitches = baseMap.GetComponentsInChildren<CheckpointSwitchToy>();
     
@@ -179,8 +185,9 @@ namespace Singletonz {
           Vector3Int tileLocation = new(x, y, 0);
           Vector2Int tileKey = new(x, y);
 
-          if (!baseMap.HasTile(tileLocation) || map.ContainsKey(tileKey))
+          if (!baseMap.HasTile(tileLocation) || map.ContainsKey(tileKey)) {
             continue;
+          }
 
           NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
           Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
