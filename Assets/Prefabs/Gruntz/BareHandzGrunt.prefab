@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6986435730129850746}
   - component: {fileID: 6986435730129850749}
+  - component: {fileID: 6986435730129850751}
   - component: {fileID: 6986435730129850748}
-  - component: {fileID: -4493430725719419810}
   - component: {fileID: 7368686219123921677}
   m_Layer: 0
-  m_Name: GauntletzGrunt
+  m_Name: BareHandzGrunt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,17 +76,37 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 139719364, guid: 19bad5fb3365abe4c885cff53f33a542, type: 3}
+  m_Sprite: {fileID: -576246712, guid: cd9e29d419fe6674997e43d0b2907d85, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.40625, y: 0.9375}
+  m_Size: {x: 1.125, y: 0.90625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6986435730129850751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6986435730129850750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2ce0f2c052614bb03a7d505b903fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 6986435730129850749}
+  tool: 0
+  toy: 0
+  isSelected: 0
+  facingDirection: 4
+  path: []
+  startNode: {fileID: 0}
+  endNode: {fileID: 0}
 --- !u!50 &6986435730129850748
 Rigidbody2D:
   serializedVersion: 4
@@ -108,26 +128,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &-4493430725719419810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6986435730129850750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f2ce0f2c052614bb03a7d505b903fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 6986435730129850749}
-  tool: 2
-  toy: 0
-  isSelected: 0
-  facingDirection: 4
-  path: []
-  startNode: {fileID: 0}
-  endNode: {fileID: 0}
 --- !u!61 &7368686219123921677
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,8 +145,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.40625, y: 0.9375}
-    newSize: {x: 1.40625, y: 0.9375}
+    oldSize: {x: 1.125, y: 0.90625}
+    newSize: {x: 1.125, y: 0.90625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,85 +13,50 @@ public class Grunt : MonoBehaviour {
   public SpriteRenderer spriteRenderer;
   public ToolType tool;
   public ToyType toy;
-  
-  public List<Sprite> attackSpritesEast;
-  public List<Sprite> attackSpritesNorth;
-  public List<Sprite> attackSpritesNorthEast;
-  public List<Sprite> attackSpritesNorthWest;
-  public List<Sprite> attackSpritesSouth;
-  public List<Sprite> attackSpritesSouthEast;
-  public List<Sprite> attackSpritesSouthWest;
-  public List<Sprite> attackSpritesWest;
+ 
+  private GruntAnimationPack animations;
 
-  public List<Sprite> idleSpritesEast;
-  public List<Sprite> idleSpritesNorth;
-  public List<Sprite> idleSpritesNorthEast;
-  public List<Sprite> idleSpritesNorthWest;
-  public List<Sprite> idleSpritesSouth;
-  public List<Sprite> idleSpritesSouthEast;
-  public List<Sprite> idleSpritesSouthWest;
-  public List<Sprite> idleSpritesWest;
+  // protected const float TimePerTile = (float)TravelSpeed.Grunt / 1000;
+  private const float TimePerTile = 0.2f;
+  private Vector3 targetPosition;
+  // TODO: Replace
+  // private Vector3 diffVector;
+  private bool isMoving;
+  private bool hasMoved;
 
-  public List<Sprite> itemSpritesEast;
-  public List<Sprite> itemSpritesNorth;
-  public List<Sprite> itemSpritesNorthEast;
-  public List<Sprite> itemSpritesNorthWest;
-  public List<Sprite> itemSpritesSouth;
-  public List<Sprite> itemSpritesSouthEast;
-  public List<Sprite> itemSpritesSouthWest;
-  public List<Sprite> itemSpritesWest;
-
-  public List<Sprite> struckSpritesEast;
-  public List<Sprite> struckSpritesNorth;
-  public List<Sprite> struckSpritesNorthEast;
-  public List<Sprite> struckSpritesNorthWest;
-  public List<Sprite> struckSpritesSouth;
-  public List<Sprite> struckSpritesSouthEast;
-  public List<Sprite> struckSpritesSouthWest;
-  public List<Sprite> struckSpritesWest;
-  
-  public List<Sprite> walkSpritesEast;
-  public List<Sprite> walkSpritesNorth;
-  public List<Sprite> walkSpritesNorthEast;
-  public List<Sprite> walkSpritesNorthWest;
-  public List<Sprite> walkSpritesSouth;
-  public List<Sprite> walkSpritesSouthEast;
-  public List<Sprite> walkSpritesSouthWest;
-  public List<Sprite> walkSpritesWest;
-
-  // TODO: 10f / 6f
-  protected const float TimePerTile = (float)TravelSpeedz.Grunt / 1000;
-  protected Vector3 targetPosition;
   public bool isSelected;
-  protected bool isMoving;
-  protected bool hasMoved;
+  public CompassDirection facingDirection = CompassDirection.South;
 
-  public Vector3 diffVector;
-  protected string facingDirection = "SOUTH";
-  
-  protected const float WalkFrameRate = 12;
-  protected const float IdleFrameRate = 8;
-  protected float idleTime;
+  private const float WalkFrameRate = 12;
+  private const float IdleFrameRate = 8;
+  private float idleTime;
 
   public List<NavTile> path;
-  protected NavTile startNode;
-  protected NavTile endNode;
+  public NavTile startNode;
+  public NavTile endNode;
 
   private void Start() {
+    SwitchGruntAnimations(tool);
+
     targetPosition = transform.position;
   }
 
   private void Update() {
-      Move();
-    // PlaySouthIdleAnimationByDefault();
+    PlaySouthIdleAnimationByDefault();
 
-    // if (MapManager.Instance.arrowz.Any(arrow => (Vector2)arrow.transform.position == (Vector2)transform.position)) {
-    // } else {
-    //   transform.position = transform.position;
-    // }
+    Move();
   }
 
-  protected void Move() {
+  public void SwitchGruntAnimations(ToolType toolType) {
+    animations = toolType switch {
+      ToolType.BareHandz => AnimationManager.BareHandzGruntAnimations,
+      ToolType.Club => AnimationManager.ClubGruntAnimations,
+      ToolType.Gauntletz => AnimationManager.GauntletzGruntAnimations,
+      _ => throw new ArgumentOutOfRangeException(nameof(toolType), toolType, null)
+    };
+  }
+
+  private void Move() {
     SetTargetPosition();
 
     SetPath();
@@ -101,7 +67,7 @@ public class Grunt : MonoBehaviour {
       -5
     );
 
-    diffVector = destination - transform.position;
+    // diffVector = destination - transform.position;
     StartCoroutine(Move(destination));
     
     path.RemoveAt(0);
@@ -113,18 +79,7 @@ public class Grunt : MonoBehaviour {
     transform.position = destination;
   }
 
-
-  protected void PlaySouthIdleAnimationByDefault() {
-    if (hasMoved)
-      return;
-
-    float playTime = Time.time - idleTime;
-    int frame = (int)(playTime * IdleFrameRate % idleSpritesSouth.Count);
-
-    spriteRenderer.sprite = idleSpritesSouth[frame];
-  }
-
-  protected void SetTargetPosition() {
+  private void SetTargetPosition() {
     foreach (
       Arrow arrow in MapManager.Instance.arrowz
         .Where(arrow => (Vector2)arrow.transform.position == (Vector2)transform.position
@@ -156,7 +111,7 @@ public class Grunt : MonoBehaviour {
     }
   }
 
-  protected void SetPath() {
+  private void SetPath() {
     Vector2Int startKey = new(
       (int)Mathf.Floor(transform.position.x),
       (int)Mathf.Floor(transform.position.y)
@@ -186,107 +141,118 @@ public class Grunt : MonoBehaviour {
     }
   }
 
-  private List<Sprite> GetWalkSprites() {
-    List<Sprite> selectedSprites = null;
-
-    switch (diffVector.y) {
-      case < 0: {
-        selectedSprites = walkSpritesSouth;
-        facingDirection = "SOUTH";
-
-        switch (diffVector.x) {
-          case > 0: {
-            selectedSprites = walkSpritesSouthEast;
-            facingDirection = "SOUTHEAST";
-            break;
-          }
-          case < 0: {
-            selectedSprites = walkSpritesSouthWest;
-            facingDirection = "SOUTHWEST";
-            break;
-          }
-        }
-        break;
-      }
-      case > 0: {
-        selectedSprites = walkSpritesNorth;
-        facingDirection = "NORTH";
-
-        switch (diffVector.x) {
-          case > 0: {
-            selectedSprites = walkSpritesNorthEast;
-            facingDirection = "NORTHEAST";
-            break;
-          }
-          case < 0: {
-            selectedSprites = walkSpritesNorthWest;
-            facingDirection = "NORTHWEST";
-            break;
-          }
-        }
-        break;
-      }
-      default: {
-        switch (diffVector.x) {
-          case > 0: {
-            selectedSprites = walkSpritesEast;
-            facingDirection = "EAST";
-            break;
-          }
-          case < 0: {
-            selectedSprites = walkSpritesWest;
-            facingDirection = "WEST";
-            break;
-          }
-        }
-        break;
-      }
+  private void PlaySouthIdleAnimationByDefault() {
+    if (hasMoved) {
+      return;
     }
-
-    return selectedSprites;
+  
+    float playTime = Time.time - idleTime;
+    int frame = (int)(playTime * IdleFrameRate % animations.IdleSouth.Count);
+  
+    spriteRenderer.sprite = animations.IdleSouth[frame];
   }
-
-  private List<Sprite> GetIdleSprites() {
-    List<Sprite> selectedSprites = facingDirection switch {
-      "NORTH" => idleSpritesNorth,
-      "NORTHEAST" => idleSpritesNorthEast,
-      "NORTHWEST" => idleSpritesNorthWest,
-      "SOUTH" => idleSpritesSouth,
-      "SOUTHEAST" => idleSpritesSouthEast,
-      "SOUTHWEST" => idleSpritesSouthWest,
-      "EAST" => idleSpritesEast,
-      "WEST" => idleSpritesWest,
-      _ => null
-    };
-
-    return selectedSprites;
-  }
-
-  private void PlayWalkAndIdleAnimations() {
-    if (isMoving) {
-      List<Sprite> walkSprites = GetWalkSprites();
-
-      if (walkSprites != null) {
-        float playTime = Time.time - idleTime;
-        int frame = (int)(playTime * WalkFrameRate % walkSprites.Count);
-
-        spriteRenderer.sprite = walkSprites[frame];
-      }
-      else {
-        isMoving = false;
-        idleTime = Time.time;
-      }
-    } else {
-      List<Sprite> idleSprites = GetIdleSprites();
-
-      if (idleSprites != null) {
-        float playTime = Time.time - idleTime;
-        int frame = (int)(playTime * IdleFrameRate % idleSprites.Count);
-
-        spriteRenderer.sprite = idleSprites[frame];
-      } else {
-        idleTime = Time.time;
-      }
-    }
-  }
+  
+  // private List<Sprite> GetWalkSprites() {
+  //   List<Sprite> selectedSprites = null;
+  //
+  //   switch (diffVector.y) {
+  //     case < 0: {
+  //       selectedSprites = walkSpritesSouth;
+  //       facingDirection = "SOUTH";
+  //
+  //       switch (diffVector.x) {
+  //         case > 0: {
+  //           selectedSprites = walkSpritesSouthEast;
+  //           facingDirection = "SOUTHEAST";
+  //           break;
+  //         }
+  //         case < 0: {
+  //           selectedSprites = walkSpritesSouthWest;
+  //           facingDirection = "SOUTHWEST";
+  //           break;
+  //         }
+  //       }
+  //       break;
+  //     }
+  //     case > 0: {
+  //       selectedSprites = walkSpritesNorth;
+  //       facingDirection = "NORTH";
+  //
+  //       switch (diffVector.x) {
+  //         case > 0: {
+  //           selectedSprites = walkSpritesNorthEast;
+  //           facingDirection = "NORTHEAST";
+  //           break;
+  //         }
+  //         case < 0: {
+  //           selectedSprites = walkSpritesNorthWest;
+  //           facingDirection = "NORTHWEST";
+  //           break;
+  //         }
+  //       }
+  //       break;
+  //     }
+  //     default: {
+  //       switch (diffVector.x) {
+  //         case > 0: {
+  //           selectedSprites = walkSpritesEast;
+  //           facingDirection = "EAST";
+  //           break;
+  //         }
+  //         case < 0: {
+  //           selectedSprites = walkSpritesWest;
+  //           facingDirection = "WEST";
+  //           break;
+  //         }
+  //       }
+  //       break;
+  //     }
+  //   }
+  //
+  //   return selectedSprites;
+  // }
+  //
+  // private List<Sprite> GetIdleSprites() {
+  //   List<Sprite> selectedSprites = facingDirection switch {
+  //     "NORTH" => idleSpritesNorth,
+  //     "NORTHEAST" => idleSpritesNorthEast,
+  //     "NORTHWEST" => idleSpritesNorthWest,
+  //     "SOUTH" => idleSpritesSouth,
+  //     "SOUTHEAST" => idleSpritesSouthEast,
+  //     "SOUTHWEST" => idleSpritesSouthWest,
+  //     "EAST" => idleSpritesEast,
+  //     "WEST" => idleSpritesWest,
+  //     _ => null
+  //   };
+  //
+  //   return selectedSprites;
+  // }
+  //
+  // private void PlayWalkAndIdleAnimations() {
+    // if (isMoving) {
+    //   List<Sprite> walkSprites = GetWalkSprites();
+    //
+    //   if (walkSprites != null) {
+    //     float playTime = Time.time - idleTime;
+    //     int frame = (int)(playTime * WalkFrameRate % walkSprites.Count);
+    //
+    //     spriteRenderer.sprite = walkSprites[frame];
+    //   }
+    //   else {
+    //     isMoving = false;
+    //     idleTime = Time.time;
+    //   }
+    // } else {
+    //   List<Sprite> idleSprites = GetIdleSprites();
+    //
+    //   if (idleSprites != null) {
+    //     float playTime = Time.time - idleTime;
+    //     int frame = (int)(playTime * IdleFrameRate % idleSprites.Count);
+    //
+    //     spriteRenderer.sprite = idleSprites[frame];
+    //   } else {
+    //     idleTime = Time.time;
+    //   }
+    // }
+  // }
 }
