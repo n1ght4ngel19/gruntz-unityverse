@@ -1,4 +1,4 @@
-public enum TravelSpeedz {
+public enum TravelSpeed {
   Grunt = 600,
   SpyGearGrunt = 500,
   ReaperGrunt = 800,
