@@ -1,6 +1,6 @@
 namespace Itemz {
   public enum ToolType {
-    None,
+    BareHandz,
     Club,
     Gauntletz
   }

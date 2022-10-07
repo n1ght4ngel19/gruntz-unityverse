@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6986435730129850746}
   - component: {fileID: 6986435730129850749}
   - component: {fileID: 6986435730129850748}
+  - component: {fileID: -4493430725719419810}
   - component: {fileID: 7368686219123921677}
-  - component: {fileID: -3715183630992074040}
   m_Layer: 0
   m_Name: GauntletzGrunt
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6986435730129850750}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9, y: 1, z: -5}
+  m_LocalPosition: {x: 16, y: 16, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 139719364, guid: 135d5d864af7ce246a619b8370cd270b, type: 3}
+  m_Sprite: {fileID: 139719364, guid: 19bad5fb3365abe4c885cff53f33a542, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,6 +108,26 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &-4493430725719419810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6986435730129850750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2ce0f2c052614bb03a7d505b903fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 6986435730129850749}
+  tool: 2
+  toy: 0
+  isSelected: 0
+  facingDirection: 4
+  path: []
+  startNode: {fileID: 0}
+  endNode: {fileID: 0}
 --- !u!61 &7368686219123921677
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -134,60 +154,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-3715183630992074040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6986435730129850750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 188e0d2317784eaca27fb6d6681450f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 6986435730129850749}
-  tool: 2
-  toy: 0
-  attackSpritesEast: []
-  attackSpritesNorth: []
-  attackSpritesNorthEast: []
-  attackSpritesNorthWest: []
-  attackSpritesSouth: []
-  attackSpritesSouthEast: []
-  attackSpritesSouthWest: []
-  attackSpritesWest: []
-  idleSpritesEast: []
-  idleSpritesNorth: []
-  idleSpritesNorthEast: []
-  idleSpritesNorthWest: []
-  idleSpritesSouth: []
-  idleSpritesSouthEast: []
-  idleSpritesSouthWest: []
-  idleSpritesWest: []
-  itemSpritesEast: []
-  itemSpritesNorth: []
-  itemSpritesNorthEast: []
-  itemSpritesNorthWest: []
-  itemSpritesSouth: []
-  itemSpritesSouthEast: []
-  itemSpritesSouthWest: []
-  itemSpritesWest: []
-  struckSpritesEast: []
-  struckSpritesNorth: []
-  struckSpritesNorthEast: []
-  struckSpritesNorthWest: []
-  struckSpritesSouth: []
-  struckSpritesSouthEast: []
-  struckSpritesSouthWest: []
-  struckSpritesWest: []
-  walkSpritesEast: []
-  walkSpritesNorth: []
-  walkSpritesNorthEast: []
-  walkSpritesNorthWest: []
-  walkSpritesSouth: []
-  walkSpritesSouthEast: []
-  walkSpritesSouthWest: []
-  walkSpritesWest: []
-  isSelected: 1
-  diffVector: {x: 0, y: 0, z: 0}
