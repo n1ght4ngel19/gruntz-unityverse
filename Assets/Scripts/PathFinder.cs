@@ -83,6 +83,20 @@ public static class PathFinder {
     if (map.ContainsKey(locationToCheck))
       neighbourTiles.Add(map[locationToCheck]);
 
+    // Left
+    locationToCheck.x = navTile.gridLocation.x - 1;
+    locationToCheck.y = navTile.gridLocation.y;
+
+    if (map.ContainsKey(locationToCheck))
+      neighbourTiles.Add(map[locationToCheck]);
+
+    // Right
+    locationToCheck.x = navTile.gridLocation.x + 1;
+    locationToCheck.y = navTile.gridLocation.y;
+
+    if (map.ContainsKey(locationToCheck))
+      neighbourTiles.Add(map[locationToCheck]);
+    
     // Up-Left
     locationToCheck.x = navTile.gridLocation.x - 1;
     locationToCheck.y = navTile.gridLocation.y + 1;
@@ -110,21 +124,7 @@ public static class PathFinder {
 
     if (map.ContainsKey(locationToCheck))
       neighbourTiles.Add(map[locationToCheck]);
-
-    // Left
-    locationToCheck.x = navTile.gridLocation.x - 1;
-    locationToCheck.y = navTile.gridLocation.y;
-
-    if (map.ContainsKey(locationToCheck))
-      neighbourTiles.Add(map[locationToCheck]);
-
-    // Right
-    locationToCheck.x = navTile.gridLocation.x + 1;
-    locationToCheck.y = navTile.gridLocation.y;
-
-    if (map.ContainsKey(locationToCheck))
-      neighbourTiles.Add(map[locationToCheck]);
-
+    
     return neighbourTiles;
   }
 }

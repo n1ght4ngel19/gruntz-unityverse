@@ -40,7 +40,6 @@ namespace Switchez {
 
       if (secretTile.isWalkable) {
         MapManager.Instance.AddNavTileAt(secretTile.transform.position);
-        Debug.Log("Walkable");
       }
 
       while (secretTile.duration > 0) {
@@ -48,12 +47,11 @@ namespace Switchez {
         yield return new WaitForSeconds(0.5f);
       }
 
-      secretTile.GetComponent<SpriteRenderer>().enabled = false;
-
       if (secretTile.isWalkable) {
         MapManager.Instance.RemoveNavTileAt(secretTile.transform.position);
-        Debug.Log("Not Walkable");
       }
+
+      Destroy(secretTile.gameObject);
     }
   }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -58,7 +59,7 @@ public class Grunt : MonoBehaviour {
   public List<Sprite> walkSpritesWest;
 
   // TODO: 10f / 6f
-  protected const float TimeToMove = 5f;
+  protected const float TimePerTile = (float)TravelSpeedz.Grunt / 1000;
   protected Vector3 targetPosition;
   public bool isSelected;
   protected bool isMoving;
@@ -66,12 +67,12 @@ public class Grunt : MonoBehaviour {
 
   public Vector3 diffVector;
   protected string facingDirection = "SOUTH";
-
+  
   protected const float WalkFrameRate = 12;
   protected const float IdleFrameRate = 8;
   protected float idleTime;
 
-  protected List<NavTile> path;
+  public List<NavTile> path;
   protected NavTile startNode;
   protected NavTile endNode;
 
@@ -80,8 +81,16 @@ public class Grunt : MonoBehaviour {
   }
 
   private void Update() {
-    PlaySouthIdleAnimationByDefault();
-       
+      Move();
+    // PlaySouthIdleAnimationByDefault();
+
+    // if (MapManager.Instance.arrowz.Any(arrow => (Vector2)arrow.transform.position == (Vector2)transform.position)) {
+    // } else {
+    //   transform.position = transform.position;
+    // }
+  }
+
+  protected void Move() {
     SetTargetPosition();
 
     SetPath();
@@ -93,10 +102,17 @@ public class Grunt : MonoBehaviour {
     );
 
     diffVector = destination - transform.position;
-    transform.position = destination;
-
+    StartCoroutine(Move(destination));
+    
     path.RemoveAt(0);
   }
+
+  private IEnumerator Move(Vector3 destination) {
+    yield return new WaitForSeconds(TimePerTile);
+
+    transform.position = destination;
+  }
+
 
   protected void PlaySouthIdleAnimationByDefault() {
     if (hasMoved)
@@ -109,6 +125,26 @@ public class Grunt : MonoBehaviour {
   }
 
   protected void SetTargetPosition() {
+    foreach (
+      Arrow arrow in MapManager.Instance.arrowz
+        .Where(arrow => (Vector2)arrow.transform.position == (Vector2)transform.position
+                        && arrow.spriteRenderer.enabled)
+    ) {
+      targetPosition = arrow.direction switch {
+        CompassDirection.East => transform.position + Vector3.right,
+        CompassDirection.North => transform.position + Vector3.up,
+        CompassDirection.NorthEast => transform.position + Vector3Plus.upright,
+        CompassDirection.NorthWest => transform.position + Vector3Plus.upleft,
+        CompassDirection.South => transform.position + Vector3.down,
+        CompassDirection.SouthEast => transform.position + Vector3Plus.downright,
+        CompassDirection.SouthWest => transform.position + Vector3Plus.downleft,
+        CompassDirection.West => transform.position + Vector3.left,
+          _ => transform.position
+      };
+
+      return;
+    }
+
     if (Input.GetMouseButtonDown(1) && isSelected) {
       isMoving = true;
       targetPosition = SelectorCircle.Instance.transform.position;

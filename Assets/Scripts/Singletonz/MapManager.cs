@@ -31,6 +31,7 @@ namespace Singletonz {
     public GameObject playerGruntz;
     public List<Grunt> gruntz;
     public List<Rock> rockz;
+    public List<Arrow> arrowz;
     public List<SecretTile> secretTilez;
 
     public Dictionary<Vector2Int, NavTile> map;
@@ -38,14 +39,24 @@ namespace Singletonz {
     private void Start() {
       Application.targetFrameRate = 30;
       
+      // Collect Gruntz
       foreach (Grunt grunt in playerGruntz.GetComponentsInChildren<Grunt>()) {
         gruntz.Add(grunt);
       }
+      // Collect Rockz
       foreach (Rock rock in GameObject.Find("Rockz").GetComponentsInChildren<Rock>()) {
         rockz.Add(rock);
       }
+      // Collect SecretTilez
       foreach (SecretTile secretTile in secretMap.GetComponentsInChildren<SecretTile>()) {
         secretTilez.Add(secretTile);
+      }
+      // Collect Arrowz
+      foreach (Arrow arrow in baseMap.GetComponentsInChildren<Arrow>()) {
+        arrowz.Add(arrow);
+      }
+      foreach (Arrow arrow in secretMap.GetComponentsInChildren<Arrow>()) {
+        arrowz.Add(arrow);
       }
 
       map = new Dictionary<Vector2Int, NavTile>();
