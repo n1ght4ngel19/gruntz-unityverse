@@ -22,14 +22,12 @@ namespace GruntzUnityverse.Singletonz {
 
     public Camera mainCamera;
     public SpriteRenderer spriteRenderer;
-    public List<Sprite> pointer;
-    public List<Sprite> gauntletz;
     private List<Sprite> currentCursor;
-    private int counter = 0;
+    private int counter;
     
     private void Start() {
-      UnityEngine.Cursor.visible = false;
-      currentCursor = pointer;
+      Cursor.visible = false;
+      currentCursor = AnimationManager.CursorAnimations.Pointer;
     }
 
     private void Update() {
@@ -49,9 +47,9 @@ namespace GruntzUnityverse.Singletonz {
         MapManager.Instance.rockz.Any(rock => rock.twoDimPosition == SelectorCircle.Instance.twoDimPosition)
         && MapManager.Instance.gruntz.Any(grunt => grunt.tool == ToolType.Gauntletz && grunt.isSelected)
       ) {
-        Instance.SetCursorTo(Instance.gauntletz);
+        Instance.SetCursorTo(AnimationManager.CursorAnimations.Gauntletz);
       } else {
-        Instance.SetCursorTo(Instance.pointer);
+        Instance.SetCursorTo(AnimationManager.CursorAnimations.Pointer);
       }
     }
   }

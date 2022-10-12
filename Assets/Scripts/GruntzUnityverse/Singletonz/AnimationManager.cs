@@ -18,8 +18,13 @@ namespace GruntzUnityverse.Singletonz {
         _instance = this;
     }
 
-    public static GruntAnimationPack BareHandzGruntAnimations = new(ToolType.BareHandz);
-    public static GruntAnimationPack ClubGruntAnimations = new(ToolType.Club);
-    public static GruntAnimationPack GauntletzGruntAnimations = new(ToolType.Gauntletz);
+    public static readonly GruntAnimationPack BareHandzGruntAnimations = new(ToolType.BareHandz);
+    public static readonly GruntAnimationPack ClubGruntAnimations = new(ToolType.Club);
+    public static readonly GruntAnimationPack GauntletzGruntAnimations = new(ToolType.Gauntletz);
+
+    public static readonly CursorAnimationPack CursorAnimations = new();
+    
+    public static readonly ToolAnimationPack ToolAnimations = new ();
+    public static readonly ToyAnimationPack ToyAnimations = new ();
   }
 }

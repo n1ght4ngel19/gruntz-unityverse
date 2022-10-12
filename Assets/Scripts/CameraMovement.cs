@@ -12,8 +12,13 @@ public class CameraMovement : MonoBehaviour {
   private float targetZoom;
   private const float ZoomFactor = 3f;
   private const float ZoomLerpSpeed = 10;
-
+  public bool areConstrolsDisabled;
+  
   private void Update() {
+    if (areConstrolsDisabled) {
+      return;
+    }
+
     ScrollWithArrowKeys();
     ZoomWithMouse();
   }
