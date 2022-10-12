@@ -9,10 +9,14 @@ using UnityEngine;
 namespace GruntzUnityverse.Itemz {
   public class Toy : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
-    public List<Sprite> animFrames;
+    private List<Sprite> animFrames;
     public ToyType type;
     private const int FrameRate = 12;
   
+    private void Start() {
+      animFrames = Resources.LoadAll<Sprite>($"Animations/Itemz/Toyz/Toy{type}").ToList();
+    }
+    
     private void Update() {
       foreach (Grunt grunt in MapManager.Instance.gruntz
                  .Where(grunt => (Vector2)grunt.transform.position == (Vector2)transform.position)

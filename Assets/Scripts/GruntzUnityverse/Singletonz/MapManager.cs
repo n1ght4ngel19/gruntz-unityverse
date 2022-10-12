@@ -8,6 +8,8 @@ using GruntzUnityverse.MapObjectz.Switchez;
 using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Utilitiez;
 
+using TMPro;
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -26,6 +28,8 @@ namespace GruntzUnityverse.Singletonz {
         _instance = this;
     }
 
+    public TMP_Text helpBoxText;
+
     public Tilemap baseMap;
     public Tilemap collisionMap;
     public Tilemap secretMap;
@@ -41,6 +45,8 @@ namespace GruntzUnityverse.Singletonz {
 
     private void Start() {
       Application.targetFrameRate = 30;
+      
+      helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
       
       // Collect Gruntz
       foreach (Grunt grunt in playerGruntz.GetComponentsInChildren<Grunt>()) {
