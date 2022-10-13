@@ -38,8 +38,10 @@ namespace GruntzUnityverse.Singletonz {
     public GameObject playerGruntz;
     public List<Grunt> gruntz;
     public List<Rock> rockz;
+    public List<GiantRock> giantRockz;
     public List<Arrow> arrowz;
     public List<SecretTile> secretTilez;
+    public List<BrickFoundation> brickFoundationz;
 
     public Dictionary<Vector2Int, NavTile> map;
 
@@ -56,6 +58,10 @@ namespace GruntzUnityverse.Singletonz {
       foreach (Rock rock in GameObject.Find("Rockz").GetComponentsInChildren<Rock>()) {
         rockz.Add(rock);
       }
+      // Collect GiantRockz
+      foreach (GiantRock giantRock in GameObject.Find("GiantRockz").GetComponentsInChildren<GiantRock>()) {
+        giantRockz.Add(giantRock);
+      }
       // Collect SecretTilez
       foreach (SecretTile secretTile in secretMap.GetComponentsInChildren<SecretTile>()) {
         secretTilez.Add(secretTile);
@@ -67,6 +73,10 @@ namespace GruntzUnityverse.Singletonz {
       foreach (Arrow arrow in secretMap.GetComponentsInChildren<Arrow>()) {
         arrowz.Add(arrow);
       }
+      // Collect BrickFoundationz
+      foreach (BrickFoundation brickFoundation in baseMap.GetComponentsInChildren<BrickFoundation>()) {
+        brickFoundationz.Add(brickFoundation);
+      }
 
       map = new Dictionary<Vector2Int, NavTile>();
       BoundsInt bounds = baseMap.cellBounds;
@@ -74,7 +84,11 @@ namespace GruntzUnityverse.Singletonz {
       AddNavTilesBasedOnMap(bounds);
       AddNavTilesForSwitches();
       AddNavTilesForBridges();
-      AddNavTilesForRocks();
+      AddNavTilesForBrickFoundations();
+
+      RemoveNavTilesForRocks();
+      RemoveNavTilesForGiantRocks();
+      RemoveNavTilesForFort();
     }
 
     private void AddNavTilesForSwitches() {
@@ -85,20 +99,53 @@ namespace GruntzUnityverse.Singletonz {
       AddNavTilesForSecretSwitches();
     }
 
-    private void AddNavTilesForRocks() {
-      Rock[] rocks = baseMap.GetComponentsInChildren<Rock>();
-
-      foreach (Rock rock in rocks) {
+    private void RemoveNavTilesForRocks() {
+      foreach (Rock rock in rockz) {
         RemoveNavTileAt(rock.transform.position);
       }
     }
-    
-    private void AddNavTilesForPyramids() {
 
+    private void RemoveNavTilesForGiantRocks() {
+      foreach (Vector3 giantRockPosition in giantRockz.Select(giantRock => giantRock.transform.position)) {
+        RemoveNavTileAt(giantRockPosition);
+        RemoveNavTileAt(giantRockPosition + Vector3.up);
+        RemoveNavTileAt(giantRockPosition + Vector3.down);
+        RemoveNavTileAt(giantRockPosition + Vector3.left);
+        RemoveNavTileAt(giantRockPosition + Vector3.right);
+        RemoveNavTileAt(giantRockPosition + Vector3Plus.upleft);
+        RemoveNavTileAt(giantRockPosition + Vector3Plus.upright);
+        RemoveNavTileAt(giantRockPosition + Vector3Plus.downleft);
+        RemoveNavTileAt(giantRockPosition + Vector3Plus.downright);
+      }
+    }
+    
+    private void RemoveNavTilesForPyramids() {
+
+    }
+
+    private void RemoveNavTilesForFort() {
+      Vector3 fortPosition = baseMap.GetComponentInChildren<Fort>().transform.position;
+      
+      RemoveNavTileAt(fortPosition);
+      RemoveNavTileAt(fortPosition + Vector3.up);
+      RemoveNavTileAt(fortPosition + Vector3.down);
+      RemoveNavTileAt(fortPosition + Vector3.left);
+      RemoveNavTileAt(fortPosition + Vector3.right);
+      RemoveNavTileAt(fortPosition + Vector3Plus.upleft);
+      RemoveNavTileAt(fortPosition + Vector3Plus.upright);
+      RemoveNavTileAt(fortPosition + Vector3Plus.downleft);
+      RemoveNavTileAt(fortPosition + Vector3Plus.downright);
+      
     }
 
     private void AddNavTilesForBridges() {
       AddNavTilesForStaticBridges();
+    }
+
+    private void AddNavTilesForBrickFoundations() {
+      foreach (BrickFoundation brickFoundation in brickFoundationz) {
+        AddNavTileAt(brickFoundation.transform.position);
+      }
     }
     
     public void AddNavTileAt(Vector3 position) {

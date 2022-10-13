@@ -5,7 +5,7 @@ using GruntzUnityverse.Itemz;
 
 using UnityEngine;
 
-namespace GruntzUnityverse.Actorz {
+namespace GruntzUnityverse {
   public class GruntAnimationPack {
     public List<Sprite> AttackEast;
     public List<Sprite> AttackNorth;

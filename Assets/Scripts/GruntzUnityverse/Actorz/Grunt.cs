@@ -47,6 +47,10 @@ namespace GruntzUnityverse.Actorz {
     private void Update() {
       PlaySouthIdleAnimationByDefault();
 
+      if (Time.timeScale == 0) {
+        return;
+      }
+      
       Move();
     }
 
