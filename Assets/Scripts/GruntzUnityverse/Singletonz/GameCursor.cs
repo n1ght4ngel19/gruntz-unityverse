@@ -42,6 +42,9 @@ namespace GruntzUnityverse.Singletonz {
       currentCursor = cursor;
     }
 
+    /// <summary>
+    /// Handles the animation of the cursor with a GauntletzGrunt selected and hovering over a Rock or a GiantRock.
+    /// </summary>
     private void HandleRockCursor() {
       if (
         MapManager.Instance.rockz.Any(rock => rock.twoDimPosition == SelectorCircle.Instance.twoDimPosition)

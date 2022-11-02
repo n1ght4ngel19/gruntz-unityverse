@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using GruntzUnityverse.Singletonz;
-
 using UnityEngine;
 
 namespace GruntzUnityverse.PathFinding {
+  // TODO: Fix the whole stuff
   public static class PathFinder {
     public static List<NavTile> FindPath(NavTile startNode, NavTile endNode) {
       List<NavTile> openList = new();
@@ -28,11 +27,17 @@ namespace GruntzUnityverse.PathFinding {
         IEnumerable<NavTile> neighbourTiles = GetNeighbourTiles(currentNode);
 
         // Checking for the neighbours that can be stepped on, and haven't been checked already
-        foreach (NavTile neighbour in neighbourTiles.Where(neighbour => !neighbour.isBlocked && !closedList.Contains(neighbour))) {
+        foreach (
+          NavTile neighbour in neighbourTiles
+            .Where(neighbour =>
+              !neighbour.isBlocked
+              && !closedList.Contains(neighbour))
+        ) {
           neighbour.G = GetChebyshevDistance(startNode, neighbour);
           neighbour.H = GetChebyshevDistance(endNode, neighbour);
           neighbour.previous = currentNode;
 
+          // Adding the current Node only when it hasn't been already checked
           if (!openList.Contains(neighbour)) {
             openList.Add(neighbour);
           }
@@ -97,7 +102,7 @@ namespace GruntzUnityverse.PathFinding {
 
       if (map.ContainsKey(locationToCheck))
         neighbourTiles.Add(map[locationToCheck]);
-    
+
       // Up-Left
       locationToCheck.x = navTile.gridLocation.x - 1;
       locationToCheck.y = navTile.gridLocation.y + 1;
@@ -125,7 +130,7 @@ namespace GruntzUnityverse.PathFinding {
 
       if (map.ContainsKey(locationToCheck))
         neighbourTiles.Add(map[locationToCheck]);
-    
+
       return neighbourTiles;
     }
   }
