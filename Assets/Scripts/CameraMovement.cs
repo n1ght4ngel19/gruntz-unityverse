@@ -24,6 +24,10 @@ public class CameraMovement : MonoBehaviour {
   }
 
   private void ZoomWithMouse() {
+    if (Time.timeScale == 0) {
+      return;
+    }
+
     targetZoom -= Input.GetAxis("Mouse ScrollWheel") * ZoomFactor;
     targetZoom = Math.Clamp(targetZoom, 4f, 11f);
     cam.orthographicSize = Mathf.Lerp(
@@ -34,6 +38,10 @@ public class CameraMovement : MonoBehaviour {
   }
 
   private void ScrollWithArrowKeys() {
+    if (Time.timeScale == 0) {
+      return;
+    }
+    
     float camHalfWidth = cam.orthographicSize * cam.aspect;
 
     if (cam.transform.position.y + cam.orthographicSize >= mapHeightInTiles - 0.1)
@@ -52,38 +60,38 @@ public class CameraMovement : MonoBehaviour {
     switch (direction)
     {
       case "down": {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
           cam.transform.position += Vector3.up / ScrollRate;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
           cam.transform.position += Vector3.left / ScrollRate;
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
           cam.transform.position += Vector3.right / ScrollRate;
         break;
       }
       case "up": {
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
           cam.transform.position += Vector3.down / ScrollRate;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
           cam.transform.position += Vector3.left / ScrollRate;
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
           cam.transform.position += Vector3.right / ScrollRate;
         break;
       }
       case "left": {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
           cam.transform.position += Vector3.up / ScrollRate;
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
           cam.transform.position += Vector3.down / ScrollRate;
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
           cam.transform.position += Vector3.right / ScrollRate;
         break;
       }
       case "right": {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
           cam.transform.position += Vector3.up / ScrollRate;
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
           cam.transform.position += Vector3.down / ScrollRate;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
           cam.transform.position += Vector3.left / ScrollRate;
         break;
       }
@@ -91,13 +99,13 @@ public class CameraMovement : MonoBehaviour {
   }
 
   private void MoveFreely() {
-    if (Input.GetKey(KeyCode.UpArrow))
+    if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
       cam.transform.position += Vector3.up / ScrollRate;
-    if (Input.GetKey(KeyCode.DownArrow))
+    if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
       cam.transform.position += Vector3.down / ScrollRate;
-    if (Input.GetKey(KeyCode.LeftArrow))
+    if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
       cam.transform.position += Vector3.left / ScrollRate;
-    if (Input.GetKey(KeyCode.RightArrow))
+    if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
       cam.transform.position += Vector3.right / ScrollRate;
   }
 }

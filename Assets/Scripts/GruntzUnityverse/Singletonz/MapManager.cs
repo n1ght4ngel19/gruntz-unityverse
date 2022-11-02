@@ -29,7 +29,6 @@ namespace GruntzUnityverse.Singletonz {
     }
 
     public TMP_Text helpBoxText;
-
     public Tilemap baseMap;
     public Tilemap collisionMap;
     public Tilemap secretMap;
@@ -46,8 +45,8 @@ namespace GruntzUnityverse.Singletonz {
     public Dictionary<Vector2Int, NavTile> map;
 
     private void Start() {
-      Application.targetFrameRate = 30;
-      
+      Application.targetFrameRate = 60;
+
       helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
       
       // Collect Gruntz

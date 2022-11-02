@@ -8,7 +8,8 @@ using UnityEngine;
 public class HelpBox : MonoBehaviour {
   public CameraMovement mainCam;
   public SpriteRenderer spriteRenderer;
-  public bool isUntouched;
+  private bool isUntouched;
+  public static bool IsTextShown;
   public string boxText;
   
   public List<Sprite> animFrames;
@@ -32,7 +33,8 @@ public class HelpBox : MonoBehaviour {
 
     // Resuming the game when user clicks the Left Button while the game is paused.
     if (
-      Time.timeScale == 0
+      !isUntouched
+      && IsTextShown
       && Input.GetMouseButtonDown(0)
     ) {
       hideBox();
@@ -54,6 +56,7 @@ public class HelpBox : MonoBehaviour {
     isUntouched = false;
     Time.timeScale = 0;
     MapManager.Instance.helpBoxText.text = boxText;
+    IsTextShown = true;
     mainCam.areConstrolsDisabled = true;
   }
 
@@ -62,6 +65,7 @@ public class HelpBox : MonoBehaviour {
 
     Time.timeScale = 1;
     MapManager.Instance.helpBoxText.text = "";
+    IsTextShown = false;
     mainCam.areConstrolsDisabled = false;
   }
 }
