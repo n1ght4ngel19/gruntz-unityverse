@@ -1,15 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Bridgez;
 using GruntzUnityverse.MapObjectz.Switchez;
 using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Utilitiez;
-
 using TMPro;
-
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,7 +17,7 @@ namespace GruntzUnityverse.Singletonz {
     public static MapManager Instance {
       get => _instance;
     }
-  
+
     private void Awake() {
       if (_instance != null && _instance != this)
         Destroy(gameObject);
@@ -48,30 +45,36 @@ namespace GruntzUnityverse.Singletonz {
       Application.targetFrameRate = 60;
 
       helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
-      
+
       // Collect Gruntz
       foreach (Grunt grunt in playerGruntz.GetComponentsInChildren<Grunt>()) {
         gruntz.Add(grunt);
       }
+
       // Collect Rockz
       foreach (Rock rock in GameObject.Find("Rockz").GetComponentsInChildren<Rock>()) {
         rockz.Add(rock);
       }
+
       // Collect GiantRockz
       foreach (GiantRock giantRock in GameObject.Find("GiantRockz").GetComponentsInChildren<GiantRock>()) {
         giantRockz.Add(giantRock);
       }
+
       // Collect SecretTilez
       foreach (SecretTile secretTile in secretMap.GetComponentsInChildren<SecretTile>()) {
         secretTilez.Add(secretTile);
       }
+
       // Collect Arrowz
       foreach (Arrow arrow in baseMap.GetComponentsInChildren<Arrow>()) {
         arrowz.Add(arrow);
       }
+
       foreach (Arrow arrow in secretMap.GetComponentsInChildren<Arrow>()) {
         arrowz.Add(arrow);
       }
+
       // Collect BrickFoundationz
       foreach (BrickFoundation brickFoundation in baseMap.GetComponentsInChildren<BrickFoundation>()) {
         brickFoundationz.Add(brickFoundation);
@@ -79,7 +82,7 @@ namespace GruntzUnityverse.Singletonz {
 
       map = new Dictionary<Vector2Int, NavTile>();
       BoundsInt bounds = baseMap.cellBounds;
-    
+
       AddNavTilesBasedOnMap(bounds);
       AddNavTilesForSwitches();
       AddNavTilesForBridges();
@@ -117,14 +120,12 @@ namespace GruntzUnityverse.Singletonz {
         RemoveNavTileAt(giantRockPosition + Vector3Plus.downright);
       }
     }
-    
-    private void RemoveNavTilesForPyramids() {
 
-    }
+    private void RemoveNavTilesForPyramids() {}
 
     private void RemoveNavTilesForFort() {
       Vector3 fortPosition = baseMap.GetComponentInChildren<Fort>().transform.position;
-      
+
       RemoveNavTileAt(fortPosition);
       RemoveNavTileAt(fortPosition + Vector3.up);
       RemoveNavTileAt(fortPosition + Vector3.down);
@@ -134,7 +135,6 @@ namespace GruntzUnityverse.Singletonz {
       RemoveNavTileAt(fortPosition + Vector3Plus.upright);
       RemoveNavTileAt(fortPosition + Vector3Plus.downleft);
       RemoveNavTileAt(fortPosition + Vector3Plus.downright);
-      
     }
 
     private void AddNavTilesForBridges() {
@@ -146,13 +146,14 @@ namespace GruntzUnityverse.Singletonz {
         AddNavTileAt(brickFoundation.transform.position);
       }
     }
-    
+
     public void AddNavTileAt(Vector3 position) {
       Vector3Int tileLocation = new(
         Mathf.FloorToInt(position.x),
         Mathf.FloorToInt(position.y),
         0
       );
+
       Vector2Int tileKey = new(
         tileLocation.x,
         tileLocation.y
@@ -164,10 +165,10 @@ namespace GruntzUnityverse.Singletonz {
 
       NavTile navTile = Instantiate(navtilePrefab, tileContainer.transform);
       Vector3 cellWorldPosition = baseMap.GetCellCenterWorld(tileLocation);
-        
+
       navTile.transform.position = Positioning.SetNavTilePosition(cellWorldPosition);
       navTile.gridLocation = tileLocation;
-        
+
       map.Add(tileKey, navTile);
     }
 
@@ -177,6 +178,7 @@ namespace GruntzUnityverse.Singletonz {
         Mathf.FloorToInt(position.y),
         0
       );
+
       Vector2Int tileKey = new(
         Mathf.FloorToInt(position.x),
         Mathf.FloorToInt(position.y)
@@ -188,15 +190,16 @@ namespace GruntzUnityverse.Singletonz {
 
       map.Remove(tileKey);
 
-      foreach (NavTile navTile in tileContainer
-                .GetComponentsInChildren<NavTile>()
-                .Where(navTile => navTile.transform.position.x == tileLocation.x + 0.5f
-                                  && navTile.transform.position.y == tileLocation.y + 0.5f)
+      foreach (
+        NavTile navTile in tileContainer
+          .GetComponentsInChildren<NavTile>()
+          .Where(navTile => navTile.transform.position.x == tileLocation.x + 0.5f
+                            && navTile.transform.position.y == tileLocation.y + 0.5f)
       ) {
         Destroy(navTile);
       }
     }
-    
+
     private void AddNavTilesForStaticBridges() {
       WaterBridgeStatic[] staticWaterBridges = baseMap.GetComponentsInChildren<WaterBridgeStatic>();
 
@@ -207,15 +210,15 @@ namespace GruntzUnityverse.Singletonz {
 
     private void AddNavTilesForBlueToggleSwitches() {
       BlueToggleSwitch[] blueToggleSwitches = baseMap.GetComponentsInChildren<BlueToggleSwitch>();
-    
+
       foreach (BlueToggleSwitch blueToggleSwitch in blueToggleSwitches) {
         AddNavTileAt(blueToggleSwitch.transform.position);
       }
     }
-  
+
     private void AddNavTilesForBlueHoldSwitches() {
       BlueHoldSwitch[] blueHoldSwitches = baseMap.GetComponentsInChildren<BlueHoldSwitch>();
-    
+
       foreach (BlueHoldSwitch blueHoldSwitch in blueHoldSwitches) {
         AddNavTileAt(blueHoldSwitch.transform.position);
       }
@@ -223,7 +226,7 @@ namespace GruntzUnityverse.Singletonz {
 
     private void AddNavTilesForToolCheckpointSwitches() {
       CheckpointSwitchTool[] checkpointSwitches = baseMap.GetComponentsInChildren<CheckpointSwitchTool>();
-    
+
       foreach (CheckpointSwitchTool checkpointSwitch in checkpointSwitches) {
         AddNavTileAt(checkpointSwitch.transform.position);
       }
@@ -231,20 +234,20 @@ namespace GruntzUnityverse.Singletonz {
 
     private void AddNavTilesForToyCheckpointSwitches() {
       CheckpointSwitchToy[] checkpointSwitches = baseMap.GetComponentsInChildren<CheckpointSwitchToy>();
-    
+
       foreach (CheckpointSwitchToy checkpointSwitch in checkpointSwitches) {
         AddNavTileAt(checkpointSwitch.transform.position);
       }
     }
-    
+
     private void AddNavTilesForSecretSwitches() {
       SecretSwitch[] secretSwitches = baseMap.GetComponentsInChildren<SecretSwitch>();
-    
+
       foreach (SecretSwitch secretSwitch in secretSwitches) {
         AddNavTileAt(secretSwitch.transform.position);
       }
     }
-    
+
     private void AddNavTilesBasedOnMap(BoundsInt bounds) {
       for (int y = bounds.min.y; y < bounds.max.y; y++) {
         for (int x = bounds.min.x; x < bounds.max.x; x++) {

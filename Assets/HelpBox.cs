@@ -16,7 +16,7 @@ public class HelpBox : MonoBehaviour {
   private const int FrameRate = 12;
 
   private void Start() {
-    animFrames = Resources.LoadAll<Sprite>("Animations/Itemz/Misc/HelpBox").ToList();
+    animFrames = Resources.LoadAll<Sprite>("Animations/MapObjectz/Misc/HelpBox").ToList();
     isUntouched = true;
   }
 
