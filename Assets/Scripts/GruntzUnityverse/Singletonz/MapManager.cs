@@ -41,6 +41,9 @@ namespace GruntzUnityverse.Singletonz {
 
     public Dictionary<Vector2Int, NavTile> map;
 
+    public HealthBar healthBarPrefab;
+    public StaminaBar staminaBarPrefab;
+
     private void Start() {
       Application.targetFrameRate = 60;
 
@@ -49,6 +52,8 @@ namespace GruntzUnityverse.Singletonz {
       // Collect Gruntz
       foreach (Grunt grunt in playerGruntz.GetComponentsInChildren<Grunt>()) {
         gruntz.Add(grunt);
+        Instantiate(healthBarPrefab, grunt.transform, false);
+        Instantiate(staminaBarPrefab, grunt.transform, false);
       }
 
       // Collect Rockz

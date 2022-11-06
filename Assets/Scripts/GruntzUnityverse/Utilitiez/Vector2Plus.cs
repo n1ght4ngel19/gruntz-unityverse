@@ -14,27 +14,37 @@ namespace GruntzUnityverse.Utilitiez {
     /// <summary>
     /// Shorthand for writing Vector(1, 1).
     /// </summary>
-    public static Vector2 upright {get => uprightVector;}
+    public static Vector2 upright {
+      get => uprightVector;
+    }
 
     /// <summary>
     /// Shorthand for writing Vector(-1, 1).
     /// </summary>
-    public static Vector2 upleft {get => upleftVector;}
+    public static Vector2 upleft {
+      get => upleftVector;
+    }
 
     /// <summary>
     /// Shorthand for writing Vector(1, -1).
     /// </summary>
-    public static Vector2 downright {get => downrightVector;}
+    public static Vector2 downright {
+      get => downrightVector;
+    }
 
     /// <summary>
     /// Shorthand for writing Vector(-1, -1).
     /// </summary>
-    public static Vector2 downleft {get => downleftVector;}
-    
+    public static Vector2 downleft {
+      get => downleftVector;
+    }
+
     /// <summary>
     /// Shorthand for writing Vector(0.5, 0.5).
     /// </summary>
-    public static Vector2 half {get => halfVector;}
+    public static Vector2 half {
+      get => halfVector;
+    }
 
     public static Vector2 RoundToDecimalPlaces(int decimalPlaces, Vector2 vector) {
       float multiplier = 1;
@@ -61,8 +71,8 @@ namespace GruntzUnityverse.Utilitiez {
         Mathf.Round(vector.y * multiplier) / multiplier
       );
     }
-    
-    public static bool AreEqual(Vector2 vector1, Vector2 vector2) {
+
+    private static bool AreEqual(Vector2 vector1, Vector2 vector2) {
       return RoundToDecimalPlaces(2, vector1) == RoundToDecimalPlaces(2, vector2);
     }
 
@@ -71,4 +81,3 @@ namespace GruntzUnityverse.Utilitiez {
     }
   }
 }
-

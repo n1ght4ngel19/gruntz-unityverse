@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using GruntzUnityverse.Singletonz;
-
+using GruntzUnityverse.Utilitiez;
 using UnityEngine;
 
 public class HelpBox : MonoBehaviour {
@@ -11,7 +10,7 @@ public class HelpBox : MonoBehaviour {
   private bool isUntouched;
   public static bool IsTextShown;
   public string boxText;
-  
+
   public List<Sprite> animFrames;
   private const int FrameRate = 12;
 
@@ -24,7 +23,7 @@ public class HelpBox : MonoBehaviour {
     // Pausing the game when a Grunt steps onto a HelpBox and displaying the HelpBox text
     if (
       isUntouched
-      && MapManager.Instance.gruntz.Any(grunt1 => (Vector2)grunt1.transform.position == (Vector2)transform.position)
+      && MapManager.Instance.gruntz.Any(grunt1 => Vector2Plus.AreEqual(grunt1.transform.position, transform.position))
     ) {
       displayBox();
 
@@ -42,10 +41,11 @@ public class HelpBox : MonoBehaviour {
       return;
     }
 
-    if (MapManager.Instance.gruntz.All(grunt1 => (Vector2)grunt1.transform.position != (Vector2)transform.position)) {
+    if (MapManager.Instance.gruntz.All(grunt1 =>
+          !Vector2Plus.AreEqual(grunt1.transform.position, transform.position))) {
       isUntouched = true;
     }
-    
+
     int frame = (int)(Time.time * FrameRate % animFrames.Count);
     spriteRenderer.sprite = animFrames[frame];
   }
