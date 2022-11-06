@@ -14,6 +14,11 @@ using UnityEngine;
 namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
+    public int health = 20;
+    private HealthBar HealthBar;
+    public int stamina = 20;
+    private StaminaBar StaminaBar;
+
     /// <summary>
     /// The Tool the Grunt carries.
     /// </summary>
@@ -64,6 +69,9 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private void Update() {
+      health = gameObject.GetComponentInChildren<HealthBar>().value;
+      stamina = gameObject.GetComponentInChildren<StaminaBar>().value;
+      
       PlaySouthIdleAnimationByDefault();
       PlayWalkAndIdleAnimations();
       Move();
