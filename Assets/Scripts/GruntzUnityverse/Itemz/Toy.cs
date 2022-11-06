@@ -14,7 +14,7 @@ namespace GruntzUnityverse.Itemz {
     private const int FrameRate = 12;
   
     private void Start() {
-      animFrames = Resources.LoadAll<Sprite>($"Animations/Itemz/Toyz/Toy{type}").ToList();
+      animFrames = Resources.LoadAll<Sprite>($"Animations/MapObjectz/Itemz/Toyz/Toy{type}").ToList();
     }
     
     private void Update() {

@@ -10,11 +10,11 @@ namespace GruntzUnityverse.Itemz {
   public class Tool : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
     private List<Sprite> animFrames;
-    public ToolType type;
     private const int FrameRate = 12;
+    public ToolType type;
 
     private void Start() {
-      animFrames = Resources.LoadAll<Sprite>($"Animations/Itemz/Toolz/Tool{type}").ToList();
+      animFrames = Resources.LoadAll<Sprite>($"Animations/MapObjectz/Itemz/Toolz/Tool{type}").ToList();
     }
 
     private void Update() {
