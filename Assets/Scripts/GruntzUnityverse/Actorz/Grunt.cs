@@ -5,6 +5,7 @@ using System.Linq;
 
 using GruntzUnityverse.Itemz;
 using GruntzUnityverse.MapObjectz;
+using GruntzUnityverse.MapObjectz.Hazardz;
 using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Singletonz;
 using GruntzUnityverse.Utilitiez;
@@ -14,6 +15,14 @@ using UnityEngine;
 namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
+    public int health = 20;
+    [SerializeField] private HealthBar healthBar;
+    public int stamina = 20;
+    [SerializeField] private StaminaBar staminaBar;
+    
+    public HealthBar healthBarPrefab;
+    public StaminaBar staminaBarPrefab;
+    
     /// <summary>
     /// The Tool the Grunt carries.
     /// </summary>
@@ -27,6 +36,7 @@ namespace GruntzUnityverse.Actorz {
     /// being struck, idling, and interacting (determined by the Tool he carries).
     /// </summary>
     private GruntAnimationPack animations;
+    private List<Sprite> deathAnimations;
 
     /// <summary>
     ///   <para>The amount of time in seconds that a Grunt needs to travel from one tile to another.</para>
@@ -51,6 +61,9 @@ namespace GruntzUnityverse.Actorz {
     private const float IdleFrameRate = 8;
     private float idleTime;
 
+    private float elapsedTime;
+    private int timesChanged;
+
     // Variables for pathfinding 
     private Vector3 targetPosition;
     public NavTile startNode;
@@ -58,18 +71,58 @@ namespace GruntzUnityverse.Actorz {
     public List<NavTile> path;
 
     private void Start() {
-      SwitchGruntAnimations(tool);
+      SwitchGruntAnimationPack(tool);
+      healthBar = Instantiate(healthBarPrefab, transform, false);
+      staminaBar = Instantiate(staminaBarPrefab, transform, false);
 
       targetPosition = transform.position;
     }
 
     private void Update() {
+      timesChanged++;
+      
+      health = gameObject.GetComponentInChildren<HealthBar>().value;
+      stamina = gameObject.GetComponentInChildren<StaminaBar>().value;
+
+      foreach (Spikez spikez in MapManager.Instance.spikezList) {
+        if (
+          Vector2Plus.AreEqual(spikez.transform.position, transform.position)
+          && timesChanged % Application.targetFrameRate == 0
+        ) {
+          gameObject.GetComponentInChildren<HealthBar>().value -= Spikez.Dps;
+        }
+      }
+
+      // HandleSpikez();
+      
       PlaySouthIdleAnimationByDefault();
       PlayWalkAndIdleAnimations();
       Move();
     }
 
-    public void SwitchGruntAnimations(ToolType toolType) {
+    private IEnumerator Die() {
+      float playTime = Time.time - idleTime;
+      int frame = (int)(playTime * IdleFrameRate % animations.Death.Count);
+  
+      spriteRenderer.sprite = animations.Death[frame];
+      
+      yield return new WaitForSeconds(0.1f);
+      
+      // Destroy(gameObject);
+    }
+    
+    private void HandleSpikez() {
+      foreach (Spikez spikez in MapManager.Instance.spikezList) {
+        if (
+          Vector2Plus.AreEqual(spikez.transform.position, transform.position)
+          && timesChanged % Application.targetFrameRate == 0
+        ) {
+          healthBar.value -= Spikez.Dps;
+        }
+      }
+    }
+
+    public void SwitchGruntAnimationPack(ToolType toolType) {
       animations = toolType switch {
         ToolType.BareHandz => AnimationManager.BareHandzGruntAnimations,
         ToolType.Club => AnimationManager.ClubGruntAnimations,

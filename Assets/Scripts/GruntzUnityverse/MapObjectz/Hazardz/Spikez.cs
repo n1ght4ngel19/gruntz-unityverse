@@ -1,10 +1,8 @@
 using UnityEngine;
 
-namespace GruntzUnityverse.MapObjectz {
+namespace GruntzUnityverse.MapObjectz.Hazardz {
   public class Spikez : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
-
-    private void Update() {
-    }
+    public static readonly int Dps = 2;
   }
 }

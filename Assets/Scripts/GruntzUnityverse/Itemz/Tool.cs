@@ -22,7 +22,7 @@ namespace GruntzUnityverse.Itemz {
                  .Where(grunt => (Vector2)grunt.transform.position == (Vector2)transform.position)
       ) {
         grunt.tool = type;
-        grunt.SwitchGruntAnimations(type);
+        grunt.SwitchGruntAnimationPack(type);
         
         Destroy(gameObject);
       }

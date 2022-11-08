@@ -3,6 +3,7 @@ using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Bridgez;
+using GruntzUnityverse.MapObjectz.Hazardz;
 using GruntzUnityverse.MapObjectz.Switchez;
 using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Utilitiez;
@@ -36,10 +37,14 @@ namespace GruntzUnityverse.Singletonz {
     public List<Rock> rockz;
     public List<GiantRock> giantRockz;
     public List<Arrow> arrowz;
+    public List<Spikez> spikezList;
     public List<SecretTile> secretTilez;
     public List<BrickFoundation> brickFoundationz;
 
     public Dictionary<Vector2Int, NavTile> map;
+
+    public HealthBar healthBarPrefab;
+    public StaminaBar staminaBarPrefab;
 
     private void Start() {
       Application.targetFrameRate = 60;
@@ -71,8 +76,9 @@ namespace GruntzUnityverse.Singletonz {
         arrowz.Add(arrow);
       }
 
-      foreach (Arrow arrow in secretMap.GetComponentsInChildren<Arrow>()) {
-        arrowz.Add(arrow);
+      // Collect Spikez
+      foreach (Spikez spikez in baseMap.GetComponentsInChildren<Spikez>()) {
+        spikezList.Add(spikez);
       }
 
       // Collect BrickFoundationz

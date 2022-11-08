@@ -10,11 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6986435730129850746}
   - component: {fileID: 6986435730129850749}
-  - component: {fileID: 6986435730129850748}
-  - component: {fileID: -4493430725719419810}
-  - component: {fileID: 7368686219123921677}
+  - component: {fileID: -6093675800230880960}
   m_Layer: 0
-  m_Name: GauntletzGrunt
+  m_Name: StaminaBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6986435730129850750}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16, y: 16, z: -5}
+  m_LocalPosition: {x: 0, y: 0.8, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76,39 +74,18 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 139719364, guid: 19bad5fb3365abe4c885cff53f33a542, type: 3}
+  m_Sprite: {fileID: 1641875388, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.40625, y: 0.9375}
+  m_Size: {x: 1.125, y: 0.90625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6986435730129850748
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6986435730129850750}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 4
---- !u!114 &-4493430725719419810
+--- !u!114 &-6093675800230880960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,46 +94,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 6986435730129850750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f2ce0f2c052614bb03a7d505b903fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c04fd9ede814f6a8ab40954f0b576d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  value: 20
   spriteRenderer: {fileID: 6986435730129850749}
-  health: 20
-  healthBar: {fileID: 0}
-  stamina: 20
-  staminaBar: {fileID: 0}
-  healthBarPrefab: {fileID: 6156919157043444387, guid: d1341558fdb323a498d07a99f03ef0fb, type: 3}
-  staminaBarPrefab: {fileID: -6093675800230880960, guid: a4d8b9a5325c2ce4bb7c287344abc8af, type: 3}
-  tool: 2
-  toy: 0
-  facingDirection: 4
-  isSelected: 0
-  startNode: {fileID: 0}
-  endNode: {fileID: 0}
-  path: []
---- !u!61 &7368686219123921677
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6986435730129850750}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.40625, y: 0.9375}
-    newSize: {x: 1.40625, y: 0.9375}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  animFrames:
+  - {fileID: 1724789625, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 671331444, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 1692495979, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 1965374387, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 412809272, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 1839363196, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: -1771007929, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: -1637710281, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: -1594504478, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: -899924983, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 1969531545, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 13320494, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: -735121382, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 960200288, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: -1746138503, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: -1921366299, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 632105422, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 531837212, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 466907208, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 415568553, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
+  - {fileID: 1641875388, guid: 5e611e95a502c754dbeab65c271a320a, type: 3}
