@@ -3,6 +3,7 @@ using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Bridgez;
+using GruntzUnityverse.MapObjectz.Hazardz;
 using GruntzUnityverse.MapObjectz.Switchez;
 using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Utilitiez;
@@ -36,6 +37,7 @@ namespace GruntzUnityverse.Singletonz {
     public List<Rock> rockz;
     public List<GiantRock> giantRockz;
     public List<Arrow> arrowz;
+    public List<Spikez> spikezList;
     public List<SecretTile> secretTilez;
     public List<BrickFoundation> brickFoundationz;
 
@@ -52,8 +54,6 @@ namespace GruntzUnityverse.Singletonz {
       // Collect Gruntz
       foreach (Grunt grunt in playerGruntz.GetComponentsInChildren<Grunt>()) {
         gruntz.Add(grunt);
-        Instantiate(healthBarPrefab, grunt.transform, false);
-        Instantiate(staminaBarPrefab, grunt.transform, false);
       }
 
       // Collect Rockz
@@ -76,8 +76,9 @@ namespace GruntzUnityverse.Singletonz {
         arrowz.Add(arrow);
       }
 
-      foreach (Arrow arrow in secretMap.GetComponentsInChildren<Arrow>()) {
-        arrowz.Add(arrow);
+      // Collect Spikez
+      foreach (Spikez spikez in baseMap.GetComponentsInChildren<Spikez>()) {
+        spikezList.Add(spikez);
       }
 
       // Collect BrickFoundationz

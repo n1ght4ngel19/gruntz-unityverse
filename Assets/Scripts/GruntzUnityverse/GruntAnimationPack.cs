@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace GruntzUnityverse {
   public class GruntAnimationPack {
+    public List<Sprite> Death;
+
     public List<Sprite> AttackEast;
     public List<Sprite> AttackNorth;
     public List<Sprite> AttackNorthEast;
@@ -53,6 +55,8 @@ namespace GruntzUnityverse {
     public List<Sprite> WalkWest;
 
     public GruntAnimationPack(ToolType toolType) {
+      Death = Resources.LoadAll<Sprite>($"Animations/Gruntz/{toolType}Grunt/{toolType}GruntDeath").ToList();
+
       AttackEast = Resources.LoadAll<Sprite>($"Animations/Gruntz/{toolType}Grunt/Attack/{toolType}GruntEastAttack").ToList();
       AttackNorth = Resources.LoadAll<Sprite>($"Animations/Gruntz/{toolType}Grunt/Attack/{toolType}GruntNorthAttack").ToList();
       AttackNorthEast = Resources.LoadAll<Sprite>($"Animations/Gruntz/{toolType}Grunt/Attack/{toolType}GruntNorthEastAttack").ToList();

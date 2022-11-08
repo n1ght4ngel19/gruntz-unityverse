@@ -10,6 +10,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     public SpriteRenderer spriteRenderer;
     public bool isUntouched;
     public Sprite[] animFrames;
+    private const float TimeStep = 0.1f;
 
     private void Start() {
       isUntouched = true;
@@ -32,8 +33,8 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
 
     private IEnumerator HandleSecretTile(SecretTile secretTile) {
       while (secretTile.delay > 0) {
-        secretTile.delay -= 0.5f;
-        yield return new WaitForSeconds(0.5f);
+        secretTile.delay -= TimeStep;
+        yield return new WaitForSeconds(TimeStep);
       }
       
       secretTile.GetComponent<SpriteRenderer>().enabled = true;
@@ -43,8 +44,8 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       }
 
       while (secretTile.duration > 0) {
-        secretTile.duration -= 0.5f;
-        yield return new WaitForSeconds(0.5f);
+        secretTile.duration -= TimeStep;
+        yield return new WaitForSeconds(TimeStep);
       }
 
       if (secretTile.isWalkable) {

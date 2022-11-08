@@ -18,6 +18,7 @@ namespace GruntzUnityverse.Singletonz {
         _instance = this;
     }
 
+    public static readonly DeathAnimationPack DeathAnimations = new();
     public static readonly GruntAnimationPack BareHandzGruntAnimations = new(ToolType.BareHandz);
     public static readonly GruntAnimationPack ClubGruntAnimations = new(ToolType.Club);
     public static readonly GruntAnimationPack GauntletzGruntAnimations = new(ToolType.Gauntletz);

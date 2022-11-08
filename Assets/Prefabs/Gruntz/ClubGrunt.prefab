@@ -100,13 +100,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6986435730129850749}
+  health: 20
+  healthBar: {fileID: 0}
+  stamina: 20
+  staminaBar: {fileID: 0}
+  healthBarPrefab: {fileID: 6156919157043444387, guid: d1341558fdb323a498d07a99f03ef0fb, type: 3}
+  staminaBarPrefab: {fileID: -6093675800230880960, guid: a4d8b9a5325c2ce4bb7c287344abc8af, type: 3}
   tool: 1
   toy: 0
-  isSelected: 0
   facingDirection: 4
-  path: []
+  isSelected: 0
   startNode: {fileID: 0}
   endNode: {fileID: 0}
+  path: []
 --- !u!50 &6986435730129850748
 Rigidbody2D:
   serializedVersion: 4
