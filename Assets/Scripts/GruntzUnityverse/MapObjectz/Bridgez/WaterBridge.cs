@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Switchez;
-using GruntzUnityverse.Singletonz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Bridgez {
@@ -34,13 +34,13 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
       switch (isPressed) {
         case true: {
           StartCoroutine(RaiseBridge());
-          MapManager.Instance.UnblockNodeAt(GridLocation);
+          LevelManager.Instance.UnblockNodeAt(GridLocation);
 
           break;
         }
         case false: {
           StartCoroutine(LowerBridge());
-          MapManager.Instance.BlockNodeAt(GridLocation);
+          LevelManager.Instance.BlockNodeAt(GridLocation);
 
           break;
         }

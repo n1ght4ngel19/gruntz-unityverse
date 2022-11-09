@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using GruntzUnityverse.Itemz;
+using GruntzUnityverse.AnimationPackz;
+using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Hazardz;
+using GruntzUnityverse.MapObjectz.Itemz;
 using GruntzUnityverse.PathFinding;
-using GruntzUnityverse.Singletonz;
 using GruntzUnityverse.Utilitiez;
 using UnityEngine;
 using UnityEngine.XR;
@@ -92,19 +93,12 @@ namespace GruntzUnityverse.Actorz {
       stamina = gameObject.GetComponentInChildren<StaminaBar>().value;
       ownGridLocation = Vector2Int.FloorToInt(transform.position);
 
-      MapManager.Instance.mapNodes.First(node => node.GridLocation.Equals(ownGridLocation)).isBlocked = true;
+      LevelManager.Instance.mapNodes.First(node => node.GridLocation.Equals(ownGridLocation)).isBlocked = true;
 
       HandleSpikez();
-      // foreach (Spikez spikez in MapManager.Instance.spikezList) {
-      //   if (
-      //     Vector2Plus.AreEqual(spikez.transform.position, transform.position)
-      //     && timesChanged % Application.targetFrameRate == 0
-      //   ) {
-      //     gameObject.GetComponentInChildren<HealthBar>().value -= Spikez.Dps;
-      //   }
-      // }
 
       PlaySouthIdleAnimationByDefault();
+
       PlayWalkAndIdleAnimations();
 
       Move();
@@ -123,9 +117,9 @@ namespace GruntzUnityverse.Actorz {
 
     private void HandleSpikez() {
       foreach (
-        Spikez spikez in MapManager.Instance.spikezList
-          .Where(spikez => spikez.GridLocation.Equals(ownGridLocation)
-                           && timesChanged % Application.targetFrameRate == 0)
+        Spikez spikez in LevelManager.Instance.spikezList
+          .Where(spikez1 => spikez1.GridLocation.Equals(ownGridLocation)
+                            && timesChanged % Application.targetFrameRate == 0)
       ) {
         healthBar.value -= Spikez.Dps;
       }
@@ -144,7 +138,7 @@ namespace GruntzUnityverse.Actorz {
     private void Move() {
       SetTargetGridLocation();
 
-      ender = MapManager.Instance.mapNodes.First(node =>
+      ender = LevelManager.Instance.mapNodes.First(node =>
         node.GridLocation.Equals(Vector2Int.FloorToInt(new Vector2(targetGridLocation.x, targetGridLocation.y))));
 
       // TODO: Move instead to the closest adjacent Node, if possible
@@ -152,13 +146,13 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      starter = MapManager.Instance.mapNodes.First(node =>
+      starter = LevelManager.Instance.mapNodes.First(node =>
         node.GridLocation.Equals(Vector2Int.FloorToInt(new Vector2(transform.position.x, transform.position.y))));
 
       nodePath = PathFinder.FindPath(starter, ender);
 
       if (nodePath.Count > 1) {
-        MapManager.Instance.mapNodes.First(node => node.GridLocation.Equals(ownGridLocation)).isBlocked = false;
+        LevelManager.Instance.mapNodes.First(node => node.GridLocation.Equals(ownGridLocation)).isBlocked = false;
 
         Vector3 nextStop = new(
           nodePath[1].GridLocation.x + 0.5f,
@@ -189,7 +183,7 @@ namespace GruntzUnityverse.Actorz {
 
     private void SetTargetGridLocation() {
       // Handling Arrowz that force movement
-      foreach (Arrow arrow in MapManager.Instance.arrowz) {
+      foreach (Arrow arrow in LevelManager.Instance.arrowz) {
         if (!arrow.spriteRenderer.enabled || !arrow.GridLocation.Equals(ownGridLocation)) {
           continue;
         }
@@ -226,7 +220,7 @@ namespace GruntzUnityverse.Actorz {
     protected void OnMouseDown() {
       isSelected = true;
 
-      foreach (Grunt grunt in MapManager.Instance.gruntz.Where(grunt => grunt != this)) {
+      foreach (Grunt grunt in LevelManager.Instance.gruntz.Where(grunt => grunt != this)) {
         grunt.isSelected = false;
       }
     }

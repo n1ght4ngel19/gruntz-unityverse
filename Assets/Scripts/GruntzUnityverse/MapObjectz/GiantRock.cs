@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Itemz;
-using GruntzUnityverse.Singletonz;
+using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.Itemz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz {
@@ -40,7 +40,7 @@ namespace GruntzUnityverse.MapObjectz {
 
     // TODO: Redo / Remove
     private bool isGauntletzGruntAdjacent() {
-      return MapManager.Instance.gruntz
+      return LevelManager.Instance.gruntz
         .Any(grunt => grunt.tool == ToolType.Gauntletz
                       && ((Vector2)grunt.transform.position + Vector2.up * 2 == (Vector2)transform.position
                           || (Vector2)grunt.transform.position + Vector2.up * 2 + Vector2.left ==

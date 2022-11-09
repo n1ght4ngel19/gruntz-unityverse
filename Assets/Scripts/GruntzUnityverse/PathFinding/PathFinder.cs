@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Singletonz;
+using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.PathFinding {
@@ -13,7 +13,7 @@ namespace GruntzUnityverse.PathFinding {
       // Adding the startNode to have something to begin with
       openList.Add(startNode);
 
-      foreach (Node node in MapManager.Instance.mapNodes) {
+      foreach (Node node in LevelManager.Instance.mapNodes) {
         node.gCost = int.MaxValue;
         node.fCost = node.gCost + node.hCost;
         node.previous = null;
@@ -89,57 +89,57 @@ namespace GruntzUnityverse.PathFinding {
       // Up
       Vector2Int location = new Vector2Int(node.GridLocation.x, node.GridLocation.y + 1);
 
-      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
-        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      if (LevelManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Down
       location = new Vector2Int(node.GridLocation.x, node.GridLocation.y - 1);
 
-      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
-        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      if (LevelManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Right
       location = new Vector2Int(node.GridLocation.x + 1, node.GridLocation.y);
 
-      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
-        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      if (LevelManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Left
       location = new Vector2Int(node.GridLocation.x - 1, node.GridLocation.y);
 
-      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
-        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      if (LevelManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Up-Right
       location = new Vector2Int(node.GridLocation.x + 1, node.GridLocation.y + 1);
 
-      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
-        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      if (LevelManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Up-Left
       location = new Vector2Int(node.GridLocation.x + 1, node.GridLocation.y - 1);
 
-      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
-        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      if (LevelManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Down-Right
       location = new Vector2Int(node.GridLocation.x - 1, node.GridLocation.y + 1);
 
-      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
-        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      if (LevelManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Down-Left
       location = new Vector2Int(node.GridLocation.x - 1, node.GridLocation.y - 1);
 
-      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
-        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      if (LevelManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       return neighbours;

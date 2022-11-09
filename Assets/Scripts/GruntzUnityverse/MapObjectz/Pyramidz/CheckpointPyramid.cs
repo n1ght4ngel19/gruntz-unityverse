@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Switchez;
-using GruntzUnityverse.Singletonz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Pyramidz {
@@ -36,7 +36,7 @@ namespace GruntzUnityverse.MapObjectz.Pyramidz {
       // }
 
       StartCoroutine(LowerPyramid());
-      MapManager.Instance.UnblockNodeAt(GridLocation);
+      LevelManager.Instance.UnblockNodeAt(GridLocation);
     }
 
     private IEnumerator LowerPyramid() {

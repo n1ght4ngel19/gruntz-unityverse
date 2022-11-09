@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Itemz;
-using GruntzUnityverse.Singletonz;
+using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.Itemz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz {
@@ -15,7 +15,7 @@ namespace GruntzUnityverse.MapObjectz {
     private void Start() {
       GridLocation = Vector2Int.FloorToInt(transform.position);
 
-      MapManager.Instance.mapNodes
+      LevelManager.Instance.mapNodes
         .First(node => node.GridLocation.Equals(GridLocation)).isBlocked = true;
     }
 
@@ -44,7 +44,7 @@ namespace GruntzUnityverse.MapObjectz {
 
     // TODO: Redo / Remove
     private bool IsGauntletzGruntAdjacent() {
-      return MapManager.Instance.gruntz
+      return LevelManager.Instance.gruntz
         .Any(grunt => grunt.tool == ToolType.Gauntletz
                       && ((Vector2)grunt.transform.position + Vector2.up == (Vector2)transform.position
                           || (Vector2)grunt.transform.position + Vector2.down == (Vector2)transform.position

@@ -1,6 +1,6 @@
 using System.Linq;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Singletonz;
+using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
@@ -20,8 +20,8 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private void Update() {
-      foreach (Grunt grunt in MapManager.Instance.gruntz) {
-        if (MapManager.Instance.gruntz.Any(grunt1 => grunt1.ownGridLocation.Equals(GridLocation))) {
+      foreach (Grunt grunt in LevelManager.Instance.gruntz) {
+        if (LevelManager.Instance.gruntz.Any(grunt1 => grunt1.ownGridLocation.Equals(GridLocation))) {
           if (!isUntouched) {
             continue;
           }

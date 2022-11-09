@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Linq;
-using GruntzUnityverse.Singletonz;
+using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
@@ -24,11 +24,11 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
         return;
       }
 
-      if (MapManager.Instance.gruntz.Any(grunt => grunt.ownGridLocation.Equals(GridLocation))) {
+      if (LevelManager.Instance.gruntz.Any(grunt => grunt.ownGridLocation.Equals(GridLocation))) {
         spriteRenderer.sprite = animFrames[1];
         isUntouched = false;
 
-        foreach (SecretTile secretTile in MapManager.Instance.secretTilez) {
+        foreach (SecretTile secretTile in LevelManager.Instance.secretTilez) {
           StartCoroutine(HandleSecretTile(secretTile));
         }
       }

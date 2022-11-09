@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Itemz;
-using GruntzUnityverse.Singletonz;
+using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.Itemz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
@@ -16,6 +16,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
 
     private void Start() {
       GridLocation = Vector2Int.FloorToInt(transform.position);
+      LevelManager.Instance.mapNodes.First(node => node.GridLocation.Equals(GridLocation)).isBlocked = false;
     }
 
     private void Update() {
@@ -23,7 +24,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
         return;
       }
 
-      if (MapManager.Instance.gruntz
+      if (LevelManager.Instance.gruntz
           .Any(grunt => grunt.ownGridLocation.Equals(GridLocation) && grunt.tool == requirement)) {
         isChecked = true;
         spriteRenderer.sprite = animFrames[1];
