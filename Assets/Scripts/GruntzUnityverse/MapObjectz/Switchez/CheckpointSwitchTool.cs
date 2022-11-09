@@ -1,17 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using GruntzUnityverse.Itemz;
 using GruntzUnityverse.Singletonz;
-
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
-  public class CheckpointSwitchTool : MonoBehaviour {
+  public class CheckpointSwitchTool : MonoBehaviour, IMapObject {
+    public SpriteRenderer spriteRenderer;
+    public Vector2Int GridLocation {get; set;}
+
+    public List<Sprite> animFrames;
+
     public ToolType requirement;
     public bool isChecked;
-    public List<Sprite> animFrames;
-    public SpriteRenderer spriteRenderer;
+
+    private void Start() {
+      GridLocation = Vector2Int.FloorToInt(transform.position);
+    }
 
     private void Update() {
       if (isChecked) {
@@ -19,9 +24,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       }
 
       if (MapManager.Instance.gruntz
-        .Any(grunt => (Vector2)grunt.transform.position == (Vector2)transform.position
-                      && grunt.tool == requirement)
-      ) {
+          .Any(grunt => grunt.ownGridLocation.Equals(GridLocation) && grunt.tool == requirement)) {
         isChecked = true;
         spriteRenderer.sprite = animFrames[1];
       }

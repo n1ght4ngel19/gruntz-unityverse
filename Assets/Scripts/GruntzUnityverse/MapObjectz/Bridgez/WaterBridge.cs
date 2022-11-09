@@ -1,26 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
-
 using GruntzUnityverse.MapObjectz.Switchez;
 using GruntzUnityverse.Singletonz;
-
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Bridgez {
-  public class WaterBridge : MonoBehaviour {
+  public class WaterBridge : MonoBehaviour, IMapObject {
     public SpriteRenderer spriteRenderer;
+    public Vector2Int GridLocation {get; set;}
 
-    // You can only assign a BTS or a BHS to a WaterBridge
-    public BlueToggleSwitch blueToggleSwitch;
-
-    // You can only assign a BTS or a BHS to a WaterBridge
-    public BlueHoldSwitch blueHoldSwitch;
     public List<Sprite> animFrames;
 
+
+    // TODO: Fix that you can only assign a BTS OR a BHS to a WaterBridge
+    public BlueToggleSwitch blueToggleSwitch;
+    public BlueHoldSwitch blueHoldSwitch;
+
+    private void Start() {
+      GridLocation = Vector2Int.FloorToInt(transform.position);
+    }
+
     private void Update() {
+      // TODO : WTF?
       if (blueToggleSwitch) {
         HandleBlueSwitch(blueToggleSwitch.isPressed);
-      } else if (blueHoldSwitch) {
+      }
+      else if (blueHoldSwitch) {
         HandleBlueSwitch(blueHoldSwitch.isPressed);
       }
     }
@@ -29,13 +34,13 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
       switch (isPressed) {
         case true: {
           StartCoroutine(RaiseBridge());
-          MapManager.Instance.AddNavTileAt(transform.position);
+          MapManager.Instance.UnblockNodeAt(GridLocation);
 
           break;
         }
         case false: {
           StartCoroutine(LowerBridge());
-          MapManager.Instance.RemoveNavTileAt(transform.position);
+          MapManager.Instance.BlockNodeAt(GridLocation);
 
           break;
         }

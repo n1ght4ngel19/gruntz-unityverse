@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using GruntzUnityverse.Itemz;
-
 using UnityEngine;
 
 namespace GruntzUnityverse.Singletonz {
@@ -24,7 +22,7 @@ namespace GruntzUnityverse.Singletonz {
     public SpriteRenderer spriteRenderer;
     private List<Sprite> currentCursor;
     private int counter;
-    
+
     private void Start() {
       Cursor.visible = false;
       currentCursor = AnimationManager.CursorAnimations.Pointer;
@@ -47,11 +45,12 @@ namespace GruntzUnityverse.Singletonz {
     /// </summary>
     private void HandleRockCursor() {
       if (
-        MapManager.Instance.rockz.Any(rock => rock.twoDimPosition == SelectorCircle.Instance.twoDimPosition)
+        MapManager.Instance.rockz.Any(rock => rock.GridLocation.Equals(SelectorCircle.Instance.GridLocation))
         && MapManager.Instance.gruntz.Any(grunt => grunt.tool == ToolType.Gauntletz && grunt.isSelected)
       ) {
         Instance.SetCursorTo(AnimationManager.CursorAnimations.Gauntletz);
-      } else {
+      }
+      else {
         Instance.SetCursorTo(AnimationManager.CursorAnimations.Pointer);
       }
     }

@@ -1,16 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-
 using GruntzUnityverse.Itemz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Hazardz;
 using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Singletonz;
 using GruntzUnityverse.Utilitiez;
-
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
@@ -19,23 +19,26 @@ namespace GruntzUnityverse.Actorz {
     [SerializeField] private HealthBar healthBar;
     public int stamina = 20;
     [SerializeField] private StaminaBar staminaBar;
-    
+
     public HealthBar healthBarPrefab;
     public StaminaBar staminaBarPrefab;
-    
+
     /// <summary>
     /// The Tool the Grunt carries.
     /// </summary>
     public ToolType tool;
+
     /// <summary>
     /// The Toy the Grunt carries.
     /// </summary>
     public ToyType toy;
+
     /// <summary>
     /// The set of animations the Grunt currently uses when moving, attacking,
     /// being struck, idling, and interacting (determined by the Tool he carries).
     /// </summary>
     private GruntAnimationPack animations;
+
     private List<Sprite> deathAnimations;
 
     /// <summary>
@@ -43,11 +46,13 @@ namespace GruntzUnityverse.Actorz {
     ///   <para>0.2 seconds is set for the sake of simplicity, the real value is calculated below.</para>
     ///   <code>private const float TimePerTile = (float)TravelSpeed.Grunt / 1000;</code>
     /// </summary>
-    private const float TimePerTile = 0.2f;
+    private const float TimePerTile = 0.6f;
+
     /// <summary>
     /// Used for deciding <see cref="facingDirection"/>, which determines the animations played.
     /// </summary>
     private Vector3 diffVector; // TODO: Replace with better solution?
+
     /// <summary>
     /// Used for deciding which animations are played.
     /// </summary>
@@ -64,61 +69,65 @@ namespace GruntzUnityverse.Actorz {
     private float elapsedTime;
     private int timesChanged;
 
-    // Variables for pathfinding 
-    private Vector3 targetPosition;
-    public NavTile startNode;
-    public NavTile endNode;
-    public List<NavTile> path;
+    public Vector2Int ownGridLocation;
+
+    public Vector2Int targetGridLocation;
+    public Node starter;
+    public Node ender;
+    public List<Node> nodePath;
 
     private void Start() {
       SwitchGruntAnimationPack(tool);
+
       healthBar = Instantiate(healthBarPrefab, transform, false);
       staminaBar = Instantiate(staminaBarPrefab, transform, false);
-
-      targetPosition = transform.position;
+      ownGridLocation = Vector2Int.FloorToInt(transform.position);
+      targetGridLocation = ownGridLocation;
     }
 
     private void Update() {
       timesChanged++;
-      
+
       health = gameObject.GetComponentInChildren<HealthBar>().value;
       stamina = gameObject.GetComponentInChildren<StaminaBar>().value;
+      ownGridLocation = Vector2Int.FloorToInt(transform.position);
 
-      foreach (Spikez spikez in MapManager.Instance.spikezList) {
-        if (
-          Vector2Plus.AreEqual(spikez.transform.position, transform.position)
-          && timesChanged % Application.targetFrameRate == 0
-        ) {
-          gameObject.GetComponentInChildren<HealthBar>().value -= Spikez.Dps;
-        }
-      }
+      MapManager.Instance.mapNodes.First(node => node.GridLocation.Equals(ownGridLocation)).isBlocked = true;
 
-      // HandleSpikez();
-      
+      HandleSpikez();
+      // foreach (Spikez spikez in MapManager.Instance.spikezList) {
+      //   if (
+      //     Vector2Plus.AreEqual(spikez.transform.position, transform.position)
+      //     && timesChanged % Application.targetFrameRate == 0
+      //   ) {
+      //     gameObject.GetComponentInChildren<HealthBar>().value -= Spikez.Dps;
+      //   }
+      // }
+
       PlaySouthIdleAnimationByDefault();
       PlayWalkAndIdleAnimations();
+
       Move();
     }
 
     private IEnumerator Die() {
       float playTime = Time.time - idleTime;
       int frame = (int)(playTime * IdleFrameRate % animations.Death.Count);
-  
+
       spriteRenderer.sprite = animations.Death[frame];
-      
+
       yield return new WaitForSeconds(0.1f);
-      
+
       // Destroy(gameObject);
     }
-    
+
     private void HandleSpikez() {
-      foreach (Spikez spikez in MapManager.Instance.spikezList) {
-        if (
-          Vector2Plus.AreEqual(spikez.transform.position, transform.position)
-          && timesChanged % Application.targetFrameRate == 0
-        ) {
-          healthBar.value -= Spikez.Dps;
-        }
+      foreach (
+        Spikez spikez in MapManager.Instance.spikezList
+          .Where(spikez => spikez.GridLocation.Equals(ownGridLocation)
+                           && timesChanged % Application.targetFrameRate == 0)
+      ) {
+        healthBar.value -= Spikez.Dps;
       }
     }
 
@@ -127,94 +136,92 @@ namespace GruntzUnityverse.Actorz {
         ToolType.BareHandz => AnimationManager.BareHandzGruntAnimations,
         ToolType.Club => AnimationManager.ClubGruntAnimations,
         ToolType.Gauntletz => AnimationManager.GauntletzGruntAnimations,
+        // ToolType.Warpstone1 => AnimationManager.WarpstoneGruntAnimations, // TODO: Add animations
         _ => throw new ArgumentOutOfRangeException(nameof(toolType), toolType, null)
       };
     }
 
     private void Move() {
-      SetTargetPosition();
+      SetTargetGridLocation();
 
-      SetPath();
+      ender = MapManager.Instance.mapNodes.First(node =>
+        node.GridLocation.Equals(Vector2Int.FloorToInt(new Vector2(targetGridLocation.x, targetGridLocation.y))));
 
-      Vector3 destination = new(
-        Mathf.Floor(path[0].gridLocation.x) + 0.5f,
-        Mathf.Floor(path[0].gridLocation.y) + 0.5f,
-        -5
-      );
-
-      diffVector = destination - transform.position;
-      StartCoroutine(Move(destination));
-    
-      path.RemoveAt(0);
-    }
-
-    // Here we wait for the amount of time needed for the Grunt to move, after which he is moved to the next position.
-    // This is meant to be the final method of calculating where any of the Gruntz are, but there is the task of
-    // seemingly moving Gruntz towards their target position, with their real position unchanged.
-    private IEnumerator Move(Vector3 destination) {
-      yield return new WaitForSeconds(TimePerTile);
-
-      transform.position = destination;
-    }
-
-    private void SetTargetPosition() {
-      // Handling Arrowz that force movement
-      foreach (
-        Arrow arrow in MapManager.Instance.arrowz
-          .Where(arrow => arrow != null // The Arrow exists
-                          && (Vector2)arrow.transform.position == (Vector2)transform.position // There is a Grunt on the Arrow
-                          && arrow.spriteRenderer.enabled) // The Arrow is visible
-      ) {
-        targetPosition = arrow.direction switch {
-          CompassDirection.East => transform.position + Vector3.right,
-          CompassDirection.North => transform.position + Vector3.up,
-          CompassDirection.NorthEast => transform.position + Vector3Plus.upright,
-          CompassDirection.NorthWest => transform.position + Vector3Plus.upleft,
-          CompassDirection.South => transform.position + Vector3.down,
-          CompassDirection.SouthEast => transform.position + Vector3Plus.downright,
-          CompassDirection.SouthWest => transform.position + Vector3Plus.downleft,
-          CompassDirection.West => transform.position + Vector3.left,
-          _ => transform.position
-        };
-
-        // Return, so that Arrow movement cancels any previous move command
+      // TODO: Move instead to the closest adjacent Node, if possible
+      if (ender.isBlocked && !ender.GridLocation.Equals(ownGridLocation)) {
         return;
       }
 
-      // Actually set the target position
+      starter = MapManager.Instance.mapNodes.First(node =>
+        node.GridLocation.Equals(Vector2Int.FloorToInt(new Vector2(transform.position.x, transform.position.y))));
+
+      nodePath = PathFinder.FindPath(starter, ender);
+
+      if (nodePath.Count > 1) {
+        MapManager.Instance.mapNodes.First(node => node.GridLocation.Equals(ownGridLocation)).isBlocked = false;
+
+        Vector3 nextStop = new(
+          nodePath[1].GridLocation.x + 0.5f,
+          nodePath[1].GridLocation.y + 0.5f,
+          -5
+        );
+
+        // TODO: Vector2.moveto => ? consistent speed
+
+        StartCoroutine(Move(nextStop));
+      }
+    }
+
+    // TODO: Transition smoothly instead of jumping from  tile to tile
+    private IEnumerator Move(Vector3 nextStop) {
+      transform.position = nextStop;
+
+      yield return new WaitForSeconds(TimePerTile);
+
+      nodePath.RemoveAt(1);
+
+      // transform.position = Vector2.MoveTowards(transform.position, nextStop, Time.deltaTime);
+
+      // while ((Vector2)transform.position != (Vector2)nextStop) {
+      //   transform.position = Vector2.MoveTowards(transform.position, nextStop, Time.deltaTime);
+      // }
+    }
+
+    private void SetTargetGridLocation() {
+      // Handling Arrowz that force movement
+      foreach (Arrow arrow in MapManager.Instance.arrowz) {
+        if (!arrow.spriteRenderer.enabled || !arrow.GridLocation.Equals(ownGridLocation)) {
+          continue;
+        }
+
+        targetGridLocation = arrow.direction switch {
+          CompassDirection.North => ownGridLocation + Vector2Int.up,
+          CompassDirection.South => ownGridLocation + Vector2Int.down,
+          CompassDirection.East => ownGridLocation + Vector2Int.right,
+          CompassDirection.West => ownGridLocation + Vector2Int.left,
+          // TODO: Uncomment after reforming VectorExtensions
+          // CompassDirection.NorthEast => ownGridLocation + Vector3Plus.upright,
+          // CompassDirection.NorthWest => ownGridLocation + Vector3Plus.upleft,
+          // CompassDirection.SouthEast => ownGridLocation + Vector3Plus.downright,
+          // CompassDirection.SouthWest => ownGridLocation + Vector3Plus.downleft,
+          _ => ownGridLocation
+        };
+
+        // Return, so that Arrow movement cancels manual move command
+        return;
+      }
+
+      // Set target location when nothing else is interrupting
       if (Input.GetMouseButtonDown(1) && isSelected) {
+        targetGridLocation = Vector2Int.FloorToInt(SelectorCircle.Instance.transform.position);
+
         isMoving = true;
-        targetPosition = SelectorCircle.Instance.transform.position;
-      
-        targetPosition.z = -5;
 
         if (!hasMoved)
           hasMoved = true;
       }
     }
 
-    private void SetPath() {
-      Vector2Int startKey = new(
-        (int)Mathf.Floor(transform.position.x),
-        (int)Mathf.Floor(transform.position.y)
-      );
-
-      startNode = MapManager.Instance.map.ContainsKey(startKey)
-        ? MapManager.Instance.map[startKey]
-        : MapManager.Instance.map[startKey + Vector2Int.up];
-
-      Vector2Int endKey = new(
-        (int)Mathf.Floor(targetPosition.x),
-        (int)Mathf.Floor(targetPosition.y)
-      );
-
-      endNode = MapManager.Instance.map.ContainsKey(endKey)
-        ? MapManager.Instance.map[endKey]
-        : MapManager.Instance.map[endKey + Vector2Int.up];
-
-      path = PathFinder.FindPath(startNode, endNode);
-    }
-  
     // Handling clicking selection
     protected void OnMouseDown() {
       isSelected = true;
@@ -228,51 +235,57 @@ namespace GruntzUnityverse.Actorz {
       if (hasMoved) {
         return;
       }
-  
+
       float playTime = Time.time - idleTime;
       int frame = (int)(playTime * IdleFrameRate % animations.IdleSouth.Count);
-  
+
       spriteRenderer.sprite = animations.IdleSouth[frame];
     }
-  
+
     private List<Sprite> GetWalkSprites() {
       List<Sprite> selectedSprites = null;
-    
+
       switch (diffVector.y) {
         case < 0: {
           selectedSprites = animations.WalkSouth;
           facingDirection = CompassDirection.South;
-    
+
           switch (diffVector.x) {
             case > 0: {
               selectedSprites = animations.WalkSouthEast;
               facingDirection = CompassDirection.SouthEast;
+
               break;
             }
             case < 0: {
               selectedSprites = animations.WalkSouthWest;
               facingDirection = CompassDirection.SouthWest;
+
               break;
             }
           }
+
           break;
         }
         case > 0: {
           selectedSprites = animations.WalkNorth;
           facingDirection = CompassDirection.North;
-    
+
           switch (diffVector.x) {
             case > 0: {
               selectedSprites = animations.WalkNorthEast;
               facingDirection = CompassDirection.NorthEast;
+
               break;
             }
             case < 0: {
               selectedSprites = animations.WalkNorthWest;
               facingDirection = CompassDirection.NorthWest;
+
               break;
             }
           }
+
           break;
         }
         default: {
@@ -280,21 +293,24 @@ namespace GruntzUnityverse.Actorz {
             case > 0: {
               selectedSprites = animations.WalkEast;
               facingDirection = CompassDirection.East;
+
               break;
             }
             case < 0: {
               selectedSprites = animations.WalkWest;
               facingDirection = CompassDirection.West;
+
               break;
             }
           }
+
           break;
         }
       }
-    
+
       return selectedSprites;
     }
-    
+
     private List<Sprite> GetIdleSprites() {
       List<Sprite> selectedSprites = facingDirection switch {
         CompassDirection.North => animations.IdleNorth,
@@ -307,33 +323,35 @@ namespace GruntzUnityverse.Actorz {
         CompassDirection.West => animations.IdleWest,
         _ => null
       };
-    
+
       return selectedSprites;
     }
-    
+
     private void PlayWalkAndIdleAnimations() {
       if (isMoving) {
         List<Sprite> walkSprites = GetWalkSprites();
-      
+
         if (walkSprites != null) {
           float playTime = Time.time - idleTime;
           int frame = (int)(playTime * WalkFrameRate % walkSprites.Count);
-      
+
           spriteRenderer.sprite = walkSprites[frame];
         }
         else {
           isMoving = false;
           idleTime = Time.time;
         }
-      } else {
+      }
+      else {
         List<Sprite> idleSprites = GetIdleSprites();
-      
+
         if (idleSprites != null) {
           float playTime = Time.time - idleTime;
           int frame = (int)(playTime * IdleFrameRate % idleSprites.Count);
-      
+
           spriteRenderer.sprite = idleSprites[frame];
-        } else {
+        }
+        else {
           idleTime = Time.time;
         }
       }
