@@ -1,35 +1,40 @@
 using System.Linq;
-
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Singletonz;
-
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
-  public class BlueToggleSwitch : MonoBehaviour {
+  public class BlueToggleSwitch : MonoBehaviour, IMapObject {
     public SpriteRenderer spriteRenderer;
-    public bool isPressed;
-    public bool isUntouched;
+    public Vector2Int GridLocation {get; set;}
+
     public Sprite[] animFrames;
 
+    public bool isPressed;
+    public bool isUntouched;
+
     private void Start() {
+      GridLocation = Vector2Int.FloorToInt(transform.position);
+
       isUntouched = true;
     }
 
     private void Update() {
       foreach (Grunt grunt in MapManager.Instance.gruntz) {
-        if (
-          MapManager.Instance.gruntz.Any(grunt1 => (Vector2)grunt1.transform.position == (Vector2)transform.position)
-        ) {
-          if (isUntouched) {
-            spriteRenderer.sprite = animFrames[1];
-            isUntouched = false;
-            isPressed = isPressed switch {
-              true => false,
-              false => true
-            };
+        if (MapManager.Instance.gruntz.Any(grunt1 => grunt1.ownGridLocation.Equals(GridLocation))) {
+          if (!isUntouched) {
+            continue;
           }
-        } else {
+
+          spriteRenderer.sprite = animFrames[1];
+          isUntouched = false;
+
+          isPressed = isPressed switch {
+            true => false,
+            false => true
+          };
+        }
+        else {
           spriteRenderer.sprite = animFrames[0];
           isUntouched = true;
         }
@@ -37,4 +42,3 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
   }
 }
-

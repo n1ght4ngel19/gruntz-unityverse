@@ -1,137 +1,154 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Singletonz;
 using UnityEngine;
 
 namespace GruntzUnityverse.PathFinding {
-  // TODO: Fix the whole stuff
   public static class PathFinder {
-    public static List<NavTile> FindPath(NavTile startNode, NavTile endNode) {
-      List<NavTile> openList = new();
-      List<NavTile> closedList = new();
+    public static List<Node> FindPath(Node startNode, Node endNode) {
+      List<Node> openList = new();
+      List<Node> closedList = new();
 
+      // Adding the startNode to have something to begin with
       openList.Add(startNode);
 
-      while (openList.Count > 0) {
-        // Ordering Nodes based on their F cost
-        NavTile currentNode = openList.OrderBy(node => node.F).First();
+      foreach (Node node in MapManager.Instance.mapNodes) {
+        node.gCost = int.MaxValue;
+        node.fCost = node.gCost + node.hCost;
+        node.previous = null;
+      }
 
-        openList.Remove(currentNode);
-        closedList.Add(currentNode);
+      startNode.gCost = 0;
+      startNode.hCost = GetDistanceBetween(startNode, endNode);
+      startNode.fCost = startNode.gCost + startNode.hCost;
+
+      // Iterating until there are no Nodes left to check while searching for a path
+      while (openList.Count > 0) {
+        // Getting the Node with the lowest F cost (the practical distance between it and the endNode)
+        Node currentNode = openList.OrderBy(node => node.fCost).First();
 
         if (currentNode == endNode) {
-          return GetFinishedList(startNode, endNode);
+          return GetPath(endNode);
         }
 
-        IEnumerable<NavTile> neighbourTiles = GetNeighbourTiles(currentNode);
+        openList.Remove(currentNode);
+        // Adding currentNode to the closedList so that it cannot be checked again
+        closedList.Add(currentNode);
 
-        // Checking for the neighbours that can be stepped on, and haven't been checked already
-        foreach (
-          NavTile neighbour in neighbourTiles
-            .Where(neighbour =>
-              !neighbour.isBlocked
-              && !closedList.Contains(neighbour))
-        ) {
-          neighbour.G = GetChebyshevDistance(startNode, neighbour);
-          neighbour.H = GetChebyshevDistance(endNode, neighbour);
-          neighbour.previous = currentNode;
+        List<Node> neighbours = GetNeighbours(currentNode);
 
-          // Adding the current Node only when it hasn't been already checked
-          if (!openList.Contains(neighbour)) {
-            openList.Add(neighbour);
+        foreach (Node neighbour in neighbours) {
+          if (closedList.Contains(neighbour)) {
+            continue;
           }
+
+          if (neighbour.isBlocked) {
+            continue;
+          }
+
+          int tentativeGCost = currentNode.gCost + GetDistanceBetween(currentNode, neighbour);
+
+          if (tentativeGCost < neighbour.gCost) {
+            neighbour.gCost = tentativeGCost;
+            neighbour.hCost = GetDistanceBetween(neighbour, endNode);
+            neighbour.fCost = neighbour.gCost + neighbour.hCost;
+            neighbour.previous = currentNode;
+          }
+
+          if (openList.Contains(neighbour)) {
+            continue;
+          }
+
+          openList.Add(neighbour);
         }
       }
 
-      return new List<NavTile>();
+      // Return an empty List in case there's no path to the endNode
+      return new List<Node>();
     }
 
-    private static int GetChebyshevDistance(NavTile start, NavTile neighbour) {
-      return Math.Max(
-        Mathf.Abs(start.gridLocation.x - neighbour.gridLocation.x),
-        Mathf.Abs(start.gridLocation.y - neighbour.gridLocation.y)
-      );
-    }
+    private static List<Node> GetPath(Node end) {
+      List<Node> path = new();
+      path.Add(end);
+      Node currentNode = end;
 
-    private static List<NavTile> GetFinishedList(NavTile startNode, NavTile endNode) {
-      List<NavTile> finishedList = new();
-
-      NavTile currentNode = endNode;
-
-      while (currentNode != startNode) {
-        finishedList.Add(currentNode);
+      while (currentNode.previous != null) {
+        path.Add(currentNode.previous);
         currentNode = currentNode.previous;
       }
 
-      finishedList.Reverse();
+      path.Reverse();
 
-      return finishedList;
+      return path;
     }
 
-    private static IEnumerable<NavTile> GetNeighbourTiles(NavTile navTile) {
-      Dictionary<Vector2Int, NavTile> map = MapManager.Instance.map;
-      List<NavTile> neighbourTiles = new();
+    private static List<Node> GetNeighbours(Node node) {
+      List<Node> neighbours = new();
 
       // Up
-      Vector2Int locationToCheck = new(
-        navTile.gridLocation.x,
-        navTile.gridLocation.y + 1
-      );
+      Vector2Int location = new Vector2Int(node.GridLocation.x, node.GridLocation.y + 1);
 
-      if (map.ContainsKey(locationToCheck))
-        neighbourTiles.Add(map[locationToCheck]);
+      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      }
 
       // Down
-      locationToCheck.x = navTile.gridLocation.x;
-      locationToCheck.y = navTile.gridLocation.y - 1;
+      location = new Vector2Int(node.GridLocation.x, node.GridLocation.y - 1);
 
-      if (map.ContainsKey(locationToCheck))
-        neighbourTiles.Add(map[locationToCheck]);
-
-      // Left
-      locationToCheck.x = navTile.gridLocation.x - 1;
-      locationToCheck.y = navTile.gridLocation.y;
-
-      if (map.ContainsKey(locationToCheck))
-        neighbourTiles.Add(map[locationToCheck]);
+      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      }
 
       // Right
-      locationToCheck.x = navTile.gridLocation.x + 1;
-      locationToCheck.y = navTile.gridLocation.y;
+      location = new Vector2Int(node.GridLocation.x + 1, node.GridLocation.y);
 
-      if (map.ContainsKey(locationToCheck))
-        neighbourTiles.Add(map[locationToCheck]);
+      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      }
 
-      // Up-Left
-      locationToCheck.x = navTile.gridLocation.x - 1;
-      locationToCheck.y = navTile.gridLocation.y + 1;
+      // Left
+      location = new Vector2Int(node.GridLocation.x - 1, node.GridLocation.y);
 
-      if (map.ContainsKey(locationToCheck))
-        neighbourTiles.Add(map[locationToCheck]);
+      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      }
 
       // Up-Right
-      locationToCheck.x = navTile.gridLocation.x + 1;
-      locationToCheck.x = navTile.gridLocation.y + 1;
+      location = new Vector2Int(node.GridLocation.x + 1, node.GridLocation.y + 1);
 
-      if (map.ContainsKey(locationToCheck))
-        neighbourTiles.Add(map[locationToCheck]);
+      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      }
 
-      // Down-Left
-      locationToCheck.x = navTile.gridLocation.x - 1;
-      locationToCheck.y = navTile.gridLocation.y - 1;
+      // Up-Left
+      location = new Vector2Int(node.GridLocation.x + 1, node.GridLocation.y - 1);
 
-      if (map.ContainsKey(locationToCheck))
-        neighbourTiles.Add(map[locationToCheck]);
+      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      }
 
       // Down-Right
-      locationToCheck.x = navTile.gridLocation.x + 1;
-      locationToCheck.y = navTile.gridLocation.y - 1;
+      location = new Vector2Int(node.GridLocation.x - 1, node.GridLocation.y + 1);
 
-      if (map.ContainsKey(locationToCheck))
-        neighbourTiles.Add(map[locationToCheck]);
+      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      }
 
-      return neighbourTiles;
+      // Down-Left
+      location = new Vector2Int(node.GridLocation.x - 1, node.GridLocation.y - 1);
+
+      if (MapManager.Instance.mapNodeLocations.Contains(location)) {
+        neighbours.Add(MapManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
+      }
+
+      return neighbours;
+    }
+
+    private static int GetDistanceBetween(Node startNode, Node endNode) {
+      return Math.Max(
+        Math.Abs(startNode.GridLocation.x - endNode.GridLocation.x),
+        Math.Abs(startNode.GridLocation.y - startNode.GridLocation.y));
     }
   }
 }

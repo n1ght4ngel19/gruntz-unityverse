@@ -1,9 +1,9 @@
+using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.Utilitiez;
-
 using UnityEngine;
 
 namespace GruntzUnityverse.Singletonz {
-  public class SelectorCircle : MonoBehaviour {
+  public class SelectorCircle : MonoBehaviour, IMapObject {
     private static SelectorCircle _instance;
 
     public static SelectorCircle Instance {
@@ -18,12 +18,23 @@ namespace GruntzUnityverse.Singletonz {
     }
 
     public Camera mainCamera;
-    public Vector2 twoDimPosition;
+    public Vector2Int GridLocation {get; set;}
 
+    private void Start() {
+      GridLocation = Vector2Int.FloorToInt(transform.position);
+    }
 
     private void Update() {
-      twoDimPosition = transform.position;
-      transform.position = Positioning.SetSelectorCirclePosition(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+      transform.position = SetPositionBasedOnMousePosition();
+      GridLocation = Vector2Int.FloorToInt(transform.position);
+    }
+
+    private Vector3 SetPositionBasedOnMousePosition() {
+      return new Vector3(
+        Mathf.Floor(mainCamera.ScreenToWorldPoint(Input.mousePosition).x) + 0.5f,
+        Mathf.Floor(mainCamera.ScreenToWorldPoint(Input.mousePosition).y) + 0.5f,
+        -10f
+      );
     }
   }
 }

@@ -11,7 +11,7 @@ namespace GruntzUnityverse.Actorz {
     public List<Sprite> animFrames;
 
     private void Start() {
-      spriteRenderer.enabled = false;
+      // spriteRenderer.enabled = false;
     }
 
     private void Update() {
