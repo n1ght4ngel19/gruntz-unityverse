@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Managerz;
@@ -11,7 +10,6 @@ using GruntzUnityverse.MapObjectz.Itemz;
 using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Utilitiez;
 using UnityEngine;
-using UnityEngine.XR;
 
 namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
@@ -138,20 +136,26 @@ namespace GruntzUnityverse.Actorz {
     private void Move() {
       SetTargetGridLocation();
 
-      ender = LevelManager.Instance.mapNodes.First(node =>
-        node.GridLocation.Equals(Vector2Int.FloorToInt(new Vector2(targetGridLocation.x, targetGridLocation.y))));
+      if (!targetGridLocation.Equals(new Vector2Int(0, 0))) {
+        ender = LevelManager.Instance.mapNodes.First(node =>
+          node.GridLocation.Equals(targetGridLocation));
 
-      // TODO: Move instead to the closest adjacent Node, if possible
-      if (ender.isBlocked && !ender.GridLocation.Equals(ownGridLocation)) {
-        return;
+        if (ender.isBlocked) {
+          return;
+        }
+
+        // TODO: Move instead to the closest adjacent Node, if possible
+        // if node is blocked AND there is a free adjacent position beside it
+        // if (ender.isBlocked && thereIsAFreeAdjacentPosition)
+
+        starter = LevelManager.Instance.mapNodes.First(node =>
+          node.GridLocation.Equals(ownGridLocation));
+
+        nodePath = PathFinder.FindPath(starter, ender);
       }
 
-      starter = LevelManager.Instance.mapNodes.First(node =>
-        node.GridLocation.Equals(Vector2Int.FloorToInt(new Vector2(transform.position.x, transform.position.y))));
-
-      nodePath = PathFinder.FindPath(starter, ender);
-
       if (nodePath.Count > 1) {
+        // Setting the GridLocation the Grunt is standing on to blocked
         LevelManager.Instance.mapNodes.First(node => node.GridLocation.Equals(ownGridLocation)).isBlocked = false;
 
         Vector3 nextStop = new(
@@ -160,31 +164,30 @@ namespace GruntzUnityverse.Actorz {
           -5
         );
 
-        // TODO: Vector2.moveto => ? consistent speed
+        if (Vector2.Distance(nextStop, transform.position) > 0.025f) {
+          Vector3 moveDir = (nextStop - transform.position).normalized;
+          moveDir.x = Mathf.Round(moveDir.x);
+          moveDir.y = Mathf.Round(moveDir.y);
+          // moveDir.z = -5;
 
-        StartCoroutine(Move(nextStop));
+          // Increased speed for testing (Too fast is buggy!)
+          transform.position += moveDir * (Time.deltaTime / 0.3f);
+
+          // Real speed => transform.position += moveDir * (Time.deltaTime / TimePerTile); 
+        } else {
+          // Moving on to the next Node
+          nodePath.RemoveAt(1);
+        }
       }
-    }
-
-    // TODO: Transition smoothly instead of jumping from  tile to tile
-    private IEnumerator Move(Vector3 nextStop) {
-      transform.position = nextStop;
-
-      yield return new WaitForSeconds(TimePerTile);
-
-      nodePath.RemoveAt(1);
-
-      // transform.position = Vector2.MoveTowards(transform.position, nextStop, Time.deltaTime);
-
-      // while ((Vector2)transform.position != (Vector2)nextStop) {
-      //   transform.position = Vector2.MoveTowards(transform.position, nextStop, Time.deltaTime);
-      // }
     }
 
     private void SetTargetGridLocation() {
       // Handling Arrowz that force movement
       foreach (Arrow arrow in LevelManager.Instance.arrowz) {
-        if (!arrow.spriteRenderer.enabled || !arrow.GridLocation.Equals(ownGridLocation)) {
+        if (
+          !arrow.spriteRenderer.enabled
+          || Vector2.Distance(arrow.transform.position, transform.position) > 0.025f
+        ) {
           continue;
         }
 
@@ -205,14 +208,21 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
+      // TODO: Other factors that can interrupt movement come here ...
+
       // Set target location when nothing else is interrupting
       if (Input.GetMouseButtonDown(1) && isSelected) {
         targetGridLocation = Vector2Int.FloorToInt(SelectorCircle.Instance.transform.position);
 
+
+        // TODO: Remove / Redo
         isMoving = true;
 
-        if (!hasMoved)
+        if (!hasMoved) {
           hasMoved = true;
+        }
+      } else {
+        targetGridLocation = new Vector2Int(0, 0);
       }
     }
 
@@ -225,6 +235,7 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
+    // TODO: Redo
     private void PlaySouthIdleAnimationByDefault() {
       if (hasMoved) {
         return;
@@ -236,6 +247,7 @@ namespace GruntzUnityverse.Actorz {
       spriteRenderer.sprite = animations.IdleSouth[frame];
     }
 
+    // TODO: Redo
     private List<Sprite> GetWalkSprites() {
       List<Sprite> selectedSprites = null;
 
@@ -305,6 +317,7 @@ namespace GruntzUnityverse.Actorz {
       return selectedSprites;
     }
 
+    // TODO: Redo
     private List<Sprite> GetIdleSprites() {
       List<Sprite> selectedSprites = facingDirection switch {
         CompassDirection.North => animations.IdleNorth,
@@ -321,6 +334,7 @@ namespace GruntzUnityverse.Actorz {
       return selectedSprites;
     }
 
+    // TODO: Redo
     private void PlayWalkAndIdleAnimations() {
       if (isMoving) {
         List<Sprite> walkSprites = GetWalkSprites();
@@ -330,13 +344,11 @@ namespace GruntzUnityverse.Actorz {
           int frame = (int)(playTime * WalkFrameRate % walkSprites.Count);
 
           spriteRenderer.sprite = walkSprites[frame];
-        }
-        else {
+        } else {
           isMoving = false;
           idleTime = Time.time;
         }
-      }
-      else {
+      } else {
         List<Sprite> idleSprites = GetIdleSprites();
 
         if (idleSprites != null) {
@@ -344,8 +356,7 @@ namespace GruntzUnityverse.Actorz {
           int frame = (int)(playTime * IdleFrameRate % idleSprites.Count);
 
           spriteRenderer.sprite = idleSprites[frame];
-        }
-        else {
+        } else {
           idleTime = Time.time;
         }
       }

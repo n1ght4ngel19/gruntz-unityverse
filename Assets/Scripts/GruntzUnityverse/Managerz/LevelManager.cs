@@ -68,6 +68,9 @@ namespace GruntzUnityverse.Managerz {
     private void Start() {
       Application.targetFrameRate = 60;
 
+      baseMap = GameObject.Find("Base").GetComponent<Tilemap>();
+      collisionMap = GameObject.Find("Collision").GetComponent<Tilemap>();
+      secretMap = GameObject.Find("Secret").GetComponent<Tilemap>();
       nodeContainer = GameObject.Find("NodeContainer");
 
       for (int x = 0; x < baseMap.cellBounds.xMax; x++) {
