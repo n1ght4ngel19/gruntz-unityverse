@@ -7,10 +7,17 @@
 </h2>
 
 <h2 style="font-weight: bold">
+  Coming soon...
+</h2>
+<p>
+  There will be an option to download the current version of the project for playing (basically currently this means testing). These are basically standalone exectuables of the game (just like in case of a completed game), available for Windows, Linux, and macOS.
+</p>
+
+<h2 style="font-weight: bold">
   The Goal
 </h2>
 <p>
-  One of the main goals of this projectis to completely remake of Gruntz, for modern systems, with modern solutions. The other one is to enable easy modding, such as adding new Tilesets, Objects, functionality, Game Modes, and whatever you can think of.
+  One of the main goals of this project is to completely remake Gruntz, for modern systems, with modern solutions. The other one is to enable easy modding, such as adding new Tilesets, Objects, functionality, Game Modes, and whatever you can think of.
 </p>
 
 <h2 style="font-weight: bold">
