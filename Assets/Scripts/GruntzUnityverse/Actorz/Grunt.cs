@@ -10,10 +10,12 @@ using GruntzUnityverse.MapObjectz.Itemz;
 using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Utilitiez;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GruntzUnityverse.Actorz {
-  public class Grunt : MonoBehaviour {
-    public SpriteRenderer spriteRenderer;
+  public class Grunt : MonoBehaviour, IRenderable {
+    public SpriteRenderer Renderer { get; set; }
+    public Sprite DisplayFrame { get; set; }
     public int health = 20;
     [SerializeField] private HealthBar healthBar;
     public int stamina = 20;
@@ -76,6 +78,8 @@ namespace GruntzUnityverse.Actorz {
     public List<Node> nodePath;
 
     private void Start() {
+      Renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+      
       SwitchGruntAnimationPack(tool);
 
       healthBar = Instantiate(healthBarPrefab, transform, false);
@@ -106,7 +110,7 @@ namespace GruntzUnityverse.Actorz {
       float playTime = Time.time - idleTime;
       int frame = (int)(playTime * IdleFrameRate % animations.Death.Count);
 
-      spriteRenderer.sprite = animations.Death[frame];
+      Renderer.sprite = animations.Death[frame];
 
       yield return new WaitForSeconds(0.1f);
 
@@ -244,7 +248,7 @@ namespace GruntzUnityverse.Actorz {
       float playTime = Time.time - idleTime;
       int frame = (int)(playTime * IdleFrameRate % animations.IdleSouth.Count);
 
-      spriteRenderer.sprite = animations.IdleSouth[frame];
+      Renderer.sprite = animations.IdleSouth[frame];
     }
 
     // TODO: Redo
@@ -343,7 +347,7 @@ namespace GruntzUnityverse.Actorz {
           float playTime = Time.time - idleTime;
           int frame = (int)(playTime * WalkFrameRate % walkSprites.Count);
 
-          spriteRenderer.sprite = walkSprites[frame];
+          Renderer.sprite = walkSprites[frame];
         } else {
           isMoving = false;
           idleTime = Time.time;
@@ -355,7 +359,7 @@ namespace GruntzUnityverse.Actorz {
           float playTime = Time.time - idleTime;
           int frame = (int)(playTime * IdleFrameRate % idleSprites.Count);
 
-          spriteRenderer.sprite = idleSprites[frame];
+          Renderer.sprite = idleSprites[frame];
         } else {
           idleTime = Time.time;
         }

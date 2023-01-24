@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f2ce0f2c052614bb03a7d505b903fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 6986435730129850749}
+  <Renderer>k__BackingField: {fileID: 0}
   health: 20
   healthBar: {fileID: 0}
   stamina: 20
@@ -110,9 +110,11 @@ MonoBehaviour:
   toy: 0
   facingDirection: 4
   isSelected: 0
-  startNode: {fileID: 0}
-  endNode: {fileID: 0}
-  path: []
+  ownGridLocation: {x: 0, y: 0}
+  targetGridLocation: {x: 0, y: 0}
+  starter: {fileID: 0}
+  ender: {fileID: 0}
+  nodePath: []
 --- !u!50 &6986435730129850748
 Rigidbody2D:
   serializedVersion: 4
