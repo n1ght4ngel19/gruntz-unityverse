@@ -33,7 +33,7 @@ namespace GruntzUnityverse {
     private void Update() {
       counter++;
       transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition) - Vector3.forward * -50;
-      // spriteRenderer.sprite = currentCursor[counter % currentCursor.Count];
+      // Renderer.sprite = currentCursor[counter % currentCursor.Count];
       spriteRenderer.sprite = currentCursor[counter % (currentCursor.Count * 4)];
 
       HandleRockCursor();

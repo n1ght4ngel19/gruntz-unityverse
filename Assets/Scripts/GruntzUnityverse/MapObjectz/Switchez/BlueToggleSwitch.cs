@@ -21,7 +21,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
 
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.gruntz) {
-        if (LevelManager.Instance.gruntz.Any(grunt1 => grunt1.ownGridLocation.Equals(GridLocation))) {
+        if (LevelManager.Instance.gruntz.Any(grunt1 => grunt1.NavComponent.OwnGridLocation.Equals(GridLocation))) {
           if (!isUntouched) {
             continue;
           }

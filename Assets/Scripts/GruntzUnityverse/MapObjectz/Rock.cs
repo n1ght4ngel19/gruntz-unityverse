@@ -27,7 +27,7 @@ namespace GruntzUnityverse.MapObjectz {
 
     // private IEnumerator BlowUpRock() {
     //   foreach (Sprite frame in blowUpFrames) {
-    //     spriteRenderer.sprite = frame;
+    //     Renderer.sprite = frame;
     //     yield return null;
     //   }
     //

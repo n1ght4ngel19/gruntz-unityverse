@@ -22,10 +22,10 @@ namespace GruntzUnityverse.MapObjectz.Itemz {
     private void Update() {
       foreach (
         Grunt grunt in LevelManager.Instance.gruntz
-          .Where(grunt => grunt.ownGridLocation.Equals(GridLocation))
+          .Where(grunt => grunt.NavComponent.OwnGridLocation.Equals(GridLocation))
       ) {
         grunt.tool = type;
-        grunt.SwitchGruntAnimationPack(type);
+        grunt.SelectGruntAnimationPack(type);
 
         Destroy(gameObject);
       }

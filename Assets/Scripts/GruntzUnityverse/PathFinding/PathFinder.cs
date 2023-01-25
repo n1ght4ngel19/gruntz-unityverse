@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.PathFinding {
   public static class PathFinder {
-    public static List<Node> FindPath(Node startNode, Node endNode) {
+    public static List<Node> PathBetween(Node startNode, Node endNode) {
       List<Node> openList = new();
       List<Node> closedList = new();
 
@@ -20,7 +20,7 @@ namespace GruntzUnityverse.PathFinding {
       }
 
       startNode.gCost = 0;
-      startNode.hCost = GetDistanceBetween(startNode, endNode);
+      startNode.hCost = DistanceBetween(startNode, endNode);
       startNode.fCost = startNode.gCost + startNode.hCost;
 
       // Iterating until there are no Nodes left to check while searching for a path
@@ -29,14 +29,14 @@ namespace GruntzUnityverse.PathFinding {
         Node currentNode = openList.OrderBy(node => node.fCost).First();
 
         if (currentNode == endNode) {
-          return GetPath(endNode);
+          return PathTo(endNode);
         }
 
         openList.Remove(currentNode);
         // Adding currentNode to the closedList so that it cannot be checked again
         closedList.Add(currentNode);
 
-        List<Node> neighbours = GetNeighbours(currentNode);
+        List<Node> neighbours = NeighboursOf(currentNode);
 
         foreach (Node neighbour in neighbours) {
           if (closedList.Contains(neighbour)) {
@@ -47,11 +47,11 @@ namespace GruntzUnityverse.PathFinding {
             continue;
           }
 
-          int tentativeGCost = currentNode.gCost + GetDistanceBetween(currentNode, neighbour);
+          int tentativeGCost = currentNode.gCost + DistanceBetween(currentNode, neighbour);
 
           if (tentativeGCost < neighbour.gCost) {
             neighbour.gCost = tentativeGCost;
-            neighbour.hCost = GetDistanceBetween(neighbour, endNode);
+            neighbour.hCost = DistanceBetween(neighbour, endNode);
             neighbour.fCost = neighbour.gCost + neighbour.hCost;
             neighbour.previous = currentNode;
           }
@@ -68,7 +68,7 @@ namespace GruntzUnityverse.PathFinding {
       return new List<Node>();
     }
 
-    private static List<Node> GetPath(Node end) {
+    private static List<Node> PathTo(Node end) {
       List<Node> path = new();
       path.Add(end);
       Node currentNode = end;
@@ -83,7 +83,7 @@ namespace GruntzUnityverse.PathFinding {
       return path;
     }
 
-    private static List<Node> GetNeighbours(Node node) {
+    private static List<Node> NeighboursOf(Node node) {
       List<Node> neighbours = new();
 
       // Up
@@ -145,7 +145,7 @@ namespace GruntzUnityverse.PathFinding {
       return neighbours;
     }
 
-    private static int GetDistanceBetween(Node startNode, Node endNode) {
+    private static int DistanceBetween(Node startNode, Node endNode) {
       return Math.Max(
         Math.Abs(startNode.GridLocation.x - endNode.GridLocation.x),
         Math.Abs(startNode.GridLocation.y - startNode.GridLocation.y));

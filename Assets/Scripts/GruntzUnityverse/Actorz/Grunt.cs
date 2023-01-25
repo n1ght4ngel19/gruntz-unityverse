@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.AnimationPackz;
+using GruntzUnityverse.Attributez;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Hazardz;
@@ -10,28 +11,22 @@ using GruntzUnityverse.MapObjectz.Itemz;
 using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Utilitiez;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace GruntzUnityverse.Actorz {
-  public class Grunt : MonoBehaviour, IRenderable {
+  public class Grunt : MonoBehaviour, IAnimatable, IKillable {
     public SpriteRenderer Renderer { get; set; }
     public Sprite DisplayFrame { get; set; }
-    public int health = 20;
-    [SerializeField] private HealthBar healthBar;
-    public int stamina = 20;
-    [SerializeField] private StaminaBar staminaBar;
+    public List<Sprite> AnimationFrames { get; set; }
+
+    public IAttribute Health { get; set; }
+    public IAttribute Stamina { get; set; }
+    public HealthBar OwnHealthBar { get; set; }   
+    public StaminaBar OwnStaminaBar { get; set; }
 
     public HealthBar healthBarPrefab;
     public StaminaBar staminaBarPrefab;
-
-    /// <summary>
-    /// The Tool the Grunt carries.
-    /// </summary>
+    
     public ToolType tool;
-
-    /// <summary>
-    /// The Toy the Grunt carries.
-    /// </summary>
     public ToyType toy;
 
     /// <summary>
@@ -70,32 +65,31 @@ namespace GruntzUnityverse.Actorz {
     private float elapsedTime;
     private int timesChanged;
 
-    public Vector2Int ownGridLocation;
-
-    public Vector2Int targetGridLocation;
-    public Node starter;
-    public Node ender;
-    public List<Node> nodePath;
+    public NavComponent NavComponent { get; set; }
 
     private void Start() {
       Renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
-      
-      SwitchGruntAnimationPack(tool);
+      Health = gameObject.AddComponent<Health>();
+      Stamina = gameObject.AddComponent<Stamina>();
 
-      healthBar = Instantiate(healthBarPrefab, transform, false);
-      staminaBar = Instantiate(staminaBarPrefab, transform, false);
-      ownGridLocation = Vector2Int.FloorToInt(transform.position);
-      targetGridLocation = ownGridLocation;
+      OwnHealthBar = Instantiate(healthBarPrefab, transform, false);
+      OwnStaminaBar = Instantiate(staminaBarPrefab, transform, false);
+
+      NavComponent = gameObject.AddComponent<NavComponent>();
+
+      SelectGruntAnimationPack(tool); ;
     }
 
     private void Update() {
       timesChanged++;
 
-      health = gameObject.GetComponentInChildren<HealthBar>().value;
-      stamina = gameObject.GetComponentInChildren<StaminaBar>().value;
-      ownGridLocation = Vector2Int.FloorToInt(transform.position);
+      OwnHealthBar.Renderer.sprite =
+        OwnHealthBar.AnimationFrames[Health.ActualValue];
 
-      LevelManager.Instance.mapNodes.First(node => node.GridLocation.Equals(ownGridLocation)).isBlocked = true;
+      OwnStaminaBar.Renderer.sprite =
+        OwnStaminaBar.AnimationFrames[Stamina.ActualValue];
+
+      // LevelManager.Instance.mapNodes.First(node => node.GridLocation.Equals(NavComponent.OwnGridLocation)).isBlocked = true;
 
       HandleSpikez();
 
@@ -120,14 +114,16 @@ namespace GruntzUnityverse.Actorz {
     private void HandleSpikez() {
       foreach (
         Spikez spikez in LevelManager.Instance.spikezList
-          .Where(spikez1 => spikez1.GridLocation.Equals(ownGridLocation)
+          .Where(spikez1 => spikez1.GridLocation.Equals(NavComponent.OwnGridLocation)
                             && timesChanged % Application.targetFrameRate == 0)
       ) {
-        healthBar.value -= Spikez.Dps;
+        if (Health.ActualValue >= Spikez.Dps) {
+          Health.ActualValue -= Spikez.Dps;
+        }
       }
     }
 
-    public void SwitchGruntAnimationPack(ToolType toolType) {
+    public void SelectGruntAnimationPack(ToolType toolType) {
       animations = toolType switch {
         ToolType.BareHandz => AnimationManager.BareHandzGruntAnimations,
         ToolType.Club => AnimationManager.ClubGruntAnimations,
@@ -138,51 +134,9 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private void Move() {
+      // TODO: Extract this into HandleMovement()
       SetTargetGridLocation();
-
-      if (!targetGridLocation.Equals(new Vector2Int(0, 0))) {
-        ender = LevelManager.Instance.mapNodes.First(node =>
-          node.GridLocation.Equals(targetGridLocation));
-
-        if (ender.isBlocked) {
-          return;
-        }
-
-        // TODO: Move instead to the closest adjacent Node, if possible
-        // if node is blocked AND there is a free adjacent position beside it
-        // if (ender.isBlocked && thereIsAFreeAdjacentPosition)
-
-        starter = LevelManager.Instance.mapNodes.First(node =>
-          node.GridLocation.Equals(ownGridLocation));
-
-        nodePath = PathFinder.FindPath(starter, ender);
-      }
-
-      if (nodePath.Count > 1) {
-        // Setting the GridLocation the Grunt is standing on to blocked
-        LevelManager.Instance.mapNodes.First(node => node.GridLocation.Equals(ownGridLocation)).isBlocked = false;
-
-        Vector3 nextStop = new(
-          nodePath[1].GridLocation.x + 0.5f,
-          nodePath[1].GridLocation.y + 0.5f,
-          -5
-        );
-
-        if (Vector2.Distance(nextStop, transform.position) > 0.025f) {
-          Vector3 moveDir = (nextStop - transform.position).normalized;
-          moveDir.x = Mathf.Round(moveDir.x);
-          moveDir.y = Mathf.Round(moveDir.y);
-          // moveDir.z = -5;
-
-          // Increased speed for testing (Too fast is buggy!)
-          transform.position += moveDir * (Time.deltaTime / 0.3f);
-
-          // Real speed => transform.position += moveDir * (Time.deltaTime / TimePerTile); 
-        } else {
-          // Moving on to the next Node
-          nodePath.RemoveAt(1);
-        }
-      }
+      NavComponent.HandleMovement();
     }
 
     private void SetTargetGridLocation() {
@@ -195,17 +149,17 @@ namespace GruntzUnityverse.Actorz {
           continue;
         }
 
-        targetGridLocation = arrow.direction switch {
-          CompassDirection.North => ownGridLocation + Vector2Int.up,
-          CompassDirection.South => ownGridLocation + Vector2Int.down,
-          CompassDirection.East => ownGridLocation + Vector2Int.right,
-          CompassDirection.West => ownGridLocation + Vector2Int.left,
+        NavComponent.TargetGridLocation = arrow.direction switch {
+          CompassDirection.North => NavComponent.OwnGridLocation + Vector2Int.up,
+          CompassDirection.South => NavComponent.OwnGridLocation + Vector2Int.down,
+          CompassDirection.East => NavComponent.OwnGridLocation + Vector2Int.right,
+          CompassDirection.West => NavComponent.OwnGridLocation + Vector2Int.left,
           // TODO: Uncomment after reforming VectorExtensions
-          // CompassDirection.NorthEast => ownGridLocation + Vector3Plus.upright,
-          // CompassDirection.NorthWest => ownGridLocation + Vector3Plus.upleft,
-          // CompassDirection.SouthEast => ownGridLocation + Vector3Plus.downright,
-          // CompassDirection.SouthWest => ownGridLocation + Vector3Plus.downleft,
-          _ => ownGridLocation
+          // CompassDirection.NorthEast => NavComponent.OwnGridLocation + Vector3Plus.upright,
+          // CompassDirection.NorthWest => NavComponent.OwnGridLocation + Vector3Plus.upleft,
+          // CompassDirection.SouthEast => NavComponent.OwnGridLocation + Vector3Plus.downright,
+          // CompassDirection.SouthWest => NavComponent.OwnGridLocation + Vector3Plus.downleft,
+          _ => NavComponent.OwnGridLocation
         };
 
         // Return, so that Arrow movement cancels manual move command
@@ -214,10 +168,9 @@ namespace GruntzUnityverse.Actorz {
 
       // TODO: Other factors that can interrupt movement come here ...
 
-      // Set target location when nothing else is interrupting
+      // Set target location when nothing is interrupting
       if (Input.GetMouseButtonDown(1) && isSelected) {
-        targetGridLocation = Vector2Int.FloorToInt(SelectorCircle.Instance.transform.position);
-
+        NavComponent.TargetGridLocation = Vector2Int.FloorToInt(SelectorCircle.Instance.transform.position);
 
         // TODO: Remove / Redo
         isMoving = true;
@@ -226,7 +179,7 @@ namespace GruntzUnityverse.Actorz {
           hasMoved = true;
         }
       } else {
-        targetGridLocation = new Vector2Int(0, 0);
+        NavComponent.TargetGridLocation = Vector2Int.zero;
       }
     }
 

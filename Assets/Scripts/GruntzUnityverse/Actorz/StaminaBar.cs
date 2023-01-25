@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
-  public class StaminaBar : MonoBehaviour {
-    public const int MaxValue = 20;
-    public int value = MaxValue;
-    
-    public SpriteRenderer spriteRenderer;
-    public List<Sprite> animFrames;
+  public class StaminaBar : MonoBehaviour, IAnimatable {
+    public SpriteRenderer Renderer { get; set; }
+    public Sprite DisplayFrame { get; set; }
+    [field: SerializeField] public List<Sprite> AnimationFrames { get; set; }
 
     private void Start() {
-      // spriteRenderer.enabled = false;
+      Renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+      // Renderer.enabled = false;
     }
 
     private void Update() {
-      spriteRenderer.enabled = value < MaxValue;
-      spriteRenderer.sprite = animFrames[value];
+      // Renderer.enabled = value < MaxValue;
     }
   }
 }

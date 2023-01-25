@@ -20,7 +20,7 @@ namespace GruntzUnityverse.MapObjectz.Misc {
     private void Update() {
       foreach (
         Grunt grunt in LevelManager.Instance.gruntz
-          .Where(grunt1 => grunt1.ownGridLocation.Equals(GridLocation))
+          .Where(grunt1 => grunt1.NavComponent.OwnGridLocation.Equals(GridLocation))
       ) {
         RemoveFromGame();
       }
