@@ -36,7 +36,7 @@ namespace GruntzUnityverse.MapObjectz.Misc {
       if (
         !isUntouched
         && IsTextShown
-        && Input.GetMouseButtonDown(0)
+        && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
       ) {
         HideBox();
 
@@ -44,7 +44,7 @@ namespace GruntzUnityverse.MapObjectz.Misc {
       }
 
       if (LevelManager.Instance.gruntz
-          .All(grunt => grunt.NavComponent.OwnGridLocation.Equals(GridLocation))) {
+          .All(grunt => !grunt.NavComponent.OwnGridLocation.Equals(GridLocation))) {
         isUntouched = true;
       }
 
