@@ -19,7 +19,7 @@ namespace GruntzUnityverse.PathFinding {
         public void HandleMovement() {
             DeterminePath();
             
-            MoveAlongPath();
+            MoveToNextNode();
         }
 
         public void DeterminePath() {
@@ -43,7 +43,7 @@ namespace GruntzUnityverse.PathFinding {
             NodePath = PathFinder.PathBetween(StartNode, EndNode);
         }
 
-        public void MoveAlongPath() {
+        public void MoveToNextNode() {
             if (NodePath == null) {
                 return;
             }
@@ -63,8 +63,6 @@ namespace GruntzUnityverse.PathFinding {
                 -5
             );
 
-            // Vector3 parentPosition = gameObject.transform.position;
-                
             if (Vector2.Distance(nextStop, gameObject.transform.position) > 0.025f) {
                 Vector3 moveDir = (nextStop - gameObject.transform.position).normalized;
                 moveDir.x = Mathf.Round(moveDir.x);

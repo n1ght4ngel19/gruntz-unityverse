@@ -10,6 +10,8 @@ using GruntzUnityverse.PathFinding;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using BlueHoldSwitch = GruntzUnityverse.MapObjectz.Switchez.BlueHoldSwitch;
+using BlueToggleSwitch = GruntzUnityverse.MapObjectz.Switchez.BlueToggleSwitch;
 using Vector3 = UnityEngine.Vector3;
 
 namespace GruntzUnityverse.Managerz {

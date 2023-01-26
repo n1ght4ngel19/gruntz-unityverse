@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.MapObjectz.Switchez;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Bridgez {
@@ -13,8 +13,8 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
 
 
     // TODO: Fix that you can only assign a BTS OR a BHS to a WaterBridge
-    public BlueToggleSwitch blueToggleSwitch;
-    public BlueHoldSwitch blueHoldSwitch;
+    public GruntzUnityverse.MapObjectz.Switchez.BlueToggleSwitch blueToggleSwitch;
+    public GruntzUnityverse.MapObjectz.Switchez.BlueHoldSwitch blueHoldSwitch;
 
     private void Start() {
       GridLocation = Vector2Int.FloorToInt(transform.position);
@@ -23,10 +23,10 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
     private void Update() {
       // TODO : WTF?
       if (blueToggleSwitch) {
-        HandleBlueSwitch(blueToggleSwitch.isPressed);
+        HandleBlueSwitch(blueToggleSwitch.IsPressed);
       }
       else if (blueHoldSwitch) {
-        HandleBlueSwitch(blueHoldSwitch.isPressed);
+        HandleBlueSwitch(blueHoldSwitch.IsPressed);
       }
     }
 
@@ -56,8 +56,8 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
     }
 
     private IEnumerator RaiseBridge() {
-      for (int i = animFrames.Count - 1; i >= 0; i--) {
-        spriteRenderer.sprite = animFrames[i];
+      foreach (Sprite frame in animFrames.AsEnumerable().Reverse()) {
+        spriteRenderer.sprite = frame;
 
         yield return null;
       }

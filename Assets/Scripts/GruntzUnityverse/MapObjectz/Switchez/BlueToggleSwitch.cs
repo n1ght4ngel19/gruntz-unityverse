@@ -1,5 +1,4 @@
 using System.Linq;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
 
     public Sprite[] animFrames;
 
-    public bool isPressed;
+    public bool IsPressed { get; set; }
     public bool isUntouched;
 
     private void Start() {
@@ -20,24 +19,21 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.gruntz) {
-        if (LevelManager.Instance.gruntz.Any(grunt1 => grunt1.NavComponent.OwnGridLocation.Equals(GridLocation))) {
-          if (!isUntouched) {
-            continue;
-          }
-
-          spriteRenderer.sprite = animFrames[1];
-          isUntouched = false;
-
-          isPressed = isPressed switch {
-            true => false,
-            false => true
-          };
+      if (LevelManager.Instance.gruntz.Any(grunt1 => grunt1.NavComponent.OwnGridLocation.Equals(GridLocation))) {
+        if (!isUntouched) {
+          return;
         }
-        else {
-          spriteRenderer.sprite = animFrames[0];
-          isUntouched = true;
-        }
+
+        spriteRenderer.sprite = animFrames[1];
+        isUntouched = false;
+
+        IsPressed = IsPressed switch {
+          true => false,
+          false => true
+        };
+      } else {
+        spriteRenderer.sprite = animFrames[0];
+        isUntouched = true;
       }
     }
   }

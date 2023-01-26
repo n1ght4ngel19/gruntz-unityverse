@@ -26,15 +26,11 @@ namespace GruntzUnityverse.Actorz {
     public HealthBar healthBarPrefab;
     public StaminaBar staminaBarPrefab;
     
+    // Todo: Extract into Equipment class
     public ToolType tool;
     public ToyType toy;
-
-    /// <summary>
-    /// The set of animations the Grunt currently uses when moving, attacking,
-    /// being struck, idling, and interacting (determined by the Tool he carries).
-    /// </summary>
+    
     private GruntAnimationPack animations;
-
     private List<Sprite> deathAnimations;
 
     /// <summary>
@@ -48,10 +44,6 @@ namespace GruntzUnityverse.Actorz {
     /// Used for deciding <see cref="facingDirection"/>, which determines the animations played.
     /// </summary>
     private Vector3 diffVector; // TODO: Replace with better solution?
-
-    /// <summary>
-    /// Used for deciding which animations are played.
-    /// </summary>
     public CompassDirection facingDirection = CompassDirection.South;
 
     public bool isSelected;
@@ -94,9 +86,9 @@ namespace GruntzUnityverse.Actorz {
       HandleSpikez();
 
       PlaySouthIdleAnimationByDefault();
-
       PlayWalkAndIdleAnimations();
 
+      // Todo: Replace with HandleMovement()
       Move();
     }
 
@@ -133,12 +125,18 @@ namespace GruntzUnityverse.Actorz {
       };
     }
 
+    /// <summary>
+    /// Todo: Replace with HandleMovement()
+    /// </summary>
     private void Move() {
       // TODO: Extract this into HandleMovement()
       SetTargetGridLocation();
       NavComponent.HandleMovement();
     }
 
+    /// <summary>
+    /// Todo: Extract into NavComponent and split into pieces, such as logic determining the separate factors that can interrupt default movement (with a flag that is set when default movement is interrupted)
+    /// </summary>
     private void SetTargetGridLocation() {
       // Handling Arrowz that force movement
       foreach (Arrow arrow in LevelManager.Instance.arrowz) {
@@ -166,13 +164,13 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      // TODO: Other factors that can interrupt movement come here ...
+      // Todo: Handling other factors that can interrupt movement
 
       // Set target location when nothing is interrupting
       if (Input.GetMouseButtonDown(1) && isSelected) {
         NavComponent.TargetGridLocation = Vector2Int.FloorToInt(SelectorCircle.Instance.transform.position);
 
-        // TODO: Remove / Redo
+        // Todo: Move to a proper place
         isMoving = true;
 
         if (!hasMoved) {
@@ -192,7 +190,9 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
-    // TODO: Redo
+    /// <summary>
+    /// Todo: Replace this with a parameterized PlayAnimation() method, which would choose animations based on facingDirection
+    /// </summary>
     private void PlaySouthIdleAnimationByDefault() {
       if (hasMoved) {
         return;
@@ -204,7 +204,9 @@ namespace GruntzUnityverse.Actorz {
       Renderer.sprite = animations.IdleSouth[frame];
     }
 
-    // TODO: Redo
+    /// <summary>
+    /// Todo: Replace nested switch statements with a single one that entails the actual cases that can occur,this will lead to better readability, and is less error-prone
+    /// </summary>
     private List<Sprite> GetWalkSprites() {
       List<Sprite> selectedSprites = null;
 
@@ -274,7 +276,9 @@ namespace GruntzUnityverse.Actorz {
       return selectedSprites;
     }
 
-    // TODO: Redo
+    /// <summary>
+    /// Todo: Replace this with a parameterized GetSprites() function, which would choose Sprites based on facingDirection
+    /// </summary>
     private List<Sprite> GetIdleSprites() {
       List<Sprite> selectedSprites = facingDirection switch {
         CompassDirection.North => animations.IdleNorth,
@@ -291,7 +295,9 @@ namespace GruntzUnityverse.Actorz {
       return selectedSprites;
     }
 
-    // TODO: Redo
+    /// <summary>
+    /// Todo: Replace this with a parameterized PlayAnimation() method, which would choose animations based on facingDirection
+    /// </summary>
     private void PlayWalkAndIdleAnimations() {
       if (isMoving) {
         List<Sprite> walkSprites = GetWalkSprites();

@@ -87,7 +87,7 @@ namespace GruntzUnityverse.PathFinding {
       List<Node> neighbours = new();
 
       // Up
-      Vector2Int location = new Vector2Int(node.GridLocation.x, node.GridLocation.y + 1);
+      Vector2Int location = new(node.GridLocation.x, node.GridLocation.y + 1);
 
       if (LevelManager.Instance.mapNodeLocations.Contains(location)) {
         neighbours.Add(LevelManager.Instance.mapNodes.First(node1 => node1.GridLocation.Equals(location)));
