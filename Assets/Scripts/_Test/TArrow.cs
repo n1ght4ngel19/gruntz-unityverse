@@ -3,7 +3,7 @@ using GruntzUnityverse.Utilitiez;
 using UnityEngine;
 
 namespace _Test {
-    public class TestArrow : MonoBehaviour {
+    public class TArrow : MonoBehaviour {
         [field: SerializeField] public Vector2Int OwnLocation { get; set; }
         [field: SerializeField] public CompassDirection Direction { get; set; }
 
@@ -13,7 +13,7 @@ namespace _Test {
         }
 
         private void Update() {
-            foreach (TestGrunt grunt in LevelManager.Instance.testGruntz) {
+            foreach (TGrunt grunt in LevelManager.Instance.testGruntz) {
                 // Todo: Additional condition(s) for interrupting Arrow movement (e.g. pushing via Nerf Gun)
                 if (grunt.NavComponent.OwnLocation.Equals(OwnLocation)) {
                     grunt.NavComponent.TargetLocation = OwnLocation + VectorOfDirection(Direction);

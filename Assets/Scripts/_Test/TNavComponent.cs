@@ -5,7 +5,7 @@ using GruntzUnityverse.PathFinding;
 using UnityEngine;
 
 namespace _Test {
-    public class NavComponent : MonoBehaviour {
+    public class TNavComponent : MonoBehaviour {
         [field: SerializeField] public Vector2Int OwnLocation { get; set; }
         [field: SerializeField] public Vector2Int TargetLocation { get; set; }
         [field: SerializeField] public Vector2Int SavedTargetLocation { get; set; }

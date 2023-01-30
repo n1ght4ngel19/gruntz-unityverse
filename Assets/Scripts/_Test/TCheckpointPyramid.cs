@@ -4,10 +4,10 @@ using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace _Test {
-    public class TestCheckpointPyramid : MonoBehaviour {
+    public class TCheckpointPyramid : MonoBehaviour {
         [field: SerializeField] public Vector2Int OwnLocation { get; set; }
         [field: SerializeField] public Animator Animator { get; set; }
-        [field: SerializeField] public List<TestCheckpointSwitch> Switches { get; set; }
+        [field: SerializeField] public List<TCheckpointSwitch> Switches { get; set; }
         [field: SerializeField] public bool IsDown { get; set; }
         [field: SerializeField] public bool HasChanged { get; set; }
 
@@ -24,7 +24,6 @@ namespace _Test {
             HasChanged = true;
             Animator.Play(IsDown ? "Pyramid_Up" : "Pyramid_Down");
             IsDown = !IsDown;
-
             LevelManager.Instance.SetBlockedAt(OwnLocation, !IsDown);
         }
     }

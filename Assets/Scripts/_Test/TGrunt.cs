@@ -4,13 +4,13 @@ using GruntzUnityverse.MapObjectz;
 using UnityEngine;
 
 namespace _Test {
-    public class TestGrunt : MonoBehaviour {
-        [field: SerializeField] public NavComponent NavComponent { get; set; }
+    public class TGrunt : MonoBehaviour {
+        [field: SerializeField] public TNavComponent NavComponent { get; set; }
         [field: SerializeField] public bool IsSelected { get; set; }
 
 
         private void Start() {
-            NavComponent = gameObject.AddComponent<NavComponent>();
+            NavComponent = gameObject.AddComponent<TNavComponent>();
             NavComponent.OwnLocation = Vector2Int.FloorToInt(transform.position);
             NavComponent.TargetLocation = NavComponent.OwnLocation;
         }
@@ -30,7 +30,7 @@ namespace _Test {
         protected void OnMouseDown() {
             IsSelected = true;
 
-            foreach (TestGrunt grunt in LevelManager.Instance.testGruntz.Where(grunt => grunt != this)) {
+            foreach (TGrunt grunt in LevelManager.Instance.testGruntz.Where(grunt => grunt != this)) {
                 grunt.IsSelected = false;
             }
         }

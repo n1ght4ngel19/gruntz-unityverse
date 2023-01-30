@@ -4,9 +4,9 @@ using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace _Test {
-    public class TestCheckpointSwitch : MonoBehaviour {
+    public class TCheckpointSwitch : MonoBehaviour {
         [field: SerializeField] public Vector2Int OwnLocation { get; set; }
-        [field: SerializeField] public List<TestCheckpointPyramid> Pyramids { get; set; }
+        [field: SerializeField] public List<TCheckpointPyramid> Pyramids { get; set; }
         [field: SerializeField] public bool IsPressed { get; set; }
         [field: SerializeField] public bool CanBePressed { get; set; }
 
