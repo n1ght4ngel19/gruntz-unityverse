@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Test;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Brickz;
@@ -37,6 +38,11 @@ namespace GruntzUnityverse.Managerz {
     public GameObject playerGruntz;
     public List<Grunt> gruntz;
 
+    
+    public List<TestGrunt> testGruntz;
+    public List<TestCheckpointPyramid> testCheckpointPyramids;
+    
+    
     // Colliding MapObjectz
     public List<Rock> rockz;
     public List<GiantRock> giantRockz;
@@ -98,6 +104,11 @@ namespace GruntzUnityverse.Managerz {
       foreach (Grunt grunt in playerGruntz.GetComponentsInChildren<Grunt>()) {
         gruntz.Add(grunt);
       }
+      
+      // Collect TestGruntz
+      foreach (TestGrunt grunt in playerGruntz.GetComponentsInChildren<TestGrunt>()) {
+        testGruntz.Add(grunt);
+      }
 
       CollectAllMapObjectz();
 
@@ -107,6 +118,12 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void CollectAllMapObjectz() {
+      foreach (TestCheckpointPyramid checkpointPyramid in baseMap.GetComponentsInChildren<TestCheckpointPyramid>()) {
+        testCheckpointPyramids.Add(checkpointPyramid);
+      }
+      
+      
+      
       // Collect Arrowz
       foreach (Arrow arrow in baseMap.GetComponentsInChildren<Arrow>()) {
         arrowz.Add(arrow);
@@ -173,6 +190,12 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void BlockCollidingObjectNodesByDefault() {
+      foreach (TestCheckpointPyramid checkpointPyramid in testCheckpointPyramids) {
+        SetBlockedAt(checkpointPyramid.OwnLocation, !checkpointPyramid.IsDown);
+      }
+      
+      
+      
       foreach (Rock rock in rockz) {
         BlockNodeAt(rock.GridLocation);
       }
@@ -242,6 +265,10 @@ namespace GruntzUnityverse.Managerz {
       }
     }
 
+    public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
+      mapNodes.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = isBlocked;
+    }
+    
     public void BlockNodeAt(Vector2Int gridLocation) {
       mapNodes.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = true;
     }

@@ -4,9 +4,8 @@ using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
-  public class BlueHoldSwitch : MonoBehaviour, IBridgeSwitch {
+  public class BlueHoldSwitch : MonoBehaviour {
     public Vector2Int GridLocation {get; set;}
-    public List<IBridge> Bridges { get; set; }
     public bool IsPressed { get; set; }
 
     public SpriteRenderer spriteRenderer;

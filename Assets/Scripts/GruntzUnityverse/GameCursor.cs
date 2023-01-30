@@ -33,8 +33,7 @@ namespace GruntzUnityverse {
     private void Update() {
       counter++;
       transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition) - Vector3.forward * -50;
-      // Renderer.sprite = currentCursor[counter % currentCursor.Count];
-      spriteRenderer.sprite = currentCursor[counter % (currentCursor.Count * 4)];
+      spriteRenderer.sprite = currentCursor[counter % currentCursor.Count];
 
       HandleRockCursor();
     }
@@ -43,9 +42,6 @@ namespace GruntzUnityverse {
       currentCursor = cursor;
     }
 
-    /// <summary>
-    /// Handles the animation of the cursor with a GauntletzGrunt selected and hovering over a Rock or a GiantRock.
-    /// </summary>
     private void HandleRockCursor() {
       if (
         LevelManager.Instance.rockz.Any(rock => rock.GridLocation.Equals(SelectorCircle.Instance.GridLocation))
