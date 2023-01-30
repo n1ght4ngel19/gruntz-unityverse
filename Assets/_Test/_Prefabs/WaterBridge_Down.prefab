@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 968907784926215263}
   - component: {fileID: 6682782367352191381}
-  - component: {fileID: -1586342984443559819}
+  - component: {fileID: 4519307296695705478}
+  - component: {fileID: -4491323599272791314}
   m_Layer: 0
-  m_Name: WaterBridgeUp
+  m_Name: WaterBridge_Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7642692820737874702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2341442, y: 0.31137085, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1107429986, guid: 540d152e0c283ff4c841ceee5ffd32e2, type: 3}
+  m_Sprite: {fileID: 1188528848, guid: 540d152e0c283ff4c841ceee5ffd32e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,7 +86,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-1586342984443559819
+--- !u!95 &4519307296695705478
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7642692820737874702}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8822f779d5bc64244a078324586e2e3f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-4491323599272791314
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,15 +115,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7642692820737874702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3dedc3117ffebe4fafc79075a9ecf16, type: 3}
+  m_Script: {fileID: 11500000, guid: e993c48bd97f43a3afe84653bdfac02c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 6682782367352191381}
-  animFrames:
-  - {fileID: 1107429986, guid: 540d152e0c283ff4c841ceee5ffd32e2, type: 3}
-  - {fileID: 114578336, guid: 540d152e0c283ff4c841ceee5ffd32e2, type: 3}
-  - {fileID: 174678864, guid: 540d152e0c283ff4c841ceee5ffd32e2, type: 3}
-  - {fileID: 1488020016, guid: 540d152e0c283ff4c841ceee5ffd32e2, type: 3}
-  - {fileID: 1188528848, guid: 540d152e0c283ff4c841ceee5ffd32e2, type: 3}
-  blueToggleSwitch: {fileID: 0}
-  blueHoldSwitch: {fileID: 0}
+  <OwnLocation>k__BackingField: {x: 0, y: 0}
+  <Animator>k__BackingField: {fileID: 0}
+  <IsDown>k__BackingField: 1
+  <ChangeState>k__BackingField: 0
