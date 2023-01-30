@@ -21,22 +21,18 @@ namespace _Test
 
     private void Update()
     {
-      if (Pyramids.All(pyramid => pyramid.HasChanged))
-      {
-        CanBePressed = false;
-      }
-
       if (!CanBePressed)
       {
         return;
       }
 
+      if (Pyramids.All(pyramid => pyramid.HasChanged))
+      {
+        CanBePressed = false;
+      }
+
       if (LevelManager.Instance.testGruntz
-        .Any
-        (
-          grunt =>
-            grunt.NavComponent.OwnLocation.Equals(OwnLocation)
-        )
+        .Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))
       )
       {
         IsPressed = true;
