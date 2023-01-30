@@ -4,69 +4,87 @@ using GruntzUnityverse.Managerz;
 using GruntzUnityverse.PathFinding;
 using UnityEngine;
 
-namespace _Test {
-    public class TNavComponent : MonoBehaviour {
-        [field: SerializeField] public Vector2Int OwnLocation { get; set; }
-        [field: SerializeField] public Vector2Int TargetLocation { get; set; }
-        [field: SerializeField] public Vector2Int SavedTargetLocation { get; set; }
+namespace _Test
+{
+  public class TNavComponent : MonoBehaviour
+  {
+    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
+    [field: SerializeField] public Vector2Int TargetLocation { get; set; }
+    [field: SerializeField] public Vector2Int SavedTargetLocation { get; set; }
 
-        #region Pathfinding
-            [field: SerializeField] public Node PathStart { get; set; }
-            [field: SerializeField] public Node PathEnd { get; set; }
-            [field: SerializeField] public List<Node> Path { get; set; }
-        #endregion
-        
-        [field: SerializeField] public bool IsMoving { get; set; }
-        [field: SerializeField] public bool HasSavedTarget { get; set; }
+    #region Pathfinding
 
-        public void MoveTowardsTarget() {
-            PathStart = LevelManager.Instance.mapNodes.First(node =>
-                node.GridLocation.Equals(OwnLocation));
+    [field: SerializeField] public Node PathStart { get; set; }
+    [field: SerializeField] public Node PathEnd { get; set; }
+    [field: SerializeField] public List<Node> Path { get; set; }
 
-            PathEnd = LevelManager.Instance.mapNodes.First(node =>
-                node.GridLocation.Equals(TargetLocation)
-                && !node.isBlocked);
+    #endregion
 
-            Path = PathFinder.PathBetween(PathStart, PathEnd);
+    [field: SerializeField] public bool IsMoving { get; set; }
+    [field: SerializeField] public bool HasSavedTarget { get; set; }
 
-            if (Path == null) {
-                return;
-            }
-    
-            if (Path.Count <= 1) {
-                return;
-            }
+    public void MoveTowardsTarget()
+    {
+      PathStart = LevelManager.Instance.mapNodes
+        .First(node => node.GridLocation.Equals(OwnLocation));
 
-            Vector3 nextPosition = LocationAsPosition(Path[1].GridLocation);
+      PathEnd = LevelManager.Instance.mapNodes
+        .First(node => node.GridLocation.Equals(TargetLocation) && !node.isBlocked);
 
-            if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.025) {
-                IsMoving = true;
+      Path = PathFinder.PathBetween(PathStart, PathEnd);
 
-                Vector3 moveVector = (nextPosition - gameObject.transform.position).normalized;
+      if (Path == null)
+      {
+        return;
+      }
 
-                gameObject.transform.position += moveVector * (Time.deltaTime / 0.6f);
-            } else {
-                // Make necessary changes when arriving
-                IsMoving = false;
+      if (Path.Count <= 1)
+      {
+        return;
+      }
 
-                LevelManager.Instance.mapNodes.First(node =>
-                    node.GridLocation.Equals(OwnLocation)).isBlocked = false;
+      Vector3 nextPosition = LocationAsPosition
+      (
+        Path[1]
+          .GridLocation
+      );
 
-                OwnLocation = Path[1].GridLocation;
+      if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.025)
+      {
+        IsMoving = true;
 
-                LevelManager.Instance.mapNodes.First(node =>
-                    node.GridLocation.Equals(OwnLocation)).isBlocked = true;
+        Vector3 moveVector = (nextPosition - gameObject.transform.position).normalized;
 
-                Path.RemoveAt(1);
-            }
-        }
-        
-        public Vector3 LocationAsPosition(Vector2Int location) {
-            return new Vector3(
-                location.x + 0.5f,
-                location.y + 0.5f,
-                -5f
-            );
-        }
+        gameObject.transform.position += moveVector * (Time.deltaTime / 0.6f);
+      }
+      else
+      {
+        // Make necessary changes when arriving
+        IsMoving = false;
+
+        LevelManager.Instance.mapNodes
+          .First(node => node.GridLocation.Equals(OwnLocation))
+          .isBlocked = false;
+
+        OwnLocation = Path[1]
+          .GridLocation;
+
+        LevelManager.Instance.mapNodes
+          .First(node => node.GridLocation.Equals(OwnLocation))
+          .isBlocked = true;
+
+        Path.RemoveAt(1);
+      }
     }
+
+    public Vector3 LocationAsPosition(Vector2Int location)
+    {
+      return new Vector3
+      (
+        location.x + 0.5f,
+        location.y + 0.5f,
+        -5f
+      );
+    }
+  }
 }
