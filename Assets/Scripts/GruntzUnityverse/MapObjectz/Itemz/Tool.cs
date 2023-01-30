@@ -5,7 +5,7 @@ using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Itemz {
-  public class Tool : MonoBehaviour, IMapObject {
+  public class Tool : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
     public Vector2Int GridLocation {get; set;}
 

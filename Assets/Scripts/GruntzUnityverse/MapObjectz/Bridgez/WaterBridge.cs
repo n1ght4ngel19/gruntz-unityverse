@@ -5,7 +5,7 @@ using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Bridgez {
-  public class WaterBridge : MonoBehaviour, IMapObject {
+  public class WaterBridge : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
     public Vector2Int GridLocation {get; set;}
 

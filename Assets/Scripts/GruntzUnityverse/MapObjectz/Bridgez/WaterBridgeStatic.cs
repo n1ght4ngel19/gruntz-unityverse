@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Bridgez {
-  public class WaterBridgeStatic : MonoBehaviour, IMapObject {
+  public class WaterBridgeStatic : MonoBehaviour {
     public Vector2Int GridLocation {get; set;}
 
     private void Start() {

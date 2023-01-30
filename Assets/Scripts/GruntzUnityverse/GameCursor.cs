@@ -34,24 +34,10 @@ namespace GruntzUnityverse {
       counter++;
       transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition) - Vector3.forward * -50;
       spriteRenderer.sprite = currentCursor[counter % currentCursor.Count];
-
-      HandleRockCursor();
     }
 
     private void SetCursorTo(List<Sprite> cursor) {
       currentCursor = cursor;
-    }
-
-    private void HandleRockCursor() {
-      if (
-        LevelManager.Instance.rockz.Any(rock => rock.GridLocation.Equals(SelectorCircle.Instance.GridLocation))
-        && LevelManager.Instance.gruntz.Any(grunt => grunt.tool == ToolType.Gauntletz && grunt.isSelected)
-      ) {
-        Instance.SetCursorTo(AnimationManager.CursorAnimations.Gauntletz);
-      }
-      else {
-        Instance.SetCursorTo(AnimationManager.CursorAnimations.Pointer);
-      }
     }
   }
 }

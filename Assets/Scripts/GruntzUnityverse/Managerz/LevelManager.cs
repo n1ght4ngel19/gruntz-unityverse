@@ -39,8 +39,8 @@ namespace GruntzUnityverse.Managerz {
     public List<Grunt> gruntz;
 
     
-    public List<TestGrunt> testGruntz;
-    public List<TestCheckpointPyramid> testCheckpointPyramids;
+    public List<TGrunt> testGruntz;
+    public List<TCheckpointPyramid> testCheckpointPyramids;
     
     
     // Colliding MapObjectz
@@ -63,6 +63,8 @@ namespace GruntzUnityverse.Managerz {
     public List<BlueHoldSwitch> blueHoldSwitchez;
     public List<CheckpointSwitchTool> toolCheckpointSwitchez;
     public List<CheckpointSwitchToy> toyCheckpointSwitchez;
+
+    // CheckpointSwitches
     public List<SecretSwitch> secretSwitchez;
 
     public GameObject nodeContainer;
@@ -106,7 +108,7 @@ namespace GruntzUnityverse.Managerz {
       }
       
       // Collect TestGruntz
-      foreach (TestGrunt grunt in playerGruntz.GetComponentsInChildren<TestGrunt>()) {
+      foreach (TGrunt grunt in playerGruntz.GetComponentsInChildren<TGrunt>()) {
         testGruntz.Add(grunt);
       }
 
@@ -118,7 +120,7 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void CollectAllMapObjectz() {
-      foreach (TestCheckpointPyramid checkpointPyramid in baseMap.GetComponentsInChildren<TestCheckpointPyramid>()) {
+      foreach (TCheckpointPyramid checkpointPyramid in baseMap.GetComponentsInChildren<TCheckpointPyramid>()) {
         testCheckpointPyramids.Add(checkpointPyramid);
       }
       
@@ -190,12 +192,10 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void BlockCollidingObjectNodesByDefault() {
-      foreach (TestCheckpointPyramid checkpointPyramid in testCheckpointPyramids) {
+      foreach (TCheckpointPyramid checkpointPyramid in testCheckpointPyramids) {
         SetBlockedAt(checkpointPyramid.OwnLocation, !checkpointPyramid.IsDown);
       }
-      
-      
-      
+
       foreach (Rock rock in rockz) {
         BlockNodeAt(rock.GridLocation);
       }
