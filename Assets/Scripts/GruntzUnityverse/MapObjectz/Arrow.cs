@@ -8,7 +8,8 @@ namespace GruntzUnityverse.MapObjectz {
 
     public CompassDirection direction;
 
-    private void Start() {
+    private void Start()
+    {
       GridLocation = Vector2Int.FloorToInt(transform.position);
     }
   }

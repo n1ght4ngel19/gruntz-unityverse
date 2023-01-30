@@ -12,24 +12,26 @@ using GruntzUnityverse.PathFinding;
 using GruntzUnityverse.Utilitiez;
 using UnityEngine;
 
-namespace GruntzUnityverse.Actorz {
-  public class Grunt : MonoBehaviour, IAnimatable, IKillable {
+namespace GruntzUnityverse.Actorz
+{
+  public class Grunt : MonoBehaviour
+  {
     public SpriteRenderer Renderer { get; set; }
     public Sprite DisplayFrame { get; set; }
     public List<Sprite> AnimationFrames { get; set; }
 
     public IAttribute Health { get; set; }
     public IAttribute Stamina { get; set; }
-    public HealthBar OwnHealthBar { get; set; }   
+    public HealthBar OwnHealthBar { get; set; }
     public StaminaBar OwnStaminaBar { get; set; }
 
     public HealthBar healthBarPrefab;
     public StaminaBar staminaBarPrefab;
-    
+
     // Todo: Extract into Equipment class
     public ToolType tool;
     public ToyType toy;
-    
+
     private GruntAnimationPack animations;
     private List<Sprite> deathAnimations;
 
@@ -44,6 +46,7 @@ namespace GruntzUnityverse.Actorz {
     /// Used for deciding <see cref="facingDirection"/>, which determines the animations played.
     /// </summary>
     private Vector3 diffVector; // TODO: Replace with better solution?
+
     public CompassDirection facingDirection = CompassDirection.South;
 
     public bool isSelected;
@@ -59,7 +62,8 @@ namespace GruntzUnityverse.Actorz {
 
     public NavComponent NavComponent { get; set; }
 
-    private void Start() {
+    private void Start()
+    {
       Renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
       Health = gameObject.AddComponent<Health>();
       Stamina = gameObject.AddComponent<Stamina>();
@@ -69,10 +73,12 @@ namespace GruntzUnityverse.Actorz {
 
       NavComponent = gameObject.AddComponent<NavComponent>();
 
-      SelectGruntAnimationPack(tool); ;
+      SelectGruntAnimationPack(tool);
+      ;
     }
 
-    private void Update() {
+    private void Update()
+    {
       timesChanged++;
 
       OwnHealthBar.Renderer.sprite =
@@ -92,7 +98,8 @@ namespace GruntzUnityverse.Actorz {
       Move();
     }
 
-    private IEnumerator Die() {
+    private IEnumerator Die()
+    {
       float playTime = Time.time - idleTime;
       int frame = (int)(playTime * IdleFrameRate % animations.Death.Count);
 
@@ -103,19 +110,26 @@ namespace GruntzUnityverse.Actorz {
       // Destroy(gameObject);
     }
 
-    private void HandleSpikez() {
+    private void HandleSpikez()
+    {
       foreach (
         Spikez spikez in LevelManager.Instance.spikezList
-          .Where(spikez1 => spikez1.GridLocation.Equals(NavComponent.OwnGridLocation)
-                            && timesChanged % Application.targetFrameRate == 0)
-      ) {
-        if (Health.ActualValue >= Spikez.Dps) {
+          .Where
+          (
+            spikez1 => spikez1.GridLocation.Equals(NavComponent.OwnGridLocation)
+              && timesChanged % Application.targetFrameRate == 0
+          )
+      )
+      {
+        if (Health.ActualValue >= Spikez.Dps)
+        {
           Health.ActualValue -= Spikez.Dps;
         }
       }
     }
 
-    public void SelectGruntAnimationPack(ToolType toolType) {
+    public void SelectGruntAnimationPack(ToolType toolType)
+    {
       animations = toolType switch {
         ToolType.BareHandz => AnimationManager.BareHandzGruntAnimations,
         ToolType.Club => AnimationManager.ClubGruntAnimations,
@@ -128,7 +142,8 @@ namespace GruntzUnityverse.Actorz {
     /// <summary>
     /// Todo: Replace with HandleMovement()
     /// </summary>
-    private void Move() {
+    private void Move()
+    {
       // TODO: Extract this into HandleMovement()
       SetTargetGridLocation();
       NavComponent.HandleMovement();
@@ -137,13 +152,16 @@ namespace GruntzUnityverse.Actorz {
     /// <summary>
     /// Todo: Extract into NavComponent and split into pieces, such as logic determining the separate factors that can interrupt default movement (with a flag that is set when default movement is interrupted)
     /// </summary>
-    private void SetTargetGridLocation() {
+    private void SetTargetGridLocation()
+    {
       // Handling Arrowz that force movement
-      foreach (Arrow arrow in LevelManager.Instance.arrowz) {
+      foreach (Arrow arrow in LevelManager.Instance.arrowz)
+      {
         if (
           !arrow.spriteRenderer.enabled
           || Vector2.Distance(arrow.transform.position, transform.position) > 0.025f
-        ) {
+        )
+        {
           continue;
         }
 
@@ -167,25 +185,31 @@ namespace GruntzUnityverse.Actorz {
       // Todo: Handling other factors that can interrupt movement
 
       // Set target location when nothing is interrupting
-      if (Input.GetMouseButtonDown(1) && isSelected) {
+      if (Input.GetMouseButtonDown(1) && isSelected)
+      {
         NavComponent.TargetGridLocation = Vector2Int.FloorToInt(SelectorCircle.Instance.transform.position);
 
         // Todo: Move to a proper place
         isMoving = true;
 
-        if (!hasMoved) {
+        if (!hasMoved)
+        {
           hasMoved = true;
         }
-      } else {
+      }
+      else
+      {
         NavComponent.TargetGridLocation = Vector2Int.zero;
       }
     }
 
     // Handling clicking selection
-    protected void OnMouseDown() {
+    protected void OnMouseDown()
+    {
       isSelected = true;
 
-      foreach (Grunt grunt in LevelManager.Instance.gruntz.Where(grunt => grunt != this)) {
+      foreach (Grunt grunt in LevelManager.Instance.gruntz.Where(grunt => grunt != this))
+      {
         grunt.isSelected = false;
       }
     }
@@ -193,8 +217,10 @@ namespace GruntzUnityverse.Actorz {
     /// <summary>
     /// Todo: Replace this with a parameterized PlayAnimation() method, which would choose animations based on facingDirection
     /// </summary>
-    private void PlaySouthIdleAnimationByDefault() {
-      if (hasMoved) {
+    private void PlaySouthIdleAnimationByDefault()
+    {
+      if (hasMoved)
+      {
         return;
       }
 
@@ -207,15 +233,18 @@ namespace GruntzUnityverse.Actorz {
     /// <summary>
     /// Todo: Replace nested switch statements with a single one that entails the actual cases that can occur,this will lead to better readability, and is less error-prone
     /// </summary>
-    private List<Sprite> GetWalkSprites() {
+    private List<Sprite> GetWalkSprites()
+    {
       List<Sprite> selectedSprites = null;
 
-      switch (diffVector.y) {
+      switch (diffVector.y)
+      {
         case < 0: {
           selectedSprites = animations.WalkSouth;
           facingDirection = CompassDirection.South;
 
-          switch (diffVector.x) {
+          switch (diffVector.x)
+          {
             case > 0: {
               selectedSprites = animations.WalkSouthEast;
               facingDirection = CompassDirection.SouthEast;
@@ -236,7 +265,8 @@ namespace GruntzUnityverse.Actorz {
           selectedSprites = animations.WalkNorth;
           facingDirection = CompassDirection.North;
 
-          switch (diffVector.x) {
+          switch (diffVector.x)
+          {
             case > 0: {
               selectedSprites = animations.WalkNorthEast;
               facingDirection = CompassDirection.NorthEast;
@@ -254,7 +284,8 @@ namespace GruntzUnityverse.Actorz {
           break;
         }
         default: {
-          switch (diffVector.x) {
+          switch (diffVector.x)
+          {
             case > 0: {
               selectedSprites = animations.WalkEast;
               facingDirection = CompassDirection.East;
@@ -279,7 +310,8 @@ namespace GruntzUnityverse.Actorz {
     /// <summary>
     /// Todo: Replace this with a parameterized GetSprites() function, which would choose Sprites based on facingDirection
     /// </summary>
-    private List<Sprite> GetIdleSprites() {
+    private List<Sprite> GetIdleSprites()
+    {
       List<Sprite> selectedSprites = facingDirection switch {
         CompassDirection.North => animations.IdleNorth,
         CompassDirection.NorthEast => animations.IdleNorthEast,
@@ -298,28 +330,38 @@ namespace GruntzUnityverse.Actorz {
     /// <summary>
     /// Todo: Replace this with a parameterized PlayAnimation() method, which would choose animations based on facingDirection
     /// </summary>
-    private void PlayWalkAndIdleAnimations() {
-      if (isMoving) {
+    private void PlayWalkAndIdleAnimations()
+    {
+      if (isMoving)
+      {
         List<Sprite> walkSprites = GetWalkSprites();
 
-        if (walkSprites != null) {
+        if (walkSprites != null)
+        {
           float playTime = Time.time - idleTime;
           int frame = (int)(playTime * WalkFrameRate % walkSprites.Count);
 
           Renderer.sprite = walkSprites[frame];
-        } else {
+        }
+        else
+        {
           isMoving = false;
           idleTime = Time.time;
         }
-      } else {
+      }
+      else
+      {
         List<Sprite> idleSprites = GetIdleSprites();
 
-        if (idleSprites != null) {
+        if (idleSprites != null)
+        {
           float playTime = Time.time - idleTime;
           int frame = (int)(playTime * IdleFrameRate % idleSprites.Count);
 
           Renderer.sprite = idleSprites[frame];
-        } else {
+        }
+        else
+        {
           idleTime = Time.time;
         }
       }
