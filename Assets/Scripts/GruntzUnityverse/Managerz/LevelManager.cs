@@ -33,7 +33,6 @@ namespace GruntzUnityverse.Managerz {
     public TMP_Text helpBoxText;
     public Tilemap baseMap;
     public Tilemap collisionMap;
-    public Tilemap secretMap;
 
     public GameObject playerGruntz;
     public List<Grunt> gruntz;
@@ -78,9 +77,8 @@ namespace GruntzUnityverse.Managerz {
     private void Start() {
       Application.targetFrameRate = 60;
 
-      baseMap = GameObject.Find("Base").GetComponent<Tilemap>();
-      collisionMap = GameObject.Find("Collision").GetComponent<Tilemap>();
-      secretMap = GameObject.Find("Secret").GetComponent<Tilemap>();
+      baseMap = GameObject.Find("BaseMap").GetComponent<Tilemap>();
+      collisionMap = GameObject.Find("CollisionMap").GetComponent<Tilemap>();
       nodeContainer = GameObject.Find("NodeContainer");
 
       for (int x = 0; x < baseMap.cellBounds.xMax; x++) {
@@ -142,12 +140,12 @@ namespace GruntzUnityverse.Managerz {
       }
 
       // Collect Rockz
-      foreach (Rock rock in GameObject.Find("Rockz").GetComponentsInChildren<Rock>()) {
+      foreach (Rock rock in GameObject.Find("Rocks").GetComponentsInChildren<Rock>()) {
         rockz.Add(rock);
       }
 
       // Collect GiantRockz
-      foreach (GiantRock giantRock in GameObject.Find("GiantRockz").GetComponentsInChildren<GiantRock>()) {
+      foreach (GiantRock giantRock in GameObject.Find("GiantRocks").GetComponentsInChildren<GiantRock>()) {
         giantRockz.Add(giantRock);
       }
 
@@ -173,11 +171,6 @@ namespace GruntzUnityverse.Managerz {
       // Collect SecretSwitchez
       foreach (SecretSwitch secretSwitch in baseMap.GetComponentsInChildren<SecretSwitch>()) {
         secretSwitchez.Add(secretSwitch);
-      }
-
-      // Collect SecretTilez
-      foreach (SecretTile secretTile in secretMap.GetComponentsInChildren<SecretTile>()) {
-        secretTilez.Add(secretTile);
       }
 
       // Collect static WaterBridgez
