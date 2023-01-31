@@ -9,7 +9,7 @@ using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Hazardz;
 using GruntzUnityverse.MapObjectz.Itemz;
 using GruntzUnityverse.PathFinding;
-using GruntzUnityverse.Utilitiez;
+using GruntzUnityverse.Utility;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz

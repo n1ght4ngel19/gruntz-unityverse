@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.Utilitiez;
+using GruntzUnityverse.Utility;
 using UnityEngine;
 
 namespace _Test
@@ -32,7 +32,7 @@ namespace _Test
         CompassDirection.North => Vector2Int.up,
         CompassDirection.East => Vector2Int.right,
         CompassDirection.South => Vector2Int.down,
-        CompassDirection.West => Vector2Int.left
+        CompassDirection.West => Vector2Int.left,
       };
     }
   }

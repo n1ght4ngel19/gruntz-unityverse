@@ -1,7 +1,4 @@
-namespace GruntzUnityverse.Utilitiez {
-  /// <summary>
-  ///   <para>The eight main directions on a compass.</para>
-  /// </summary>
+namespace GruntzUnityverse.Utility {
   public enum CompassDirection {
     East,
     North,
