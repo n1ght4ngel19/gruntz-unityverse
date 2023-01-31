@@ -17,6 +17,7 @@ namespace _Test
     private void Start()
     {
       OwnLocation = Vector2Int.FloorToInt(transform.position);
+      Behaviour = gameObject.GetComponent<Behaviour>();
     }
 
     private void Update()

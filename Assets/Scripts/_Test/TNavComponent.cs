@@ -2,6 +2,7 @@
 using System.Linq;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.PathFinding;
+using GruntzUnityverse.Utility;
 using UnityEngine;
 
 namespace _Test
@@ -9,8 +10,8 @@ namespace _Test
   public class TNavComponent : MonoBehaviour
   {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
+    [field: SerializeField] public Vector2Int PreviousLocation { get; set; }
     [field: SerializeField] public Vector2Int TargetLocation { get; set; }
-    [field: SerializeField] public Vector2Int SavedTargetLocation { get; set; }
 
     #region Pathfinding
 
@@ -21,7 +22,8 @@ namespace _Test
     #endregion
 
     [field: SerializeField] public bool IsMoving { get; set; }
-    [field: SerializeField] public bool HasSavedTarget { get; set; }
+    [field: SerializeField] public Vector3 MoveVector { get; set; }
+    [field: SerializeField] public CompassDirection FacingDirection { get; set; }
 
     public void MoveTowardsTarget()
     {
@@ -43,19 +45,25 @@ namespace _Test
         return;
       }
 
+      PreviousLocation = Path[0]
+        .GridLocation;
+
       Vector3 nextPosition = LocationAsPosition
       (
         Path[1]
           .GridLocation
       );
 
+      // Todo: Handle here disallowing move commands while moving
       if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.025)
       {
         IsMoving = true;
 
-        Vector3 moveVector = (nextPosition - gameObject.transform.position).normalized;
+        MoveVector = (nextPosition - gameObject.transform.position).normalized;
 
-        gameObject.transform.position += moveVector * (Time.deltaTime / 0.6f);
+        DetermineFacingDirection();
+
+        gameObject.transform.position += MoveVector * (Time.deltaTime / 0.3f);
       }
       else
       {
@@ -77,7 +85,7 @@ namespace _Test
       }
     }
 
-    public Vector3 LocationAsPosition(Vector2Int location)
+    private Vector3 LocationAsPosition(Vector2Int location)
     {
       return new Vector3
       (
@@ -85,6 +93,26 @@ namespace _Test
         location.y + 0.5f,
         -5f
       );
+    }
+
+    private void DetermineFacingDirection()
+    {
+      Vector2Int directionVector = Path[1]
+          .GridLocation
+        - Path[0]
+          .GridLocation;
+
+      FacingDirection = directionVector switch {
+        var vector when vector.Equals(Vector2IntC.North) => CompassDirection.North,
+        var vector when vector.Equals(Vector2IntC.NorthEast) => CompassDirection.NorthEast,
+        var vector when vector.Equals(Vector2IntC.East) => CompassDirection.East,
+        var vector when vector.Equals(Vector2IntC.SouthEast) => CompassDirection.SouthEast,
+        var vector when vector.Equals(Vector2IntC.South) => CompassDirection.South,
+        var vector when vector.Equals(Vector2IntC.SouthWest) => CompassDirection.SouthWest,
+        var vector when vector.Equals(Vector2IntC.West) => CompassDirection.West,
+        var vector when vector.Equals(Vector2IntC.NorthWest) => CompassDirection.NorthWest,
+        var _ => FacingDirection,
+      };
     }
   }
 }
