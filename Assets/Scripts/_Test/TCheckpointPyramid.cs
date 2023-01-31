@@ -13,6 +13,7 @@ namespace _Test
     [field: SerializeField] public bool IsDown { get; set; }
     [field: SerializeField] public bool HasChanged { get; set; }
 
+
     private void Start()
     {
       OwnLocation = Vector2Int.FloorToInt(transform.position);
@@ -21,13 +22,14 @@ namespace _Test
 
     private void Update()
     {
-      if (Switches.Any(checkpointSwitch => !checkpointSwitch.IsPressed || !checkpointSwitch.CanBePressed))
+      if (Switches.Any(checkpointSwitch => !checkpointSwitch.IsPressed))
         return;
 
       HasChanged = true;
       Animator.Play(IsDown ? "Pyramid_Up" : "Pyramid_Down");
       IsDown = !IsDown;
       LevelManager.Instance.SetBlockedAt(OwnLocation, !IsDown);
+      enabled = false;
     }
   }
 }

@@ -1,4 +1,6 @@
-﻿using GruntzUnityverse.Managerz;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace _Test
@@ -8,8 +10,9 @@ namespace _Test
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public SpriteRenderer Renderer { get; set; }
     [field: SerializeField] public Behaviour Behaviour { get; set; }
+    [field: SerializeField] public List<MonoBehaviour> OtherBehaviours { get; set; }
     [field: SerializeField] public bool IsWalkable { get; set; }
-    [field: SerializeField] public bool IsLocationOriginallyWalkable { get; set; }
+    [field: SerializeField] public bool IsInitiallyBlocked { get; set; }
     [field: SerializeField] public float Delay { get; set; }
     [field: SerializeField] public float Duration { get; set; }
 
@@ -19,30 +22,50 @@ namespace _Test
       OwnLocation = Vector2Int.FloorToInt(transform.position);
       Renderer = gameObject.GetComponent<SpriteRenderer>();
       Behaviour = gameObject.GetComponent<Behaviour>();
-      SetSecretActive(false);
+      Renderer.enabled = false;
+      Behaviour.enabled = false;
+
+      OtherBehaviours = GetComponents<MonoBehaviour>()
+        .ToList();
+
+      foreach (MonoBehaviour behaviour in OtherBehaviours.Where
+        (behaviour => behaviour.GetType() != typeof(TSecretObject)))
+      {
+        behaviour.enabled = false;
+      }
     }
 
-    public void SetSecretActive(bool activeState)
+    public void ActivateSecret()
     {
-      Renderer.enabled = activeState;
-      Behaviour.enabled = activeState;
+      IsInitiallyBlocked = LevelManager.Instance.IsBlockedAt(OwnLocation);
 
-      if (activeState && IsWalkable)
+      Renderer.enabled = true;
+      Behaviour.enabled = true;
+
+      foreach (MonoBehaviour behaviour in OtherBehaviours.Where
+        (behaviour => behaviour.GetType() != typeof(TSecretObject)))
       {
-        LevelManager.Instance.UnblockNodeAt(OwnLocation);
+        behaviour.enabled = true;
       }
 
-      if (!activeState)
+      if (IsWalkable)
       {
-        if (IsLocationOriginallyWalkable)
-        {
-          LevelManager.Instance.UnblockNodeAt(OwnLocation);
-        }
-        else
-        {
-          LevelManager.Instance.BlockNodeAt(OwnLocation);
-        }
+        LevelManager.Instance.FreeNodeAt(OwnLocation);
       }
+    }
+
+    public void DeactivateSecret()
+    {
+      if (IsInitiallyBlocked)
+      {
+        LevelManager.Instance.BlockNodeAt(OwnLocation);
+      }
+      else
+      {
+        LevelManager.Instance.FreeNodeAt(OwnLocation);
+      }
+
+      Destroy(gameObject);
     }
   }
 }

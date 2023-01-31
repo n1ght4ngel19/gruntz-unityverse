@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6986435730129850746}
   - component: {fileID: 6986435730129850749}
-  - component: {fileID: 6986435730129850751}
   - component: {fileID: 6986435730129850748}
   - component: {fileID: 7368686219123921677}
   - component: {fileID: 699477925081240496}
@@ -88,27 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6986435730129850751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6986435730129850750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f2ce0f2c052614bb03a7d505b903fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBarPrefab: {fileID: 6156919157043444387, guid: d1341558fdb323a498d07a99f03ef0fb, type: 3}
-  staminaBarPrefab: {fileID: -6093675800230880960, guid: a4d8b9a5325c2ce4bb7c287344abc8af, type: 3}
-  tool: 0
-  toy: 0
-  facingDirection: 4
-  isSelected: 0
-  isMoving: 0
-  canHandleCommand: 0
-  hasMoved: 0
 --- !u!50 &6986435730129850748
 Rigidbody2D:
   serializedVersion: 4
@@ -168,3 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e38a4316569248eaa569b3f7736a0552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <NavComponent>k__BackingField: {fileID: 0}
+  <IsSelected>k__BackingField: 0

@@ -36,7 +36,7 @@ namespace GruntzUnityverse.MapObjectz.Pyramidz {
       // }
 
       StartCoroutine(LowerPyramid());
-      LevelManager.Instance.UnblockNodeAt(GridLocation);
+      LevelManager.Instance.FreeNodeAt(GridLocation);
     }
 
     private IEnumerator LowerPyramid() {

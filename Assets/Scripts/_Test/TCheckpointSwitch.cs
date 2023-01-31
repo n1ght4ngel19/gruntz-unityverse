@@ -10,25 +10,15 @@ namespace _Test
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public List<TCheckpointPyramid> Pyramids { get; set; }
     [field: SerializeField] public bool IsPressed { get; set; }
-    [field: SerializeField] public bool CanBePressed { get; set; }
 
 
-    private void Start()
-    {
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
-      CanBePressed = true;
-    }
+    private void Start() { OwnLocation = Vector2Int.FloorToInt(transform.position); }
 
     private void Update()
     {
-      if (!CanBePressed)
-      {
-        return;
-      }
-
       if (Pyramids.All(pyramid => pyramid.HasChanged))
       {
-        CanBePressed = false;
+        enabled = false;
       }
 
       if (LevelManager.Instance.testGruntz

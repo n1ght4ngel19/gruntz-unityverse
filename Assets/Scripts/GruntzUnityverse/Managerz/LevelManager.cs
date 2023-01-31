@@ -123,9 +123,9 @@ namespace GruntzUnityverse.Managerz {
       foreach (TCheckpointPyramid checkpointPyramid in baseMap.GetComponentsInChildren<TCheckpointPyramid>()) {
         testCheckpointPyramids.Add(checkpointPyramid);
       }
-      
-      
-      
+
+
+
       // Collect Arrowz
       foreach (Arrow arrow in baseMap.GetComponentsInChildren<Arrow>()) {
         arrowz.Add(arrow);
@@ -228,40 +228,40 @@ namespace GruntzUnityverse.Managerz {
     private void UnblockNonCollidingObjectNodesByDefault() {
       // Underwater Arrowz?
       foreach (Arrow arrow in arrowz) {
-        UnblockNodeAt(arrow.GridLocation);
+        FreeNodeAt(arrow.GridLocation);
       }
 
       // Underwater Spikez?
       foreach (Spikez spikez in spikezList) {
-        UnblockNodeAt(spikez.GridLocation);
+        FreeNodeAt(spikez.GridLocation);
       }
 
       foreach (BrickFoundation brickFoundation in brickFoundationz) {
-        UnblockNodeAt(brickFoundation.GridLocation);
+        FreeNodeAt(brickFoundation.GridLocation);
       }
 
       foreach (BlueHoldSwitch blueHoldSwitch in blueHoldSwitchez) {
-        UnblockNodeAt(blueHoldSwitch.GridLocation);
+        FreeNodeAt(blueHoldSwitch.GridLocation);
       }
 
       foreach (BlueToggleSwitch blueToggleSwitch in blueToggleSwitchez) {
-        UnblockNodeAt(blueToggleSwitch.GridLocation);
+        FreeNodeAt(blueToggleSwitch.GridLocation);
       }
 
       foreach (CheckpointSwitchTool checkpointSwitch in toolCheckpointSwitchez) {
-        UnblockNodeAt(checkpointSwitch.GridLocation);
+        FreeNodeAt(checkpointSwitch.GridLocation);
       }
 
       foreach (CheckpointSwitchToy checkpointSwitch in toyCheckpointSwitchez) {
-        UnblockNodeAt(checkpointSwitch.GridLocation);
+        FreeNodeAt(checkpointSwitch.GridLocation);
       }
 
       foreach (SecretSwitch secretSwitch in secretSwitchez) {
-        UnblockNodeAt(secretSwitch.GridLocation);
+        FreeNodeAt(secretSwitch.GridLocation);
       }
 
       foreach (WaterBridgeStatic staticWaterBridge in staticWaterBridgez) {
-        UnblockNodeAt(staticWaterBridge.GridLocation);
+        FreeNodeAt(staticWaterBridge.GridLocation);
       }
     }
 
@@ -273,8 +273,16 @@ namespace GruntzUnityverse.Managerz {
       mapNodes.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = true;
     }
 
-    public void UnblockNodeAt(Vector2Int gridLocation) {
+    public void FreeNodeAt(Vector2Int gridLocation) {
       mapNodes.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = false;
+    }
+
+    public Node GetNodeAt(Vector2Int gridLocation) {
+      return mapNodes.First(node => node.GridLocation.Equals(gridLocation));
+    }
+
+    public bool IsBlockedAt(Vector2Int gridLocation) {
+      return mapNodes.First(node => node.GridLocation.Equals(gridLocation)).isBlocked;
     }
   }
 }

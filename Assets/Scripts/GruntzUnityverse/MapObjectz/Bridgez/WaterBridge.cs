@@ -39,7 +39,7 @@ namespace GruntzUnityverse.MapObjectz.Bridgez
       {
         case true: {
           StartCoroutine(RaiseBridge());
-          LevelManager.Instance.UnblockNodeAt(GridLocation);
+          LevelManager.Instance.FreeNodeAt(GridLocation);
 
           break;
         }
