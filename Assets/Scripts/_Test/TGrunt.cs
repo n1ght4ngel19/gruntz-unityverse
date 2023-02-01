@@ -28,6 +28,25 @@ namespace _Test
 
       if (Input.GetMouseButtonDown(1)
         && IsSelected
+        && NavComponent.IsMoving)
+      {
+        NavComponent.SavedTargetLocation = SelectorCircle.Instance.GridLocation;
+        NavComponent.HaveSavedTarget = true;
+
+        return;
+      }
+
+      if (NavComponent.HaveSavedTarget
+        && !NavComponent.IsMoving)
+      {
+        NavComponent.TargetLocation = NavComponent.SavedTargetLocation;
+        NavComponent.HaveSavedTarget = false;
+
+        return;
+      }
+
+      if (Input.GetMouseButtonDown(1)
+        && IsSelected
         && SelectorCircle.Instance.GridLocation != NavComponent.OwnLocation
       )
       {
