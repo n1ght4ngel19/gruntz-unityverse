@@ -321,7 +321,7 @@ namespace GruntzUnityverse.Actorz
         CompassDirection.SouthWest => animations.IdleSouthWest,
         CompassDirection.East => animations.IdleEast,
         CompassDirection.West => animations.IdleWest,
-        _ => null
+        var _ => null,
       };
 
       return selectedSprites;
@@ -336,7 +336,7 @@ namespace GruntzUnityverse.Actorz
       {
         List<Sprite> walkSprites = GetWalkSprites();
 
-        if (walkSprites != null)
+        if (walkSprites is not null)
         {
           float playTime = Time.time - idleTime;
           int frame = (int)(playTime * WalkFrameRate % walkSprites.Count);

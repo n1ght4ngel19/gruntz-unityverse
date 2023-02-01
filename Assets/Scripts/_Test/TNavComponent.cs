@@ -63,23 +63,15 @@ namespace _Test
 
         DetermineFacingDirection();
 
-        gameObject.transform.position += MoveVector * (Time.deltaTime / 0.3f);
+        transform.position += MoveVector * (Time.deltaTime / 0.3f);
       }
       else
       {
         // Make necessary changes when arriving
         IsMoving = false;
 
-        LevelManager.Instance.mapNodes
-          .First(node => node.GridLocation.Equals(OwnLocation))
-          .isBlocked = false;
-
         OwnLocation = Path[1]
           .GridLocation;
-
-        LevelManager.Instance.mapNodes
-          .First(node => node.GridLocation.Equals(OwnLocation))
-          .isBlocked = true;
 
         Path.RemoveAt(1);
       }
