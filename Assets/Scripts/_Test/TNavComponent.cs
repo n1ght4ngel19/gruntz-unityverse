@@ -12,6 +12,8 @@ namespace _Test
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public Vector2Int PreviousLocation { get; set; }
     [field: SerializeField] public Vector2Int TargetLocation { get; set; }
+    [field: SerializeField] public Vector2Int SavedTargetLocation { get; set; }
+    [field: SerializeField] public bool HaveSavedTarget { get; set; }
 
     #region Pathfinding
 
@@ -63,6 +65,7 @@ namespace _Test
 
         DetermineFacingDirection();
 
+        // 0.3f is hardcoded only for ease of testing, remove after not needed
         transform.position += MoveVector * (Time.deltaTime / 0.3f);
       }
       else
