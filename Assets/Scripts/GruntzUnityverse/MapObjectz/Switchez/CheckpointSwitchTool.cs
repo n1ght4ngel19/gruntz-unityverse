@@ -25,7 +25,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       }
 
       if (LevelManager.Instance.gruntz
-          .Any(grunt => grunt.ownGridLocation.Equals(GridLocation) && grunt.tool == requirement)) {
+          .Any(grunt => grunt.NavComponent.OwnGridLocation.Equals(GridLocation) && grunt.tool == requirement)) {
         isChecked = true;
         spriteRenderer.sprite = animFrames[1];
       }

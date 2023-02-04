@@ -5,7 +5,7 @@ using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Itemz {
-  public class Tool : MonoBehaviour, IMapObject {
+  public class Tool : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
     public Vector2Int GridLocation {get; set;}
 
@@ -22,10 +22,10 @@ namespace GruntzUnityverse.MapObjectz.Itemz {
     private void Update() {
       foreach (
         Grunt grunt in LevelManager.Instance.gruntz
-          .Where(grunt => grunt.ownGridLocation.Equals(GridLocation))
+          .Where(grunt => grunt.NavComponent.OwnGridLocation.Equals(GridLocation))
       ) {
         grunt.tool = type;
-        grunt.SwitchGruntAnimationPack(type);
+        grunt.SelectGruntAnimationPack(type);
 
         Destroy(gameObject);
       }

@@ -1,16 +1,17 @@
+using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
-  public class BlueHoldSwitch : MonoBehaviour, IMapObject {
-    public SpriteRenderer spriteRenderer;
+  public class BlueHoldSwitch : MonoBehaviour {
     public Vector2Int GridLocation {get; set;}
+    public bool IsPressed { get; set; }
+
+    public SpriteRenderer spriteRenderer;
 
     public Sprite[] animFrames;
 
-    public bool isPressed;
     public bool isUntouched;
 
     private void Start() {
@@ -20,22 +21,24 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.gruntz) {
-        if (LevelManager.Instance.gruntz.Any(grunt1 => grunt1.ownGridLocation.Equals(GridLocation))) {
-          if (!isUntouched) {
-            continue;
-          }
+      if (LevelManager.Instance.gruntz.Any(grunt1 => grunt1.NavComponent.OwnGridLocation.Equals(GridLocation))) {
+        if (!isUntouched) {
+          return;
+        }
 
-          spriteRenderer.sprite = animFrames[1];
-          isUntouched = false;
-          isPressed = true;
-        }
-        else {
-          spriteRenderer.sprite = animFrames[0];
-          isPressed = false;
-          isUntouched = true;
-        }
+        spriteRenderer.sprite = animFrames[1];
+        isUntouched = false;
+        IsPressed = true;
+      }
+      else {
+        spriteRenderer.sprite = animFrames[0];
+        IsPressed = false;
+        isUntouched = true;
       }
     }
+
+    public SpriteRenderer Renderer { get; set; }
+    public Sprite DisplayFrame { get; set; }
+    public List<Sprite> AnimationFrames { get; set; }
   }
 }

@@ -1,16 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace GruntzUnityverse.Actorz {
-  public class HealthBar : MonoBehaviour {
-    public const int MaxValue = 20;
-    public int value = MaxValue;
-    
-    public SpriteRenderer spriteRenderer;
-    public List<Sprite> animFrames;
+namespace GruntzUnityverse.Actorz
+{
+  public class HealthBar : MonoBehaviour
+  {
+    public SpriteRenderer Renderer { get; set; }
+    public Sprite DisplayFrame { get; set; }
+    [field: SerializeField] public List<Sprite> AnimationFrames { get; set; }
 
-    private void Update() {
-      spriteRenderer.sprite = animFrames[value];
+    private void Start()
+    {
+      Renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+      // Renderer.enabled = false;
+    }
+
+    private void Update()
+    {
+      // Renderer.enabled = value < MaxValue;
     }
   }
 }

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using GruntzUnityverse.MapObjectz.Misc;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GruntzUnityverse.Managerz {
   public class StatzManager : MonoBehaviour {
@@ -41,9 +39,5 @@ namespace GruntzUnityverse.Managerz {
 
     public int maxWarpLetterz;
     public int acquiredWarpLetterz;
-
-    private void Start() {
-      maxCoinz = GameObject.Find("Coinz").GetComponentsInChildren<Coin>().ToList().Count;
-    }
   }
 }

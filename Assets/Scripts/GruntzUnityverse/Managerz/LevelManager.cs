@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Test;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Brickz;
@@ -10,6 +11,8 @@ using GruntzUnityverse.PathFinding;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using BlueHoldSwitch = GruntzUnityverse.MapObjectz.Switchez.BlueHoldSwitch;
+using BlueToggleSwitch = GruntzUnityverse.MapObjectz.Switchez.BlueToggleSwitch;
 using Vector3 = UnityEngine.Vector3;
 
 namespace GruntzUnityverse.Managerz {
@@ -30,11 +33,15 @@ namespace GruntzUnityverse.Managerz {
     public TMP_Text helpBoxText;
     public Tilemap baseMap;
     public Tilemap collisionMap;
-    public Tilemap secretMap;
 
     public GameObject playerGruntz;
     public List<Grunt> gruntz;
 
+    
+    public List<TGrunt> testGruntz;
+    public List<TCheckpointPyramid> testCheckpointPyramids;
+    
+    
     // Colliding MapObjectz
     public List<Rock> rockz;
     public List<GiantRock> giantRockz;
@@ -55,6 +62,8 @@ namespace GruntzUnityverse.Managerz {
     public List<BlueHoldSwitch> blueHoldSwitchez;
     public List<CheckpointSwitchTool> toolCheckpointSwitchez;
     public List<CheckpointSwitchToy> toyCheckpointSwitchez;
+
+    // CheckpointSwitches
     public List<SecretSwitch> secretSwitchez;
 
     public GameObject nodeContainer;
@@ -68,9 +77,8 @@ namespace GruntzUnityverse.Managerz {
     private void Start() {
       Application.targetFrameRate = 60;
 
-      baseMap = GameObject.Find("Base").GetComponent<Tilemap>();
-      collisionMap = GameObject.Find("Collision").GetComponent<Tilemap>();
-      secretMap = GameObject.Find("Secret").GetComponent<Tilemap>();
+      baseMap = GameObject.Find("BaseMap").GetComponent<Tilemap>();
+      collisionMap = GameObject.Find("CollisionMap").GetComponent<Tilemap>();
       nodeContainer = GameObject.Find("NodeContainer");
 
       for (int x = 0; x < baseMap.cellBounds.xMax; x++) {
@@ -96,6 +104,11 @@ namespace GruntzUnityverse.Managerz {
       foreach (Grunt grunt in playerGruntz.GetComponentsInChildren<Grunt>()) {
         gruntz.Add(grunt);
       }
+      
+      // Collect TestGruntz
+      foreach (TGrunt grunt in playerGruntz.GetComponentsInChildren<TGrunt>()) {
+        testGruntz.Add(grunt);
+      }
 
       CollectAllMapObjectz();
 
@@ -105,6 +118,12 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void CollectAllMapObjectz() {
+      foreach (TCheckpointPyramid checkpointPyramid in baseMap.GetComponentsInChildren<TCheckpointPyramid>()) {
+        testCheckpointPyramids.Add(checkpointPyramid);
+      }
+
+
+
       // Collect Arrowz
       foreach (Arrow arrow in baseMap.GetComponentsInChildren<Arrow>()) {
         arrowz.Add(arrow);
@@ -121,12 +140,12 @@ namespace GruntzUnityverse.Managerz {
       }
 
       // Collect Rockz
-      foreach (Rock rock in GameObject.Find("Rockz").GetComponentsInChildren<Rock>()) {
+      foreach (Rock rock in GameObject.Find("Rocks").GetComponentsInChildren<Rock>()) {
         rockz.Add(rock);
       }
 
       // Collect GiantRockz
-      foreach (GiantRock giantRock in GameObject.Find("GiantRockz").GetComponentsInChildren<GiantRock>()) {
+      foreach (GiantRock giantRock in GameObject.Find("GiantRocks").GetComponentsInChildren<GiantRock>()) {
         giantRockz.Add(giantRock);
       }
 
@@ -154,11 +173,6 @@ namespace GruntzUnityverse.Managerz {
         secretSwitchez.Add(secretSwitch);
       }
 
-      // Collect SecretTilez
-      foreach (SecretTile secretTile in secretMap.GetComponentsInChildren<SecretTile>()) {
-        secretTilez.Add(secretTile);
-      }
-
       // Collect static WaterBridgez
       foreach (WaterBridgeStatic waterBridgeStatic in baseMap.GetComponentsInChildren<WaterBridgeStatic>()) {
         staticWaterBridgez.Add(waterBridgeStatic);
@@ -171,6 +185,10 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void BlockCollidingObjectNodesByDefault() {
+      foreach (TCheckpointPyramid checkpointPyramid in testCheckpointPyramids) {
+        SetBlockedAt(checkpointPyramid.OwnLocation, !checkpointPyramid.IsDown);
+      }
+
       foreach (Rock rock in rockz) {
         BlockNodeAt(rock.GridLocation);
       }
@@ -203,49 +221,61 @@ namespace GruntzUnityverse.Managerz {
     private void UnblockNonCollidingObjectNodesByDefault() {
       // Underwater Arrowz?
       foreach (Arrow arrow in arrowz) {
-        UnblockNodeAt(arrow.GridLocation);
+        FreeNodeAt(arrow.GridLocation);
       }
 
       // Underwater Spikez?
       foreach (Spikez spikez in spikezList) {
-        UnblockNodeAt(spikez.GridLocation);
+        FreeNodeAt(spikez.GridLocation);
       }
 
       foreach (BrickFoundation brickFoundation in brickFoundationz) {
-        UnblockNodeAt(brickFoundation.GridLocation);
+        FreeNodeAt(brickFoundation.GridLocation);
       }
 
       foreach (BlueHoldSwitch blueHoldSwitch in blueHoldSwitchez) {
-        UnblockNodeAt(blueHoldSwitch.GridLocation);
+        FreeNodeAt(blueHoldSwitch.GridLocation);
       }
 
       foreach (BlueToggleSwitch blueToggleSwitch in blueToggleSwitchez) {
-        UnblockNodeAt(blueToggleSwitch.GridLocation);
+        FreeNodeAt(blueToggleSwitch.GridLocation);
       }
 
       foreach (CheckpointSwitchTool checkpointSwitch in toolCheckpointSwitchez) {
-        UnblockNodeAt(checkpointSwitch.GridLocation);
+        FreeNodeAt(checkpointSwitch.GridLocation);
       }
 
       foreach (CheckpointSwitchToy checkpointSwitch in toyCheckpointSwitchez) {
-        UnblockNodeAt(checkpointSwitch.GridLocation);
+        FreeNodeAt(checkpointSwitch.GridLocation);
       }
 
       foreach (SecretSwitch secretSwitch in secretSwitchez) {
-        UnblockNodeAt(secretSwitch.GridLocation);
+        FreeNodeAt(secretSwitch.GridLocation);
       }
 
       foreach (WaterBridgeStatic staticWaterBridge in staticWaterBridgez) {
-        UnblockNodeAt(staticWaterBridge.GridLocation);
+        FreeNodeAt(staticWaterBridge.GridLocation);
       }
     }
 
+    public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
+      mapNodes.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = isBlocked;
+    }
+    
     public void BlockNodeAt(Vector2Int gridLocation) {
       mapNodes.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = true;
     }
 
-    public void UnblockNodeAt(Vector2Int gridLocation) {
+    public void FreeNodeAt(Vector2Int gridLocation) {
       mapNodes.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = false;
+    }
+
+    public Node GetNodeAt(Vector2Int gridLocation) {
+      return mapNodes.First(node => node.GridLocation.Equals(gridLocation));
+    }
+
+    public bool IsBlockedAt(Vector2Int gridLocation) {
+      return mapNodes.First(node => node.GridLocation.Equals(gridLocation)).isBlocked;
     }
   }
 }
