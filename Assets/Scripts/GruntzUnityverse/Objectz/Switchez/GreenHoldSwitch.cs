@@ -15,7 +15,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
     private void Start() { OwnLocation = Vector2Int.FloorToInt(transform.position); }
 
     private void Update() {
-      if (LevelManager.Instance.testGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
         if (!HasBeenPressed) {
           TogglePyramids();
 

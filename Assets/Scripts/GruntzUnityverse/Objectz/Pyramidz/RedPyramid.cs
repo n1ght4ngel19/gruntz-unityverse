@@ -1,3 +1,3 @@
 ﻿namespace GruntzUnityverse.Objectz.Pyramidz {
-  public class GreenPyramid : Pyramid {}
+  public class RedPyramid : Pyramid {}
 }

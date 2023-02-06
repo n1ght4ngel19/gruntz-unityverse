@@ -27,9 +27,9 @@ namespace _Test {
     [field: SerializeField] public CompassDirection FacingDirection { get; set; }
 
     public void MoveTowardsTarget() {
-      PathStart = LevelManager.Instance.nodesList.First(node => node.GridLocation.Equals(OwnLocation));
+      PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
 
-      PathEnd = LevelManager.Instance.nodesList.First(
+      PathEnd = LevelManager.Instance.nodeList.First(
         node => node.GridLocation.Equals(TargetLocation) && !node.isBlocked
       );
 

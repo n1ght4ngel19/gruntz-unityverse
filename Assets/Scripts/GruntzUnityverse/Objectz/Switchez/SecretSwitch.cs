@@ -22,7 +22,7 @@ namespace GruntzUnityverse.Objectz.Switchez
 
     private void Update()
     {
-      if (LevelManager.Instance.testGruntz
+      if (LevelManager.Instance.PlayerGruntz
         .Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))
       )
       {

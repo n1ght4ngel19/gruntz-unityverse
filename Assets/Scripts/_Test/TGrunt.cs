@@ -58,7 +58,7 @@ namespace _Test {
     protected void OnMouseDown() {
       IsSelected = true;
 
-      foreach (TGrunt grunt in LevelManager.Instance.testGruntz.Where(grunt => grunt != this)) {
+      foreach (TGrunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt != this)) {
         grunt.IsSelected = false;
       }
     }
