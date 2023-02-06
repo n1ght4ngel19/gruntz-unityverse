@@ -4,6 +4,7 @@ using _Test;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Hazardz;
+using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.Pathfinding;
 using TMPro;
 using UnityEngine;
@@ -30,10 +31,8 @@ namespace GruntzUnityverse.Managerz {
     public Tilemap baseLayer;
     public Tilemap collisionLayer;
 
-    public List<Grunt> gruntz;
-
     public List<TGrunt> testGruntz;
-    public List<TCheckpointPyramid> testCheckpointPyramids;
+    public List<CheckpointPyramid> testCheckpointPyramids;
     
     
     // Colliding MapObjectz
@@ -88,7 +87,7 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void CollectAllMapObjectz() {
-      foreach (TCheckpointPyramid checkpointPyramid in baseLayer.GetComponentsInChildren<TCheckpointPyramid>()) {
+      foreach (CheckpointPyramid checkpointPyramid in baseLayer.GetComponentsInChildren<CheckpointPyramid>()) {
         testCheckpointPyramids.Add(checkpointPyramid);
       }
 
@@ -98,13 +97,13 @@ namespace GruntzUnityverse.Managerz {
       }
 
       // Collect Rockz
-      foreach (Rock rock in GameObject.Find("Rocks").GetComponentsInChildren<Rock>()) {
+      foreach (Rock rock in GameObject.Find("Rockz").GetComponentsInChildren<Rock>()) {
         rockz.Add(rock);
       }
     }
 
     private void BlockCollidingObjectNodesByDefault() {
-      foreach (TCheckpointPyramid checkpointPyramid in testCheckpointPyramids) {
+      foreach (CheckpointPyramid checkpointPyramid in testCheckpointPyramids) {
         SetBlockedAt(checkpointPyramid.OwnLocation, !checkpointPyramid.IsDown);
       }
 

@@ -5,17 +5,14 @@ using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
-namespace _Test
-{
-  public class TGrunt : MonoBehaviour
-  {
+namespace _Test {
+  public class TGrunt : MonoBehaviour {
     [field: SerializeField] public TNavComponent NavComponent { get; set; }
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
 
 
-    private void Start()
-    {
+    private void Start() {
       Animator = gameObject.GetComponent<Animator>();
       NavComponent = gameObject.AddComponent<TNavComponent>();
       NavComponent.OwnLocation = Vector2Int.FloorToInt(transform.position);
@@ -23,23 +20,17 @@ namespace _Test
       NavComponent.FacingDirection = CompassDirection.South;
     }
 
-    private void Update()
-    {
+    private void Update() {
       PlayAnimation();
 
-      if (Input.GetMouseButtonDown(1)
-        && IsSelected
-        && NavComponent.IsMoving)
-      {
+      if (Input.GetMouseButtonDown(1) && IsSelected && NavComponent.IsMoving) {
         NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
         NavComponent.HaveSavedTarget = true;
 
         return;
       }
 
-      if (NavComponent.HaveSavedTarget
-        && !NavComponent.IsMoving)
-      {
+      if (NavComponent.HaveSavedTarget && !NavComponent.IsMoving) {
         NavComponent.TargetLocation = NavComponent.SavedTargetLocation;
         NavComponent.HaveSavedTarget = false;
 
@@ -48,9 +39,7 @@ namespace _Test
 
       if (Input.GetMouseButtonDown(1)
         && IsSelected
-        && SelectorCircle.Instance.OwnLocation != NavComponent.OwnLocation
-      )
-      {
+        && SelectorCircle.Instance.OwnLocation != NavComponent.OwnLocation) {
         NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
       }
 
@@ -58,18 +47,18 @@ namespace _Test
       NavComponent.MoveTowardsTarget();
     }
 
-    public void PlayAnimation()
-    {
-      string animationType = NavComponent.IsMoving ? "Walk" : "Idle";
+    public void PlayAnimation() {
+      string animationType = NavComponent.IsMoving
+        ? "Walk"
+        : "Idle";
+
       Animator.Play($"BareHandzGrunt_{animationType}_{NavComponent.FacingDirection}");
     }
 
-    protected void OnMouseDown()
-    {
+    protected void OnMouseDown() {
       IsSelected = true;
 
-      foreach (TGrunt grunt in LevelManager.Instance.testGruntz.Where(grunt => grunt != this))
-      {
+      foreach (TGrunt grunt in LevelManager.Instance.testGruntz.Where(grunt => grunt != this)) {
         grunt.IsSelected = false;
       }
     }

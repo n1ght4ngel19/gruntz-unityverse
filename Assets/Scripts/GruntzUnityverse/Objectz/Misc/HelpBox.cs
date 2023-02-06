@@ -7,7 +7,7 @@ namespace GruntzUnityverse.Objectz.Misc {
   public class HelpBox : MonoBehaviour {
     public CameraMovement mainCam;
     public SpriteRenderer spriteRenderer;
-    public Vector2Int GridLocation {get; set;}
+    public Vector2Int GridLocation { get; set; }
 
     public List<Sprite> animFrames;
     private const int FrameRate = 12;
@@ -20,31 +20,30 @@ namespace GruntzUnityverse.Objectz.Misc {
     private void Start() {
       GridLocation = Vector2Int.FloorToInt(transform.position);
 
-      animFrames = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Misc/HelpBox").ToList();
+      animFrames = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Misc/HelpBox")
+        .ToList();
+
       isUntouched = true;
     }
 
     private void Update() {
       // Pausing the game when a Grunt steps onto a HelpBox and displaying the HelpBox text
-      if (isUntouched && LevelManager.Instance.gruntz.Any(grunt => grunt.NavComponent.OwnGridLocation.Equals(GridLocation))) {
+      if (isUntouched
+        && LevelManager.Instance.testGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(GridLocation))) {
         DisplayBox();
 
         return;
       }
 
       // Resuming the game when user clicks the left or right mouse button while the game is paused
-      if (
-        !isUntouched
-        && IsTextShown
-        && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-      ) {
+      if (!isUntouched && IsTextShown && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))) {
         HideBox();
 
         return;
       }
 
-      if (LevelManager.Instance.gruntz
-          .All(grunt => !grunt.NavComponent.OwnGridLocation.Equals(GridLocation))) {
+      if (LevelManager.Instance.testGruntz
+        .All(grunt => !grunt.NavComponent.OwnLocation.Equals(GridLocation))) {
         isUntouched = true;
       }
 

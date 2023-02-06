@@ -1,23 +1,16 @@
 using UnityEngine;
 
-namespace GruntzUnityverse.Objectz
-{
-  public class SelectorCircle : MonoBehaviour
-  {
+namespace GruntzUnityverse.Objectz {
+  public class SelectorCircle : MonoBehaviour {
     private static SelectorCircle _instance;
 
-    public static SelectorCircle Instance
-    {
+    public static SelectorCircle Instance {
       get => _instance;
     }
 
-    private void Awake()
-    {
+    private void Awake() {
       if (_instance != null && _instance != this)
-        Destroy
-        (
-          gameObject
-        );
+        Destroy(gameObject);
       else
         _instance = this;
     }
@@ -25,43 +18,23 @@ namespace GruntzUnityverse.Objectz
     public Camera mainCamera;
     public Vector2Int OwnLocation { get; set; }
 
-    private void Start()
-    {
-      OwnLocation = Vector2Int.FloorToInt
-      (
-        transform.position
-      );
-    }
+    private void Start() { OwnLocation = Vector2Int.FloorToInt(transform.position); }
 
-    private void Update()
-    {
+    private void Update() {
       transform.position = SetPositionBasedOnMousePosition();
 
-      OwnLocation = Vector2Int.FloorToInt
-      (
-        transform.position
-      );
+      OwnLocation = Vector2Int.FloorToInt(transform.position);
     }
 
-    private Vector3 SetPositionBasedOnMousePosition()
-    {
-      return new Vector3
-      (
-        Mathf.Floor
-        (
-          mainCamera.ScreenToWorldPoint
-            (
-              Input.mousePosition
-            )
+    private Vector3 SetPositionBasedOnMousePosition() {
+      return new Vector3(
+        Mathf.Floor(
+          mainCamera.ScreenToWorldPoint(Input.mousePosition)
             .x
         )
         + 0.5f,
-        Mathf.Floor
-        (
-          mainCamera.ScreenToWorldPoint
-            (
-              Input.mousePosition
-            )
+        Mathf.Floor(
+          mainCamera.ScreenToWorldPoint(Input.mousePosition)
             .y
         )
         + 0.5f,

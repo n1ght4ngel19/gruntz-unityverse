@@ -6,10 +6,8 @@ using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
-namespace _Test
-{
-  public class TNavComponent : MonoBehaviour
-  {
+namespace _Test {
+  public class TNavComponent : MonoBehaviour {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public Vector2Int PreviousLocation { get; set; }
     [field: SerializeField] public Vector2Int TargetLocation { get; set; }
@@ -28,38 +26,33 @@ namespace _Test
     [field: SerializeField] public Vector3 MoveVector { get; set; }
     [field: SerializeField] public CompassDirection FacingDirection { get; set; }
 
-    public void MoveTowardsTarget()
-    {
-      PathStart = LevelManager.Instance.nodesList
-        .First(node => node.GridLocation.Equals(OwnLocation));
+    public void MoveTowardsTarget() {
+      PathStart = LevelManager.Instance.nodesList.First(node => node.GridLocation.Equals(OwnLocation));
 
-      PathEnd = LevelManager.Instance.nodesList
-        .First(node => node.GridLocation.Equals(TargetLocation) && !node.isBlocked);
+      PathEnd = LevelManager.Instance.nodesList.First(
+        node => node.GridLocation.Equals(TargetLocation) && !node.isBlocked
+      );
 
       Path = Pathfinder.PathBetween(PathStart, PathEnd);
 
-      if (Path == null)
-      {
+      if (Path == null) {
         return;
       }
 
-      if (Path.Count <= 1)
-      {
+      if (Path.Count <= 1) {
         return;
       }
 
       PreviousLocation = Path[0]
         .GridLocation;
 
-      Vector3 nextPosition = LocationAsPosition
-      (
+      Vector3 nextPosition = LocationAsPosition(
         Path[1]
           .GridLocation
       );
 
       // Todo: Handle here disallowing move commands while moving
-      if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.025)
-      {
+      if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.05f) {
         IsMoving = true;
 
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
@@ -68,10 +61,7 @@ namespace _Test
 
         // 0.3f is hardcoded only for ease of testing, remove after not needed
         transform.position += MoveVector * (Time.deltaTime / 0.3f);
-      }
-      else
-      {
-        // Make necessary changes when arriving
+      } else {
         IsMoving = false;
 
         OwnLocation = Path[1]
@@ -81,18 +71,11 @@ namespace _Test
       }
     }
 
-    private Vector3 LocationAsPosition(Vector2Int location)
-    {
-      return new Vector3
-      (
-        location.x + 0.5f,
-        location.y + 0.5f,
-        -5f
-      );
+    private Vector3 LocationAsPosition(Vector2Int location) {
+      return new Vector3(location.x + 0.5f, location.y + 0.5f, -15f);
     }
 
-    private void DetermineFacingDirection()
-    {
+    private void DetermineFacingDirection() {
       Vector2Int directionVector = Path[1]
           .GridLocation
         - Path[0]

@@ -1,44 +1,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.Objectz.Bridgez;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class BlueHoldSwitch : MonoBehaviour {
-    public Vector2Int GridLocation {get; set;}
-    public bool IsPressed { get; set; }
+    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
+    [field: SerializeField] public List<WaterBridge> Bridges { get; set; }
+    [field: SerializeField] public bool HasBeenPressed { get; set; }
+    [field: SerializeField] public bool IsPressed { get; set; }
 
-    public SpriteRenderer spriteRenderer;
-
-    public Sprite[] animFrames;
-
-    public bool isUntouched;
-
-    private void Start() {
-      GridLocation = Vector2Int.FloorToInt(transform.position);
-
-      isUntouched = true;
-    }
+    private void Start() { OwnLocation = Vector2Int.FloorToInt(transform.position); }
 
     private void Update() {
-      if (LevelManager.Instance.gruntz.Any(grunt1 => grunt1.NavComponent.OwnGridLocation.Equals(GridLocation))) {
-        if (!isUntouched) {
-          return;
-        }
+      if (LevelManager.Instance.testGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+        if (!HasBeenPressed) {
+          ToggleBridges();
 
-        spriteRenderer.sprite = animFrames[1];
-        isUntouched = false;
-        IsPressed = true;
-      }
-      else {
-        spriteRenderer.sprite = animFrames[0];
+          IsPressed = true;
+          HasBeenPressed = true;
+        }
+      } else if (HasBeenPressed) {
+        ToggleBridges();
+
         IsPressed = false;
-        isUntouched = true;
+        HasBeenPressed = false;
       }
     }
 
-    public SpriteRenderer Renderer { get; set; }
-    public Sprite DisplayFrame { get; set; }
-    public List<Sprite> AnimationFrames { get; set; }
+    private void ToggleBridges() {
+      foreach (WaterBridge bridge in Bridges) {
+        bridge.ChangeState();
+      }
+    }
   }
 }
