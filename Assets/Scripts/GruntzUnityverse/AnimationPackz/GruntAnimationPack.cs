@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.MapObjectz.Itemz;
+using Enumz;
 using UnityEngine;
 
 namespace GruntzUnityverse.AnimationPackz {

@@ -1,4 +1,4 @@
-using GruntzUnityverse.MapObjectz.Misc;
+using GruntzUnityverse.Objectz.Misc;
 using UnityEngine;
 
 namespace GruntzUnityverse {

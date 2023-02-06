@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Enumz;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.PathFinding;
+using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
@@ -29,13 +30,13 @@ namespace _Test
 
     public void MoveTowardsTarget()
     {
-      PathStart = LevelManager.Instance.mapNodes
+      PathStart = LevelManager.Instance.nodesList
         .First(node => node.GridLocation.Equals(OwnLocation));
 
-      PathEnd = LevelManager.Instance.mapNodes
+      PathEnd = LevelManager.Instance.nodesList
         .First(node => node.GridLocation.Equals(TargetLocation) && !node.isBlocked);
 
-      Path = PathFinder.PathBetween(PathStart, PathEnd);
+      Path = Pathfinder.PathBetween(PathStart, PathEnd);
 
       if (Path == null)
       {

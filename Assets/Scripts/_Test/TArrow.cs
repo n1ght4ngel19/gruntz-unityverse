@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Utility;
 using UnityEngine;
@@ -11,16 +13,31 @@ namespace _Test
     [field: SerializeField] public CompassDirection Direction { get; set; }
 
 
-    private void Start() { OwnLocation = Vector2Int.FloorToInt(transform.position); }
+    private void Start()
+    {
+      OwnLocation = Vector2Int.FloorToInt
+      (
+        transform.position
+      );
+    }
 
     private void Update()
     {
       foreach (TGrunt grunt in LevelManager.Instance.testGruntz
-        .Where(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))
+        .Where
+        (
+          grunt => grunt.NavComponent.OwnLocation.Equals
+          (
+            OwnLocation
+          )
+        )
       )
       {
         grunt.NavComponent.TargetLocation = OwnLocation
-          + VectorOfDirection(Direction);
+          + VectorOfDirection
+          (
+            Direction
+          );
 
         return;
       }
@@ -29,10 +46,20 @@ namespace _Test
     public Vector2Int VectorOfDirection(CompassDirection direction)
     {
       return direction switch {
-        CompassDirection.North => Vector2Int.up,
-        CompassDirection.East => Vector2Int.right,
-        CompassDirection.South => Vector2Int.down,
+        CompassDirection.North => Vector2IntC.North,
+        CompassDirection.East => Vector2IntC.East,
+        CompassDirection.South => Vector2IntC.South,
         CompassDirection.West => Vector2Int.left,
+        CompassDirection.NorthEast => Vector2IntC.NorthEast,
+        CompassDirection.NorthWest => Vector2IntC.NorthWest,
+        CompassDirection.SouthEast => Vector2IntC.SouthEast,
+        CompassDirection.SouthWest => Vector2IntC.SouthWest,
+        var _ => throw new ArgumentOutOfRangeException
+        (
+          nameof(direction),
+          direction,
+          "No Arrow direction specified!"
+        ),
       };
     }
   }

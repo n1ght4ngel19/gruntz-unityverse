@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.MapObjectz;
-using GruntzUnityverse.MapObjectz.Itemz;
 using UnityEngine;
 
 namespace GruntzUnityverse {

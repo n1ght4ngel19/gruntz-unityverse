@@ -2,13 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Enumz;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Attributez;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.MapObjectz;
-using GruntzUnityverse.MapObjectz.Hazardz;
-using GruntzUnityverse.MapObjectz.Itemz;
-using GruntzUnityverse.PathFinding;
+using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Objectz.Hazardz;
+using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
@@ -87,7 +87,7 @@ namespace GruntzUnityverse.Actorz
       OwnStaminaBar.Renderer.sprite =
         OwnStaminaBar.AnimationFrames[Stamina.ActualValue];
 
-      // LevelManager.Instance.mapNodes.First(node => node.GridLocation.Equals(NavComponent.OwnGridLocation)).isBlocked = true;
+      // LevelManager.Instance.nodesList.First(node => node.GridLocation.Equals(NavComponent.OwnGridLocation)).isBlocked = true;
 
       HandleSpikez();
 
@@ -154,36 +154,6 @@ namespace GruntzUnityverse.Actorz
     /// </summary>
     private void SetTargetGridLocation()
     {
-      // Handling Arrowz that force movement
-      foreach (Arrow arrow in LevelManager.Instance.arrowz)
-      {
-        if (
-          !arrow.spriteRenderer.enabled
-          || Vector2.Distance(arrow.transform.position, transform.position) > 0.025f
-        )
-        {
-          continue;
-        }
-
-        NavComponent.TargetGridLocation = arrow.direction switch {
-          CompassDirection.North => NavComponent.OwnGridLocation + Vector2Int.up,
-          CompassDirection.South => NavComponent.OwnGridLocation + Vector2Int.down,
-          CompassDirection.East => NavComponent.OwnGridLocation + Vector2Int.right,
-          CompassDirection.West => NavComponent.OwnGridLocation + Vector2Int.left,
-          // TODO: Uncomment after reforming VectorExtensions
-          // CompassDirection.NorthEast => NavComponent.OwnGridLocation + Vector3Plus.upright,
-          // CompassDirection.NorthWest => NavComponent.OwnGridLocation + Vector3Plus.upleft,
-          // CompassDirection.SouthEast => NavComponent.OwnGridLocation + Vector3Plus.downright,
-          // CompassDirection.SouthWest => NavComponent.OwnGridLocation + Vector3Plus.downleft,
-          _ => NavComponent.OwnGridLocation
-        };
-
-        // Return, so that Arrow movement cancels manual move command
-        return;
-      }
-
-      // Todo: Handling other factors that can interrupt movement
-
       // Set target location when nothing is interrupting
       if (Input.GetMouseButtonDown(1) && isSelected)
       {

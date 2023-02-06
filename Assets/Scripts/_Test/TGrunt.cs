@@ -1,6 +1,7 @@
 ﻿using System.Linq;
+using Enumz;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.MapObjectz;
+using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ namespace _Test
         && IsSelected
         && NavComponent.IsMoving)
       {
-        NavComponent.SavedTargetLocation = SelectorCircle.Instance.GridLocation;
+        NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
         NavComponent.HaveSavedTarget = true;
 
         return;
@@ -47,10 +48,10 @@ namespace _Test
 
       if (Input.GetMouseButtonDown(1)
         && IsSelected
-        && SelectorCircle.Instance.GridLocation != NavComponent.OwnLocation
+        && SelectorCircle.Instance.OwnLocation != NavComponent.OwnLocation
       )
       {
-        NavComponent.TargetLocation = SelectorCircle.Instance.GridLocation;
+        NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
       }
 
       // This gets called every time, since it only needs the target, which is always provided
