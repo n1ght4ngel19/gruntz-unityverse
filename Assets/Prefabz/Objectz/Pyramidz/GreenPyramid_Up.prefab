@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6614523138704185893}
   - component: {fileID: 6057601565982675655}
   - component: {fileID: 9086844417210195480}
-  - component: {fileID: 2801646878582442656}
+  - component: {fileID: 5746067939772015399}
   m_Layer: 0
-  m_Name: CheckpointPyramid_Up
+  m_Name: GreenPyramid_Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -687476613, guid: 6e0c8e600386e804891d5fb4b148a532, type: 3}
+  m_Sprite: {fileID: -1335318639, guid: 4e5e20eec207c3842a0c49c942513994, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 8831242626146821270}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4435832c6eb52be448171d34970fba01, type: 2}
+  m_Controller: {fileID: 9100000, guid: ffa3e36e83cac94458515ad0ef0243c8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -106,7 +106,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2801646878582442656
+--- !u!114 &5746067939772015399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,11 +115,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8831242626146821270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86f5561193ca4dccbbd3c3883942c0d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c1ec23b9e824dee944aa47c44cc5bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <OwnLocation>k__BackingField: {x: 0, y: 0}
   <Animator>k__BackingField: {fileID: 0}
-  <Switches>k__BackingField: []
   <IsDown>k__BackingField: 0
-  <HasChanged>k__BackingField: 0
