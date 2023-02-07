@@ -24,7 +24,7 @@ namespace GruntzUnityverse.Objectz
 
     private void Update()
     {
-      foreach (TGrunt grunt in LevelManager.Instance.testGruntz
+      foreach (TGrunt grunt in LevelManager.Instance.PlayerGruntz
         .Where
         (
           grunt => grunt.NavComponent.OwnLocation.Equals

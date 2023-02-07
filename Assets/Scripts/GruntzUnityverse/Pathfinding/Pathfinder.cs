@@ -16,7 +16,7 @@ namespace GruntzUnityverse.Pathfinding
       // Adding the startNode to have something to begin with
       openList.Add(startNode);
 
-      foreach (Node node in LevelManager.Instance.nodesList)
+      foreach (Node node in LevelManager.Instance.nodeList)
       {
         node.gCost = int.MaxValue;
         node.fCost = node.gCost + node.hCost;
@@ -53,7 +53,7 @@ namespace GruntzUnityverse.Pathfinding
           }
 
           if (neighbour.isBlocked
-            || LevelManager.Instance.testGruntz.Any
+            || LevelManager.Instance.PlayerGruntz.Any
               (grunt => grunt.NavComponent.OwnLocation.Equals(neighbour.GridLocation)))
           {
             continue;
@@ -108,7 +108,7 @@ namespace GruntzUnityverse.Pathfinding
 
       if (LevelManager.Instance.nodeLocationsList.Contains(location))
       {
-        neighbours.Add(LevelManager.Instance.nodesList.First(node1 => node1.GridLocation.Equals(location)));
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Down
@@ -116,7 +116,7 @@ namespace GruntzUnityverse.Pathfinding
 
       if (LevelManager.Instance.nodeLocationsList.Contains(location))
       {
-        neighbours.Add(LevelManager.Instance.nodesList.First(node1 => node1.GridLocation.Equals(location)));
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Right
@@ -124,7 +124,7 @@ namespace GruntzUnityverse.Pathfinding
 
       if (LevelManager.Instance.nodeLocationsList.Contains(location))
       {
-        neighbours.Add(LevelManager.Instance.nodesList.First(node1 => node1.GridLocation.Equals(location)));
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Left
@@ -132,7 +132,7 @@ namespace GruntzUnityverse.Pathfinding
 
       if (LevelManager.Instance.nodeLocationsList.Contains(location))
       {
-        neighbours.Add(LevelManager.Instance.nodesList.First(node1 => node1.GridLocation.Equals(location)));
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Up-Right
@@ -140,7 +140,7 @@ namespace GruntzUnityverse.Pathfinding
 
       if (LevelManager.Instance.nodeLocationsList.Contains(location))
       {
-        neighbours.Add(LevelManager.Instance.nodesList.First(node1 => node1.GridLocation.Equals(location)));
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Up-Left
@@ -148,7 +148,7 @@ namespace GruntzUnityverse.Pathfinding
 
       if (LevelManager.Instance.nodeLocationsList.Contains(location))
       {
-        neighbours.Add(LevelManager.Instance.nodesList.First(node1 => node1.GridLocation.Equals(location)));
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Down-Right
@@ -156,7 +156,7 @@ namespace GruntzUnityverse.Pathfinding
 
       if (LevelManager.Instance.nodeLocationsList.Contains(location))
       {
-        neighbours.Add(LevelManager.Instance.nodesList.First(node1 => node1.GridLocation.Equals(location)));
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       // Down-Left
@@ -164,7 +164,7 @@ namespace GruntzUnityverse.Pathfinding
 
       if (LevelManager.Instance.nodeLocationsList.Contains(location))
       {
-        neighbours.Add(LevelManager.Instance.nodesList.First(node1 => node1.GridLocation.Equals(location)));
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
       }
 
       return neighbours;
