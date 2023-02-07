@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using _Test;
-using Enumz;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
-namespace GruntzUnityverse.Objectz {
-  public class ArrowOneWay : MonoBehaviour {
+namespace GruntzUnityverse.Objectz.Arrowz {
+  public class OneWayArrow : MonoBehaviour {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public CompassDirection Direction { get; set; }
 

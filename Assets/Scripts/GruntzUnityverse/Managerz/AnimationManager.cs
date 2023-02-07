@@ -1,5 +1,5 @@
-using Enumz;
 using GruntzUnityverse.AnimationPackz;
+using GruntzUnityverse.Enumz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Managerz {

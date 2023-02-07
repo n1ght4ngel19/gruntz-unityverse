@@ -1,4 +1,4 @@
-using Enumz;
+using GruntzUnityverse.Enumz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Collectiblez {

@@ -1,4 +1,4 @@
-namespace Enumz {
+namespace GruntzUnityverse.Enumz {
   public enum ToolType {
     BareHandz,
     Club,
