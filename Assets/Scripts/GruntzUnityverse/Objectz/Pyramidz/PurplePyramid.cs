@@ -4,14 +4,13 @@ using GruntzUnityverse.Objectz.Switchez;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
-  public class CheckpointPyramid : Pyramid {
-    [field: SerializeField] public List<CheckpointSwitch> Switchez { get; set; }
+  public class PurplePyramid : Pyramid {
+    [field: SerializeField] public List<PurpleSwitch> Switchez { get; set; }
     [field: SerializeField] public bool HasChanged { get; set; }
-
 
     private void Start() {
       if (Switchez.Count.Equals(0)) {
-        Debug.LogError("There is no Switch assigned to this Pyramid, this way the Checkpoint won't work properly!");
+        Debug.LogError("There is no Switch assigned to this Pyramid!");
       }
 
       OwnLocation = Vector2Int.FloorToInt(transform.position);
@@ -19,15 +18,19 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     }
 
     private void Update() {
-      if (Switchez.Any(checkpointSwitch => !checkpointSwitch.IsPressed)) {
+      if (Switchez.Any(purpleSwitch => !purpleSwitch.IsPressed)) {
+        if (HasChanged) {
+          ChangeState();
+          HasChanged = false;
+        }
+
         return;
       }
 
-      HasChanged = true;
-
-      ChangeState();
-
-      enabled = false;
+      if (!HasChanged) {
+        ChangeState();
+        HasChanged = true;
+      }
     }
   }
 }

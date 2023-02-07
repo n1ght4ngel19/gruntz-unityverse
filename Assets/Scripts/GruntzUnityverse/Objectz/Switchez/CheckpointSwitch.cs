@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Pyramidz;
@@ -8,12 +7,12 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Switchez {
   public class CheckpointSwitch : MonoBehaviour {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
-    [field: SerializeField] public List<CheckpointPyramid> Pyramids { get; set; }
+    [field: SerializeField] public List<CheckpointPyramid> Pyramidz { get; set; }
     [field: SerializeField] public bool IsPressed { get; set; }
 
 
     private void Start() {
-      if (Pyramids.Count.Equals(0)) {
+      if (Pyramidz.Count.Equals(0)) {
         Debug.LogError("There is no Pyramid assigned to this Switch, this way the Checkpoint won't work properly!");
       }
 
@@ -21,7 +20,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
     }
 
     private void Update() {
-      if (Pyramids.All(pyramid => pyramid.HasChanged)) {
+      if (Pyramidz.All(pyramid => pyramid.HasChanged)) {
         enabled = false;
       }
 

@@ -10,7 +10,7 @@ namespace GruntzUnityverse.Objectz.Switchez
   {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public Behaviour Behaviour { get; set; }
-    [field: SerializeField] public List<SecretObject> SecretObjects { get; set; }
+    [field: SerializeField] public List<SecretObject> SecretObjectz { get; set; }
     private const float TimeStep = 0.1f;
 
 
@@ -26,7 +26,7 @@ namespace GruntzUnityverse.Objectz.Switchez
         .Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))
       )
       {
-        foreach (SecretObject secretObject in SecretObjects)
+        foreach (SecretObject secretObject in SecretObjectz)
         {
           StartCoroutine(HandleSecretObject(secretObject));
         }
