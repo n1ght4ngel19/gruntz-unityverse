@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
-using Enumz;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Attributez;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {

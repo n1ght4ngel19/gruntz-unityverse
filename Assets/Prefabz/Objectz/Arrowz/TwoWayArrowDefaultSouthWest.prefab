@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6614523138704185893}
   - component: {fileID: 6057601565982675655}
-  - component: {fileID: 2699213083048035484}
+  - component: {fileID: 4064167103887780933}
   m_Layer: 0
-  m_Name: TArrowOneWayNorth
+  m_Name: TwoWayArrowDefaultSouthWest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,18 +74,18 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d4cfb271399698e488d4f034a7986799, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1d9c0277aa3d427468500dde37f195cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2699213083048035484
+--- !u!114 &4064167103887780933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,8 +94,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8831242626146821270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af9faf267f28455d91440a8d1f49389a, type: 3}
+  m_Script: {fileID: 11500000, guid: aa2316dc556943fea762d89bdf5f869b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <OwnLocation>k__BackingField: {x: 0, y: 0}
-  <Direction>k__BackingField: 1
+  <DefaultDirection>k__BackingField: 6
+  <AlternateSprite>k__BackingField: {fileID: 21300000, guid: d771ef4b343239c4f871e56d6e2198d6, type: 3}

@@ -1,4 +1,4 @@
-namespace Enumz {
+namespace GruntzUnityverse.Enumz {
   public enum TravelSpeed {
     Grunt = 600,
     SpyGearGrunt = 500,
