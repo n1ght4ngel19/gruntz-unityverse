@@ -4,41 +4,27 @@ using System.Linq;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
-namespace GruntzUnityverse.Objectz.Switchez
-{
-  public class SecretSwitch : MonoBehaviour
-  {
-    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
+namespace GruntzUnityverse.Objectz.Switchez {
+  public class SecretSwitch : ObjectSwitch {
     [field: SerializeField] public Behaviour Behaviour { get; set; }
     [field: SerializeField] public List<SecretObject> SecretObjectz { get; set; }
     private const float TimeStep = 0.1f;
 
 
-    private void Start()
-    {
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
-      Behaviour = gameObject.GetComponent<Behaviour>();
-    }
+    private void Update() {
+      if (LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+        Renderer.sprite = PressedSprite;
 
-    private void Update()
-    {
-      if (LevelManager.Instance.PlayerGruntz
-        .Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))
-      )
-      {
-        foreach (SecretObject secretObject in SecretObjectz)
-        {
+        foreach (SecretObject secretObject in SecretObjectz) {
           StartCoroutine(HandleSecretObject(secretObject));
         }
 
-        Behaviour.enabled = false;
+        enabled = false;
       }
     }
 
-    private IEnumerator HandleSecretObject(SecretObject secretObject)
-    {
-      while (secretObject.Delay > 0)
-      {
+    private IEnumerator HandleSecretObject(SecretObject secretObject) {
+      while (secretObject.Delay > 0) {
         secretObject.Delay -= TimeStep;
 
         yield return new WaitForSeconds(TimeStep);
@@ -46,8 +32,7 @@ namespace GruntzUnityverse.Objectz.Switchez
 
       secretObject.ActivateSecret();
 
-      while (secretObject.Duration > 0)
-      {
+      while (secretObject.Duration > 0) {
         secretObject.Duration -= TimeStep;
 
         yield return new WaitForSeconds(TimeStep);

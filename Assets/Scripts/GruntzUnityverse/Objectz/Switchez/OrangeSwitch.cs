@@ -5,21 +5,11 @@ using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
-  public class OrangeSwitch : MonoBehaviour {
-    private SpriteRenderer Renderer { get; set; }
-    [field: SerializeField] public Sprite PressedSprite { get; set; }
-    [field: SerializeField] public Sprite ReleasedSprite { get; set; }
-    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
+  public class OrangeSwitch : ObjectSwitch {
     [field: SerializeField] public List<OrangeSwitch> OtherSwitchez { get; set; }
     [field: SerializeField] public List<OrangePyramid> Pyramidz { get; set; }
-    [field: SerializeField] public bool IsPressed { get; set; }
     [field: SerializeField] public bool HasBeenPressed { get; set; }
 
-
-    private void Start() {
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
-      Renderer = gameObject.GetComponent<SpriteRenderer>();
-    }
 
     private void Update() {
       if (LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
