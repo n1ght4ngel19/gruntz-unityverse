@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Test;
 using GruntzUnityverse.Objectz.Pyramidz;
+using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
 using TMPro;
 using UnityEngine;
@@ -11,18 +12,20 @@ using Vector3 = UnityEngine.Vector3;
 namespace GruntzUnityverse.Managerz {
   public class LevelManager : MonoBehaviour {
     #region Singleton Stuff
-      private static LevelManager _instance;
 
-      public static LevelManager Instance {
-        get => _instance;
-      }
+    private static LevelManager _instance;
 
-      private void Awake() {
-        if (_instance != null && _instance != this)
-          Destroy(gameObject);
-        else
-          _instance = this;
-      }
+    public static LevelManager Instance {
+      get => _instance;
+    }
+
+    private void Awake() {
+      if (_instance != null && _instance != this)
+        Destroy(gameObject);
+      else
+        _instance = this;
+    }
+
     #endregion
 
     public TMP_Text helpBoxText;
@@ -33,10 +36,15 @@ namespace GruntzUnityverse.Managerz {
     [field: SerializeField] public List<TGrunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<CheckpointPyramid> CheckpointPyramidz { get; set; }
     [field: SerializeField] public List<GreenPyramid> GreenPyramidz { get; set; }
+    [field: SerializeField] public List<OrangePyramid> OrangePyramidz { get; set; }
+    [field: SerializeField] public List<PurplePyramid> PurplePyramidz { get; set; }
     [field: SerializeField] public List<RedPyramid> RedPyramidz { get; set; }
 
-    private GameObject NodeContainer {get;set;}
-    private GameObject ObjectContainer {get;set;}
+
+    [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
+
+    private GameObject NodeContainer { get; set; }
+    private GameObject ObjectContainer { get; set; }
     public List<Node> nodeList;
     public List<Vector2Int> nodeLocationsList;
     public Node nodePrefab;
@@ -46,27 +54,31 @@ namespace GruntzUnityverse.Managerz {
 
       NodeContainer = GameObject.Find("NodeContainer");
       ObjectContainer = GameObject.Find("Objectz");
-      
-      helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
+
+      helpBoxText = GameObject.Find("ScrollBox")
+        .GetComponentInChildren<TMP_Text>();
 
       InitializeLevelManager();
     }
 
     private void InitializeLevelManager() {
       AssignLayerz();
-      
+
       CreatePathfindingNodez();
-      
+
       CollectObjectz();
-      
+
       CollectGruntz();
 
       SetDefaultObjectCollisionz();
     }
 
     private void AssignLayerz() {
-      baseLayer = GameObject.Find("BaseLayer").GetComponent<Tilemap>();
-      collisionLayer = GameObject.Find("CollisionLayer").GetComponent<Tilemap>();
+      baseLayer = GameObject.Find("BaseLayer")
+        .GetComponent<Tilemap>();
+
+      collisionLayer = GameObject.Find("CollisionLayer")
+        .GetComponent<Tilemap>();
     }
 
     private void CreatePathfindingNodez() {
@@ -84,7 +96,7 @@ namespace GruntzUnityverse.Managerz {
         }
       }
     }
-    
+
     private void CollectObjectz() {
       foreach (CheckpointPyramid checkpointPyramid in ObjectContainer.GetComponentsInChildren<CheckpointPyramid>()) {
         CheckpointPyramidz.Add(checkpointPyramid);
@@ -93,14 +105,19 @@ namespace GruntzUnityverse.Managerz {
       foreach (RedPyramid pyramid in ObjectContainer.GetComponentsInChildren<RedPyramid>()) {
         RedPyramidz.Add(pyramid);
       }
-      
+
       foreach (GreenPyramid pyramid in ObjectContainer.GetComponentsInChildren<GreenPyramid>()) {
         GreenPyramidz.Add(pyramid);
       }
+
+      foreach (OrangeSwitch orangeSwitch in ObjectContainer.GetComponentsInChildren<OrangeSwitch>()) {
+        OrangeSwitchez.Add(orangeSwitch);
+      }
     }
-    
+
     private void CollectGruntz() {
-      foreach (TGrunt grunt in GameObject.Find("PlayerGruntz").GetComponentsInChildren<TGrunt>()) {
+      foreach (TGrunt grunt in GameObject.Find("PlayerGruntz")
+        .GetComponentsInChildren<TGrunt>()) {
         PlayerGruntz.Add(grunt);
       }
     }
@@ -113,32 +130,38 @@ namespace GruntzUnityverse.Managerz {
       foreach (GreenPyramid pyramid in GreenPyramidz) {
         SetBlockedAt(pyramid.OwnLocation, !pyramid.IsDown);
       }
-      
+
       foreach (RedPyramid pyramid in RedPyramidz) {
         SetBlockedAt(pyramid.OwnLocation, !pyramid.IsDown);
       }
     }
 
     #region Node Methods
-      public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
-        nodeList.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = isBlocked;
-      }
-      
-      public void BlockNodeAt(Vector2Int gridLocation) {
-        nodeList.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = true;
-      }
 
-      public void FreeNodeAt(Vector2Int gridLocation) {
-        nodeList.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = false;
-      }
+    public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
+      nodeList.First(node => node.GridLocation.Equals(gridLocation))
+        .isBlocked = isBlocked;
+    }
 
-      public bool IsBlockedAt(Vector2Int gridLocation) {
-        return nodeList.First(node => node.GridLocation.Equals(gridLocation)).isBlocked;
-      }
+    public void BlockNodeAt(Vector2Int gridLocation) {
+      nodeList.First(node => node.GridLocation.Equals(gridLocation))
+        .isBlocked = true;
+    }
 
-      public Node GetNodeAt(Vector2Int gridLocation) {
-        return nodeList.First(node => node.GridLocation.Equals(gridLocation));
-      }
+    public void FreeNodeAt(Vector2Int gridLocation) {
+      nodeList.First(node => node.GridLocation.Equals(gridLocation))
+        .isBlocked = false;
+    }
+
+    public bool IsBlockedAt(Vector2Int gridLocation) {
+      return nodeList.First(node => node.GridLocation.Equals(gridLocation))
+        .isBlocked;
+    }
+
+    public Node GetNodeAt(Vector2Int gridLocation) {
+      return nodeList.First(node => node.GridLocation.Equals(gridLocation));
+    }
+
     #endregion
   }
 }
