@@ -34,11 +34,13 @@ namespace GruntzUnityverse.Managerz {
     public Tilemap collisionLayer;
 
     [field: SerializeField] public List<TGrunt> PlayerGruntz { get; set; }
+    [field: SerializeField] public List<BlackPyramid> BlackPyramidz { get; set; }
     [field: SerializeField] public List<CheckpointPyramid> CheckpointPyramidz { get; set; }
     [field: SerializeField] public List<GreenPyramid> GreenPyramidz { get; set; }
     [field: SerializeField] public List<OrangePyramid> OrangePyramidz { get; set; }
     [field: SerializeField] public List<PurplePyramid> PurplePyramidz { get; set; }
     [field: SerializeField] public List<RedPyramid> RedPyramidz { get; set; }
+    [field: SerializeField] public List<SilverPyramid> SilverPyramidz { get; set; }
 
 
     [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
@@ -69,8 +71,6 @@ namespace GruntzUnityverse.Managerz {
       CollectObjectz();
 
       CollectGruntz();
-
-      SetDefaultObjectCollisionz();
     }
 
     private void AssignLayerz() {
@@ -98,20 +98,32 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void CollectObjectz() {
-      foreach (CheckpointPyramid checkpointPyramid in ObjectContainer.GetComponentsInChildren<CheckpointPyramid>()) {
-        CheckpointPyramidz.Add(checkpointPyramid);
+      foreach (BlackPyramid pyramid in ObjectContainer.GetComponentsInChildren<BlackPyramid>()) {
+        BlackPyramidz.Add(pyramid);
       }
 
-      foreach (RedPyramid pyramid in ObjectContainer.GetComponentsInChildren<RedPyramid>()) {
-        RedPyramidz.Add(pyramid);
+      foreach (CheckpointPyramid pyramid in ObjectContainer.GetComponentsInChildren<CheckpointPyramid>()) {
+        CheckpointPyramidz.Add(pyramid);
       }
 
       foreach (GreenPyramid pyramid in ObjectContainer.GetComponentsInChildren<GreenPyramid>()) {
         GreenPyramidz.Add(pyramid);
       }
 
-      foreach (OrangeSwitch orangeSwitch in ObjectContainer.GetComponentsInChildren<OrangeSwitch>()) {
-        OrangeSwitchez.Add(orangeSwitch);
+      foreach (OrangePyramid pyramid in ObjectContainer.GetComponentsInChildren<OrangePyramid>()) {
+        OrangePyramidz.Add(pyramid);
+      }
+
+      foreach (PurplePyramid pyramid in ObjectContainer.GetComponentsInChildren<PurplePyramid>()) {
+        PurplePyramidz.Add(pyramid);
+      }
+
+      foreach (RedPyramid pyramid in ObjectContainer.GetComponentsInChildren<RedPyramid>()) {
+        RedPyramidz.Add(pyramid);
+      }
+
+      foreach (SilverPyramid pyramid in ObjectContainer.GetComponentsInChildren<SilverPyramid>()) {
+        SilverPyramidz.Add(pyramid);
       }
     }
 
@@ -119,20 +131,6 @@ namespace GruntzUnityverse.Managerz {
       foreach (TGrunt grunt in GameObject.Find("PlayerGruntz")
         .GetComponentsInChildren<TGrunt>()) {
         PlayerGruntz.Add(grunt);
-      }
-    }
-
-    private void SetDefaultObjectCollisionz() {
-      foreach (CheckpointPyramid pyramid in CheckpointPyramidz) {
-        SetBlockedAt(pyramid.OwnLocation, !pyramid.IsDown);
-      }
-
-      foreach (GreenPyramid pyramid in GreenPyramidz) {
-        SetBlockedAt(pyramid.OwnLocation, !pyramid.IsDown);
-      }
-
-      foreach (RedPyramid pyramid in RedPyramidz) {
-        SetBlockedAt(pyramid.OwnLocation, !pyramid.IsDown);
       }
     }
 

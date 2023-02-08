@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Switchez;
 using UnityEngine;
 
@@ -8,17 +9,11 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     [field: SerializeField] public List<CheckpointSwitch> Switchez { get; set; }
     [field: SerializeField] public bool HasChanged { get; set; }
 
-
-    private void Start() {
-      if (Switchez.Count.Equals(0)) {
-        Debug.LogError("There is no Switch assigned to this Pyramid, this way the Checkpoint won't work properly!");
+    private void Update() {
+      if (!IsInitialized && LevelManager.Instance.CheckpointPyramidz.Contains(this)) {
+        InitializeNodeAtOwnLocation();
       }
 
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
-      Animator = gameObject.GetComponentInChildren<Animator>();
-    }
-
-    private void Update() {
       if (Switchez.Any(checkpointSwitch => !checkpointSwitch.IsPressed)) {
         return;
       }

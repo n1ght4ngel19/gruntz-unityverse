@@ -6,10 +6,16 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsDown { get; set; }
+    [field: SerializeField] public bool IsInitialized { get; set; }
 
     private void Start() {
       OwnLocation = Vector2Int.FloorToInt(transform.position);
       Animator = gameObject.GetComponentInChildren<Animator>();
+    }
+
+    protected void InitializeNodeAtOwnLocation() {
+      IsInitialized = true;
+      LevelManager.Instance.SetBlockedAt(OwnLocation, !IsDown);
     }
 
     public void ChangeState() {
