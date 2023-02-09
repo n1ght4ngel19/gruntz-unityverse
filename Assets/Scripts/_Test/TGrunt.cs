@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
@@ -8,6 +9,8 @@ namespace _Test {
   public class TGrunt : MonoBehaviour {
     [field: SerializeField] public TNavComponent NavComponent { get; set; }
     [field: SerializeField] public Animator Animator { get; set; }
+    [field: SerializeField] public RuntimeAnimatorController LocomotionAnimatorController { get; set; }
+    [field: SerializeField] public RuntimeAnimatorController PickupAnimatorController { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
 
 
@@ -17,10 +20,11 @@ namespace _Test {
       NavComponent.OwnLocation = Vector2Int.FloorToInt(transform.position);
       NavComponent.TargetLocation = NavComponent.OwnLocation;
       NavComponent.FacingDirection = CompassDirection.South;
+      Animator.runtimeAnimatorController = LocomotionAnimatorController;
     }
 
     private void Update() {
-      PlayAnimation();
+      // PlayLocomotionAnimation();
 
       if (Input.GetMouseButtonDown(1) && IsSelected && NavComponent.IsMoving) {
         NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
@@ -41,17 +45,28 @@ namespace _Test {
         && SelectorCircle.Instance.OwnLocation != NavComponent.OwnLocation) {
         NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
       }
-
-      // This gets called every time, since it only needs the target, which is always provided
-      NavComponent.MoveTowardsTarget();
     }
 
-    public void PlayAnimation() {
+    private void LateUpdate() {
+      if (!NavComponent.TargetLocation.Equals(NavComponent.OwnLocation)) {
+        Animator.Play($"BareHandzGrunt_Walk_{NavComponent.FacingDirection}");
+        NavComponent.MoveTowardsTarget();
+      } else {
+        Animator.Play($"BareHandzGrunt_Idle_{NavComponent.FacingDirection}");
+      }
+    }
+
+    private void PlayLocomotionAnimation() {
       string animationType = NavComponent.IsMoving
         ? "Walk"
         : "Idle";
 
       Animator.Play($"BareHandzGrunt_{animationType}_{NavComponent.FacingDirection}");
+    }
+
+    public void PlayPickupAnimation(string pickupObject) {
+      Animator.runtimeAnimatorController = PickupAnimatorController;
+      Animator.Play($"Pickup_{pickupObject}");
     }
 
     protected void OnMouseDown() {
