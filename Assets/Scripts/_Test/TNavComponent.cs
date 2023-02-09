@@ -52,7 +52,7 @@ namespace _Test {
       );
 
       // Todo: Handle here disallowing move commands while moving
-      if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.05f) {
+      if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.1f) {
         IsMoving = true;
 
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
