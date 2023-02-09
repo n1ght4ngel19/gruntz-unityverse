@@ -56,14 +56,14 @@ namespace GruntzUnityverse.Objectz.Misc {
       Time.timeScale = 0;
       LevelManager.Instance.helpBoxText.text = boxText;
       IsTextShown = true;
-      mainCam.areControlsDisabled = true;
+      mainCam.AreControlsDisabled = true;
     }
 
     private void HideBox() {
       Time.timeScale = 1;
       LevelManager.Instance.helpBoxText.text = "";
       IsTextShown = false;
-      mainCam.areControlsDisabled = false;
+      mainCam.AreControlsDisabled = false;
     }
   }
 }

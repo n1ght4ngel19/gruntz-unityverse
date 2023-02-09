@@ -33,6 +33,9 @@ namespace GruntzUnityverse.Managerz {
     public Tilemap baseLayer;
     public Tilemap collisionLayer;
 
+    public Vector2Int MinMapPoint { get; set; }
+    public Vector2Int MaxMapPoint { get; set; }
+
     [field: SerializeField] public List<TGrunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<BlackPyramid> BlackPyramidz { get; set; }
     [field: SerializeField] public List<CheckpointPyramid> CheckpointPyramidz { get; set; }
@@ -52,7 +55,7 @@ namespace GruntzUnityverse.Managerz {
     public Node nodePrefab;
 
     private void Start() {
-      Application.targetFrameRate = 60;
+      Application.targetFrameRate = 45;
 
       NodeContainer = GameObject.Find("NodeContainer");
       ObjectContainer = GameObject.Find("Objectz");
@@ -77,13 +80,20 @@ namespace GruntzUnityverse.Managerz {
       baseLayer = GameObject.Find("BaseLayer")
         .GetComponent<Tilemap>();
 
+      baseLayer.CompressBounds();
+
       collisionLayer = GameObject.Find("CollisionLayer")
         .GetComponent<Tilemap>();
+
+      collisionLayer.CompressBounds();
+
+      MinMapPoint = new Vector2Int(collisionLayer.cellBounds.xMin, collisionLayer.cellBounds.yMin);
+      MaxMapPoint = new Vector2Int(collisionLayer.cellBounds.xMax, collisionLayer.cellBounds.yMax);
     }
 
     private void CreatePathfindingNodez() {
-      for (int x = 0; x < baseLayer.cellBounds.xMax; x++) {
-        for (int y = 0; y < baseLayer.cellBounds.yMax; y++) {
+      for (int x = collisionLayer.cellBounds.xMin; x < collisionLayer.cellBounds.xMax; x++) {
+        for (int y = collisionLayer.cellBounds.yMin; y < collisionLayer.cellBounds.yMax; y++) {
           Node node = Instantiate(nodePrefab, NodeContainer.transform);
           node.transform.position = new Vector3(x + 0.5f, y + 0.5f, -1);
           node.GridLocation = new Vector2Int(x, y);

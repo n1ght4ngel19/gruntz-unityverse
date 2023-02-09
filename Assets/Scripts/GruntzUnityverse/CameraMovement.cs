@@ -1,11 +1,11 @@
 using System;
+using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse {
   public class CameraMovement : MonoBehaviour {
-    [SerializeField] private int mapWidthInTiles;
-    [SerializeField] private int mapHeightInTiles;
-    [SerializeField] private Camera cam;
+    private Camera Camera { get; set; }
+    public bool AreControlsDisabled { get; set; }
 
     // The smaller the ScrollRate, the faster the camera moves
     private const int ScrollRate = 4;
@@ -13,10 +13,12 @@ namespace GruntzUnityverse {
     private float targetZoom;
     private const float ZoomFactor = 3f;
     private const float ZoomLerpSpeed = 10;
-    public bool areControlsDisabled;
-  
+
+
+    private void Start() { Camera = Camera.main; }
+
     private void Update() {
-      if (areControlsDisabled) {
+      if (AreControlsDisabled) {
         return;
       }
 
@@ -31,69 +33,81 @@ namespace GruntzUnityverse {
 
       targetZoom -= Input.GetAxis("Mouse ScrollWheel") * ZoomFactor;
       targetZoom = Math.Clamp(targetZoom, 4f, 11f);
-      cam.orthographicSize = Mathf.Lerp(
-        cam.orthographicSize,
-        targetZoom,
-        Time.deltaTime * ZoomLerpSpeed
-      );
+      Camera.orthographicSize = Mathf.Lerp(Camera.orthographicSize, targetZoom, Time.deltaTime * ZoomLerpSpeed);
     }
 
     private void ScrollWithArrowKeys() {
       if (Time.timeScale == 0) {
         return;
       }
-    
-      float camHalfWidth = cam.orthographicSize * cam.aspect;
+      
+      float camHalfWidth = Camera.orthographicSize * Camera.aspect;
+      bool reachedBottom = Camera.transform.position.y - Camera.orthographicSize <= LevelManager.Instance.MinMapPoint.y + 0.25;
+      bool reachedTop = Camera.transform.position.y + Camera.orthographicSize >= LevelManager.Instance.MaxMapPoint.y - 0.25;
+      bool reachedLeftSide = Camera.transform.position.x - camHalfWidth <= LevelManager.Instance.MinMapPoint.x + 0.25;
+      bool reachedRightSide = Camera.transform.position.x + camHalfWidth >= LevelManager.Instance.MaxMapPoint.x - 0.25;
 
-      if (cam.transform.position.y + cam.orthographicSize >= mapHeightInTiles - 0.1)
+
+      if (reachedTop) {
         LimitMovement("up");
-      else if (cam.transform.position.y - cam.orthographicSize <= 0.1)
+      } else if (reachedBottom)
         LimitMovement("down");
-      else if (cam.transform.position.x - camHalfWidth <= 0.1)
+      else if (reachedLeftSide)
         LimitMovement("left");
-      else if (cam.transform.position.x + camHalfWidth >= mapWidthInTiles - 0.1)
+      else if (reachedRightSide)
         LimitMovement("right");
       else
         MoveFreely();
     }
 
     private void LimitMovement(string direction) {
-      switch (direction)
-      {
+      switch (direction) {
         case "down": {
           if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-            cam.transform.position += Vector3.up / ScrollRate;
+            Camera.transform.position += Vector3.up / ScrollRate;
+
           if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            cam.transform.position += Vector3.left / ScrollRate;
+            Camera.transform.position += Vector3.left / ScrollRate;
+
           if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            cam.transform.position += Vector3.right / ScrollRate;
+            Camera.transform.position += Vector3.right / ScrollRate;
+
           break;
         }
         case "up": {
           if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-            cam.transform.position += Vector3.down / ScrollRate;
+            Camera.transform.position += Vector3.down / ScrollRate;
+
           if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            cam.transform.position += Vector3.left / ScrollRate;
+            Camera.transform.position += Vector3.left / ScrollRate;
+
           if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            cam.transform.position += Vector3.right / ScrollRate;
+            Camera.transform.position += Vector3.right / ScrollRate;
+
           break;
         }
         case "left": {
           if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-            cam.transform.position += Vector3.up / ScrollRate;
+            Camera.transform.position += Vector3.up / ScrollRate;
+
           if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-            cam.transform.position += Vector3.down / ScrollRate;
+            Camera.transform.position += Vector3.down / ScrollRate;
+
           if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            cam.transform.position += Vector3.right / ScrollRate;
+            Camera.transform.position += Vector3.right / ScrollRate;
+
           break;
         }
         case "right": {
           if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-            cam.transform.position += Vector3.up / ScrollRate;
+            Camera.transform.position += Vector3.up / ScrollRate;
+
           if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-            cam.transform.position += Vector3.down / ScrollRate;
+            Camera.transform.position += Vector3.down / ScrollRate;
+
           if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            cam.transform.position += Vector3.left / ScrollRate;
+            Camera.transform.position += Vector3.left / ScrollRate;
+
           break;
         }
       }
@@ -101,13 +115,16 @@ namespace GruntzUnityverse {
 
     private void MoveFreely() {
       if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-        cam.transform.position += Vector3.up / ScrollRate;
+        Camera.transform.position += Vector3.up / ScrollRate;
+
       if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-        cam.transform.position += Vector3.down / ScrollRate;
+        Camera.transform.position += Vector3.down / ScrollRate;
+
       if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        cam.transform.position += Vector3.left / ScrollRate;
+        Camera.transform.position += Vector3.left / ScrollRate;
+
       if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        cam.transform.position += Vector3.right / ScrollRate;
+        Camera.transform.position += Vector3.right / ScrollRate;
     }
   }
 }
