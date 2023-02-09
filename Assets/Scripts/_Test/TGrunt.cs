@@ -45,9 +45,7 @@ namespace _Test {
         && SelectorCircle.Instance.OwnLocation != NavComponent.OwnLocation) {
         NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
       }
-    }
 
-    private void LateUpdate() {
       if (!NavComponent.TargetLocation.Equals(NavComponent.OwnLocation)) {
         Animator.Play($"BareHandzGrunt_Walk_{NavComponent.FacingDirection}");
         NavComponent.MoveTowardsTarget();
