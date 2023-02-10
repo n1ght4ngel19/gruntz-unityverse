@@ -6,8 +6,8 @@ using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
-namespace _Test {
-  public class TNavComponent : MonoBehaviour {
+namespace GruntzUnityverse.Actorz {
+  public class NavComponent : MonoBehaviour {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public Vector2Int PreviousLocation { get; set; }
     [field: SerializeField] public Vector2Int TargetLocation { get; set; }
@@ -26,7 +26,13 @@ namespace _Test {
     [field: SerializeField] public Vector3 MoveVector { get; set; }
     [field: SerializeField] public CompassDirection FacingDirection { get; set; }
 
-    public void MoveTowardsTarget() {
+    private void Start() {
+      FacingDirection = CompassDirection.South;
+      OwnLocation = Vector2Int.FloorToInt(transform.position);
+      TargetLocation = OwnLocation;
+    }
+
+    public void MoveToTarget() {
       PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
 
       PathEnd = LevelManager.Instance.nodeList.First(
@@ -57,7 +63,7 @@ namespace _Test {
 
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
 
-        DetermineFacingDirection();
+        DetermineFacingDirection(MoveVector);
 
         // 0.3f is hardcoded only for ease of testing, remove after not needed
         transform.position += MoveVector * (Time.deltaTime / 0.3f);
@@ -75,11 +81,8 @@ namespace _Test {
       return new Vector3(location.x + 0.5f, location.y + 0.5f, -15f);
     }
 
-    private void DetermineFacingDirection() {
-      Vector2Int directionVector = Path[1]
-          .GridLocation
-        - Path[0]
-          .GridLocation;
+    private void DetermineFacingDirection(Vector3 moveVector) {
+      Vector2Int directionVector = Vector2Int.RoundToInt(moveVector);
 
       FacingDirection = directionVector switch {
         var vector when vector.Equals(Vector2IntC.North) => CompassDirection.North,

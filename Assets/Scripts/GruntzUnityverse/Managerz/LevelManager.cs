@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using _Test;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
@@ -36,7 +36,7 @@ namespace GruntzUnityverse.Managerz {
     public Vector2Int MinMapPoint { get; set; }
     public Vector2Int MaxMapPoint { get; set; }
 
-    [field: SerializeField] public List<TGrunt> PlayerGruntz { get; set; }
+    [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<BlackPyramid> BlackPyramidz { get; set; }
     [field: SerializeField] public List<CheckpointPyramid> CheckpointPyramidz { get; set; }
     [field: SerializeField] public List<GreenPyramid> GreenPyramidz { get; set; }
@@ -97,6 +97,7 @@ namespace GruntzUnityverse.Managerz {
           Node node = Instantiate(nodePrefab, NodeContainer.transform);
           node.transform.position = new Vector3(x + 0.5f, y + 0.5f, -1);
           node.GridLocation = new Vector2Int(x, y);
+
           nodeList.Add(node);
           nodeLocationsList.Add(node.GridLocation);
 
@@ -104,6 +105,10 @@ namespace GruntzUnityverse.Managerz {
             node.isBlocked = true;
           }
         }
+      }
+
+      foreach (Node node in nodeList) {
+        node.SetNeighboursOfSelf();
       }
     }
 
@@ -138,8 +143,8 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void CollectGruntz() {
-      foreach (TGrunt grunt in GameObject.Find("PlayerGruntz")
-        .GetComponentsInChildren<TGrunt>()) {
+      foreach (Grunt grunt in GameObject.Find("PlayerGruntz")
+        .GetComponentsInChildren<Grunt>()) {
         PlayerGruntz.Add(grunt);
       }
     }

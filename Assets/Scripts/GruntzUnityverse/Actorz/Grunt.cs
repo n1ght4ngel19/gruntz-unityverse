@@ -1,44 +1,69 @@
-using System;
-using GruntzUnityverse.AnimationPackz;
-using GruntzUnityverse.Attributez;
-using GruntzUnityverse.Enumz;
+﻿using System.Linq;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.Objectz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
-  public class Grunt : MonoBehaviour {
-    public IAttribute Health { get; set; }
-    public IAttribute Stamina { get; set; }
-    public HealthBar OwnHealthBar { get; set; }
-    public StaminaBar OwnStaminaBar { get; set; }
+  public abstract class Grunt : MonoBehaviour {
+    [field: SerializeField] public Equipment Equipment { get; set; }
+    [field: SerializeField] public NavComponent NavComponent { get; set; }
+    [field: SerializeField] public Animator Animator { get; set; }
+    [field: SerializeField] public bool IsSelected { get; set; }
 
-    public HealthBar healthBarPrefab;
-    public StaminaBar staminaBarPrefab;
 
-    // Todo: Extract into Equipment class
-    public ToolType tool;
-    public ToyType toy;
-
-    private GruntAnimationPack animations;
-
-    private void Start() {
-      Health = gameObject.AddComponent<Health>();
-      Stamina = gameObject.AddComponent<Stamina>();
-
-      OwnHealthBar = Instantiate(healthBarPrefab, transform, false);
-      OwnStaminaBar = Instantiate(staminaBarPrefab, transform, false);
-
-      SelectGruntAnimationPack(tool);
+    protected void Start() {
+      NavComponent = gameObject.AddComponent<NavComponent>();
+      Equipment = gameObject.AddComponent<Equipment>();
+      Animator = gameObject.GetComponent<Animator>();
     }
 
-    public void SelectGruntAnimationPack(ToolType toolType) {
-      animations = toolType switch {
-        ToolType.BareHandz => AnimationManager.BareHandzGruntAnimations,
-        ToolType.Club => AnimationManager.ClubGruntAnimations,
-        ToolType.Gauntletz => AnimationManager.GauntletzGruntAnimations,
-        // ToolType.Warpstone1 => AnimationManager.WarpstoneGruntAnimations, // TODO: Add animations
-        _ => throw new ArgumentOutOfRangeException(nameof(toolType), toolType, null)
-      };
+    private void Update() {
+      // PlayLocomotionAnimation();
+
+      if (Input.GetMouseButtonDown(1) && IsSelected && NavComponent.IsMoving) {
+        NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
+        NavComponent.HaveSavedTarget = true;
+
+        return;
+      }
+
+      if (NavComponent.HaveSavedTarget && !NavComponent.IsMoving) {
+        NavComponent.TargetLocation = NavComponent.SavedTargetLocation;
+        NavComponent.HaveSavedTarget = false;
+
+        return;
+      }
+
+      if (Input.GetMouseButtonDown(1)
+        && IsSelected
+        && SelectorCircle.Instance.OwnLocation != NavComponent.OwnLocation) {
+        NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
+      }
+
+      if (!NavComponent.TargetLocation.Equals(NavComponent.OwnLocation)) {
+        Animator.Play($"BareHandzGrunt_Walk_{NavComponent.FacingDirection}");
+        NavComponent.MoveToTarget();
+      } else {
+        Animator.Play($"BareHandzGrunt_Idle_{NavComponent.FacingDirection}");
+      }
+    }
+
+    private void PlayLocomotionAnimation() {
+      string animationType = NavComponent.IsMoving
+        ? "Walk"
+        : "Idle";
+
+      Animator.Play($"BareHandzGrunt_{animationType}_{NavComponent.FacingDirection}");
+    }
+
+    public void PlayPickupAnimation(string pickupObject) { Animator.Play($"Pickup_{pickupObject}"); }
+
+    protected void OnMouseDown() {
+      IsSelected = true;
+
+      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt != this)) {
+        grunt.IsSelected = false;
+      }
     }
   }
 }
