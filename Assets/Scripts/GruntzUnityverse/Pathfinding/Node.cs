@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GruntzUnityverse.Managerz;
+using UnityEngine;
 
 namespace GruntzUnityverse.Pathfinding {
   public class Node : MonoBehaviour {
@@ -17,21 +20,76 @@ namespace GruntzUnityverse.Pathfinding {
     /// </summary>
     public int fCost;
 
-    /// <summary>
-    /// Indicates whether this Node can currently be used in pathfinding
-    /// </summary>
-    public bool isBlocked;
-
-    /// <summary>
-    /// The Node that precedes this Node, used when retracing the path in case of successful pathfinding
-    /// </summary>
     public Node previous;
 
-    /// <summary>
-    /// The location of this Node inside the bounds of the map
-    /// </summary>
-    public Vector2Int GridLocation { get; set; }
+    public bool isBlocked;
+
+    [field: SerializeField] public Vector2Int GridLocation { get; set; }
+
+    [field: SerializeField] public List<Node> Neighbours { get; set; }
 
     public Node(Vector2Int gridLocation) { GridLocation = gridLocation; }
+
+    public void SetNeighboursOfSelf() {
+      List<Node> neighbours = new();
+
+      // Up
+      Vector2Int location = new(GridLocation.x, GridLocation.y + 1);
+
+      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
+      }
+
+      // Down
+      location = new Vector2Int(GridLocation.x, GridLocation.y - 1);
+
+      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
+      }
+
+      // Right
+      location = new Vector2Int(GridLocation.x + 1, GridLocation.y);
+
+      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
+      }
+
+      // Left
+      location = new Vector2Int(GridLocation.x - 1, GridLocation.y);
+
+      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
+      }
+
+      // Up-Right
+      location = new Vector2Int(GridLocation.x + 1, GridLocation.y + 1);
+
+      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
+      }
+
+      // Up-Left
+      location = new Vector2Int(GridLocation.x + 1, GridLocation.y - 1);
+
+      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
+      }
+
+      // Down-Right
+      location = new Vector2Int(GridLocation.x - 1, GridLocation.y + 1);
+
+      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
+      }
+
+      // Down-Left
+      location = new Vector2Int(GridLocation.x - 1, GridLocation.y - 1);
+
+      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
+      }
+
+      Neighbours = neighbours;
+    }
   }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Managerz;
-using UnityEngine;
 
 namespace GruntzUnityverse.Pathfinding {
   public static class Pathfinder {
@@ -37,9 +36,7 @@ namespace GruntzUnityverse.Pathfinding {
         // Adding currentNode to the closedList so that it cannot be checked again
         closedList.Add(currentNode);
 
-        List<Node> neighbours = NeighboursOf(currentNode);
-
-        foreach (Node neighbour in neighbours) {
+        foreach (Node neighbour in currentNode.Neighbours) {
           if (closedList.Contains(neighbour)) {
             continue;
           }
@@ -85,68 +82,6 @@ namespace GruntzUnityverse.Pathfinding {
       path.Reverse();
 
       return path;
-    }
-
-    private static List<Node> NeighboursOf(Node node) {
-      List<Node> neighbours = new();
-
-      // Up
-      Vector2Int location = new(node.GridLocation.x, node.GridLocation.y + 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Down
-      location = new Vector2Int(node.GridLocation.x, node.GridLocation.y - 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Right
-      location = new Vector2Int(node.GridLocation.x + 1, node.GridLocation.y);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Left
-      location = new Vector2Int(node.GridLocation.x - 1, node.GridLocation.y);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Up-Right
-      location = new Vector2Int(node.GridLocation.x + 1, node.GridLocation.y + 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Up-Left
-      location = new Vector2Int(node.GridLocation.x + 1, node.GridLocation.y - 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Down-Right
-      location = new Vector2Int(node.GridLocation.x - 1, node.GridLocation.y + 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Down-Left
-      location = new Vector2Int(node.GridLocation.x - 1, node.GridLocation.y - 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      return neighbours;
     }
 
     private static int DistanceBetween(Node startNode, Node endNode) {
