@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using _Test;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ namespace GruntzUnityverse.Objectz.Collectiblez {
     }
 
     private void Update() {
-      foreach (TGrunt grunt in LevelManager.Instance.PlayerGruntz) {
+      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz) {
         if (grunt.NavComponent.OwnLocation.Equals(OwnLocation) && !HasBeenTouched) {
           HasBeenTouched = true;
 

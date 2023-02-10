@@ -6,8 +6,8 @@ using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
-namespace _Test {
-  public class TNavComponent : MonoBehaviour {
+namespace GruntzUnityverse.Actorz {
+  public class NavComponent : MonoBehaviour {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public Vector2Int PreviousLocation { get; set; }
     [field: SerializeField] public Vector2Int TargetLocation { get; set; }
@@ -26,7 +26,13 @@ namespace _Test {
     [field: SerializeField] public Vector3 MoveVector { get; set; }
     [field: SerializeField] public CompassDirection FacingDirection { get; set; }
 
-    public void MoveTowardsTarget() {
+    private void Start() {
+      FacingDirection = CompassDirection.South;
+      OwnLocation = Vector2Int.FloorToInt(transform.position);
+      TargetLocation = OwnLocation;
+    }
+
+    public void MoveToTarget() {
       PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
 
       PathEnd = LevelManager.Instance.nodeList.First(
