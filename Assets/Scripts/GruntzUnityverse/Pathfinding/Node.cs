@@ -30,10 +30,8 @@ namespace GruntzUnityverse.Pathfinding {
     /// <summary>
     /// The location of this Node inside the bounds of the map
     /// </summary>
-    public Vector2Int GridLocation {get; set;}
+    public Vector2Int GridLocation { get; set; }
 
-    public Node(Vector2Int gridLocation) {
-      GridLocation = gridLocation;
-    }
+    public Node(Vector2Int gridLocation) { GridLocation = gridLocation; }
   }
 }
