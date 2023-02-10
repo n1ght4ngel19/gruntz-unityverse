@@ -23,6 +23,7 @@ namespace GruntzUnityverse.Actorz {
     #endregion
 
     [field: SerializeField] public bool IsMoving { get; set; }
+    [field: SerializeField] public bool ProhibitPathRecalculation { get; set; }
     [field: SerializeField] public Vector3 MoveVector { get; set; }
     [field: SerializeField] public CompassDirection FacingDirection { get; set; }
 
@@ -32,14 +33,17 @@ namespace GruntzUnityverse.Actorz {
       TargetLocation = OwnLocation;
     }
 
-    public void MoveToTarget() {
+    public void MoveTowardsTarget() {
       PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
 
       PathEnd = LevelManager.Instance.nodeList.First(
         node => node.GridLocation.Equals(TargetLocation) && !node.isBlocked
       );
 
-      Path = Pathfinder.PathBetween(PathStart, PathEnd);
+      if (!ProhibitPathRecalculation) {
+        Debug.Log("Changing path");
+        Path = Pathfinder.PathBetween(PathStart, PathEnd);
+      }
 
       if (Path == null) {
         return;
@@ -60,6 +64,7 @@ namespace GruntzUnityverse.Actorz {
       // Todo: Handle here disallowing move commands while moving
       if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.1f) {
         IsMoving = true;
+        ProhibitPathRecalculation = true;
 
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
 
@@ -69,6 +74,7 @@ namespace GruntzUnityverse.Actorz {
         transform.position += MoveVector * (Time.deltaTime / 0.3f);
       } else {
         IsMoving = false;
+        ProhibitPathRecalculation = false;
 
         OwnLocation = Path[1]
           .GridLocation;

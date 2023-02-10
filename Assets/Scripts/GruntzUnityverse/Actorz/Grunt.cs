@@ -20,6 +20,7 @@ namespace GruntzUnityverse.Actorz {
     private void Update() {
       // PlayLocomotionAnimation();
 
+      // Save new target for Grunt when it gets a command while moving to another tile
       if (Input.GetMouseButtonDown(1) && IsSelected && NavComponent.IsMoving) {
         NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
         NavComponent.HaveSavedTarget = true;
@@ -27,13 +28,17 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      if (NavComponent.HaveSavedTarget && !NavComponent.IsMoving) {
-        NavComponent.TargetLocation = NavComponent.SavedTargetLocation;
-        NavComponent.HaveSavedTarget = false;
+      // Set target to previously saved target, if there's one
+      if (!NavComponent.IsMoving) {
+        if (NavComponent.HaveSavedTarget) {
+          NavComponent.TargetLocation = NavComponent.SavedTargetLocation;
+          NavComponent.HaveSavedTarget = false;
 
-        return;
+          return;
+        }
       }
 
+      // Set target with the mouse if nothing interrupts
       if (Input.GetMouseButtonDown(1)
         && IsSelected
         && SelectorCircle.Instance.OwnLocation != NavComponent.OwnLocation) {
@@ -41,10 +46,10 @@ namespace GruntzUnityverse.Actorz {
       }
 
       if (!NavComponent.TargetLocation.Equals(NavComponent.OwnLocation)) {
-        Animator.Play($"BareHandzGrunt_Walk_{NavComponent.FacingDirection}");
-        NavComponent.MoveToTarget();
+        Animator.Play($"Walk_{NavComponent.FacingDirection}");
+        NavComponent.MoveTowardsTarget();
       } else {
-        Animator.Play($"BareHandzGrunt_Idle_{NavComponent.FacingDirection}");
+        Animator.Play($"Idle_{NavComponent.FacingDirection}");
       }
     }
 
