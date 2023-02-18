@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
@@ -36,6 +37,7 @@ namespace GruntzUnityverse.Managerz {
     public Vector2Int MinMapPoint { get; set; }
     public Vector2Int MaxMapPoint { get; set; }
 
+    [field: SerializeField] public List<Grunt> AllGruntz { get; set; }
     [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<BlackPyramid> BlackPyramidz { get; set; }
     [field: SerializeField] public List<CheckpointPyramid> CheckpointPyramidz { get; set; }
@@ -49,19 +51,16 @@ namespace GruntzUnityverse.Managerz {
     [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
 
     private GameObject NodeContainer { get; set; }
-    private GameObject ObjectContainer { get; set; }
     public List<Node> nodeList;
     public List<Vector2Int> nodeLocationsList;
     public Node nodePrefab;
 
     private void Start() {
-      Application.targetFrameRate = 45;
+      Application.targetFrameRate = 60;
 
       NodeContainer = GameObject.Find("NodeContainer");
-      ObjectContainer = GameObject.Find("Objectz");
 
-      helpBoxText = GameObject.Find("ScrollBox")
-        .GetComponentInChildren<TMP_Text>();
+      helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
 
       InitializeLevelManager();
     }
@@ -77,18 +76,19 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void AssignLayerz() {
-      baseLayer = GameObject.Find("BaseLayer")
-        .GetComponent<Tilemap>();
+      baseLayer = GameObject.Find("BaseLayer").GetComponent<Tilemap>();
 
       baseLayer.CompressBounds();
 
-      collisionLayer = GameObject.Find("CollisionLayer")
-        .GetComponent<Tilemap>();
+      collisionLayer = GameObject.Find("CollisionLayer").GetComponent<Tilemap>();
 
       collisionLayer.CompressBounds();
 
-      MinMapPoint = new Vector2Int(collisionLayer.cellBounds.xMin, collisionLayer.cellBounds.yMin);
-      MaxMapPoint = new Vector2Int(collisionLayer.cellBounds.xMax, collisionLayer.cellBounds.yMax);
+
+      BoundsInt cellBounds = collisionLayer.cellBounds;
+
+      MinMapPoint = new Vector2Int(cellBounds.xMin, cellBounds.yMin);
+      MaxMapPoint = new Vector2Int(cellBounds.xMax, cellBounds.yMax);
     }
 
     private void CreatePathfindingNodez() {
@@ -113,38 +113,41 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void CollectObjectz() {
-      foreach (BlackPyramid pyramid in ObjectContainer.GetComponentsInChildren<BlackPyramid>()) {
+      foreach (BlackPyramid pyramid in FindObjectsOfType<BlackPyramid>()) {
         BlackPyramidz.Add(pyramid);
       }
 
-      foreach (CheckpointPyramid pyramid in ObjectContainer.GetComponentsInChildren<CheckpointPyramid>()) {
+      foreach (CheckpointPyramid pyramid in FindObjectsOfType<CheckpointPyramid>()) {
         CheckpointPyramidz.Add(pyramid);
       }
 
-      foreach (GreenPyramid pyramid in ObjectContainer.GetComponentsInChildren<GreenPyramid>()) {
+      foreach (GreenPyramid pyramid in FindObjectsOfType<GreenPyramid>()) {
         GreenPyramidz.Add(pyramid);
       }
 
-      foreach (OrangePyramid pyramid in ObjectContainer.GetComponentsInChildren<OrangePyramid>()) {
+      foreach (OrangePyramid pyramid in FindObjectsOfType<OrangePyramid>()) {
         OrangePyramidz.Add(pyramid);
       }
 
-      foreach (PurplePyramid pyramid in ObjectContainer.GetComponentsInChildren<PurplePyramid>()) {
+      foreach (PurplePyramid pyramid in FindObjectsOfType<PurplePyramid>()) {
         PurplePyramidz.Add(pyramid);
       }
 
-      foreach (RedPyramid pyramid in ObjectContainer.GetComponentsInChildren<RedPyramid>()) {
+      foreach (RedPyramid pyramid in FindObjectsOfType<RedPyramid>()) {
         RedPyramidz.Add(pyramid);
       }
 
-      foreach (SilverPyramid pyramid in ObjectContainer.GetComponentsInChildren<SilverPyramid>()) {
+      foreach (SilverPyramid pyramid in FindObjectsOfType<SilverPyramid>()) {
         SilverPyramidz.Add(pyramid);
       }
     }
 
     private void CollectGruntz() {
-      foreach (Grunt grunt in GameObject.Find("PlayerGruntz")
-        .GetComponentsInChildren<Grunt>()) {
+      foreach (Grunt grunt in FindObjectsOfType<Grunt>()) {
+        AllGruntz.Add(grunt);
+      }
+
+      foreach (Grunt grunt in FindObjectsOfType<Grunt>().Where(grunt => grunt.Owner.Equals(Owner.Self))) {
         PlayerGruntz.Add(grunt);
       }
     }
@@ -152,23 +155,19 @@ namespace GruntzUnityverse.Managerz {
     #region Node Methods
 
     public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
-      nodeList.First(node => node.GridLocation.Equals(gridLocation))
-        .isBlocked = isBlocked;
+      nodeList.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = isBlocked;
     }
 
     public void BlockNodeAt(Vector2Int gridLocation) {
-      nodeList.First(node => node.GridLocation.Equals(gridLocation))
-        .isBlocked = true;
+      nodeList.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = true;
     }
 
     public void FreeNodeAt(Vector2Int gridLocation) {
-      nodeList.First(node => node.GridLocation.Equals(gridLocation))
-        .isBlocked = false;
+      nodeList.First(node => node.GridLocation.Equals(gridLocation)).isBlocked = false;
     }
 
     public bool IsBlockedAt(Vector2Int gridLocation) {
-      return nodeList.First(node => node.GridLocation.Equals(gridLocation))
-        .isBlocked;
+      return nodeList.First(node => node.GridLocation.Equals(gridLocation)).isBlocked;
     }
 
     public Node GetNodeAt(Vector2Int gridLocation) {

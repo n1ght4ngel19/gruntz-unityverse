@@ -15,7 +15,7 @@ namespace GruntzUnityverse.Objectz.Arrowz {
     private void Start() { OwnLocation = Vector2Int.FloorToInt(transform.position); }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(
+      foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(
         grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation)
       )) {
         grunt.NavComponent.TargetLocation = OwnLocation + VectorOfDirection(Direction);

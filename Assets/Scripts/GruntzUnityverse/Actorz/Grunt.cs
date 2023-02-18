@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
 using UnityEngine;
@@ -9,6 +11,8 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public NavComponent NavComponent { get; set; }
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
+    [field: SerializeField] public bool IsGrabbingItem { get; set; }
+    [field: SerializeField] public Owner Owner { get; set; }
 
 
     protected void Start() {
@@ -45,6 +49,12 @@ namespace GruntzUnityverse.Actorz {
         NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
       }
 
+      if (!IsGrabbingItem) {
+        HandleMovement();
+      }
+    }
+
+    private void HandleMovement() {
       if (!NavComponent.TargetLocation.Equals(NavComponent.OwnLocation)) {
         Animator.Play($"Walk_{NavComponent.FacingDirection}");
         NavComponent.MoveTowardsTarget();
@@ -53,15 +63,16 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
-    private void PlayLocomotionAnimation() {
-      string animationType = NavComponent.IsMoving
-        ? "Walk"
-        : "Idle";
+    public IEnumerator PickupItem(GameObject item) {
+      // Get appropriate Animation Clip from AnimationManager and set it to 
+      Animator.Play("Pickup_Item");
+      IsGrabbingItem = true;
 
-      Animator.Play($"BareHandzGrunt_{animationType}_{NavComponent.FacingDirection}");
+      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+
+      IsGrabbingItem = false;
+      Destroy(item);
     }
-
-    public void PlayPickupAnimation(string pickupObject) { Animator.Play($"Pickup_{pickupObject}"); }
 
     protected void OnMouseDown() {
       IsSelected = true;

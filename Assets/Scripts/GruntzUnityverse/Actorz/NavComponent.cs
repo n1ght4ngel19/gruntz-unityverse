@@ -41,7 +41,7 @@ namespace GruntzUnityverse.Actorz {
       );
 
       if (!ProhibitPathRecalculation) {
-        Debug.Log("Changing path");
+        // Debug.Log("Changing path");
         Path = Pathfinder.PathBetween(PathStart, PathEnd);
       }
 

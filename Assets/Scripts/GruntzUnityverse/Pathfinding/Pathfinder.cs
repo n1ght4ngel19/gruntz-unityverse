@@ -42,7 +42,7 @@ namespace GruntzUnityverse.Pathfinding {
           }
 
           if (neighbour.isBlocked
-            || LevelManager.Instance.PlayerGruntz.Any(
+            || LevelManager.Instance.AllGruntz.Any(
               grunt => grunt.NavComponent.OwnLocation.Equals(neighbour.GridLocation)
             )) {
             continue;

@@ -9,7 +9,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
 
     private void Update() {
-      if (LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
         if (!HasBeenPressed) {
           ToggleAllRedPyramidz();
 

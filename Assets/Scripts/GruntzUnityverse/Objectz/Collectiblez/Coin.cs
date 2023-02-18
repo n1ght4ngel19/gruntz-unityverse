@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using GruntzUnityverse.Actorz;
+﻿using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
@@ -20,19 +19,11 @@ namespace GruntzUnityverse.Objectz.Collectiblez {
         if (grunt.NavComponent.OwnLocation.Equals(OwnLocation) && !HasBeenTouched) {
           HasBeenTouched = true;
 
-          // Todo: Play pickup animation
+          StatzManager.Instance.acquiredCoinz++;
 
-          RemoveSelfFromGame();
+          StartCoroutine(grunt.PickupItem(gameObject));
         }
       }
-
-      if (LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {}
-    }
-
-    private void RemoveSelfFromGame() {
-      StatzManager.Instance.acquiredCoinz++;
-
-      Destroy(gameObject);
     }
   }
 }

@@ -3,6 +3,6 @@ namespace GruntzUnityverse.Enumz {
     BareHandz,
     Club,
     Gauntletz,
-    Warpstone1
+    Warpstone1,
   }
 }

@@ -20,7 +20,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
         enabled = false;
       }
 
-      if (LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
         IsPressed = true;
         Renderer.sprite = PressedSprite;
       } else {
