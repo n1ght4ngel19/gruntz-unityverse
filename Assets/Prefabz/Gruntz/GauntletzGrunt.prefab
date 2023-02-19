@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6986435730129850746}
-  - component: {fileID: 699477925081240496}
+  - component: {fileID: -6742986223689131347}
   - component: {fileID: 6986435730129850749}
   - component: {fileID: 7369986621105059349}
   - component: {fileID: -3970659543003198759}
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &699477925081240496
+--- !u!114 &-6742986223689131347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,13 +44,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6986435730129850750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d611a9ef28a40b7b1c7acb41137857d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8acba8cbf7f1401c90e1b3a29f32f3cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <Equipment>k__BackingField: {fileID: 0}
   <NavComponent>k__BackingField: {fileID: 0}
   <Animator>k__BackingField: {fileID: 0}
   <IsSelected>k__BackingField: 0
+  <IsMovementInterrupted>k__BackingField: 0
+  <Owner>k__BackingField: 0
+  <TargetRock>k__BackingField: {fileID: 0}
 --- !u!212 &6986435730129850749
 SpriteRenderer:
   m_ObjectHideFlags: 0

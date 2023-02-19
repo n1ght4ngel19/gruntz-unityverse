@@ -11,7 +11,7 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public NavComponent NavComponent { get; set; }
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
-    [field: SerializeField] public bool IsGrabbingItem { get; set; }
+    [field: SerializeField] public bool IsMovementInterrupted { get; set; }
     [field: SerializeField] public Owner Owner { get; set; }
 
 
@@ -22,8 +22,6 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private void Update() {
-      // PlayLocomotionAnimation();
-
       // Save new target for Grunt when it gets a command while moving to another tile
       if (Input.GetMouseButtonDown(1) && IsSelected && NavComponent.IsMoving) {
         NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
@@ -49,7 +47,7 @@ namespace GruntzUnityverse.Actorz {
         NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
       }
 
-      if (!IsGrabbingItem) {
+      if (!IsMovementInterrupted) {
         HandleMovement();
       }
     }
@@ -66,11 +64,11 @@ namespace GruntzUnityverse.Actorz {
     public IEnumerator PickupItem(GameObject item) {
       // Get appropriate Animation Clip from AnimationManager and set it to 
       Animator.Play("Pickup_Item");
-      IsGrabbingItem = true;
+      IsMovementInterrupted = true;
 
       yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
 
-      IsGrabbingItem = false;
+      IsMovementInterrupted = false;
       Destroy(item);
     }
 
