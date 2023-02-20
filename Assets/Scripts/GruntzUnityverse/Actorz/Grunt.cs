@@ -85,7 +85,7 @@ namespace GruntzUnityverse.Actorz {
 
       yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
 
-      IsMovementInterrupted = false;
+      NavComponent.OwnLocation = new Vector2Int(int.MaxValue, int.MaxValue);
       Destroy(gameObject);
     }
     
@@ -95,7 +95,6 @@ namespace GruntzUnityverse.Actorz {
 
       yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
 
-      IsMovementInterrupted = false;
       NavComponent.OwnLocation = new Vector2Int(int.MaxValue, int.MaxValue);
       Destroy(gameObject);
     }
