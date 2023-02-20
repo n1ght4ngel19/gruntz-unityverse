@@ -47,6 +47,12 @@ namespace GruntzUnityverse.Actorz {
         NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
       }
 
+      if (LevelManager.Instance.nodeList.Any(
+        node => node.isBlocked && node.GridLocation.Equals(NavComponent.OwnLocation)
+      )) {
+        StartCoroutine(GetSquashed());
+      }
+
       if (!IsMovementInterrupted) {
         HandleMovement();
       }
@@ -70,6 +76,28 @@ namespace GruntzUnityverse.Actorz {
 
       IsMovementInterrupted = false;
       Destroy(item);
+    }
+
+    public IEnumerator GetSquashed() {
+      // Get appropriate Animation Clip from AnimationManager and set it to 
+      Animator.Play("Death_Squash");
+      IsMovementInterrupted = true;
+
+      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+
+      IsMovementInterrupted = false;
+      Destroy(gameObject);
+    }
+    
+    public IEnumerator FallInHole() {
+      Animator.Play("Death_Hole");
+      IsMovementInterrupted = true;
+
+      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+
+      IsMovementInterrupted = false;
+      NavComponent.OwnLocation = new Vector2Int(int.MaxValue, int.MaxValue);
+      Destroy(gameObject);
     }
 
     protected void OnMouseDown() {

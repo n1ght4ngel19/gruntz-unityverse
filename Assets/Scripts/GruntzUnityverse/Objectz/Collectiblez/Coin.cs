@@ -11,7 +11,7 @@ namespace GruntzUnityverse.Objectz.Collectiblez {
     private void Start() {
       OwnLocation = Vector2Int.FloorToInt(transform.position);
       Animator = gameObject.GetComponentInChildren<Animator>();
-      Animator.Play("Coin_Spinning");
+      Animator.Play("Collectible_Spinning");
     }
 
     private void Update() {

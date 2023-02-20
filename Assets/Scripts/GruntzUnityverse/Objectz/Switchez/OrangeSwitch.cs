@@ -25,13 +25,14 @@ namespace GruntzUnityverse.Objectz.Switchez {
           TogglePyramidz();
           ToggleOtherSwitchez();
         }
+      } else {
+        HasBeenPressed = false;
       }
     }
 
     private void ToggleOtherSwitchez() {
       foreach (OrangeSwitch orangeSwitch in OtherSwitchez) {
         orangeSwitch.IsPressed = !orangeSwitch.IsPressed;
-        orangeSwitch.HasBeenPressed = false;
 
         orangeSwitch.Renderer.sprite = orangeSwitch.IsPressed
           ? PressedSprite
