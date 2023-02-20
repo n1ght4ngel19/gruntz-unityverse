@@ -5,6 +5,7 @@ using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -31,8 +32,10 @@ namespace GruntzUnityverse.Managerz {
 
     public TMP_Text helpBoxText;
 
-    public Tilemap baseLayer;
-    public Tilemap collisionLayer;
+    [field: SerializeField] public Tilemap GroundLayer { get; set; }
+    [field: SerializeField] public Tilemap TransitionLayer { get; set; }
+    [field: SerializeField] public Tilemap LakeLayer { get; set; }
+    [field: SerializeField] public Tilemap VoidLayer { get; set; }
 
     public Vector2Int MinMapPoint { get; set; }
     public Vector2Int MaxMapPoint { get; set; }
@@ -76,24 +79,70 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void AssignLayerz() {
-      baseLayer = GameObject.Find("BaseLayer").GetComponent<Tilemap>();
+      GroundLayer = GameObject.Find("GroundLayer").GetComponent<Tilemap>();
+      GroundLayer.CompressBounds();
 
-      baseLayer.CompressBounds();
+      TransitionLayer = GameObject.Find("TransitionLayer").GetComponent<Tilemap>();
+      TransitionLayer.CompressBounds();
 
-      collisionLayer = GameObject.Find("CollisionLayer").GetComponent<Tilemap>();
+      LakeLayer = GameObject.Find("LakeLayer").GetComponent<Tilemap>();
+      LakeLayer.CompressBounds();
 
-      collisionLayer.CompressBounds();
+      VoidLayer = GameObject.Find("VoidLayer").GetComponent<Tilemap>();
+      VoidLayer.CompressBounds();
 
+      List<Vector3Int> cellBoundsMaxList = new() {
+        GroundLayer.cellBounds.max,
+        TransitionLayer.cellBounds.max,
+        LakeLayer.cellBounds.max,
+        VoidLayer.cellBounds.max,
+      };
 
-      BoundsInt cellBounds = collisionLayer.cellBounds;
+      int maxX = cellBoundsMaxList[0].x;
+      int maxY = cellBoundsMaxList[0].y;
 
-      MinMapPoint = new Vector2Int(cellBounds.xMin, cellBounds.yMin);
-      MaxMapPoint = new Vector2Int(cellBounds.xMax, cellBounds.yMax);
+      foreach (Vector3Int vector in cellBoundsMaxList) {
+        if (vector.x > maxX) {
+          maxX = vector.x;
+        }
+
+        if (vector.y > maxY) {
+          maxY = vector.y;
+        }
+      }
+
+      List<Vector3Int> cellBoundsMinList = new() {
+        GroundLayer.cellBounds.min,
+        TransitionLayer.cellBounds.min,
+        LakeLayer.cellBounds.min,
+        VoidLayer.cellBounds.min,
+      };
+
+      int minX = cellBoundsMinList[0].x;
+      int minY = cellBoundsMinList[0].y;
+
+      foreach (Vector3Int vector in cellBoundsMinList) {
+        if (vector.x < minX) {
+          minX = vector.x;
+        }
+
+        if (vector.y < minY) {
+          minY = vector.y;
+        }
+      }
+      
+      // BoundsInt cellBounds = TransitionLayer.cellBounds;
+
+      // MinMapPoint = new Vector2Int(cellBouncbdsInts.Min().xMin, cellBoundsInts.Min().yMin);
+      // MaxMapPoint = new Vector2Int(cellBoundsInts.Max().xMax, cellBoundsInts.Max().yMax);
+
+      MinMapPoint = new Vector2Int(minX, minY);
+      MaxMapPoint = new Vector2Int(maxX, maxY);
     }
 
     private void CreatePathfindingNodez() {
-      for (int x = collisionLayer.cellBounds.xMin; x < collisionLayer.cellBounds.xMax; x++) {
-        for (int y = collisionLayer.cellBounds.yMin; y < collisionLayer.cellBounds.yMax; y++) {
+      for (int x = MinMapPoint.x; x < MaxMapPoint.x; x++) {
+        for (int y = MinMapPoint.y; y < MaxMapPoint.y; y++) {
           Node node = Instantiate(nodePrefab, NodeContainer.transform);
           node.transform.position = new Vector3(x + 0.5f, y + 0.5f, -1);
           node.GridLocation = new Vector2Int(x, y);
@@ -101,7 +150,7 @@ namespace GruntzUnityverse.Managerz {
           nodeList.Add(node);
           nodeLocationsList.Add(node.GridLocation);
 
-          if (collisionLayer.HasTile(new Vector3Int(x, y, 0))) {
+          if (!GroundLayer.HasTile(new Vector3Int(x, y, 0))) {
             node.isBlocked = true;
           }
         }

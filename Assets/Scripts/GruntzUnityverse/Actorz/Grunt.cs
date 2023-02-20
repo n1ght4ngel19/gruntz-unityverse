@@ -3,6 +3,7 @@ using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
@@ -50,7 +51,13 @@ namespace GruntzUnityverse.Actorz {
       if (LevelManager.Instance.nodeList.Any(
         node => node.isBlocked && node.GridLocation.Equals(NavComponent.OwnLocation)
       )) {
-        StartCoroutine(GetSquashed());
+        if (LevelManager.Instance.LakeLayer.HasTile(
+          new Vector3Int(NavComponent.OwnLocation.x, NavComponent.OwnLocation.y, 0)
+        )) {
+          StartCoroutine(Sink());
+        } else {
+          StartCoroutine(GetSquashed());
+        }
       }
 
       if (!IsMovementInterrupted) {
@@ -88,7 +95,18 @@ namespace GruntzUnityverse.Actorz {
       NavComponent.OwnLocation = new Vector2Int(int.MaxValue, int.MaxValue);
       Destroy(gameObject);
     }
-    
+
+    public IEnumerator Sink() {
+      // Get appropriate Animation Clip from AnimationManager and set it to 
+      Animator.Play("Death_Sink");
+      IsMovementInterrupted = true;
+
+      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+
+      NavComponent.OwnLocation = new Vector2Int(int.MaxValue, int.MaxValue);
+      Destroy(gameObject);
+    }
+
     public IEnumerator FallInHole() {
       Animator.Play("Death_Hole");
       IsMovementInterrupted = true;
