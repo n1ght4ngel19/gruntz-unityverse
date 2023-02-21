@@ -2,7 +2,7 @@
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
-namespace GruntzUnityverse.Objectz.Collectiblez {
+namespace GruntzUnityverse.Objectz.Itemz {
   public class Coin : MonoBehaviour {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public Animator Animator { get; set; }

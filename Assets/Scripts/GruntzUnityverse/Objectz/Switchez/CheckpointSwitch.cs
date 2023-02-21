@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
@@ -7,6 +9,7 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Switchez {
   public class CheckpointSwitch : ObjectSwitch {
     [field: SerializeField] public List<CheckpointPyramid> Pyramidz { get; set; }
+    [field: SerializeField] public ItemType Requirement { get; set; }
 
 
     private void Update() {
@@ -20,7 +23,12 @@ namespace GruntzUnityverse.Objectz.Switchez {
         enabled = false;
       }
 
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.AllGruntz.Any(
+        grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation)
+          && (grunt.Equipment.Tool.Type.ToString().Equals(Requirement.ToString())
+            || grunt.Equipment.Toy.Type.ToString().Equals(Requirement.ToString())
+            || grunt.Equipment.Powerup.Type.ToString().Equals(Requirement.ToString()))
+      )) {
         IsPressed = true;
         Renderer.sprite = PressedSprite;
       } else {

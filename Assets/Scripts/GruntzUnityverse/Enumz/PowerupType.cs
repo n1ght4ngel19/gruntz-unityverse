@@ -1,6 +1,5 @@
 ﻿namespace GruntzUnityverse.Enumz {
-  public enum ToyType {
+  public enum PowerupType {
     None,
-    Beachball,
   }
 }

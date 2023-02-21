@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
   public class Hole : MonoBehaviour {
-    public Vector2Int OwnLocation { get; set; }
+    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public bool IsOpen { get; set; }
 
     private void Start() { OwnLocation = Vector2Int.FloorToInt(transform.position); }

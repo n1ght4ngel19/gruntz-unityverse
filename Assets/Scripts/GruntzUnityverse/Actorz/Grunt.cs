@@ -3,11 +3,10 @@ using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
-  public abstract class Grunt : MonoBehaviour {
+  public class Grunt : MonoBehaviour {
     [field: SerializeField] public Equipment Equipment { get; set; }
     [field: SerializeField] public NavComponent NavComponent { get; set; }
     [field: SerializeField] public Animator Animator { get; set; }
@@ -17,8 +16,6 @@ namespace GruntzUnityverse.Actorz {
 
 
     protected void Start() {
-      NavComponent = gameObject.AddComponent<NavComponent>();
-      Equipment = gameObject.AddComponent<Equipment>();
       Animator = gameObject.GetComponent<Animator>();
     }
 
