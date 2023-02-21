@@ -8,20 +8,16 @@ namespace GruntzUnityverse.Objectz.Switchez {
   public class OrangeSwitch : ObjectSwitch {
     [field: SerializeField] public List<OrangeSwitch> OtherSwitchez { get; set; }
     [field: SerializeField] public List<OrangePyramid> Pyramidz { get; set; }
-    [field: SerializeField] public bool HasBeenPressed { get; set; }
 
 
     private void Update() {
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
         if (IsPressed) {
           return;
         }
 
         if (!HasBeenPressed) {
-          IsPressed = true;
-          HasBeenPressed = true;
-          Renderer.sprite = PressedSprite;
-
+          PressSwitch();
           TogglePyramidz();
           ToggleOtherSwitchez();
         }
@@ -32,17 +28,13 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void ToggleOtherSwitchez() {
       foreach (OrangeSwitch orangeSwitch in OtherSwitchez) {
-        orangeSwitch.IsPressed = !orangeSwitch.IsPressed;
-
-        orangeSwitch.Renderer.sprite = orangeSwitch.IsPressed
-          ? PressedSprite
-          : ReleasedSprite;
+        orangeSwitch.ToggleSwitch();
       }
     }
 
     private void TogglePyramidz() {
       foreach (OrangePyramid pyramid in Pyramidz) {
-        pyramid.ChangeState();
+        pyramid.TogglePyramid();
       }
     }
   }

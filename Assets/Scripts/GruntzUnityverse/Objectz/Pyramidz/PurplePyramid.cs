@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Switchez;
 using UnityEngine;
 
@@ -9,14 +8,12 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     [field: SerializeField] public List<PurpleSwitch> Switchez { get; set; }
     [field: SerializeField] public bool HasChanged { get; set; }
 
-    private void Update() {
-      if (!IsInitialized && LevelManager.Instance.PurplePyramidz.Contains(this)) {
-        InitializeNodeAtOwnLocation();
-      }
+    protected override void Update() {
+      base.Update();
 
       if (Switchez.Any(purpleSwitch => !purpleSwitch.IsPressed)) {
         if (HasChanged) {
-          ChangeState();
+          TogglePyramid();
           HasChanged = false;
         }
 
@@ -24,7 +21,7 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
       }
 
       if (!HasChanged) {
-        ChangeState();
+        TogglePyramid();
         HasChanged = true;
       }
     }

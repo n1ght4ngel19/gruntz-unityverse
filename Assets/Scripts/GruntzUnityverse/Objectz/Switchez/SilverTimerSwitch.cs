@@ -8,25 +8,20 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Switchez {
   public class SilverTimerSwitch : ObjectSwitch {
     [field: SerializeField] public List<SilverPyramid> Pyramidz { get; set; }
-    [field: SerializeField] public bool HasBeenPressed { get; set; }
     private const float TimeStep = 0.1f;
 
 
     private void Update() {
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
         if (!HasBeenPressed) {
           foreach (SilverPyramid pyramid in Pyramidz) {
             StartCoroutine(HandleSilverPyramid(pyramid));
           }
 
-          IsPressed = true;
-          HasBeenPressed = true;
-          Renderer.sprite = PressedSprite;
+          PressSwitch();
         }
       } else {
-        IsPressed = false;
-        HasBeenPressed = false;
-        Renderer.sprite = ReleasedSprite;
+        ReleaseSwitch();
       }
     }
 
@@ -37,7 +32,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
         yield return new WaitForSeconds(TimeStep);
       }
 
-      pyramid.ChangeState();
+      pyramid.TogglePyramid();
 
       while (pyramid.Duration > 0) {
         pyramid.Duration -= TimeStep;
@@ -45,7 +40,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
         yield return new WaitForSeconds(TimeStep);
       }
 
-      pyramid.ChangeState();
+      pyramid.TogglePyramid();
     }
   }
 }

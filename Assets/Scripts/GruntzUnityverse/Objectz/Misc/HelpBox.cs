@@ -3,33 +3,31 @@ using System.Linq;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
+// Todo: Redo whole class!
 namespace GruntzUnityverse.Objectz.Misc {
-  public class HelpBox : MonoBehaviour {
+  public class HelpBox : MapObject {
     public CameraMovement mainCam;
     public SpriteRenderer spriteRenderer;
-    public Vector2Int GridLocation { get; set; }
 
     public List<Sprite> animFrames;
     private const int FrameRate = 12;
 
-    private bool isUntouched;
+    public bool isUntouched;
     public static bool IsTextShown;
     public string boxText;
 
 
-    private void Start() {
-      GridLocation = Vector2Int.FloorToInt(transform.position);
+    protected override void Start() {
+      base.Start();
 
-      animFrames = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Misc/HelpBox")
-        .ToList();
+      animFrames = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Misc/HelpBox").ToList();
 
       isUntouched = true;
     }
 
     private void Update() {
       // Pausing the game when a Grunt steps onto a HelpBox and displaying the HelpBox text
-      if (isUntouched
-        && LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(GridLocation))) {
+      if (isUntouched && LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
         DisplayBox();
 
         return;
@@ -42,8 +40,7 @@ namespace GruntzUnityverse.Objectz.Misc {
         return;
       }
 
-      if (LevelManager.Instance.PlayerGruntz
-        .All(grunt => !grunt.NavComponent.OwnLocation.Equals(GridLocation))) {
+      if (LevelManager.Instance.PlayerGruntz.All(grunt => !grunt.IsOnLocation(OwnLocation))) {
         isUntouched = true;
       }
 

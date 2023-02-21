@@ -43,7 +43,7 @@ namespace GruntzUnityverse.Pathfinding {
 
           if (neighbour.isBlocked
             || LevelManager.Instance.AllGruntz.Any(
-              grunt => grunt.NavComponent.OwnLocation.Equals(neighbour.GridLocation)
+              grunt => grunt.IsOnLocation(neighbour.GridLocation)
             )) {
             continue;
           }

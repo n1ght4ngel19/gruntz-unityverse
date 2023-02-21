@@ -12,7 +12,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
 
     private void Update() {
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
         Renderer.sprite = PressedSprite;
 
         foreach (SecretObject secretObject in SecretObjectz) {

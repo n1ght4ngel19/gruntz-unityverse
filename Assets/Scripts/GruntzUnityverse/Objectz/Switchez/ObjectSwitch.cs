@@ -1,17 +1,30 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
-  public class ObjectSwitch : MonoBehaviour {
-    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
-    protected SpriteRenderer Renderer { get; set; }
+  public class ObjectSwitch : MapObject {
     [field: SerializeField] public Sprite PressedSprite { get; set; }
     [field: SerializeField] public Sprite ReleasedSprite { get; set; }
     [field: SerializeField] public bool IsPressed { get; set; }
+    [field: SerializeField] public bool HasBeenPressed { get; set; }
 
-    private void Start() {
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
-      Renderer = gameObject.GetComponent<SpriteRenderer>();
+    protected void PressSwitch() {
+      IsPressed = true;
+      HasBeenPressed = true;
+      Renderer.sprite = PressedSprite;
+    }
+
+    protected void ReleaseSwitch() {
+      IsPressed = false;
+      HasBeenPressed = false;
+      Renderer.sprite = ReleasedSprite;
+    }
+
+    protected void ToggleSwitch() {
+      IsPressed = !IsPressed;
+
+      Renderer.sprite = IsPressed
+        ? PressedSprite
+        : ReleasedSprite;
     }
   }
 }

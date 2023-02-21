@@ -7,30 +7,23 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Switchez {
   public class GreenHoldSwitch : ObjectSwitch {
     [field: SerializeField] public List<GreenPyramid> Pyramidz { get; set; }
-    [field: SerializeField] public bool HasBeenPressed { get; set; }
 
 
     private void Update() {
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
         if (!HasBeenPressed) {
-          TogglePyramids();
-
-          IsPressed = true;
-          HasBeenPressed = true;
-          Renderer.sprite = PressedSprite;
+          TogglePyramidz();
+          PressSwitch();
         }
       } else if (HasBeenPressed) {
-        TogglePyramids();
-
-        IsPressed = false;
-        HasBeenPressed = false;
-        Renderer.sprite = ReleasedSprite;
+        TogglePyramidz();
+        ReleaseSwitch();
       }
     }
 
-    private void TogglePyramids() {
+    private void TogglePyramidz() {
       foreach (GreenPyramid pyramid in Pyramidz) {
-        pyramid.ChangeState();
+        pyramid.TogglePyramid();
       }
     }
   }

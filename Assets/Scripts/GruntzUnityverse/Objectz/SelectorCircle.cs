@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
-  public class SelectorCircle : MonoBehaviour {
+  public class SelectorCircle : MapObject {
     private static SelectorCircle _instance;
 
     public static SelectorCircle Instance {
@@ -16,9 +16,7 @@ namespace GruntzUnityverse.Objectz {
     }
 
     public Camera mainCamera;
-    public Vector2Int OwnLocation { get; set; }
 
-    private void Start() { OwnLocation = Vector2Int.FloorToInt(transform.position); }
 
     private void Update() {
       transform.position = SetPositionBasedOnMousePosition();
@@ -28,16 +26,8 @@ namespace GruntzUnityverse.Objectz {
 
     private Vector3 SetPositionBasedOnMousePosition() {
       return new Vector3(
-        Mathf.Floor(
-          mainCamera.ScreenToWorldPoint(Input.mousePosition)
-            .x
-        )
-        + 0.5f,
-        Mathf.Floor(
-          mainCamera.ScreenToWorldPoint(Input.mousePosition)
-            .y
-        )
-        + 0.5f,
+        Mathf.Floor(mainCamera.ScreenToWorldPoint(Input.mousePosition).x) + 0.5f,
+        Mathf.Floor(mainCamera.ScreenToWorldPoint(Input.mousePosition).y) + 0.5f,
         -10f
       );
     }

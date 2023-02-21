@@ -7,16 +7,13 @@ using GruntzUnityverse.Utility;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Arrowz {
-  public class OneWayArrow : MonoBehaviour {
-    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
+  public class OneWayArrow : MapObject {
     [field: SerializeField] public CompassDirection Direction { get; set; }
 
 
-    private void Start() { OwnLocation = Vector2Int.FloorToInt(transform.position); }
-
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(
-        grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation)
+        grunt => grunt.IsOnLocation(OwnLocation)
       )) {
         grunt.NavComponent.TargetLocation = OwnLocation + VectorOfDirection(Direction);
 
@@ -26,14 +23,14 @@ namespace GruntzUnityverse.Objectz.Arrowz {
 
     public Vector2Int VectorOfDirection(CompassDirection direction) {
       return direction switch {
-        CompassDirection.North => Vector2IntC.North,
-        CompassDirection.East => Vector2IntC.East,
-        CompassDirection.South => Vector2IntC.South,
+        CompassDirection.North => Vector2IntCustom.North,
+        CompassDirection.East => Vector2IntCustom.East,
+        CompassDirection.South => Vector2IntCustom.South,
         CompassDirection.West => Vector2Int.left,
-        CompassDirection.NorthEast => Vector2IntC.NorthEast,
-        CompassDirection.NorthWest => Vector2IntC.NorthWest,
-        CompassDirection.SouthEast => Vector2IntC.SouthEast,
-        CompassDirection.SouthWest => Vector2IntC.SouthWest,
+        CompassDirection.NorthEast => Vector2IntCustom.NorthEast,
+        CompassDirection.NorthWest => Vector2IntCustom.NorthWest,
+        CompassDirection.SouthEast => Vector2IntCustom.SouthEast,
+        CompassDirection.SouthWest => Vector2IntCustom.SouthWest,
         var _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, "No Arrow direction specified!"),
       };
     }

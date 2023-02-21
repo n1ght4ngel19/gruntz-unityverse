@@ -3,6 +3,7 @@ using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Utility;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
@@ -45,9 +46,7 @@ namespace GruntzUnityverse.Actorz {
         NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
       }
 
-      if (LevelManager.Instance.nodeList.Any(
-        node => node.isBlocked && node.GridLocation.Equals(NavComponent.OwnLocation)
-      )) {
+      if (LevelManager.Instance.nodeList.Any(node => node.isBlocked && IsOnLocation(node.GridLocation))) {
         if (LevelManager.Instance.LakeLayer.HasTile(
           new Vector3Int(NavComponent.OwnLocation.x, NavComponent.OwnLocation.y, 0)
         )) {
@@ -62,12 +61,34 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
+    public bool IsOnLocation(Vector2Int location) {
+      return NavComponent.OwnLocation.Equals(location);
+    }
+
+    public bool HasTool(string tool) {
+      return Equipment.Tool.Type.ToString().Equals(tool);
+    }
+
+    public bool HasToy(string toy) {
+      return Equipment.Toy.Type.ToString().Equals(toy);
+    }
+
+    public bool HasPowerup(string powerup) {
+      return Equipment.Powerup.Type.ToString().Equals(powerup);
+    }
+
+    public bool HasItem(string item) {
+      return HasTool(item)
+        || HasToy(item)
+        || HasPowerup(item);
+    }
+
     private void HandleMovement() {
-      if (!NavComponent.TargetLocation.Equals(NavComponent.OwnLocation)) {
+      if (IsOnLocation(NavComponent.TargetLocation)) {
+        Animator.Play($"Idle_{NavComponent.FacingDirection}");
+      } else {
         Animator.Play($"Walk_{NavComponent.FacingDirection}");
         NavComponent.MoveTowardsTarget();
-      } else {
-        Animator.Play($"Idle_{NavComponent.FacingDirection}");
       }
     }
 
@@ -83,13 +104,12 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public IEnumerator GetSquashed() {
-      // Get appropriate Animation Clip from AnimationManager and set it to 
       Animator.Play("Death_Squash");
       IsMovementInterrupted = true;
 
       yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
 
-      NavComponent.OwnLocation = new Vector2Int(int.MaxValue, int.MaxValue);
+      NavComponent.OwnLocation = Vector2IntCustom.Max;
       Destroy(gameObject);
     }
 
@@ -100,7 +120,7 @@ namespace GruntzUnityverse.Actorz {
 
       yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
 
-      NavComponent.OwnLocation = new Vector2Int(int.MaxValue, int.MaxValue);
+      NavComponent.OwnLocation = Vector2IntCustom.Max;
       Destroy(gameObject);
     }
 
@@ -110,7 +130,7 @@ namespace GruntzUnityverse.Actorz {
 
       yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
 
-      NavComponent.OwnLocation = new Vector2Int(int.MaxValue, int.MaxValue);
+      NavComponent.OwnLocation = Vector2IntCustom.Max;
       Destroy(gameObject);
     }
 

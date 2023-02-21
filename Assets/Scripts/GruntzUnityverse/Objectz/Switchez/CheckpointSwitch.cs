@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Pyramidz;
@@ -24,16 +23,11 @@ namespace GruntzUnityverse.Objectz.Switchez {
       }
 
       if (LevelManager.Instance.AllGruntz.Any(
-        grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation)
-          && (grunt.Equipment.Tool.Type.ToString().Equals(Requirement.ToString())
-            || grunt.Equipment.Toy.Type.ToString().Equals(Requirement.ToString())
-            || grunt.Equipment.Powerup.Type.ToString().Equals(Requirement.ToString()))
+        grunt => grunt.IsOnLocation(OwnLocation) && grunt.HasItem(Requirement.ToString())
       )) {
-        IsPressed = true;
-        Renderer.sprite = PressedSprite;
+        PressSwitch();
       } else {
-        IsPressed = false;
-        Renderer.sprite = ReleasedSprite;
+        ReleaseSwitch();
       }
     }
   }

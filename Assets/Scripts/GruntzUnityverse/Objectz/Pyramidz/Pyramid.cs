@@ -2,15 +2,20 @@
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
-  public class Pyramid : MonoBehaviour {
-    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
+  public class Pyramid : MapObject {
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsDown { get; set; }
     [field: SerializeField] public bool IsInitialized { get; set; }
 
-    private void Start() {
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
+
+    protected override void Start() {
+      base.Start();
+
       Animator = gameObject.GetComponentInChildren<Animator>();
+    }
+
+    protected virtual void Update() {
+      InitializeNodeAtOwnLocation();
     }
 
     protected void InitializeNodeAtOwnLocation() {
@@ -18,7 +23,7 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
       LevelManager.Instance.SetBlockedAt(OwnLocation, !IsDown);
     }
 
-    public void ChangeState() {
+    public void TogglePyramid() {
       Animator.Play(
         IsDown
           ? "Pyramid_Up"

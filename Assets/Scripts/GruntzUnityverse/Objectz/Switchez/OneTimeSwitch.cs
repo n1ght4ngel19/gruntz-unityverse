@@ -16,7 +16,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
         enabled = false;
       }
 
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
         TogglePyramidz();
 
         Renderer.sprite = PressedSprite;
@@ -26,7 +26,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void TogglePyramidz() {
       foreach (BlackPyramid pyramid in Pyramidz) {
-        pyramid.ChangeState();
+        pyramid.TogglePyramid();
         pyramid.enabled = false;
       }
     }

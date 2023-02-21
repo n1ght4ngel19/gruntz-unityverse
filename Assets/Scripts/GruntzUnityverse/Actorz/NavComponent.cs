@@ -91,14 +91,14 @@ namespace GruntzUnityverse.Actorz {
       Vector2Int directionVector = Vector2Int.RoundToInt(moveVector);
 
       FacingDirection = directionVector switch {
-        var vector when vector.Equals(Vector2IntC.North) => CompassDirection.North,
-        var vector when vector.Equals(Vector2IntC.NorthEast) => CompassDirection.NorthEast,
-        var vector when vector.Equals(Vector2IntC.East) => CompassDirection.East,
-        var vector when vector.Equals(Vector2IntC.SouthEast) => CompassDirection.SouthEast,
-        var vector when vector.Equals(Vector2IntC.South) => CompassDirection.South,
-        var vector when vector.Equals(Vector2IntC.SouthWest) => CompassDirection.SouthWest,
-        var vector when vector.Equals(Vector2IntC.West) => CompassDirection.West,
-        var vector when vector.Equals(Vector2IntC.NorthWest) => CompassDirection.NorthWest,
+        var vector when vector.Equals(Vector2IntCustom.North) => CompassDirection.North,
+        var vector when vector.Equals(Vector2IntCustom.NorthEast) => CompassDirection.NorthEast,
+        var vector when vector.Equals(Vector2IntCustom.East) => CompassDirection.East,
+        var vector when vector.Equals(Vector2IntCustom.SouthEast) => CompassDirection.SouthEast,
+        var vector when vector.Equals(Vector2IntCustom.South) => CompassDirection.South,
+        var vector when vector.Equals(Vector2IntCustom.SouthWest) => CompassDirection.SouthWest,
+        var vector when vector.Equals(Vector2IntCustom.West) => CompassDirection.West,
+        var vector when vector.Equals(Vector2IntCustom.NorthWest) => CompassDirection.NorthWest,
         var _ => FacingDirection,
       };
     }

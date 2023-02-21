@@ -3,20 +3,20 @@ using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Itemz {
-  public class Coin : MonoBehaviour {
-    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
+  public class Coin : MapObject {
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool HasBeenTouched { get; set; }
 
-    private void Start() {
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
+    protected override void Start() {
+      base.Start();
+
       Animator = gameObject.GetComponentInChildren<Animator>();
       Animator.Play("Collectible_Spinning");
     }
 
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz) {
-        if (grunt.NavComponent.OwnLocation.Equals(OwnLocation) && !HasBeenTouched) {
+        if (grunt.IsOnLocation(OwnLocation) && !HasBeenTouched) {
           HasBeenTouched = true;
 
           StatzManager.Instance.acquiredCoinz++;

@@ -7,28 +7,22 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Switchez {
   public class BlueToggleSwitch : ObjectSwitch {
     [field: SerializeField] public List<WaterBridge> Bridgez { get; set; }
-    [field: SerializeField] public bool HasBeenPressed { get; set; }
 
 
     private void Update() {
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnLocation.Equals(OwnLocation))) {
+      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
         if (!HasBeenPressed) {
           ToggleBridgez();
-
-          IsPressed = true;
-          HasBeenPressed = true;
-          Renderer.sprite = PressedSprite;
+          PressSwitch();
         }
       } else {
-        IsPressed = false;
-        HasBeenPressed = false;
-        Renderer.sprite = ReleasedSprite;
+        ReleaseSwitch();
       }
     }
 
     private void ToggleBridgez() {
       foreach (WaterBridge bridge in Bridgez) {
-        bridge.ChangeState();
+        bridge.ToggleBridge();
       }
     }
   }

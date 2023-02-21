@@ -4,9 +4,7 @@ using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
-  public class SecretObject : MonoBehaviour {
-    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
-    [field: SerializeField] public SpriteRenderer Renderer { get; set; }
+  public class SecretObject : MapObject {
     [field: SerializeField] public Behaviour Behaviour { get; set; }
     [field: SerializeField] public List<MonoBehaviour> OtherBehaviours { get; set; }
     [field: SerializeField] public bool IsWalkable { get; set; }
@@ -15,9 +13,9 @@ namespace GruntzUnityverse.Objectz {
     [field: SerializeField] public float Duration { get; set; }
 
 
-    private void Start() {
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
-      Renderer = gameObject.GetComponent<SpriteRenderer>();
+    protected override void Start() {
+      base.Start();
+
       Behaviour = gameObject.GetComponent<Behaviour>();
       Renderer.enabled = false;
       Behaviour.enabled = false;
