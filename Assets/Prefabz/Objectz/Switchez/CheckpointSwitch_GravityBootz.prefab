@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -6268588358876764885}
   - component: {fileID: 6057601565982675655}
   m_Layer: 0
-  m_Name: CheckpointSwitch
+  m_Name: CheckpointSwitch_GravityBootz
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,11 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <OwnLocation>k__BackingField: {x: 0, y: 0}
-  <PressedSprite>k__BackingField: {fileID: -1170575902, guid: ca92c344a4694654980c708d922d5da9, type: 3}
-  <ReleasedSprite>k__BackingField: {fileID: 1772128229, guid: ca92c344a4694654980c708d922d5da9, type: 3}
+  <PressedSprite>k__BackingField: {fileID: -364867552, guid: 9ef535ac4d287f6448a1268f3c85ec80, type: 3}
+  <ReleasedSprite>k__BackingField: {fileID: -1940656084, guid: 9ef535ac4d287f6448a1268f3c85ec80, type: 3}
   <IsPressed>k__BackingField: 0
   <Pyramidz>k__BackingField: []
-  <Requirement>k__BackingField: 0
+  <Requirement>k__BackingField: 8
 --- !u!212 &6057601565982675655
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1772128229, guid: ca92c344a4694654980c708d922d5da9, type: 3}
+  m_Sprite: {fileID: -1940656084, guid: 9ef535ac4d287f6448a1268f3c85ec80, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
