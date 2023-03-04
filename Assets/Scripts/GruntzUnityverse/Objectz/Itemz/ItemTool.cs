@@ -2,8 +2,8 @@
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Itemz {
-  public class Tool : MapObject {
-    [field: SerializeField] public AnimatorOverrideController OverrideController { get; set; }
+  public class ItemTool : MonoBehaviour {
     [field: SerializeField] public ToolType Type { get; set; }
+    [field: SerializeField] public AnimatorOverrideController GruntAnimOverrider { get; set; }
   }
 }

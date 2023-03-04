@@ -1,4 +1,5 @@
-﻿using GruntzUnityverse.Actorz;
+﻿using System.Linq;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
@@ -12,10 +13,10 @@ namespace GruntzUnityverse.Objectz {
         return;
       }
 
-      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz) {
-        if (grunt.IsOnLocation(OwnLocation)) {
-          StartCoroutine(grunt.FallInHole());
-        }
+      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(
+        grunt => grunt.IsOnLocation(OwnLocation) && grunt.enabled
+      )) {
+        StartCoroutine(grunt.FallInHole());
       }
     }
   }

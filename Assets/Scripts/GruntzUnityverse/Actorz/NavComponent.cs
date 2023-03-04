@@ -14,6 +14,7 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public Vector2Int SavedTargetLocation { get; set; }
     [field: SerializeField] public bool HaveSavedTarget { get; set; }
 
+
     #region Pathfinding
 
     [field: SerializeField] public Node PathStart { get; set; }
@@ -22,7 +23,9 @@ namespace GruntzUnityverse.Actorz {
 
     #endregion
 
+
     [field: SerializeField] public bool IsMoving { get; set; }
+    [field: SerializeField] public bool IsMovementForced { get; set; }
     [field: SerializeField] public bool ProhibitPathRecalculation { get; set; }
     [field: SerializeField] public Vector3 MoveVector { get; set; }
     [field: SerializeField] public CompassDirection FacingDirection { get; set; }
@@ -36,13 +39,10 @@ namespace GruntzUnityverse.Actorz {
     public void MoveTowardsTarget() {
       PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
 
-      PathEnd = LevelManager.Instance.nodeList.First(
-        node => node.GridLocation.Equals(TargetLocation) && !node.isBlocked
-      );
+      PathEnd = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(TargetLocation));
 
       if (!ProhibitPathRecalculation) {
-        // Debug.Log("Changing path");
-        Path = Pathfinder.PathBetween(PathStart, PathEnd);
+        Path = Pathfinder.PathBetween(PathStart, PathEnd, IsMovementForced);
       }
 
       if (Path == null) {
@@ -71,7 +71,16 @@ namespace GruntzUnityverse.Actorz {
         DetermineFacingDirection(MoveVector);
 
         // 0.3f is hardcoded only for ease of testing, remove after not needed
-        transform.position += MoveVector * (Time.deltaTime / 0.3f);
+        transform.position += MoveVector * (Time.deltaTime / 0.6f);
+
+        if (IsMovementForced) {
+          StartCoroutine(
+            LevelManager.Instance.AllGruntz.First(grunt => grunt.IsOnLocation(TargetLocation))
+              .GetSquashed()
+          );
+
+          IsMovementForced = false;
+        }
       } else {
         IsMoving = false;
         ProhibitPathRecalculation = false;

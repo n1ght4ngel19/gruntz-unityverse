@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Bridgez {
   public class WaterBridge : MapObject {
-    [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsDown { get; set; }
 
     public void ToggleBridge() {

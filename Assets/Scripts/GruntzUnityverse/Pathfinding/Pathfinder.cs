@@ -5,9 +5,9 @@ using GruntzUnityverse.Managerz;
 
 namespace GruntzUnityverse.Pathfinding {
   public static class Pathfinder {
-    public static List<Node> PathBetween(Node startNode, Node endNode) {
-      List<Node> openList = new();
-      List<Node> closedList = new();
+    public static List<Node> PathBetween(Node startNode, Node endNode, bool isForced) {
+      List<Node> openList = new List<Node>();
+      List<Node> closedList = new List<Node>();
 
       // Adding the startNode to have something to begin with
       openList.Add(startNode);
@@ -33,6 +33,7 @@ namespace GruntzUnityverse.Pathfinding {
         }
 
         openList.Remove(currentNode);
+
         // Adding currentNode to the closedList so that it cannot be checked again
         closedList.Add(currentNode);
 
@@ -41,10 +42,11 @@ namespace GruntzUnityverse.Pathfinding {
             continue;
           }
 
-          if (neighbour.isBlocked
-            || LevelManager.Instance.AllGruntz.Any(
-              grunt => grunt.IsOnLocation(neighbour.GridLocation)
-            )) {
+          if (neighbour.isBlocked) {
+            continue;
+          }
+
+          if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(neighbour.GridLocation)) && !isForced) {
             continue;
           }
 
@@ -70,7 +72,7 @@ namespace GruntzUnityverse.Pathfinding {
     }
 
     private static List<Node> PathTo(Node end) {
-      List<Node> path = new();
+      List<Node> path = new List<Node>();
       path.Add(end);
       Node currentNode = end;
 

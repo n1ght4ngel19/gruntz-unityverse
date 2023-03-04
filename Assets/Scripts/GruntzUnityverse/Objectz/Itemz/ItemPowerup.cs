@@ -2,8 +2,7 @@
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Itemz {
-  public class Powerup : MapObject {
-    [field: SerializeField] public AnimatorOverrideController OverrideController { get; set; }
+  public class ItemPowerup : MonoBehaviour {
     [field: SerializeField] public PowerupType Type { get; set; }
   }
 }

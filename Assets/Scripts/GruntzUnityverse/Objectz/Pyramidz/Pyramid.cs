@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
   public class Pyramid : MapObject {
-    [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsDown { get; set; }
     [field: SerializeField] public bool IsInitialized { get; set; }
 
@@ -15,7 +14,9 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     }
 
     protected virtual void Update() {
-      InitializeNodeAtOwnLocation();
+      if (!IsInitialized) {
+        InitializeNodeAtOwnLocation();
+      }
     }
 
     protected void InitializeNodeAtOwnLocation() {

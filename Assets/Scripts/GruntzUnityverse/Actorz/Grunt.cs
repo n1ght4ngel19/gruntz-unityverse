@@ -16,9 +16,7 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public Owner Owner { get; set; }
 
 
-    protected void Start() {
-      Animator = gameObject.GetComponent<Animator>();
-    }
+    protected void Start() { Animator = gameObject.GetComponent<Animator>(); }
 
     private void Update() {
       // Save new target for Grunt when it gets a command while moving to another tile
@@ -47,6 +45,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       if (LevelManager.Instance.nodeList.Any(node => node.isBlocked && IsOnLocation(node.GridLocation))) {
+        // Play drowning animation when on a Lake (Water or Death) tile
         if (LevelManager.Instance.LakeLayer.HasTile(
           new Vector3Int(NavComponent.OwnLocation.x, NavComponent.OwnLocation.y, 0)
         )) {
@@ -61,30 +60,34 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
-    public bool IsOnLocation(Vector2Int location) {
-      return NavComponent.OwnLocation.Equals(location);
-    }
+    public bool IsOnLocation(Vector2Int location) { return NavComponent.OwnLocation.Equals(location); }
 
     public bool HasTool(string tool) {
-      return Equipment.Tool.Type.ToString().Equals(tool);
+      return Equipment.Tool.Type.ToString()
+        .Equals(tool);
     }
 
     public bool HasToy(string toy) {
-      return Equipment.Toy.Type.ToString().Equals(toy);
+      return Equipment.Toy.Type.ToString()
+        .Equals(toy);
     }
 
     public bool HasPowerup(string powerup) {
-      return Equipment.Powerup.Type.ToString().Equals(powerup);
+      return Equipment.Powerup.Type.ToString()
+        .Equals(powerup);
     }
 
-    public bool HasItem(string item) {
-      return HasTool(item)
-        || HasToy(item)
-        || HasPowerup(item);
-    }
+    public bool HasItem(string item) { return HasTool(item) || HasToy(item) || HasPowerup(item); }
 
     private void HandleMovement() {
       if (IsOnLocation(NavComponent.TargetLocation)) {
+        AnimatorOverrideController animatorOverrideController = new AnimatorOverrideController();
+
+        // Debug.Log(
+        //   Animator.runtimeAnimatorController.animationClips[0]
+        //     .name
+        // );
+
         Animator.Play($"Idle_{NavComponent.FacingDirection}");
       } else {
         Animator.Play($"Walk_{NavComponent.FacingDirection}");
@@ -93,42 +96,56 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public IEnumerator PickupItem(GameObject item) {
-      // Get appropriate Animation Clip from AnimationManager and set it to 
+      // Todo: Play corresponding Animation Clip
       Animator.Play("Pickup_Item");
       IsMovementInterrupted = true;
 
-      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+      yield return new WaitForSeconds(
+        Animator.GetCurrentAnimatorStateInfo(0)
+          .length
+      );
 
       IsMovementInterrupted = false;
-      Destroy(item);
     }
 
     public IEnumerator GetSquashed() {
+      enabled = false;
       Animator.Play("Death_Squash");
       IsMovementInterrupted = true;
 
-      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+      yield return new WaitForSeconds(
+        Animator.GetCurrentAnimatorStateInfo(0)
+          .length
+      );
 
       NavComponent.OwnLocation = Vector2IntCustom.Max;
       Destroy(gameObject);
     }
 
     public IEnumerator Sink() {
+      enabled = false;
       // Get appropriate Animation Clip from AnimationManager and set it to 
       Animator.Play("Death_Sink");
       IsMovementInterrupted = true;
 
-      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+      yield return new WaitForSeconds(
+        Animator.GetCurrentAnimatorStateInfo(0)
+          .length
+      );
 
       NavComponent.OwnLocation = Vector2IntCustom.Max;
       Destroy(gameObject);
     }
 
     public IEnumerator FallInHole() {
+      enabled = false;
       Animator.Play("Death_Hole");
       IsMovementInterrupted = true;
 
-      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+      yield return new WaitForSeconds(
+        Animator.GetCurrentAnimatorStateInfo(0)
+          .length
+      );
 
       NavComponent.OwnLocation = Vector2IntCustom.Max;
       Destroy(gameObject);

@@ -12,9 +12,6 @@ GameObject:
   - component: {fileID: 697020036462582168}
   - component: {fileID: 4923899592436850092}
   - component: {fileID: -5406503623343964275}
-  - component: {fileID: -6661613906212804513}
-  - component: {fileID: 4059765891262864753}
-  - component: {fileID: 5502295531647662043}
   - component: {fileID: 6986435730129850749}
   - component: {fileID: 7369986621105059349}
   - component: {fileID: 7251468440745798293}
@@ -79,6 +76,7 @@ MonoBehaviour:
   <PathEnd>k__BackingField: {fileID: 0}
   <Path>k__BackingField: []
   <IsMoving>k__BackingField: 0
+  <IsMovementForced>k__BackingField: 0
   <ProhibitPathRecalculation>k__BackingField: 0
   <MoveVector>k__BackingField: {x: 0, y: 0, z: 0}
   <FacingDirection>k__BackingField: 0
@@ -94,51 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43dff2cf49df4e718fbc09cc7081164b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Tool>k__BackingField: {fileID: -6661613906212804513}
-  <Toy>k__BackingField: {fileID: 4059765891262864753}
-  <Powerup>k__BackingField: {fileID: 5502295531647662043}
---- !u!114 &-6661613906212804513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6986435730129850750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11ccc897818c446ebec3c6f078ccfce8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <OverrideController>k__BackingField: {fileID: 0}
-  <Type>k__BackingField: 0
---- !u!114 &4059765891262864753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6986435730129850750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74d322d1867a4bb9832044219738df88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <OverrideController>k__BackingField: {fileID: 0}
-  <Type>k__BackingField: 0
---- !u!114 &5502295531647662043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6986435730129850750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac9ce4029f0c414aa9a19da3c32d23be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <OverrideController>k__BackingField: {fileID: 0}
-  <Type>k__BackingField: 0
+  <Tool>k__BackingField: 0
+  <Toy>k__BackingField: 0
+  <Powerup>k__BackingField: 0
 --- !u!212 &6986435730129850749
 SpriteRenderer:
   m_ObjectHideFlags: 0

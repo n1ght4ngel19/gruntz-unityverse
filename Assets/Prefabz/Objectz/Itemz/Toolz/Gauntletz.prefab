@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6999952525336863592}
-  - component: {fileID: 4565323179322397732}
   - component: {fileID: 1934257392109653503}
+  - component: {fileID: 4565323179322397732}
+  - component: {fileID: 5967016258803882048}
+  - component: {fileID: 6684233427685467122}
   m_Layer: 0
   m_Name: Gauntletz
   m_TagString: Untagged
@@ -33,20 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4565323179322397732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3863937857550272719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11ccc897818c446ebec3c6f078ccfce8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <OverrideController>k__BackingField: {fileID: 0}
-  <Type>k__BackingField: 1
 --- !u!212 &1934257392109653503
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -88,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -73234306, guid: bfcd3ab68d924b54486662ee77aa8180, type: 3}
+  m_Sprite: {fileID: 2100165015, guid: bfcd3ab68d924b54486662ee77aa8180, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,3 +87,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4565323179322397732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863937857550272719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11ccc897818c446ebec3c6f078ccfce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OwnLocation>k__BackingField: {x: 0, y: 0}
+  <Animator>k__BackingField: {fileID: 0}
+  <Tool>k__BackingField: {fileID: 6684233427685467122}
+--- !u!95 &5967016258803882048
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863937857550272719}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 793da8e27ca54ad4f9a877b3b09fbc9d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6684233427685467122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863937857550272719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cdf6ee10d3d430da636eeceaee0da34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <GruntAnimOverrider>k__BackingField: {fileID: 22100000, guid: fa2af78a9cd3dfb4ab8c0f58ebb78945, type: 2}
+  <TargetGrunt>k__BackingField: {fileID: 0}
+  <TargetRock>k__BackingField: {fileID: 0}
