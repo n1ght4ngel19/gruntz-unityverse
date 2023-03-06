@@ -10,13 +10,19 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
+    #region Fieldz
+
     [field: SerializeField] public Equipment Equipment { get; set; }
     [field: SerializeField] public NavComponent NavComponent { get; set; }
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
     [field: SerializeField] public bool IsMovementInterrupted { get; set; }
-    [field: SerializeField] public bool AllowCommand { get; set; }
+    [field: SerializeField] public bool AllowMoveCommand { get; set; }
+    [field: SerializeField] public bool AllowActionCommand { get; set; }
     [field: SerializeField] public Owner Owner { get; set; }
+    [field: SerializeField] public MapObject TargetObject { get; set; }
+
+    #endregion
 
 
     protected void Start() { Animator = gameObject.GetComponent<Animator>(); }
@@ -31,19 +37,82 @@ namespace GruntzUnityverse.Actorz {
       }
 
       Node ownNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(NavComponent.OwnLocation));
-      AllowCommand = Input.GetMouseButtonDown(1) && IsSelected;
 
       // Save new target for Grunt when it gets a command while moving to another tile
-      if (AllowCommand && NavComponent.IsMoving) {
+      if (IsSelected && Input.GetMouseButtonDown(1) && NavComponent.IsMoving) {
         NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
         NavComponent.HaveSavedTarget = true;
 
         return;
       }
 
+      // Handling possible scenarios that can happen when Gruntz are ordered to act
+      if (IsSelected && Input.GetMouseButtonDown(0)) {
+        if (IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
+          // Todo: Bring up Equipment menu
+        }
 
-      // Handling possible scenarios that can happen when Gruntz are ordered to do something
-      if (AllowCommand && !IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
+        if (HasTool("Gauntletz")) {
+          if (LevelManager.Instance.Rockz.Any(rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation))) {
+            /*
+             * Check all neighbours of the node the Rock is on, and choose the
+             * one that has the shortest path to it, or the first if multiple
+             * are the exact distance, or none at all, if all paths return 0 length
+             */
+            foreach (Rock rock in LevelManager.Instance.Rockz.Where(
+              rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
+            )) {
+              // Get the Rock's Node
+              Node rockNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(rock.OwnLocation));
+
+              // Get non-blocking neighbours of rockNode
+              List<Node> nonBlockingNeighbours = rockNode.Neighbours.FindAll(node => !node.isBlocked);
+
+              // Get first possible shortest path
+              List<Node> shortestPath = Pathfinder.PathBetween(
+                ownNode, nonBlockingNeighbours[0], NavComponent.IsMovementForced
+              );
+
+              bool breakFromLoop = false;
+
+              foreach (Node node in nonBlockingNeighbours) {
+                if (shortestPath.Count == 1) {
+                  // There is no possible shorter way, set target to shortest path
+                  NavComponent.TargetLocation = shortestPath[0]
+                    .GridLocation;
+
+                  TargetObject = rock;
+
+                  breakFromLoop = true;
+
+                  break;
+                }
+
+                List<Node> pathToNode = Pathfinder.PathBetween(ownNode, node, NavComponent.IsMovementForced);
+
+                // Check if current path is shorter than the one before
+                if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
+                  shortestPath = pathToNode;
+                }
+              }
+
+              if (shortestPath.Count != 0 && !breakFromLoop) {
+                // Set target to closest non-blocking location neighbouring clicked location
+                NavComponent.TargetLocation = shortestPath.Last()
+                  .GridLocation;
+
+                TargetObject = rock;
+              }
+
+              // breakFromLoop breaks just like this one
+              break;
+            }
+          }
+        }
+      }
+
+      // Handling possible scenarios that can happen when Gruntz are ordered to move
+      if (IsSelected && Input.GetMouseButtonDown(1) && !IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
         if (LevelManager.Instance.Rockz.Any(rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation))) {
           // Check all neighbours of the node the Rock is on, and choose the one that has the shortest path to it, or the first if multiple are the exact distance, or none at all, if all paths return 0 length
           foreach (Rock rock in LevelManager.Instance.Rockz) {
@@ -117,7 +186,28 @@ namespace GruntzUnityverse.Actorz {
 
     public bool IsOnLocation(Vector2Int location) { return NavComponent.OwnLocation.Equals(location); }
 
+
+    public IEnumerator BreakRock() {
+      Animator.Play($"UseItem_{NavComponent.FacingDirection}");
+      IsMovementInterrupted = true;
+
+      // Todo: Wait for the exact time needed for breaking Rockz
+      yield return new WaitForSeconds(1);
+
+      IsMovementInterrupted = false;
+
+      StartCoroutine(((Rock)TargetObject).Break());
+      TargetObject = null;
+    }
+
+
+    #region Equipment
+
     public bool HasTool(string tool) {
+      if (Equipment.Tool is null) {
+        return false;
+      }
+
       return Equipment.Tool.Type.ToString()
         .Equals(tool);
     }
@@ -133,6 +223,9 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public bool HasItem(string item) { return HasTool(item) || HasToy(item) || HasPowerup(item); }
+
+    #endregion
+
 
     private void HandleMovement() {
       if (IsOnLocation(NavComponent.TargetLocation)) {
@@ -150,11 +243,15 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
-    public IEnumerator PickupItem(GameObject item) {
+
+    #region Actionz
+
+    public IEnumerator PickupItem(MapObject item) {
       // Todo: Play corresponding Animation Clip
       Animator.Play("Pickup_Item");
       IsMovementInterrupted = true;
 
+      // Todo: Wait for exact time needed to pick up an Item
       yield return new WaitForSeconds(
         Animator.GetCurrentAnimatorStateInfo(0)
           .length
@@ -162,6 +259,11 @@ namespace GruntzUnityverse.Actorz {
 
       IsMovementInterrupted = false;
     }
+
+    #endregion
+
+
+    #region Deathz
 
     public IEnumerator GetSquashed() {
       enabled = false;
@@ -206,6 +308,9 @@ namespace GruntzUnityverse.Actorz {
       NavComponent.OwnLocation = Vector2IntCustom.Max;
       Destroy(gameObject);
     }
+
+    #endregion
+
 
     protected void OnMouseDown() {
       IsSelected = true;

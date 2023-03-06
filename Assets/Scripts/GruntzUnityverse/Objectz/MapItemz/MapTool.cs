@@ -20,8 +20,10 @@ namespace GruntzUnityverse.Objectz.MapItemz {
         StatzManager.Instance.acquiredToolz++;
         grunt.Equipment.Tool = Tool;
         grunt.Animator.runtimeAnimatorController = Tool.GruntAnimOverrider;
-        
-        StartCoroutine(grunt.PickupItem(gameObject));
+
+        StartCoroutine(grunt.PickupItem(this));
+
+        break;
       }
     }
   }

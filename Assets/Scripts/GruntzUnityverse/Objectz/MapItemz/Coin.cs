@@ -15,9 +15,12 @@ namespace GruntzUnityverse.Objectz.MapItemz {
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt.IsOnLocation(OwnLocation))) {
         enabled = false;
+        Renderer.enabled = false;
         StatzManager.Instance.acquiredCoinz++;
 
-        StartCoroutine(grunt.PickupItem(gameObject));
+        StartCoroutine(grunt.PickupItem(this));
+
+        break;
       }
     }
   }

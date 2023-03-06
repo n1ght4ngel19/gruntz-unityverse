@@ -11,5 +11,8 @@ namespace GruntzUnityverse.Objectz {
       Renderer = gameObject.GetComponent<SpriteRenderer>();
       Animator = gameObject.GetComponent<Animator>();
     }
+    
+    // Todo: Move initialization needed for all MapObjectz here
+    // Set OwnNode so features that need the Object's Node are much easier to handle
   }
 }
