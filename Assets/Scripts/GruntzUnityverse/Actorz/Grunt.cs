@@ -1,8 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
@@ -13,35 +15,87 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
     [field: SerializeField] public bool IsMovementInterrupted { get; set; }
+    [field: SerializeField] public bool AllowCommand { get; set; }
     [field: SerializeField] public Owner Owner { get; set; }
 
 
     protected void Start() { Animator = gameObject.GetComponent<Animator>(); }
 
     private void Update() {
+      // Set target to previously saved target, if there is one
+      if (!NavComponent.IsMoving && NavComponent.HaveSavedTarget) {
+        NavComponent.TargetLocation = NavComponent.SavedTargetLocation;
+        NavComponent.HaveSavedTarget = false;
+
+        return;
+      }
+
+      Node ownNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(NavComponent.OwnLocation));
+      AllowCommand = Input.GetMouseButtonDown(1) && IsSelected;
+
       // Save new target for Grunt when it gets a command while moving to another tile
-      if (Input.GetMouseButtonDown(1) && IsSelected && NavComponent.IsMoving) {
+      if (AllowCommand && NavComponent.IsMoving) {
         NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
         NavComponent.HaveSavedTarget = true;
 
         return;
       }
 
-      // Set target to previously saved target, if there's one
-      if (!NavComponent.IsMoving) {
-        if (NavComponent.HaveSavedTarget) {
-          NavComponent.TargetLocation = NavComponent.SavedTargetLocation;
-          NavComponent.HaveSavedTarget = false;
 
-          return;
+      // Handling possible scenarios that can happen when Gruntz are ordered to do something
+      if (AllowCommand && !IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
+        if (LevelManager.Instance.Rockz.Any(rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation))) {
+          // Check all neighbours of the node the Rock is on, and choose the one that has the shortest path to it, or the first if multiple are the exact distance, or none at all, if all paths return 0 length
+          foreach (Rock rock in LevelManager.Instance.Rockz) {
+            if (!rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)) {
+              continue;
+            }
+
+            // Get Rock's Node
+            Node rockNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(rock.OwnLocation));
+
+            // Get non-blocking neighbours of rockNode
+            List<Node> nonBlockingNeighbours = rockNode.Neighbours.FindAll(node => !node.isBlocked);
+
+            // Get first possible shortest path
+            List<Node> shortestPath = Pathfinder.PathBetween(
+              ownNode, nonBlockingNeighbours[0], NavComponent.IsMovementForced
+            );
+
+            bool breakFromLoop = false;
+
+            foreach (Node node in nonBlockingNeighbours) {
+              if (shortestPath.Count == 1) {
+                // There is no possible shorter way, set target to shortest path
+                NavComponent.TargetLocation = shortestPath[0]
+                  .GridLocation;
+
+                breakFromLoop = true;
+
+                break;
+              }
+
+              List<Node> pathToNode = Pathfinder.PathBetween(ownNode, node, NavComponent.IsMovementForced);
+
+              // Check if current path is shorter than the one before
+              if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
+                shortestPath = pathToNode;
+              }
+            }
+
+            if (shortestPath.Count != 0 && !breakFromLoop) {
+              // Set target to closest non-blocking location neighbouring clicked location
+              NavComponent.TargetLocation = shortestPath.Last()
+                .GridLocation;
+            }
+
+            // breakFromLoop breaks just like this one
+            break;
+          }
+        } else {
+          // Simply set target to clicked location
+          NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
         }
-      }
-
-      // Set target with the mouse if nothing interrupts
-      if (Input.GetMouseButtonDown(1)
-        && IsSelected
-        && SelectorCircle.Instance.OwnLocation != NavComponent.OwnLocation) {
-        NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
       }
 
       if (LevelManager.Instance.nodeList.Any(node => node.isBlocked && IsOnLocation(node.GridLocation))) {
@@ -51,6 +105,7 @@ namespace GruntzUnityverse.Actorz {
         )) {
           StartCoroutine(Sink());
         } else {
+          // Play squashed animation when on colliding Tile or Object
           StartCoroutine(GetSquashed());
         }
       }
@@ -124,6 +179,7 @@ namespace GruntzUnityverse.Actorz {
 
     public IEnumerator Sink() {
       enabled = false;
+
       // Get appropriate Animation Clip from AnimationManager and set it to 
       Animator.Play("Death_Sink");
       IsMovementInterrupted = true;

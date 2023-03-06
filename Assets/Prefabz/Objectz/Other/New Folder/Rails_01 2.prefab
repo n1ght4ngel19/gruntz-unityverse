@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6614523138704185893}
-  - component: {fileID: -6268588358876764885}
   - component: {fileID: 6057601565982675655}
   m_Layer: 0
-  m_Name: CheckpointSwitch_GoKart
+  m_Name: Rails_01 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,26 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6268588358876764885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8831242626146821270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d09dafe4ab94425a3b518999f5d114f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <OwnLocation>k__BackingField: {x: 0, y: 0}
-  <Animator>k__BackingField: {fileID: 0}
-  <PressedSprite>k__BackingField: {fileID: -108859559, guid: 0eb26d7ea32e44f4db604e46e1efa4e5, type: 3}
-  <ReleasedSprite>k__BackingField: {fileID: 637176040, guid: 0eb26d7ea32e44f4db604e46e1efa4e5, type: 3}
-  <IsPressed>k__BackingField: 0
-  <HasBeenPressed>k__BackingField: 0
-  <Pyramidz>k__BackingField: []
-  <Requirement>k__BackingField: 25
 --- !u!212 &6057601565982675655
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -94,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 637176040, guid: 0eb26d7ea32e44f4db604e46e1efa4e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: af06723177436b145a31a31c1097b119, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

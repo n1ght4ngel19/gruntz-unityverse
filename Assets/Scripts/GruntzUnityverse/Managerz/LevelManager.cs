@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
+using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
@@ -21,10 +22,11 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void Awake() {
-      if (_instance != null && _instance != this)
+      if (_instance != null && _instance != this) {
         Destroy(gameObject);
-      else
+      } else {
         _instance = this;
+      }
     }
 
     #endregion
@@ -32,11 +34,17 @@ namespace GruntzUnityverse.Managerz {
 
     public TMP_Text helpBoxText;
 
+
+    #region Layerz
+
     [field: SerializeField] public Tilemap GroundLayer { get; set; }
     [field: SerializeField] public Tilemap TransitionLayer { get; set; }
     [field: SerializeField] public Tilemap LakeLayer { get; set; }
     [field: SerializeField] public Tilemap DeathLayer { get; set; }
     [field: SerializeField] public Tilemap VoidLayer { get; set; }
+
+    #endregion
+
 
     public Vector2Int MinMapPoint { get; set; }
     public Vector2Int MaxMapPoint { get; set; }
@@ -53,6 +61,7 @@ namespace GruntzUnityverse.Managerz {
 
 
     [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
+    [field: SerializeField] public List<Rock> Rockz { get; set; }
 
     private GameObject NodeContainer { get; set; }
     public List<Node> nodeList;
@@ -67,10 +76,10 @@ namespace GruntzUnityverse.Managerz {
       helpBoxText = GameObject.Find("ScrollBox")
         .GetComponentInChildren<TMP_Text>();
 
-      InitializeLevelManager();
+      InitializeLevel();
     }
 
-    private void InitializeLevelManager() {
+    private void InitializeLevel() {
       AssignLayerz();
 
       CreatePathfindingNodez();
@@ -206,6 +215,10 @@ namespace GruntzUnityverse.Managerz {
 
       foreach (SilverPyramid pyramid in FindObjectsOfType<SilverPyramid>()) {
         SilverPyramidz.Add(pyramid);
+      }
+      
+      foreach (Rock rock in FindObjectsOfType<Rock>()) {
+        Rockz.Add(rock);
       }
     }
 

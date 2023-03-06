@@ -36,6 +36,46 @@ namespace GruntzUnityverse.Actorz {
       TargetLocation = OwnLocation;
     }
 
+    public void MoveTowardsTarget(List<Node> path) {
+      PreviousLocation = path[0]
+        .GridLocation;
+
+      Vector3 nextPosition = LocationAsPosition(
+        path[1]
+          .GridLocation
+      );
+
+      // Todo: Handle here disallowing move commands while moving
+      if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.1f) {
+        IsMoving = true;
+        ProhibitPathRecalculation = true;
+
+        MoveVector = (nextPosition - gameObject.transform.position).normalized;
+
+        DetermineFacingDirection(MoveVector);
+
+        // 0.3f is hardcoded only for ease of testing, remove after not needed
+        transform.position += MoveVector * (Time.deltaTime / 0.6f);
+
+        if (IsMovementForced) {
+          StartCoroutine(
+            LevelManager.Instance.AllGruntz.First(grunt => grunt.IsOnLocation(TargetLocation))
+              .GetSquashed()
+          );
+
+          IsMovementForced = false;
+        }
+      } else {
+        IsMoving = false;
+        ProhibitPathRecalculation = false;
+
+        OwnLocation = path[1]
+          .GridLocation;
+
+        path.RemoveAt(1);
+      }
+    }
+    
     public void MoveTowardsTarget() {
       PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
 

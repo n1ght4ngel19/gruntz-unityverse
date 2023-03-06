@@ -8,8 +8,8 @@ namespace GruntzUnityverse.AnimationPackz {
     public readonly List<Sprite> Gauntletz;
   
     public CursorAnimationPack() {
-      Pointer = Resources.LoadAll<Sprite>($"Animated Sprites/Cursorz/CursorPointer").ToList();
-      Gauntletz = Resources.LoadAll<Sprite>($"Animated Sprites/Cursorz/CursorGauntletz").ToList();
+      // Pointer = Resources.LoadAll<Sprite>($"Animated Sprites/Cursorz/CursorPointer").ToList();
+      // Gauntletz = Resources.LoadAll<Sprite>($"Animated Sprites/Cursorz/CursorGauntletz").ToList();
     }
   }
 }
