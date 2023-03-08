@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2781348672147975807}
   - component: {fileID: 6057601565982675655}
   m_Layer: 0
-  m_Name: Hole_Ground_Open2
+  m_Name: Hole_Ground_Open
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 860c37fb0d72462ba7c7cdfbedcb8526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <OwnLocation>k__BackingField: {x: 0, y: 0}
+  <Animator>k__BackingField: {fileID: 0}
   <IsOpen>k__BackingField: 1
 --- !u!212 &6057601565982675655
 SpriteRenderer:
@@ -87,7 +89,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ef6e83a4b56b30842ba9baa0c1837737, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ea7dc935c6165664e8d6e05391a6db6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

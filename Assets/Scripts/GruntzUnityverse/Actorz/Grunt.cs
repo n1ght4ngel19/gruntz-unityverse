@@ -46,7 +46,7 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      // Handling possible scenarios that can happen when Gruntz are ordered to act
+      // Handling order to act
       if (IsSelected && Input.GetMouseButtonDown(0)) {
         if (IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
           // Todo: Bring up Equipment menu
@@ -111,59 +111,60 @@ namespace GruntzUnityverse.Actorz {
         }
       }
 
-      // Handling possible scenarios that can happen when Gruntz are ordered to move
+      // Handling order to move
       if (IsSelected && Input.GetMouseButtonDown(1) && !IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
-        if (LevelManager.Instance.Rockz.Any(rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation))) {
-          // Check all neighbours of the node the Rock is on, and choose the one that has the shortest path to it, or the first if multiple are the exact distance, or none at all, if all paths return 0 length
-          foreach (Rock rock in LevelManager.Instance.Rockz) {
-            if (!rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)) {
-              continue;
+        // Todo: Simplify => Remove loop and calculate own Node at initialization for MapObjects
+        foreach (Node node in LevelManager.Instance.nodeList) {
+          if (!node.GridLocation.Equals(SelectorCircle.Instance.OwnLocation)) {
+            continue;
+          }
+
+          // Check neighbours of Node for possible destinations if Node is blocked
+          if (node.isBlocked) {
+            List<Node> freeNeighbours = node.Neighbours.FindAll(node1 => !node1.isBlocked);
+
+            // No path possible
+            if (freeNeighbours.Count == 0) {
+              // Todo: Play line that says that the Grunt can't move
+              break;
             }
 
-            // Get Rock's Node
-            Node rockNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(rock.OwnLocation));
-
-            // Get non-blocking neighbours of rockNode
-            List<Node> nonBlockingNeighbours = rockNode.Neighbours.FindAll(node => !node.isBlocked);
-
-            // Get first possible shortest path
             List<Node> shortestPath = Pathfinder.PathBetween(
-              ownNode, nonBlockingNeighbours[0], NavComponent.IsMovementForced
+              ownNode, freeNeighbours[0], NavComponent.IsMovementForced
             );
 
-            bool breakFromLoop = false;
+            bool hasShortestPossiblePath = false;
 
-            foreach (Node node in nonBlockingNeighbours) {
+            // Iterate over neighbours to find shortest path
+            foreach (Node neighbour in freeNeighbours) {
               if (shortestPath.Count == 1) {
                 // There is no possible shorter way, set target to shortest path
                 NavComponent.TargetLocation = shortestPath[0]
                   .GridLocation;
 
-                breakFromLoop = true;
+                hasShortestPossiblePath = true;
 
                 break;
               }
 
-              List<Node> pathToNode = Pathfinder.PathBetween(ownNode, node, NavComponent.IsMovementForced);
+              List<Node> pathToNode = Pathfinder.PathBetween(ownNode, neighbour, NavComponent.IsMovementForced);
 
-              // Check if current path is shorter than the one before
+              // Check if current path is shorter than current shortest path
               if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
                 shortestPath = pathToNode;
               }
             }
 
-            if (shortestPath.Count != 0 && !breakFromLoop) {
-              // Set target to closest non-blocking location neighbouring clicked location
+            if (!hasShortestPossiblePath) {
               NavComponent.TargetLocation = shortestPath.Last()
                 .GridLocation;
             }
-
-            // breakFromLoop breaks just like this one
-            break;
+          } else {
+            // If Node is free
+            NavComponent.TargetLocation = node.GridLocation;
           }
-        } else {
-          // Simply set target to clicked location
-          NavComponent.TargetLocation = SelectorCircle.Instance.OwnLocation;
+
+          break;
         }
       }
 
