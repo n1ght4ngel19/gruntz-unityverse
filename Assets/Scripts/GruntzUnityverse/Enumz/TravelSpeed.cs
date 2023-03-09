@@ -6,7 +6,7 @@ namespace GruntzUnityverse.Enumz {
     SpringGrunt = 800,
     SpringGruntJump = 400,
     ToobGrunt = 1000,
-    WaprstoneGrunt = 800,
-    BabyWalkerGrunt = 1200
+    WarpstoneGrunt = 800,
+    BabyWalkerGrunt = 1200,
   }
 }

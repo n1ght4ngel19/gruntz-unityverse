@@ -8,15 +8,13 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     [field: SerializeField] public List<CheckpointSwitch> Switchez { get; set; }
     [field: SerializeField] public bool HasChanged { get; set; }
 
-    protected override void Update() {
-      base.Update();
-
+    private void Update() {
       if (Switchez.Any(checkpointSwitch => !checkpointSwitch.IsPressed)) {
         return;
       }
 
       TogglePyramid();
-      
+
       HasChanged = true;
       enabled = false;
     }

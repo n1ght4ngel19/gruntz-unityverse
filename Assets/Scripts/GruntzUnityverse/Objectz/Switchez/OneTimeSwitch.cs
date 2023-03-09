@@ -16,12 +16,14 @@ namespace GruntzUnityverse.Objectz.Switchez {
         enabled = false;
       }
 
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
-        TogglePyramidz();
-
-        Renderer.sprite = PressedSprite;
-        enabled = false;
+      if (!LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
+        return;
       }
+
+      TogglePyramidz();
+
+      Renderer.sprite = PressedSprite;
+      enabled = false;
     }
 
     private void TogglePyramidz() {

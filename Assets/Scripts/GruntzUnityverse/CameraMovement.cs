@@ -50,63 +50,76 @@ namespace GruntzUnityverse {
 
       if (reachedTop) {
         LimitMovement("up");
-      } else if (reachedBottom)
+      } else if (reachedBottom) {
         LimitMovement("down");
-      else if (reachedLeftSide)
+      } else if (reachedLeftSide) {
         LimitMovement("left");
-      else if (reachedRightSide)
+      } else if (reachedRightSide) {
         LimitMovement("right");
-      else
+      } else {
         MoveFreely();
+      }
     }
 
     private void LimitMovement(string direction) {
       switch (direction) {
         case "down": {
-          if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+          if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
             Camera.transform.position += Vector3.up / ScrollRate;
+          }
 
-          if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+          if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
             Camera.transform.position += Vector3.left / ScrollRate;
+          }
 
-          if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+          if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
             Camera.transform.position += Vector3.right / ScrollRate;
+          }
 
           break;
         }
         case "up": {
-          if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+          if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
             Camera.transform.position += Vector3.down / ScrollRate;
+          }
 
-          if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+          if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
             Camera.transform.position += Vector3.left / ScrollRate;
+          }
 
-          if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+          if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
             Camera.transform.position += Vector3.right / ScrollRate;
+          }
 
           break;
         }
         case "left": {
-          if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+          if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
             Camera.transform.position += Vector3.up / ScrollRate;
+          }
 
-          if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+          if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
             Camera.transform.position += Vector3.down / ScrollRate;
+          }
 
-          if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+          if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
             Camera.transform.position += Vector3.right / ScrollRate;
+          }
 
           break;
         }
         case "right": {
-          if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+          if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
             Camera.transform.position += Vector3.up / ScrollRate;
+          }
 
-          if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+          if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
             Camera.transform.position += Vector3.down / ScrollRate;
+          }
 
-          if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+          if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
             Camera.transform.position += Vector3.left / ScrollRate;
+          }
 
           break;
         }
@@ -114,17 +127,21 @@ namespace GruntzUnityverse {
     }
 
     private void MoveFreely() {
-      if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+      if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
         Camera.transform.position += Vector3.up / ScrollRate;
+      }
 
-      if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+      if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
         Camera.transform.position += Vector3.down / ScrollRate;
+      }
 
-      if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+      if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
         Camera.transform.position += Vector3.left / ScrollRate;
+      }
 
-      if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+      if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
         Camera.transform.position += Vector3.right / ScrollRate;
+      }
     }
   }
 }

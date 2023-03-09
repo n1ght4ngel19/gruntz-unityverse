@@ -13,26 +13,21 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GruntzUnityverse.Managerz {
   public class LevelManager : MonoBehaviour {
-    #region Singleton Stuff
-
     private static LevelManager _instance;
 
     public static LevelManager Instance {
       get => _instance;
     }
 
-    private void Awake() {
-      if (_instance != null && _instance != this) {
-        Destroy(gameObject);
-      } else {
-        _instance = this;
-      }
-    }
-
-    #endregion
-
-
     public TMP_Text helpBoxText;
+
+    private GameObject NodeContainer { get; set; }
+    public List<Node> nodeList;
+    public List<Vector2Int> nodeLocationsList;
+    public Node nodePrefab;
+
+    public Vector2Int MinMapPoint { get; set; }
+    public Vector2Int MaxMapPoint { get; set; }
 
 
     #region Layerz
@@ -46,8 +41,7 @@ namespace GruntzUnityverse.Managerz {
     #endregion
 
 
-    public Vector2Int MinMapPoint { get; set; }
-    public Vector2Int MaxMapPoint { get; set; }
+    #region Objectz
 
     [field: SerializeField] public List<Grunt> AllGruntz { get; set; }
     [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
@@ -63,12 +57,16 @@ namespace GruntzUnityverse.Managerz {
     [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
     [field: SerializeField] public List<Rock> Rockz { get; set; }
 
-    private GameObject NodeContainer { get; set; }
-    public List<Node> nodeList;
-    public List<Vector2Int> nodeLocationsList;
-    public Node nodePrefab;
+    #endregion
 
-    private void Start() {
+
+    private void Awake() {
+      if (_instance != null && _instance != this) {
+        Destroy(gameObject);
+      } else {
+        _instance = this;
+      }
+
       Application.targetFrameRate = 60;
 
       NodeContainer = GameObject.Find("NodeContainer");
@@ -177,6 +175,7 @@ namespace GruntzUnityverse.Managerz {
           nodeList.Add(node);
           nodeLocationsList.Add(node.GridLocation);
 
+          // Todo: What about Toobz?
           if (!GroundLayer.HasTile(new Vector3Int(x, y, 0))) {
             node.isBlocked = true;
           }
@@ -216,7 +215,7 @@ namespace GruntzUnityverse.Managerz {
       foreach (SilverPyramid pyramid in FindObjectsOfType<SilverPyramid>()) {
         SilverPyramidz.Add(pyramid);
       }
-      
+
       foreach (Rock rock in FindObjectsOfType<Rock>()) {
         Rockz.Add(rock);
       }

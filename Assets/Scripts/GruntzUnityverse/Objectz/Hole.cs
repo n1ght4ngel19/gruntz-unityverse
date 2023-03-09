@@ -17,6 +17,8 @@ namespace GruntzUnityverse.Objectz {
         grunt => grunt.IsOnLocation(OwnLocation) && grunt.enabled
       )) {
         StartCoroutine(grunt.FallInHole());
+
+        break;
       }
     }
   }

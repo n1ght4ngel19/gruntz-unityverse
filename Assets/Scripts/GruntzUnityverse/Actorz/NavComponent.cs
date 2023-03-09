@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
@@ -9,6 +10,7 @@ using UnityEngine;
 namespace GruntzUnityverse.Actorz {
   public class NavComponent : MonoBehaviour {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
+    [field: SerializeField] public Node OwnNode { get; set; }
     [field: SerializeField] public Vector2Int PreviousLocation { get; set; }
     [field: SerializeField] public Vector2Int TargetLocation { get; set; }
     [field: SerializeField] public Vector2Int SavedTargetLocation { get; set; }
@@ -33,7 +35,12 @@ namespace GruntzUnityverse.Actorz {
     private void Start() {
       FacingDirection = CompassDirection.South;
       OwnLocation = Vector2Int.FloorToInt(transform.position);
+      OwnNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
       TargetLocation = OwnLocation;
+    }
+
+    private void Update() {
+      OwnNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
     }
 
     public void MoveTowardsTarget(List<Node> path) {
@@ -72,10 +79,12 @@ namespace GruntzUnityverse.Actorz {
         OwnLocation = path[1]
           .GridLocation;
 
+        OwnNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
+
         path.RemoveAt(1);
       }
     }
-    
+
     public void MoveTowardsTarget() {
       PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
 

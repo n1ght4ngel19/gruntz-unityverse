@@ -6,11 +6,7 @@ namespace GruntzUnityverse.Objectz.Bridgez {
     [field: SerializeField] public bool IsDown { get; set; }
 
     public void ToggleBridge() {
-      Animator.Play(
-        IsDown
-          ? "WaterBridge_Up"
-          : "WaterBridge_Down"
-      );
+      Animator.Play(IsDown ? "WaterBridge_Up" : "WaterBridge_Down");
 
       IsDown = !IsDown;
       LevelManager.Instance.SetBlockedAt(OwnLocation, IsDown);

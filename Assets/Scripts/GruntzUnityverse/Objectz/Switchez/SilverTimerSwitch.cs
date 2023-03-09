@@ -13,15 +13,21 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void Update() {
       if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
-        if (!HasBeenPressed) {
-          foreach (SilverPyramid pyramid in Pyramidz) {
-            StartCoroutine(HandleSilverPyramid(pyramid));
-          }
-
-          PressSwitch();
+        if (HasBeenPressed) {
+          return;
         }
+
+        HandleSilverPyramidz();
+
+        PressSwitch();
       } else {
         ReleaseSwitch();
+      }
+    }
+
+    private void HandleSilverPyramidz() {
+      foreach (SilverPyramid pyramid in Pyramidz) {
+        StartCoroutine(HandleSilverPyramid(pyramid));
       }
     }
 

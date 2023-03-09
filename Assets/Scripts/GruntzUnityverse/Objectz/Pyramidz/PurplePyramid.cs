@@ -8,22 +8,24 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     [field: SerializeField] public List<PurpleSwitch> Switchez { get; set; }
     [field: SerializeField] public bool HasChanged { get; set; }
 
-    protected override void Update() {
-      base.Update();
-
+    private void Update() {
       if (Switchez.Any(purpleSwitch => !purpleSwitch.IsPressed)) {
-        if (HasChanged) {
-          TogglePyramid();
-          HasChanged = false;
+        if (!HasChanged) {
+          return;
         }
+
+        TogglePyramid();
+        HasChanged = false;
 
         return;
       }
 
-      if (!HasChanged) {
-        TogglePyramid();
-        HasChanged = true;
+      if (HasChanged) {
+        return;
       }
+
+      TogglePyramid();
+      HasChanged = true;
     }
   }
 }

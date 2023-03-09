@@ -1,5 +1,4 @@
 using GruntzUnityverse.AnimationPackz;
-using GruntzUnityverse.Enumz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Managerz {
@@ -14,10 +13,11 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void Awake() {
-      if (_instance != null && _instance != this)
+      if (_instance != null && _instance != this) {
         Destroy(gameObject);
-      else
+      } else {
         _instance = this;
+      }
     }
 
     #endregion
@@ -29,7 +29,7 @@ namespace GruntzUnityverse.Managerz {
     // public static readonly GruntAnimationPack BareHandzGruntAnimations = new(ToolType.None);
     // public static readonly GruntAnimationPack ClubGruntAnimations = new(ToolType.Club);
     // public static readonly GruntAnimationPack GauntletzGruntAnimations = new(ToolType.Gauntletz);
-    public static readonly CursorAnimationPack CursorAnimations = new();
+    public static readonly CursorAnimationPack CursorAnimations = new CursorAnimationPack();
     // public static readonly ToolAnimationPack ToolAnimations = new();
     // public static readonly ToyAnimationPack ToyAnimations = new();
   }

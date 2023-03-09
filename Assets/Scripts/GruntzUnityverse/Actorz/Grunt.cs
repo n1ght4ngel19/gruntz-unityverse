@@ -36,8 +36,6 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      Node ownNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(NavComponent.OwnLocation));
-
       // Save new target for Grunt when it gets a command while moving to another tile
       if (IsSelected && Input.GetMouseButtonDown(1) && NavComponent.IsMoving) {
         NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
@@ -70,7 +68,7 @@ namespace GruntzUnityverse.Actorz {
 
               // Get first possible shortest path
               List<Node> shortestPath = Pathfinder.PathBetween(
-                ownNode, nonBlockingNeighbours[0], NavComponent.IsMovementForced
+                NavComponent.OwnNode, nonBlockingNeighbours[0], NavComponent.IsMovementForced
               );
 
               bool breakFromLoop = false;
@@ -88,7 +86,9 @@ namespace GruntzUnityverse.Actorz {
                   break;
                 }
 
-                List<Node> pathToNode = Pathfinder.PathBetween(ownNode, node, NavComponent.IsMovementForced);
+                List<Node> pathToNode = Pathfinder.PathBetween(
+                  NavComponent.OwnNode, node, NavComponent.IsMovementForced
+                );
 
                 // Check if current path is shorter than the one before
                 if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
@@ -115,7 +115,7 @@ namespace GruntzUnityverse.Actorz {
       if (IsSelected && Input.GetMouseButtonDown(1) && !IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
         // Todo: Simplify => Remove loop and calculate own Node at initialization for MapObjects
         foreach (Node node in LevelManager.Instance.nodeList) {
-          if (!node.GridLocation.Equals(SelectorCircle.Instance.OwnLocation)) {
+          if (!node.Equals(SelectorCircle.Instance.OwnNode)) {
             continue;
           }
 
@@ -130,7 +130,7 @@ namespace GruntzUnityverse.Actorz {
             }
 
             List<Node> shortestPath = Pathfinder.PathBetween(
-              ownNode, freeNeighbours[0], NavComponent.IsMovementForced
+              NavComponent.OwnNode, freeNeighbours[0], NavComponent.IsMovementForced
             );
 
             bool hasShortestPossiblePath = false;
@@ -147,7 +147,9 @@ namespace GruntzUnityverse.Actorz {
                 break;
               }
 
-              List<Node> pathToNode = Pathfinder.PathBetween(ownNode, neighbour, NavComponent.IsMovementForced);
+              List<Node> pathToNode = Pathfinder.PathBetween(
+                NavComponent.OwnNode, neighbour, NavComponent.IsMovementForced
+              );
 
               // Check if current path is shorter than current shortest path
               if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
@@ -230,13 +232,6 @@ namespace GruntzUnityverse.Actorz {
 
     private void HandleMovement() {
       if (IsOnLocation(NavComponent.TargetLocation)) {
-        AnimatorOverrideController animatorOverrideController = new AnimatorOverrideController();
-
-        // Debug.Log(
-        //   Animator.runtimeAnimatorController.animationClips[0]
-        //     .name
-        // );
-
         Animator.Play($"Idle_{NavComponent.FacingDirection}");
       } else {
         Animator.Play($"Walk_{NavComponent.FacingDirection}");

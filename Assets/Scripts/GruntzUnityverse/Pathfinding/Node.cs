@@ -31,10 +31,10 @@ namespace GruntzUnityverse.Pathfinding {
     public Node(Vector2Int gridLocation) { GridLocation = gridLocation; }
 
     public void SetNeighboursOfSelf() {
-      List<Node> neighbours = new();
+      List<Node> neighbours = new List<Node>();
 
       // Up
-      Vector2Int location = new(GridLocation.x, GridLocation.y + 1);
+      Vector2Int location = new Vector2Int(GridLocation.x, GridLocation.y + 1);
 
       if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
         neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));

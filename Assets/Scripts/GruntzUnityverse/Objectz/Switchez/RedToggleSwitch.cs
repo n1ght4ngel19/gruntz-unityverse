@@ -6,10 +6,12 @@ namespace GruntzUnityverse.Objectz.Switchez {
   public class RedToggleSwitch : ObjectSwitch {
     private void Update() {
       if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
-        if (!HasBeenPressed) {
-          ToggleAllRedPyramidz();
-          PressSwitch();
+        if (HasBeenPressed) {
+          return;
         }
+
+        ToggleAllRedPyramidz();
+        PressSwitch();
       } else {
         ReleaseSwitch();
       }

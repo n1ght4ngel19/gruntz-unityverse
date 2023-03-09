@@ -12,15 +12,17 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
 
     private void Update() {
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
-        Renderer.sprite = PressedSprite;
-
-        foreach (SecretObject secretObject in SecretObjectz) {
-          StartCoroutine(HandleSecretObject(secretObject));
-        }
-
-        enabled = false;
+      if (!LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
+        return;
       }
+
+      Renderer.sprite = PressedSprite;
+
+      foreach (SecretObject secretObject in SecretObjectz) {
+        StartCoroutine(HandleSecretObject(secretObject));
+      }
+
+      enabled = false;
     }
 
     private IEnumerator HandleSecretObject(SecretObject secretObject) {

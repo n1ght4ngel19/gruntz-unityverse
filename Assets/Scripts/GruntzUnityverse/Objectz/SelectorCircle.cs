@@ -1,3 +1,5 @@
+using System.Linq;
+using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
@@ -9,10 +11,11 @@ namespace GruntzUnityverse.Objectz {
     }
 
     private void Awake() {
-      if (_instance != null && _instance != this)
+      if (_instance != null && _instance != this) {
         Destroy(gameObject);
-      else
+      } else {
         _instance = this;
+      }
     }
 
     public Camera mainCamera;
@@ -20,8 +23,8 @@ namespace GruntzUnityverse.Objectz {
 
     private void Update() {
       transform.position = SetPositionBasedOnMousePosition();
-
       OwnLocation = Vector2Int.FloorToInt(transform.position);
+      OwnNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
     }
 
     private Vector3 SetPositionBasedOnMousePosition() {

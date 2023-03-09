@@ -11,10 +11,12 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void Update() {
       if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
-        if (!HasBeenPressed) {
-          TogglePyramidz();
-          PressSwitch();
+        if (HasBeenPressed) {
+          return;
         }
+
+        TogglePyramidz();
+        PressSwitch();
       } else if (HasBeenPressed) {
         TogglePyramidz();
         ReleaseSwitch();

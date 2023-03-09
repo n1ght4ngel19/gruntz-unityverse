@@ -22,9 +22,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
     protected void ToggleSwitch() {
       IsPressed = !IsPressed;
 
-      Renderer.sprite = IsPressed
-        ? PressedSprite
-        : ReleasedSprite;
+      Renderer.sprite = IsPressed ? PressedSprite : ReleasedSprite;
     }
   }
 }

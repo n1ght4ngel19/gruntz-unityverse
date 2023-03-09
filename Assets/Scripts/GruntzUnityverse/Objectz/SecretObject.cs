@@ -5,12 +5,16 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
   public class SecretObject : MapObject {
+    #region Fieldz
+
     [field: SerializeField] public Behaviour Behaviour { get; set; }
     [field: SerializeField] public List<MonoBehaviour> OtherBehaviours { get; set; }
     [field: SerializeField] public bool IsWalkable { get; set; }
     [field: SerializeField] public bool IsInitiallyBlocked { get; set; }
     [field: SerializeField] public float Delay { get; set; }
     [field: SerializeField] public float Duration { get; set; }
+
+    #endregion
 
 
     protected override void Start() {

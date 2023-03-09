@@ -7,6 +7,6 @@ namespace GruntzUnityverse.Enumz {
     South,
     SouthEast,
     SouthWest,
-    West
+    West,
   }
 }
