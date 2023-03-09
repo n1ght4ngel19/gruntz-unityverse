@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
@@ -40,6 +39,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private void Update() {
+      // Todo: Maybe not calculate it every frame?
       OwnNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
     }
 
@@ -87,7 +87,6 @@ namespace GruntzUnityverse.Actorz {
 
     public void MoveTowardsTarget() {
       PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
-
       PathEnd = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(TargetLocation));
 
       if (!ProhibitPathRecalculation) {
@@ -138,6 +137,45 @@ namespace GruntzUnityverse.Actorz {
           .GridLocation;
 
         Path.RemoveAt(1);
+      }
+    }
+
+    public void SetTargetBeside(Node node) {
+      List<Node> freeNeighbours = node.Neighbours.FindAll(node1 => !node1.isBlocked);
+
+      // No path possible
+      if (freeNeighbours.Count == 0) {
+        // Todo: Play line that says that the Grunt can't move
+        return;
+      }
+
+      List<Node> shortestPath = Pathfinder.PathBetween(OwnNode, freeNeighbours[0], IsMovementForced);
+
+      bool hasShortestPathPossible = false;
+
+      // Iterate over neighbours to find shortest path
+      foreach (Node neighbour in freeNeighbours) {
+        if (shortestPath.Count == 1) {
+          // There is no possible shorter way, set target to shortest path
+          TargetLocation = shortestPath[0]
+            .GridLocation;
+
+          hasShortestPathPossible = true;
+
+          break;
+        }
+
+        List<Node> pathToNode = Pathfinder.PathBetween(OwnNode, neighbour, IsMovementForced);
+
+        // Check if current path is shorter than current shortest path
+        if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
+          shortestPath = pathToNode;
+        }
+      }
+
+      if (!hasShortestPathPossible) {
+        TargetLocation = shortestPath.Last()
+          .GridLocation;
       }
     }
 

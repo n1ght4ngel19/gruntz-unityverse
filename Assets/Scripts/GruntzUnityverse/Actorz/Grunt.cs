@@ -120,47 +120,8 @@ namespace GruntzUnityverse.Actorz {
           }
 
           // Check neighbours of Node for possible destinations if Node is blocked
-          if (node.isBlocked) {
-            List<Node> freeNeighbours = node.Neighbours.FindAll(node1 => !node1.isBlocked);
-
-            // No path possible
-            if (freeNeighbours.Count == 0) {
-              // Todo: Play line that says that the Grunt can't move
-              break;
-            }
-
-            List<Node> shortestPath = Pathfinder.PathBetween(
-              NavComponent.OwnNode, freeNeighbours[0], NavComponent.IsMovementForced
-            );
-
-            bool hasShortestPossiblePath = false;
-
-            // Iterate over neighbours to find shortest path
-            foreach (Node neighbour in freeNeighbours) {
-              if (shortestPath.Count == 1) {
-                // There is no possible shorter way, set target to shortest path
-                NavComponent.TargetLocation = shortestPath[0]
-                  .GridLocation;
-
-                hasShortestPossiblePath = true;
-
-                break;
-              }
-
-              List<Node> pathToNode = Pathfinder.PathBetween(
-                NavComponent.OwnNode, neighbour, NavComponent.IsMovementForced
-              );
-
-              // Check if current path is shorter than current shortest path
-              if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
-                shortestPath = pathToNode;
-              }
-            }
-
-            if (!hasShortestPossiblePath) {
-              NavComponent.TargetLocation = shortestPath.Last()
-                .GridLocation;
-            }
+          if (node.isBlocked || LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnNode.Equals(node))) {
+            NavComponent.SetTargetBeside(node);
           } else {
             // If Node is free
             NavComponent.TargetLocation = node.GridLocation;
@@ -188,20 +149,6 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public bool IsOnLocation(Vector2Int location) { return NavComponent.OwnLocation.Equals(location); }
-
-
-    public IEnumerator BreakRock() {
-      Animator.Play($"UseItem_{NavComponent.FacingDirection}");
-      IsMovementInterrupted = true;
-
-      // Todo: Wait for the exact time needed for breaking Rockz
-      yield return new WaitForSeconds(1);
-
-      IsMovementInterrupted = false;
-
-      StartCoroutine(((Rock)TargetObject).Break());
-      TargetObject = null;
-    }
 
 
     #region Equipment
@@ -254,6 +201,19 @@ namespace GruntzUnityverse.Actorz {
       );
 
       IsMovementInterrupted = false;
+    }
+
+    public IEnumerator BreakRock() {
+      Animator.Play($"UseItem_{NavComponent.FacingDirection}");
+      IsMovementInterrupted = true;
+
+      // Todo: Wait for the exact time needed for breaking Rockz
+      yield return new WaitForSeconds(1);
+
+      IsMovementInterrupted = false;
+
+      StartCoroutine(((Rock)TargetObject).Break());
+      TargetObject = null;
     }
 
     #endregion
