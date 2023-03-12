@@ -7,6 +7,9 @@ using GruntzUnityverse.Utility;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
+  /// <summary>
+  /// The component describing the movement of a Grunt.
+  /// </summary>
   public class NavComponent : MonoBehaviour {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public Node OwnNode { get; set; }
@@ -27,7 +30,6 @@ namespace GruntzUnityverse.Actorz {
 
     [field: SerializeField] public bool IsMoving { get; set; }
     [field: SerializeField] public bool IsMovementForced { get; set; }
-    [field: SerializeField] public bool ProhibitPathRecalculation { get; set; }
     [field: SerializeField] public Vector3 MoveVector { get; set; }
     [field: SerializeField] public CompassDirection FacingDirection { get; set; }
 
@@ -55,7 +57,6 @@ namespace GruntzUnityverse.Actorz {
       // Todo: Handle here disallowing move commands while moving
       if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.1f) {
         IsMoving = true;
-        ProhibitPathRecalculation = true;
 
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
 
@@ -74,7 +75,6 @@ namespace GruntzUnityverse.Actorz {
         }
       } else {
         IsMoving = false;
-        ProhibitPathRecalculation = false;
 
         OwnLocation = path[1]
           .GridLocation;
@@ -85,11 +85,14 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
+    /// <summary>
+    /// Moves the <see cref="Grunt"/> towards its current target.
+    /// </summary>
     public void MoveTowardsTarget() {
       PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
       PathEnd = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(TargetLocation));
 
-      if (!ProhibitPathRecalculation) {
+      if (!IsMoving) {
         Path = Pathfinder.PathBetween(PathStart, PathEnd, IsMovementForced);
       }
 
@@ -112,14 +115,11 @@ namespace GruntzUnityverse.Actorz {
       // Todo: Handle here disallowing move commands while moving
       if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.1f) {
         IsMoving = true;
-        ProhibitPathRecalculation = true;
-
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
-
-        DetermineFacingDirection(MoveVector);
-
         // 0.3f is hardcoded only for ease of testing, remove after not needed
         transform.position += MoveVector * (Time.deltaTime / 0.6f);
+
+        DetermineFacingDirection(MoveVector);
 
         if (IsMovementForced) {
           StartCoroutine(
@@ -131,8 +131,6 @@ namespace GruntzUnityverse.Actorz {
         }
       } else {
         IsMoving = false;
-        ProhibitPathRecalculation = false;
-
         OwnLocation = Path[1]
           .GridLocation;
 

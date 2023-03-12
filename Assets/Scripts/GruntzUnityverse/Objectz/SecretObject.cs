@@ -4,6 +4,9 @@ using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
+  /// <summary>
+  /// Representation of an Object (of any kind) that is connected to a SecretSwitch.
+  /// </summary>
   public class SecretObject : MapObject {
     #region Fieldz
 
@@ -24,6 +27,7 @@ namespace GruntzUnityverse.Objectz {
       Renderer.enabled = false;
       Behaviour.enabled = false;
 
+      // Todo: Figure out what this wants to do
       OtherBehaviours = GetComponents<MonoBehaviour>()
         .ToList();
 
@@ -34,9 +38,11 @@ namespace GruntzUnityverse.Objectz {
       }
     }
 
+    /// <summary>
+    /// Activates the SecretObject.
+    /// </summary>
     public void ActivateSecret() {
       IsInitiallyBlocked = LevelManager.Instance.IsBlockedAt(OwnLocation);
-
       Renderer.enabled = true;
       Behaviour.enabled = true;
 
@@ -47,16 +53,15 @@ namespace GruntzUnityverse.Objectz {
       }
 
       if (IsWalkable) {
-        LevelManager.Instance.FreeNodeAt(OwnLocation);
+        LevelManager.Instance.SetBlockedAt(OwnLocation, false);
       }
     }
 
+    /// <summary>
+    /// Deactivates the SecretObject.
+    /// </summary>
     public void DeactivateSecret() {
-      if (IsInitiallyBlocked) {
-        LevelManager.Instance.BlockNodeAt(OwnLocation);
-      } else {
-        LevelManager.Instance.FreeNodeAt(OwnLocation);
-      }
+      LevelManager.Instance.SetBlockedAt(OwnLocation, IsInitiallyBlocked);
 
       Destroy(gameObject);
     }

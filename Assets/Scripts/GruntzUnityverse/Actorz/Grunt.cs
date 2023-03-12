@@ -1,14 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
-using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
+  /// <summary>
+  /// The class describing Gruntz' behaviour.
+  /// </summary>
   public class Grunt : MonoBehaviour {
     #region Fieldz
 
@@ -28,6 +29,9 @@ namespace GruntzUnityverse.Actorz {
     protected void Start() { Animator = gameObject.GetComponent<Animator>(); }
 
     private void Update() {
+      bool haveMoveCommand = IsSelected && Input.GetMouseButtonDown(1);
+      bool haveActionCommand = IsSelected && Input.GetMouseButtonDown(0);
+
       // Set target to previously saved target, if there is one
       if (!NavComponent.IsMoving && NavComponent.HaveSavedTarget) {
         NavComponent.TargetLocation = NavComponent.SavedTargetLocation;
@@ -37,7 +41,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       // Save new target for Grunt when it gets a command while moving to another tile
-      if (IsSelected && Input.GetMouseButtonDown(1) && NavComponent.IsMoving) {
+      if (haveMoveCommand && NavComponent.IsMoving) {
         NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
         NavComponent.HaveSavedTarget = true;
 
@@ -45,89 +49,45 @@ namespace GruntzUnityverse.Actorz {
       }
 
       // Handling order to act
-      if (IsSelected && Input.GetMouseButtonDown(0)) {
-        if (IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
+      if (haveActionCommand) {
+        if (SelectorCircle.Instance.OwnLocation.Equals(NavComponent.OwnLocation)) {
           // Todo: Bring up Equipment menu
         }
 
         if (HasTool("Gauntletz")) {
-          if (LevelManager.Instance.Rockz.Any(rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation))) {
-            /*
-             * Check all neighbours of the node the Rock is on, and choose the
-             * one that has the shortest path to it, or the first if multiple
-             * are the exact distance, or none at all, if all paths return 0 length
-             */
-            foreach (Rock rock in LevelManager.Instance.Rockz.Where(
-              rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
-            )) {
-              // Get the Rock's Node
-              Node rockNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(rock.OwnLocation));
+          Rock targetRock = LevelManager.Instance.Rockz.FirstOrDefault(
+            rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
+          );
 
-              // Get non-blocking neighbours of rockNode
-              List<Node> nonBlockingNeighbours = rockNode.Neighbours.FindAll(node => !node.isBlocked);
+          if (targetRock is not null) {
+            NavComponent.SetTargetBeside(targetRock.OwnNode);
+            TargetObject = targetRock;
+          }
+        }
 
-              // Get first possible shortest path
-              List<Node> shortestPath = Pathfinder.PathBetween(
-                NavComponent.OwnNode, nonBlockingNeighbours[0], NavComponent.IsMovementForced
-              );
+        if (HasTool("Shovel")) {
+          Hole targetHole = LevelManager.Instance.Holez.FirstOrDefault(
+            rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
+          );
 
-              bool breakFromLoop = false;
-
-              foreach (Node node in nonBlockingNeighbours) {
-                if (shortestPath.Count == 1) {
-                  // There is no possible shorter way, set target to shortest path
-                  NavComponent.TargetLocation = shortestPath[0]
-                    .GridLocation;
-
-                  TargetObject = rock;
-
-                  breakFromLoop = true;
-
-                  break;
-                }
-
-                List<Node> pathToNode = Pathfinder.PathBetween(
-                  NavComponent.OwnNode, node, NavComponent.IsMovementForced
-                );
-
-                // Check if current path is shorter than the one before
-                if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
-                  shortestPath = pathToNode;
-                }
-              }
-
-              if (shortestPath.Count != 0 && !breakFromLoop) {
-                // Set target to closest non-blocking location neighbouring clicked location
-                NavComponent.TargetLocation = shortestPath.Last()
-                  .GridLocation;
-
-                TargetObject = rock;
-              }
-
-              // breakFromLoop breaks just like this one
-              break;
-            }
+          if (targetHole is not null) {
+            NavComponent.SetTargetBeside(targetHole.OwnNode);
+            TargetObject = targetHole;
           }
         }
       }
 
       // Handling order to move
-      if (IsSelected && Input.GetMouseButtonDown(1) && !IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
-        // Todo: Simplify => Remove loop and calculate own Node at initialization for MapObjects
-        foreach (Node node in LevelManager.Instance.nodeList) {
-          if (!node.Equals(SelectorCircle.Instance.OwnNode)) {
-            continue;
-          }
-
-          // Check neighbours of Node for possible destinations if Node is blocked
-          if (node.isBlocked || LevelManager.Instance.AllGruntz.Any(grunt => grunt.NavComponent.OwnNode.Equals(node))) {
-            NavComponent.SetTargetBeside(node);
-          } else {
-            // If Node is free
-            NavComponent.TargetLocation = node.GridLocation;
-          }
-
-          break;
+      if (haveMoveCommand && !IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
+        // Check neighbours of Node for possible destinations if Node is blocked
+        if (SelectorCircle.Instance.OwnNode.isBlocked
+          || LevelManager.Instance.AllGruntz.Any(
+            grunt => grunt.NavComponent.OwnNode.Equals(SelectorCircle.Instance.OwnNode)
+          )) {
+          NavComponent.SetTargetBeside(SelectorCircle.Instance.OwnNode);
+        } else {
+          // If Node is free
+          NavComponent.TargetLocation = SelectorCircle.Instance.OwnNode.GridLocation;
         }
       }
 
@@ -153,6 +113,11 @@ namespace GruntzUnityverse.Actorz {
 
     #region Equipment
 
+    /// <summary>
+    /// Decides whether the Grunt has a Tool equipped.
+    /// </summary>
+    /// <param name="tool">The Tool to check</param>
+    /// <returns>True or false according to whether the Grunt has the Item.</returns>
     public bool HasTool(string tool) {
       if (Equipment.Tool is null) {
         return false;
@@ -162,21 +127,48 @@ namespace GruntzUnityverse.Actorz {
         .Equals(tool);
     }
 
+    /// <summary>
+    /// Decides whether the Grunt has a Toy equipped.
+    /// </summary>
+    /// <param name="toy">The Toy to check</param>
+    /// <returns>True or false according to whether the Grunt has the Item.</returns>
     public bool HasToy(string toy) {
+      if (Equipment.Toy is null) {
+        return false;
+      }
+
       return Equipment.Toy.Type.ToString()
         .Equals(toy);
     }
 
+    /// <summary>
+    /// Decides whether the Grunt has a Powerup equipped.
+    /// </summary>
+    /// <param name="powerup">The Powerup to check</param>
+    /// <returns>True or false according to whether the Grunt has the Item.</returns>
     public bool HasPowerup(string powerup) {
+      if (Equipment.Powerup is null) {
+        return false;
+      }
+
       return Equipment.Powerup.Type.ToString()
         .Equals(powerup);
     }
 
+    /// <summary>
+    /// Decides whether the Grunt has an Item equipped.
+    /// </summary>
+    /// <param name="item">The Tool, Toy, or Powerup to check.</param>
+    /// <returns>True or false according to whether the Grunt has the Item.</returns>
     public bool HasItem(string item) { return HasTool(item) || HasToy(item) || HasPowerup(item); }
 
     #endregion
 
 
+    /// <summary>
+    /// Decides between starting the next iteration of movement while playing the walking animation,
+    /// and staying put playing while the idle animation.
+    /// </summary>
     private void HandleMovement() {
       if (IsOnLocation(NavComponent.TargetLocation)) {
         Animator.Play($"Idle_{NavComponent.FacingDirection}");
@@ -189,6 +181,11 @@ namespace GruntzUnityverse.Actorz {
 
     #region Actionz
 
+    /// <summary>
+    /// Stops the Grunt and makes him play the pickup animation fitting the <paramref name="item"/> argument.
+    /// </summary>
+    /// <param name="item">A Tool, Toy, Powerup, or Collectible</param>
+    /// <returns>An <see cref="IEnumerator"/> since this is a <see cref="Coroutine"/></returns>
     public IEnumerator PickupItem(MapObject item) {
       // Todo: Play corresponding Animation Clip
       Animator.Play("Pickup_Item");
@@ -268,6 +265,9 @@ namespace GruntzUnityverse.Actorz {
     #endregion
 
 
+    /// <summary>
+    /// Selects the Grunt under the mouse and deselects all others.
+    /// </summary>
     protected void OnMouseDown() {
       IsSelected = true;
 

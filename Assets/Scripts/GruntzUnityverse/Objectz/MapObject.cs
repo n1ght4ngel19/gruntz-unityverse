@@ -4,6 +4,9 @@ using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
+  /// <summary>
+  /// The base for all Objects that can be interacted with on a Level.
+  /// </summary>
   public class MapObject : MonoBehaviour {
     #region Fieldz
 

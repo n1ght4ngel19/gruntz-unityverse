@@ -56,6 +56,7 @@ namespace GruntzUnityverse.Managerz {
 
     [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
     [field: SerializeField] public List<Rock> Rockz { get; set; }
+    [field: SerializeField] public List<Hole> Holez { get; set; }
 
     #endregion
 
@@ -218,6 +219,10 @@ namespace GruntzUnityverse.Managerz {
 
       foreach (Rock rock in FindObjectsOfType<Rock>()) {
         Rockz.Add(rock);
+      }
+
+      foreach (Hole hole in FindObjectsOfType<Hole>()) {
+        Holez.Add(hole);
       }
     }
 
