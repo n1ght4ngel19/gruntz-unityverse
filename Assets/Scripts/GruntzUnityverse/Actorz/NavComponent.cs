@@ -36,61 +36,21 @@ namespace GruntzUnityverse.Actorz {
     private void Start() {
       FacingDirection = CompassDirection.South;
       OwnLocation = Vector2Int.FloorToInt(transform.position);
-      OwnNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
+      OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
       TargetLocation = OwnLocation;
     }
 
     private void Update() {
       // Todo: Maybe not calculate it every frame?
-      OwnNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
-    }
-
-    public void MoveTowardsTarget(List<Node> path) {
-      PreviousLocation = path[0]
-        .GridLocation;
-
-      Vector3 nextPosition = LocationAsPosition(
-        path[1]
-          .GridLocation
-      );
-
-      // Todo: Handle here disallowing move commands while moving
-      if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.1f) {
-        IsMoving = true;
-
-        MoveVector = (nextPosition - gameObject.transform.position).normalized;
-
-        DetermineFacingDirection(MoveVector);
-
-        // 0.3f is hardcoded only for ease of testing, remove after not needed
-        transform.position += MoveVector * (Time.deltaTime / 0.6f);
-
-        if (IsMovementForced) {
-          StartCoroutine(
-            LevelManager.Instance.AllGruntz.First(grunt => grunt.IsOnLocation(TargetLocation))
-              .GetSquashed()
-          );
-
-          IsMovementForced = false;
-        }
-      } else {
-        IsMoving = false;
-
-        OwnLocation = path[1]
-          .GridLocation;
-
-        OwnNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
-
-        path.RemoveAt(1);
-      }
+      OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
     }
 
     /// <summary>
     /// Moves the <see cref="Grunt"/> towards its current target.
     /// </summary>
     public void MoveTowardsTarget() {
-      PathStart = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
-      PathEnd = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(TargetLocation));
+      PathStart = LevelManager.Instance.NodeAt(OwnLocation);
+      PathEnd = LevelManager.Instance.NodeAt(TargetLocation);
 
       if (!IsMoving) {
         Path = Pathfinder.PathBetween(PathStart, PathEnd, IsMovementForced);
@@ -105,17 +65,18 @@ namespace GruntzUnityverse.Actorz {
       }
 
       PreviousLocation = Path[0]
-        .GridLocation;
+        .OwnLocation;
 
       Vector3 nextPosition = LocationAsPosition(
         Path[1]
-          .GridLocation
+          .OwnLocation
       );
 
       // Todo: Handle here disallowing move commands while moving
       if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.1f) {
         IsMoving = true;
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
+
         // 0.3f is hardcoded only for ease of testing, remove after not needed
         transform.position += MoveVector * (Time.deltaTime / 0.6f);
 
@@ -124,15 +85,16 @@ namespace GruntzUnityverse.Actorz {
         if (IsMovementForced) {
           StartCoroutine(
             LevelManager.Instance.AllGruntz.First(grunt => grunt.IsOnLocation(TargetLocation))
-              .GetSquashed()
+              .Die(DeathType.GetSquashed)
           );
 
           IsMovementForced = false;
         }
       } else {
         IsMoving = false;
+
         OwnLocation = Path[1]
-          .GridLocation;
+          .OwnLocation;
 
         Path.RemoveAt(1);
       }
@@ -156,7 +118,7 @@ namespace GruntzUnityverse.Actorz {
         if (shortestPath.Count == 1) {
           // There is no possible shorter way, set target to shortest path
           TargetLocation = shortestPath[0]
-            .GridLocation;
+            .OwnLocation;
 
           hasShortestPathPossible = true;
 
@@ -173,7 +135,7 @@ namespace GruntzUnityverse.Actorz {
 
       if (!hasShortestPathPossible) {
         TargetLocation = shortestPath.Last()
-          .GridLocation;
+          .OwnLocation;
       }
     }
 
@@ -185,15 +147,15 @@ namespace GruntzUnityverse.Actorz {
       Vector2Int directionVector = Vector2Int.RoundToInt(moveVector);
 
       FacingDirection = directionVector switch {
-        var vector when vector.Equals(Vector2IntCustom.North) => CompassDirection.North,
-        var vector when vector.Equals(Vector2IntCustom.NorthEast) => CompassDirection.NorthEast,
-        var vector when vector.Equals(Vector2IntCustom.East) => CompassDirection.East,
-        var vector when vector.Equals(Vector2IntCustom.SouthEast) => CompassDirection.SouthEast,
-        var vector when vector.Equals(Vector2IntCustom.South) => CompassDirection.South,
-        var vector when vector.Equals(Vector2IntCustom.SouthWest) => CompassDirection.SouthWest,
-        var vector when vector.Equals(Vector2IntCustom.West) => CompassDirection.West,
-        var vector when vector.Equals(Vector2IntCustom.NorthWest) => CompassDirection.NorthWest,
-        var _ => FacingDirection,
+        var vector when vector.Equals(Vector2IntCustom.North()) => CompassDirection.North,
+        var vector when vector.Equals(Vector2IntCustom.NorthEast()) => CompassDirection.NorthEast,
+        var vector when vector.Equals(Vector2IntCustom.East()) => CompassDirection.East,
+        var vector when vector.Equals(Vector2IntCustom.SouthEast()) => CompassDirection.SouthEast,
+        var vector when vector.Equals(Vector2IntCustom.South()) => CompassDirection.South,
+        var vector when vector.Equals(Vector2IntCustom.SouthWest()) => CompassDirection.SouthWest,
+        var vector when vector.Equals(Vector2IntCustom.West()) => CompassDirection.West,
+        var vector when vector.Equals(Vector2IntCustom.NorthWest()) => CompassDirection.NorthWest,
+        _ => FacingDirection,
       };
     }
   }

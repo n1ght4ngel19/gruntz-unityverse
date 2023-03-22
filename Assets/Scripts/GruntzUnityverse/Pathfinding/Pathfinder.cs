@@ -15,7 +15,7 @@ namespace GruntzUnityverse.Pathfinding {
       foreach (Node node in LevelManager.Instance.nodeList) {
         node.gCost = int.MaxValue;
         node.fCost = node.gCost + node.hCost;
-        node.previous = null;
+        node.previousNode = null;
       }
 
       startNode.gCost = 0;
@@ -46,7 +46,7 @@ namespace GruntzUnityverse.Pathfinding {
             continue;
           }
 
-          if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(neighbour.GridLocation)) && !isForced) {
+          if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(neighbour.OwnLocation)) && !isForced) {
             continue;
           }
 
@@ -56,7 +56,7 @@ namespace GruntzUnityverse.Pathfinding {
             neighbour.gCost = tentativeGCost;
             neighbour.hCost = DistanceBetween(neighbour, endNode);
             neighbour.fCost = neighbour.gCost + neighbour.hCost;
-            neighbour.previous = currentNode;
+            neighbour.previousNode = currentNode;
           }
 
           if (openList.Contains(neighbour)) {
@@ -72,13 +72,15 @@ namespace GruntzUnityverse.Pathfinding {
     }
 
     private static List<Node> PathTo(Node end) {
-      List<Node> path = new List<Node>();
-      path.Add(end);
+      List<Node> path = new List<Node> {
+        end,
+      };
+
       Node currentNode = end;
 
-      while (currentNode.previous is not null) {
-        path.Add(currentNode.previous);
-        currentNode = currentNode.previous;
+      while (currentNode.previousNode is not null) {
+        path.Add(currentNode.previousNode);
+        currentNode = currentNode.previousNode;
       }
 
       path.Reverse();
@@ -88,8 +90,8 @@ namespace GruntzUnityverse.Pathfinding {
 
     private static int DistanceBetween(Node startNode, Node endNode) {
       return Math.Max(
-        Math.Abs(startNode.GridLocation.x - endNode.GridLocation.x),
-        Math.Abs(startNode.GridLocation.y - startNode.GridLocation.y)
+        Math.Abs(startNode.OwnLocation.x - endNode.OwnLocation.x),
+        Math.Abs(startNode.OwnLocation.y - startNode.OwnLocation.y)
       );
     }
   }

@@ -8,7 +8,8 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Switchez {
   public class CheckpointSwitch : ObjectSwitch {
     [field: SerializeField] public List<CheckpointPyramid> Pyramidz { get; set; }
-    [field: SerializeField] public ItemType Requirement { get; set; }
+    [field: SerializeField] public ToolType RequiredTool { get; set; }
+    [field: SerializeField] public ToyType RequiredToy { get; set; }
 
 
     private void Update() {
@@ -23,7 +24,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
       }
 
       if (LevelManager.Instance.AllGruntz.Any(
-        grunt => grunt.IsOnLocation(OwnLocation) && grunt.HasItem(Requirement.ToString())
+        grunt => grunt.IsOnLocation(OwnLocation) && (grunt.HasTool(RequiredTool) || grunt.HasToy(RequiredToy))
       )) {
         PressSwitch();
       } else {

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Linq;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.Objectz.Itemz;
+using GruntzUnityverse.Objectz.Itemz.Toolz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
@@ -20,7 +21,7 @@ namespace GruntzUnityverse.Objectz {
       foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(
         grunt => grunt.IsOnLocation(OwnLocation) && grunt.enabled && IsOpen
       )) {
-        StartCoroutine(grunt.FallInHole());
+        StartCoroutine(grunt.Die(DeathType.FallInHole));
 
         break;
       }
@@ -28,7 +29,7 @@ namespace GruntzUnityverse.Objectz {
       // If a Grunt that is beside the Hole and has a Shovel equipped and is targeting the Hole, dig the Hole
       foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(
         grunt => grunt.NavComponent.OwnNode.Neighbours.Contains(OwnNode)
-          && grunt.HasTool("Shovel")
+          && grunt.HasTool(ToolType.Shovel)
           && grunt.TargetObject.Equals(this)
       )) {
         StartCoroutine(((Shovel)grunt.Equipment.Tool).DigHole(grunt));

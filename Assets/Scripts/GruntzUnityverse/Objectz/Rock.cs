@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Linq;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.Objectz.Itemz;
+using GruntzUnityverse.Objectz.Itemz.Toolz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
@@ -17,7 +18,7 @@ namespace GruntzUnityverse.Objectz {
       // If a Grunt that is beside the Rock and has Gauntletz equipped and is targeting the Rock, break the Rock
       foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(
         grunt => grunt.NavComponent.OwnNode.Neighbours.Contains(OwnNode)
-          && grunt.HasTool("Gauntletz")
+          && grunt.HasTool(ToolType.Gauntletz)
           && grunt.TargetObject.Equals(this)
       )) {
         enabled = false;

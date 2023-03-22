@@ -3,7 +3,7 @@ using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
 using UnityEngine;
 
-namespace GruntzUnityverse.Objectz.Itemz {
+namespace GruntzUnityverse.Objectz.Itemz.Toolz {
   public class Shovel : ItemTool {
     private void Start() { Type = ToolType.Shovel; }
     

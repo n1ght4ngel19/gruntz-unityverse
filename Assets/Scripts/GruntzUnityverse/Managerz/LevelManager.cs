@@ -38,6 +38,11 @@ namespace GruntzUnityverse.Managerz {
     [field: SerializeField] public Tilemap DeathLayer { get; set; }
     [field: SerializeField] public Tilemap VoidLayer { get; set; }
 
+    [field: SerializeField] public Tilemap BackgroundLayer { get; set; }
+
+    // Only for testing
+    [field: SerializeField] public TileBase TileAsset { get; set; }
+
     #endregion
 
 
@@ -112,6 +117,9 @@ namespace GruntzUnityverse.Managerz {
       VoidLayer = GameObject.Find("VoidLayer")
         .GetComponent<Tilemap>();
 
+      BackgroundLayer = GameObject.Find("BackgroundLayer")
+        .GetComponent<Tilemap>();
+
       VoidLayer.CompressBounds();
 
       List<Vector3Int> cellBoundsMaxList = new List<Vector3Int> {
@@ -164,6 +172,8 @@ namespace GruntzUnityverse.Managerz {
 
       MinMapPoint = new Vector2Int(minX, minY);
       MaxMapPoint = new Vector2Int(maxX, maxY);
+
+      // Todo: Procedurally place Tiles on BackgroundLayer
     }
 
     private void CreatePathfindingNodez() {
@@ -171,10 +181,10 @@ namespace GruntzUnityverse.Managerz {
         for (int y = MinMapPoint.y; y < MaxMapPoint.y; y++) {
           Node node = Instantiate(nodePrefab, NodeContainer.transform);
           node.transform.position = new Vector3(x + 0.5f, y + 0.5f, -1);
-          node.GridLocation = new Vector2Int(x, y);
+          node.OwnLocation = new Vector2Int(x, y);
 
           nodeList.Add(node);
-          nodeLocationsList.Add(node.GridLocation);
+          nodeLocationsList.Add(node.OwnLocation);
 
           // Todo: What about Toobz?
           if (!GroundLayer.HasTile(new Vector3Int(x, y, 0))) {
@@ -184,7 +194,7 @@ namespace GruntzUnityverse.Managerz {
       }
 
       foreach (Node node in nodeList) {
-        node.SetNeighboursOfSelf();
+        node.GetNeighboursAroundSelf();
       }
     }
 
@@ -237,33 +247,18 @@ namespace GruntzUnityverse.Managerz {
       }
     }
 
-
-    #region Node Methods
-
     public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
-      nodeList.First(node => node.GridLocation.Equals(gridLocation))
+      NodeAt(gridLocation)
         .isBlocked = isBlocked;
     }
 
-    public void BlockNodeAt(Vector2Int gridLocation) {
-      nodeList.First(node => node.GridLocation.Equals(gridLocation))
-        .isBlocked = true;
-    }
-
-    public void FreeNodeAt(Vector2Int gridLocation) {
-      nodeList.First(node => node.GridLocation.Equals(gridLocation))
-        .isBlocked = false;
-    }
-
     public bool IsBlockedAt(Vector2Int gridLocation) {
-      return nodeList.First(node => node.GridLocation.Equals(gridLocation))
+      return nodeList.First(node => node.OwnLocation.Equals(gridLocation))
         .isBlocked;
     }
 
-    public Node GetNodeAt(Vector2Int gridLocation) {
-      return nodeList.First(node => node.GridLocation.Equals(gridLocation));
+    public Node NodeAt(Vector2Int gridLocation) {
+      return nodeList.First(node => node.OwnLocation.Equals(gridLocation));
     }
-
-    #endregion
   }
 }

@@ -5,7 +5,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
     [field: SerializeField] public Sprite PressedSprite { get; set; }
     [field: SerializeField] public Sprite ReleasedSprite { get; set; }
     [field: SerializeField] public bool IsPressed { get; set; }
-    [field: SerializeField] public bool HasBeenPressed { get; set; }
+    protected bool HasBeenPressed { get; set; }
 
     protected void PressSwitch() {
       IsPressed = true;
@@ -19,9 +19,9 @@ namespace GruntzUnityverse.Objectz.Switchez {
       Renderer.sprite = ReleasedSprite;
     }
 
+    // This is needed for situations where the Switch is toggled NOT by a Grunt (or other actor)
     protected void ToggleSwitch() {
       IsPressed = !IsPressed;
-
       Renderer.sprite = IsPressed ? PressedSprite : ReleasedSprite;
     }
   }

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Bridgez {
-  public class WaterBridge : MapObject {
+  public class SwitchableBridge : MapObject {
     [field: SerializeField] public bool IsDown { get; set; }
 
     public void ToggleBridge() {

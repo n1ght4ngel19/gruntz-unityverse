@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class BlueToggleSwitch : ObjectSwitch {
-    [field: SerializeField] public List<WaterBridge> Bridgez { get; set; }
+    [field: SerializeField] public List<SwitchableBridge> Bridgez { get; set; }
 
 
     private void Update() {
@@ -23,7 +23,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
     }
 
     private void ToggleBridgez() {
-      foreach (WaterBridge bridge in Bridgez) {
+      foreach (SwitchableBridge bridge in Bridgez) {
         bridge.ToggleBridge();
       }
     }

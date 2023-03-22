@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.Utility;
 using UnityEngine;
 
 namespace GruntzUnityverse.Pathfinding {
@@ -9,87 +10,56 @@ namespace GruntzUnityverse.Pathfinding {
     /// The path cost between the start Node and this Node
     /// </summary>
     public int gCost;
-
     /// <summary>
     /// The estimated path cost between this Node and the end Node
     /// </summary>
     public int hCost;
-
     /// <summary>
     /// The sum of the F and G costs
     /// </summary>
     public int fCost;
-
-    public Node previous;
-
+    public Node previousNode;
     public bool isBlocked;
 
-    [field: SerializeField] public Vector2Int GridLocation { get; set; }
+    public Vector2Int OwnLocation { get; set; }
+    public List<Node> Neighbours { get; set; }
 
-    [field: SerializeField] public List<Node> Neighbours { get; set; }
+    public Node(Vector2Int ownLocation) { OwnLocation = ownLocation; }
 
-    public Node(Vector2Int gridLocation) { GridLocation = gridLocation; }
-
-    public void SetNeighboursOfSelf() {
+    public void GetNeighboursAroundSelf() {
       List<Node> neighbours = new List<Node>();
 
-      // Up
-      Vector2Int location = new Vector2Int(GridLocation.x, GridLocation.y + 1);
+      // North
+      AddNodeToNeighboursAt(OwnLocation.OwnNorth(), neighbours);
 
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
+      // South
+      AddNodeToNeighboursAt(OwnLocation.OwnSouth(), neighbours);
 
-      // Down
-      location = new Vector2Int(GridLocation.x, GridLocation.y - 1);
+      // East
+      AddNodeToNeighboursAt(OwnLocation.OwnEast(), neighbours);
 
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
+      // West
+      AddNodeToNeighboursAt(OwnLocation.OwnWest(), neighbours);
 
-      // Right
-      location = new Vector2Int(GridLocation.x + 1, GridLocation.y);
+      // NorthEast
+      AddNodeToNeighboursAt(OwnLocation.OwnNorthEast(), neighbours);
 
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
+      // NorthWest
+      AddNodeToNeighboursAt(OwnLocation.OwnNorthWest(), neighbours);
 
-      // Left
-      location = new Vector2Int(GridLocation.x - 1, GridLocation.y);
+      // SouthEast
+      AddNodeToNeighboursAt(OwnLocation.OwnSouthEast(), neighbours);
 
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Up-Right
-      location = new Vector2Int(GridLocation.x + 1, GridLocation.y + 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Up-Left
-      location = new Vector2Int(GridLocation.x + 1, GridLocation.y - 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Down-Right
-      location = new Vector2Int(GridLocation.x - 1, GridLocation.y + 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
-
-      // Down-Left
-      location = new Vector2Int(GridLocation.x - 1, GridLocation.y - 1);
-
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.GridLocation.Equals(location)));
-      }
+      // SouthWest
+      AddNodeToNeighboursAt(OwnLocation.OwnSouthWest(), neighbours);
 
       Neighbours = neighbours;
+    }
+
+    private void AddNodeToNeighboursAt(Vector2Int location, List<Node> neighbours) {
+      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.OwnLocation.Equals(location)));
+      }
     }
   }
 }

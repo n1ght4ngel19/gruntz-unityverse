@@ -10,7 +10,7 @@ namespace GruntzUnityverse {
     // The smaller the ScrollRate, the faster the camera moves
     private const int ScrollRate = 4;
 
-    private float targetZoom;
+    private float _targetZoom;
     private const float ZoomFactor = 3f;
     private const float ZoomLerpSpeed = 10;
 
@@ -31,9 +31,9 @@ namespace GruntzUnityverse {
         return;
       }
 
-      targetZoom -= Input.GetAxis("Mouse ScrollWheel") * ZoomFactor;
-      targetZoom = Math.Clamp(targetZoom, 4f, 11f);
-      Camera.orthographicSize = Mathf.Lerp(Camera.orthographicSize, targetZoom, Time.deltaTime * ZoomLerpSpeed);
+      _targetZoom -= Input.GetAxis("Mouse ScrollWheel") * ZoomFactor;
+      _targetZoom = Math.Clamp(_targetZoom, 4f, 11f);
+      Camera.orthographicSize = Mathf.Lerp(Camera.orthographicSize, _targetZoom, Time.deltaTime * ZoomLerpSpeed);
     }
 
     private void ScrollWithArrowKeys() {
@@ -42,104 +42,25 @@ namespace GruntzUnityverse {
       }
       
       float camHalfWidth = Camera.orthographicSize * Camera.aspect;
-      bool reachedBottom = Camera.transform.position.y - Camera.orthographicSize <= LevelManager.Instance.MinMapPoint.y + 0.25;
-      bool reachedTop = Camera.transform.position.y + Camera.orthographicSize >= LevelManager.Instance.MaxMapPoint.y - 0.25;
+      bool reachedBottom = Camera.transform.position.y - Camera.orthographicSize / 2 <= LevelManager.Instance.MinMapPoint.y + 0.25;
+      bool reachedTop = Camera.transform.position.y + Camera.orthographicSize / 2 >= LevelManager.Instance.MaxMapPoint.y - 0.25;
       bool reachedLeftSide = Camera.transform.position.x - camHalfWidth <= LevelManager.Instance.MinMapPoint.x + 0.25;
       bool reachedRightSide = Camera.transform.position.x + camHalfWidth >= LevelManager.Instance.MaxMapPoint.x - 0.25;
 
 
-      if (reachedTop) {
-        LimitMovement("up");
-      } else if (reachedBottom) {
-        LimitMovement("down");
-      } else if (reachedLeftSide) {
-        LimitMovement("left");
-      } else if (reachedRightSide) {
-        LimitMovement("right");
-      } else {
-        MoveFreely();
-      }
-    }
-
-    private void LimitMovement(string direction) {
-      switch (direction) {
-        case "down": {
-          if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
-            Camera.transform.position += Vector3.up / ScrollRate;
-          }
-
-          if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
-            Camera.transform.position += Vector3.left / ScrollRate;
-          }
-
-          if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
-            Camera.transform.position += Vector3.right / ScrollRate;
-          }
-
-          break;
-        }
-        case "up": {
-          if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
-            Camera.transform.position += Vector3.down / ScrollRate;
-          }
-
-          if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
-            Camera.transform.position += Vector3.left / ScrollRate;
-          }
-
-          if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
-            Camera.transform.position += Vector3.right / ScrollRate;
-          }
-
-          break;
-        }
-        case "left": {
-          if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
-            Camera.transform.position += Vector3.up / ScrollRate;
-          }
-
-          if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
-            Camera.transform.position += Vector3.down / ScrollRate;
-          }
-
-          if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
-            Camera.transform.position += Vector3.right / ScrollRate;
-          }
-
-          break;
-        }
-        case "right": {
-          if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
-            Camera.transform.position += Vector3.up / ScrollRate;
-          }
-
-          if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
-            Camera.transform.position += Vector3.down / ScrollRate;
-          }
-
-          if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
-            Camera.transform.position += Vector3.left / ScrollRate;
-          }
-
-          break;
-        }
-      }
-    }
-
-    private void MoveFreely() {
-      if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
+      if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reachedTop) {
         Camera.transform.position += Vector3.up / ScrollRate;
       }
 
-      if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
+      if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reachedBottom) {
         Camera.transform.position += Vector3.down / ScrollRate;
       }
 
-      if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
+      if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reachedLeftSide) {
         Camera.transform.position += Vector3.left / ScrollRate;
       }
 
-      if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
+      if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reachedRightSide) {
         Camera.transform.position += Vector3.right / ScrollRate;
       }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
@@ -11,22 +12,19 @@ namespace GruntzUnityverse.Actorz {
   /// The class describing Gruntz' behaviour.
   /// </summary>
   public class Grunt : MonoBehaviour {
-    #region Fieldz
-
     [field: SerializeField] public Equipment Equipment { get; set; }
+    [field: SerializeField] public Owner Owner { get; set; }
     [field: SerializeField] public NavComponent NavComponent { get; set; }
     [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
     [field: SerializeField] public bool IsMovementInterrupted { get; set; }
-    [field: SerializeField] public bool AllowMoveCommand { get; set; }
-    [field: SerializeField] public bool AllowActionCommand { get; set; }
-    [field: SerializeField] public Owner Owner { get; set; }
     [field: SerializeField] public MapObject TargetObject { get; set; }
 
-    #endregion
 
-
-    protected void Start() { Animator = gameObject.GetComponent<Animator>(); }
+    protected void Start() {
+      Animator = gameObject.GetComponent<Animator>();
+      NavComponent = gameObject.GetComponent<NavComponent>();
+    }
 
     private void Update() {
       bool haveMoveCommand = IsSelected && Input.GetMouseButtonDown(1);
@@ -54,7 +52,8 @@ namespace GruntzUnityverse.Actorz {
           // Todo: Bring up Equipment menu
         }
 
-        if (HasTool("Gauntletz")) {
+        // Would this work if Gruntz were able to have multiple Toolz at once?
+        if (HasTool(ToolType.Gauntletz)) {
           Rock targetRock = LevelManager.Instance.Rockz.FirstOrDefault(
             rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
           );
@@ -65,7 +64,8 @@ namespace GruntzUnityverse.Actorz {
           }
         }
 
-        if (HasTool("Shovel")) {
+        // Would this work if Gruntz were able to have multiple Toolz at once?
+        if (HasTool(ToolType.Shovel)) {
           Hole targetHole = LevelManager.Instance.Holez.FirstOrDefault(
             rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
           );
@@ -87,19 +87,19 @@ namespace GruntzUnityverse.Actorz {
           NavComponent.SetTargetBeside(SelectorCircle.Instance.OwnNode);
         } else {
           // If Node is free
-          NavComponent.TargetLocation = SelectorCircle.Instance.OwnNode.GridLocation;
+          NavComponent.TargetLocation = SelectorCircle.Instance.OwnNode.OwnLocation;
         }
       }
 
-      if (LevelManager.Instance.nodeList.Any(node => node.isBlocked && IsOnLocation(node.GridLocation))) {
+      if (LevelManager.Instance.nodeList.Any(node => node.isBlocked && IsOnLocation(node.OwnLocation))) {
         // Play drowning animation when on a Lake (Water or Death) tile
         if (LevelManager.Instance.LakeLayer.HasTile(
           new Vector3Int(NavComponent.OwnLocation.x, NavComponent.OwnLocation.y, 0)
         )) {
-          StartCoroutine(Sink());
+          StartCoroutine(Die(DeathType.Sink));
         } else {
           // Play squashed animation when on colliding Tile or Object
-          StartCoroutine(GetSquashed());
+          StartCoroutine(Die(DeathType.GetSquashed));
         }
       }
 
@@ -110,60 +110,19 @@ namespace GruntzUnityverse.Actorz {
 
     public bool IsOnLocation(Vector2Int location) { return NavComponent.OwnLocation.Equals(location); }
 
-
-    #region Equipment
-
     /// <summary>
     /// Decides whether the Grunt has a Tool equipped.
     /// </summary>
     /// <param name="tool">The Tool to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasTool(string tool) {
-      if (Equipment.Tool is null) {
-        return false;
-      }
-
-      return Equipment.Tool.Type.ToString()
-        .Equals(tool);
-    }
+    public bool HasTool(ToolType tool) { return Equipment.Tool is not null && Equipment.Tool.Type.Equals(tool); }
 
     /// <summary>
     /// Decides whether the Grunt has a Toy equipped.
     /// </summary>
     /// <param name="toy">The Toy to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasToy(string toy) {
-      if (Equipment.Toy is null) {
-        return false;
-      }
-
-      return Equipment.Toy.Type.ToString()
-        .Equals(toy);
-    }
-
-    /// <summary>
-    /// Decides whether the Grunt has a Powerup equipped.
-    /// </summary>
-    /// <param name="powerup">The Powerup to check</param>
-    /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasPowerup(string powerup) {
-      if (Equipment.Powerup is null) {
-        return false;
-      }
-
-      return Equipment.Powerup.Type.ToString()
-        .Equals(powerup);
-    }
-
-    /// <summary>
-    /// Decides whether the Grunt has an Item equipped.
-    /// </summary>
-    /// <param name="item">The Tool, Toy, or Powerup to check.</param>
-    /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasItem(string item) { return HasTool(item) || HasToy(item) || HasPowerup(item); }
-
-    #endregion
-
+    public bool HasToy(ToyType toy) { return Equipment.Toy is not null && Equipment.Toy.Type.Equals(toy); }
 
     /// <summary>
     /// Decides between starting the next iteration of movement while playing the walking animation,
@@ -178,16 +137,13 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
-
-    #region Actionz
-
     /// <summary>
     /// Stops the Grunt and makes him play the pickup animation fitting the <paramref name="item"/> argument.
     /// </summary>
     /// <param name="item">A Tool, Toy, Powerup, or Collectible</param>
     /// <returns>An <see cref="IEnumerator"/> since this is a <see cref="Coroutine"/></returns>
     public IEnumerator PickupItem(MapObject item) {
-      // Todo: Play corresponding Animation Clip
+      // Todo: Play corresponding Animation Clip -> More or less the same as the Die() method
       Animator.Play("Pickup_Item");
       IsMovementInterrupted = true;
 
@@ -200,70 +156,23 @@ namespace GruntzUnityverse.Actorz {
       IsMovementInterrupted = false;
     }
 
-    public IEnumerator BreakRock() {
-      Animator.Play($"UseItem_{NavComponent.FacingDirection}");
-      IsMovementInterrupted = true;
+    public IEnumerator Die(DeathType deathType) {
+      Death currentDeath = deathType switch {
+        DeathType.Sink => Death.Sink,
+        DeathType.FallInHole => Death.FallInHole,
+        DeathType.GetSquashed => Death.GetSquashed,
+        _ => throw new ArgumentOutOfRangeException(nameof(deathType), deathType, null)
+      };
 
-      // Todo: Wait for the exact time needed for breaking Rockz
-      yield return new WaitForSeconds(1);
-
-      IsMovementInterrupted = false;
-
-      StartCoroutine(((Rock)TargetObject).Break());
-      TargetObject = null;
-    }
-
-    #endregion
-
-
-    #region Deathz
-
-    public IEnumerator GetSquashed() {
       enabled = false;
-      Animator.Play("Death_Squash");
       IsMovementInterrupted = true;
+      Animator.Play(currentDeath.animationName);
 
-      yield return new WaitForSeconds(
-        Animator.GetCurrentAnimatorStateInfo(0)
-          .length
-      );
+      yield return new WaitForSeconds(currentDeath.animationDuration);
 
-      NavComponent.OwnLocation = Vector2IntCustom.Max;
+      NavComponent.OwnLocation = Vector2IntCustom.Max();
       Destroy(gameObject);
     }
-
-    public IEnumerator Sink() {
-      enabled = false;
-
-      // Get appropriate Animation Clip from AnimationManager and set it to 
-      Animator.Play("Death_Sink");
-      IsMovementInterrupted = true;
-
-      yield return new WaitForSeconds(
-        Animator.GetCurrentAnimatorStateInfo(0)
-          .length
-      );
-
-      NavComponent.OwnLocation = Vector2IntCustom.Max;
-      Destroy(gameObject);
-    }
-
-    public IEnumerator FallInHole() {
-      enabled = false;
-      Animator.Play("Death_Hole");
-      IsMovementInterrupted = true;
-
-      yield return new WaitForSeconds(
-        Animator.GetCurrentAnimatorStateInfo(0)
-          .length
-      );
-
-      NavComponent.OwnLocation = Vector2IntCustom.Max;
-      Destroy(gameObject);
-    }
-
-    #endregion
-
 
     /// <summary>
     /// Selects the Grunt under the mouse and deselects all others.

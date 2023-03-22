@@ -24,7 +24,7 @@ namespace GruntzUnityverse.Objectz {
     private void Update() {
       transform.position = SetPositionBasedOnMousePosition();
       OwnLocation = Vector2Int.FloorToInt(transform.position);
-      OwnNode = LevelManager.Instance.nodeList.First(node => node.GridLocation.Equals(OwnLocation));
+      OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
     }
 
     private Vector3 SetPositionBasedOnMousePosition() {
