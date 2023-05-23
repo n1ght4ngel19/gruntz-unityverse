@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.MapItemz {
   public class MapTool : MapObject {
-    [field: SerializeField] public ItemTool Tool { get; set; }
+    [field: SerializeField] public Tool Tool { get; set; }
 
     protected override void Start() {
       base.Start();

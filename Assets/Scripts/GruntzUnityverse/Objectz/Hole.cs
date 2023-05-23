@@ -28,7 +28,7 @@ namespace GruntzUnityverse.Objectz {
 
       // If a Grunt that is beside the Hole and has a Shovel equipped and is targeting the Hole, dig the Hole
       foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(
-        grunt => grunt.NavComponent.OwnNode.Neighbours.Contains(OwnNode)
+        grunt => grunt.Navigator.OwnNode.Neighbours.Contains(OwnNode)
           && grunt.HasTool(ToolType.Shovel)
           && grunt.TargetObject.Equals(this)
       )) {
