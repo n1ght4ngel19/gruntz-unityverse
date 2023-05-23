@@ -1,6 +1,6 @@
 ﻿namespace GruntzUnityverse.Enumz {
   public enum Owner {
-    Self,
-    Ai,
+    Self = 0,
+    Ai = 1,
   }
 }
