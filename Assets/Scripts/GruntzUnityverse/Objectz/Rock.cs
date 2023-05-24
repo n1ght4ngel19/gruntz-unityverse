@@ -17,7 +17,7 @@ namespace GruntzUnityverse.Objectz {
     private void Update() {
       // If a Grunt that is beside the Rock and has Gauntletz equipped and is targeting the Rock, break the Rock
       foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(
-        grunt => grunt.NavComponent.OwnNode.Neighbours.Contains(OwnNode)
+        grunt => grunt.Navigator.OwnNode.Neighbours.Contains(OwnNode)
           && grunt.HasTool(ToolType.Gauntletz)
           && grunt.TargetObject.Equals(this)
       )) {

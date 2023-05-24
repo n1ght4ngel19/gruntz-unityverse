@@ -10,7 +10,7 @@ namespace GruntzUnityverse.Actorz {
   /// <summary>
   /// The component describing the movement of a Grunt.
   /// </summary>
-  public class NavComponent : MonoBehaviour {
+  public class Navigator : MonoBehaviour {
     [field: SerializeField] public Vector2Int OwnLocation { get; set; }
     [field: SerializeField] public Node OwnNode { get; set; }
     [field: SerializeField] public Vector2Int PreviousLocation { get; set; }

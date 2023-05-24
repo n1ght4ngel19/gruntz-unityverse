@@ -1,15 +1,15 @@
 ﻿namespace GruntzUnityverse.Enumz {
   public enum ToyType {
-    None,
-    BabyWalker,
-    Beachball,
-    GoKart,
-    JackInTheBox,
-    Jumprope,
-    MonsterWheelz,
-    PogoStick,
-    Scroll,
-    SqueakToy,
-    YoYo,
+    None = 0,
+    BabyWalker = 1,
+    Beachball = 2,
+    GoKart = 3,
+    JackInTheBox = 4,
+    Jumprope = 5,
+    MonsterWheelz = 6,
+    PogoStick = 7,
+    Scroll = 8,
+    SqueakToy = 9,
+    YoYo = 10,
   }
 }

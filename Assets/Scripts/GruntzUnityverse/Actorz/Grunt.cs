@@ -12,18 +12,19 @@ namespace GruntzUnityverse.Actorz {
   /// The class describing Gruntz' behaviour.
   /// </summary>
   public class Grunt : MonoBehaviour {
-    [field: SerializeField] public Equipment Equipment { get; set; }
     [field: SerializeField] public Owner Owner { get; set; }
-    [field: SerializeField] public NavComponent NavComponent { get; set; }
-    [field: SerializeField] public Animator Animator { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
-    [field: SerializeField] public bool IsMovementInterrupted { get; set; }
     [field: SerializeField] public MapObject TargetObject { get; set; }
+    [field: SerializeField] public Equipment Equipment { get; set; }
+    public Navigator Navigator { get; set; }
+    public Animator Animator { get; set; }
+    public bool IsInterrupted { get; set; }
 
 
-    protected void Start() {
+    private void Awake() {
       Animator = gameObject.GetComponent<Animator>();
-      NavComponent = gameObject.GetComponent<NavComponent>();
+      Navigator = gameObject.GetComponent<Navigator>();
+      Equipment = gameObject.GetComponent<Equipment>();
     }
 
     private void Update() {
@@ -31,24 +32,24 @@ namespace GruntzUnityverse.Actorz {
       bool haveActionCommand = IsSelected && Input.GetMouseButtonDown(0);
 
       // Set target to previously saved target, if there is one
-      if (!NavComponent.IsMoving && NavComponent.HaveSavedTarget) {
-        NavComponent.TargetLocation = NavComponent.SavedTargetLocation;
-        NavComponent.HaveSavedTarget = false;
+      if (!Navigator.IsMoving && Navigator.HaveSavedTarget) {
+        Navigator.TargetLocation = Navigator.SavedTargetLocation;
+        Navigator.HaveSavedTarget = false;
 
         return;
       }
 
       // Save new target for Grunt when it gets a command while moving to another tile
-      if (haveMoveCommand && NavComponent.IsMoving) {
-        NavComponent.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
-        NavComponent.HaveSavedTarget = true;
+      if (haveMoveCommand && Navigator.IsMoving) {
+        Navigator.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
+        Navigator.HaveSavedTarget = true;
 
         return;
       }
 
       // Handling order to act
       if (haveActionCommand) {
-        if (SelectorCircle.Instance.OwnLocation.Equals(NavComponent.OwnLocation)) {
+        if (SelectorCircle.Instance.OwnLocation.Equals(Navigator.OwnLocation)) {
           // Todo: Bring up Equipment menu
         }
 
@@ -59,7 +60,7 @@ namespace GruntzUnityverse.Actorz {
           );
 
           if (targetRock is not null) {
-            NavComponent.SetTargetBeside(targetRock.OwnNode);
+            Navigator.SetTargetBeside(targetRock.OwnNode);
             TargetObject = targetRock;
           }
         }
@@ -71,7 +72,7 @@ namespace GruntzUnityverse.Actorz {
           );
 
           if (targetHole is not null) {
-            NavComponent.SetTargetBeside(targetHole.OwnNode);
+            Navigator.SetTargetBeside(targetHole.OwnNode);
             TargetObject = targetHole;
           }
         }
@@ -82,19 +83,19 @@ namespace GruntzUnityverse.Actorz {
         // Check neighbours of Node for possible destinations if Node is blocked
         if (SelectorCircle.Instance.OwnNode.isBlocked
           || LevelManager.Instance.AllGruntz.Any(
-            grunt => grunt.NavComponent.OwnNode.Equals(SelectorCircle.Instance.OwnNode)
+            grunt => grunt.Navigator.OwnNode.Equals(SelectorCircle.Instance.OwnNode)
           )) {
-          NavComponent.SetTargetBeside(SelectorCircle.Instance.OwnNode);
+          Navigator.SetTargetBeside(SelectorCircle.Instance.OwnNode);
         } else {
           // If Node is free
-          NavComponent.TargetLocation = SelectorCircle.Instance.OwnNode.OwnLocation;
+          Navigator.TargetLocation = SelectorCircle.Instance.OwnNode.OwnLocation;
         }
       }
 
       if (LevelManager.Instance.nodeList.Any(node => node.isBlocked && IsOnLocation(node.OwnLocation))) {
         // Play drowning animation when on a Lake (Water or Death) tile
         if (LevelManager.Instance.LakeLayer.HasTile(
-          new Vector3Int(NavComponent.OwnLocation.x, NavComponent.OwnLocation.y, 0)
+          new Vector3Int(Navigator.OwnLocation.x, Navigator.OwnLocation.y, 0)
         )) {
           StartCoroutine(Die(DeathType.Sink));
         } else {
@@ -103,12 +104,12 @@ namespace GruntzUnityverse.Actorz {
         }
       }
 
-      if (!IsMovementInterrupted) {
+      if (!IsInterrupted) {
         HandleMovement();
       }
     }
 
-    public bool IsOnLocation(Vector2Int location) { return NavComponent.OwnLocation.Equals(location); }
+    public bool IsOnLocation(Vector2Int location) { return Navigator.OwnLocation.Equals(location); }
 
     /// <summary>
     /// Decides whether the Grunt has a Tool equipped.
@@ -129,11 +130,11 @@ namespace GruntzUnityverse.Actorz {
     /// and staying put playing while the idle animation.
     /// </summary>
     private void HandleMovement() {
-      if (IsOnLocation(NavComponent.TargetLocation)) {
-        Animator.Play($"Idle_{NavComponent.FacingDirection}");
+      if (IsOnLocation(Navigator.TargetLocation)) {
+        Animator.Play($"Idle_{Navigator.FacingDirection}");
       } else {
-        Animator.Play($"Walk_{NavComponent.FacingDirection}");
-        NavComponent.MoveTowardsTarget();
+        Animator.Play($"Walk_{Navigator.FacingDirection}");
+        Navigator.MoveTowardsTarget();
       }
     }
 
@@ -145,7 +146,7 @@ namespace GruntzUnityverse.Actorz {
     public IEnumerator PickupItem(MapObject item) {
       // Todo: Play corresponding Animation Clip -> More or less the same as the Die() method
       Animator.Play("Pickup_Item");
-      IsMovementInterrupted = true;
+      IsInterrupted = true;
 
       // Todo: Wait for exact time needed to pick up an Item
       yield return new WaitForSeconds(
@@ -153,7 +154,7 @@ namespace GruntzUnityverse.Actorz {
           .length
       );
 
-      IsMovementInterrupted = false;
+      IsInterrupted = false;
     }
 
     public IEnumerator Die(DeathType deathType) {
@@ -165,14 +166,15 @@ namespace GruntzUnityverse.Actorz {
       };
 
       enabled = false;
-      IsMovementInterrupted = true;
+      IsInterrupted = true;
       Animator.Play(currentDeath.animationName);
 
       yield return new WaitForSeconds(currentDeath.animationDuration);
 
-      NavComponent.OwnLocation = Vector2IntCustom.Max();
+      Navigator.OwnLocation = Vector2IntCustom.Max();
       Destroy(gameObject);
     }
+
 
     /// <summary>
     /// Selects the Grunt under the mouse and deselects all others.

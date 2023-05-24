@@ -6,8 +6,8 @@ namespace GruntzUnityverse.Actorz {
   /// Stores which Items a Grunt has equipped. 
   /// </summary>
   public class Equipment : MonoBehaviour {
-    [field: SerializeField] public ItemTool Tool { get; set; }
-    [field: SerializeField] public ItemToy Toy { get; set; }
-    [field: SerializeField] public ItemPowerup Powerup { get; set; }
+    [field: SerializeField] public Tool Tool { get; set; }
+    [field: SerializeField] public Toy Toy { get; set; }
+    [field: SerializeField] public Powerup Powerup { get; set; }
   }
 }
