@@ -31,7 +31,7 @@ namespace GruntzUnityverse.Objectz {
     /// </summary>
     /// <returns>An <see cref="IEnumerator"/> since this is a <see cref="Coroutine"/></returns>
     public IEnumerator Break() {
-      Animator.Play("RockBreak");
+      OwnAnimator.Play("RockBreak");
 
       yield return new WaitForSeconds(1);
 

@@ -109,21 +109,27 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
-    public bool IsOnLocation(Vector2Int location) { return Navigator.OwnLocation.Equals(location); }
+    public bool IsOnLocation(Vector2Int location) {
+      return Navigator.OwnLocation.Equals(location);
+    }
 
     /// <summary>
     /// Decides whether the Grunt has a Tool equipped.
     /// </summary>
     /// <param name="tool">The Tool to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasTool(ToolType tool) { return Equipment.Tool is not null && Equipment.Tool.Type.Equals(tool); }
+    public bool HasTool(ToolType tool) {
+      return Equipment.Tool is not null && Equipment.Tool.Type.Equals(tool);
+    }
 
     /// <summary>
     /// Decides whether the Grunt has a Toy equipped.
     /// </summary>
     /// <param name="toy">The Toy to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasToy(ToyType toy) { return Equipment.Toy is not null && Equipment.Toy.Type.Equals(toy); }
+    public bool HasToy(ToyType toy) {
+      return Equipment.Toy is not null && Equipment.Toy.Type.Equals(toy);
+    }
 
     /// <summary>
     /// Decides between starting the next iteration of movement while playing the walking animation,
@@ -149,10 +155,7 @@ namespace GruntzUnityverse.Actorz {
       IsInterrupted = true;
 
       // Todo: Wait for exact time needed to pick up an Item
-      yield return new WaitForSeconds(
-        Animator.GetCurrentAnimatorStateInfo(0)
-          .length
-      );
+      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
 
       IsInterrupted = false;
     }

@@ -33,6 +33,7 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public Vector3 MoveVector { get; set; }
     [field: SerializeField] public CompassDirection FacingDirection { get; set; }
 
+
     private void Start() {
       FacingDirection = CompassDirection.South;
       OwnLocation = Vector2Int.FloorToInt(transform.position);
@@ -64,13 +65,9 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      PreviousLocation = Path[0]
-        .OwnLocation;
+      PreviousLocation = Path[0].OwnLocation;
 
-      Vector3 nextPosition = LocationAsPosition(
-        Path[1]
-          .OwnLocation
-      );
+      Vector3 nextPosition = LocationAsPosition(Path[1].OwnLocation);
 
       // Todo: Handle here disallowing move commands while moving
       if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.1f) {
@@ -93,8 +90,7 @@ namespace GruntzUnityverse.Actorz {
       } else {
         IsMoving = false;
 
-        OwnLocation = Path[1]
-          .OwnLocation;
+        OwnLocation = Path[1].OwnLocation;
 
         Path.RemoveAt(1);
       }
@@ -117,8 +113,7 @@ namespace GruntzUnityverse.Actorz {
       foreach (Node neighbour in freeNeighbours) {
         if (shortestPath.Count == 1) {
           // There is no possible shorter way, set target to shortest path
-          TargetLocation = shortestPath[0]
-            .OwnLocation;
+          TargetLocation = shortestPath[0].OwnLocation;
 
           hasShortestPathPossible = true;
 
@@ -134,8 +129,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       if (!hasShortestPathPossible) {
-        TargetLocation = shortestPath.Last()
-          .OwnLocation;
+        TargetLocation = shortestPath.Last().OwnLocation;
       }
     }
 

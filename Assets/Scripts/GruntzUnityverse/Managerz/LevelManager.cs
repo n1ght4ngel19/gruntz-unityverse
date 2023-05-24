@@ -77,8 +77,7 @@ namespace GruntzUnityverse.Managerz {
 
       NodeContainer = GameObject.Find("NodeContainer");
 
-      helpBoxText = GameObject.Find("ScrollBox")
-        .GetComponentInChildren<TMP_Text>();
+      helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
 
       InitializeLevel();
     }
@@ -94,33 +93,22 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void AssignLayerz() {
-      GroundLayer = GameObject.Find("GroundLayer")
-        .GetComponent<Tilemap>();
-
+      GroundLayer = GameObject.Find("GroundLayer").GetComponent<Tilemap>();
       GroundLayer.CompressBounds();
 
-      TransitionLayer = GameObject.Find("TransitionLayer")
-        .GetComponent<Tilemap>();
-
+      TransitionLayer = GameObject.Find("TransitionLayer").GetComponent<Tilemap>();
       TransitionLayer.CompressBounds();
 
-      LakeLayer = GameObject.Find("LakeLayer")
-        .GetComponent<Tilemap>();
-
+      LakeLayer = GameObject.Find("LakeLayer").GetComponent<Tilemap>();
       LakeLayer.CompressBounds();
 
-      DeathLayer = GameObject.Find("DeathLayer")
-        .GetComponent<Tilemap>();
-
+      DeathLayer = GameObject.Find("DeathLayer").GetComponent<Tilemap>();
       DeathLayer.CompressBounds();
 
-      VoidLayer = GameObject.Find("VoidLayer")
-        .GetComponent<Tilemap>();
-
-      BackgroundLayer = GameObject.Find("BackgroundLayer")
-        .GetComponent<Tilemap>();
-
+      VoidLayer = GameObject.Find("VoidLayer").GetComponent<Tilemap>();
       VoidLayer.CompressBounds();
+
+      BackgroundLayer = GameObject.Find("BackgroundLayer").GetComponent<Tilemap>();
 
       List<Vector3Int> cellBoundsMaxList = new List<Vector3Int> {
         GroundLayer.cellBounds.max,
@@ -130,11 +118,9 @@ namespace GruntzUnityverse.Managerz {
         VoidLayer.cellBounds.max,
       };
 
-      int maxX = cellBoundsMaxList[0]
-        .x;
+      int maxX = cellBoundsMaxList[0].x;
 
-      int maxY = cellBoundsMaxList[0]
-        .y;
+      int maxY = cellBoundsMaxList[0].y;
 
       foreach (Vector3Int vector in cellBoundsMaxList) {
         if (vector.x > maxX) {
@@ -154,11 +140,9 @@ namespace GruntzUnityverse.Managerz {
         VoidLayer.cellBounds.min,
       };
 
-      int minX = cellBoundsMinList[0]
-        .x;
+      int minX = cellBoundsMinList[0].x;
 
-      int minY = cellBoundsMinList[0]
-        .y;
+      int minY = cellBoundsMinList[0].y;
 
       foreach (Vector3Int vector in cellBoundsMinList) {
         if (vector.x < minX) {
@@ -174,6 +158,7 @@ namespace GruntzUnityverse.Managerz {
       MaxMapPoint = new Vector2Int(maxX, maxY);
 
       // Todo: Procedurally place Tiles on BackgroundLayer
+      // Todo: Wave Function Collapse
     }
 
     private void CreatePathfindingNodez() {
@@ -241,20 +226,17 @@ namespace GruntzUnityverse.Managerz {
         AllGruntz.Add(grunt);
       }
 
-      foreach (Grunt grunt in FindObjectsOfType<Grunt>()
-        .Where(grunt => grunt.Owner.Equals(Owner.Self))) {
+      foreach (Grunt grunt in FindObjectsOfType<Grunt>().Where(grunt => grunt.Owner.Equals(Owner.Self))) {
         PlayerGruntz.Add(grunt);
       }
     }
 
     public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
-      NodeAt(gridLocation)
-        .isBlocked = isBlocked;
+      NodeAt(gridLocation).isBlocked = isBlocked;
     }
 
     public bool IsBlockedAt(Vector2Int gridLocation) {
-      return nodeList.First(node => node.OwnLocation.Equals(gridLocation))
-        .isBlocked;
+      return nodeList.First(node => node.OwnLocation.Equals(gridLocation)).isBlocked;
     }
 
     public Node NodeAt(Vector2Int gridLocation) {

@@ -1,5 +1,6 @@
 ﻿using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
@@ -7,17 +8,34 @@ namespace GruntzUnityverse.Objectz {
   /// The base for all Objects that can be interacted with on a Level.
   /// </summary>
   public class MapObject : MonoBehaviour {
-        [field: SerializeField] public Vector2Int OwnLocation { get; set; }
-        [field: SerializeField] public Node OwnNode { get; set; }
+    public Vector2Int OwnLocation { get; set; }
+    [CanBeNull] public Node OwnNode { get; set; }
+    protected Animator OwnAnimator { get; set; }
+    protected Transform OwnTransform { get; set; }
     protected SpriteRenderer Renderer { get; set; }
-    protected Animator Animator { get; set; }
+    protected Camera MainCamera { get; set; }
 
+
+    protected virtual void Awake() {
+      OwnLocation = Vector2Int.FloorToInt(transform.position);
+      OwnAnimator = gameObject.GetComponent<Animator>();
+      OwnTransform = gameObject.GetComponent<Transform>();
+      Renderer = gameObject.GetComponent<SpriteRenderer>();
+      MainCamera = Camera.main;
+    }
 
     protected virtual void Start() {
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
       OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
-      Renderer = gameObject.GetComponent<SpriteRenderer>();
-      Animator = gameObject.GetComponent<Animator>();
+    }
+
+    protected void DeactivateSelf() {
+      enabled = false;
+      Renderer.enabled = false;
+    }
+
+    protected void ActivateSelf() {
+      enabled = true;
+      Renderer.enabled = true;
     }
   }
 }

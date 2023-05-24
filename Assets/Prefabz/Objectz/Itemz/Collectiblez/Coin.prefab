@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6999952525336863592}
-  - component: {fileID: 1934257392109653503}
   - component: {fileID: -3273074515103232028}
+  - component: {fileID: 1934257392109653503}
   - component: {fileID: -7764163112857559590}
   m_Layer: 0
   m_Name: Coin
@@ -34,6 +34,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3273074515103232028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863937857550272719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb7f2a8b77f4229ab1945129a7c9df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OwnLocation>k__BackingField: {x: 0, y: 0}
+  <OwnNode>k__BackingField: {fileID: 0}
 --- !u!212 &1934257392109653503
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -86,21 +100,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-3273074515103232028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3863937857550272719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feb7f2a8b77f4229ab1945129a7c9df4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <OwnLocation>k__BackingField: {x: 0, y: 0}
-  <Animator>k__BackingField: {fileID: 0}
-  <HasBeenTouched>k__BackingField: 0
 --- !u!95 &-7764163112857559590
 Animator:
   serializedVersion: 4

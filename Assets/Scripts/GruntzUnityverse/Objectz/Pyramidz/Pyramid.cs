@@ -9,12 +9,11 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     protected override void Start() {
       base.Start();
 
-      Animator = gameObject.GetComponentInChildren<Animator>();
       LevelManager.Instance.SetBlockedAt(OwnLocation, !IsDown);
     }
 
     public void TogglePyramid() {
-      Animator.Play(IsDown ? "Pyramid_Up" : "Pyramid_Down");
+      OwnAnimator.Play(IsDown ? "Pyramid_Up" : "Pyramid_Down");
 
       IsDown = !IsDown;
       LevelManager.Instance.SetBlockedAt(OwnLocation, !IsDown);
