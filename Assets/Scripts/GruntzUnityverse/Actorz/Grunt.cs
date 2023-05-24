@@ -4,7 +4,10 @@ using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Objectz.Itemz.Toolz;
+using GruntzUnityverse.Objectz.MapItemz;
 using GruntzUnityverse.Utility;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
@@ -14,7 +17,7 @@ namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
     [field: SerializeField] public Owner Owner { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
-    [field: SerializeField] public MapObject TargetObject { get; set; }
+    [field: SerializeField] [CanBeNull] public MapObject TargetObject { get; set; }
     [field: SerializeField] public Equipment Equipment { get; set; }
     public Navigator Navigator { get; set; }
     public Animator Animator { get; set; }
@@ -65,7 +68,7 @@ namespace GruntzUnityverse.Actorz {
           }
         }
 
-        // Would this work if Gruntz were able to have multiple Toolz at once?
+        // Todo: Would this work if Gruntz were able to have multiple Toolz at once?
         if (HasTool(ToolType.Shovel)) {
           Hole targetHole = LevelManager.Instance.Holez.FirstOrDefault(
             rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
@@ -145,17 +148,29 @@ namespace GruntzUnityverse.Actorz {
     }
 
     /// <summary>
-    /// Stops the Grunt and makes him play the pickup animation fitting the <paramref name="item"/> argument.
+    /// Stops the Grunt and makes him play the pickup animation fitting the <paramref name="itemType"/> argument.
     /// </summary>
-    /// <param name="item">A Tool, Toy, Powerup, or Collectible</param>
+    /// <param name="itemType">A Tool, Toy, Powerup, or Collectible</param>
     /// <returns>An <see cref="IEnumerator"/> since this is a <see cref="Coroutine"/></returns>
-    public IEnumerator PickupItem(MapObject item) {
-      // Todo: Play corresponding Animation Clip -> More or less the same as the Die() method
+    public IEnumerator PickupItem(string itemType) {
+      Animator.runtimeAnimatorController =
+        Resources.Load<AnimatorOverrideController>($"Animationz/OverrideControllerz/Pickup{itemType}");
+
       Animator.Play("Pickup_Item");
       IsInterrupted = true;
 
-      // Todo: Wait for exact time needed to pick up an Item
       yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+
+      // Overriding Grunt animationz with item-specific animationz (if needed)
+      if (itemType != nameof(Coin) && itemType != nameof(Shovel)) {
+        Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
+          $"Animationz/Gruntz/{itemType}Grunt/{itemType}Grunt_AnimatorOverrideController"
+        );
+      } else {
+        Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
+          $"Animationz/Gruntz/BareHandzGrunt/BareHandzGrunt_AnimatorOverrideController"
+        );
+      }
 
       IsInterrupted = false;
     }

@@ -10,7 +10,7 @@ namespace GruntzUnityverse.Objectz.MapItemz {
         Renderer.enabled = false;
         StatzManager.Instance.acquiredCoinz++;
 
-        StartCoroutine(grunt.PickupItem(this));
+        StartCoroutine(grunt.PickupItem(nameof(Coin)));
 
         break;
       }
