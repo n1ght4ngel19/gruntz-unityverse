@@ -50,14 +50,23 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
+      // Handling the case when Grunt has a target already
+      if (TargetObject is not null && !IsInterrupted) {
+        if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
+          if (TargetObject is Rock) {
+            StartCoroutine(((Gauntletz)Equipment.Tool).BreakRock(this));
+          }
+        }
+      }
+
       // Handling order to act
       if (haveActionCommand) {
         if (SelectorCircle.Instance.OwnLocation.Equals(Navigator.OwnLocation)) {
           // Todo: Bring up Equipment menu
         }
 
-        // Would this work if Gruntz were able to have multiple Toolz at once?
-        if (HasTool(ToolType.Gauntletz)) {
+        // Checking whether Grunt is interrupted so that its target cannot change mid-action
+        if (HasTool(ToolType.Gauntletz) && !IsInterrupted) {
           Rock targetRock = LevelManager.Instance.Rockz.FirstOrDefault(
             rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
           );
@@ -65,11 +74,15 @@ namespace GruntzUnityverse.Actorz {
           if (targetRock is not null) {
             Navigator.SetTargetBeside(targetRock.OwnNode);
             TargetObject = targetRock;
+
+            if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
+              StartCoroutine(((Gauntletz)Equipment.Tool).BreakRock(this));
+            }
           }
         }
 
-        // Todo: Would this work if Gruntz were able to have multiple Toolz at once?
-        if (HasTool(ToolType.Shovel)) {
+        // Checking whether Grunt is interrupted so that its target cannot change mid-action
+        if (HasTool(ToolType.Shovel) && !IsInterrupted) {
           Hole targetHole = LevelManager.Instance.Holez.FirstOrDefault(
             rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
           );
@@ -95,6 +108,7 @@ namespace GruntzUnityverse.Actorz {
         }
       }
 
+      // Handling the case when Grunt is on a blocked Node
       if (LevelManager.Instance.nodeList.Any(node => node.isBlocked && IsOnLocation(node.OwnLocation))) {
         // Play drowning animation when on a Lake (Water or Death) tile
         if (LevelManager.Instance.LakeLayer.HasTile(

@@ -137,7 +137,7 @@ namespace GruntzUnityverse.Actorz {
       return new Vector3(location.x + 0.5f, location.y + 0.5f, -15f);
     }
 
-    private void DetermineFacingDirection(Vector3 moveVector) {
+    public void DetermineFacingDirection(Vector3 moveVector) {
       Vector2Int directionVector = Vector2Int.RoundToInt(moveVector);
 
       FacingDirection = directionVector switch {
