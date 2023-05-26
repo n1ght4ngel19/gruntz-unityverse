@@ -10,9 +10,9 @@ namespace GruntzUnityverse.Objectz {
   public class MapObject : MonoBehaviour {
     public Vector2Int OwnLocation { get; set; }
     [CanBeNull] public Node OwnNode { get; set; }
-    protected Animator OwnAnimator { get; set; }
+    public SpriteRenderer Renderer { get; set; }
+    public Animator OwnAnimator { get; set; }
     protected Transform OwnTransform { get; set; }
-    protected SpriteRenderer Renderer { get; set; }
     protected Camera MainCamera { get; set; }
 
 

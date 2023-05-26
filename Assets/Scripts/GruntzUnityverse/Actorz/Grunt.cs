@@ -91,6 +91,10 @@ namespace GruntzUnityverse.Actorz {
             Navigator.SetTargetBeside(targetHole.OwnNode);
             TargetObject = targetHole;
           }
+
+          if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
+            StartCoroutine(((Shovel)Equipment.Tool).DigHole(this));
+          }
         }
       }
 
@@ -119,6 +123,10 @@ namespace GruntzUnityverse.Actorz {
           // Play squashed animation when on colliding Tile or Object
           StartCoroutine(Die(DeathType.GetSquashed));
         }
+      }
+
+      if (LevelManager.Instance.Holez.Any(hole => hole.OwnLocation.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
+        StartCoroutine(Die(DeathType.FallInHole));
       }
 
       if (!IsInterrupted) {
@@ -176,7 +184,7 @@ namespace GruntzUnityverse.Actorz {
       yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
 
       // Overriding Grunt animationz with item-specific animationz (if needed)
-      if (itemType != nameof(Coin) && itemType != nameof(Shovel)) {
+      if (itemType != nameof(Coin)) {
         Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
           $"Animationz/Gruntz/{itemType}Grunt/{itemType}Grunt_AnimatorOverrideController"
         );
