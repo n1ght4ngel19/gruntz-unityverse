@@ -4,7 +4,10 @@ using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Objectz.Itemz.Toolz;
+using GruntzUnityverse.Objectz.MapItemz;
 using GruntzUnityverse.Utility;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
@@ -14,7 +17,7 @@ namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
     [field: SerializeField] public Owner Owner { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
-    [field: SerializeField] public MapObject TargetObject { get; set; }
+    [field: SerializeField] [CanBeNull] public MapObject TargetObject { get; set; }
     [field: SerializeField] public Equipment Equipment { get; set; }
     public Navigator Navigator { get; set; }
     public Animator Animator { get; set; }
@@ -47,14 +50,23 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
+      // Handling the case when Grunt has a target already
+      if (TargetObject is not null && !IsInterrupted) {
+        if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
+          if (TargetObject is Rock) {
+            StartCoroutine(((Gauntletz)Equipment.Tool).BreakRock(this));
+          }
+        }
+      }
+
       // Handling order to act
       if (haveActionCommand) {
         if (SelectorCircle.Instance.OwnLocation.Equals(Navigator.OwnLocation)) {
           // Todo: Bring up Equipment menu
         }
 
-        // Would this work if Gruntz were able to have multiple Toolz at once?
-        if (HasTool(ToolType.Gauntletz)) {
+        // Checking whether Grunt is interrupted so that its target cannot change mid-action
+        if (HasTool(ToolType.Gauntletz) && !IsInterrupted) {
           Rock targetRock = LevelManager.Instance.Rockz.FirstOrDefault(
             rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
           );
@@ -62,11 +74,15 @@ namespace GruntzUnityverse.Actorz {
           if (targetRock is not null) {
             Navigator.SetTargetBeside(targetRock.OwnNode);
             TargetObject = targetRock;
+
+            if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
+              StartCoroutine(((Gauntletz)Equipment.Tool).BreakRock(this));
+            }
           }
         }
 
-        // Would this work if Gruntz were able to have multiple Toolz at once?
-        if (HasTool(ToolType.Shovel)) {
+        // Checking whether Grunt is interrupted so that its target cannot change mid-action
+        if (HasTool(ToolType.Shovel) && !IsInterrupted) {
           Hole targetHole = LevelManager.Instance.Holez.FirstOrDefault(
             rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
           );
@@ -74,6 +90,10 @@ namespace GruntzUnityverse.Actorz {
           if (targetHole is not null) {
             Navigator.SetTargetBeside(targetHole.OwnNode);
             TargetObject = targetHole;
+          }
+
+          if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
+            StartCoroutine(((Shovel)Equipment.Tool).DigHole(this));
           }
         }
       }
@@ -92,6 +112,7 @@ namespace GruntzUnityverse.Actorz {
         }
       }
 
+      // Handling the case when Grunt is on a blocked Node
       if (LevelManager.Instance.nodeList.Any(node => node.isBlocked && IsOnLocation(node.OwnLocation))) {
         // Play drowning animation when on a Lake (Water or Death) tile
         if (LevelManager.Instance.LakeLayer.HasTile(
@@ -104,26 +125,36 @@ namespace GruntzUnityverse.Actorz {
         }
       }
 
+      if (LevelManager.Instance.Holez.Any(hole => hole.OwnLocation.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
+        StartCoroutine(Die(DeathType.FallInHole));
+      }
+
       if (!IsInterrupted) {
         HandleMovement();
       }
     }
 
-    public bool IsOnLocation(Vector2Int location) { return Navigator.OwnLocation.Equals(location); }
+    public bool IsOnLocation(Vector2Int location) {
+      return Navigator.OwnLocation.Equals(location);
+    }
 
     /// <summary>
     /// Decides whether the Grunt has a Tool equipped.
     /// </summary>
     /// <param name="tool">The Tool to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasTool(ToolType tool) { return Equipment.Tool is not null && Equipment.Tool.Type.Equals(tool); }
+    public bool HasTool(ToolType tool) {
+      return Equipment.Tool is not null && Equipment.Tool.Type.Equals(tool);
+    }
 
     /// <summary>
     /// Decides whether the Grunt has a Toy equipped.
     /// </summary>
     /// <param name="toy">The Toy to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasToy(ToyType toy) { return Equipment.Toy is not null && Equipment.Toy.Type.Equals(toy); }
+    public bool HasToy(ToyType toy) {
+      return Equipment.Toy is not null && Equipment.Toy.Type.Equals(toy);
+    }
 
     /// <summary>
     /// Decides between starting the next iteration of movement while playing the walking animation,
@@ -139,20 +170,29 @@ namespace GruntzUnityverse.Actorz {
     }
 
     /// <summary>
-    /// Stops the Grunt and makes him play the pickup animation fitting the <paramref name="item"/> argument.
+    /// Stops the Grunt and makes him play the pickup animation fitting the <paramref name="itemType"/> argument.
     /// </summary>
-    /// <param name="item">A Tool, Toy, Powerup, or Collectible</param>
+    /// <param name="itemType">A Tool, Toy, Powerup, or Collectible</param>
     /// <returns>An <see cref="IEnumerator"/> since this is a <see cref="Coroutine"/></returns>
-    public IEnumerator PickupItem(MapObject item) {
-      // Todo: Play corresponding Animation Clip -> More or less the same as the Die() method
+    public IEnumerator PickupItem(string itemType) {
+      Animator.runtimeAnimatorController =
+        Resources.Load<AnimatorOverrideController>($"Animationz/OverrideControllerz/Pickup{itemType}");
+
       Animator.Play("Pickup_Item");
       IsInterrupted = true;
 
-      // Todo: Wait for exact time needed to pick up an Item
-      yield return new WaitForSeconds(
-        Animator.GetCurrentAnimatorStateInfo(0)
-          .length
-      );
+      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+
+      // Overriding Grunt animationz with item-specific animationz (if needed)
+      if (itemType != nameof(Coin)) {
+        Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
+          $"Animationz/Gruntz/{itemType}Grunt/{itemType}Grunt_AnimatorOverrideController"
+        );
+      } else {
+        Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
+          $"Animationz/Gruntz/BareHandzGrunt/BareHandzGrunt_AnimatorOverrideController"
+        );
+      }
 
       IsInterrupted = false;
     }

@@ -6,22 +6,26 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.MapItemz {
   public class MapTool : MapObject {
-    [field: SerializeField] public Tool Tool { get; set; }
+    [field: SerializeField] public Tool PickupTool { get; set; }
+
+    // Todo: Redo?
+    private string Type { get; set; }
+
 
     protected override void Start() {
       base.Start();
-      Animator.Play("MapItem_Spinning");
+      PickupTool = gameObject.GetComponent<Tool>();
+      Type = PickupTool.Type.ToString();
     }
 
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.IsOnLocation(OwnLocation))) {
-        enabled = false;
-        Renderer.enabled = false;
-        StatzManager.Instance.acquiredToolz++;
-        grunt.Equipment.Tool = Tool;
-        grunt.Animator.runtimeAnimatorController = Tool.GruntAnimOverrider;
+        DeactivateSelf();
 
-        StartCoroutine(grunt.PickupItem(this));
+        StatzManager.Instance.acquiredToolz++;
+        grunt.Equipment.Tool = PickupTool;
+
+        StartCoroutine(grunt.PickupItem(Type));
 
         break;
       }

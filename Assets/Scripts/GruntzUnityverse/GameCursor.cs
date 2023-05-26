@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
@@ -11,32 +10,38 @@ namespace GruntzUnityverse {
       get => _instance;
     }
 
+    public Camera mainCamera;
+    private SpriteRenderer Renderer { get; set; }
+    private List<Sprite> CurrentFrames { get; set; }
+    private int Counter { get; set; }
+
+
     private void Awake() {
       if (_instance != null && _instance != this) {
         Destroy(gameObject);
       } else {
         _instance = this;
       }
-    }
 
-    public Camera mainCamera;
-    public SpriteRenderer spriteRenderer;
-    private List<Sprite> currentCursor;
-    private int counter;
+      Renderer = GetComponent<SpriteRenderer>();
+    }
 
     private void Start() {
       Cursor.visible = false;
-      currentCursor = AnimationManager.CursorAnimations.Pointer;
+      CurrentFrames = AnimationManager.CursorAnimations.Pointer;
     }
 
     private void Update() {
-      counter++;
+      Counter++;
+
       transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition) - Vector3.forward * -50;
-      spriteRenderer.sprite = currentCursor[counter % currentCursor.Count];
+
+      // Todo
+      // Renderer.sprite = CurrentFrames[Counter % CurrentFrames.Count];
     }
 
-    private void SetCursorTo(List<Sprite> cursor) {
-      currentCursor = cursor;
+    private void SetCursorTo(List<Sprite> frames) {
+      CurrentFrames = frames;
     }
   }
 }
