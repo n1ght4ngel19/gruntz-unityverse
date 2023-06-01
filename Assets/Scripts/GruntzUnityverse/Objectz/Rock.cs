@@ -10,14 +10,15 @@ namespace GruntzUnityverse.Objectz {
       LevelManager.Instance.SetBlockedAt(OwnLocation, true);
     }
 
-    /// <summary>
-    /// Destroys the Rock.
-    /// </summary>
-    /// <returns>An <see cref="IEnumerator"/> since this is a <see cref="Coroutine"/></returns>
-    public IEnumerator Break() {
+    public override IEnumerator BeUsed() {
+      // 1.5s is the delay after the beginning of the GauntletzGrunt's Rock breaking animation (when the Rock actually should break)
+      yield return new WaitForSeconds(1.5f);
+
+      // Todo: Replace with Animancer
       OwnAnimator.Play("RockBreak");
 
-      yield return new WaitForSeconds(OwnAnimator.GetCurrentAnimatorStateInfo(0).length);
+      // 1.5s is th length of the Rock explosion animation
+      yield return new WaitForSeconds(1f);
 
       LevelManager.Instance.Rockz.Remove(this);
       LevelManager.Instance.SetBlockedAt(OwnLocation, false);

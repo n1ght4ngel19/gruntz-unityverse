@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Arrowz {
   public class TwoWayArrow : Arrow {
-    [field: SerializeField] public CompassDirection DefaultDirection { get; set; }
-    private CompassDirection AlternateDirection { get; set; }
+    [field: SerializeField] public Direction DefaultDirection { get; set; }
+    private Direction AlternateDirection { get; set; }
     private Sprite DefaultSprite { get; set; }
     [field: SerializeField] public Sprite AlternateSprite { get; set; }
 
@@ -27,14 +27,14 @@ namespace GruntzUnityverse.Objectz.Arrowz {
 
     private void SetAlternateDirection() {
       AlternateDirection = DefaultDirection switch {
-        CompassDirection.North => CompassDirection.South,
-        CompassDirection.East => CompassDirection.West,
-        CompassDirection.South => CompassDirection.North,
-        CompassDirection.West => CompassDirection.East,
-        CompassDirection.NorthEast => CompassDirection.SouthWest,
-        CompassDirection.NorthWest => CompassDirection.SouthEast,
-        CompassDirection.SouthEast => CompassDirection.NorthWest,
-        CompassDirection.SouthWest => CompassDirection.NorthEast,
+        Direction.North => Direction.South,
+        Direction.East => Direction.West,
+        Direction.South => Direction.North,
+        Direction.West => Direction.East,
+        Direction.Northeast => Direction.Southwest,
+        Direction.Northwest => Direction.Southeast,
+        Direction.Southeast => Direction.Northwest,
+        Direction.Southwest => Direction.Northeast,
         var _ => throw new ArgumentOutOfRangeException(),
       };
     }

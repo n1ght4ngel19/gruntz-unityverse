@@ -1,12 +1,12 @@
 namespace GruntzUnityverse.Enumz {
-  public enum CompassDirection {
+  public enum Direction {
     East = 1,
     North = 2,
-    NorthEast = 3,
-    NorthWest = 4,
+    Northeast = 3,
+    Northwest = 4,
     South = 5,
-    SouthEast = 6,
-    SouthWest = 7,
+    Southeast = 6,
+    Southwest = 7,
     West = 8,
   }
 }

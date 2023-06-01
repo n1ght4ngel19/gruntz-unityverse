@@ -1,4 +1,5 @@
-﻿using GruntzUnityverse.Managerz;
+﻿using System.Collections;
+using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -36,6 +37,10 @@ namespace GruntzUnityverse.Objectz {
     protected void ActivateSelf() {
       enabled = true;
       Renderer.enabled = true;
+    }
+
+    public virtual IEnumerator BeUsed() {
+      yield return null;
     }
   }
 }

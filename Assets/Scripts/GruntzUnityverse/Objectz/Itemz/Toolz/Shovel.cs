@@ -8,7 +8,7 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
       Vector2Int diffVector = grunt.TargetObject.OwnLocation - grunt.Navigator.OwnLocation;
       grunt.IsInterrupted = true;
 
-      grunt.Navigator.DetermineFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
+      grunt.Navigator.ChangeFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
       grunt.Animator.Play($"UseItem_{grunt.Navigator.FacingDirection}");
       // ((Hole)grunt.TargetObject).OwnAnimator.Play("DirtFlying");
 
