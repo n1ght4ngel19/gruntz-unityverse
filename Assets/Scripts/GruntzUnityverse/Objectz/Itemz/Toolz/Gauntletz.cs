@@ -4,23 +4,26 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Itemz.Toolz {
   public class Gauntletz : Tool {
-    public IEnumerator BreakRock(Grunt grunt) {
+    public override IEnumerator Use(Grunt grunt) {
       Vector2Int diffVector = grunt.TargetObject.OwnLocation - grunt.Navigator.OwnLocation;
       grunt.IsInterrupted = true;
 
-      grunt.Navigator.DetermineFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
-      grunt.Animator.Play($"UseItem_{grunt.Navigator.FacingDirection}");
+      grunt.Navigator.ChangeFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
 
+      AnimationClip clipToPlay =
+        grunt.AnimationPack.Item[$"{grunt.Equipment.Tool.Type}Grunt_Item_{grunt.Navigator.FacingDirection}"];
 
-      yield return new WaitForSeconds(1f);
+      grunt._Animancer.Play(clipToPlay);
+
+      StartCoroutine(grunt.TargetObject.BeUsed());
+
+      yield return new WaitForSeconds(2f);
 
       grunt.IsInterrupted = false;
 
       if (grunt.TargetObject is null) {
         yield break;
       }
-
-      StartCoroutine(((Rock)grunt.TargetObject).Break());
 
       grunt.TargetObject = null;
     }
