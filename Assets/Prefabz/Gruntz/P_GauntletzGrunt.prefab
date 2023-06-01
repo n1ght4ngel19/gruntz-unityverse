@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7369986621105059349}
   - component: {fileID: 7251468440745798293}
   - component: {fileID: -7952343979227529499}
+  - component: {fileID: -5322178802548309769}
   m_Layer: 0
   m_Name: P_GauntletzGrunt
   m_TagString: Untagged
@@ -54,6 +55,7 @@ MonoBehaviour:
   <IsSelected>k__BackingField: 0
   <TargetObject>k__BackingField: {fileID: 0}
   <Equipment>k__BackingField: {fileID: -5406503623343964275}
+  <_Animancer>k__BackingField: {fileID: 0}
 --- !u!114 &-5406503623343964275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +158,7 @@ Animator:
   m_GameObject: {fileID: 6986435730129850750}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: fa2af78a9cd3dfb4ab8c0f58ebb78945, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -205,3 +207,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 6
+--- !u!114 &-5322178802548309769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6986435730129850750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 7369986621105059349}
+  _ActionOnDisable: 0

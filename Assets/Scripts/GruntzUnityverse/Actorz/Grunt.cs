@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Animancer;
+using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
@@ -19,15 +22,24 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public bool IsSelected { get; set; }
     [field: SerializeField] [CanBeNull] public MapObject TargetObject { get; set; }
     [field: SerializeField] public Equipment Equipment { get; set; }
-    public Navigator Navigator { get; set; }
+    [field: SerializeField] public AnimancerComponent _Animancer { get; set; }
+    public List<List<AnimationClip>> Animations { get; set; }
     public Animator Animator { get; set; }
+    public Navigator Navigator { get; set; }
     public bool IsInterrupted { get; set; }
-
+    public GruntAnimationPack AnimationPack { get; set; }
 
     private void Awake() {
+      _Animancer = gameObject.GetComponent<AnimancerComponent>();
       Animator = gameObject.GetComponent<Animator>();
       Navigator = gameObject.GetComponent<Navigator>();
       Equipment = gameObject.GetComponent<Equipment>();
+      Animations = new List<List<AnimationClip>>();
+    }
+
+    private void Start() {
+      // Todo: Get from AnimationManager
+      AnimationPack = new GruntAnimationPack(ToolType.Gauntletz);
     }
 
     private void Update() {
@@ -50,11 +62,12 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
+      // Todo: Generalize
       // Handling the case when Grunt has a target already
       if (TargetObject is not null && !IsInterrupted) {
         if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
           if (TargetObject is Rock) {
-            StartCoroutine(((Gauntletz)Equipment.Tool).BreakRock(this));
+            StartCoroutine(Equipment.Tool.Use(this));
           }
         }
       }
@@ -65,6 +78,7 @@ namespace GruntzUnityverse.Actorz {
           // Todo: Bring up Equipment menu
         }
 
+        // Todo: Generalize
         // Checking whether Grunt is interrupted so that its target cannot change mid-action
         if (HasTool(ToolType.Gauntletz) && !IsInterrupted) {
           Rock targetRock = LevelManager.Instance.Rockz.FirstOrDefault(
@@ -76,7 +90,7 @@ namespace GruntzUnityverse.Actorz {
             TargetObject = targetRock;
 
             if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
-              StartCoroutine(((Gauntletz)Equipment.Tool).BreakRock(this));
+              StartCoroutine(Equipment.Tool.Use(this));
             }
           }
         }
@@ -162,9 +176,9 @@ namespace GruntzUnityverse.Actorz {
     /// </summary>
     private void HandleMovement() {
       if (IsOnLocation(Navigator.TargetLocation)) {
-        Animator.Play($"Idle_{Navigator.FacingDirection}");
+        _Animancer.Play(AnimationPack.Idle[$"GauntletzGrunt_Idle_{Navigator.FacingDirection}_01"]);
       } else {
-        Animator.Play($"Walk_{Navigator.FacingDirection}");
+        _Animancer.Play(AnimationPack.Walk[$"GauntletzGrunt_Walk_{Navigator.FacingDirection}"]);
         Navigator.MoveTowardsTarget();
       }
     }
