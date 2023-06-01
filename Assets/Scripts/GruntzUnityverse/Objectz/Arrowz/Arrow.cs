@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Arrowz {
   public class Arrow : MapObject {
-    [field: SerializeField] public CompassDirection Direction { get; set; }
+    [field: SerializeField] public Direction Direction { get; set; }
 
     protected virtual void Update() {
       foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.IsOnLocation(OwnLocation))) {
@@ -19,16 +19,16 @@ namespace GruntzUnityverse.Objectz.Arrowz {
       }
     }
 
-    protected Vector2Int VectorOfDirection(CompassDirection direction) {
+    protected Vector2Int VectorOfDirection(Direction direction) {
       return direction switch {
-        CompassDirection.North => Vector2IntCustom.North(),
-        CompassDirection.East => Vector2IntCustom.East(),
-        CompassDirection.South => Vector2IntCustom.South(),
-        CompassDirection.West => Vector2IntCustom.West(),
-        CompassDirection.NorthEast => Vector2IntCustom.NorthEast(),
-        CompassDirection.NorthWest => Vector2IntCustom.NorthWest(),
-        CompassDirection.SouthEast => Vector2IntCustom.SouthEast(),
-        CompassDirection.SouthWest => Vector2IntCustom.SouthWest(),
+        Direction.North => Vector2IntCustom.North(),
+        Direction.East => Vector2IntCustom.East(),
+        Direction.South => Vector2IntCustom.South(),
+        Direction.West => Vector2IntCustom.West(),
+        Direction.Northeast => Vector2IntCustom.NorthEast(),
+        Direction.Northwest => Vector2IntCustom.NorthWest(),
+        Direction.Southeast => Vector2IntCustom.SouthEast(),
+        Direction.Southwest => Vector2IntCustom.SouthWest(),
         _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, "No Arrow direction specified!"),
       };
     }

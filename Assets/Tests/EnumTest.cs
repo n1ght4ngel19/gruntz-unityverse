@@ -35,7 +35,7 @@ namespace Tests {
 
     [Test]
     public void UniqueCompassDirectionsTest() {
-      CompassDirection[] compassDirectionValues = (CompassDirection[])Enum.GetValues(typeof(CompassDirection));
+      Direction[] compassDirectionValues = (Direction[])Enum.GetValues(typeof(Direction));
 
       Assert.AreEqual(compassDirectionValues.Length, compassDirectionValues.Distinct().Count());
     }

@@ -31,11 +31,11 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public bool IsMoving { get; set; }
     [field: SerializeField] public bool IsMovementForced { get; set; }
     [field: SerializeField] public Vector3 MoveVector { get; set; }
-    [field: SerializeField] public CompassDirection FacingDirection { get; set; }
+    [field: SerializeField] public Direction FacingDirection { get; set; }
 
 
     private void Start() {
-      FacingDirection = CompassDirection.South;
+      FacingDirection = Direction.South;
       OwnLocation = Vector2Int.FloorToInt(transform.position);
       OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
       TargetLocation = OwnLocation;
@@ -77,7 +77,7 @@ namespace GruntzUnityverse.Actorz {
         // 0.3f is hardcoded only for ease of testing, remove after not needed
         transform.position += MoveVector * (Time.deltaTime / 0.6f);
 
-        DetermineFacingDirection(MoveVector);
+        ChangeFacingDirection(MoveVector);
 
         if (IsMovementForced) {
           StartCoroutine(
@@ -137,18 +137,18 @@ namespace GruntzUnityverse.Actorz {
       return new Vector3(location.x + 0.5f, location.y + 0.5f, -15f);
     }
 
-    public void DetermineFacingDirection(Vector3 moveVector) {
+    public void ChangeFacingDirection(Vector3 moveVector) {
       Vector2Int directionVector = Vector2Int.RoundToInt(moveVector);
 
       FacingDirection = directionVector switch {
-        var vector when vector.Equals(Vector2IntCustom.North()) => CompassDirection.North,
-        var vector when vector.Equals(Vector2IntCustom.NorthEast()) => CompassDirection.NorthEast,
-        var vector when vector.Equals(Vector2IntCustom.East()) => CompassDirection.East,
-        var vector when vector.Equals(Vector2IntCustom.SouthEast()) => CompassDirection.SouthEast,
-        var vector when vector.Equals(Vector2IntCustom.South()) => CompassDirection.South,
-        var vector when vector.Equals(Vector2IntCustom.SouthWest()) => CompassDirection.SouthWest,
-        var vector when vector.Equals(Vector2IntCustom.West()) => CompassDirection.West,
-        var vector when vector.Equals(Vector2IntCustom.NorthWest()) => CompassDirection.NorthWest,
+        var vector when vector.Equals(Vector2IntCustom.North()) => Direction.North,
+        var vector when vector.Equals(Vector2IntCustom.NorthEast()) => Direction.Northeast,
+        var vector when vector.Equals(Vector2IntCustom.East()) => Direction.East,
+        var vector when vector.Equals(Vector2IntCustom.SouthEast()) => Direction.Southeast,
+        var vector when vector.Equals(Vector2IntCustom.South()) => Direction.South,
+        var vector when vector.Equals(Vector2IntCustom.SouthWest()) => Direction.Southwest,
+        var vector when vector.Equals(Vector2IntCustom.West()) => Direction.West,
+        var vector when vector.Equals(Vector2IntCustom.NorthWest()) => Direction.Northwest,
         _ => FacingDirection,
       };
     }
