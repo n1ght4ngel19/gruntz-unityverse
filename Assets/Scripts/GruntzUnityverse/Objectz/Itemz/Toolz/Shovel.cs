@@ -12,14 +12,13 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
 
       AnimationClip clipToPlay =
         // Todo: Replace with right animation
-        // grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.Navigator.FacingDirection}"];
-        grunt.AnimationPack.Item[$"GauntletzGrunt_Item_{grunt.Navigator.FacingDirection}"];
+        grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.Navigator.FacingDirection}"];
 
       grunt._Animancer.Play(clipToPlay);
 
       StartCoroutine(grunt.TargetObject.BeUsed(grunt));
 
-      yield return new WaitForSeconds(2f);
+      yield return new WaitForSeconds(1.6f);
 
       grunt.IsInterrupted = false;
 
