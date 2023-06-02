@@ -11,7 +11,7 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
       grunt.Navigator.ChangeFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
 
       AnimationClip clipToPlay =
-        grunt.AnimationPack.Item[$"{grunt.Equipment.Tool.Type}Grunt_Item_{grunt.Navigator.FacingDirection}"];
+        grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.Navigator.FacingDirection}"];
 
       grunt._Animancer.Play(clipToPlay);
 

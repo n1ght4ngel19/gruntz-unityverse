@@ -5,22 +5,27 @@ using GruntzUnityverse.Objectz.Itemz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.MapItemz {
-  public class MapTool : MapObject {
+  public class MapTool : MapItem {
     [field: SerializeField] public Tool PickupTool { get; set; }
 
-    // Todo: Redo?
+    // Todo: Redo
     private string Type { get; set; }
+
+    // protected override void Awake() {
+    //   base.Awake();
+    // }
 
 
     protected override void Start() {
       base.Start();
       PickupTool = gameObject.GetComponent<Tool>();
       Type = PickupTool.Type.ToString();
+      RotationAnimation = Resources.Load<AnimationClip>($"Animationz/MapItemz/Tool/Clipz/{Type}");
+      Animancer.Play(RotationAnimation);
     }
 
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.IsOnLocation(OwnLocation))) {
-        // DeactivateSelf();
         SetEnabled(false);
 
         StatzManager.Instance.acquiredToolz++;

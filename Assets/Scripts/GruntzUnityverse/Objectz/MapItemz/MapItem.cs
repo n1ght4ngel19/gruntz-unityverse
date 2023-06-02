@@ -4,9 +4,9 @@ namespace GruntzUnityverse.Objectz.MapItemz {
   public class MapItem : MapObject {
     [field: SerializeField] public AnimationClip RotationAnimation { get; set; }
 
-    protected override void Start() {
-      base.Start();
-      Animancer.Play(RotationAnimation);
-    }
+    // protected override void Start() {
+    //   base.Start();
+    //
+    // }
   }
 }

@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using Animancer;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace GruntzUnityverse.Objectz {
   /// <summary>
@@ -33,24 +33,16 @@ namespace GruntzUnityverse.Objectz {
       OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
     }
 
-    // Todo: Remove
-    protected void DeactivateSelf() {
-      enabled = false;
-      Renderer.enabled = false;
-    }
-
-    // Todo: Remove
-    protected void ActivateSelf() {
-      enabled = true;
-      Renderer.enabled = true;
-    }
-
     protected void SetEnabled(bool value) {
       enabled = value;
       Renderer.enabled = value;
     }
 
     public virtual IEnumerator BeUsed() {
+      yield return null;
+    }
+
+    public virtual IEnumerator BeUsed(Grunt grunt) {
       yield return null;
     }
   }

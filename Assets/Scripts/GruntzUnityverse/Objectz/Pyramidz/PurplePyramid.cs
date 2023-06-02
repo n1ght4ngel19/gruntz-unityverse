@@ -5,8 +5,14 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
   public class PurplePyramid : Pyramid {
-    [field: SerializeField] public List<PurpleSwitch> Switchez { get; set; }
+    public List<PurpleSwitch> Switchez { get; set; }
     [field: SerializeField] public bool HasChanged { get; set; }
+
+    protected override void Start() {
+      base.Start();
+
+      Switchez = transform.parent.GetComponentsInChildren<PurpleSwitch>().ToList();
+    }
 
     private void Update() {
       if (Switchez.Any(purpleSwitch => !purpleSwitch.IsPressed)) {

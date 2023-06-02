@@ -23,7 +23,6 @@ namespace GruntzUnityverse.Objectz {
     protected override void Start() {
       base.Start();
 
-      // DeactivateSelf();
       SetEnabled(false);
       // gameObject.SetActive(false);
       // Behaviour = gameObject.GetComponent<Behaviour>();
@@ -45,7 +44,6 @@ namespace GruntzUnityverse.Objectz {
     /// </summary>
     public void ActivateSecret() {
       IsInitiallyBlocked = LevelManager.Instance.IsBlockedAt(OwnLocation);
-      // ActivateSelf();
       SetEnabled(true);
       // gameObject.SetActive(true);
       // Renderer.enabled = true;

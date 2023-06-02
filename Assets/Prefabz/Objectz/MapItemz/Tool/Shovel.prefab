@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4565323179322397732}
   - component: {fileID: 7867423310091488900}
   - component: {fileID: 1934257392109653503}
-  - component: {fileID: 5967016258803882048}
   m_Layer: 0
   m_Name: Shovel
   m_TagString: Untagged
@@ -61,7 +60,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 13
-  <GruntAnimOverrider>k__BackingField: {fileID: 22100000, guid: fa2af78a9cd3dfb4ab8c0f58ebb78945, type: 2}
 --- !u!212 &1934257392109653503
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -114,23 +112,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &5967016258803882048
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3863937857550272719}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: ad87e6722524d6645a00f476398bded6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
