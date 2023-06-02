@@ -10,7 +10,7 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
 
       grunt.Navigator.ChangeFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
       grunt.Animator.Play($"UseItem_{grunt.Navigator.FacingDirection}");
-      // ((Hole)grunt.TargetObject).OwnAnimator.Play("DirtFlying");
+      // ((Hole)grunt.TargetObject).Animator.Play("DirtFlying");
 
       yield return new WaitForSeconds(2.1f);
 

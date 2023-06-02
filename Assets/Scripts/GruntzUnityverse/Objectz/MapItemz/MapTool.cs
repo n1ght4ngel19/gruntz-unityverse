@@ -20,12 +20,13 @@ namespace GruntzUnityverse.Objectz.MapItemz {
 
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.IsOnLocation(OwnLocation))) {
-        DeactivateSelf();
+        // DeactivateSelf();
+        SetEnabled(false);
 
         StatzManager.Instance.acquiredToolz++;
         grunt.Equipment.Tool = PickupTool;
 
-        StartCoroutine(grunt.PickupItem(Type));
+        StartCoroutine(grunt.PickupItem("Tool", Type));
 
         break;
       }

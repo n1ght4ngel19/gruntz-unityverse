@@ -20,22 +20,22 @@ namespace GruntzUnityverse.AnimationPackz {
       Struck = new Dictionary<string, AnimationClip>();
       Walk = new Dictionary<string, AnimationClip>();
 
-      List<AnimationClip> attackClips = Resources.LoadAll<AnimationClip>($"NewAnimationz/{tool}Grunt/Attack/Clipz/")
+      List<AnimationClip> attackClips = Resources.LoadAll<AnimationClip>($"Animationz/Gruntz/{tool}Grunt/Attack/Clipz/")
         .ToList();
 
-      List<AnimationClip> deathClips = Resources.LoadAll<AnimationClip>($"NewAnimationz/{tool}Grunt/Death/Clipz/")
+      List<AnimationClip> deathClips = Resources.LoadAll<AnimationClip>($"Animationz/Gruntz/{tool}Grunt/Death/Clipz/")
         .ToList();
 
-      List<AnimationClip> idleClips = Resources.LoadAll<AnimationClip>($"NewAnimationz/{tool}Grunt/Idle/Clipz/")
+      List<AnimationClip> idleClips = Resources.LoadAll<AnimationClip>($"Animationz/Gruntz/{tool}Grunt/Idle/Clipz/")
         .ToList();
 
-      List<AnimationClip> itemClips = Resources.LoadAll<AnimationClip>($"NewAnimationz/{tool}Grunt/Item/Clipz/")
+      List<AnimationClip> itemClips = Resources.LoadAll<AnimationClip>($"Animationz/Gruntz/{tool}Grunt/Item/Clipz/")
         .ToList();
 
-      List<AnimationClip> struckClips = Resources.LoadAll<AnimationClip>($"NewAnimationz/{tool}Grunt/Struck/Clipz/")
+      List<AnimationClip> struckClips = Resources.LoadAll<AnimationClip>($"Animationz/Gruntz/{tool}Grunt/Struck/Clipz/")
         .ToList();
 
-      List<AnimationClip> walkClips = Resources.LoadAll<AnimationClip>($"NewAnimationz/{tool}Grunt/Walk/Clipz/")
+      List<AnimationClip> walkClips = Resources.LoadAll<AnimationClip>($"Animationz/Gruntz/{tool}Grunt/Walk/Clipz/")
         .ToList();
 
       foreach (AnimationClip clip in attackClips) {

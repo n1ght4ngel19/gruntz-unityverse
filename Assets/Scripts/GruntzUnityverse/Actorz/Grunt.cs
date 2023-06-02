@@ -23,7 +23,6 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] [CanBeNull] public MapObject TargetObject { get; set; }
     [field: SerializeField] public Equipment Equipment { get; set; }
     [field: SerializeField] public AnimancerComponent _Animancer { get; set; }
-    public List<List<AnimationClip>> Animations { get; set; }
     public Animator Animator { get; set; }
     public Navigator Navigator { get; set; }
     public bool IsInterrupted { get; set; }
@@ -34,12 +33,12 @@ namespace GruntzUnityverse.Actorz {
       Animator = gameObject.GetComponent<Animator>();
       Navigator = gameObject.GetComponent<Navigator>();
       Equipment = gameObject.GetComponent<Equipment>();
-      Animations = new List<List<AnimationClip>>();
     }
 
     private void Start() {
       // Todo: Get from AnimationManager
-      AnimationPack = new GruntAnimationPack(ToolType.Gauntletz);
+      AnimationPack = AnimationManager.Instance.GauntletzGruntPack;
+      // AnimationPack = new GruntAnimationPack(ToolType.Gauntletz);
     }
 
     private void Update() {
@@ -95,6 +94,7 @@ namespace GruntzUnityverse.Actorz {
           }
         }
 
+        // Todo: Generalize
         // Checking whether Grunt is interrupted so that its target cannot change mid-action
         if (HasTool(ToolType.Shovel) && !IsInterrupted) {
           Hole targetHole = LevelManager.Instance.Holez.FirstOrDefault(
@@ -183,30 +183,44 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
-    /// <summary>
-    /// Stops the Grunt and makes him play the pickup animation fitting the <paramref name="itemType"/> argument.
-    /// </summary>
-    /// <param name="itemType">A Tool, Toy, Powerup, or Collectible</param>
-    /// <returns>An <see cref="IEnumerator"/> since this is a <see cref="Coroutine"/></returns>
-    public IEnumerator PickupItem(string itemType) {
-      Animator.runtimeAnimatorController =
-        Resources.Load<AnimatorOverrideController>($"Animationz/OverrideControllerz/Pickup{itemType}");
+    public IEnumerator PickupItem(string category, string itemType) {
+      // Animator.runtimeAnimatorController =
+      //   Resources.Load<AnimatorOverrideController>($"Animationz/OverrideControllerz/Pickup{itemType}");
 
-      Animator.Play("Pickup_Item");
+      switch (category) {
+        case "Misc":
+          _Animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemType]);
+
+          break;
+        case "Tool":
+          _Animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemType]);
+
+          break;
+        case "Toy":
+          _Animancer.Play(AnimationManager.Instance.PickupPack.Toy[itemType]);
+
+          break;
+      }
+
+      // Animancer.Play(AnimationManager.Instance.PickupPack.Misc[$"Pickup_{itemType}"]);
+      // Animator.Play("Pickup_Item");
       IsInterrupted = true;
 
-      yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+      // yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+
+      // All pickup animations have 0.4s length
+      yield return new WaitForSeconds(1f);
 
       // Overriding Grunt animationz with item-specific animationz (if needed)
-      if (itemType != nameof(Coin)) {
-        Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
-          $"Animationz/Gruntz/{itemType}Grunt/{itemType}Grunt_AnimatorOverrideController"
-        );
-      } else {
-        Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
-          $"Animationz/Gruntz/BareHandzGrunt/BareHandzGrunt_AnimatorOverrideController"
-        );
-      }
+      // if (itemType != nameof(Coin)) {
+      //   Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
+      //     $"Animationz/Gruntz/{itemType}Grunt/{itemType}Grunt_AnimatorOverrideController"
+      //   );
+      // } else {
+      //   Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
+      //     $"Animationz/Gruntz/BareHandzGrunt/BareHandzGrunt_AnimatorOverrideController"
+      //   );
+      // }
 
       IsInterrupted = false;
     }
