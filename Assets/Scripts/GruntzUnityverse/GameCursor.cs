@@ -28,7 +28,7 @@ namespace GruntzUnityverse {
 
     private void Start() {
       Cursor.visible = false;
-      CurrentFrames = AnimationManager.CursorAnimations.Pointer;
+      // CurrentFrames = AnimationManager.CursorAnimations.Pointer;
     }
 
     private void Update() {

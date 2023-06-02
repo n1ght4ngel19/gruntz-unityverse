@@ -13,7 +13,9 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     }
 
     public void TogglePyramid() {
-      OwnAnimator.Play(IsDown ? "Pyramid_Up" : "Pyramid_Down");
+      
+      Animator.Play(Resources.load);
+      Animator.Play(IsDown ? "Pyramid_Up" : "Pyramid_Down");
 
       IsDown = !IsDown;
       LevelManager.Instance.SetBlockedAt(OwnLocation, !IsDown);

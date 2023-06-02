@@ -10,7 +10,7 @@ namespace GruntzUnityverse.Objectz {
   public class SecretObject : MapObject {
     #region Fieldz
 
-    [field: SerializeField] public Behaviour Behaviour { get; set; }
+    // [field: SerializeField] public Behaviour Behaviour { get; set; }
     [field: SerializeField] public List<MonoBehaviour> OtherBehaviours { get; set; }
     [field: SerializeField] public bool IsWalkable { get; set; }
     [field: SerializeField] public bool IsInitiallyBlocked { get; set; }
@@ -23,13 +23,15 @@ namespace GruntzUnityverse.Objectz {
     protected override void Start() {
       base.Start();
 
-      Behaviour = gameObject.GetComponent<Behaviour>();
-      Renderer.enabled = false;
-      Behaviour.enabled = false;
+      // DeactivateSelf();
+      SetEnabled(false);
+      // gameObject.SetActive(false);
+      // Behaviour = gameObject.GetComponent<Behaviour>();
+      // Renderer.enabled = false;
+      // Behaviour.enabled = false;
 
       // Todo: Figure out what this wants to do
-      OtherBehaviours = GetComponents<MonoBehaviour>()
-        .ToList();
+      OtherBehaviours = GetComponents<MonoBehaviour>().ToList();
 
       foreach (MonoBehaviour behaviour in OtherBehaviours.Where(
         behaviour => behaviour.GetType() != typeof(SecretObject)
@@ -43,8 +45,11 @@ namespace GruntzUnityverse.Objectz {
     /// </summary>
     public void ActivateSecret() {
       IsInitiallyBlocked = LevelManager.Instance.IsBlockedAt(OwnLocation);
-      Renderer.enabled = true;
-      Behaviour.enabled = true;
+      // ActivateSelf();
+      SetEnabled(true);
+      // gameObject.SetActive(true);
+      // Renderer.enabled = true;
+      // Behaviour.enabled = true;
 
       foreach (MonoBehaviour behaviour in OtherBehaviours.Where(
         behaviour => behaviour.GetType() != typeof(SecretObject)
@@ -52,9 +57,9 @@ namespace GruntzUnityverse.Objectz {
         behaviour.enabled = true;
       }
 
-      if (IsWalkable) {
-        LevelManager.Instance.SetBlockedAt(OwnLocation, false);
-      }
+      // if (IsWalkable) {
+      LevelManager.Instance.SetBlockedAt(OwnLocation, !IsWalkable);
+      // }
     }
 
     /// <summary>
