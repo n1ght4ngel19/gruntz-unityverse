@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Animancer;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
-using GruntzUnityverse.Objectz.Itemz.Toolz;
-using GruntzUnityverse.Objectz.MapItemz;
+using GruntzUnityverse.Objectz.Itemz;
 using GruntzUnityverse.Utility;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -36,9 +34,9 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private void Start() {
-      // Todo: Get from AnimationManager
-      AnimationPack = AnimationManager.Instance.GauntletzGruntPack;
-      // AnimationPack = new GruntAnimationPack(ToolType.Gauntletz);
+      Equipment.Tool = GetComponents<Tool>().FirstOrDefault();
+      Equipment.Toy = GetComponents<Toy>().FirstOrDefault();
+      SetAnimPack(Equipment.Tool.Type);
     }
 
     private void Update() {
@@ -176,17 +174,15 @@ namespace GruntzUnityverse.Actorz {
     /// </summary>
     private void HandleMovement() {
       if (IsOnLocation(Navigator.TargetLocation)) {
-        _Animancer.Play(AnimationPack.Idle[$"GauntletzGrunt_Idle_{Navigator.FacingDirection}_01"]);
+        _Animancer.Play(AnimationPack.Idle[$"{Equipment.Tool.Type}Grunt_Idle_{Navigator.FacingDirection}_01"]);
       } else {
-        _Animancer.Play(AnimationPack.Walk[$"GauntletzGrunt_Walk_{Navigator.FacingDirection}"]);
+        _Animancer.Play(AnimationPack.Walk[$"{Equipment.Tool.Type}Grunt_Walk_{Navigator.FacingDirection}"]);
         Navigator.MoveTowardsTarget();
       }
     }
 
+    // Todo: Redo
     public IEnumerator PickupItem(string category, string itemType) {
-      // Animator.runtimeAnimatorController =
-      //   Resources.Load<AnimatorOverrideController>($"Animationz/OverrideControllerz/Pickup{itemType}");
-
       switch (category) {
         case "Misc":
           _Animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemType]);
@@ -202,25 +198,12 @@ namespace GruntzUnityverse.Actorz {
           break;
       }
 
-      // Animancer.Play(AnimationManager.Instance.PickupPack.Misc[$"Pickup_{itemType}"]);
-      // Animator.Play("Pickup_Item");
       IsInterrupted = true;
 
-      // yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
-
-      // All pickup animations have 0.4s length
       yield return new WaitForSeconds(1f);
 
-      // Overriding Grunt animationz with item-specific animationz (if needed)
-      // if (itemType != nameof(Coin)) {
-      //   Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
-      //     $"Animationz/Gruntz/{itemType}Grunt/{itemType}Grunt_AnimatorOverrideController"
-      //   );
-      // } else {
-      //   Animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(
-      //     $"Animationz/Gruntz/BareHandzGrunt/BareHandzGrunt_AnimatorOverrideController"
-      //   );
-      // }
+      // Todo: Redo?
+      SetAnimPack(ToolType.Shovel);
 
       IsInterrupted = false;
     }
@@ -241,6 +224,14 @@ namespace GruntzUnityverse.Actorz {
 
       Navigator.OwnLocation = Vector2IntCustom.Max();
       Destroy(gameObject);
+    }
+
+    public void SetAnimPack(ToolType tool) {
+      AnimationPack = tool switch {
+        ToolType.Gauntletz => AnimationManager.Instance.GauntletzGruntPack,
+        ToolType.Shovel => AnimationManager.Instance.ShovelGruntPack,
+        _ => AnimationManager.Instance.GauntletzGruntPack,
+      };
     }
 
 

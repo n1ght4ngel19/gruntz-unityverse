@@ -7,6 +7,7 @@ namespace GruntzUnityverse.Managerz {
     private static AnimationManager _instance;
 
     public GruntAnimationPack GauntletzGruntPack { get; set; }
+    public GruntAnimationPack ShovelGruntPack { get; set; }
     public PickupAnimationPack PickupPack { get; set; }
     // [SerializeField] public CursorAnimationPack CursorAnimations { get; set; }
 
@@ -22,16 +23,9 @@ namespace GruntzUnityverse.Managerz {
       }
 
       GauntletzGruntPack = new GruntAnimationPack(ToolType.Gauntletz);
+      ShovelGruntPack = new GruntAnimationPack(ToolType.Shovel);
       PickupPack = new PickupAnimationPack();
       // CursorAnimations = new CursorAnimationPack();
     }
-
-
-    // public static readonly DeathAnimationPack DeathAnimations = new();
-    // public static readonly GruntAnimationPack BareHandzGruntAnimations = new(ToolType.None);
-    // public static readonly GruntAnimationPack ClubGruntAnimations = new(ToolType.Club);
-
-    // public static readonly ToolAnimationPack ToolAnimations = new();
-    // public static readonly ToyAnimationPack ToyAnimations = new();
   }
 }
