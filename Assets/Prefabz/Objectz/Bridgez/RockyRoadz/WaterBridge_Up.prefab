@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 968907784926215263}
   - component: {fileID: -5101252734048928183}
   - component: {fileID: 6682782367352191381}
-  - component: {fileID: -8599164193970555155}
   m_Layer: 0
   m_Name: WaterBridge_Up
   m_TagString: Untagged
@@ -46,8 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e993c48bd97f43a3afe84653bdfac02c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <OwnLocation>k__BackingField: {x: 0, y: 0}
-  <Animator>k__BackingField: {fileID: 0}
   <IsDown>k__BackingField: 0
 --- !u!212 &6682782367352191381
 SpriteRenderer:
@@ -101,23 +98,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &-8599164193970555155
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7642692820737874702}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8822f779d5bc64244a078324586e2e3f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0

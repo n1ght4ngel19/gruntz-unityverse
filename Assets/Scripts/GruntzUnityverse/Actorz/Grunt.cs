@@ -98,7 +98,7 @@ namespace GruntzUnityverse.Actorz {
         // Checking whether Grunt is interrupted so that its target cannot change mid-action
         if (HasTool(ToolType.Shovel) && !IsInterrupted) {
           Hole targetHole = LevelManager.Instance.Holez.FirstOrDefault(
-            rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
+            hole => hole.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
           );
 
           if (targetHole is not null) {
@@ -107,7 +107,7 @@ namespace GruntzUnityverse.Actorz {
           }
 
           if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
-            StartCoroutine(((Shovel)Equipment.Tool).DigHole(this));
+            StartCoroutine(Equipment.Tool.Use(this));
           }
         }
       }

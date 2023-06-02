@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6614523138704185893}
-  - component: {fileID: 6057601565982675655}
-  - component: {fileID: 9086844417210195480}
   - component: {fileID: 5746067939772015399}
+  - component: {fileID: 6057601565982675655}
   m_Layer: 0
   m_Name: GreenPyramid_Up
   m_TagString: Untagged
@@ -34,6 +33,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5746067939772015399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831242626146821270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1ec23b9e824dee944aa47c44cc5bf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsDown>k__BackingField: 0
 --- !u!212 &6057601565982675655
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -86,38 +98,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &9086844417210195480
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8831242626146821270}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ffa3e36e83cac94458515ad0ef0243c8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5746067939772015399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8831242626146821270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c1ec23b9e824dee944aa47c44cc5bf6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <OwnLocation>k__BackingField: {x: 0, y: 0}
-  <Animator>k__BackingField: {fileID: 0}
-  <IsDown>k__BackingField: 0

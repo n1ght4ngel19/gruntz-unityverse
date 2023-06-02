@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.MapItemz {
-  public class MapPowerup : MapObject {
+  public class MapPowerup : MapItem {
     [field: SerializeField] public PowerupType Type { get; set; }
   }
 }
