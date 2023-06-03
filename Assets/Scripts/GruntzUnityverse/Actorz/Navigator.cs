@@ -82,7 +82,7 @@ namespace GruntzUnityverse.Actorz {
         if (IsMovementForced) {
           StartCoroutine(
             LevelManager.Instance.AllGruntz.First(grunt => grunt.IsOnLocation(TargetLocation))
-              .Die(DeathName.GetSquashed)
+              .Death("Squash")
           );
 
           IsMovementForced = false;

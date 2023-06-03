@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Animancer;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
@@ -21,6 +21,8 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] [CanBeNull] public MapObject TargetObject { get; set; }
     [field: SerializeField] public Equipment Equipment { get; set; }
     [field: SerializeField] public AnimancerComponent _Animancer { get; set; }
+    [field: SerializeField] public int Health { get; set; }
+    [field: SerializeField] public HealthBar HealthBar { get; set; }
     public Animator Animator { get; set; }
     public Navigator Navigator { get; set; }
     public bool IsInterrupted { get; set; }
@@ -31,15 +33,19 @@ namespace GruntzUnityverse.Actorz {
       Animator = gameObject.GetComponent<Animator>();
       Navigator = gameObject.GetComponent<Navigator>();
       Equipment = gameObject.GetComponent<Equipment>();
+      HealthBar = GetComponentInChildren<HealthBar>();
     }
 
     private void Start() {
       Equipment.Tool = GetComponents<Tool>().FirstOrDefault();
       Equipment.Toy = GetComponents<Toy>().FirstOrDefault();
       SetAnimPack(Equipment.Tool.Name);
+      Health = 20;
     }
 
     private void Update() {
+      HealthBar.Renderer.enabled = Health != 20;
+
       bool haveMoveCommand = IsSelected && Input.GetMouseButtonDown(1);
       bool haveActionCommand = IsSelected && Input.GetMouseButtonDown(0);
 
@@ -130,15 +136,17 @@ namespace GruntzUnityverse.Actorz {
         if (LevelManager.Instance.LakeLayer.HasTile(
           new Vector3Int(Navigator.OwnLocation.x, Navigator.OwnLocation.y, 0)
         )) {
-          StartCoroutine(Die(DeathName.Sink));
+          // _Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Sink"));
+          StartCoroutine(Death("Sink"));
         } else {
           // Play squashed animation when on colliding Tile or Object
-          StartCoroutine(Die(DeathName.GetSquashed));
+          // _Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Squash"));
+          StartCoroutine(Death("Squash"));
         }
       }
 
       if (LevelManager.Instance.Holez.Any(hole => hole.OwnLocation.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
-        StartCoroutine(Die(DeathName.FallInHole));
+        StartCoroutine(Death("Hole"));
       }
 
       if (!IsInterrupted) {
@@ -206,21 +214,16 @@ namespace GruntzUnityverse.Actorz {
       IsInterrupted = false;
     }
 
-    public IEnumerator Die(DeathName deathName) {
-      Death currentDeath = deathName switch {
-        DeathName.Sink => Death.Sink,
-        DeathName.FallInHole => Death.FallInHole,
-        DeathName.GetSquashed => Death.GetSquashed,
-        _ => throw new ArgumentOutOfRangeException(nameof(deathName), deathName, null)
-      };
-
+    public IEnumerator Death(string deathName) {
       enabled = false;
       IsInterrupted = true;
-      Animator.Play(currentDeath.animationName);
 
-      yield return new WaitForSeconds(currentDeath.animationDuration);
+      _Animancer.Play(AnimationManager.Instance.DeathPack[deathName]);
+
+      yield return new WaitForSeconds(AnimationManager.Instance.DeathPack[deathName].length);
 
       Navigator.OwnLocation = Vector2IntCustom.Max();
+      LevelManager.Instance.AllGruntz.Remove(this);
       Destroy(gameObject);
     }
 
