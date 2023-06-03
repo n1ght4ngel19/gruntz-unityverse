@@ -215,12 +215,30 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public IEnumerator Death(string deathName) {
+      HealthBar.Renderer.enabled = false;
+      // Todo: Other bars, and move into separate method
       enabled = false;
       IsInterrupted = true;
 
       _Animancer.Play(AnimationManager.Instance.DeathPack[deathName]);
 
       yield return new WaitForSeconds(AnimationManager.Instance.DeathPack[deathName].length);
+
+      Navigator.OwnLocation = Vector2IntCustom.Max();
+      LevelManager.Instance.AllGruntz.Remove(this);
+      Destroy(gameObject);
+    }
+
+    public IEnumerator Death() {
+      HealthBar.Renderer.enabled = false;
+      // Todo: Other bars, and move into separate method
+      enabled = false;
+      IsInterrupted = true;
+      AnimationClip deathClip = AnimationPack.Death[$"{Equipment.Tool.GetType().Name}Grunt_Death_01"];
+
+      _Animancer.Play(deathClip);
+
+      yield return new WaitForSeconds(deathClip.length);
 
       Navigator.OwnLocation = Vector2IntCustom.Max();
       LevelManager.Instance.AllGruntz.Remove(this);

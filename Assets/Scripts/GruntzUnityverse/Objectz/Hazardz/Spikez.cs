@@ -40,6 +40,13 @@ namespace GruntzUnityverse.Objectz.Hazardz {
 
     public void DamageGrunt() {
       TargetGrunt.Health -= Damage;
+
+      if (TargetGrunt.Health <= 0) {
+        StartCoroutine(TargetGrunt.Death());
+
+        return;
+      }
+
       TargetGrunt.HealthBar.Renderer.sprite = TargetGrunt.HealthBar.Frames[TargetGrunt.Health];
     }
   }
