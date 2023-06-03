@@ -36,7 +36,7 @@ namespace GruntzUnityverse.Actorz {
     private void Start() {
       Equipment.Tool = GetComponents<Tool>().FirstOrDefault();
       Equipment.Toy = GetComponents<Toy>().FirstOrDefault();
-      SetAnimPack(Equipment.Tool.Type);
+      SetAnimPack(Equipment.Tool.Name);
     }
 
     private void Update() {
@@ -77,7 +77,7 @@ namespace GruntzUnityverse.Actorz {
 
         // Todo: Generalize
         // Checking whether Grunt is interrupted so that its target cannot change mid-action
-        if (HasTool(ToolType.Gauntletz) && !IsInterrupted) {
+        if (HasTool(ToolName.Gauntletz) && !IsInterrupted) {
           Rock targetRock = LevelManager.Instance.Rockz.FirstOrDefault(
             rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
           );
@@ -94,7 +94,7 @@ namespace GruntzUnityverse.Actorz {
 
         // Todo: Generalize
         // Checking whether Grunt is interrupted so that its target cannot change mid-action
-        if (HasTool(ToolType.Shovel) && !IsInterrupted) {
+        if (HasTool(ToolName.Shovel) && !IsInterrupted) {
           Hole targetHole = LevelManager.Instance.Holez.FirstOrDefault(
             hole => hole.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
           );
@@ -130,15 +130,15 @@ namespace GruntzUnityverse.Actorz {
         if (LevelManager.Instance.LakeLayer.HasTile(
           new Vector3Int(Navigator.OwnLocation.x, Navigator.OwnLocation.y, 0)
         )) {
-          StartCoroutine(Die(DeathType.Sink));
+          StartCoroutine(Die(DeathName.Sink));
         } else {
           // Play squashed animation when on colliding Tile or Object
-          StartCoroutine(Die(DeathType.GetSquashed));
+          StartCoroutine(Die(DeathName.GetSquashed));
         }
       }
 
       if (LevelManager.Instance.Holez.Any(hole => hole.OwnLocation.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
-        StartCoroutine(Die(DeathType.FallInHole));
+        StartCoroutine(Die(DeathName.FallInHole));
       }
 
       if (!IsInterrupted) {
@@ -155,8 +155,8 @@ namespace GruntzUnityverse.Actorz {
     /// </summary>
     /// <param name="tool">The Tool to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasTool(ToolType tool) {
-      return Equipment.Tool is not null && Equipment.Tool.Type.Equals(tool);
+    public bool HasTool(ToolName tool) {
+      return Equipment.Tool is not null && Equipment.Tool.Name.Equals(tool);
     }
 
     /// <summary>
@@ -164,8 +164,8 @@ namespace GruntzUnityverse.Actorz {
     /// </summary>
     /// <param name="toy">The Toy to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
-    public bool HasToy(ToyType toy) {
-      return Equipment.Toy is not null && Equipment.Toy.Type.Equals(toy);
+    public bool HasToy(ToyName toy) {
+      return Equipment.Toy is not null && Equipment.Toy.Name.Equals(toy);
     }
 
     /// <summary>
@@ -174,26 +174,25 @@ namespace GruntzUnityverse.Actorz {
     /// </summary>
     private void HandleMovement() {
       if (IsOnLocation(Navigator.TargetLocation)) {
-        _Animancer.Play(AnimationPack.Idle[$"{Equipment.Tool.Type}Grunt_Idle_{Navigator.FacingDirection}_01"]);
+        _Animancer.Play(AnimationPack.Idle[$"{Equipment.Tool.Name}Grunt_Idle_{Navigator.FacingDirection}_01"]);
       } else {
-        _Animancer.Play(AnimationPack.Walk[$"{Equipment.Tool.Type}Grunt_Walk_{Navigator.FacingDirection}"]);
+        _Animancer.Play(AnimationPack.Walk[$"{Equipment.Tool.Name}Grunt_Walk_{Navigator.FacingDirection}"]);
         Navigator.MoveTowardsTarget();
       }
     }
 
-    // Todo: Redo
-    public IEnumerator PickupItem(string category, string itemType) {
+    public IEnumerator PickupItem(string category, string itemName) {
       switch (category) {
         case "Misc":
-          _Animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemType]);
+          _Animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemName]);
 
           break;
         case "Tool":
-          _Animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemType]);
+          _Animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemName]);
 
           break;
         case "Toy":
-          _Animancer.Play(AnimationManager.Instance.PickupPack.Toy[itemType]);
+          _Animancer.Play(AnimationManager.Instance.PickupPack.Toy[itemName]);
 
           break;
       }
@@ -202,18 +201,17 @@ namespace GruntzUnityverse.Actorz {
 
       yield return new WaitForSeconds(1f);
 
-      // Todo: Redo?
-      SetAnimPack(ToolType.Shovel);
+      SetAnimPack(itemName);
 
       IsInterrupted = false;
     }
 
-    public IEnumerator Die(DeathType deathType) {
-      Death currentDeath = deathType switch {
-        DeathType.Sink => Death.Sink,
-        DeathType.FallInHole => Death.FallInHole,
-        DeathType.GetSquashed => Death.GetSquashed,
-        _ => throw new ArgumentOutOfRangeException(nameof(deathType), deathType, null)
+    public IEnumerator Die(DeathName deathName) {
+      Death currentDeath = deathName switch {
+        DeathName.Sink => Death.Sink,
+        DeathName.FallInHole => Death.FallInHole,
+        DeathName.GetSquashed => Death.GetSquashed,
+        _ => throw new ArgumentOutOfRangeException(nameof(deathName), deathName, null)
       };
 
       enabled = false;
@@ -226,10 +224,18 @@ namespace GruntzUnityverse.Actorz {
       Destroy(gameObject);
     }
 
-    public void SetAnimPack(ToolType tool) {
+    public void SetAnimPack(ToolName tool) {
       AnimationPack = tool switch {
-        ToolType.Gauntletz => AnimationManager.Instance.GauntletzGruntPack,
-        ToolType.Shovel => AnimationManager.Instance.ShovelGruntPack,
+        ToolName.Gauntletz => AnimationManager.Instance.GauntletzGruntPack,
+        ToolName.Shovel => AnimationManager.Instance.ShovelGruntPack,
+        _ => AnimationManager.Instance.GauntletzGruntPack,
+      };
+    }
+
+    public void SetAnimPack(string tool) {
+      AnimationPack = tool switch {
+        "Gauntletz" => AnimationManager.Instance.GauntletzGruntPack,
+        "Shovel" => AnimationManager.Instance.ShovelGruntPack,
         _ => AnimationManager.Instance.GauntletzGruntPack,
       };
     }

@@ -12,7 +12,7 @@ namespace GruntzUnityverse.AnimationPackz {
     public readonly Dictionary<string, AnimationClip> Struck;
     public readonly Dictionary<string, AnimationClip> Walk;
 
-    public GruntAnimationPack(ToolType tool) {
+    public GruntAnimationPack(ToolName tool) {
       Attack = new Dictionary<string, AnimationClip>();
       Death = new Dictionary<string, AnimationClip>();
       Idle = new Dictionary<string, AnimationClip>();

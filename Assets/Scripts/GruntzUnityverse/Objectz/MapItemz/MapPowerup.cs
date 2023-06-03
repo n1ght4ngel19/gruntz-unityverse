@@ -1,8 +1,8 @@
-﻿using GruntzUnityverse.Enumz;
+﻿using GruntzUnityverse.Objectz.Itemz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.MapItemz {
   public class MapPowerup : MapItem {
-    [field: SerializeField] public PowerupType Type { get; set; }
+    [field: SerializeField] public Powerup PickupPowerup { get; set; }
   }
 }

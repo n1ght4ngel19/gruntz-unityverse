@@ -22,8 +22,8 @@ namespace GruntzUnityverse.Managerz {
         _instance = this;
       }
 
-      GauntletzGruntPack = new GruntAnimationPack(ToolType.Gauntletz);
-      ShovelGruntPack = new GruntAnimationPack(ToolType.Shovel);
+      GauntletzGruntPack = new GruntAnimationPack(ToolName.Gauntletz);
+      ShovelGruntPack = new GruntAnimationPack(ToolName.Shovel);
       PickupPack = new PickupAnimationPack();
       // CursorAnimations = new CursorAnimationPack();
     }

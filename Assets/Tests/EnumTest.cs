@@ -7,28 +7,28 @@ namespace Tests {
   public class EnumTest {
     [Test]
     public void UniqueToolTypesTest() {
-      ToolType[] toolTypeValues = (ToolType[])Enum.GetValues(typeof(ToolType));
+      ToolName[] toolTypeValues = (ToolName[])Enum.GetValues(typeof(ToolName));
 
       Assert.AreEqual(toolTypeValues.Length, toolTypeValues.Distinct().Count());
     }
     
     [Test]
     public void UniqueToyTypesTest() {
-      ToyType[] toyTypeValues = (ToyType[])Enum.GetValues(typeof(ToyType));
+      ToyName[] toyTypeValues = (ToyName[])Enum.GetValues(typeof(ToyName));
 
       Assert.AreEqual(toyTypeValues.Length, toyTypeValues.Distinct().Count());
     }
     
     [Test]
     public void UniquePowerupTypesTest() {
-      PowerupType[] powerupTypeValues = (PowerupType[])Enum.GetValues(typeof(PowerupType));
+      PowerupName[] powerupTypeValues = (PowerupName[])Enum.GetValues(typeof(PowerupName));
 
       Assert.AreEqual(powerupTypeValues.Length, powerupTypeValues.Distinct().Count());
     }
     
     [Test]
     public void UniqueDeathTypesTest() {
-      DeathType[] deathTypeValues = (DeathType[])Enum.GetValues(typeof(DeathType));
+      DeathName[] deathTypeValues = (DeathName[])Enum.GetValues(typeof(DeathName));
 
       Assert.AreEqual(deathTypeValues.Length, deathTypeValues.Distinct().Count());
     }

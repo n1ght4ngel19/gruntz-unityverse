@@ -8,8 +8,8 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Switchez {
   public class CheckpointSwitch : ObjectSwitch {
     [field: SerializeField] public List<CheckpointPyramid> Pyramidz { get; set; }
-    [field: SerializeField] public ToolType RequiredTool { get; set; }
-    [field: SerializeField] public ToyType RequiredToy { get; set; }
+    [field: SerializeField] public ToolName RequiredTool { get; set; }
+    [field: SerializeField] public ToyName RequiredToy { get; set; }
 
 
     private void Update() {

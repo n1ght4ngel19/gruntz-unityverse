@@ -1,5 +1,5 @@
 ﻿namespace GruntzUnityverse.Enumz {
-  public enum ItemType {
+  public enum ItemName {
     None,
     // Toolz
     Bomb,

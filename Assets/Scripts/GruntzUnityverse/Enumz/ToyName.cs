@@ -1,5 +1,5 @@
 ﻿namespace GruntzUnityverse.Enumz {
-  public enum ToyType {
+  public enum ToyName {
     None = 0,
     BabyWalker = 1,
     Beachball = 2,

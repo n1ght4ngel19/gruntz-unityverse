@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Itemz.Toolz {
   public class Gauntletz : Tool {
+    protected override void Start() {
+      Name = ToolName.Gauntletz;
+    }
+
     public override IEnumerator Use(Grunt grunt) {
       Vector2Int diffVector = grunt.TargetObject.OwnLocation - grunt.Navigator.OwnLocation;
       grunt.IsInterrupted = true;

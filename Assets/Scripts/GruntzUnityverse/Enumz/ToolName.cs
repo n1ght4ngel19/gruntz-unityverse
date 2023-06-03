@@ -1,5 +1,5 @@
 ﻿namespace GruntzUnityverse.Enumz {
-  public enum ToolType {
+  public enum ToolName {
     Barehandz = 0,
     Bomb = 1,
     Boomerang = 2,

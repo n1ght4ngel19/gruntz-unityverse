@@ -1,5 +1,5 @@
 ﻿namespace GruntzUnityverse.Enumz {
-  public enum DeathType {
+  public enum DeathName {
     Default = 0,
     Explode = 1,
     Sink = 2,

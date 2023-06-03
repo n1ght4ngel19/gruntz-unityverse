@@ -1,14 +1,7 @@
-﻿using System.Collections;
-using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Enumz;
-using UnityEngine;
+﻿using GruntzUnityverse.Enumz;
 
 namespace GruntzUnityverse.Objectz.Itemz {
-  public class Tool : MonoBehaviour {
-    [field: SerializeField] public ToolType Type { get; set; }
-
-    public virtual IEnumerator Use(Grunt grunt) {
-      yield return null;
-    }
+  public abstract class Tool : Item {
+    public ToolName Name { get; set; }
   }
 }

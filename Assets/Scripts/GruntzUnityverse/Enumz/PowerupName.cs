@@ -1,5 +1,5 @@
 ﻿namespace GruntzUnityverse.Enumz {
-  public enum PowerupType {
+  public enum PowerupName {
     None = 0,
   }
 }

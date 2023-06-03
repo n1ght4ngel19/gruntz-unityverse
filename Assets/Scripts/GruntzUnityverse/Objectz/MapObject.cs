@@ -22,10 +22,10 @@ namespace GruntzUnityverse.Objectz {
 
     protected virtual void Awake() {
       OwnLocation = Vector2Int.FloorToInt(transform.position);
-      Animator = gameObject.AddComponent<Animator>();
       OwnTransform = gameObject.GetComponent<Transform>();
       Renderer = gameObject.GetComponent<SpriteRenderer>();
       MainCamera = Camera.main;
+      Animator = gameObject.AddComponent<Animator>();
       Animancer = gameObject.AddComponent<AnimancerComponent>();
     }
 
