@@ -2,12 +2,17 @@
 using System.Linq;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Bridgez;
-using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class BlueToggleSwitch : ObjectSwitch {
-    [field: SerializeField] public List<SwitchableBridge> Bridgez { get; set; }
+    private List<SwitchableBridge> Bridgez { get; set; }
 
+
+    protected override void Start() {
+      base.Start();
+
+      Bridgez = transform.parent.GetComponentsInChildren<SwitchableBridge>().ToList();
+    }
 
     private void Update() {
       if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {

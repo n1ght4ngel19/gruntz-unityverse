@@ -6,11 +6,9 @@ namespace GruntzUnityverse.Objectz {
   public class Hole : MapObject {
     [field: SerializeField] public Sprite OpenSprite { get; set; }
     [field: SerializeField] public Sprite FilledSprite { get; set; }
-    [field: SerializeField] public bool PreviousIsOpen { get; set; }
     [field: SerializeField] public bool IsOpen { get; set; }
 
     public override IEnumerator BeUsed(Grunt grunt) {
-      PreviousIsOpen = IsOpen;
       // Todo: Why does this not work right?
       // Animancer.Play(Resources.Load<AnimationClip>("Animationz/MapObjectz/Rockz/Clipz/RockBreak_RockyRoadz"));
 

@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Objectz.Switchez;
-using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
   public class CheckpointPyramid : Pyramid {
-    [field: SerializeField] public bool HasChanged { get; set; }
-    public List<CheckpointSwitch> Switchez { get; set; }
+    private List<CheckpointSwitch> Switchez { get; set; }
 
     protected override void Start() {
       base.Start();
@@ -22,7 +19,10 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
 
       TogglePyramid();
 
-      HasChanged = true;
+      foreach (CheckpointSwitch sw in Switchez) {
+        sw.enabled = false;
+      }
+
       enabled = false;
     }
   }

@@ -8,28 +8,20 @@ namespace GruntzUnityverse.Objectz {
   /// Representation of an Object (of any kind) that is connected to a SecretSwitch.
   /// </summary>
   public class SecretObject : MapObject {
-    #region Fieldz
-
     // [field: SerializeField] public Behaviour Behaviour { get; set; }
     [field: SerializeField] public List<MonoBehaviour> OtherBehaviours { get; set; }
     [field: SerializeField] public bool IsWalkable { get; set; }
-    [field: SerializeField] public bool IsInitiallyBlocked { get; set; }
     [field: SerializeField] public float Delay { get; set; }
     [field: SerializeField] public float Duration { get; set; }
-
-    #endregion
+    private bool IsInitiallyBlocked { get; set; }
 
 
     protected override void Start() {
       base.Start();
 
       SetEnabled(false);
-      // gameObject.SetActive(false);
-      // Behaviour = gameObject.GetComponent<Behaviour>();
-      // Renderer.enabled = false;
-      // Behaviour.enabled = false;
 
-      // Todo: Figure out what this wants to do
+      // Todo: Figure out what this wants to do (seems like nothing, but have to make sure)
       OtherBehaviours = GetComponents<MonoBehaviour>().ToList();
 
       foreach (MonoBehaviour behaviour in OtherBehaviours.Where(
@@ -45,9 +37,6 @@ namespace GruntzUnityverse.Objectz {
     public void ActivateSecret() {
       IsInitiallyBlocked = LevelManager.Instance.IsBlockedAt(OwnLocation);
       SetEnabled(true);
-      // gameObject.SetActive(true);
-      // Renderer.enabled = true;
-      // Behaviour.enabled = true;
 
       foreach (MonoBehaviour behaviour in OtherBehaviours.Where(
         behaviour => behaviour.GetType() != typeof(SecretObject)
@@ -55,9 +44,7 @@ namespace GruntzUnityverse.Objectz {
         behaviour.enabled = true;
       }
 
-      // if (IsWalkable) {
       LevelManager.Instance.SetBlockedAt(OwnLocation, !IsWalkable);
-      // }
     }
 
     /// <summary>

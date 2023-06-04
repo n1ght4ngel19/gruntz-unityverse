@@ -7,10 +7,16 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class CheckpointSwitch : ObjectSwitch {
-    [field: SerializeField] public List<CheckpointPyramid> Pyramidz { get; set; }
+    private List<CheckpointPyramid> Pyramidz { get; set; }
     [field: SerializeField] public ToolName RequiredTool { get; set; }
     [field: SerializeField] public ToyName RequiredToy { get; set; }
 
+
+    protected override void Start() {
+      base.Start();
+
+      Pyramidz = transform.parent.GetComponentsInChildren<CheckpointPyramid>().ToList();
+    }
 
     private void Update() {
       if (Pyramidz.Count.Equals(0)) {
@@ -19,12 +25,12 @@ namespace GruntzUnityverse.Objectz.Switchez {
         enabled = false;
       }
 
-      if (Pyramidz.All(pyramid => pyramid.HasChanged)) {
-        enabled = false;
-      }
-
       if (LevelManager.Instance.AllGruntz.Any(
-        grunt => grunt.IsOnLocation(OwnLocation) && (grunt.HasTool(RequiredTool) || grunt.HasToy(RequiredToy))
+        grunt => grunt.IsOnLocation(OwnLocation)
+          && (grunt.HasTool(RequiredTool)
+            || grunt.HasToy(RequiredToy)
+            || RequiredTool == ToolName.Barehandz
+            || RequiredToy == ToyName.None)
       )) {
         PressSwitch();
       } else {

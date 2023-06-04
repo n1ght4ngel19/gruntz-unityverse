@@ -2,11 +2,17 @@
 using System.Linq;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Pyramidz;
-using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class GreenHoldSwitch : ObjectSwitch {
-    [field: SerializeField] public List<GreenPyramid> Pyramidz { get; set; }
+    private List<GreenPyramid> Pyramidz { get; set; }
+
+
+    protected override void Start() {
+      base.Start();
+
+      Pyramidz = transform.parent.GetComponentsInChildren<GreenPyramid>().ToList();
+    }
 
 
     private void Update() {

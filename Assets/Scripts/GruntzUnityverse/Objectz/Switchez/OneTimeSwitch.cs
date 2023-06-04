@@ -6,8 +6,14 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class OneTimeSwitch : ObjectSwitch {
-    [field: SerializeField] public List<BlackPyramid> Pyramidz { get; set; }
+    private List<BlackPyramid> Pyramidz { get; set; }
 
+
+    protected override void Start() {
+      base.Start();
+
+      Pyramidz = transform.parent.GetComponentsInChildren<BlackPyramid>().ToList();
+    }
 
     private void Update() {
       if (Pyramidz.Count.Equals(0)) {

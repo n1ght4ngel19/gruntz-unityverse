@@ -7,8 +7,14 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Switchez {
   public class OrangeSwitch : ObjectSwitch {
     [field: SerializeField] public List<OrangeSwitch> OtherSwitchez { get; set; }
-    [field: SerializeField] public List<OrangePyramid> Pyramidz { get; set; }
+    private List<OrangePyramid> Pyramidz { get; set; }
 
+
+    protected override void Start() {
+      base.Start();
+
+      Pyramidz = transform.parent.GetComponentsInChildren<OrangePyramid>().ToList();
+    }
 
     private void Update() {
       if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {

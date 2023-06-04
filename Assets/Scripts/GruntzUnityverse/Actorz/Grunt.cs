@@ -33,21 +33,29 @@ namespace GruntzUnityverse.Actorz {
       Animator = gameObject.GetComponent<Animator>();
       Navigator = gameObject.GetComponent<Navigator>();
       Equipment = gameObject.GetComponent<Equipment>();
+      Equipment.Tool = GetComponents<Tool>().FirstOrDefault();
+      Equipment.Toy = GetComponents<Toy>().FirstOrDefault();
       HealthBar = GetComponentInChildren<HealthBar>();
     }
 
     private void Start() {
-      Equipment.Tool = GetComponents<Tool>().FirstOrDefault();
-      Equipment.Toy = GetComponents<Toy>().FirstOrDefault();
-      SetAnimPack(Equipment.Tool.Name);
       Health = 20;
     }
 
     private void Update() {
+      if (AnimationPack is null) {
+        SetAnimPack(Equipment.Tool.Name);
+      }
+
       HealthBar.Renderer.enabled = Health != 20;
 
       bool haveMoveCommand = IsSelected && Input.GetMouseButtonDown(1);
-      bool haveActionCommand = IsSelected && Input.GetMouseButtonDown(0);
+
+      bool haveActionCommand = IsSelected
+        && Input.GetMouseButtonDown(0)
+        && !LevelManager.Instance.AllGruntz.Any(
+          grunt => SelectorCircle.Instance.OwnLocation.Equals(grunt.Navigator.OwnLocation)
+        );
 
       // Set target to previously saved target, if there is one
       if (!Navigator.IsMoving && Navigator.HaveSavedTarget) {
