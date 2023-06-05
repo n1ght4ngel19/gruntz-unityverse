@@ -19,7 +19,7 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
         // Todo: Replace with right animation
         grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.Navigator.FacingDirection}"];
 
-      grunt._Animancer.Play(clipToPlay);
+      grunt.Animancer.Play(clipToPlay);
 
       StartCoroutine(grunt.TargetObject.BeUsed(grunt));
 

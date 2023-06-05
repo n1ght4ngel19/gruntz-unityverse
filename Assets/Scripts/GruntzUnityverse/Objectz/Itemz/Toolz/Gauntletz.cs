@@ -18,7 +18,7 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
       AnimationClip clipToPlay =
         grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.Navigator.FacingDirection}"];
 
-      grunt._Animancer.Play(clipToPlay);
+      grunt.Animancer.Play(clipToPlay);
 
       StartCoroutine(grunt.TargetObject.BeUsed());
 

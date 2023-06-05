@@ -7,6 +7,7 @@ using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Itemz;
+using GruntzUnityverse.Objectz.Itemz.Toolz;
 using GruntzUnityverse.Utility;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -18,21 +19,22 @@ namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
     [field: SerializeField] public Owner Owner { get; set; }
     [field: SerializeField] public bool IsSelected { get; set; }
-    [field: SerializeField] [CanBeNull] public MapObject TargetObject { get; set; }
-    [field: SerializeField] public Equipment Equipment { get; set; }
-    [field: SerializeField] public AnimancerComponent _Animancer { get; set; }
     [field: SerializeField] public int Health { get; set; }
-    [field: SerializeField] public HealthBar HealthBar { get; set; }
     public Animator Animator { get; set; }
+    public AnimancerComponent Animancer { get; set; }
     public Navigator Navigator { get; set; }
-    public bool IsInterrupted { get; set; }
+    public Equipment Equipment { get; set; }
+    public HealthBar HealthBar { get; set; }
     public GruntAnimationPack AnimationPack { get; set; }
+    [CanBeNull] public MapObject TargetObject { get; set; }
+    public bool IsInterrupted { get; set; }
 
     private void Awake() {
-      _Animancer = gameObject.GetComponent<AnimancerComponent>();
-      Animator = gameObject.GetComponent<Animator>();
-      Navigator = gameObject.GetComponent<Navigator>();
-      Equipment = gameObject.GetComponent<Equipment>();
+      Animator = gameObject.AddComponent<Animator>();
+      Animancer = gameObject.AddComponent<AnimancerComponent>();
+      Animancer.Animator = Animator;
+      Navigator = gameObject.AddComponent<Navigator>();
+      Equipment = gameObject.AddComponent<Equipment>();
       Equipment.Tool = GetComponents<Tool>().FirstOrDefault();
       Equipment.Toy = GetComponents<Toy>().FirstOrDefault();
       HealthBar = GetComponentInChildren<HealthBar>();
@@ -144,11 +146,11 @@ namespace GruntzUnityverse.Actorz {
         if (LevelManager.Instance.LakeLayer.HasTile(
           new Vector3Int(Navigator.OwnLocation.x, Navigator.OwnLocation.y, 0)
         )) {
-          // _Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Sink"));
+          // Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Sink"));
           StartCoroutine(Death("Sink"));
         } else {
           // Play squashed animation when on colliding Tile or Object
-          // _Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Squash"));
+          // Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Squash"));
           StartCoroutine(Death("Squash"));
         }
       }
@@ -190,9 +192,9 @@ namespace GruntzUnityverse.Actorz {
     /// </summary>
     private void HandleMovement() {
       if (IsOnLocation(Navigator.TargetLocation)) {
-        _Animancer.Play(AnimationPack.Idle[$"{Equipment.Tool.Name}Grunt_Idle_{Navigator.FacingDirection}_01"]);
+        Animancer.Play(AnimationPack.Idle[$"{Equipment.Tool.Name}Grunt_Idle_{Navigator.FacingDirection}_01"]);
       } else {
-        _Animancer.Play(AnimationPack.Walk[$"{Equipment.Tool.Name}Grunt_Walk_{Navigator.FacingDirection}"]);
+        Animancer.Play(AnimationPack.Walk[$"{Equipment.Tool.Name}Grunt_Walk_{Navigator.FacingDirection}"]);
         Navigator.MoveTowardsTarget();
       }
     }
@@ -200,15 +202,15 @@ namespace GruntzUnityverse.Actorz {
     public IEnumerator PickupItem(string category, string itemName) {
       switch (category) {
         case "Misc":
-          _Animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemName]);
+          Animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemName]);
 
           break;
         case "Tool":
-          _Animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemName]);
+          Animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemName]);
 
           break;
         case "Toy":
-          _Animancer.Play(AnimationManager.Instance.PickupPack.Toy[itemName]);
+          Animancer.Play(AnimationManager.Instance.PickupPack.Toy[itemName]);
 
           break;
       }
@@ -228,7 +230,7 @@ namespace GruntzUnityverse.Actorz {
       enabled = false;
       IsInterrupted = true;
 
-      _Animancer.Play(AnimationManager.Instance.DeathPack[deathName]);
+      Animancer.Play(AnimationManager.Instance.DeathPack[deathName]);
 
       yield return new WaitForSeconds(AnimationManager.Instance.DeathPack[deathName].length);
 
@@ -244,7 +246,7 @@ namespace GruntzUnityverse.Actorz {
       IsInterrupted = true;
       AnimationClip deathClip = AnimationPack.Death[$"{Equipment.Tool.GetType().Name}Grunt_Death_01"];
 
-      _Animancer.Play(deathClip);
+      Animancer.Play(deathClip);
 
       yield return new WaitForSeconds(deathClip.length);
 
@@ -255,6 +257,7 @@ namespace GruntzUnityverse.Actorz {
 
     public void SetAnimPack(ToolName tool) {
       AnimationPack = tool switch {
+        ToolName.Barehandz => AnimationManager.Instance.BarehandzGruntPack,
         ToolName.Gauntletz => AnimationManager.Instance.GauntletzGruntPack,
         ToolName.Shovel => AnimationManager.Instance.ShovelGruntPack,
         _ => AnimationManager.Instance.GauntletzGruntPack,
@@ -263,6 +266,7 @@ namespace GruntzUnityverse.Actorz {
 
     public void SetAnimPack(string tool) {
       AnimationPack = tool switch {
+        "Barehandz" => AnimationManager.Instance.BarehandzGruntPack,
         "Gauntletz" => AnimationManager.Instance.GauntletzGruntPack,
         "Shovel" => AnimationManager.Instance.ShovelGruntPack,
         _ => AnimationManager.Instance.GauntletzGruntPack,

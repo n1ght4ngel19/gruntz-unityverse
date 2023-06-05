@@ -29,25 +29,18 @@ namespace GruntzUnityverse.Managerz {
     public Vector2Int MinMapPoint { get; set; }
     public Vector2Int MaxMapPoint { get; set; }
 
-
-    #region Layerz
-
+    // ----- Layerz -----
     [field: SerializeField] public Tilemap GroundLayer { get; set; }
     [field: SerializeField] public Tilemap TransitionLayer { get; set; }
     [field: SerializeField] public Tilemap LakeLayer { get; set; }
     [field: SerializeField] public Tilemap DeathLayer { get; set; }
     [field: SerializeField] public Tilemap VoidLayer { get; set; }
-
     [field: SerializeField] public Tilemap BackgroundLayer { get; set; }
 
     // Only for testing
     [field: SerializeField] public TileBase TileAsset { get; set; }
 
-    #endregion
-
-
-    #region Objectz
-
+    // ----- Objectz -----
     [field: SerializeField] public List<Grunt> AllGruntz { get; set; }
     [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<BlackPyramid> BlackPyramidz { get; set; }
@@ -58,12 +51,9 @@ namespace GruntzUnityverse.Managerz {
     [field: SerializeField] public List<RedPyramid> RedPyramidz { get; set; }
     [field: SerializeField] public List<SilverPyramid> SilverPyramidz { get; set; }
 
-
     [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
     [field: SerializeField] public List<Rock> Rockz { get; set; }
     [field: SerializeField] public List<Hole> Holez { get; set; }
-
-    #endregion
 
 
     private void Awake() {
@@ -74,9 +64,7 @@ namespace GruntzUnityverse.Managerz {
       }
 
       Application.targetFrameRate = 60;
-
       NodeContainer = GameObject.Find("NodeContainer");
-
       helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
 
       InitializeLevel();

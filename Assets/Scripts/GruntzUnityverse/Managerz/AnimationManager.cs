@@ -7,6 +7,7 @@ namespace GruntzUnityverse.Managerz {
   public class AnimationManager : MonoBehaviour {
     private static AnimationManager _instance;
 
+    public GruntAnimationPack BarehandzGruntPack { get; set; }
     public GruntAnimationPack GauntletzGruntPack { get; set; }
     public GruntAnimationPack ShovelGruntPack { get; set; }
     public PickupAnimationPack PickupPack { get; set; }
@@ -24,6 +25,7 @@ namespace GruntzUnityverse.Managerz {
         _instance = this;
       }
 
+      BarehandzGruntPack = new GruntAnimationPack(ToolName.Barehandz);
       GauntletzGruntPack = new GruntAnimationPack(ToolName.Gauntletz);
       ShovelGruntPack = new GruntAnimationPack(ToolName.Shovel);
       PickupPack = new PickupAnimationPack();
