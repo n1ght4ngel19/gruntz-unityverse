@@ -2,7 +2,7 @@
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 
-namespace GruntzUnityverse.Objectz.MapItemz {
+namespace GruntzUnityverse.Objectz.MapItemz.Misc {
   public class Coin : MapItem {
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt.IsOnLocation(OwnLocation))) {

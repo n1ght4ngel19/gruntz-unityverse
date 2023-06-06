@@ -2,7 +2,7 @@
 using GruntzUnityverse.Actorz;
 using UnityEngine;
 
-namespace GruntzUnityverse.Objectz {
+namespace GruntzUnityverse.Objectz.Interactablez {
   public class Hole : MapObject {
     [field: SerializeField] public Sprite OpenSprite { get; set; }
     [field: SerializeField] public Sprite FilledSprite { get; set; }

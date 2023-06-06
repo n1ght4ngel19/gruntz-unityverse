@@ -2,7 +2,7 @@ using System.Collections;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
 
-namespace GruntzUnityverse.Objectz {
+namespace GruntzUnityverse.Objectz.Interactablez {
   public class Rock : MapObject {
     protected override void Start() {
       base.Start();

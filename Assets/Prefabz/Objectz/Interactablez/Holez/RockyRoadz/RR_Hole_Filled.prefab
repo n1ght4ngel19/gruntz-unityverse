@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6614523138704185893}
-  - component: {fileID: 2781348672147975807}
+  - component: {fileID: 2620249957174893935}
   - component: {fileID: 6057601565982675655}
   m_Layer: 0
-  m_Name: Hole_Ground_Open
+  m_Name: RR_Hole_Filled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2781348672147975807
+--- !u!114 &2620249957174893935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <OpenSprite>k__BackingField: {fileID: 21300000, guid: ea7dc935c6165664e8d6e05391a6db6b, type: 3}
   <FilledSprite>k__BackingField: {fileID: 21300000, guid: 0142d8c884d031246a11f951f7e4d465, type: 3}
-  <IsOpen>k__BackingField: 1
+  <IsOpen>k__BackingField: 0
 --- !u!212 &6057601565982675655
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ea7dc935c6165664e8d6e05391a6db6b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0142d8c884d031246a11f951f7e4d465, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
