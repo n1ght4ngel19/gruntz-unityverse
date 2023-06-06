@@ -40,7 +40,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3863937857550272719}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -100,7 +100,5 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   fCost: 0
-  previous: {fileID: 0}
+  previousNode: {fileID: 0}
   isBlocked: 0
-  <GridLocation>k__BackingField: {x: 0, y: 0}
-  <Neighbours>k__BackingField: []

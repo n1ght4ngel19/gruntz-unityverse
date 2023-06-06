@@ -18,7 +18,7 @@ namespace GruntzUnityverse.Actorz {
   /// </summary>
   public class Grunt : MonoBehaviour {
     [field: SerializeField] public Owner Owner { get; set; }
-    [field: SerializeField] public bool IsSelected { get; set; }
+    // Todo: Stamina, ToyTime, PowerupTime, MoveSpeed
     [field: SerializeField] public int Health { get; set; }
     public Animator Animator { get; set; }
     public AnimancerComponent Animancer { get; set; }
@@ -27,13 +27,14 @@ namespace GruntzUnityverse.Actorz {
     public HealthBar HealthBar { get; set; }
     public GruntAnimationPack AnimationPack { get; set; }
     [CanBeNull] public MapObject TargetObject { get; set; }
+    public bool IsSelected { get; set; }
     public bool IsInterrupted { get; set; }
 
     private void Awake() {
       Animator = gameObject.AddComponent<Animator>();
       Animancer = gameObject.AddComponent<AnimancerComponent>();
       Animancer.Animator = Animator;
-      Navigator = gameObject.AddComponent<Navigator>();
+      Navigator = gameObject.GetComponent<Navigator>();
       Equipment = gameObject.AddComponent<Equipment>();
       Equipment.Tool = GetComponents<Tool>().FirstOrDefault();
       Equipment.Toy = GetComponents<Toy>().FirstOrDefault();

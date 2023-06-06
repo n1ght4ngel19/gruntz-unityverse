@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 697020036462582168}
   - component: {fileID: -8262829897860144415}
   - component: {fileID: -2112612349377219031}
+  - component: {fileID: 1196800106213851609}
+  - component: {fileID: 8914183715548722542}
   m_Layer: 0
   m_Name: P_ShovelGrunt
   m_TagString: Untagged
@@ -101,9 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Owner>k__BackingField: 0
-  <IsSelected>k__BackingField: 0
   <Health>k__BackingField: 0
-  <HealthBar>k__BackingField: {fileID: 0}
 --- !u!114 &-8262829897860144415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +128,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9077f7b7126458aa8639e9fb8e51309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1196800106213851609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6986435730129850750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbec52f86ee54e529df6e791325c7a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OwnLocation>k__BackingField: {x: 0, y: 0}
+  <OwnNode>k__BackingField: {fileID: 0}
+  <PreviousLocation>k__BackingField: {x: 0, y: 0}
+  <TargetLocation>k__BackingField: {x: 0, y: 0}
+  <SavedTargetLocation>k__BackingField: {x: 0, y: 0}
+  <HaveSavedTarget>k__BackingField: 0
+  <PathStart>k__BackingField: {fileID: 0}
+  <PathEnd>k__BackingField: {fileID: 0}
+  <Path>k__BackingField: []
+  <IsMoving>k__BackingField: 0
+  <IsMovementForced>k__BackingField: 0
+  <MoveVector>k__BackingField: {x: 0, y: 0, z: 0}
+  <FacingDirection>k__BackingField: 0
+--- !u!61 &8914183715548722542
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6986435730129850750}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.71875, y: 3.21875}
+    newSize: {x: 3.7306166, y: 3.21875}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &5047365830611351490
 PrefabInstance:
   m_ObjectHideFlags: 0
