@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Animancer;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Itemz;
-using GruntzUnityverse.Objectz.Itemz.Toolz;
 using GruntzUnityverse.Utility;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -20,7 +19,7 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public Owner Owner { get; set; }
     // Todo: Stamina, ToyTime, PowerupTime, MoveSpeed
     [field: SerializeField] public int Health { get; set; }
-    public Animator Animator { get; set; }
+    private Animator Animator { get; set; }
     public AnimancerComponent Animancer { get; set; }
     public Navigator Navigator { get; set; }
     public Equipment Equipment { get; set; }
@@ -156,6 +155,7 @@ namespace GruntzUnityverse.Actorz {
         }
       }
 
+      // Todo: Move to Hole script!!!
       if (LevelManager.Instance.Holez.Any(hole => hole.OwnLocation.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
         StartCoroutine(Death("Hole"));
       }
@@ -218,7 +218,8 @@ namespace GruntzUnityverse.Actorz {
 
       IsInterrupted = true;
 
-      yield return new WaitForSeconds(1f);
+      // Wait the time it takes to pick up an item (subject to change)
+      yield return new WaitForSeconds(0.8f);
 
       SetAnimPack(itemName);
 

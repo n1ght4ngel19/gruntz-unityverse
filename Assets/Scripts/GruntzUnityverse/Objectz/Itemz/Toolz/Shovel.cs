@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
+using GruntzUnityverse.Objectz.Interactablez;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Itemz.Toolz {
@@ -31,29 +32,6 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
         yield break;
       }
       // grunt.TargetObject = null;
-    }
-
-    public IEnumerator DigHole(Grunt grunt) {
-      grunt.Animator.Play($"UseItem_{grunt.Navigator.FacingDirection}");
-      // ((Hole)grunt.TargetObject).Animator.Play("DirtFlying");
-
-      yield return new WaitForSeconds(2.1f);
-
-      grunt.IsInterrupted = false;
-
-      ((Hole)grunt.TargetObject).IsOpen = !((Hole)grunt.TargetObject).IsOpen;
-
-      ((Hole)grunt.TargetObject).Renderer.sprite = ((Hole)grunt.TargetObject).IsOpen
-        ? ((Hole)grunt.TargetObject).OpenSprite
-        : ((Hole)grunt.TargetObject).FilledSprite;
-
-      // if (grunt.TargetObject is null) {
-      //   yield break;
-      // }
-
-      // StartCoroutine(((Hole)grunt.TargetObject).Dig());
-
-      grunt.TargetObject = null;
     }
   }
 }

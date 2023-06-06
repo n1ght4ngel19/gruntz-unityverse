@@ -68,21 +68,18 @@ namespace GruntzUnityverse.Actorz {
       PreviousLocation = Path[0].OwnLocation;
 
       Vector3 nextPosition = LocationAsPosition(Path[1].OwnLocation);
-
-      // Todo: Handle here disallowing move commands while moving
-      if (Vector2.Distance(nextPosition, gameObject.transform.position) > 0.1f) {
+      
+      if (Vector2.Distance(nextPosition, transform.position) > 0.1f) {
         IsMoving = true;
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
 
-        // 0.3f is hardcoded only for ease of testing, remove after not needed
         transform.position += MoveVector * (Time.deltaTime / 0.6f);
 
         ChangeFacingDirection(MoveVector);
 
         if (IsMovementForced) {
           StartCoroutine(
-            LevelManager.Instance.AllGruntz.First(grunt => grunt.IsOnLocation(TargetLocation))
-              .Death("Squash")
+            LevelManager.Instance.AllGruntz.First(grunt => grunt.IsOnLocation(TargetLocation)).Death("Squash")
           );
 
           IsMovementForced = false;
@@ -134,7 +131,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private Vector3 LocationAsPosition(Vector2Int location) {
-      return new Vector3(location.x + 0.5f, location.y + 0.5f, -15f);
+      return new Vector3(location.x + 0.5f, location.y + 0.5f, transform.position.z);
     }
 
     public void ChangeFacingDirection(Vector3 moveVector) {

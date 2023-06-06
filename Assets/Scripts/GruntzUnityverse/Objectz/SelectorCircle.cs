@@ -33,7 +33,7 @@ namespace GruntzUnityverse.Objectz {
       return new Vector3(
         Mathf.Floor(MainCamera.ScreenToWorldPoint(Input.mousePosition).x) + 0.5f,
         Mathf.Floor(MainCamera.ScreenToWorldPoint(Input.mousePosition).y) + 0.5f,
-        -10f
+        75f
       );
     }
   }

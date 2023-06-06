@@ -3,6 +3,7 @@ using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
@@ -153,7 +154,7 @@ namespace GruntzUnityverse.Managerz {
       for (int x = MinMapPoint.x; x < MaxMapPoint.x; x++) {
         for (int y = MinMapPoint.y; y < MaxMapPoint.y; y++) {
           Node node = Instantiate(nodePrefab, NodeContainer.transform);
-          node.transform.position = new Vector3(x + 0.5f, y + 0.5f, -1);
+          node.transform.position = new Vector3(x + 0.5f, y + 0.5f, 0);
           node.OwnLocation = new Vector2Int(x, y);
 
           nodeList.Add(node);
