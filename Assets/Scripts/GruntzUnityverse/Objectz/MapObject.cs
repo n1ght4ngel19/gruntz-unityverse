@@ -3,7 +3,6 @@ using Animancer;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
@@ -12,7 +11,9 @@ namespace GruntzUnityverse.Objectz {
   /// </summary>
   public class MapObject : MonoBehaviour {
     public Vector2Int OwnLocation { get; set; }
-    [CanBeNull] public Node OwnNode { get; set; }
+
+    // [CanBeNull] public Node OwnNode { get; set; }
+    public Node OwnNode { get; set; }
     public SpriteRenderer Renderer { get; set; }
     protected Transform OwnTransform { get; set; }
     protected Camera MainCamera { get; set; }

@@ -17,6 +17,7 @@ namespace GruntzUnityverse.Actorz {
   /// </summary>
   public class Grunt : MonoBehaviour {
     [field: SerializeField] public Owner Owner { get; set; }
+
     // Todo: Stamina, ToyTime, PowerupTime, MoveSpeed
     [field: SerializeField] public int Health { get; set; }
     private Animator Animator { get; set; }
@@ -75,13 +76,10 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      // Todo: Generalize
       // Handling the case when Grunt has a target already
       if (TargetObject is not null && !IsInterrupted) {
         if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
-          if (TargetObject is Rock) {
-            StartCoroutine(Equipment.Tool.Use(this));
-          }
+          StartCoroutine(Equipment.Tool.Use(this));
         }
       }
 
