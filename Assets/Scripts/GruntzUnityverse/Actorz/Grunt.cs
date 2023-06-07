@@ -28,7 +28,10 @@ namespace GruntzUnityverse.Actorz {
     public GruntAnimationPack AnimationPack { get; set; }
     [CanBeNull] public MapObject TargetObject { get; set; }
     public bool IsSelected { get; set; }
+    public bool IsBehind { get; set; }
     public bool IsInterrupted { get; set; }
+    public bool IsDying { get; set; }
+    public float InitialZ { get; set; }
 
     private void Awake() {
       Animator = gameObject.AddComponent<Animator>();
@@ -39,6 +42,7 @@ namespace GruntzUnityverse.Actorz {
       Equipment.Tool = GetComponents<Tool>().FirstOrDefault();
       Equipment.Toy = GetComponents<Toy>().FirstOrDefault();
       HealthBar = GetComponentInChildren<HealthBar>();
+      InitialZ = transform.position.z;
     }
 
     private void Start() {
@@ -46,6 +50,39 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private void Update() {
+      foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt != this)) {
+        Vector3 gruntPosition = grunt.transform.position;
+
+        // Continue if not in collision zone
+        if (!(Vector3.Distance(gruntPosition, transform.position) < 2f)) {
+          continue;
+        }
+
+        // When other Grunt is below self
+        if (grunt.IsBehind && gruntPosition.y < transform.position.y) {
+          // Set other Grunt in the foreground
+          gruntPosition = new Vector3(gruntPosition.x, gruntPosition.y, grunt.InitialZ);
+
+          grunt.transform.position = gruntPosition;
+          grunt.IsBehind = false;
+
+          // Set self in the background
+          transform.position += Vector3.forward * 5;
+          IsBehind = true;
+        }
+
+        // When other Grunt is above self
+        if (!grunt.IsBehind && gruntPosition.y >= transform.position.y) {
+          // Set other Grunt in the background
+          grunt.transform.position += Vector3.forward;
+          grunt.IsBehind = true;
+
+          // Set self in the foreground
+          transform.position = new Vector3(transform.position.x, transform.position.y, InitialZ);
+          IsBehind = false;
+        }
+      }
+
       if (AnimationPack is null) {
         SetAnimPack(Equipment.Tool.Name);
       }
@@ -219,30 +256,41 @@ namespace GruntzUnityverse.Actorz {
       // Wait the time it takes to pick up an item (subject to change)
       yield return new WaitForSeconds(0.8f);
 
-      SetAnimPack(itemName);
+      if (category == "Tool") {
+        SetAnimPack(itemName);
+      }
 
       IsInterrupted = false;
     }
 
     public IEnumerator Death(string deathName) {
+      if (!IsDying) {
+        IsDying = true;
+        transform.position += Vector3.forward * 15;
+      }
+
       HealthBar.Renderer.enabled = false;
-      // Todo: Other bars, and move into separate method
+      // Todo: Other attributebars, and move into separate method
       enabled = false;
+      Navigator.enabled = false;
       IsInterrupted = true;
 
-      Animancer.Play(AnimationManager.Instance.DeathPack[deathName]);
+      AnimationClip deathClip = AnimationManager.Instance.DeathPack[deathName];
 
-      yield return new WaitForSeconds(AnimationManager.Instance.DeathPack[deathName].length);
+      Animancer.Play(deathClip);
+
+      yield return new WaitForSeconds(deathClip.length);
 
       Navigator.OwnLocation = Vector2IntCustom.Max();
       LevelManager.Instance.AllGruntz.Remove(this);
-      Destroy(gameObject);
+      Destroy(gameObject, deathClip.length);
     }
 
     public IEnumerator Death() {
       HealthBar.Renderer.enabled = false;
-      // Todo: Other bars, and move into separate method
+      // Todo: Other attributebars, and move into separate method
       enabled = false;
+      Navigator.enabled = false;
       IsInterrupted = true;
       AnimationClip deathClip = AnimationPack.Death[$"{Equipment.Tool.GetType().Name}Grunt_Death_01"];
 
@@ -252,7 +300,7 @@ namespace GruntzUnityverse.Actorz {
 
       Navigator.OwnLocation = Vector2IntCustom.Max();
       LevelManager.Instance.AllGruntz.Remove(this);
-      Destroy(gameObject);
+      Destroy(gameObject, deathClip.length);
     }
 
     public void SetAnimPack(ToolName tool) {

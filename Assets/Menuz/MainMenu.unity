@@ -3126,6 +3126,7 @@ GameObject:
   - component: {fileID: 699013893}
   - component: {fileID: 699013892}
   - component: {fileID: 699013891}
+  - component: {fileID: 699013894}
   m_Layer: 5
   m_Name: STAGE 3
   m_TagString: Untagged
@@ -3197,7 +3198,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 699013892}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 699013894}
+        m_TargetAssemblyTypeName: GruntzUnityverse.SceneLoader, GruntzUnityverse
+        m_MethodName: LoadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &699013892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3236,6 +3249,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 699013889}
   m_CullTransparentMesh: 1
+--- !u!114 &699013894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699013889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c7137c70b14c9bbe16d2b61f327d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <AreaName>k__BackingField: RockyRoadz
+  <SceneName>k__BackingField: GruntzStartYourEnginez
 --- !u!1 &723706561
 GameObject:
   m_ObjectHideFlags: 0
