@@ -53,6 +53,7 @@ namespace GruntzUnityverse.Actorz {
       PathStart = LevelManager.Instance.NodeAt(OwnLocation);
       PathEnd = LevelManager.Instance.NodeAt(TargetLocation);
 
+      // This way path is only calculated only when it's needed
       if (!IsMoving) {
         Path = Pathfinder.PathBetween(PathStart, PathEnd, IsMovementForced);
       }
@@ -68,7 +69,7 @@ namespace GruntzUnityverse.Actorz {
       PreviousLocation = Path[0].OwnLocation;
 
       Vector3 nextPosition = LocationAsPosition(Path[1].OwnLocation);
-      
+
       if (Vector2.Distance(nextPosition, transform.position) > 0.1f) {
         IsMoving = true;
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
@@ -78,9 +79,11 @@ namespace GruntzUnityverse.Actorz {
         ChangeFacingDirection(MoveVector);
 
         if (IsMovementForced) {
-          StartCoroutine(
-            LevelManager.Instance.AllGruntz.First(grunt => grunt.IsOnLocation(TargetLocation)).Death("Squash")
-          );
+          Grunt deadGrunt = LevelManager.Instance.AllGruntz.FirstOrDefault(grunt => grunt.IsOnLocation(TargetLocation));
+
+          if (deadGrunt is not null) {
+            StartCoroutine(deadGrunt.Death("Squash"));
+          }
 
           IsMovementForced = false;
         }

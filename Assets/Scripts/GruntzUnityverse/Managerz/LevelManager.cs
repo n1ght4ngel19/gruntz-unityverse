@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.Objectz.Switchez;
@@ -20,18 +19,11 @@ namespace GruntzUnityverse.Managerz {
       get => _instance;
     }
 
-    public TMP_Text helpBoxText;
-
-    private GameObject NodeContainer { get; set; }
-    public List<Node> nodeList;
-    public List<Vector2Int> nodeLocationsList;
-    public Node nodePrefab;
-
-    public Vector2Int MinMapPoint { get; set; }
-    public Vector2Int MaxMapPoint { get; set; }
-
     // ----- Layerz -----
-    [field: SerializeField] public Tilemap GroundLayer { get; set; }
+    [field: Header("Layerz")]
+    [field: SerializeField]
+    public Tilemap GroundLayer { get; set; }
+
     [field: SerializeField] public Tilemap TransitionLayer { get; set; }
     [field: SerializeField] public Tilemap LakeLayer { get; set; }
     [field: SerializeField] public Tilemap DeathLayer { get; set; }
@@ -42,7 +34,10 @@ namespace GruntzUnityverse.Managerz {
     [field: SerializeField] public TileBase TileAsset { get; set; }
 
     // ----- Objectz -----
-    [field: SerializeField] public List<Grunt> AllGruntz { get; set; }
+    [field: Header("Objectz")]
+    [field: SerializeField]
+    public List<Grunt> AllGruntz { get; set; }
+
     [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<BlackPyramid> BlackPyramidz { get; set; }
     [field: SerializeField] public List<CheckpointPyramid> CheckpointPyramidz { get; set; }
@@ -55,6 +50,18 @@ namespace GruntzUnityverse.Managerz {
     [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
     [field: SerializeField] public List<Rock> Rockz { get; set; }
     [field: SerializeField] public List<Hole> Holez { get; set; }
+
+    // ----- Pathfinding -----
+    [field: Header("Pathfinding")] private GameObject NodeContainer { get; set; }
+    public List<Node> nodeList;
+    public List<Vector2Int> nodeLocationsList;
+    public Node nodePrefab;
+
+    public Vector2Int MinMapPoint { get; set; }
+    public Vector2Int MaxMapPoint { get; set; }
+
+    // ----- Other -----
+    [field: Header("Other")] public TMP_Text helpBoxText;
 
 
     private void Awake() {
@@ -79,6 +86,11 @@ namespace GruntzUnityverse.Managerz {
       CollectObjectz();
 
       CollectGruntz();
+
+      foreach (GameObject go in GameObject.FindGameObjectsWithTag("Inaccessible")) {
+        go.SetActive(false);
+        Instance.SetBlockedAt(Vector2Int.FloorToInt(go.transform.position), true);
+      }
     }
 
     private void AssignLayerz() {
@@ -172,6 +184,7 @@ namespace GruntzUnityverse.Managerz {
       }
     }
 
+    // Todo: Move to individual object classes?
     private void CollectObjectz() {
       foreach (BlackPyramid pyramid in FindObjectsOfType<BlackPyramid>()) {
         BlackPyramidz.Add(pyramid);

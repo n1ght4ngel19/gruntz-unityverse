@@ -11,6 +11,7 @@ namespace GruntzUnityverse.Managerz {
     public GruntAnimationPack GauntletzGruntPack { get; set; }
     public GruntAnimationPack ShovelGruntPack { get; set; }
     public PickupAnimationPack PickupPack { get; set; }
+
     public Dictionary<string, AnimationClip> DeathPack { get; set; }
     // [SerializeField] public CursorAnimationPack CursorAnimations { get; set; }
 
