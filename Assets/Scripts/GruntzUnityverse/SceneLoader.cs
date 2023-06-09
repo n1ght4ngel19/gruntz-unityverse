@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GruntzUnityverse {
@@ -8,7 +7,7 @@ namespace GruntzUnityverse {
     [field: SerializeField] public string SceneName { get; set; }
 
     public void LoadScene() {
-      SceneManager.LoadScene(Resources.Load<SceneAsset>($"Levelz/{AreaName}/{SceneName}").name);
+      SceneManager.LoadScene(SceneName);
     }
   }
 }
