@@ -10,19 +10,20 @@ namespace GruntzUnityverse.Objectz {
   /// The base for all Objects that can be interacted with on a Level.
   /// </summary>
   public class MapObject : MonoBehaviour {
-    public Vector2Int OwnLocation { get; set; }
+    [field: SerializeField] public bool IsHardTurn { get; set; }
+    public Vector2Int Location { get; set; }
 
     // [CanBeNull] public Node OwnNode { get; set; }
     public Node OwnNode { get; set; }
-    public SpriteRenderer Renderer { get; set; }
-    protected Transform OwnTransform { get; set; }
-    protected Camera MainCamera { get; set; }
-    public Animator Animator { get; set; }
-    public AnimancerComponent Animancer { get; set; }
+    protected SpriteRenderer Renderer { get; private set; }
+    protected Transform OwnTransform { get; private set; }
+    protected Camera MainCamera { get; private set; }
+    protected Animator Animator { get; private set; }
+    protected AnimancerComponent Animancer { get; private set; }
 
 
     protected virtual void Awake() {
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
+      Location = Vector2Int.FloorToInt(transform.position);
       OwnTransform = gameObject.GetComponent<Transform>();
       Renderer = gameObject.GetComponent<SpriteRenderer>();
       MainCamera = Camera.main;
@@ -31,7 +32,8 @@ namespace GruntzUnityverse.Objectz {
     }
 
     protected virtual void Start() {
-      OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
+      OwnNode = LevelManager.Instance.NodeAt(Location);
+      LevelManager.Instance.NodeAt(Location).isHardTurn = IsHardTurn;
     }
 
     protected void SetEnabled(bool value) {

@@ -32,6 +32,7 @@ namespace GruntzUnityverse.Actorz {
     [field: SerializeField] public bool IsMovementForced { get; set; }
     [field: SerializeField] public Vector3 MoveVector { get; set; }
     [field: SerializeField] public Direction FacingDirection { get; set; }
+    [field: SerializeField] public bool MovesDiagonally { get; set; }
 
 
     private void Start() {
@@ -44,6 +45,7 @@ namespace GruntzUnityverse.Actorz {
     private void Update() {
       // Todo: Maybe not calculate it every frame?
       OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
+      DecideDiagonal();
     }
 
     /// <summary>
@@ -55,7 +57,7 @@ namespace GruntzUnityverse.Actorz {
 
       // This way path is only calculated only when it's needed
       if (!IsMoving) {
-        Path = Pathfinder.PathBetween(PathStart, PathEnd, IsMovementForced);
+        Path = Pathfinder.PathBetween(PathStart, PathEnd, IsMovementForced, MovesDiagonally);
       }
 
       if (Path == null) {
@@ -74,6 +76,7 @@ namespace GruntzUnityverse.Actorz {
         IsMoving = true;
         MoveVector = (nextPosition - gameObject.transform.position).normalized;
 
+        // Todo: Swap 0.6f to Grunt speed
         transform.position += MoveVector * (Time.deltaTime / 0.6f);
 
         ChangeFacingDirection(MoveVector);
@@ -105,7 +108,7 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      List<Node> shortestPath = Pathfinder.PathBetween(OwnNode, freeNeighbours[0], IsMovementForced);
+      List<Node> shortestPath = Pathfinder.PathBetween(OwnNode, freeNeighbours[0], IsMovementForced, MovesDiagonally);
 
       bool hasShortestPathPossible = false;
 
@@ -120,7 +123,7 @@ namespace GruntzUnityverse.Actorz {
           break;
         }
 
-        List<Node> pathToNode = Pathfinder.PathBetween(OwnNode, neighbour, IsMovementForced);
+        List<Node> pathToNode = Pathfinder.PathBetween(OwnNode, neighbour, IsMovementForced, MovesDiagonally);
 
         // Check if current path is shorter than current shortest path
         if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
@@ -151,6 +154,13 @@ namespace GruntzUnityverse.Actorz {
         var vector when vector.Equals(Vector2IntCustom.NorthWest()) => Direction.Northwest,
         _ => FacingDirection,
       };
+    }
+
+    private void DecideDiagonal() {
+      MovesDiagonally = FacingDirection == Direction.Northeast
+        || FacingDirection == Direction.Southeast
+        || FacingDirection == Direction.Southwest
+        || FacingDirection == Direction.Northwest;
     }
   }
 }

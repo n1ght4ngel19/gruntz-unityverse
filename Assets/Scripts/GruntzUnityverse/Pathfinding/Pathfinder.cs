@@ -5,7 +5,7 @@ using GruntzUnityverse.Managerz;
 
 namespace GruntzUnityverse.Pathfinding {
   public static class Pathfinder {
-    public static List<Node> PathBetween(Node startNode, Node endNode, bool isForced) {
+    public static List<Node> PathBetween(Node startNode, Node endNode, bool isForced, bool movesDiagonally) {
       List<Node> openList = new List<Node>();
       List<Node> closedList = new List<Node>();
 
@@ -25,8 +25,7 @@ namespace GruntzUnityverse.Pathfinding {
       // Iterating until there are no Nodes left to check while searching for a path
       while (openList.Count > 0) {
         // Getting the Node with the lowest F cost (the practical distance between it and the endNode)
-        Node currentNode = openList.OrderBy(node => node.fCost)
-          .First();
+        Node currentNode = openList.OrderBy(node => node.fCost).First();
 
         if (currentNode == endNode) {
           return PathTo(endNode);
@@ -48,6 +47,25 @@ namespace GruntzUnityverse.Pathfinding {
 
           if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(neighbour.OwnLocation)) && !isForced) {
             continue;
+          }
+
+          // When neighbour is diagonal to the current node, and there is a hard-turn object on the side, skip this neighbour
+          if (currentNode.IsDiagonalTo(neighbour)) {
+            bool shouldContinue = false;
+
+            foreach (Node node in neighbour.Neighbours) {
+              if (node.IsDiagonalTo(neighbour) || !node.isHardTurn) {
+                continue;
+              }
+
+              shouldContinue = true;
+
+              break;
+            }
+
+            if (shouldContinue) {
+              continue;
+            }
           }
 
           int tentativeGCost = currentNode.gCost + DistanceBetween(currentNode, neighbour);

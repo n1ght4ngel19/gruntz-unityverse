@@ -12,7 +12,7 @@ namespace GruntzUnityverse.Objectz.MapItemz.Misc {
     }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt.IsOnLocation(OwnLocation))) {
+      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt.IsOnLocation(Location))) {
         SetEnabled(false);
 
         StatzManager.Instance.acquiredCoinz++;

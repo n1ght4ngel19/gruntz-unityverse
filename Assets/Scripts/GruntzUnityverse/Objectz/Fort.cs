@@ -30,8 +30,8 @@ namespace GruntzUnityverse.Objectz {
 
     private void SetupTriggerAtNode(Node node) {
       FortTrigger trigger = Instantiate(FortTriggerPrefab, transform);
-      trigger.OwnLocation = node.OwnLocation;
-      trigger.OwnNode = LevelManager.Instance.NodeAt(trigger.OwnLocation);
+      trigger.Location = node.OwnLocation;
+      trigger.OwnNode = LevelManager.Instance.NodeAt(trigger.Location);
       trigger.Main = this;
       Triggers.Add(trigger);
     }

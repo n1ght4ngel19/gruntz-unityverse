@@ -7,7 +7,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
     protected override void Start() {
       base.Start();
 
-      LevelManager.Instance.SetBlockedAt(OwnLocation, true);
+      LevelManager.Instance.SetBlockedAt(Location, true);
     }
 
     public override IEnumerator BeUsed() {
@@ -20,7 +20,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
       yield return new WaitForSeconds(1f);
 
       LevelManager.Instance.Rockz.Remove(this);
-      LevelManager.Instance.SetBlockedAt(OwnLocation, false);
+      LevelManager.Instance.SetBlockedAt(Location, false);
       Destroy(gameObject);
     }
   }

@@ -94,7 +94,7 @@ namespace GruntzUnityverse.Actorz {
       bool haveActionCommand = IsSelected
         && Input.GetMouseButtonDown(0)
         && !LevelManager.Instance.AllGruntz.Any(
-          grunt => SelectorCircle.Instance.OwnLocation.Equals(grunt.Navigator.OwnLocation)
+          grunt => SelectorCircle.Instance.Location.Equals(grunt.Navigator.OwnLocation)
         );
 
       // Set target to previously saved target, if there is one
@@ -107,7 +107,7 @@ namespace GruntzUnityverse.Actorz {
 
       // Save new target for Grunt when it gets a command while moving to another tile
       if (haveMoveCommand && Navigator.IsMoving) {
-        Navigator.SavedTargetLocation = SelectorCircle.Instance.OwnLocation;
+        Navigator.SavedTargetLocation = SelectorCircle.Instance.Location;
         Navigator.HaveSavedTarget = true;
 
         return;
@@ -122,7 +122,7 @@ namespace GruntzUnityverse.Actorz {
 
       // Handling order to act
       if (haveActionCommand) {
-        if (SelectorCircle.Instance.OwnLocation.Equals(Navigator.OwnLocation)) {
+        if (SelectorCircle.Instance.Location.Equals(Navigator.OwnLocation)) {
           // Todo: Bring up Equipment menu
         }
 
@@ -130,7 +130,7 @@ namespace GruntzUnityverse.Actorz {
         // Checking whether Grunt is interrupted so that its target cannot change mid-action
         if (HasTool(ToolName.Gauntletz) && !IsInterrupted) {
           Rock targetRock = LevelManager.Instance.Rockz.FirstOrDefault(
-            rock => rock.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
+            rock => rock.Location.Equals(SelectorCircle.Instance.Location)
           );
 
           if (targetRock is not null) {
@@ -147,7 +147,7 @@ namespace GruntzUnityverse.Actorz {
         // Checking whether Grunt is interrupted so that its target cannot change mid-action
         if (HasTool(ToolName.Shovel) && !IsInterrupted) {
           Hole targetHole = LevelManager.Instance.Holez.FirstOrDefault(
-            hole => hole.OwnLocation.Equals(SelectorCircle.Instance.OwnLocation)
+            hole => hole.Location.Equals(SelectorCircle.Instance.Location)
           );
 
           if (targetHole is not null) {
@@ -162,7 +162,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       // Handling order to move
-      if (haveMoveCommand && !IsOnLocation(SelectorCircle.Instance.OwnLocation)) {
+      if (haveMoveCommand && !IsOnLocation(SelectorCircle.Instance.Location)) {
         // Check neighbours of Node for possible destinations if Node is blocked
         if (SelectorCircle.Instance.OwnNode.isBlocked
           || LevelManager.Instance.AllGruntz.Any(
@@ -191,7 +191,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       // Todo: Move to Hole script!!!
-      if (LevelManager.Instance.Holez.Any(hole => hole.OwnLocation.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
+      if (LevelManager.Instance.Holez.Any(hole => hole.Location.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
         StartCoroutine(Death("Hole"));
       }
 

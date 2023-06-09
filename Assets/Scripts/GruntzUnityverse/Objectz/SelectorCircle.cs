@@ -22,10 +22,10 @@ namespace GruntzUnityverse.Objectz {
 
     private void Update() {
       OwnTransform.position = MousePositionAsVector3();
-      OwnLocation = Vector2Int.FloorToInt(OwnTransform.position);
+      Location = Vector2Int.FloorToInt(OwnTransform.position);
 
-      if (LevelManager.Instance.nodeLocationsList.Contains(OwnLocation)) {
-        OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
+      if (LevelManager.Instance.nodeLocationsList.Contains(Location)) {
+        OwnNode = LevelManager.Instance.NodeAt(Location);
       }
     }
 

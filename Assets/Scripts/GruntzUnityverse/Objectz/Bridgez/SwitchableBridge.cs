@@ -12,13 +12,13 @@ namespace GruntzUnityverse.Objectz.Bridgez {
       Animator.Play(IsDown ? "WaterBridge_Up" : "WaterBridge_Down");
 
       IsDown = !IsDown;
-      LevelManager.Instance.SetBlockedAt(OwnLocation, IsDown);
+      LevelManager.Instance.SetBlockedAt(Location, IsDown);
     }
 
     protected override void Start() {
       base.Start();
 
-      LevelManager.Instance.SetBlockedAt(OwnLocation, IsDown);
+      LevelManager.Instance.SetBlockedAt(Location, IsDown);
 
       // Todo: !!! Introduce tileset parameter/field/whatever where necessary !!!
       // Todo: Generalize

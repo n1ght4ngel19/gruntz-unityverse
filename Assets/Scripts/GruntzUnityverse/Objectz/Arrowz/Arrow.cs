@@ -11,8 +11,8 @@ namespace GruntzUnityverse.Objectz.Arrowz {
     [field: SerializeField] public Direction Direction { get; set; }
 
     protected virtual void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.IsOnLocation(OwnLocation))) {
-        grunt.Navigator.TargetLocation = OwnLocation + VectorOfDirection(Direction);
+      foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.IsOnLocation(Location))) {
+        grunt.Navigator.TargetLocation = Location + VectorOfDirection(Direction);
         grunt.Navigator.IsMovementForced = true;
 
         return;

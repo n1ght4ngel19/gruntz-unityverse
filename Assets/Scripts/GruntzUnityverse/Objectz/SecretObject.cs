@@ -35,7 +35,7 @@ namespace GruntzUnityverse.Objectz {
     /// Activates the SecretObject.
     /// </summary>
     public void ActivateSecret() {
-      IsInitiallyBlocked = LevelManager.Instance.IsBlockedAt(OwnLocation);
+      IsInitiallyBlocked = LevelManager.Instance.IsBlockedAt(Location);
       SetEnabled(true);
 
       foreach (MonoBehaviour behaviour in OtherBehaviours.Where(
@@ -44,14 +44,14 @@ namespace GruntzUnityverse.Objectz {
         behaviour.enabled = true;
       }
 
-      LevelManager.Instance.SetBlockedAt(OwnLocation, !IsWalkable);
+      LevelManager.Instance.SetBlockedAt(Location, !IsWalkable);
     }
 
     /// <summary>
     /// Deactivates the SecretObject.
     /// </summary>
     public void DeactivateSecret() {
-      LevelManager.Instance.SetBlockedAt(OwnLocation, IsInitiallyBlocked);
+      LevelManager.Instance.SetBlockedAt(Location, IsInitiallyBlocked);
 
       Destroy(gameObject);
     }

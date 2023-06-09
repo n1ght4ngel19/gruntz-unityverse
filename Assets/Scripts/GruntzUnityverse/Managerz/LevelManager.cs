@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
+using GruntzUnityverse.Objectz.Brickz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.Objectz.Switchez;
@@ -39,6 +40,9 @@ namespace GruntzUnityverse.Managerz {
     public List<Grunt> AllGruntz { get; set; }
 
     [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
+    [field: SerializeField] public List<BrickContainer> BrickContainerz { get; set; }
+    [field: SerializeField] public List<BrickFoundation> BrickFoundationz { get; set; }
+    [field: SerializeField] public List<BrickColumn> BrickColumnz { get; set; }
     [field: SerializeField] public List<BlackPyramid> BlackPyramidz { get; set; }
     [field: SerializeField] public List<CheckpointPyramid> CheckpointPyramidz { get; set; }
     [field: SerializeField] public List<GreenPyramid> GreenPyramidz { get; set; }
@@ -235,6 +239,10 @@ namespace GruntzUnityverse.Managerz {
 
     public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
       NodeAt(gridLocation).isBlocked = isBlocked;
+    }
+
+    public void SetHardTurnAt(Vector2Int gridLocation, bool isHardTurn) {
+      NodeAt(gridLocation).isHardTurn = isHardTurn;
     }
 
     public bool IsBlockedAt(Vector2Int gridLocation) {

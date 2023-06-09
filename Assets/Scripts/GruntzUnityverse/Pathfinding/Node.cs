@@ -10,21 +10,31 @@ namespace GruntzUnityverse.Pathfinding {
     /// The path cost between the start Node and this Node
     /// </summary>
     public int gCost;
+
     /// <summary>
     /// The estimated path cost between this Node and the end Node
     /// </summary>
     public int hCost;
+
     /// <summary>
     /// The sum of the F and G costs
     /// </summary>
     public int fCost;
+
     public Node previousNode;
     public bool isBlocked;
+    public bool isHardTurn;
 
     public Vector2Int OwnLocation { get; set; }
     public List<Node> Neighbours { get; set; }
 
-    public Node(Vector2Int ownLocation) { OwnLocation = ownLocation; }
+    public Node(Vector2Int ownLocation) {
+      OwnLocation = ownLocation;
+    }
+
+    public bool IsDiagonalTo(Node neighbour) {
+      return neighbour.OwnLocation.x != OwnLocation.x && neighbour.OwnLocation.y != OwnLocation.y;
+    }
 
     public void GetNeighboursAroundSelf() {
       List<Node> neighbours = new List<Node>();

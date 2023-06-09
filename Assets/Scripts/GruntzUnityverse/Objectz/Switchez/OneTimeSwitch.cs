@@ -22,7 +22,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
         enabled = false;
       }
 
-      if (!LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(OwnLocation))) {
+      if (!LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(Location))) {
         return;
       }
 
