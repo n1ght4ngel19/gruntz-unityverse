@@ -26,7 +26,7 @@ namespace GruntzUnityverse.Objectz.Hazardz {
       TargetGrunt = LevelManager.Instance.AllGruntz.FirstOrDefault(grunt => grunt.IsOnLocation(Location));
 
       if (TargetGrunt is not null && TargetGrunt.IsOnLocation(Location)) {
-        // foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.IsOnLocation(Location))) {
+        // foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.IsOnLocation(OwnLocation))) {
         //   TargetGrunt = grunt;
 
         // StartCoroutine(DamageGrunt(grunt));

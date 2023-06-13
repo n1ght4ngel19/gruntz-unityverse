@@ -9,6 +9,7 @@ using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Vector3 = UnityEngine.Vector3;
 
@@ -23,12 +24,12 @@ namespace GruntzUnityverse.Managerz {
     // ----- Layerz -----
     [field: Header("Layerz")]
     [field: SerializeField]
-    public Tilemap GroundLayer { get; set; }
+    public Tilemap MainLayer { get; set; }
 
-    [field: SerializeField] public Tilemap TransitionLayer { get; set; }
-    [field: SerializeField] public Tilemap LakeLayer { get; set; }
-    [field: SerializeField] public Tilemap DeathLayer { get; set; }
-    [field: SerializeField] public Tilemap VoidLayer { get; set; }
+    // [field: SerializeField] public Tilemap TransitionLayer { get; set; }
+    // [field: SerializeField] public Tilemap LakeLayer { get; set; }
+    // [field: SerializeField] public Tilemap DeathLayer { get; set; }
+    // [field: SerializeField] public Tilemap VoidLayer { get; set; }
     [field: SerializeField] public Tilemap BackgroundLayer { get; set; }
 
     // Only for testing
@@ -57,15 +58,15 @@ namespace GruntzUnityverse.Managerz {
 
     // ----- Pathfinding -----
     [field: Header("Pathfinding")] private GameObject NodeContainer { get; set; }
-    public List<Node> nodeList;
-    public List<Vector2Int> nodeLocationsList;
+    public List<Node> nodes;
+    public List<Vector2Int> nodeLocations;
     public Node nodePrefab;
 
     public Vector2Int MinMapPoint { get; set; }
     public Vector2Int MaxMapPoint { get; set; }
 
-    // ----- Other -----
-    [field: Header("Other")] public TMP_Text helpBoxText;
+    // ----- Stair -----
+    [field: Header("Stair")] public TMP_Text helpBoxText;
 
 
     private void Awake() {
@@ -98,69 +99,15 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void AssignLayerz() {
-      GroundLayer = GameObject.Find("GroundLayer").GetComponent<Tilemap>();
-      GroundLayer.CompressBounds();
-
-      TransitionLayer = GameObject.Find("TransitionLayer").GetComponent<Tilemap>();
-      TransitionLayer.CompressBounds();
-
-      LakeLayer = GameObject.Find("LakeLayer").GetComponent<Tilemap>();
-      LakeLayer.CompressBounds();
-
-      DeathLayer = GameObject.Find("DeathLayer").GetComponent<Tilemap>();
-      DeathLayer.CompressBounds();
-
-      VoidLayer = GameObject.Find("VoidLayer").GetComponent<Tilemap>();
-      VoidLayer.CompressBounds();
+      MainLayer = GameObject.Find("MainLayer").GetComponent<Tilemap>();
+      MainLayer.CompressBounds();
 
       BackgroundLayer = GameObject.Find("BackgroundLayer").GetComponent<Tilemap>();
+      BackgroundLayer.CompressBounds();
 
-      List<Vector3Int> cellBoundsMaxList = new List<Vector3Int> {
-        GroundLayer.cellBounds.max,
-        TransitionLayer.cellBounds.max,
-        LakeLayer.cellBounds.max,
-        DeathLayer.cellBounds.max,
-        VoidLayer.cellBounds.max,
-      };
-
-      int maxX = cellBoundsMaxList[0].x;
-
-      int maxY = cellBoundsMaxList[0].y;
-
-      foreach (Vector3Int vector in cellBoundsMaxList) {
-        if (vector.x > maxX) {
-          maxX = vector.x;
-        }
-
-        if (vector.y > maxY) {
-          maxY = vector.y;
-        }
-      }
-
-      List<Vector3Int> cellBoundsMinList = new List<Vector3Int> {
-        GroundLayer.cellBounds.min,
-        TransitionLayer.cellBounds.min,
-        LakeLayer.cellBounds.min,
-        DeathLayer.cellBounds.min,
-        VoidLayer.cellBounds.min,
-      };
-
-      int minX = cellBoundsMinList[0].x;
-
-      int minY = cellBoundsMinList[0].y;
-
-      foreach (Vector3Int vector in cellBoundsMinList) {
-        if (vector.x < minX) {
-          minX = vector.x;
-        }
-
-        if (vector.y < minY) {
-          minY = vector.y;
-        }
-      }
-
-      MinMapPoint = new Vector2Int(minX, minY);
-      MaxMapPoint = new Vector2Int(maxX, maxY);
+      BoundsInt mainCellBounds = MainLayer.cellBounds;
+      MinMapPoint = new Vector2Int(mainCellBounds.min.x, mainCellBounds.min.y);
+      MaxMapPoint = new Vector2Int(mainCellBounds.max.x, mainCellBounds.max.y);
 
       // Todo: Procedurally place Tiles on BackgroundLayer
       // Todo: Wave Function Collapse
@@ -170,21 +117,27 @@ namespace GruntzUnityverse.Managerz {
       for (int x = MinMapPoint.x; x < MaxMapPoint.x; x++) {
         for (int y = MinMapPoint.y; y < MaxMapPoint.y; y++) {
           Node node = Instantiate(nodePrefab, NodeContainer.transform);
-          node.transform.position = new Vector3(x + 0.5f, y + 0.5f, 0);
+          node.transform.position = new Vector3(x + 0.5f, y + 0.5f, 100);
           node.OwnLocation = new Vector2Int(x, y);
 
-          nodeList.Add(node);
-          nodeLocationsList.Add(node.OwnLocation);
+          nodes.Add(node);
+          nodeLocations.Add(node.OwnLocation);
 
           // Todo: What about Toobz?
-          if (!GroundLayer.HasTile(new Vector3Int(x, y, 0))) {
-            node.isBlocked = true;
+          if (MainLayer.HasTile(new Vector3Int(x, y, 0))) {
+            // Todo: Replace 100 with NodeDepth constant
+            if (MainLayer.GetTile(new Vector3Int(x, y, 0)).name.Contains("Colliding")) {
+              node.isColliding = true;
+              node.GetComponent<SpriteRenderer>().enabled = true;
+            } else {
+              node.GetComponent<SpriteRenderer>().enabled = false;
+            }
           }
         }
       }
 
-      foreach (Node node in nodeList) {
-        node.GetNeighboursAroundSelf();
+      foreach (Node node in nodes) {
+        node.SetNeighbours();
       }
     }
 
@@ -238,7 +191,7 @@ namespace GruntzUnityverse.Managerz {
     }
 
     public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
-      NodeAt(gridLocation).isBlocked = isBlocked;
+      NodeAt(gridLocation).isColliding = isBlocked;
     }
 
     public void SetHardTurnAt(Vector2Int gridLocation, bool isHardTurn) {
@@ -246,11 +199,11 @@ namespace GruntzUnityverse.Managerz {
     }
 
     public bool IsBlockedAt(Vector2Int gridLocation) {
-      return nodeList.First(node => node.OwnLocation.Equals(gridLocation)).isBlocked;
+      return nodes.First(node => node.OwnLocation.Equals(gridLocation)).isColliding;
     }
 
     public Node NodeAt(Vector2Int gridLocation) {
-      return nodeList.First(node => node.OwnLocation.Equals(gridLocation));
+      return nodes.First(node => node.OwnLocation.Equals(gridLocation));
     }
   }
 }

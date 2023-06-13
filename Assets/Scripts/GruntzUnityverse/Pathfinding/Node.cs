@@ -9,7 +9,7 @@ namespace GruntzUnityverse.Pathfinding {
     /// <summary>
     /// The path cost between the start Node and this Node
     /// </summary>
-    public int gCost;
+    [Header("Pathfinding Variables")] public int gCost;
 
     /// <summary>
     /// The estimated path cost between this Node and the end Node
@@ -22,9 +22,11 @@ namespace GruntzUnityverse.Pathfinding {
     public int fCost;
 
     public Node previousNode;
-    public bool isBlocked;
-    public bool isHardTurn;
 
+    [Header("Flags")] public bool isColliding;
+    public bool isDrowning;
+    public bool isBurning;
+    public bool isHardTurn;
     public Vector2Int OwnLocation { get; set; }
     public List<Node> Neighbours { get; set; }
 
@@ -36,39 +38,24 @@ namespace GruntzUnityverse.Pathfinding {
       return neighbour.OwnLocation.x != OwnLocation.x && neighbour.OwnLocation.y != OwnLocation.y;
     }
 
-    public void GetNeighboursAroundSelf() {
+    public void SetNeighbours() {
       List<Node> neighbours = new List<Node>();
 
-      // North
-      AddNodeToNeighboursAt(OwnLocation.OwnNorth(), neighbours);
-
-      // South
-      AddNodeToNeighboursAt(OwnLocation.OwnSouth(), neighbours);
-
-      // East
-      AddNodeToNeighboursAt(OwnLocation.OwnEast(), neighbours);
-
-      // West
-      AddNodeToNeighboursAt(OwnLocation.OwnWest(), neighbours);
-
-      // NorthEast
-      AddNodeToNeighboursAt(OwnLocation.OwnNorthEast(), neighbours);
-
-      // NorthWest
-      AddNodeToNeighboursAt(OwnLocation.OwnNorthWest(), neighbours);
-
-      // SouthEast
-      AddNodeToNeighboursAt(OwnLocation.OwnSouthEast(), neighbours);
-
-      // SouthWest
-      AddNodeToNeighboursAt(OwnLocation.OwnSouthWest(), neighbours);
+      AddNodeAt(OwnLocation.OwnNorth(), neighbours);
+      AddNodeAt(OwnLocation.OwnSouth(), neighbours);
+      AddNodeAt(OwnLocation.OwnEast(), neighbours);
+      AddNodeAt(OwnLocation.OwnWest(), neighbours);
+      AddNodeAt(OwnLocation.OwnNorthEast(), neighbours);
+      AddNodeAt(OwnLocation.OwnNorthWest(), neighbours);
+      AddNodeAt(OwnLocation.OwnSouthEast(), neighbours);
+      AddNodeAt(OwnLocation.OwnSouthWest(), neighbours);
 
       Neighbours = neighbours;
     }
 
-    private void AddNodeToNeighboursAt(Vector2Int location, List<Node> neighbours) {
-      if (LevelManager.Instance.nodeLocationsList.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodeList.First(node1 => node1.OwnLocation.Equals(location)));
+    private void AddNodeAt(Vector2Int location, List<Node> neighbours) {
+      if (LevelManager.Instance.nodeLocations.Contains(location)) {
+        neighbours.Add(LevelManager.Instance.nodes.First(node1 => node1.OwnLocation.Equals(location)));
       }
     }
   }

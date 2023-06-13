@@ -7,6 +7,7 @@ using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Itemz;
+using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -164,7 +165,7 @@ namespace GruntzUnityverse.Actorz {
       // Handling order to move
       if (haveMoveCommand && !IsOnLocation(SelectorCircle.Instance.Location)) {
         // Check neighbours of Node for possible destinations if Node is blocked
-        if (SelectorCircle.Instance.OwnNode.isBlocked
+        if (SelectorCircle.Instance.OwnNode.isColliding
           || LevelManager.Instance.AllGruntz.Any(
             grunt => grunt.Navigator.OwnNode.Equals(SelectorCircle.Instance.OwnNode)
           )) {
@@ -176,19 +177,30 @@ namespace GruntzUnityverse.Actorz {
       }
 
       // Handling the case when Grunt is on a blocked Node
-      if (LevelManager.Instance.nodeList.Any(node => node.isBlocked && IsOnLocation(node.OwnLocation))) {
-        // Play drowning animation when on a Lake (Water or Death) tile
-        if (LevelManager.Instance.LakeLayer.HasTile(
-          new Vector3Int(Navigator.OwnLocation.x, Navigator.OwnLocation.y, 0)
-        )) {
-          // Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Sink"));
-          StartCoroutine(Death("Sink"));
-        } else {
-          // Play squashed animation when on colliding Tile or Object
-          // Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Squash"));
-          StartCoroutine(Death("Squash"));
-        }
+      Node node = Navigator.OwnNode;
+
+      if (node.isBurning) {
+        StartCoroutine(Death("Burn"));
       }
+
+      if (node.isDrowning) {
+        StartCoroutine(Death("Sink"));
+      }
+
+      if (node.isColliding && !node.isBurning && !node.isDrowning) {
+        StartCoroutine(Death("Squash"));
+      }
+      // Play drowning animation when on a Lake (Water or Death) tile
+      // if (LevelManager.Instance.LakeLayer.HasTile(
+      //   new Vector3Int(Navigator.OwnLocation.x, Navigator.OwnLocation.y, 0)
+      // )) {
+      //   // Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Sink"));
+      //   StartCoroutine(Death("Sink"));
+      // } else {
+      //   // Play squashed animation when on colliding Tile or Object
+      //   // Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Squash"));
+      //   StartCoroutine(Death("Squash"));
+      // }
 
       // Todo: Move to Hole script!!!
       if (LevelManager.Instance.Holez.Any(hole => hole.Location.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
@@ -270,7 +282,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       HealthBar.Renderer.enabled = false;
-      // Todo: Other attributebars, and move into separate method
+      // Todo: Stair attributebars, and move into separate method
       enabled = false;
       Navigator.enabled = false;
       IsInterrupted = true;
@@ -281,14 +293,14 @@ namespace GruntzUnityverse.Actorz {
 
       yield return new WaitForSeconds(deathClip.length);
 
-      Navigator.OwnLocation = Vector2IntCustom.Max();
+      Navigator.OwnLocation = Vector2IntExtra.Max();
       LevelManager.Instance.AllGruntz.Remove(this);
       Destroy(gameObject, deathClip.length);
     }
 
     public IEnumerator Death() {
       HealthBar.Renderer.enabled = false;
-      // Todo: Other attributebars, and move into separate method
+      // Todo: Stair attributebars, and move into separate method
       enabled = false;
       Navigator.enabled = false;
       IsInterrupted = true;
@@ -298,7 +310,7 @@ namespace GruntzUnityverse.Actorz {
 
       yield return new WaitForSeconds(deathClip.length);
 
-      Navigator.OwnLocation = Vector2IntCustom.Max();
+      Navigator.OwnLocation = Vector2IntExtra.Max();
       LevelManager.Instance.AllGruntz.Remove(this);
       Destroy(gameObject, deathClip.length);
     }

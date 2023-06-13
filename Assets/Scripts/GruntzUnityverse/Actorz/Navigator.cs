@@ -100,7 +100,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public void SetTargetBeside(Node node) {
-      List<Node> freeNeighbours = node.Neighbours.FindAll(node1 => !node1.isBlocked);
+      List<Node> freeNeighbours = node.Neighbours.FindAll(node1 => !node1.isColliding);
 
       // No path possible
       if (freeNeighbours.Count == 0) {
@@ -144,14 +144,14 @@ namespace GruntzUnityverse.Actorz {
       Vector2Int directionVector = Vector2Int.RoundToInt(moveVector);
 
       FacingDirection = directionVector switch {
-        var vector when vector.Equals(Vector2IntCustom.North()) => Direction.North,
-        var vector when vector.Equals(Vector2IntCustom.NorthEast()) => Direction.Northeast,
-        var vector when vector.Equals(Vector2IntCustom.East()) => Direction.East,
-        var vector when vector.Equals(Vector2IntCustom.SouthEast()) => Direction.Southeast,
-        var vector when vector.Equals(Vector2IntCustom.South()) => Direction.South,
-        var vector when vector.Equals(Vector2IntCustom.SouthWest()) => Direction.Southwest,
-        var vector when vector.Equals(Vector2IntCustom.West()) => Direction.West,
-        var vector when vector.Equals(Vector2IntCustom.NorthWest()) => Direction.Northwest,
+        var vector when vector.Equals(Vector2IntExtra.North()) => Direction.North,
+        var vector when vector.Equals(Vector2IntExtra.NorthEast()) => Direction.Northeast,
+        var vector when vector.Equals(Vector2IntExtra.East()) => Direction.East,
+        var vector when vector.Equals(Vector2IntExtra.SouthEast()) => Direction.Southeast,
+        var vector when vector.Equals(Vector2IntExtra.South()) => Direction.South,
+        var vector when vector.Equals(Vector2IntExtra.SouthWest()) => Direction.Southwest,
+        var vector when vector.Equals(Vector2IntExtra.West()) => Direction.West,
+        var vector when vector.Equals(Vector2IntExtra.NorthWest()) => Direction.Northwest,
         _ => FacingDirection,
       };
     }

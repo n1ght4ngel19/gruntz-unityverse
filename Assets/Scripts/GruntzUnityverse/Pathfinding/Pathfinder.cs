@@ -12,7 +12,7 @@ namespace GruntzUnityverse.Pathfinding {
       // Adding the startNode to have something to begin with
       openList.Add(startNode);
 
-      foreach (Node node in LevelManager.Instance.nodeList) {
+      foreach (Node node in LevelManager.Instance.nodes) {
         node.gCost = int.MaxValue;
         node.fCost = node.gCost + node.hCost;
         node.previousNode = null;
@@ -41,7 +41,7 @@ namespace GruntzUnityverse.Pathfinding {
             continue;
           }
 
-          if (neighbour.isBlocked) {
+          if (neighbour.isColliding) {
             continue;
           }
 
@@ -50,23 +50,23 @@ namespace GruntzUnityverse.Pathfinding {
           }
 
           // When neighbour is diagonal to the current node, and there is a hard-turn object on the side, skip this neighbour
-          if (currentNode.IsDiagonalTo(neighbour)) {
-            bool shouldContinue = false;
-
-            foreach (Node node in neighbour.Neighbours) {
-              if (node.IsDiagonalTo(neighbour) || !node.isHardTurn) {
-                continue;
-              }
-
-              shouldContinue = true;
-
-              break;
-            }
-
-            if (shouldContinue) {
-              continue;
-            }
-          }
+          // if (currentNode.IsDiagonalTo(neighbour)) {
+          //   bool shouldContinue = false;
+          //
+          //   foreach (Node node in neighbour.Neighbours) {
+          //     if (node.IsDiagonalTo(neighbour) && node.isHardTurn) {
+          //       continue;
+          //     }
+          //
+          //     shouldContinue = true;
+          //
+          //     break;
+          //   }
+          //
+          //   if (shouldContinue) {
+          //     continue;
+          //   }
+          // }
 
           int tentativeGCost = currentNode.gCost + DistanceBetween(currentNode, neighbour);
 
