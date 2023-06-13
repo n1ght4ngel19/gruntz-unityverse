@@ -24,7 +24,7 @@ namespace GruntzUnityverse.Objectz {
       OwnTransform.position = MousePositionAsVector3();
       Location = Vector2Int.FloorToInt(OwnTransform.position);
 
-      if (LevelManager.Instance.nodeLocationsList.Contains(Location)) {
+      if (LevelManager.Instance.nodeLocations.Contains(Location)) {
         OwnNode = LevelManager.Instance.NodeAt(Location);
       }
     }

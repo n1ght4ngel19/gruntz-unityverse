@@ -5,6 +5,7 @@ using UnityEngine;
 namespace GruntzUnityverse {
   public class CameraMovement : MonoBehaviour {
     private Camera Camera { get; set; }
+    private Transform OwnTransform { get; set; }
     public bool AreControlsDisabled { get; set; }
 
     // The smaller the ScrollRate, the faster the camera moves
@@ -15,7 +16,10 @@ namespace GruntzUnityverse {
     private const float ZoomLerpSpeed = 10;
 
 
-    private void Start() { Camera = Camera.main; }
+    private void Start() {
+      Camera = gameObject.GetComponent<Camera>();
+      OwnTransform = gameObject.GetComponent<Transform>();
+    }
 
     private void Update() {
       if (AreControlsDisabled) {
@@ -40,12 +44,14 @@ namespace GruntzUnityverse {
       if (Time.timeScale == 0) {
         return;
       }
-      
-      float camHalfWidth = Camera.orthographicSize * Camera.aspect;
-      bool reachedBottom = Camera.transform.position.y - Camera.orthographicSize / 2 <= LevelManager.Instance.MinMapPoint.y + 0.25;
-      bool reachedTop = Camera.transform.position.y + Camera.orthographicSize / 2 >= LevelManager.Instance.MaxMapPoint.y - 0.25;
-      bool reachedLeftSide = Camera.transform.position.x - camHalfWidth <= LevelManager.Instance.MinMapPoint.x + 0.25;
-      bool reachedRightSide = Camera.transform.position.x + camHalfWidth >= LevelManager.Instance.MaxMapPoint.x - 0.25;
+
+      Vector3 currentPosition = OwnTransform.position;
+      float orthographicSize = Camera.orthographicSize;
+      float camHalfWidth = orthographicSize * Camera.aspect;
+      bool reachedBottom = currentPosition.y - orthographicSize / 2 <= LevelManager.Instance.MinMapPoint.y + 0.25;
+      bool reachedTop = currentPosition.y + orthographicSize / 2 >= LevelManager.Instance.MaxMapPoint.y - 0.25;
+      bool reachedLeftSide = currentPosition.x - camHalfWidth <= LevelManager.Instance.MinMapPoint.x + 0.25;
+      bool reachedRightSide = currentPosition.x + camHalfWidth >= LevelManager.Instance.MaxMapPoint.x - 0.25;
 
 
       if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reachedTop) {

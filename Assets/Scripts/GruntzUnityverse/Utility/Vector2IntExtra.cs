@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace GruntzUnityverse.Utility {
-  public static class Vector2IntCustom {
+  public static class Vector2IntExtra {
     public static Vector2Int North() { return new Vector2Int(0, 1); }
 
     public static Vector2Int NorthEast() { return new Vector2Int(1, 1); }
@@ -19,6 +19,7 @@ namespace GruntzUnityverse.Utility {
     public static Vector2Int NorthWest() { return new Vector2Int(-1, 1); }
 
     public static Vector2Int Max() { return new Vector2Int(int.MaxValue, int.MaxValue); }
+    public static Vector2Int Min() { return new Vector2Int(int.MinValue, int.MinValue); }
 
     public static Vector2Int OwnNorth(this Vector2Int vector) { return vector + North(); }
 

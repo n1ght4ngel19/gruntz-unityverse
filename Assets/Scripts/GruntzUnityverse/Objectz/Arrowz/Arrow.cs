@@ -21,14 +21,14 @@ namespace GruntzUnityverse.Objectz.Arrowz {
 
     protected Vector2Int VectorOfDirection(Direction direction) {
       return direction switch {
-        Direction.North => Vector2IntCustom.North(),
-        Direction.East => Vector2IntCustom.East(),
-        Direction.South => Vector2IntCustom.South(),
-        Direction.West => Vector2IntCustom.West(),
-        Direction.Northeast => Vector2IntCustom.NorthEast(),
-        Direction.Northwest => Vector2IntCustom.NorthWest(),
-        Direction.Southeast => Vector2IntCustom.SouthEast(),
-        Direction.Southwest => Vector2IntCustom.SouthWest(),
+        Direction.North => Vector2IntExtra.North(),
+        Direction.East => Vector2IntExtra.East(),
+        Direction.South => Vector2IntExtra.South(),
+        Direction.West => Vector2IntExtra.West(),
+        Direction.Northeast => Vector2IntExtra.NorthEast(),
+        Direction.Northwest => Vector2IntExtra.NorthWest(),
+        Direction.Southeast => Vector2IntExtra.SouthEast(),
+        Direction.Southwest => Vector2IntExtra.SouthWest(),
         _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, "No Arrow direction specified!"),
       };
     }
