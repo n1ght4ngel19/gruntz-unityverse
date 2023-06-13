@@ -1,5 +1,6 @@
 namespace GruntzUnityverse.Enumz {
   public enum Direction {
+    None = 0,
     East = 1,
     North = 2,
     Northeast = 3,

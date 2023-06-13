@@ -1,32 +1,31 @@
 ﻿using System;
-using Animancer;
 using GruntzUnityverse.Enumz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Arrowz {
   public class TwoWayArrow : Arrow {
-    private Direction DefaultDirection { get; set; }
-    private Direction AlternativeDirection { get; set; }
-    private Sprite DefaultSprite { get; set; }
-    [field: SerializeField] public Sprite AlternativeSprite { get; set; }
+    [field: SerializeField] public Sprite ChangedSprite { get; set; }
+    private Direction InitialDirection { get; set; }
+    private Direction ChangedDirection { get; set; }
+    private Sprite InitialSprite { get; set; }
 
 
     protected override void Start() {
       base.Start();
 
-      DefaultSprite = Renderer.sprite;
-      DefaultDirection = Direction;
+      InitialSprite = Renderer.sprite;
+      InitialDirection = Direction;
 
-      AlternativeDirection = OppositeDirectionOf(DefaultDirection);
+      ChangedDirection = OppositeDirectionOf(InitialDirection);
     }
 
     public void ChangeDirection() {
-      Direction = Direction.Equals(DefaultDirection) ? AlternativeDirection : DefaultDirection;
-      Renderer.sprite = Direction.Equals(DefaultDirection) ? DefaultSprite : AlternativeSprite;
+      Direction = Direction.Equals(InitialDirection) ? ChangedDirection : InitialDirection;
+      Renderer.sprite = Direction.Equals(InitialDirection) ? InitialSprite : ChangedSprite;
     }
 
     private Direction OppositeDirectionOf(Direction direction) {
-      return DefaultDirection switch {
+      return InitialDirection switch {
         Direction.North => Direction.South,
         Direction.East => Direction.West,
         Direction.South => Direction.North,
