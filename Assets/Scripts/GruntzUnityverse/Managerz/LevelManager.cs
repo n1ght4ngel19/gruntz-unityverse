@@ -119,6 +119,7 @@ namespace GruntzUnityverse.Managerz {
           Node node = Instantiate(nodePrefab, NodeContainer.transform);
           node.transform.position = new Vector3(x + 0.5f, y + 0.5f, 100);
           node.OwnLocation = new Vector2Int(x, y);
+          node.GetComponent<SpriteRenderer>().enabled = false;
 
           nodes.Add(node);
           nodeLocations.Add(node.OwnLocation);
@@ -128,9 +129,6 @@ namespace GruntzUnityverse.Managerz {
             // Todo: Replace 100 with NodeDepth constant
             if (MainLayer.GetTile(new Vector3Int(x, y, 0)).name.Contains("Colliding")) {
               node.isColliding = true;
-              node.GetComponent<SpriteRenderer>().enabled = true;
-            } else {
-              node.GetComponent<SpriteRenderer>().enabled = false;
             }
           }
         }

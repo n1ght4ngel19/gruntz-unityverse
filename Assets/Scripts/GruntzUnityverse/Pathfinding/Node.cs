@@ -24,8 +24,9 @@ namespace GruntzUnityverse.Pathfinding {
     public Node previousNode;
 
     [Header("Flags")] public bool isColliding;
-    public bool isDrowning;
     public bool isBurning;
+    public bool isDrowning;
+    public bool isElectric;
     public bool isHardTurn;
     public Vector2Int OwnLocation { get; set; }
     public List<Node> Neighbours { get; set; }
