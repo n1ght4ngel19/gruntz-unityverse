@@ -11,7 +11,7 @@ namespace GruntzUnityverse.Objectz {
     }
 
     private void Start() {
-      LevelManager.Instance.NodeAt(OwnLocation).isColliding = IsColliding;
+      LevelManager.Instance.NodeAt(OwnLocation).isInaccessible = IsColliding;
     }
   }
 }

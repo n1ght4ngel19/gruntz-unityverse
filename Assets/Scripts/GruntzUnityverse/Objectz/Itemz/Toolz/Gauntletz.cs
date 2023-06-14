@@ -20,7 +20,7 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
 
       grunt.Animancer.Play(clipToPlay);
 
-      StartCoroutine(grunt.TargetObject.BeUsed());
+      StartCoroutine(((IBreakable)grunt.TargetObject).Break());
 
       yield return new WaitForSeconds(2f);
 

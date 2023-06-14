@@ -130,13 +130,19 @@ namespace GruntzUnityverse.Actorz {
         // Todo: Generalize
         // Checking whether Grunt is interrupted so that its target cannot change mid-action
         if (HasTool(ToolName.Gauntletz) && !IsInterrupted) {
-          Rock targetRock = LevelManager.Instance.Rockz.FirstOrDefault(
-            rock => rock.Location.Equals(SelectorCircle.Instance.Location)
+          MapObject target = LevelManager.Instance.Rockz.FirstOrDefault(
+            mapObject => mapObject.Location.Equals(SelectorCircle.Instance.Location)
           );
 
-          if (targetRock is not null) {
-            Navigator.SetTargetBeside(targetRock.OwnNode);
-            TargetObject = targetRock;
+          if (target is null) {
+            target = LevelManager.Instance.BrickContainerz.FirstOrDefault(
+              container => container.Location.Equals(SelectorCircle.Instance.Location)
+            );
+          }
+
+          if (target is not null) {
+            Navigator.SetTargetBeside(target.OwnNode);
+            TargetObject = target;
 
             if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
               StartCoroutine(Equipment.Tool.Use(this));
@@ -163,9 +169,9 @@ namespace GruntzUnityverse.Actorz {
       }
 
       // Handling order to move
-      if (haveMoveCommand && !IsOnLocation(SelectorCircle.Instance.Location)) {
+      if (haveMoveCommand && !AtLocation(SelectorCircle.Instance.Location)) {
         // Check neighbours of Node for possible destinations if Node is blocked
-        if (SelectorCircle.Instance.OwnNode.isColliding
+        if (SelectorCircle.Instance.OwnNode.isInaccessible
           || LevelManager.Instance.AllGruntz.Any(
             grunt => grunt.Navigator.OwnNode.Equals(SelectorCircle.Instance.OwnNode)
           )) {
@@ -187,20 +193,9 @@ namespace GruntzUnityverse.Actorz {
         StartCoroutine(Death("Sink"));
       }
 
-      if (node.isColliding && !node.isBurning && !node.isDrowning) {
+      if (node.isInaccessible && !node.isBurning && !node.isDrowning) {
         StartCoroutine(Death("Squash"));
       }
-      // Play drowning animation when on a Lake (Water or Death) tile
-      // if (LevelManager.Instance.LakeLayer.HasTile(
-      //   new Vector3Int(Navigator.OwnLocation.x, Navigator.OwnLocation.y, 0)
-      // )) {
-      //   // Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Sink"));
-      //   StartCoroutine(Death("Sink"));
-      // } else {
-      //   // Play squashed animation when on colliding Tile or Object
-      //   // Animancer.Play(Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Squash"));
-      //   StartCoroutine(Death("Squash"));
-      // }
 
       // Todo: Move to Hole script!!!
       if (LevelManager.Instance.Holez.Any(hole => hole.Location.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
@@ -212,7 +207,7 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
-    public bool IsOnLocation(Vector2Int location) {
+    public bool AtLocation(Vector2Int location) {
       return Navigator.OwnLocation.Equals(location);
     }
 
@@ -239,7 +234,7 @@ namespace GruntzUnityverse.Actorz {
     /// and staying put playing while the idle animation.
     /// </summary>
     private void HandleMovement() {
-      if (IsOnLocation(Navigator.TargetLocation)) {
+      if (AtLocation(Navigator.TargetLocation)) {
         Animancer.Play(AnimationPack.Idle[$"{Equipment.Tool.Name}Grunt_Idle_{Navigator.FacingDirection}_01"]);
       } else {
         Animancer.Play(AnimationPack.Walk[$"{Equipment.Tool.Name}Grunt_Walk_{Navigator.FacingDirection}"]);

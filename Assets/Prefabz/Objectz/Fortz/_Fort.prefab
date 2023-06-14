@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3795564419514229400}
-  - component: {fileID: -776845666441466971}
   - component: {fileID: 4618565023944896472}
+  - component: {fileID: -776845666441466971}
   m_Layer: 0
-  m_Name: RR_Fort
+  m_Name: _Fort
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,6 +33,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4618565023944896472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8232245122548251227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d961192f4b7c4743a1b11861539a8b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsHardTurn>k__BackingField: 1
+  <FortTriggerPrefab>k__BackingField: {fileID: -7280204479753039330, guid: 7c8b8cdca17a02b45afe15278e998a54, type: 3}
 --- !u!212 &-776845666441466971
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -74,7 +88,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -434606244, guid: 62df4328433a610458eccdd4eb3eb80b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e95cd40bd2a0bc147ae3e9d2d4448739, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,17 +99,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4618565023944896472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8232245122548251227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d961192f4b7c4743a1b11861539a8b26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <IsHardTurn>k__BackingField: 0
-  <FortTriggerPrefab>k__BackingField: {fileID: -7280204479753039330, guid: 7c8b8cdca17a02b45afe15278e998a54, type: 3}

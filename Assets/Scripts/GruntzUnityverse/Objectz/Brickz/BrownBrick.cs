@@ -3,13 +3,21 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Brickz {
   public class BrownBrick : Brick {
-    public override IEnumerator Explode() {
-      // Animancer.Play("BrownBrickExplode");
-      Debug.Log("Explosion");
+    [field: SerializeField] public override AnimationClip BreakAnimation { get; set; }
 
-      yield return new WaitForSeconds(0.5f);
+    protected override void Start() {
+      base.Start();
 
-      Destroy(gameObject, 0.5f);
+      BreakAnimation =
+        Resources.Load<AnimationClip>($"Animationz/Effectz/Shared/Clipz/Effect_Shared_BrickBreak_{BrickType}");
+    }
+
+    public override IEnumerator Break() {
+      Animancer.Play(BreakAnimation);
+
+      Destroy(gameObject, 1f);
+
+      yield return null;
     }
   }
 }

@@ -18,7 +18,9 @@ namespace GruntzUnityverse {
       LevelManager.Instance.NodeAt(OwnLocation).isBurning = IsBurning;
       LevelManager.Instance.NodeAt(OwnLocation).isDrowning = IsDrowning;
       LevelManager.Instance.NodeAt(OwnLocation).isElectric = IsElectric;
-      LevelManager.Instance.NodeAt(OwnLocation).isColliding = IsInaccessible;
+      LevelManager.Instance.NodeAt(OwnLocation).isInaccessible = IsInaccessible;
+
+      Destroy(gameObject, 2f);
     }
   }
 }

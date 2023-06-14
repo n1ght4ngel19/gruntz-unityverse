@@ -41,32 +41,32 @@ namespace GruntzUnityverse.Pathfinding {
             continue;
           }
 
-          if (neighbour.isColliding) {
+          if (neighbour.isInaccessible) {
             continue;
           }
 
-          if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.IsOnLocation(neighbour.OwnLocation)) && !isForced) {
+          if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.AtLocation(neighbour.OwnLocation)) && !isForced) {
             continue;
           }
 
           // When neighbour is diagonal to the current node, and there is a hard-turn object on the side, skip this neighbour
-          // if (currentNode.IsDiagonalTo(neighbour)) {
-          //   bool shouldContinue = false;
-          //
-          //   foreach (Node node in neighbour.Neighbours) {
-          //     if (node.IsDiagonalTo(neighbour) && node.isHardTurn) {
-          //       continue;
-          //     }
-          //
-          //     shouldContinue = true;
-          //
-          //     break;
-          //   }
-          //
-          //   if (shouldContinue) {
-          //     continue;
-          //   }
-          // }
+          if (neighbour.IsDiagonalTo(currentNode)) {
+            bool shouldContinue = false;
+
+            foreach (Node neighboursNeighbour in neighbour.Neighbours) {
+              if (neighboursNeighbour.IsOrthogonalTo(neighbour)
+                && neighboursNeighbour.isHardTurn
+                && currentNode.Neighbours.Contains(neighboursNeighbour)) {
+                shouldContinue = true;
+
+                break;
+              }
+            }
+
+            if (shouldContinue) {
+              continue;
+            }
+          }
 
           int tentativeGCost = currentNode.gCost + DistanceBetween(currentNode, neighbour);
 

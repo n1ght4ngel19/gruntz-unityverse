@@ -3,6 +3,7 @@ using System.Linq;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Utility;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GruntzUnityverse.Pathfinding {
   public class Node : MonoBehaviour {
@@ -23,7 +24,7 @@ namespace GruntzUnityverse.Pathfinding {
 
     public Node previousNode;
 
-    [Header("Flags")] public bool isColliding;
+    [Header("Flags")] public bool isInaccessible;
     public bool isBurning;
     public bool isDrowning;
     public bool isElectric;
@@ -37,6 +38,10 @@ namespace GruntzUnityverse.Pathfinding {
 
     public bool IsDiagonalTo(Node neighbour) {
       return neighbour.OwnLocation.x != OwnLocation.x && neighbour.OwnLocation.y != OwnLocation.y;
+    }
+
+    public bool IsOrthogonalTo(Node neighbour) {
+      return neighbour.OwnLocation.x == OwnLocation.x || neighbour.OwnLocation.y == OwnLocation.y;
     }
 
     public void SetNeighbours() {

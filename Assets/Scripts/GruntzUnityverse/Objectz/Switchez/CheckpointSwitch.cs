@@ -26,7 +26,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
       }
 
       if (LevelManager.Instance.AllGruntz.Any(
-        grunt => grunt.IsOnLocation(Location)
+        grunt => grunt.AtLocation(Location)
           && (grunt.HasTool(RequiredTool)
             || grunt.HasToy(RequiredToy)
             || RequiredTool == ToolName.Barehandz
