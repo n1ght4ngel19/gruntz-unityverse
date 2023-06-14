@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Animancer;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace GruntzUnityverse.Objectz {
   /// </summary>
   public class MapObject : MonoBehaviour {
     [field: SerializeField] public bool IsHardTurn { get; set; }
+    [field: SerializeField] public Area Area { get; set; }
     public Vector2Int Location { get; set; }
 
     // [CanBeNull] public Node OwnNode { get; set; }

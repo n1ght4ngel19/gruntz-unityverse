@@ -94,7 +94,7 @@ namespace GruntzUnityverse.Managerz {
 
       foreach (GameObject go in GameObject.FindGameObjectsWithTag("Inaccessible")) {
         go.SetActive(false);
-        Instance.SetBlockedAt(Vector2Int.FloorToInt(go.transform.position), true);
+        Instance.SetInaccessibleAt(Vector2Int.FloorToInt(go.transform.position), true);
       }
     }
 
@@ -128,7 +128,7 @@ namespace GruntzUnityverse.Managerz {
           if (MainLayer.HasTile(new Vector3Int(x, y, 0))) {
             // Todo: Replace 100 with NodeDepth constant
             if (MainLayer.GetTile(new Vector3Int(x, y, 0)).name.Contains("Colliding")) {
-              node.isColliding = true;
+              node.isInaccessible = true;
             }
           }
         }
@@ -188,16 +188,16 @@ namespace GruntzUnityverse.Managerz {
       }
     }
 
-    public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
-      NodeAt(gridLocation).isColliding = isBlocked;
+    public void SetInaccessibleAt(Vector2Int gridLocation, bool isInaccessible) {
+      NodeAt(gridLocation).isInaccessible = isInaccessible;
     }
 
     public void SetHardTurnAt(Vector2Int gridLocation, bool isHardTurn) {
       NodeAt(gridLocation).isHardTurn = isHardTurn;
     }
 
-    public bool IsBlockedAt(Vector2Int gridLocation) {
-      return nodes.First(node => node.OwnLocation.Equals(gridLocation)).isColliding;
+    public bool IsInaccessibleAt(Vector2Int gridLocation) {
+      return NodeAt(gridLocation).isInaccessible;
     }
 
     public Node NodeAt(Vector2Int gridLocation) {

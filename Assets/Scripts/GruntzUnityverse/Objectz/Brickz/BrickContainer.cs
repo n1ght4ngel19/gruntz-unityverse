@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Managerz;
+using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Brickz {
-  public class BrickContainer : MapObject {
+  public class BrickContainer : MapObject, IBreakable {
     private List<Brick> Brickz { get; set; }
+    public AnimationClip BreakAnimation { get; set; }
 
     protected override void Start() {
       base.Start();
@@ -19,7 +22,22 @@ namespace GruntzUnityverse.Objectz.Brickz {
       }
 
       LevelManager.Instance.BrickContainerz.Remove(this);
-      Destroy(gameObject);
+      LevelManager.Instance.SetInaccessibleAt(Location, false);
+      LevelManager.Instance.SetHardTurnAt(Location, false);
+      Destroy(gameObject, 1f);
+    }
+
+
+    public IEnumerator Break() {
+      // 1.5s is the delay after the beginning of the GauntletzGrunt's Rock breaking animation (when the Brick actually should break)
+      yield return new WaitForSeconds(1.5f);
+
+      Brick brickToBreak = Brickz.OrderBy(brick => brick.transform.position.z).First();
+
+      StartCoroutine(brickToBreak.Break());
+      Brickz.Remove(brickToBreak);
+
+      yield return null;
     }
   }
 }

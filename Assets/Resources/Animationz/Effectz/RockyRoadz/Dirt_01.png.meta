@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 86a467a069747dd49a6d866d28c1ff9e
+guid: 4c74c92d07ced0d418d576d64592ae3b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,322 +103,336 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DirtFlying_0
+      name: Dirt_01_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.4709019, y: 0.3777892}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02039d07b61e58146b96467f0894abe4
-      internalID: 2143451941
+      spriteID: 2fad07c6c8887ba43b49e2b02b8f681d
+      internalID: 510497195
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_1
+      name: Dirt_01_1
       rect:
         serializedVersion: 2
-        x: 56
+        x: 60
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.49272552, y: 0.39524785}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d0f0db590c1d7b747a922ab84b8eb1d0
-      internalID: -1652681218
+      spriteID: 3622dc3f1e4f0104facaaa093925093e
+      internalID: 1264167838
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_2
+      name: Dirt_01_2
       rect:
         serializedVersion: 2
-        x: 112
+        x: 120
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.4781764, y: 0.31959364}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 281084ae2d546ea4d9b44f2fd0b2927e
-      internalID: 1679601724
+      spriteID: 579e609b103850e4eb378578907166b6
+      internalID: -2132957761
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_3
+      name: Dirt_01_3
       rect:
         serializedVersion: 2
-        x: 168
+        x: 180
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.47938648, y: 0.2567595}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51bf55e221d1ddd43af01a6c8167bdcb
-      internalID: -1560831828
+      spriteID: 6d92f9f8b87452a4e8d5811e0744b77c
+      internalID: -704602589
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_4
+      name: Dirt_01_4
       rect:
         serializedVersion: 2
-        x: 224
+        x: 240
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.48969322, y: 0.20316416}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2c08cd41faeb0b64dbf09f4302342021
-      internalID: 361811836
+      spriteID: 7338bc75795e0b6468f912d114e40f33
+      internalID: -856324381
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_5
+      name: Dirt_01_5
       rect:
         serializedVersion: 2
-        x: 280
+        x: 300
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.4433125, y: 0.16605969}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 79aa872286b2a03458a553e4df864cb3
-      internalID: 887293703
+      spriteID: a6342715966f9434aba4626e138d00cc
+      internalID: 1952964736
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_6
+      name: Dirt_01_6
       rect:
         serializedVersion: 2
-        x: 336
+        x: 360
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.48454013, y: 0.14544609}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7eb579af781035f4ca13d809ebe1a01a
-      internalID: 1628750110
+      spriteID: 388bd97a16bb1ad40997326ffb2b2ccd
+      internalID: 835179833
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_7
+      name: Dirt_01_7
       rect:
         serializedVersion: 2
-        x: 392
+        x: 420
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.45272064, y: 0.13689819}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e8135f0a86885b04abf7df9827ebc49d
-      internalID: 932307774
+      spriteID: 14924321fce79ad4bbf22d651979f9a3
+      internalID: -673013444
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_8
+      name: Dirt_01_8
       rect:
         serializedVersion: 2
-        x: 448
+        x: 480
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.43853706, y: 0.09151046}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51ba43d24ebe62d4898521ea2d183b5c
-      internalID: 1054377863
+      spriteID: 1f0c89792053d3b4cabd1a6df27b05fe
+      internalID: -8947012
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_9
+      name: Dirt_01_9
       rect:
         serializedVersion: 2
-        x: 504
+        x: 540
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.45272064, y: 0.09151046}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c11c2e882bbfe0242a37bfa55f6fa3a7
-      internalID: 707332961
+      spriteID: 1e5e4f4508e9e3e4cb4cd7b166d2123f
+      internalID: 1851445719
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_10
+      name: Dirt_01_10
       rect:
         serializedVersion: 2
-        x: 560
+        x: 600
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.45272064, y: 0.068816595}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3474cf3a0c0694044b2e2bb70e6d1c1b
-      internalID: 1151292387
+      spriteID: c669fbd4452924348877ddf8d13d3dde
+      internalID: 505208733
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_11
+      name: Dirt_01_11
       rect:
         serializedVersion: 2
-        x: 616
+        x: 660
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.504728, y: 0.076381214}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d2e56830b95f654f90710b48f933575
-      internalID: -1678488786
+      spriteID: a62b5798cf9dbc149a94eb0c49430331
+      internalID: -375000841
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_12
+      name: Dirt_01_12
       rect:
         serializedVersion: 2
-        x: 672
+        x: 720
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.48581585, y: 0.061251976}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8a7857468fc2a246ae34bfc0361bad2
-      internalID: 1792574923
+      spriteID: 5e7ff70b82e91dd46a1f6d49f0f036e4
+      internalID: 1345835960
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_13
+      name: Dirt_01_13
       rect:
         serializedVersion: 2
-        x: 728
+        x: 780
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.47635978, y: 0.076381214}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f895d014de165f4985544da411458de
-      internalID: 132516027
+      spriteID: d898483b3bcc81a4ab291785a8c67def
+      internalID: -1979036606
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtFlying_14
+      name: Dirt_01_14
       rect:
         serializedVersion: 2
-        x: 784
+        x: 840
         y: 0
-        width: 56
-        height: 70
-      alignment: 9
-      pivot: {x: 0.47163174, y: 0.076381214}
+        width: 60
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45e242b67a05dc74988d12f64a97b0f1
-      internalID: -723757678
+      spriteID: 436f704dfd836534c805125448327c93
+      internalID: 1241507987
       vertices: []
       indices: 
       edges: []
@@ -429,24 +448,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      DirtFlying_1: -1652681218
-      DirtFlying_7: 932307774
-      DirtFlying_0: 2143451941
-      DirtFlying_6: 1628750110
-      DirtFlying_4: 361811836
-      DirtFlying_2: 1679601724
-      DirtFlying_13: 132516027
-      DirtFlying_11: -1678488786
-      DirtFlying_12: 1792574923
-      DirtFlying_10: 1151292387
-      DirtFlying_3: -1560831828
-      DirtFlying_5: 887293703
-      DirtFlying_9: 707332961
-      DirtFlying_8: 1054377863
-      DirtFlying_14: -723757678
-  spritePackingTag: 
+      Dirt_01_0: 510497195
+      Dirt_01_1: 1264167838
+      Dirt_01_10: 505208733
+      Dirt_01_11: -375000841
+      Dirt_01_12: 1345835960
+      Dirt_01_13: -1979036606
+      Dirt_01_14: 1241507987
+      Dirt_01_2: -2132957761
+      Dirt_01_3: -704602589
+      Dirt_01_4: -856324381
+      Dirt_01_5: 1952964736
+      Dirt_01_6: 835179833
+      Dirt_01_7: -673013444
+      Dirt_01_8: -8947012
+      Dirt_01_9: 1851445719
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

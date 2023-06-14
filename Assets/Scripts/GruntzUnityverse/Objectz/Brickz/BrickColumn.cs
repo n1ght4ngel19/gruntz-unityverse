@@ -9,7 +9,7 @@ namespace GruntzUnityverse.Objectz.Brickz {
       Location = Vector2Int.FloorToInt(transform.position);
 
       LevelManager.Instance.BrickColumnz.Add(this);
-      LevelManager.Instance.SetBlockedAt(Location, true);
+      LevelManager.Instance.SetInaccessibleAt(Location, true);
       LevelManager.Instance.NodeAt(Location).isHardTurn = true;
     }
   }
