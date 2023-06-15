@@ -13,17 +13,24 @@ namespace GruntzUnityverse.Objectz.Bridgez {
 
       IsDown = !IsDown;
       LevelManager.Instance.SetInaccessibleAt(Location, IsDown);
+      LevelManager.Instance.SetIsDrowningAt(Location, IsDown);
     }
 
     protected override void Start() {
       base.Start();
 
-      LevelManager.Instance.SetInaccessibleAt(Location, IsDown);
 
       // Todo: !!! Introduce tileset parameter/field/whatever where necessary !!!
       // Todo: Generalize
       DownAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Bridgez/RockyRoadz/Clipz/WaterBridge_Down");
       UpAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Bridgez/RockyRoadz/Clipz/WaterBridge_Up");
+    }
+
+    private void Update() {
+      LevelManager.Instance.SetInaccessibleAt(Location, IsDown);
+      LevelManager.Instance.SetIsDrowningAt(Location, IsDown);
+
+      enabled = false;
     }
   }
 }

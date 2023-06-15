@@ -9,7 +9,23 @@ namespace GruntzUnityverse.Objectz.Switchez {
     [field: SerializeField] public List<TwoWayArrow> Arrowz { get; set; }
 
 
+    protected override void Start() {
+      base.Start();
+
+      int transformIndex = transform.parent.GetSiblingIndex();
+
+      Arrowz = transform.parent.GetComponentsInChildren<TwoWayArrow>()
+        .Where(arrow => arrow.transform.parent.GetSiblingIndex() == transformIndex)
+        .ToList();
+    }
+
     private void Update() {
+      if (Arrowz.Count == 0) {
+        Debug.LogError(ErrorMessage.ArrowSwitchArrowzMissing + $"Switch: {transform.parent.name} -> {gameObject.name}");
+
+        enabled = false;
+      }
+
       if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.AtLocation(Location))) {
         if (HasBeenPressed) {
           return;
