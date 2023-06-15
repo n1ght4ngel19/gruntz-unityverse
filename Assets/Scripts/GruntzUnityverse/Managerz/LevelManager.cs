@@ -196,6 +196,10 @@ namespace GruntzUnityverse.Managerz {
       NodeAt(gridLocation).isHardTurn = isHardTurn;
     }
 
+    public void SetIsDrowningAt(Vector2Int gridLocation, bool isDrowning) {
+      NodeAt(gridLocation).isDrowning = isDrowning;
+    }
+
     public bool IsInaccessibleAt(Vector2Int gridLocation) {
       return NodeAt(gridLocation).isInaccessible;
     }
