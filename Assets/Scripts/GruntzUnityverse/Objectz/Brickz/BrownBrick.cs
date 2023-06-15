@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using GruntzUnityverse.Enumz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Brickz {
@@ -7,6 +8,8 @@ namespace GruntzUnityverse.Objectz.Brickz {
 
     protected override void Start() {
       base.Start();
+
+      BrickType = BrickType.Brown;
 
       BreakAnimation =
         Resources.Load<AnimationClip>($"Animationz/Effectz/Shared/Clipz/Effect_Shared_BrickBreak_{BrickType}");
