@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using GruntzUnityverse.Enumz;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GruntzUnityverse {
   public class SceneLoader : MonoBehaviour {
-    [field: SerializeField] public string AreaName { get; set; }
-    [field: SerializeField] public string SceneName { get; set; }
+    public Area area;
+    public SceneAsset scene;
+    public string sceneName;
 
     public void LoadScene() {
-      SceneManager.LoadScene(SceneName);
+      // SceneManager.LoadScene(Resources.Load<SceneAsset>($"Levelz/{area}/{sceneName}").name);
+      SceneManager.LoadScene(scene.name);
     }
   }
 }
