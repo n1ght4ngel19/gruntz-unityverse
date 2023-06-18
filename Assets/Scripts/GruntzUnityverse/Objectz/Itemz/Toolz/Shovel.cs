@@ -11,16 +11,16 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
     }
 
     public override IEnumerator Use(Grunt grunt) {
-      Vector2Int diffVector = grunt.TargetObject.Location - grunt.Navigator.OwnLocation;
+      Vector2Int diffVector = grunt.TargetObject.Location - grunt.navigator.OwnLocation;
       grunt.IsInterrupted = true;
 
-      grunt.Navigator.ChangeFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
+      grunt.navigator.ChangeFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
 
       AnimationClip clipToPlay =
         // Todo: Replace with right animation
-        grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.Navigator.FacingDirection}"];
+        grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.navigator.FacingDirection}"];
 
-      grunt.Animancer.Play(clipToPlay);
+      grunt.animancer.Play(clipToPlay);
 
       StartCoroutine(grunt.TargetObject.BeUsed(grunt));
 

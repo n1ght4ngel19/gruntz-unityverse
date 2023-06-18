@@ -23,10 +23,10 @@ namespace GruntzUnityverse.Objectz.Hazardz {
         isRunning = false;
       }
 
-      TargetGrunt = LevelManager.Instance.AllGruntz.FirstOrDefault(grunt => grunt.AtLocation(Location));
+      TargetGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(Location));
 
       if (TargetGrunt is not null && TargetGrunt.AtLocation(Location)) {
-        // foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.AtLocation(OwnLocation))) {
+        // foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtLocation(OwnLocation))) {
         //   TargetGrunt = grunt;
 
         // StartCoroutine(DamageGrunt(grunt));

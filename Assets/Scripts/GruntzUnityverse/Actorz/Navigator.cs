@@ -82,7 +82,7 @@ namespace GruntzUnityverse.Actorz {
         ChangeFacingDirection(MoveVector);
 
         if (IsMovementForced) {
-          Grunt deadGrunt = LevelManager.Instance.AllGruntz.FirstOrDefault(grunt => grunt.AtLocation(TargetLocation));
+          Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(TargetLocation));
 
           if (deadGrunt is not null) {
             StartCoroutine(deadGrunt.Death("Squash"));
@@ -100,7 +100,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public void SetTargetBeside(Node node) {
-      List<Node> freeNeighbours = node.Neighbours.FindAll(node1 => !node1.isInaccessible);
+      List<Node> freeNeighbours = node.Neighbours.FindAll(node1 => !node1.isBlocked);
 
       // No path possible
       if (freeNeighbours.Count == 0) {

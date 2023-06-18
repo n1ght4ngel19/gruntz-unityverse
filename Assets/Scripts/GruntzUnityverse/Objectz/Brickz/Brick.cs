@@ -11,7 +11,7 @@ namespace GruntzUnityverse.Objectz.Brickz {
     protected override void Start() {
       base.Start();
 
-      LevelManager.Instance.SetInaccessibleAt(Location, true);
+      LevelManager.Instance.SetBlockedAt(Location, true);
       LevelManager.Instance.SetHardTurnAt(Location, true);
     }
 

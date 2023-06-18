@@ -41,11 +41,11 @@ namespace GruntzUnityverse.Pathfinding {
             continue;
           }
 
-          if (neighbour.isInaccessible) {
+          if (neighbour.isBlocked) {
             continue;
           }
 
-          if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.AtLocation(neighbour.OwnLocation)) && !isForced) {
+          if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(neighbour.OwnLocation)) && !isForced) {
             continue;
           }
 

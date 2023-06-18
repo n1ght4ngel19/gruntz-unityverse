@@ -11,7 +11,7 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     protected override void Start() {
       base.Start();
 
-      LevelManager.Instance.SetInaccessibleAt(Location, !IsDown);
+      LevelManager.Instance.SetBlockedAt(Location, !IsDown);
 
       DownAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Pyramidz/Clipz/{GetType().Name}_Down");
       UpAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Pyramidz/Clipz/{GetType().Name}_Up");
@@ -22,7 +22,7 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
 
       IsDown = !IsDown;
       IsHardTurn = !IsDown;
-      LevelManager.Instance.SetInaccessibleAt(Location, !IsDown);
+      LevelManager.Instance.SetBlockedAt(Location, !IsDown);
       LevelManager.Instance.SetHardTurnAt(Location, IsHardTurn);
     }
   }

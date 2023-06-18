@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
@@ -9,7 +10,6 @@ using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Vector3 = UnityEngine.Vector3;
 
@@ -22,24 +22,11 @@ namespace GruntzUnityverse.Managerz {
     }
 
     // ----- Layerz -----
-    [field: Header("Layerz")]
-    [field: SerializeField]
-    public Tilemap MainLayer { get; set; }
-
-    // [field: SerializeField] public Tilemap TransitionLayer { get; set; }
-    // [field: SerializeField] public Tilemap LakeLayer { get; set; }
-    // [field: SerializeField] public Tilemap DeathLayer { get; set; }
-    // [field: SerializeField] public Tilemap VoidLayer { get; set; }
-    [field: SerializeField] public Tilemap BackgroundLayer { get; set; }
-
-    // Only for testing
-    [field: SerializeField] public TileBase TileAsset { get; set; }
+    [field: Header("Layerz")] public Tilemap mainLayer;
+    public Tilemap backgroundLayer;
 
     // ----- Objectz -----
-    [field: Header("Objectz")]
-    [field: SerializeField]
-    public List<Grunt> AllGruntz { get; set; }
-
+    [field: Header("Objectz")] public List<Grunt> allGruntz;
     [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<BrickContainer> BrickContainerz { get; set; }
     [field: SerializeField] public List<BrickFoundation> BrickFoundationz { get; set; }
@@ -94,18 +81,18 @@ namespace GruntzUnityverse.Managerz {
 
       foreach (GameObject go in GameObject.FindGameObjectsWithTag("Inaccessible")) {
         go.SetActive(false);
-        Instance.SetInaccessibleAt(Vector2Int.FloorToInt(go.transform.position), true);
+        Instance.SetBlockedAt(Vector2Int.FloorToInt(go.transform.position), true);
       }
     }
 
     private void AssignLayerz() {
-      MainLayer = GameObject.Find("MainLayer").GetComponent<Tilemap>();
-      MainLayer.CompressBounds();
+      mainLayer = GameObject.Find("MainLayer").GetComponent<Tilemap>();
+      mainLayer.CompressBounds();
 
-      BackgroundLayer = GameObject.Find("BackgroundLayer").GetComponent<Tilemap>();
-      BackgroundLayer.CompressBounds();
+      backgroundLayer = GameObject.Find("BackgroundLayer").GetComponent<Tilemap>();
+      backgroundLayer.CompressBounds();
 
-      BoundsInt mainCellBounds = MainLayer.cellBounds;
+      BoundsInt mainCellBounds = mainLayer.cellBounds;
       MinMapPoint = new Vector2Int(mainCellBounds.min.x, mainCellBounds.min.y);
       MaxMapPoint = new Vector2Int(mainCellBounds.max.x, mainCellBounds.max.y);
 
@@ -125,11 +112,30 @@ namespace GruntzUnityverse.Managerz {
           nodeLocations.Add(node.OwnLocation);
 
           // Todo: What about Toobz?
-          if (MainLayer.HasTile(new Vector3Int(x, y, 0))) {
+          if (mainLayer.HasTile(new Vector3Int(x, y, 0))) {
+            TileBase currentTile = mainLayer.GetTile(new Vector3Int(x, y, 0));
+
+
             // Todo: Replace 100 with NodeDepth constant
-            if (MainLayer.GetTile(new Vector3Int(x, y, 0)).name.Contains("Colliding")) {
-              node.isInaccessible = true;
+            if (currentTile.name.Contains("Collision")) {
+              node.isBlocked = true;
             }
+
+            if (currentTile.name.Contains("Lake")) {
+              node.isLake = true;
+            }
+
+            if (currentTile.name.Contains("Death")) {
+              node.isDeath = true;
+            }
+            // foreach (var tile in walkable.GetTilesBlock(walkable.cellBounds)) {
+            //   if (tile.name == currentTile.name) {
+            //     currentTile = tile;
+            //     Debug.Log("Yeeeah, a match!");
+            //
+            //     break;
+            //   }
+            // }
           }
         }
       }
@@ -180,7 +186,7 @@ namespace GruntzUnityverse.Managerz {
 
     private void CollectGruntz() {
       foreach (Grunt grunt in FindObjectsOfType<Grunt>()) {
-        AllGruntz.Add(grunt);
+        allGruntz.Add(grunt);
       }
 
       foreach (Grunt grunt in FindObjectsOfType<Grunt>().Where(grunt => grunt.Owner.Equals(Owner.Self))) {
@@ -188,8 +194,8 @@ namespace GruntzUnityverse.Managerz {
       }
     }
 
-    public void SetInaccessibleAt(Vector2Int gridLocation, bool isInaccessible) {
-      NodeAt(gridLocation).isInaccessible = isInaccessible;
+    public void SetBlockedAt(Vector2Int gridLocation, bool isInaccessible) {
+      NodeAt(gridLocation).isBlocked = isInaccessible;
     }
 
     public void SetHardTurnAt(Vector2Int gridLocation, bool isHardTurn) {
@@ -197,11 +203,11 @@ namespace GruntzUnityverse.Managerz {
     }
 
     public void SetIsDrowningAt(Vector2Int gridLocation, bool isDrowning) {
-      NodeAt(gridLocation).isDrowning = isDrowning;
+      NodeAt(gridLocation).isLake = isDrowning;
     }
 
-    public bool IsInaccessibleAt(Vector2Int gridLocation) {
-      return NodeAt(gridLocation).isInaccessible;
+    public bool IsBlockedAt(Vector2Int gridLocation) {
+      return NodeAt(gridLocation).isBlocked;
     }
 
     public Node NodeAt(Vector2Int gridLocation) {

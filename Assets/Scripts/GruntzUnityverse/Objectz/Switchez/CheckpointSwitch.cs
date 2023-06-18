@@ -19,13 +19,14 @@ namespace GruntzUnityverse.Objectz.Switchez {
     }
 
     private void Update() {
+      // Todo: Replace with proper error handling like with Arrow Switchez
       if (Pyramidz.Count.Equals(0)) {
         Debug.LogError("There is no Pyramid assigned to this Switch, this way the Checkpoint won't work properly!");
 
         enabled = false;
       }
 
-      if (LevelManager.Instance.AllGruntz.Any(
+      if (LevelManager.Instance.allGruntz.Any(
         grunt => grunt.AtLocation(Location)
           && (grunt.HasTool(RequiredTool)
             || grunt.HasToy(RequiredToy)

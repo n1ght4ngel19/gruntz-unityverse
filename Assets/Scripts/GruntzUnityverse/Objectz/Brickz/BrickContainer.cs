@@ -22,7 +22,7 @@ namespace GruntzUnityverse.Objectz.Brickz {
       }
 
       LevelManager.Instance.BrickContainerz.Remove(this);
-      LevelManager.Instance.SetInaccessibleAt(Location, false);
+      LevelManager.Instance.SetBlockedAt(Location, false);
       LevelManager.Instance.SetHardTurnAt(Location, false);
       Destroy(gameObject, 1f);
     }

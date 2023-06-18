@@ -17,11 +17,11 @@ namespace GruntzUnityverse.Objectz.MapItemz {
     }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt.AtLocation(Location))) {
+      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtLocation(Location))) {
         SetEnabled(false);
 
         StatzManager.Instance.acquiredToolz++;
-        grunt.Equipment.Tool = PickupTool;
+        grunt.equipment.Tool = PickupTool;
 
         StartCoroutine(grunt.PickupItem("Tool", PickupTool.GetType().Name));
 

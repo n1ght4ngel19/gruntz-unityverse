@@ -11,6 +11,7 @@ using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GruntzUnityverse.Actorz {
   /// <summary>
@@ -21,27 +22,28 @@ namespace GruntzUnityverse.Actorz {
 
     // Todo: Stamina, ToyTime, PowerupTime, MoveSpeed
     [field: SerializeField] public int Health { get; set; }
-    private Animator Animator { get; set; }
-    public AnimancerComponent Animancer { get; set; }
-    public Navigator Navigator { get; set; }
-    public Equipment Equipment { get; set; }
+    private Animator _animator;
+    [HideInInspector] public AnimancerComponent animancer;
+    [HideInInspector] public Navigator navigator;
+    [HideInInspector] public Equipment equipment;
     public HealthBar HealthBar { get; set; }
     public GruntAnimationPack AnimationPack { get; set; }
     [CanBeNull] public MapObject TargetObject { get; set; }
-    public bool IsSelected { get; set; }
+    private bool IsSelected { get; set; }
     public bool IsBehind { get; set; }
     public bool IsInterrupted { get; set; }
     public bool IsDying { get; set; }
     public float InitialZ { get; set; }
 
     private void Awake() {
-      Animator = gameObject.AddComponent<Animator>();
-      Animancer = gameObject.AddComponent<AnimancerComponent>();
-      Animancer.Animator = Animator;
-      Navigator = gameObject.GetComponent<Navigator>();
-      Equipment = gameObject.AddComponent<Equipment>();
-      Equipment.Tool = GetComponents<Tool>().FirstOrDefault();
-      Equipment.Toy = GetComponents<Toy>().FirstOrDefault();
+      gameObject.AddComponent<BoxCollider2D>();
+      _animator = gameObject.AddComponent<Animator>();
+      animancer = gameObject.AddComponent<AnimancerComponent>();
+      animancer.Animator = _animator;
+      navigator = gameObject.AddComponent<Navigator>();
+      equipment = gameObject.AddComponent<Equipment>();
+      equipment.Tool = GetComponents<Tool>().FirstOrDefault();
+      equipment.Toy = GetComponents<Toy>().FirstOrDefault();
       HealthBar = GetComponentInChildren<HealthBar>();
       InitialZ = transform.position.z;
     }
@@ -51,7 +53,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.AllGruntz.Where(grunt => grunt != this)) {
+      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt != this)) {
         Vector3 gruntPosition = grunt.transform.position;
 
         // Continue if not in collision zone
@@ -85,7 +87,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       if (AnimationPack is null) {
-        SetAnimPack(Equipment.Tool.Name);
+        SetAnimPack(equipment.Tool.Name);
       }
 
       HealthBar.Renderer.enabled = Health != 20;
@@ -94,37 +96,37 @@ namespace GruntzUnityverse.Actorz {
 
       bool haveActionCommand = IsSelected
         && Input.GetMouseButtonDown(0)
-        && !LevelManager.Instance.AllGruntz.Any(
-          grunt => SelectorCircle.Instance.Location.Equals(grunt.Navigator.OwnLocation)
+        && !LevelManager.Instance.allGruntz.Any(
+          grunt => SelectorCircle.Instance.Location.Equals(grunt.navigator.OwnLocation)
         );
 
       // Set target to previously saved target, if there is one
-      if (!Navigator.IsMoving && Navigator.HaveSavedTarget) {
-        Navigator.TargetLocation = Navigator.SavedTargetLocation;
-        Navigator.HaveSavedTarget = false;
+      if (!navigator.IsMoving && navigator.HaveSavedTarget) {
+        navigator.TargetLocation = navigator.SavedTargetLocation;
+        navigator.HaveSavedTarget = false;
 
         return;
       }
 
       // Save new target for Grunt when it gets a command while moving to another tile
-      if (haveMoveCommand && Navigator.IsMoving) {
-        Navigator.SavedTargetLocation = SelectorCircle.Instance.Location;
-        Navigator.HaveSavedTarget = true;
+      if (haveMoveCommand && navigator.IsMoving) {
+        navigator.SavedTargetLocation = SelectorCircle.Instance.Location;
+        navigator.HaveSavedTarget = true;
 
         return;
       }
 
       // Handling the case when Grunt has a target already
       if (TargetObject is not null && !IsInterrupted) {
-        if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
-          StartCoroutine(Equipment.Tool.Use(this));
+        if (navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
+          StartCoroutine(equipment.Tool.Use(this));
         }
       }
 
       // Handling order to act
       if (haveActionCommand) {
-        if (SelectorCircle.Instance.Location.Equals(Navigator.OwnLocation)) {
-          // Todo: Bring up Equipment menu
+        if (SelectorCircle.Instance.Location.Equals(navigator.OwnLocation)) {
+          // Todo: Bring up equipment menu
         }
 
         // Todo: Generalize
@@ -141,11 +143,11 @@ namespace GruntzUnityverse.Actorz {
           }
 
           if (target is not null) {
-            Navigator.SetTargetBeside(target.OwnNode);
+            navigator.SetTargetBeside(target.OwnNode);
             TargetObject = target;
 
-            if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
-              StartCoroutine(Equipment.Tool.Use(this));
+            if (navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
+              StartCoroutine(equipment.Tool.Use(this));
             }
           }
         }
@@ -158,12 +160,12 @@ namespace GruntzUnityverse.Actorz {
           );
 
           if (targetHole is not null) {
-            Navigator.SetTargetBeside(targetHole.OwnNode);
+            navigator.SetTargetBeside(targetHole.OwnNode);
             TargetObject = targetHole;
           }
 
-          if (Navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
-            StartCoroutine(Equipment.Tool.Use(this));
+          if (navigator.OwnNode.Neighbours.Contains(TargetObject.OwnNode)) {
+            StartCoroutine(equipment.Tool.Use(this));
           }
         }
       }
@@ -171,34 +173,34 @@ namespace GruntzUnityverse.Actorz {
       // Handling order to move
       if (haveMoveCommand && !AtLocation(SelectorCircle.Instance.Location)) {
         // Check neighbours of Node for possible destinations if Node is blocked
-        if (SelectorCircle.Instance.OwnNode.isInaccessible
-          || LevelManager.Instance.AllGruntz.Any(
-            grunt => grunt.Navigator.OwnNode.Equals(SelectorCircle.Instance.OwnNode)
+        if (SelectorCircle.Instance.OwnNode.isBlocked
+          || LevelManager.Instance.allGruntz.Any(
+            grunt => grunt.navigator.OwnNode.Equals(SelectorCircle.Instance.OwnNode)
           )) {
-          Navigator.SetTargetBeside(SelectorCircle.Instance.OwnNode);
+          navigator.SetTargetBeside(SelectorCircle.Instance.OwnNode);
         } else {
           // If Node is free
-          Navigator.TargetLocation = SelectorCircle.Instance.OwnNode.OwnLocation;
+          navigator.TargetLocation = SelectorCircle.Instance.OwnNode.OwnLocation;
         }
       }
 
       // Handling the case when Grunt is on a blocked Node
-      Node node = Navigator.OwnNode;
+      Node node = navigator.OwnNode;
 
       if (node.isBurning) {
         StartCoroutine(Death("Burn"));
       }
 
-      if (node.isDrowning) {
+      if (node.isLake) {
         StartCoroutine(Death("Sink"));
       }
 
-      if (node.isInaccessible && !node.isBurning && !node.isDrowning) {
+      if (node.isBlocked && !node.isBurning && !node.isLake) {
         StartCoroutine(Death("Squash"));
       }
 
       // Todo: Move to Hole script!!!
-      if (LevelManager.Instance.Holez.Any(hole => hole.Location.Equals(Navigator.OwnLocation) && hole.IsOpen)) {
+      if (LevelManager.Instance.Holez.Any(hole => hole.Location.Equals(navigator.OwnLocation) && hole.IsOpen)) {
         StartCoroutine(Death("Hole"));
       }
 
@@ -208,7 +210,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public bool AtLocation(Vector2Int location) {
-      return Navigator.OwnLocation.Equals(location);
+      return navigator.OwnLocation.Equals(location);
     }
 
     /// <summary>
@@ -217,7 +219,7 @@ namespace GruntzUnityverse.Actorz {
     /// <param name="tool">The Tool to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
     public bool HasTool(ToolName tool) {
-      return Equipment.Tool is not null && Equipment.Tool.Name.Equals(tool);
+      return equipment.Tool is not null && equipment.Tool.Name.Equals(tool);
     }
 
     /// <summary>
@@ -226,7 +228,7 @@ namespace GruntzUnityverse.Actorz {
     /// <param name="toy">The Toy to check</param>
     /// <returns>True or false according to whether the Grunt has the Item.</returns>
     public bool HasToy(ToyName toy) {
-      return Equipment.Toy is not null && Equipment.Toy.Name.Equals(toy);
+      return equipment.Toy is not null && equipment.Toy.Name.Equals(toy);
     }
 
     /// <summary>
@@ -234,26 +236,26 @@ namespace GruntzUnityverse.Actorz {
     /// and staying put playing while the idle animation.
     /// </summary>
     private void HandleMovement() {
-      if (AtLocation(Navigator.TargetLocation)) {
-        Animancer.Play(AnimationPack.Idle[$"{Equipment.Tool.Name}Grunt_Idle_{Navigator.FacingDirection}_01"]);
+      if (AtLocation(navigator.TargetLocation)) {
+        animancer.Play(AnimationPack.Idle[$"{equipment.Tool.Name}Grunt_Idle_{navigator.FacingDirection}_01"]);
       } else {
-        Animancer.Play(AnimationPack.Walk[$"{Equipment.Tool.Name}Grunt_Walk_{Navigator.FacingDirection}"]);
-        Navigator.MoveTowardsTarget();
+        animancer.Play(AnimationPack.Walk[$"{equipment.Tool.Name}Grunt_Walk_{navigator.FacingDirection}"]);
+        navigator.MoveTowardsTarget();
       }
     }
 
     public IEnumerator PickupItem(string category, string itemName) {
       switch (category) {
         case "Misc":
-          Animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemName]);
+          animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemName]);
 
           break;
         case "Tool":
-          Animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemName]);
+          animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemName]);
 
           break;
         case "Toy":
-          Animancer.Play(AnimationManager.Instance.PickupPack.Toy[itemName]);
+          animancer.Play(AnimationManager.Instance.PickupPack.Toy[itemName]);
 
           break;
       }
@@ -279,17 +281,17 @@ namespace GruntzUnityverse.Actorz {
       HealthBar.Renderer.enabled = false;
       // Todo: Stair attributebars, and move into separate method
       enabled = false;
-      Navigator.enabled = false;
+      navigator.enabled = false;
       IsInterrupted = true;
 
       AnimationClip deathClip = AnimationManager.Instance.DeathPack[deathName];
 
-      Animancer.Play(deathClip);
+      animancer.Play(deathClip);
 
       yield return new WaitForSeconds(deathClip.length);
 
-      Navigator.OwnLocation = Vector2IntExtra.Max();
-      LevelManager.Instance.AllGruntz.Remove(this);
+      navigator.OwnLocation = Vector2IntExtra.Max();
+      LevelManager.Instance.allGruntz.Remove(this);
       Destroy(gameObject, deathClip.length);
     }
 
@@ -297,16 +299,16 @@ namespace GruntzUnityverse.Actorz {
       HealthBar.Renderer.enabled = false;
       // Todo: Stair attributebars, and move into separate method
       enabled = false;
-      Navigator.enabled = false;
+      navigator.enabled = false;
       IsInterrupted = true;
-      AnimationClip deathClip = AnimationPack.Death[$"{Equipment.Tool.GetType().Name}Grunt_Death_01"];
+      AnimationClip deathClip = AnimationPack.Death[$"{equipment.Tool.GetType().Name}Grunt_Death_01"];
 
-      Animancer.Play(deathClip);
+      animancer.Play(deathClip);
 
       yield return new WaitForSeconds(deathClip.length);
 
-      Navigator.OwnLocation = Vector2IntExtra.Max();
-      LevelManager.Instance.AllGruntz.Remove(this);
+      navigator.OwnLocation = Vector2IntExtra.Max();
+      LevelManager.Instance.allGruntz.Remove(this);
       Destroy(gameObject, deathClip.length);
     }
 

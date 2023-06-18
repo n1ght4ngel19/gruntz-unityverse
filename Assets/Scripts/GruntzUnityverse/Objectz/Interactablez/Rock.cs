@@ -9,7 +9,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
     protected override void Start() {
       base.Start();
 
-      LevelManager.Instance.SetInaccessibleAt(Location, true);
+      LevelManager.Instance.SetBlockedAt(Location, true);
       BreakAnimation = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Rockz/Clipz/RockBreak_{Area}");
     }
 
@@ -23,7 +23,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
       yield return new WaitForSeconds(1f);
 
       LevelManager.Instance.Rockz.Remove(this);
-      LevelManager.Instance.SetInaccessibleAt(Location, false);
+      LevelManager.Instance.SetBlockedAt(Location, false);
       LevelManager.Instance.SetHardTurnAt(Location, false);
       Destroy(gameObject);
     }

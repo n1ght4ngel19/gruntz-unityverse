@@ -10,7 +10,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 
     public override IEnumerator BeUsed(Grunt grunt) {
       // Todo: Why does this not work right?
-      // Animancer.Play(Resources.Load<AnimationClip>("Animationz/MapObjectz/Rockz/Clipz/RockBreak_RockyRoadz"));
+      // animancer.Play(Resources.Load<AnimationClip>("Animationz/MapObjectz/Rockz/Clipz/RockBreak_RockyRoadz"));
 
       yield return new WaitForSeconds(1f);
 

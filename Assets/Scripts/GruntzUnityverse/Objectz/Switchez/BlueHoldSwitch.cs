@@ -5,17 +5,17 @@ using GruntzUnityverse.Objectz.Bridgez;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class BlueHoldSwitch : ObjectSwitch {
-    private List<SwitchableBridge> Bridgez { get; set; }
+    private List<Bridge> Bridgez { get; set; }
 
 
     protected override void Start() {
       base.Start();
 
-      Bridgez = transform.parent.GetComponentsInChildren<SwitchableBridge>().ToList();
+      Bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
     }
 
     private void Update() {
-      if (LevelManager.Instance.AllGruntz.Any(grunt => grunt.AtLocation(Location))) {
+      if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(Location))) {
         if (HasBeenPressed) {
           return;
         }
@@ -29,8 +29,8 @@ namespace GruntzUnityverse.Objectz.Switchez {
     }
 
     private void ToggleBridgez() {
-      foreach (SwitchableBridge bridge in Bridgez) {
-        bridge.ToggleBridge();
+      foreach (Bridge bridge in Bridgez) {
+        bridge.Toggle();
       }
     }
   }

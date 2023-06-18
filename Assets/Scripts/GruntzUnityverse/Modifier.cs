@@ -16,9 +16,8 @@ namespace GruntzUnityverse {
     private void Start() {
       gameObject.GetComponent<SpriteRenderer>().enabled = false;
       LevelManager.Instance.NodeAt(OwnLocation).isBurning = IsBurning;
-      LevelManager.Instance.NodeAt(OwnLocation).isDrowning = IsDrowning;
-      LevelManager.Instance.NodeAt(OwnLocation).isElectric = IsElectric;
-      LevelManager.Instance.NodeAt(OwnLocation).isInaccessible = IsInaccessible;
+      LevelManager.Instance.NodeAt(OwnLocation).isLake = IsDrowning;
+      LevelManager.Instance.NodeAt(OwnLocation).isBlocked = IsInaccessible;
 
       Destroy(gameObject, 2f);
     }
