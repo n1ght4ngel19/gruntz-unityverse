@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6999952525336863592}
-  - component: {fileID: 1947395703587682548}
   - component: {fileID: 1934257392109653503}
   m_Layer: 0
-  m_Name: _Modifier
+  m_Name: Blocked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,22 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1947395703587682548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3863937857550272719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e22b6c9bb1649b48de48aafb69c07d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <IsBurning>k__BackingField: 0
-  <IsDrowning>k__BackingField: 0
-  <IsInaccessible>k__BackingField: 0
-  <IsElectric>k__BackingField: 0
 --- !u!212 &1934257392109653503
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -90,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 99d3303d4a7f8a94f9b919f1416b142a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,6 +81,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
