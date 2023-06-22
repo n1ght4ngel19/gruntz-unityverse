@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
@@ -15,10 +14,10 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GruntzUnityverse.Managerz {
   public class LevelManager : MonoBehaviour {
-    private static LevelManager _instance;
+    private static LevelManager _Instance;
 
     public static LevelManager Instance {
-      get => _instance;
+      get => _Instance;
     }
 
     // ----- Layerz -----
@@ -57,10 +56,10 @@ namespace GruntzUnityverse.Managerz {
 
 
     private void Awake() {
-      if (_instance != null && _instance != this) {
+      if (_Instance != null && _Instance != this) {
         Destroy(gameObject);
       } else {
-        _instance = this;
+        _Instance = this;
       }
 
       Application.targetFrameRate = 60;
@@ -115,27 +114,18 @@ namespace GruntzUnityverse.Managerz {
           if (mainLayer.HasTile(new Vector3Int(x, y, 0))) {
             TileBase currentTile = mainLayer.GetTile(new Vector3Int(x, y, 0));
 
-
             // Todo: Replace 100 with NodeDepth constant
             if (currentTile.name.Contains("Collision")) {
               node.isBlocked = true;
             }
 
-            if (currentTile.name.Contains("Lake")) {
-              node.isLake = true;
+            if (currentTile.name.Contains("Water")) {
+              node.isWater = true;
             }
 
-            if (currentTile.name.Contains("Death")) {
-              node.isDeath = true;
+            if (currentTile.name.Contains("Burn")) {
+              node.isBurn = true;
             }
-            // foreach (var tile in walkable.GetTilesBlock(walkable.cellBounds)) {
-            //   if (tile.name == currentTile.name) {
-            //     currentTile = tile;
-            //     Debug.Log("Yeeeah, a match!");
-            //
-            //     break;
-            //   }
-            // }
           }
         }
       }
@@ -194,16 +184,16 @@ namespace GruntzUnityverse.Managerz {
       }
     }
 
-    public void SetBlockedAt(Vector2Int gridLocation, bool isInaccessible) {
-      NodeAt(gridLocation).isBlocked = isInaccessible;
+    public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
+      NodeAt(gridLocation).isBlocked = isBlocked;
     }
 
     public void SetHardTurnAt(Vector2Int gridLocation, bool isHardTurn) {
       NodeAt(gridLocation).isHardTurn = isHardTurn;
     }
 
-    public void SetIsDrowningAt(Vector2Int gridLocation, bool isDrowning) {
-      NodeAt(gridLocation).isLake = isDrowning;
+    public void SetIsWaterAt(Vector2Int gridLocation, bool isWater) {
+      NodeAt(gridLocation).isWater = isWater;
     }
 
     public bool IsBlockedAt(Vector2Int gridLocation) {

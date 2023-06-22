@@ -2,23 +2,19 @@
 
 namespace GruntzUnityverse.Managerz {
   public class StatzManager : MonoBehaviour {
-    #region Singleton Stuff
-
-    private static StatzManager _instance;
+    private static StatzManager _Instance;
 
     public static StatzManager Instance {
-      get => _instance;
+      get => _Instance;
     }
 
-    private void Awake() {
-      if (_instance != null && _instance != this) {
+    private void Start() {
+      if (_Instance != null && _Instance != this) {
         Destroy(gameObject);
       } else {
-        _instance = this;
+        _Instance = this;
       }
     }
-
-    #endregion
 
 
     public int hourz;

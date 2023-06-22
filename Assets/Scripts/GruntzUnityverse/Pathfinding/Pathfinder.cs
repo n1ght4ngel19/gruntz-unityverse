@@ -45,6 +45,10 @@ namespace GruntzUnityverse.Pathfinding {
             continue;
           }
 
+          if (neighbour.isWater) {
+            continue;
+          }
+
           if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(neighbour.OwnLocation)) && !isForced) {
             continue;
           }

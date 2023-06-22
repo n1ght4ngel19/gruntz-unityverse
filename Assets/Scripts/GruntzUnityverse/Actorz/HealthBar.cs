@@ -7,7 +7,7 @@ namespace GruntzUnityverse.Actorz {
     public SpriteRenderer Renderer { get; set; }
     public List<Sprite> Frames { get; set; }
 
-    private void Awake() {
+    private void Start() {
       Renderer = GetComponent<SpriteRenderer>();
       Frames = Resources.LoadAll<Sprite>("Animationz/AttributeBarz/HealthBar").ToList();
     }

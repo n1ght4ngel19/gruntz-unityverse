@@ -35,7 +35,8 @@ namespace GruntzUnityverse.Actorz {
     public bool IsDying { get; set; }
     public float InitialZ { get; set; }
 
-    private void Awake() {
+
+    private void Start() {
       gameObject.AddComponent<BoxCollider2D>();
       _animator = gameObject.AddComponent<Animator>();
       animancer = gameObject.AddComponent<AnimancerComponent>();
@@ -46,9 +47,6 @@ namespace GruntzUnityverse.Actorz {
       equipment.Toy = GetComponents<Toy>().FirstOrDefault();
       HealthBar = GetComponentInChildren<HealthBar>();
       InitialZ = transform.position.z;
-    }
-
-    private void Start() {
       Health = 20;
     }
 
@@ -187,15 +185,15 @@ namespace GruntzUnityverse.Actorz {
       // Handling the case when Grunt is on a blocked Node
       Node node = navigator.OwnNode;
 
-      if (node.isBurning) {
+      if (node.isBurn) {
         StartCoroutine(Death("Burn"));
       }
 
-      if (node.isLake) {
+      if (node.isWater) {
         StartCoroutine(Death("Sink"));
       }
 
-      if (node.isBlocked && !node.isBurning && !node.isLake) {
+      if (node.isBlocked && !node.isBurn && !node.isWater) {
         StartCoroutine(Death("Squash"));
       }
 
@@ -288,6 +286,7 @@ namespace GruntzUnityverse.Actorz {
 
       animancer.Play(deathClip);
 
+      // Wait the time it takes to play the animation (based on the animation)
       yield return new WaitForSeconds(deathClip.length);
 
       navigator.OwnLocation = Vector2IntExtra.Max();

@@ -3,7 +3,6 @@ using System.Linq;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Utility;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace GruntzUnityverse.Pathfinding {
   public class Node : MonoBehaviour {
@@ -25,9 +24,8 @@ namespace GruntzUnityverse.Pathfinding {
     public Node previousNode;
 
     [Header("Flags")] public bool isBlocked;
-    public bool isBurning;
-    public bool isLake;
-    public bool isDeath;
+    public bool isWater;
+    public bool isBurn;
     public bool isHardTurn;
     public Vector2Int OwnLocation { get; set; }
     public List<Node> Neighbours { get; set; }

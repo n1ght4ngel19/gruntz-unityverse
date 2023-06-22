@@ -1,5 +1,4 @@
-﻿using System;
-using GruntzUnityverse.Managerz;
+﻿using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Bridgez {
@@ -38,7 +37,7 @@ namespace GruntzUnityverse.Objectz.Bridgez {
 
       isDown = !isDown;
       LevelManager.Instance.SetBlockedAt(Location, isDown);
-      LevelManager.Instance.SetIsDrowningAt(Location, isDown);
+      LevelManager.Instance.SetIsWaterAt(Location, isDown);
     }
   }
 }

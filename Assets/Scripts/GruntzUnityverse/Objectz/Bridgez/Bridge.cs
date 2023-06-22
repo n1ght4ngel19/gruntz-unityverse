@@ -13,7 +13,7 @@ namespace GruntzUnityverse.Objectz.Bridgez {
 
       isDown = !isDown;
       LevelManager.Instance.SetBlockedAt(Location, isDown);
-      LevelManager.Instance.SetIsDrowningAt(Location, isDown);
+      LevelManager.Instance.SetIsWaterAt(Location, isDown);
     }
 
     protected override void Start() {
@@ -26,7 +26,7 @@ namespace GruntzUnityverse.Objectz.Bridgez {
 
     private void Update() {
       LevelManager.Instance.SetBlockedAt(Location, isDown);
-      LevelManager.Instance.SetIsDrowningAt(Location, isDown);
+      LevelManager.Instance.SetIsWaterAt(Location, isDown);
 
       enabled = false;
     }

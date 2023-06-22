@@ -3,21 +3,20 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
   public class SelectorCircle : MapObject {
-    private static SelectorCircle _instance;
+    private static SelectorCircle _Instance;
 
     public static SelectorCircle Instance {
-      get => _instance;
+      get => _Instance;
     }
 
-
-    protected override void Awake() {
-      if (_instance != null && _instance != this) {
+    protected override void Start() {
+      if (_Instance != null && _Instance != this) {
         Destroy(gameObject);
       } else {
-        _instance = this;
+        _Instance = this;
       }
 
-      base.Awake();
+      base.Start();
     }
 
     private void Update() {

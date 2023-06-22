@@ -24,16 +24,13 @@ namespace GruntzUnityverse.Objectz {
     protected AnimancerComponent Animancer { get; private set; }
 
 
-    protected virtual void Awake() {
+    protected virtual void Start() {
       Location = Vector2Int.FloorToInt(transform.position);
       OwnTransform = gameObject.GetComponent<Transform>();
       Renderer = gameObject.GetComponent<SpriteRenderer>();
       MainCamera = Camera.main;
       Animator = gameObject.AddComponent<Animator>();
       Animancer = gameObject.AddComponent<AnimancerComponent>();
-    }
-
-    protected virtual void Start() {
       OwnNode = LevelManager.Instance.NodeAt(Location);
       LevelManager.Instance.NodeAt(Location).isHardTurn = IsHardTurn;
     }
