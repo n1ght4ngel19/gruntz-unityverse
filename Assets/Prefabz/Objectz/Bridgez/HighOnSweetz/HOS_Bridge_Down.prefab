@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 968907784926215263}
-  - component: {fileID: -5101252734048928183}
+  - component: {fileID: -4491323599272791314}
   - component: {fileID: 6682782367352191381}
   m_Layer: 0
-  m_Name: RR_Bridge_Up
+  m_Name: HOS_Bridge_Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5101252734048928183
+--- !u!114 &-4491323599272791314
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsHardTurn>k__BackingField: 0
-  <Area>k__BackingField: 1
-  <IsDown>k__BackingField: 0
+  <Area>k__BackingField: 3
+  isDown: 1
+  isDeathBridge: 0
 --- !u!212 &6682782367352191381
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -89,7 +90,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1107429986, guid: 540d152e0c283ff4c841ceee5ffd32e2, type: 3}
+  m_Sprite: {fileID: 127624023, guid: 03eb33837b4a5af408f6b1538177f787, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
