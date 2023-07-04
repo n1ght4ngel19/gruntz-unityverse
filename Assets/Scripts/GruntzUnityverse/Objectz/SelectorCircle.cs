@@ -30,8 +30,8 @@ namespace GruntzUnityverse.Objectz {
 
     private Vector3 MousePositionAsVector3() {
       return new Vector3(
-        Mathf.Floor(MainCamera.ScreenToWorldPoint(Input.mousePosition).x) + 0.5f,
-        Mathf.Floor(MainCamera.ScreenToWorldPoint(Input.mousePosition).y) + 0.5f,
+        Mathf.Round(MainCamera.ScreenToWorldPoint(Input.mousePosition).x),
+        Mathf.Round(MainCamera.ScreenToWorldPoint(Input.mousePosition).y),
         75f
       );
     }

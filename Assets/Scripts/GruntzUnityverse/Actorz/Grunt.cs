@@ -178,7 +178,7 @@ namespace GruntzUnityverse.Actorz {
           navigator.SetTargetBeside(SelectorCircle.Instance.OwnNode);
         } else {
           // If Node is free
-          navigator.TargetLocation = SelectorCircle.Instance.OwnNode.OwnLocation;
+          navigator.TargetLocation = SelectorCircle.Instance.Location;
         }
       }
 
@@ -334,10 +334,8 @@ namespace GruntzUnityverse.Actorz {
     /// Selects the Grunt under the mouse and deselects all others.
     /// </summary>
     protected void OnMouseDown() {
-      IsSelected = true;
-
-      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt != this)) {
-        grunt.IsSelected = false;
+      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz) {
+        grunt.IsSelected = grunt == this;
       }
     }
   }

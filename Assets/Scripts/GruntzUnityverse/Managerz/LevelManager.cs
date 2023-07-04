@@ -103,8 +103,8 @@ namespace GruntzUnityverse.Managerz {
       for (int x = MinMapPoint.x; x < MaxMapPoint.x; x++) {
         for (int y = MinMapPoint.y; y < MaxMapPoint.y; y++) {
           Node node = Instantiate(nodePrefab, NodeContainer.transform);
-          node.transform.position = new Vector3(x + 0.5f, y + 0.5f, 100);
-          node.OwnLocation = new Vector2Int(x, y);
+          node.transform.position = new Vector3(x + 1f, y + 1f, 100);
+          node.OwnLocation = new Vector2Int(x + 1, y + 1);
           node.GetComponent<SpriteRenderer>().enabled = false;
 
           nodes.Add(node);

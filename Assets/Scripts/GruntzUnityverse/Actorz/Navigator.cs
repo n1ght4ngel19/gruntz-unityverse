@@ -37,7 +37,7 @@ namespace GruntzUnityverse.Actorz {
 
     private void Start() {
       FacingDirection = Direction.South;
-      OwnLocation = Vector2Int.FloorToInt(transform.position);
+      OwnLocation = Vector2Int.RoundToInt(transform.position);
       OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
       TargetLocation = OwnLocation;
     }
@@ -137,7 +137,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private Vector3 LocationAsPosition(Vector2Int location) {
-      return new Vector3(location.x + 0.5f, location.y + 0.5f, transform.position.z);
+      return new Vector3(location.x, location.y, transform.position.z);
     }
 
     public void ChangeFacingDirection(Vector3 moveVector) {
