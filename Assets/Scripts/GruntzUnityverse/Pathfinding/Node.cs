@@ -17,16 +17,46 @@ namespace GruntzUnityverse.Pathfinding {
     public int hCost;
 
     /// <summary>
-    /// The sum of the F and G costs
+    /// The sum of the F and G costz
     /// </summary>
     public int fCost;
 
     public Node previousNode;
 
+    /// <summary>
+    /// This flag shows whether the Node is on a tile which collides with moving objectz.
+    /// Gruntz will NOT use these Nodez for pathfinding.
+    /// </summary>
     [Header("Flags")] public bool isBlocked;
+
+    /// <summary>
+    /// This flag shows whether the Node is on a tile where Gruntz can drown.
+    /// Gruntz will NOT use these Nodez for pathfinding.
+    /// </summary>
     public bool isWater;
+
+    /// <summary>
+    /// This flag shows whether the Node is on a tile that's deadly in some way.
+    /// Gruntz WILL use these Nodez for pathfinding.
+    /// </summary>
+    public bool isDeath;
+
+    /// <summary>
+    /// This flag shows whether the Node is on the edge of a Void, Burn, or Water patch.
+    /// Gruntz will NOT use these Nodez for pathfinding.
+    /// </summary>
+    public bool isEdge;
+
+    /// <summary>
+    /// This flag shows whether the Node is on a tile where Gruntz burn to ashez.
+    /// </summary>
     public bool isBurn;
+
+    /// <summary>
+    /// This property shows whether the Node is on a tile which can only be walked around without cutting cornerz.
+    /// </summary>
     public bool isHardTurn;
+
     public Vector2Int OwnLocation { get; set; }
     public List<Node> Neighbours { get; set; }
 

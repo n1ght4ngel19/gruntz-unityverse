@@ -147,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926506}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -306,7 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 190045314}
   m_Layer: 0
-  m_Name: '### Brickz'
+  m_Name: '[ BRICKZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -553,7 +553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 387987280}
   m_Layer: 0
-  m_Name: Misc
+  m_Name: <Misc>
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -929,7 +929,7 @@ GameObject:
   m_Component:
   - component: {fileID: 480233674}
   m_Layer: 0
-  m_Name: '### Rockz'
+  m_Name: '[ ROCKZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -949,37 +949,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 989795775}
   m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &482770011
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 482770012}
-  m_Layer: 0
-  m_Name: '### Railz'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &482770012
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 482770011}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 989795775}
-  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &490824111
 PrefabInstance:
@@ -1073,7 +1042,7 @@ GameObject:
   m_Component:
   - component: {fileID: 499697701}
   m_Layer: 0
-  m_Name: '### Arrowz'
+  m_Name: '[ ARROWZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1104,7 +1073,7 @@ GameObject:
   m_Component:
   - component: {fileID: 583068165}
   m_Layer: 0
-  m_Name: '### Holez'
+  m_Name: '[ HOLEZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1492,7 +1461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 788933723}
   m_Layer: 0
-  m_Name: '### EyeCandy'
+  m_Name: '[ EYECANDY ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1523,7 +1492,7 @@ GameObject:
   m_Component:
   - component: {fileID: 893442526}
   m_Layer: 0
-  m_Name: Toolz
+  m_Name: <Toolz>
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1688,7 +1657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 972593522}
   m_Layer: 0
-  m_Name: '### Itemz'
+  m_Name: '[ ITEMZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1737,7 +1706,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 989795774}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1745,14 +1714,11 @@ Transform:
   - {fileID: 190045314}
   - {fileID: 1782481738}
   - {fileID: 1695271211}
-  - {fileID: 1764533827}
   - {fileID: 972593522}
   - {fileID: 788933723}
-  - {fileID: 1451926933}
   - {fileID: 1423079458}
   - {fileID: 583068165}
   - {fileID: 1737485376}
-  - {fileID: 482770012}
   - {fileID: 480233674}
   - {fileID: 1722927452}
   - {fileID: 1992185910}
@@ -1784,7 +1750,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991709708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1936,7 +1902,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001330001}
   m_Layer: 0
-  m_Name: '### PlayerGruntz'
+  m_Name: '[ PLAYERGRUNTZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2418,7 +2384,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1332145237}
   m_Layer: 0
-  m_Name: Powerupz
+  m_Name: <Powerupz>
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2584,7 +2550,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1382019776}
   m_Layer: 0
-  m_Name: StaticHazardz
+  m_Name: <StaticHazardz>
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2750,7 +2716,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1423079458}
   m_Layer: 0
-  m_Name: '### Hazardz'
+  m_Name: '[ HAZARDZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2907,37 +2873,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449716956}
   m_CullTransparentMesh: 1
---- !u!1 &1451926932
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1451926933}
-  m_Layer: 0
-  m_Name: '### GiantRockz'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1451926933
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451926932}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 989795775}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1547750393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2976,7 +2911,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1547750393}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 150}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 150}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3028,7 +2963,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1692697016}
   m_Layer: 0
-  m_Name: '### Blocked'
+  m_Name: '[ BLOCKED ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3059,7 +2994,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1695271211}
   m_Layer: 0
-  m_Name: '### Checkpointz'
+  m_Name: '[ CHECKPOINTZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3090,7 +3025,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1722927452}
   m_Layer: 0
-  m_Name: '### Secretz'
+  m_Name: '[ SECRETZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3121,7 +3056,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1737485376}
   m_Layer: 0
-  m_Name: '### Puzzlez'
+  m_Name: '[ PUZZLEZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3142,37 +3077,6 @@ Transform:
   m_Father: {fileID: 989795775}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1764533826
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1764533827}
-  m_Layer: 0
-  m_Name: '### Colliderz'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1764533827
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1764533826}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 989795775}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1782481737
 GameObject:
   m_ObjectHideFlags: 0
@@ -3183,7 +3087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1782481738}
   m_Layer: 0
-  m_Name: '### Bridgez'
+  m_Name: '[ BRIDGEZ ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4010,7 +3914,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1992185910}
   m_Layer: 0
-  m_Name: '### Other'
+  m_Name: '[ OTHER ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5073,7 +4977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2086606273}
   m_Layer: 0
-  m_Name: Spikez
+  m_Name: <Spikez>
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5104,7 +5008,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2091415120}
   m_Layer: 0
-  m_Name: Toyz
+  m_Name: <Toyz>
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -78,9 +78,9 @@ namespace GruntzUnityverse.Managerz {
 
       CollectGruntz();
 
-      foreach (GameObject go in GameObject.FindGameObjectsWithTag("Inaccessible")) {
-        go.SetActive(false);
+      foreach (GameObject go in GameObject.FindGameObjectsWithTag("Blocked")) {
         Instance.SetBlockedAt(Vector2Int.FloorToInt(go.transform.position), true);
+        Destroy(go);
       }
     }
 

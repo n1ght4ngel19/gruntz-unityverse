@@ -1,5 +1,4 @@
 using GruntzUnityverse.Objectz.Misc;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -50,7 +49,7 @@ namespace GruntzUnityverse {
 
     public void QuitGame() {
       Debug.Log("Save Game");
-      SceneManager.LoadScene(Resources.Load<SceneAsset>("Menuz/MainMenu").name);
+      SceneManager.LoadSceneAsync("MainMenu");
     }
   }
 }

@@ -15,7 +15,6 @@ namespace GruntzUnityverse.Objectz {
     [field: SerializeField] public Area Area { get; set; }
     public Vector2Int Location { get; set; }
 
-    // [CanBeNull] public Node OwnNode { get; set; }
     public Node OwnNode { get; set; }
     protected SpriteRenderer Renderer { get; private set; }
     protected Transform OwnTransform { get; private set; }
