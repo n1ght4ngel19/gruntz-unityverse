@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 968907784926215263}
-  - component: {fileID: -3842508372817902721}
   - component: {fileID: 6682782367352191381}
+  - component: {fileID: -3842508372817902721}
   m_Layer: 0
   m_Name: TITT_ToggleBridge_Up
   m_TagString: Untagged
@@ -33,22 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3842508372817902721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7642692820737874702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 666cca2a702d4032b3c859e610197107, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <IsHardTurn>k__BackingField: 0
-  <Area>k__BackingField: 3
-  isDown: 0
-  isDeathBridge: 0
 --- !u!212 &6682782367352191381
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -101,3 +85,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-3842508372817902721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7642692820737874702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 666cca2a702d4032b3c859e610197107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsHardTurn>k__BackingField: 0
+  <Area>k__BackingField: 3
+  interval: 0
+  isDown: 0
+  isDeathBridge: 0

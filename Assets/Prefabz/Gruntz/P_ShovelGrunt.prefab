@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6986435730129850750}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16, y: 16, z: 50}
+  m_LocalPosition: {x: 16, y: 16, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_Sprite: {fileID: -2082225490, guid: 6a4497387dcad3b4dad60757b6a97461, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -101,10 +101,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Owner>k__BackingField: 0
+  commandMode: 0
+  isSelected: 0
+  haveActionCommand: 0
   <Health>k__BackingField: 0
   animancer: {fileID: 0}
   navigator: {fileID: 0}
   equipment: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  selectedCircle: {fileID: 0}
 --- !u!114 &-8262829897860144415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce2387adfdc442fa29d2689b4740c40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toolName: 0
 --- !u!114 &-2112612349377219031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6986435730129850746, guid: d1341558fdb323a498d07a99f03ef0fb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6986435730129850746, guid: d1341558fdb323a498d07a99f03ef0fb, type: 3}
       propertyPath: m_LocalRotation.w
