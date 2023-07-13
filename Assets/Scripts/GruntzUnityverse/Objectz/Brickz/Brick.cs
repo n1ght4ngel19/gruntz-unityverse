@@ -11,8 +11,8 @@ namespace GruntzUnityverse.Objectz.Brickz {
     protected override void Start() {
       base.Start();
 
-      LevelManager.Instance.SetBlockedAt(Location, true);
-      LevelManager.Instance.SetHardTurnAt(Location, true);
+      LevelManager.Instance.SetBlockedAt(location, true);
+      LevelManager.Instance.SetHardTurnAt(location, true);
     }
 
     public abstract IEnumerator Break();

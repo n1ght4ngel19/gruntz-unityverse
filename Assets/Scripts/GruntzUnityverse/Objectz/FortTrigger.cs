@@ -8,7 +8,7 @@ namespace GruntzUnityverse.Objectz {
 
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.allGruntz) {
-        if (grunt.navigator.OwnNode == OwnNode) {
+        if (grunt.navigator.ownNode == OwnNode) {
           Time.timeScale = 0f;
         }
       }

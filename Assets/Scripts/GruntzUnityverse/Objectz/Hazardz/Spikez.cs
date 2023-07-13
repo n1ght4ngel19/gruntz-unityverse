@@ -16,17 +16,17 @@ namespace GruntzUnityverse.Objectz.Hazardz {
     }
 
     private void Update() {
-      if (TargetGrunt is not null && !TargetGrunt.AtLocation(Location)) {
+      if (TargetGrunt is not null && !TargetGrunt.AtLocation(location)) {
         CancelInvoke(nameof(DamageGrunt));
 
         TargetGrunt = null;
         isRunning = false;
       }
 
-      TargetGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(Location));
+      TargetGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(location));
 
-      if (TargetGrunt is not null && TargetGrunt.AtLocation(Location)) {
-        // foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtLocation(OwnLocation))) {
+      if (TargetGrunt is not null && TargetGrunt.AtLocation(location)) {
+        // foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtLocation(ownLocation))) {
         //   TargetGrunt = grunt;
 
         // StartCoroutine(DamageGrunt(grunt));

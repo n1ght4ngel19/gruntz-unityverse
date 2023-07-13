@@ -21,10 +21,10 @@ namespace GruntzUnityverse.Objectz {
 
     private void Update() {
       OwnTransform.position = MousePositionAsVector3();
-      Location = Vector2Int.FloorToInt(OwnTransform.position);
+      location = Vector2Int.FloorToInt(OwnTransform.position);
 
-      if (LevelManager.Instance.nodeLocations.Contains(Location)) {
-        OwnNode = LevelManager.Instance.NodeAt(Location);
+      if (LevelManager.Instance.nodeLocations.Contains(location)) {
+        OwnNode = LevelManager.Instance.NodeAt(location);
       }
     }
 
@@ -32,7 +32,7 @@ namespace GruntzUnityverse.Objectz {
       return new Vector3(
         Mathf.Round(MainCamera.ScreenToWorldPoint(Input.mousePosition).x),
         Mathf.Round(MainCamera.ScreenToWorldPoint(Input.mousePosition).y),
-        75f
+        15f
       );
     }
   }

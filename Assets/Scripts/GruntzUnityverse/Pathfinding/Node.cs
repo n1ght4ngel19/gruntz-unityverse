@@ -30,10 +30,9 @@ namespace GruntzUnityverse.Pathfinding {
     [Header("Flags")] public bool isBlocked;
 
     /// <summary>
-    /// This flag shows whether the Node is on a tile where Gruntz can drown.
-    /// Gruntz will NOT use these Nodez for pathfinding.
+    /// This flag shows whether the Node is on a tile where Gruntz burn to ashez.
     /// </summary>
-    public bool isWater;
+    public bool isBurn;
 
     /// <summary>
     /// This flag shows whether the Node is on a tile that's deadly in some way.
@@ -48,14 +47,21 @@ namespace GruntzUnityverse.Pathfinding {
     public bool isEdge;
 
     /// <summary>
-    /// This flag shows whether the Node is on a tile where Gruntz burn to ashez.
-    /// </summary>
-    public bool isBurn;
-
-    /// <summary>
-    /// This property shows whether the Node is on a tile which can only be walked around without cutting cornerz.
+    /// This flag shows whether the Node is on a tile which can only be walked around without cutting cornerz.
     /// </summary>
     public bool isHardTurn;
+
+    /// <summary>
+    /// This flag shows whether the Node is on a tile where Gruntz fall to their death below.
+    /// Gruntz will NOT use these Nodez for pathfinding.
+    /// </summary>
+    public bool isVoid;
+
+    /// <summary>
+    /// This flag shows whether the Node is on a tile where Gruntz can drown.
+    /// Gruntz will NOT use these Nodez for pathfinding.
+    /// </summary>
+    public bool isWater;
 
     public Vector2Int OwnLocation { get; set; }
     public List<Node> Neighbours { get; set; }

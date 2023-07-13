@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Animancer;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
@@ -11,32 +12,55 @@ namespace GruntzUnityverse.Objectz {
   /// The base for all Objects that can be interacted with on a Level.
   /// </summary>
   public class MapObject : MonoBehaviour {
-    [field: SerializeField] public bool IsHardTurn { get; set; }
-    [field: SerializeField] public Area Area { get; set; }
-    public Vector2Int Location { get; set; }
+    public Area area;
+    public Vector2Int location;
 
     public Node OwnNode { get; set; }
-    protected SpriteRenderer Renderer { get; private set; }
-    protected Transform OwnTransform { get; private set; }
-    protected Camera MainCamera { get; private set; }
-    protected Animator Animator { get; private set; }
-    protected AnimancerComponent Animancer { get; private set; }
+    public AnimancerComponent animancer;
+    protected Animator Animator;
+    protected SpriteRenderer SpriteRenderer;
+    protected Transform OwnTransform;
+    protected Camera MainCamera;
 
 
     protected virtual void Start() {
-      Location = Vector2Int.FloorToInt(transform.position);
+      location = Vector2Int.FloorToInt(transform.position);
       OwnTransform = gameObject.GetComponent<Transform>();
-      Renderer = gameObject.GetComponent<SpriteRenderer>();
+      SpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
       MainCamera = Camera.main;
       Animator = gameObject.AddComponent<Animator>();
-      Animancer = gameObject.AddComponent<AnimancerComponent>();
-      OwnNode = LevelManager.Instance.NodeAt(Location);
-      LevelManager.Instance.NodeAt(Location).isHardTurn = IsHardTurn;
+      animancer = gameObject.AddComponent<AnimancerComponent>();
+      animancer.Animator = Animator;
+      OwnNode = LevelManager.Instance.NodeAt(location);
     }
 
     protected void SetEnabled(bool value) {
       enabled = value;
-      Renderer.enabled = value;
+      SpriteRenderer.enabled = value;
+    }
+
+    protected void AssignAreaBySpriteName() {
+      string spriteName = SpriteRenderer.sprite.name;
+
+      if (spriteName.StartsWith("RR_")) {
+        area = Area.RockyRoadz;
+      } else if (spriteName.StartsWith("GR_")) {
+        area = Area.Gruntziclez;
+      } else if (spriteName.StartsWith("TITT_")) {
+        area = Area.TroubleInTheTropicz;
+      } else if (spriteName.StartsWith("HOS_")) {
+        area = Area.HighOnSweetz;
+      } else if (spriteName.StartsWith("HR_")) {
+        area = Area.HighRollerz;
+      } else if (spriteName.StartsWith("HISTG_")) {
+        area = Area.HoneyIShrunkTheGruntz;
+      } else if (spriteName.StartsWith("TMM_")) {
+        area = Area.TheMiniatureMasterz;
+      } else if (spriteName.StartsWith("GIS_")) {
+        area = Area.GruntzInSpace;
+      } else {
+        throw new ArgumentException("The value of area should be one of the 9 areas.");
+      }
     }
 
     public virtual IEnumerator BeUsed() {

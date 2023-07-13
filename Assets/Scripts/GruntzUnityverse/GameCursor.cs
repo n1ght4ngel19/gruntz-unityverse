@@ -31,10 +31,10 @@ namespace GruntzUnityverse {
     private void Update() {
       Counter = Counter % 10 + 1;
 
-      transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 25;
+      transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 15;
 
       // Todo
-      // Renderer.sprite = CurrentFrames[Counter % CurrentFrames.Count];
+      // SpriteRenderer.sprite = CurrentFrames[Counter % CurrentFrames.Count];
     }
 
     private void SetCursorTo(List<Sprite> frames) {

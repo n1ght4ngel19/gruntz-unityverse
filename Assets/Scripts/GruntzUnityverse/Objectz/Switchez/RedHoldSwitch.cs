@@ -5,7 +5,7 @@ using GruntzUnityverse.Objectz.Pyramidz;
 namespace GruntzUnityverse.Objectz.Switchez {
   public class RedHoldSwitch : ObjectSwitch {
     private void Update() {
-      if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(Location))) {
+      if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(location))) {
         if (HasBeenPressed) {
           return;
         }

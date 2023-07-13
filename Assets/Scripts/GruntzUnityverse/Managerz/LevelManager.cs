@@ -188,16 +188,56 @@ namespace GruntzUnityverse.Managerz {
       NodeAt(gridLocation).isBlocked = isBlocked;
     }
 
+    public void SetBurnAt(Vector2Int gridLocation, bool isBurn) {
+      NodeAt(gridLocation).isBurn = isBurn;
+    }
+
+    public void SetDeathAt(Vector2Int gridLocation, bool isDeath) {
+      NodeAt(gridLocation).isDeath = isDeath;
+    }
+
+    public void SetEdgeAt(Vector2Int gridLocation, bool isEdge) {
+      NodeAt(gridLocation).isEdge = isEdge;
+    }
+
     public void SetHardTurnAt(Vector2Int gridLocation, bool isHardTurn) {
       NodeAt(gridLocation).isHardTurn = isHardTurn;
     }
 
-    public void SetIsWaterAt(Vector2Int gridLocation, bool isWater) {
+    public void SetVoidAt(Vector2Int gridLocation, bool isVoid) {
+      NodeAt(gridLocation).isVoid = isVoid;
+    }
+
+    public void SetWaterAt(Vector2Int gridLocation, bool isWater) {
       NodeAt(gridLocation).isWater = isWater;
     }
 
     public bool IsBlockedAt(Vector2Int gridLocation) {
       return NodeAt(gridLocation).isBlocked;
+    }
+
+    public bool IsBurnAt(Vector2Int gridLocation) {
+      return NodeAt(gridLocation).isBurn;
+    }
+
+    public bool IsDeathAt(Vector2Int gridLocation) {
+      return NodeAt(gridLocation).isDeath;
+    }
+
+    public bool IsEdgeAt(Vector2Int gridLocation) {
+      return NodeAt(gridLocation).isEdge;
+    }
+
+    public bool IsHardTurnAt(Vector2Int gridLocation) {
+      return NodeAt(gridLocation).isHardTurn;
+    }
+
+    public bool IsVoidAt(Vector2Int gridLocation) {
+      return NodeAt(gridLocation).isVoid;
+    }
+
+    public bool IsWaterAt(Vector2Int gridLocation) {
+      return NodeAt(gridLocation).isWater;
     }
 
     public Node NodeAt(Vector2Int gridLocation) {

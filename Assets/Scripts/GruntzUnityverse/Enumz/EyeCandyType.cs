@@ -1,6 +1,6 @@
 ﻿namespace GruntzUnityverse.Enumz {
-  public enum EyeCandyName {
-    ForegroundEyeCandy = 0,
+  public enum EyeCandyType {
+    CollidingEyeCandy = 0,
     BackgroundEyeCandy = 1,
   }
 }

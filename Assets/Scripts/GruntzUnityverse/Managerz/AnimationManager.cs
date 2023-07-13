@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using UnityEngine;
@@ -33,6 +34,9 @@ namespace GruntzUnityverse.Managerz {
       LoadDeathAnimations();
 
       // CursorAnimations = new CursorAnimationPack();
+      foreach (Grunt grunt in LevelManager.Instance.allGruntz) {
+        grunt.SetAnimPack(grunt.equipment.tool.toolName);
+      }
     }
 
     private void LoadDeathAnimations() {

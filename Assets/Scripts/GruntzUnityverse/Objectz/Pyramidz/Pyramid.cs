@@ -11,19 +11,18 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     protected override void Start() {
       base.Start();
 
-      LevelManager.Instance.SetBlockedAt(Location, !IsDown);
+      LevelManager.Instance.SetBlockedAt(location, !IsDown);
 
       DownAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Pyramidz/Clipz/{GetType().Name}_Down");
       UpAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Pyramidz/Clipz/{GetType().Name}_Up");
     }
 
     public void TogglePyramid() {
-      Animancer.Play(IsDown ? UpAnim : DownAnim);
+      animancer.Play(IsDown ? UpAnim : DownAnim);
 
       IsDown = !IsDown;
-      IsHardTurn = !IsDown;
-      LevelManager.Instance.SetBlockedAt(Location, !IsDown);
-      LevelManager.Instance.SetHardTurnAt(Location, IsHardTurn);
+      LevelManager.Instance.SetBlockedAt(location, !IsDown);
+      LevelManager.Instance.SetHardTurnAt(location, !IsDown);
     }
   }
 }

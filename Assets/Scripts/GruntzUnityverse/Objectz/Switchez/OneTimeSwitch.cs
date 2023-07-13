@@ -22,10 +22,10 @@ namespace GruntzUnityverse.Objectz.Switchez {
         enabled = false;
       }
 
-      if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(Location))) {
+      if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(location))) {
         TogglePyramidz();
 
-        Renderer.sprite = PressedSprite;
+        SpriteRenderer.sprite = pressedSprite;
         enabled = false;
       }
     }

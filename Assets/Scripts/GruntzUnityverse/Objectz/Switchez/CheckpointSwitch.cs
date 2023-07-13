@@ -16,6 +16,8 @@ namespace GruntzUnityverse.Objectz.Switchez {
       base.Start();
 
       Pyramidz = transform.parent.GetComponentsInChildren<CheckpointPyramid>().ToList();
+
+      string spriteName = SpriteRenderer.sprite.name;
     }
 
     private void Update() {
@@ -27,7 +29,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
       }
 
       if (LevelManager.Instance.allGruntz.Any(
-        grunt => grunt.AtLocation(Location)
+        grunt => grunt.AtLocation(location)
           && (grunt.HasTool(RequiredTool)
             || grunt.HasToy(RequiredToy)
             || RequiredTool == ToolName.Barehandz

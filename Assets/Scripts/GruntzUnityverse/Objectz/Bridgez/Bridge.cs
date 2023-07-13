@@ -5,30 +5,38 @@ namespace GruntzUnityverse.Objectz.Bridgez {
   public class Bridge : MapObject {
     public bool isDown;
     public bool isDeathBridge;
-    private AnimationClip DownAnim { get; set; }
-    private AnimationClip UpAnim { get; set; }
+    private AnimationClip _downAnim;
+    private AnimationClip _upAnim;
 
-    public void Toggle() {
-      Animancer.Play(isDown ? UpAnim : DownAnim);
-
-      isDown = !isDown;
-      LevelManager.Instance.SetBlockedAt(Location, isDown);
-      LevelManager.Instance.SetIsWaterAt(Location, isDown);
-    }
 
     protected override void Start() {
       base.Start();
 
+      AssignAreaBySpriteName();
+
       string optionalDeath = isDeathBridge ? "Death" : "";
-      DownAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Bridgez/{Area}/Clipz/{optionalDeath}Bridge_Down");
-      UpAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Bridgez/{Area}/Clipz/{optionalDeath}Bridge_Up");
+
+      _downAnim = Resources.Load<AnimationClip>(
+        $"Animationz/MapObjectz/Bridgez/{area}/Clipz/{optionalDeath}Bridge_Down"
+      );
+
+      _upAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Bridgez/{area}/Clipz/{optionalDeath}Bridge_Up");
     }
 
     private void Update() {
-      LevelManager.Instance.SetBlockedAt(Location, isDown);
-      LevelManager.Instance.SetIsWaterAt(Location, isDown);
+      LevelManager.Instance.SetBlockedAt(location, isDown);
+      LevelManager.Instance.SetWaterAt(location, isDown);
+      LevelManager.Instance.SetDeathAt(location, isDeathBridge);
 
       enabled = false;
+    }
+
+    public void Toggle() {
+      animancer.Play(isDown ? _upAnim : _downAnim);
+
+      isDown = !isDown;
+      LevelManager.Instance.SetBlockedAt(location, isDown);
+      LevelManager.Instance.SetWaterAt(location, isDown);
     }
   }
 }

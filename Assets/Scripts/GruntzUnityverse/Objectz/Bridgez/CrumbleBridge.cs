@@ -10,17 +10,19 @@ namespace GruntzUnityverse.Objectz.Bridgez {
     protected override void Start() {
       base.Start();
 
+      AssignAreaBySpriteName();
+
       string optionalDeath = isDeathBridge ? "Death" : "";
 
       Anim = Resources.Load<AnimationClip>(
-        $"Animationz/MapObjectz/Bridgez/{Area}/Clipz/Crumble{optionalDeath}Bridge_Down"
+        $"Animationz/MapObjectz/Bridgez/{area}/Clipz/Crumble{optionalDeath}Bridge_Down"
       );
     }
 
     public void Crumble() {
-      Animancer.Play(Anim);
+      animancer.Play(Anim);
 
-      LevelManager.Instance.SetBlockedAt(Location, false);
+      LevelManager.Instance.SetBlockedAt(location, false);
     }
   }
 }

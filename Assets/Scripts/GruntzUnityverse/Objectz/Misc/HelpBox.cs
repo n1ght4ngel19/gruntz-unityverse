@@ -19,7 +19,7 @@ namespace GruntzUnityverse.Objectz.Misc {
 
     private void Update() {
       // Pausing the game when a Grunt steps onto a HelpBox and displaying the HelpBox text
-      if (IsUntouched && LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.AtLocation(Location))) {
+      if (IsUntouched && LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.AtLocation(location))) {
         DisplayBox();
 
         return;
@@ -32,7 +32,7 @@ namespace GruntzUnityverse.Objectz.Misc {
         return;
       }
 
-      if (LevelManager.Instance.PlayerGruntz.All(grunt => !grunt.AtLocation(Location))) {
+      if (LevelManager.Instance.PlayerGruntz.All(grunt => !grunt.AtLocation(location))) {
         IsUntouched = true;
       }
     }

@@ -6,19 +6,18 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class SecretSwitch : ObjectSwitch {
-    [field: SerializeField] public Behaviour Behaviour { get; set; }
-    [field: SerializeField] public List<SecretObject> SecretObjectz { get; set; }
+    public List<SecretObject> secretObjectz;
     private const float TimeStep = 0.1f;
 
 
     private void Update() {
-      if (!LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(Location))) {
+      if (!LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(location))) {
         return;
       }
 
-      Renderer.sprite = PressedSprite;
+      ToggleSwitch();
 
-      foreach (SecretObject secretObject in SecretObjectz) {
+      foreach (SecretObject secretObject in secretObjectz) {
         StartCoroutine(HandleSecretObject(secretObject));
       }
 
@@ -26,16 +25,16 @@ namespace GruntzUnityverse.Objectz.Switchez {
     }
 
     private IEnumerator HandleSecretObject(SecretObject secretObject) {
-      while (secretObject.Delay > 0) {
-        secretObject.Delay -= TimeStep;
+      while (secretObject.delay > 0) {
+        secretObject.delay -= TimeStep;
 
         yield return new WaitForSeconds(TimeStep);
       }
 
       secretObject.ActivateSecret();
 
-      while (secretObject.Duration > 0) {
-        secretObject.Duration -= TimeStep;
+      while (secretObject.duration > 0) {
+        secretObject.duration -= TimeStep;
 
         yield return new WaitForSeconds(TimeStep);
       }

@@ -2,6 +2,7 @@
 using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
@@ -11,40 +12,57 @@ namespace GruntzUnityverse.Actorz {
   /// The component describing the movement of a Grunt.
   /// </summary>
   public class Navigator : MonoBehaviour {
-    [field: SerializeField] public Vector2Int OwnLocation { get; set; }
-    [field: SerializeField] public Node OwnNode { get; set; }
-    [field: SerializeField] public Vector2Int PreviousLocation { get; set; }
-    [field: SerializeField] public Vector2Int TargetLocation { get; set; }
-    [field: SerializeField] public Vector2Int SavedTargetLocation { get; set; }
-    [field: SerializeField] public bool HaveSavedTarget { get; set; }
+    public Vector2Int ownLocation;
+    public Node ownNode;
+    public Vector2Int previousLocation;
+    public Vector2Int targetLocation;
+    public Vector2Int savedTargetLocation;
+    private bool _hasSavedTarget;
+    public bool hasMoveCommand;
 
 
     #region Pathfinding
 
-    [field: SerializeField] public Node PathStart { get; set; }
-    [field: SerializeField] public Node PathEnd { get; set; }
-    [field: SerializeField] public List<Node> Path { get; set; }
+    public Node pathStart;
+    public Node pathEnd;
+    public List<Node> path;
 
     #endregion
 
 
-    [field: SerializeField] public bool IsMoving { get; set; }
-    [field: SerializeField] public bool IsMovementForced { get; set; }
-    [field: SerializeField] public Vector3 MoveVector { get; set; }
-    [field: SerializeField] public Direction FacingDirection { get; set; }
-    [field: SerializeField] public bool MovesDiagonally { get; set; }
+    public bool isMoving;
+    public bool isMoveForced;
+    public bool movesDiagonally;
+    public Vector3 moveVector;
+    public Direction facingDirection;
 
 
     private void Start() {
-      FacingDirection = Direction.South;
-      OwnLocation = Vector2Int.RoundToInt(transform.position);
-      OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
-      TargetLocation = OwnLocation;
+      facingDirection = Direction.South;
+      ownLocation = Vector2Int.RoundToInt(transform.position);
+      ownNode = LevelManager.Instance.NodeAt(ownLocation);
+      targetLocation = ownLocation;
     }
 
     private void Update() {
-      // Todo: Maybe not calculate it every frame?
-      OwnNode = LevelManager.Instance.NodeAt(OwnLocation);
+      // Save new move target whether the Grunt already has one or not
+      if (isMoving && hasMoveCommand) {
+        savedTargetLocation = SelectorCircle.Instance.location;
+        _hasSavedTarget = true;
+
+        return;
+      }
+
+      // Set previously saved target as new target
+      if (!isMoving && _hasSavedTarget) {
+        targetLocation = savedTargetLocation;
+        _hasSavedTarget = false;
+
+        return;
+      }
+
+      ownNode = LevelManager.Instance.NodeAt(ownLocation);
+
       DecideDiagonal();
     }
 
@@ -52,54 +70,54 @@ namespace GruntzUnityverse.Actorz {
     /// Moves the <see cref="Grunt"/> towards its current target.
     /// </summary>
     public void MoveTowardsTarget() {
-      PathStart = LevelManager.Instance.NodeAt(OwnLocation);
-      PathEnd = LevelManager.Instance.NodeAt(TargetLocation);
+      pathStart = LevelManager.Instance.NodeAt(ownLocation);
+      pathEnd = LevelManager.Instance.NodeAt(targetLocation);
 
       // This way path is only calculated only when it's needed
-      if (!IsMoving) {
-        Path = Pathfinder.PathBetween(PathStart, PathEnd, IsMovementForced, MovesDiagonally);
+      if (!isMoving) {
+        path = Pathfinder.PathBetween(pathStart, pathEnd, isMoveForced, movesDiagonally);
       }
 
-      if (Path == null) {
+      if (path == null) {
         return;
       }
 
-      if (Path.Count <= 1) {
+      if (path.Count <= 1) {
         return;
       }
 
-      PreviousLocation = Path[0].OwnLocation;
+      previousLocation = path[0].OwnLocation;
 
-      Vector3 nextPosition = LocationAsPosition(Path[1].OwnLocation);
+      Vector3 nextPosition = LocationAsPosition(path[1].OwnLocation);
 
       if (Vector2.Distance(nextPosition, transform.position) > 0.1f) {
-        IsMoving = true;
-        MoveVector = (nextPosition - gameObject.transform.position).normalized;
+        isMoving = true;
+        moveVector = (nextPosition - gameObject.transform.position).normalized;
 
         // Todo: Swap 0.6f to Grunt speed
-        transform.position += MoveVector * (Time.deltaTime / 0.6f);
+        transform.position += moveVector * (Time.deltaTime / 0.6f);
 
-        ChangeFacingDirection(MoveVector);
+        ChangeFacingDirection(moveVector);
 
-        if (IsMovementForced) {
-          Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(TargetLocation));
+        if (isMoveForced) {
+          Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(targetLocation));
 
           if (deadGrunt is not null) {
             StartCoroutine(deadGrunt.Death("Squash"));
           }
 
-          IsMovementForced = false;
+          isMoveForced = false;
         }
       } else {
-        IsMoving = false;
+        isMoving = false;
 
-        OwnLocation = Path[1].OwnLocation;
+        ownLocation = path[1].OwnLocation;
 
-        Path.RemoveAt(1);
+        path.RemoveAt(1);
       }
     }
 
-    public void SetTargetBeside(Node node) {
+    public void SetClosestToTarget(Node node) {
       List<Node> freeNeighbours = node.Neighbours.FindAll(node1 => !node1.isBlocked);
 
       // No path possible
@@ -108,7 +126,7 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      List<Node> shortestPath = Pathfinder.PathBetween(OwnNode, freeNeighbours[0], IsMovementForced, MovesDiagonally);
+      List<Node> shortestPath = Pathfinder.PathBetween(ownNode, freeNeighbours[0], isMoveForced, movesDiagonally);
 
       bool hasShortestPathPossible = false;
 
@@ -116,14 +134,14 @@ namespace GruntzUnityverse.Actorz {
       foreach (Node neighbour in freeNeighbours) {
         if (shortestPath.Count == 1) {
           // There is no possible shorter way, set target to shortest path
-          TargetLocation = shortestPath[0].OwnLocation;
+          targetLocation = shortestPath[0].OwnLocation;
 
           hasShortestPathPossible = true;
 
           break;
         }
 
-        List<Node> pathToNode = Pathfinder.PathBetween(OwnNode, neighbour, IsMovementForced, MovesDiagonally);
+        List<Node> pathToNode = Pathfinder.PathBetween(ownNode, neighbour, isMoveForced, movesDiagonally);
 
         // Check if current path is shorter than current shortest path
         if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
@@ -132,7 +150,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       if (!hasShortestPathPossible) {
-        TargetLocation = shortestPath.Last().OwnLocation;
+        targetLocation = shortestPath.Last().OwnLocation;
       }
     }
 
@@ -140,10 +158,14 @@ namespace GruntzUnityverse.Actorz {
       return new Vector3(location.x, location.y, transform.position.z);
     }
 
+    public bool AtLocation(Vector2Int location) {
+      return ownLocation == location;
+    }
+
     public void ChangeFacingDirection(Vector3 moveVector) {
       Vector2Int directionVector = Vector2Int.RoundToInt(moveVector);
 
-      FacingDirection = directionVector switch {
+      facingDirection = directionVector switch {
         var vector when vector.Equals(Vector2IntExtra.North()) => Direction.North,
         var vector when vector.Equals(Vector2IntExtra.NorthEast()) => Direction.Northeast,
         var vector when vector.Equals(Vector2IntExtra.East()) => Direction.East,
@@ -152,15 +174,15 @@ namespace GruntzUnityverse.Actorz {
         var vector when vector.Equals(Vector2IntExtra.SouthWest()) => Direction.Southwest,
         var vector when vector.Equals(Vector2IntExtra.West()) => Direction.West,
         var vector when vector.Equals(Vector2IntExtra.NorthWest()) => Direction.Northwest,
-        _ => FacingDirection,
+        _ => facingDirection,
       };
     }
 
     private void DecideDiagonal() {
-      MovesDiagonally = FacingDirection == Direction.Northeast
-        || FacingDirection == Direction.Southeast
-        || FacingDirection == Direction.Southwest
-        || FacingDirection == Direction.Northwest;
+      movesDiagonally = facingDirection == Direction.Northeast
+        || facingDirection == Direction.Southeast
+        || facingDirection == Direction.Southwest
+        || facingDirection == Direction.Northwest;
     }
   }
 }

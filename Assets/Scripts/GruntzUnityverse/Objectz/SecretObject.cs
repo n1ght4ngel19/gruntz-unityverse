@@ -9,11 +9,23 @@ namespace GruntzUnityverse.Objectz {
   /// </summary>
   public class SecretObject : MapObject {
     // [field: SerializeField] public Behaviour Behaviour { get; set; }
-    [field: SerializeField] public List<MonoBehaviour> OtherBehaviours { get; set; }
-    [field: SerializeField] public bool IsWalkable { get; set; }
-    [field: SerializeField] public float Delay { get; set; }
-    [field: SerializeField] public float Duration { get; set; }
-    private bool IsInitiallyBlocked { get; set; }
+    public List<MonoBehaviour> otherBehaviours;
+    public bool isBlocked;
+    public bool isBurn;
+    public bool isDeath;
+    public bool isEdge;
+    public bool isHardTurn;
+    public bool isVoid;
+    public bool isWater;
+    public float delay;
+    public float duration;
+    private bool _isInitiallyBlocked;
+    private bool _isInitiallyBurn;
+    private bool _isInitiallyDeath;
+    private bool _isInitiallyEdge;
+    private bool _isInitiallyHardTurn;
+    private bool _isInitiallyVoid;
+    private bool _isInitiallyWater;
 
 
     protected override void Start() {
@@ -22,9 +34,9 @@ namespace GruntzUnityverse.Objectz {
       SetEnabled(false);
 
       // Todo: Figure out what this wants to do (seems like nothing, but have to make sure)
-      OtherBehaviours = GetComponents<MonoBehaviour>().ToList();
+      otherBehaviours = GetComponents<MonoBehaviour>().ToList();
 
-      foreach (MonoBehaviour behaviour in OtherBehaviours.Where(
+      foreach (MonoBehaviour behaviour in otherBehaviours.Where(
         behaviour => behaviour.GetType() != typeof(SecretObject)
       )) {
         behaviour.enabled = false;
@@ -35,23 +47,35 @@ namespace GruntzUnityverse.Objectz {
     /// Activates the SecretObject.
     /// </summary>
     public void ActivateSecret() {
-      IsInitiallyBlocked = LevelManager.Instance.IsBlockedAt(Location);
+      _isInitiallyBlocked = LevelManager.Instance.IsBlockedAt(location);
+      _isInitiallyBurn = LevelManager.Instance.IsBurnAt(location);
+      _isInitiallyDeath = LevelManager.Instance.IsDeathAt(location);
+      _isInitiallyEdge = LevelManager.Instance.IsEdgeAt(location);
+      _isInitiallyHardTurn = LevelManager.Instance.IsHardTurnAt(location);
+      _isInitiallyVoid = LevelManager.Instance.IsVoidAt(location);
+      _isInitiallyWater = LevelManager.Instance.IsWaterAt(location);
       SetEnabled(true);
 
-      foreach (MonoBehaviour behaviour in OtherBehaviours.Where(
+      foreach (MonoBehaviour behaviour in otherBehaviours.Where(
         behaviour => behaviour.GetType() != typeof(SecretObject)
       )) {
         behaviour.enabled = true;
       }
 
-      LevelManager.Instance.SetBlockedAt(Location, !IsWalkable);
+      LevelManager.Instance.SetBlockedAt(location, isBlocked);
     }
 
     /// <summary>
     /// Deactivates the SecretObject.
     /// </summary>
     public void DeactivateSecret() {
-      LevelManager.Instance.SetBlockedAt(Location, IsInitiallyBlocked);
+      LevelManager.Instance.SetBlockedAt(location, _isInitiallyBlocked);
+      LevelManager.Instance.SetBurnAt(location, _isInitiallyBurn);
+      LevelManager.Instance.SetDeathAt(location, _isInitiallyDeath);
+      LevelManager.Instance.SetEdgeAt(location, _isInitiallyEdge);
+      LevelManager.Instance.SetHardTurnAt(location, _isInitiallyHardTurn);
+      LevelManager.Instance.SetVoidAt(location, _isInitiallyVoid);
+      LevelManager.Instance.SetWaterAt(location, _isInitiallyWater);
 
       Destroy(gameObject);
     }

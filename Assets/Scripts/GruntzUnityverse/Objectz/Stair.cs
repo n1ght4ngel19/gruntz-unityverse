@@ -7,9 +7,10 @@ namespace GruntzUnityverse.Objectz {
     private Vector2Int _ownLocation;
 
 
-    private void Start() {
+    private void Update() {
       _ownLocation = Vector2Int.FloorToInt(transform.position);
       LevelManager.Instance.SetBlockedAt(_ownLocation, isBlocked);
+      enabled = false;
     }
   }
 }

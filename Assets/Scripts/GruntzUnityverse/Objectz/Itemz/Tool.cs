@@ -2,6 +2,6 @@
 
 namespace GruntzUnityverse.Objectz.Itemz {
   public abstract class Tool : Item {
-    public ToolName Name { get; set; }
+    public ToolName toolName;
   }
 }

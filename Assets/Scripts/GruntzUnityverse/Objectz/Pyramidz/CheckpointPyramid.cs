@@ -13,7 +13,7 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     }
 
     private void Update() {
-      if (Switchez.Any(checkpointSwitch => !checkpointSwitch.IsPressed)) {
+      if (Switchez.Any(checkpointSwitch => !checkpointSwitch.isPressed)) {
         return;
       }
 

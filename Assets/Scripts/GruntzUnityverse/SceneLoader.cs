@@ -42,7 +42,7 @@ namespace GruntzUnityverse {
 
           break;
         case Area.None:
-          throw new ArgumentException("The value of Area should be one of the 9 areas.");
+          throw new ArgumentException("The value of area should be one of the 9 areas.");
         default:
           throw new ArgumentOutOfRangeException();
       }

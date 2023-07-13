@@ -6,17 +6,17 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Itemz.Toolz {
   public class Gauntletz : Tool {
     protected override void Start() {
-      Name = ToolName.Gauntletz;
+      toolName = ToolName.Gauntletz;
     }
 
     public override IEnumerator Use(Grunt grunt) {
-      Vector2Int diffVector = grunt.TargetObject.Location - grunt.navigator.OwnLocation;
+      Vector2Int diffVector = grunt.TargetObject.location - grunt.navigator.ownLocation;
       grunt.IsInterrupted = true;
 
       grunt.navigator.ChangeFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
 
       AnimationClip clipToPlay =
-        grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.navigator.FacingDirection}"];
+        grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.navigator.facingDirection}"];
 
       grunt.animancer.Play(clipToPlay);
 

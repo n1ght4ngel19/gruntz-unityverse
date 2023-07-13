@@ -8,11 +8,11 @@ namespace GruntzUnityverse.Objectz.MapItemz.Misc {
     protected override void Start() {
       base.Start();
       RotationAnimation = Resources.Load<AnimationClip>("Animationz/MapItemz/Misc/Clipz/Coin");
-      Animancer.Play(RotationAnimation);
+      animancer.Play(RotationAnimation);
     }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt.AtLocation(Location))) {
+      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt.AtLocation(location))) {
         SetEnabled(false);
 
         StatzManager.Instance.acquiredCoinz++;

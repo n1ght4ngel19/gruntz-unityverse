@@ -4,28 +4,27 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Arrowz {
   public class TwoWayArrow : Arrow {
-    [field: SerializeField] public Sprite ChangedSprite { get; set; }
-    private Direction InitialDirection { get; set; }
-    private Direction ChangedDirection { get; set; }
-    private Sprite InitialSprite { get; set; }
+    private Sprite _initialSprite;
+    public Sprite changedSprite;
+    private Direction _initialDirection;
+    private Direction _changedDirection;
 
 
     protected override void Start() {
       base.Start();
 
-      InitialSprite = Renderer.sprite;
-      InitialDirection = Direction;
-
-      ChangedDirection = OppositeDirectionOf(InitialDirection);
+      _initialSprite = SpriteRenderer.sprite;
+      _initialDirection = direction;
+      _changedDirection = OppositeOf(_initialDirection);
     }
 
     public void ChangeDirection() {
-      Direction = Direction.Equals(InitialDirection) ? ChangedDirection : InitialDirection;
-      Renderer.sprite = Direction.Equals(InitialDirection) ? InitialSprite : ChangedSprite;
+      direction = direction.Equals(_initialDirection) ? _changedDirection : _initialDirection;
+      SpriteRenderer.sprite = direction.Equals(_initialDirection) ? _initialSprite : changedSprite;
     }
 
-    private Direction OppositeDirectionOf(Direction direction) {
-      return InitialDirection switch {
+    private static Direction OppositeOf(Direction dir) {
+      return dir switch {
         Direction.North => Direction.South,
         Direction.East => Direction.West,
         Direction.South => Direction.North,
