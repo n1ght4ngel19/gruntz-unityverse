@@ -1,3 +1,4 @@
+using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Misc;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,6 +38,7 @@ namespace GruntzUnityverse {
     public void LoadGame() {
       // SaverLoader.LoadSaveFile();
       Debug.Log("Load");
+      Debug.Log(LevelManager.Instance.allGruntz.Count);
     }
 
     public void ShowOptions() {
