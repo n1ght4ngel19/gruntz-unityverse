@@ -20,9 +20,15 @@ namespace GruntzUnityverse.Managerz {
       get => _Instance;
     }
 
+    #region Layerz
+
     // ----- Layerz -----
     [field: Header("Layerz")] public Tilemap mainLayer;
     public Tilemap backgroundLayer;
+
+    #endregion
+
+    #region Objectz
 
     // ----- Objectz -----
     [field: Header("Objectz")] public List<Grunt> allGruntz;
@@ -42,6 +48,10 @@ namespace GruntzUnityverse.Managerz {
     [field: SerializeField] public List<Rock> Rockz { get; set; }
     [field: SerializeField] public List<Hole> Holez { get; set; }
 
+    #endregion
+
+    #region Pathfinding
+
     // ----- Pathfinding -----
     [field: Header("Pathfinding")] private GameObject NodeContainer { get; set; }
     public List<Node> nodes;
@@ -51,8 +61,10 @@ namespace GruntzUnityverse.Managerz {
     public Vector2Int MinMapPoint { get; set; }
     public Vector2Int MaxMapPoint { get; set; }
 
-    // ----- Stair -----
-    [field: Header("Stair")] public TMP_Text helpBoxText;
+    #endregion
+
+    public TMP_Text helpBoxText;
+    public GameObject mapObjectContainer;
 
 
     private void Awake() {
@@ -82,6 +94,8 @@ namespace GruntzUnityverse.Managerz {
         Instance.SetBlockedAt(Vector2Int.FloorToInt(go.transform.position), true);
         Destroy(go);
       }
+
+      mapObjectContainer = GameObject.Find(NameRepository.MapObjectContainer);
     }
 
     private void AssignLayerz() {
@@ -179,7 +193,7 @@ namespace GruntzUnityverse.Managerz {
         allGruntz.Add(grunt);
       }
 
-      foreach (Grunt grunt in FindObjectsOfType<Grunt>().Where(grunt => grunt.Owner.Equals(Owner.Self))) {
+      foreach (Grunt grunt in FindObjectsOfType<Grunt>().Where(grunt => grunt.owner.Equals(Owner.Self))) {
         PlayerGruntz.Add(grunt);
       }
     }

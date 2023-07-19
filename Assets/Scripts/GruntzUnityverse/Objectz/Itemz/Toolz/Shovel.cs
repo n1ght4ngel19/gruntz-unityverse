@@ -10,8 +10,8 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
     }
 
     public override IEnumerator Use(Grunt grunt) {
-      Vector2Int diffVector = grunt.TargetObject.location - grunt.navigator.ownLocation;
-      grunt.IsInterrupted = true;
+      Vector2Int diffVector = grunt.targetObject.location - grunt.navigator.ownLocation;
+      grunt.isInterrupted = true;
 
       grunt.navigator.ChangeFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
 
@@ -21,11 +21,11 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
 
       grunt.animancer.Play(clipToPlay);
 
-      StartCoroutine(grunt.TargetObject.BeUsed(grunt));
+      StartCoroutine(grunt.targetObject.BeUsed(grunt));
 
       yield return new WaitForSeconds(1.6f);
 
-      grunt.IsInterrupted = false;
+      grunt.isInterrupted = false;
     }
   }
 }

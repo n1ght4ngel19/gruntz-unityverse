@@ -39,15 +39,15 @@ namespace GruntzUnityverse.Objectz.Hazardz {
     }
 
     public void DamageGrunt() {
-      TargetGrunt.Health -= Damage;
+      TargetGrunt.health -= Damage;
 
-      if (TargetGrunt.Health <= 0) {
+      if (TargetGrunt.health <= 0) {
         StartCoroutine(TargetGrunt.Death());
 
         return;
       }
 
-      TargetGrunt.HealthBar.Renderer.sprite = TargetGrunt.HealthBar.Frames[TargetGrunt.Health];
+      TargetGrunt.healthBar.spriteRenderer.sprite = TargetGrunt.healthBar.frames[TargetGrunt.health];
     }
   }
 }

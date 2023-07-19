@@ -16,7 +16,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 
       SwitchOpen();
 
-      grunt.TargetObject = null;
+      grunt.targetObject = null;
     }
 
     private void SwitchOpen() {

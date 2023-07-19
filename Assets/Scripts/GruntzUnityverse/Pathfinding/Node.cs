@@ -78,6 +78,14 @@ namespace GruntzUnityverse.Pathfinding {
       return neighbour.OwnLocation.x == OwnLocation.x || neighbour.OwnLocation.y == OwnLocation.y;
     }
 
+    public bool IsUnavailable() {
+      return isBlocked || isEdge || isWater;
+    }
+
+    public bool IsOccupied() {
+      return LevelManager.Instance.allGruntz.Any(grunt => grunt.navigator.ownNode.Equals(this));
+    }
+
     public void SetNeighbours() {
       List<Node> neighbours = new List<Node>();
 

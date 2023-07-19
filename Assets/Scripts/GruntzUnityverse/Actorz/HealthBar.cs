@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
   public class HealthBar : MonoBehaviour {
-    public SpriteRenderer Renderer { get; set; }
-    public List<Sprite> Frames { get; set; }
+    public SpriteRenderer spriteRenderer;
+    public List<Sprite> frames;
 
     private void Start() {
-      Renderer = GetComponent<SpriteRenderer>();
-      Frames = Resources.LoadAll<Sprite>("Animationz/AttributeBarz/HealthBar").ToList();
+      spriteRenderer = GetComponent<SpriteRenderer>();
+      frames = Resources.LoadAll<Sprite>("Animationz/AttributeBarz/healthBar").ToList();
     }
   }
 }
