@@ -16,6 +16,7 @@ namespace GruntzUnityverse.Actorz {
     public Node ownNode;
     public Vector2Int previousLocation;
     public Vector2Int targetLocation;
+    public Node targetNode;
     public Vector2Int savedTargetLocation;
     private bool _hasSavedTarget;
     public bool hasMoveCommand;
@@ -42,6 +43,7 @@ namespace GruntzUnityverse.Actorz {
       ownLocation = Vector2Int.RoundToInt(transform.position);
       ownNode = LevelManager.Instance.NodeAt(ownLocation);
       targetLocation = ownLocation;
+      targetNode = LevelManager.Instance.NodeAt(targetLocation);
     }
 
     private void Update() {
@@ -56,6 +58,7 @@ namespace GruntzUnityverse.Actorz {
       // Set previously saved target as new target
       if (!isMoving && _hasSavedTarget) {
         targetLocation = savedTargetLocation;
+        targetNode = LevelManager.Instance.NodeAt(savedTargetLocation);
         _hasSavedTarget = false;
 
         return;
@@ -100,11 +103,11 @@ namespace GruntzUnityverse.Actorz {
         ChangeFacingDirection(moveVector);
 
         if (isMoveForced) {
-          Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(targetLocation));
+          // Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(targetLocation));
 
-          if (deadGrunt is not null) {
-            StartCoroutine(deadGrunt.Death("Squash"));
-          }
+          // if (deadGrunt is not null) {
+          //   StartCoroutine(deadGrunt.Death("Squash"));
+          // }
 
           isMoveForced = false;
         }

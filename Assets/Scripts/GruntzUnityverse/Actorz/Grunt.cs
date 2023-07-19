@@ -8,6 +8,7 @@ using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Brickz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Itemz;
+using GruntzUnityverse.Objectz.Itemz.Toolz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using JetBrains.Annotations;
@@ -18,139 +19,139 @@ namespace GruntzUnityverse.Actorz {
   /// The class describing Gruntz' behaviour.
   /// </summary>
   public class Grunt : MonoBehaviour {
-    [field: SerializeField] public Owner Owner { get; set; }
-    public CommandMode commandMode;
-    public bool isSelected;
-    public bool haveActionCommand;
+    #region Stats
 
-    // Todo: Stamina, ToyTime, PowerupTime, MoveSpeed
-    [field: SerializeField] public int Health { get; set; }
-    private Animator _animator;
-    [HideInInspector] public AnimancerComponent animancer;
+    [Header("Stats")] public Owner owner;
+    public float moveSpeed;
+    public int health;
+    public int stamina;
+    public int powerupTime;
+    public int toyTime;
+    public int wingzTime;
+
+    #endregion
+
+    #region Flags
+
+    [Header("Flags")] public bool isSelected;
+    public bool isInterrupted;
+    public bool haveActionCommand;
+    private bool _isDying;
+
+    #endregion
+
+    #region Components
+
+    [HideInInspector] public SpriteRenderer spriteRenderer;
     [HideInInspector] public Navigator navigator;
     [HideInInspector] public Equipment equipment;
-    [HideInInspector] public SpriteRenderer spriteRenderer;
-    public GruntSelectedCircle selectedCircle;
+    [HideInInspector] public HealthBar healthBar;
+    [HideInInspector] public AnimancerComponent animancer;
+    private Animator _animator;
 
-    public HealthBar HealthBar { get; set; }
-    public GruntAnimationPack AnimationPack { get; set; }
-    [CanBeNull] public MapObject TargetObject { get; set; }
-    public bool IsBehind { get; set; }
-    public bool IsInterrupted { get; set; }
-    public float InitialZ { get; set; }
-    private bool _isDying;
+    #endregion
+
+    [Header("Action")] [CanBeNull] public MapObject targetObject;
+    [CanBeNull] public Grunt targetGrunt;
+    public GruntAnimationPack AnimationPack;
+    private Node _clickedNode;
 
 
     private void Start() {
-      BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
-      boxCollider.size = new Vector2(1f, 1f);
-      _animator = gameObject.AddComponent<Animator>();
-      animancer = gameObject.AddComponent<AnimancerComponent>();
-      animancer.Animator = _animator;
+      spriteRenderer = GetComponent<SpriteRenderer>();
       navigator = gameObject.AddComponent<Navigator>();
       equipment = gameObject.AddComponent<Equipment>();
       equipment.tool = GetComponents<Tool>().FirstOrDefault();
       equipment.toy = GetComponents<Toy>().FirstOrDefault();
-      spriteRenderer = GetComponent<SpriteRenderer>();
-      selectedCircle = GetComponentInChildren<GruntSelectedCircle>();
-      HealthBar = GetComponentInChildren<HealthBar>();
-      InitialZ = transform.position.z;
-      Health = 20;
+      healthBar = GetComponentInChildren<HealthBar>();
+      health = 20; // Todo: Replace with constant
+      _animator = gameObject.AddComponent<Animator>();
+      animancer = gameObject.AddComponent<AnimancerComponent>();
+      animancer.Animator = _animator;
+      BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
+      boxCollider.size = new Vector2(1f, 1f);
     }
 
     private void Update() {
-      // foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt != this)) {
-      //   Vector3 gruntPosition = grunt.transform.position;
-      //
-      //   // Continue if not in collision zone
-      //   if (!(Vector3.Distance(gruntPosition, transform.position) < 2f)) {
-      //     continue;
-      //   }
-      //
-      //   // When other Grunt is below self
-      //   if (grunt.IsBehind && gruntPosition.y < transform.position.y) {
-      //     // Set other Grunt in the foreground
-      //     gruntPosition = new Vector3(gruntPosition.x, gruntPosition.y, grunt.InitialZ);
-      //
-      //     grunt.transform.position = gruntPosition;
-      //     grunt.IsBehind = false;
-      //
-      //     // Set self in the background
-      //     transform.position += Vector3.forward * 5;
-      //     IsBehind = true;
-      //   }
-      //
-      //   // When other Grunt is above self
-      //   if (!grunt.IsBehind && gruntPosition.y >= transform.position.y) {
-      //     // Set other Grunt in the background
-      //     grunt.transform.position += Vector3.forward;
-      //     grunt.IsBehind = true;
-      //
-      //     // Set self in the foreground
-      //     transform.position = new Vector3(transform.position.x, transform.position.y, InitialZ);
-      //     IsBehind = false;
-      //   }
-      // }
+      healthBar.spriteRenderer.enabled = isSelected;
+      bool leftCLick = Input.GetMouseButtonDown(0);
+      bool rightClick = Input.GetMouseButtonDown(1);
+      bool leftShiftDown = Input.GetKey(KeyCode.LeftShift);
+      bool isInCircle = SelectorCircle.Instance.OwnNode == navigator.ownNode;
 
-      HealthBar.Renderer.enabled = Health != 20;
-      navigator.hasMoveCommand = isSelected && Input.GetMouseButtonDown(1);
+      // Selection Command
+      if (isInCircle && leftCLick && !leftShiftDown) {
+        SetSingleSelected();
 
-
-      if (isSelected
-        && Input.GetMouseButtonDown(0)
-        && Input.GetKey(KeyCode.LeftShift)
-        && !LevelManager.Instance.allGruntz.Any(
-          grunt => SelectorCircle.Instance.location.Equals(grunt.navigator.ownLocation)
-        )) {
-        haveActionCommand = true;
-
-        TargetObject = GameObject.Find("===== Objectz =====")
-          .GetComponentsInChildren<MapObject>()
-          .FirstOrDefault(o => o.OwnNode == SelectorCircle.Instance.OwnNode);
+        return;
       }
 
-      // Handling action order
-      if (haveActionCommand && !IsInterrupted) {
-        // if (SelectorCircle.Instance.location.Equals(navigator.ownLocation)) {
-        //   // Todo: Bring up equipment menu
-        // }
+      // Move or Action command
+      if (isSelected) {
+        if (rightClick) {
+          navigator.hasMoveCommand = true;
 
-        // Todo: Replace ifs with switch statement (e.g. case (ToolName.Gauntletz):)
+          return;
+        }
 
-        if (HasTool(ToolName.Gauntletz)) {
-          if (TargetObject is Rock or BrickContainer or GiantRockEdge) {
+        if (leftCLick && leftShiftDown) {
+          haveActionCommand = true;
+          _clickedNode = SelectorCircle.Instance.OwnNode;
+        }
+      }
+
+      if (haveActionCommand && !isInterrupted) {
+        targetGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(
+          grunt => grunt.navigator.ownNode.Equals(SelectorCircle.Instance.OwnNode)
+        );
+
+        if (targetGrunt is null) {
+          targetObject = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<MapObject>()
+            .FirstOrDefault(o => o.OwnNode == _clickedNode);
+        }
+
+        if (targetObject is null) {
+          haveActionCommand = false;
+          _clickedNode = null;
+
+          return;
+        }
+
+        if (equipment.tool is Gauntletz) {
+          if (targetObject is Rock or BrickContainer or GiantRockEdge) {
             MoveOrDo();
           } else {
             Debug.Log("No can do");
             haveActionCommand = false;
+            targetObject = null;
+            _clickedNode = null;
           }
         }
 
-        if (HasTool(ToolName.Shovel)) {
-          if (TargetObject is Hole) {
+        if (equipment.tool is Shovel) {
+          if (targetObject is Hole) {
             MoveOrDo();
           } else {
             Debug.Log("No can do");
             haveActionCommand = false;
+            targetObject = null;
+            _clickedNode = null;
           }
         }
       }
 
       // Setting move target
       if (navigator.hasMoveCommand && !AtLocation(SelectorCircle.Instance.location)) {
-        haveActionCommand = false;
+        navigator.hasMoveCommand = false;
 
-        // If Node is blocked
-        if (SelectorCircle.Instance.OwnNode.isBlocked
-          || LevelManager.Instance.allGruntz.Any(
-            grunt => grunt.navigator.ownNode.Equals(SelectorCircle.Instance.OwnNode)
-          )) {
+        if (SelectorCircle.Instance.OwnNode.IsUnavailable() || SelectorCircle.Instance.OwnNode.IsOccupied()) {
           navigator.SetClosestToTarget(SelectorCircle.Instance.OwnNode);
         } else {
-          // If Node is free
           navigator.targetLocation = SelectorCircle.Instance.location;
         }
       }
+
+      #region Death handling
 
       // Handling the case when Grunt is on a blocked Node
       Node node = navigator.ownNode;
@@ -173,10 +174,13 @@ namespace GruntzUnityverse.Actorz {
         StartCoroutine(Death("Hole"));
       }
 
-      // Handling actual movement
-      if (!IsInterrupted) {
-        HandleMovement();
+      #endregion
+
+      if (!isInterrupted) {
+        navigator.MoveTowardsTarget();
       }
+
+      PlayAppropriateAnimation();
     }
 
     public bool AtLocation(Vector2Int location) {
@@ -205,17 +209,20 @@ namespace GruntzUnityverse.Actorz {
       return equipment.toy is not null && equipment.toy.Name.Equals(toy);
     }
 
-    /// <summary>
-    /// Decides between starting the next iteration of movement while playing the walking animation,
-    /// and staying put playing while the idle animation.
-    /// </summary>
-    private void HandleMovement() {
+    private void PlayAppropriateAnimation() {
       if (!AtLocation(navigator.targetLocation)) {
         animancer.Play(AnimationPack.Walk[$"{equipment.tool.toolName}Grunt_Walk_{navigator.facingDirection}"]);
-        navigator.MoveTowardsTarget();
       } else {
         animancer.Play(AnimationPack.Idle[$"{equipment.tool.toolName}Grunt_Idle_{navigator.facingDirection}_01"]);
       }
+    }
+
+    private void SetSingleSelected() {
+      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt1 => grunt1 != this)) {
+        grunt.isSelected = false;
+      }
+
+      isSelected = true;
     }
 
     public IEnumerator PickupItem(string category, string itemName) {
@@ -234,7 +241,7 @@ namespace GruntzUnityverse.Actorz {
           break;
       }
 
-      IsInterrupted = true;
+      isInterrupted = true;
 
       // Wait the time it takes to pick up an item (subject to change)
       yield return new WaitForSeconds(0.8f);
@@ -243,15 +250,19 @@ namespace GruntzUnityverse.Actorz {
         SetAnimPack(itemName);
       }
 
-      IsInterrupted = false;
+      isInterrupted = false;
     }
 
     public void MoveOrDo() {
-      if (IsNeighbour(TargetObject)) {
+      if (IsNeighbour(targetObject)) {
         StartCoroutine(equipment.tool.Use(this));
         haveActionCommand = false;
+        targetObject = null;
+        _clickedNode = null;
       } else {
-        navigator.SetClosestToTarget(TargetObject.OwnNode);
+        Debug.Log("Setting target closest to target");
+        Debug.Log("Target's node is: " + targetObject.OwnNode);
+        navigator.SetClosestToTarget(targetObject.OwnNode);
       }
     }
 
@@ -261,11 +272,11 @@ namespace GruntzUnityverse.Actorz {
         transform.position += Vector3.forward * 15;
       }
 
-      HealthBar.Renderer.enabled = false;
+      healthBar.spriteRenderer.enabled = false;
       // Todo: Stair attribute bars, and move into separate method
       enabled = false;
       navigator.enabled = false;
-      IsInterrupted = true;
+      isInterrupted = true;
 
       AnimationClip deathClip = AnimationManager.Instance.DeathPack[deathName];
 
@@ -280,11 +291,11 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public IEnumerator Death() {
-      HealthBar.Renderer.enabled = false;
+      healthBar.spriteRenderer.enabled = false;
       // Todo: Stair attribute bars, and move into separate method
       enabled = false;
       navigator.enabled = false;
-      IsInterrupted = true;
+      isInterrupted = true;
       AnimationClip deathClip = AnimationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death_01"];
 
       animancer.Play(deathClip);
@@ -312,18 +323,6 @@ namespace GruntzUnityverse.Actorz {
         "Shovel" => AnimationManager.Instance.ShovelGruntPack,
         _ => AnimationManager.Instance.GauntletzGruntPack,
       };
-    }
-
-    protected void OnMouseDown() {
-      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz) {
-        if (grunt == this) {
-          grunt.isSelected = true;
-          // grunt.selectedCircle.enabled = true;
-        } else {
-          grunt.isSelected = false;
-          // grunt.selectedCircle.enabled = false;
-        }
-      }
     }
   }
 }
