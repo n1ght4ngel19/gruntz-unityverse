@@ -4,7 +4,12 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Itemz {
   public abstract class Item : MonoBehaviour {
-    protected abstract void Start();
+    public SpriteRenderer spriteRenderer;
+
+
+    protected virtual void Start() {
+      spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     public abstract IEnumerator Use(Grunt grunt);
   }

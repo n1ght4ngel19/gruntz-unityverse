@@ -4,22 +4,25 @@ using GruntzUnityverse.Objectz.Switchez;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
   public class CheckpointPyramid : Pyramid {
-    private List<CheckpointSwitch> Switchez { get; set; }
+    public Checkpoint ownCheckpoint;
+    private List<CheckpointSwitch> switchez;
 
     protected override void Start() {
       base.Start();
 
-      Switchez = transform.parent.GetComponentsInChildren<CheckpointSwitch>().ToList();
+      ownCheckpoint = transform.parent.GetComponent<Checkpoint>();
+      switchez = transform.parent.GetComponentsInChildren<CheckpointSwitch>().ToList();
     }
 
     private void Update() {
-      if (Switchez.Any(checkpointSwitch => !checkpointSwitch.isPressed)) {
+      if (switchez.Any(checkpointSwitch => !checkpointSwitch.IsPressed)) {
         return;
       }
 
       TogglePyramid();
+      ownCheckpoint.Complete();
 
-      foreach (CheckpointSwitch sw in Switchez) {
+      foreach (CheckpointSwitch sw in switchez) {
         sw.enabled = false;
       }
 

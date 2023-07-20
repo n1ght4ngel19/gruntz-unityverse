@@ -2,27 +2,33 @@
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class ObjectSwitch : MapObject {
-    public Sprite pressedSprite;
-    public Sprite releasedSprite;
-    public bool isPressed;
+    public bool IsPressed;
     protected bool HasBeenPressed;
+    public Sprite pressedSprite;
+    private Sprite _releasedSprite;
+
+    protected override void Start() {
+      base.Start();
+
+      _releasedSprite = SpriteRenderer.sprite;
+    }
 
     protected void PressSwitch() {
-      isPressed = true;
+      IsPressed = true;
       HasBeenPressed = true;
       SpriteRenderer.sprite = pressedSprite;
     }
 
     protected void ReleaseSwitch() {
-      isPressed = false;
+      IsPressed = false;
       HasBeenPressed = false;
-      SpriteRenderer.sprite = releasedSprite;
+      SpriteRenderer.sprite = _releasedSprite;
     }
 
     // This is needed for situations where the Switch is toggled NOT by a Grunt (or other actor)
     protected void ToggleSwitch() {
-      isPressed = !isPressed;
-      SpriteRenderer.sprite = isPressed ? pressedSprite : releasedSprite;
+      IsPressed = !IsPressed;
+      SpriteRenderer.sprite = IsPressed ? pressedSprite : _releasedSprite;
     }
   }
 }

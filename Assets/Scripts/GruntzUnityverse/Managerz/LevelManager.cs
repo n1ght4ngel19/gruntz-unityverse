@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
+using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Brickz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Pyramidz;
@@ -9,6 +11,7 @@ using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using Vector3 = UnityEngine.Vector3;
 
@@ -63,6 +66,14 @@ namespace GruntzUnityverse.Managerz {
 
     #endregion
 
+    #region Flags
+
+    public bool isLevelCompleted;
+
+    #endregion
+
+    List<Checkpoint> checkpoints;
+
     public TMP_Text helpBoxText;
     public GameObject mapObjectContainer;
 
@@ -81,6 +92,20 @@ namespace GruntzUnityverse.Managerz {
       InitializeLevel();
     }
 
+    private void Update() {
+      if (isLevelCompleted) {
+        StartCoroutine(LevelWin());
+      }
+    }
+
+    public IEnumerator LevelWin() {
+      yield return new WaitForSeconds(2f);
+
+      // Todo: Play Grunt teleport away animations
+      // Todo: Play King voice and dance animations
+      SceneManager.LoadSceneAsync("Menuz/StatzMenu");
+    }
+
     private void InitializeLevel() {
       AssignLayerz();
 
@@ -89,6 +114,8 @@ namespace GruntzUnityverse.Managerz {
       CollectObjectz();
 
       CollectGruntz();
+
+      checkpoints = FindObjectsOfType<Checkpoint>().ToList();
 
       foreach (GameObject go in GameObject.FindGameObjectsWithTag("Blocked")) {
         Instance.SetBlockedAt(Vector2Int.FloorToInt(go.transform.position), true);

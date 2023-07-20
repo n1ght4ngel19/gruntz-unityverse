@@ -18,7 +18,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void Update() {
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(location))) {
-        if (isPressed || HasBeenPressed) {
+        if (IsPressed || HasBeenPressed) {
           return;
         }
 

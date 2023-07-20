@@ -1,11 +1,9 @@
-﻿using System.Collections;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Enumz;
+using System.Collections;
 
 namespace GruntzUnityverse.Objectz.Itemz.Toolz {
-  public class Barehandz : Tool {
+  public class Warpstone : Tool {
     public override IEnumerator Use(Grunt grunt) {
-      // Not applicable
       yield return null;
     }
   }

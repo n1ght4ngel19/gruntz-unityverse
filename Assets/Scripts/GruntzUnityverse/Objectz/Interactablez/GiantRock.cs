@@ -36,7 +36,6 @@ namespace GruntzUnityverse.Objectz.Interactablez {
       foreach (GiantRockEdge edge in edges) {
         LevelManager.Instance.SetBlockedAt(edge.location, false);
         LevelManager.Instance.SetHardTurnAt(edge.location, false);
-        edge.animancer.Play(BreakAnimation);
 
         Destroy(edge.gameObject);
       }

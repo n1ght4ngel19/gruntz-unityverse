@@ -1,14 +1,9 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Enumz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Itemz.Toolz {
   public class Shovel : Tool {
-    protected override void Start() {
-      toolName = ToolName.Shovel;
-    }
-
     public override IEnumerator Use(Grunt grunt) {
       Vector2Int diffVector = grunt.targetObject.location - grunt.navigator.ownLocation;
       grunt.isInterrupted = true;

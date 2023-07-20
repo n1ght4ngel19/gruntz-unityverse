@@ -14,7 +14,7 @@ namespace GruntzUnityverse.Objectz {
       base.Start();
 
       Triggers = new List<FortTrigger>();
-      
+
       animancer.Play(Resources.Load<AnimationClip>("Animationz/MapObjectz/Fortz/Clipz/Fort_RockyRoadz"));
     }
 
@@ -29,10 +29,10 @@ namespace GruntzUnityverse.Objectz {
     }
 
     private void SetupTriggerAtNode(Node node) {
-      FortTrigger trigger = Instantiate(FortTriggerPrefab, transform);
+      FortTrigger trigger = Instantiate(FortTriggerPrefab, node.transform);
       trigger.location = node.OwnLocation;
       trigger.OwnNode = LevelManager.Instance.NodeAt(trigger.location);
-      trigger.Main = this;
+      trigger.mainFort = this;
       Triggers.Add(trigger);
     }
   }

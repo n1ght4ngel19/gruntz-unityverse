@@ -51,7 +51,7 @@ namespace GruntzUnityverse.Actorz {
 
     #endregion
 
-    [Header("Action")] [CanBeNull] public MapObject targetObject;
+    [Header("Action")][CanBeNull] public MapObject targetObject;
     [CanBeNull] public Grunt targetGrunt;
     public GruntAnimationPack AnimationPack;
     private Node _clickedNode;
@@ -232,6 +232,9 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case "Tool":
+          Destroy(GetComponents<Tool>().FirstOrDefault());
+          equipment.tool = gameObject.AddComponent<Warpstone>();
+
           animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemName]);
 
           break;

@@ -16,7 +16,7 @@ namespace GruntzUnityverse.Objectz {
     public Vector2Int location;
 
     public Node OwnNode { get; set; }
-    public AnimancerComponent animancer;
+    protected AnimancerComponent animancer;
     protected Animator Animator;
     protected SpriteRenderer SpriteRenderer;
     protected Transform OwnTransform;
