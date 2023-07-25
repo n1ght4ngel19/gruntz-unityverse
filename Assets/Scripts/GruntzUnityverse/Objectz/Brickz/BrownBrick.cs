@@ -16,7 +16,7 @@ namespace GruntzUnityverse.Objectz.Brickz {
     }
 
     public override IEnumerator Break() {
-      animancer.Play(BreakAnimation);
+      Animancer.Play(BreakAnimation);
 
       Destroy(gameObject, 1f);
 

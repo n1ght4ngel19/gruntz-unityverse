@@ -11,9 +11,10 @@ namespace GruntzUnityverse.Objectz.MapItemz {
 
     protected override void Start() {
       base.Start();
+
       PickupTool = gameObject.GetComponent<Tool>();
-      RotationAnimation = Resources.Load<AnimationClip>($"Animationz/MapItemz/Tool/Clipz/{PickupTool.GetType().Name}");
-      animancer.Play(RotationAnimation);
+      RotationAnimation = Resources.Load<AnimationClip>($"Animationz/MapItemz/Tool/Clipz/{PickupTool.GetType().Name}_Rotating");
+      Animancer.Play(RotationAnimation);
     }
 
     private void Update() {
@@ -23,7 +24,7 @@ namespace GruntzUnityverse.Objectz.MapItemz {
         StatzManager.Instance.acquiredToolz++;
         grunt.equipment.tool = PickupTool;
 
-        StartCoroutine(grunt.PickupItem("Tool", PickupTool.GetType().Name));
+        StartCoroutine(grunt.PickupItem(PickupTool, nameof(Tool), PickupTool.GetType().Name));
 
         break;
       }

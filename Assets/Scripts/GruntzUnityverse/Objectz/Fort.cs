@@ -15,7 +15,7 @@ namespace GruntzUnityverse.Objectz {
 
       Triggers = new List<FortTrigger>();
 
-      animancer.Play(Resources.Load<AnimationClip>("Animationz/MapObjectz/Fortz/Clipz/Fort_RockyRoadz"));
+      Animancer.Play(Resources.Load<AnimationClip>("Animationz/MapObjectz/Fortz/Clipz/Fort_RockyRoadz"));
     }
 
     private void Update() {

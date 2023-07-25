@@ -7,8 +7,8 @@ namespace GruntzUnityverse.Objectz.MapItemz.Misc {
   public class Coin : MapItem {
     protected override void Start() {
       base.Start();
-      RotationAnimation = Resources.Load<AnimationClip>("Animationz/MapItemz/Misc/Clipz/Coin");
-      animancer.Play(RotationAnimation);
+      RotationAnimation = Resources.Load<AnimationClip>("Animationz/MapItemz/Misc/Clipz/Coin_Rotating");
+      Animancer.Play(RotationAnimation);
     }
 
     private void Update() {
@@ -17,7 +17,7 @@ namespace GruntzUnityverse.Objectz.MapItemz.Misc {
 
         StatzManager.Instance.acquiredCoinz++;
 
-        StartCoroutine(grunt.PickupItem("Misc", nameof(Coin)));
+        StartCoroutine(grunt.PickupMiscItem(nameof(Coin)));
 
         break;
       }

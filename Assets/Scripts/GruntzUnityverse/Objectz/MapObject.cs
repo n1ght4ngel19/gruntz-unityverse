@@ -16,9 +16,9 @@ namespace GruntzUnityverse.Objectz {
     public Vector2Int location;
 
     public Node OwnNode { get; set; }
-    protected AnimancerComponent animancer;
+    public SpriteRenderer spriteRenderer;
+    protected AnimancerComponent Animancer;
     protected Animator Animator;
-    protected SpriteRenderer SpriteRenderer;
     protected Transform OwnTransform;
     protected Camera MainCamera;
 
@@ -26,21 +26,21 @@ namespace GruntzUnityverse.Objectz {
     protected virtual void Start() {
       location = Vector2Int.FloorToInt(transform.position);
       OwnTransform = gameObject.GetComponent<Transform>();
-      SpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+      spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
       MainCamera = Camera.main;
-      Animator = gameObject.AddComponent<Animator>();
-      animancer = gameObject.AddComponent<AnimancerComponent>();
-      animancer.Animator = Animator;
+      Animator = Animator is null ? gameObject.AddComponent<Animator>() : Animator;
+      Animancer = Animancer is null ? gameObject.AddComponent<AnimancerComponent>() : Animancer;
+      Animancer.Animator = Animator;
       OwnNode = LevelManager.Instance.NodeAt(location);
     }
 
     protected void SetEnabled(bool value) {
       enabled = value;
-      SpriteRenderer.enabled = value;
+      spriteRenderer.enabled = value;
     }
 
     protected void AssignAreaBySpriteName() {
-      string spriteName = SpriteRenderer.sprite.name;
+      string spriteName = spriteRenderer.sprite.name;
 
       if (spriteName.StartsWith("RR_")) {
         area = Area.RockyRoadz;

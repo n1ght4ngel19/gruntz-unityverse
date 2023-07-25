@@ -21,7 +21,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 
     private void SwitchOpen() {
       IsOpen = !IsOpen;
-      SpriteRenderer.sprite = IsOpen ? OpenSprite : FilledSprite;
+      spriteRenderer.sprite = IsOpen ? OpenSprite : FilledSprite;
     }
   }
 }

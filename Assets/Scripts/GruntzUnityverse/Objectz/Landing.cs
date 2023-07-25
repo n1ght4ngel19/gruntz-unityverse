@@ -6,7 +6,7 @@ namespace GruntzUnityverse.Objectz {
     private Vector2Int _ownLocation;
 
 
-    private void Update() {
+    private void Start() {
       _ownLocation = Vector2Int.FloorToInt(transform.position);
       LevelManager.Instance.SetBlockedAt(_ownLocation, false);
       LevelManager.Instance.SetWaterAt(_ownLocation, false);

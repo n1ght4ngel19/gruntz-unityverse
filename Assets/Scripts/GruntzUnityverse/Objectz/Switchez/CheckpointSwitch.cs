@@ -56,18 +56,15 @@ namespace GruntzUnityverse.Objectz.Switchez {
     }
 
     private void SetupSprite() {
-      string spriteName = SpriteRenderer.sprite.name;
+      string spriteName = spriteRenderer.sprite.name;
 
       if (spriteName.Contains(ToolName.Gauntletz.ToString())) {
         _requiredTool = ToolName.Gauntletz;
-      }
-      else if (spriteName.Contains(ToolName.Shovel.ToString())) {
+      } else if (spriteName.Contains(ToolName.Shovel.ToString())) {
         _requiredTool = ToolName.Shovel;
-      }
-      else if (spriteName.Contains(ToolName.Warpstone.ToString())) {
+      } else if (spriteName.Contains(ToolName.Warpstone.ToString())) {
         _requiredTool = ToolName.Warpstone;
-      }
-      else {
+      } else {
         _requiredTool = ToolName.Barehandz;
       }
 

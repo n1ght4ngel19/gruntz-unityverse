@@ -27,7 +27,7 @@ namespace GruntzUnityverse.Objectz.Arrowz {
     }
 
     protected void SetDirection() {
-      string spriteName = SpriteRenderer.sprite.name;
+      string spriteName = spriteRenderer.sprite.name;
 
       if (spriteName.Contains("Northeast")) {
         direction = Direction.Northeast;

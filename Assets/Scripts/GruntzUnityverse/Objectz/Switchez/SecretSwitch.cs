@@ -22,6 +22,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
       }
 
       enabled = false;
+      StatzManager.Instance.acquiredSecretz++;
     }
 
     private IEnumerator HandleSecretObject(SecretObject secretObject) {

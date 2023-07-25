@@ -40,7 +40,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
         Destroy(edge.gameObject);
       }
 
-      animancer.Play(BreakAnimation);
+      Animancer.Play(BreakAnimation);
 
       yield return new WaitForSeconds(1f);
 

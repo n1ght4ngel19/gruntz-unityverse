@@ -20,7 +20,7 @@ namespace GruntzUnityverse.Objectz.Bridgez {
     }
 
     public void Crumble() {
-      animancer.Play(Anim);
+      Animancer.Play(Anim);
 
       LevelManager.Instance.SetBlockedAt(location, false);
     }

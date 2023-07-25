@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using GruntzUnityverse.Objectz.Itemz;
+using GruntzUnityverse.Objectz.MapItemz.Misc;
+using GruntzUnityverse.Objectz.Switchez;
+using UnityEngine;
 
 namespace GruntzUnityverse.Managerz {
   public class StatzManager : MonoBehaviour {
@@ -14,6 +17,13 @@ namespace GruntzUnityverse.Managerz {
       } else {
         _Instance = this;
       }
+
+      maxToolz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Tool>().Length;
+      maxToyz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Toy>().Length;
+      maxPowerupz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Powerup>().Length;
+      maxCoinz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Coin>().Length;
+      maxSecretz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<SecretSwitch>().Length;
+      maxWarpletterz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Warpletter>().Length;
     }
 
 
@@ -39,7 +49,7 @@ namespace GruntzUnityverse.Managerz {
     public int maxSecretz;
     public int acquiredSecretz;
 
-    public int maxWarpLetterz;
-    public int acquiredWarpLetterz;
+    public int maxWarpletterz;
+    public int acquiredWarpletterz;
   }
 }

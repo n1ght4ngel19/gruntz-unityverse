@@ -13,14 +13,14 @@ namespace GruntzUnityverse.Objectz.Arrowz {
     protected override void Start() {
       base.Start();
 
-      _initialSprite = SpriteRenderer.sprite;
+      _initialSprite = spriteRenderer.sprite;
       _initialDirection = direction;
       _changedDirection = OppositeOf(_initialDirection);
     }
 
     public void ChangeDirection() {
       direction = direction.Equals(_initialDirection) ? _changedDirection : _initialDirection;
-      SpriteRenderer.sprite = direction.Equals(_initialDirection) ? _initialSprite : changedSprite;
+      spriteRenderer.sprite = direction.Equals(_initialDirection) ? _initialSprite : changedSprite;
     }
 
     private static Direction OppositeOf(Direction dir) {

@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using GruntzUnityverse.Actorz;
+﻿using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
+using System.Collections;
 
 namespace GruntzUnityverse.Objectz.Itemz.Toyz {
   public class NoToy : Toy {

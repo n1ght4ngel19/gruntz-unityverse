@@ -58,12 +58,12 @@ namespace GruntzUnityverse.Actorz {
 
 
     private void Start() {
-      spriteRenderer = GetComponent<SpriteRenderer>();
+      spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
       navigator = gameObject.AddComponent<Navigator>();
       equipment = gameObject.AddComponent<Equipment>();
-      equipment.tool = GetComponents<Tool>().FirstOrDefault();
-      equipment.toy = GetComponents<Toy>().FirstOrDefault();
-      healthBar = GetComponentInChildren<HealthBar>();
+      equipment.tool = gameObject.GetComponents<Tool>().FirstOrDefault();
+      equipment.toy = gameObject.GetComponents<Toy>().FirstOrDefault();
+      healthBar = gameObject.GetComponentInChildren<HealthBar>();
       health = 20; // Todo: Replace with constant
       _animator = gameObject.AddComponent<Animator>();
       animancer = gameObject.AddComponent<AnimancerComponent>();
@@ -225,20 +225,38 @@ namespace GruntzUnityverse.Actorz {
       isSelected = true;
     }
 
-    public IEnumerator PickupItem(string category, string itemName) {
+    public IEnumerator PickupItem(Item item, string category, string itemName) {
       switch (category) {
-        case "Misc":
-          animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemName]);
-
-          break;
-        case "Tool":
+        case nameof(Tool):
           Destroy(GetComponents<Tool>().FirstOrDefault());
-          equipment.tool = gameObject.AddComponent<Warpstone>();
+
+          switch (itemName) {
+            case nameof(Gauntletz):
+              equipment.tool = gameObject.AddComponent<Gauntletz>();
+
+              break;
+            case nameof(Shovel):
+              equipment.tool = gameObject.AddComponent<Shovel>();
+
+              break;
+            case nameof(Warpstone):
+              equipment.tool = gameObject.AddComponent<Warpstone>();
+
+              break;
+          }
 
           animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemName]);
+          // Todo: Play pickup sound
+
+          yield return new WaitForSeconds(0.8f);
+
+          SetAnimPack(itemName);
 
           break;
-        case "Toy":
+        case nameof(Toy):
+          Destroy(GetComponents<Toy>().FirstOrDefault());
+          //equipment.toy = gameObject.AddComponent<Beachball>();
+
           animancer.Play(AnimationManager.Instance.PickupPack.Toy[itemName]);
 
           break;
@@ -249,9 +267,16 @@ namespace GruntzUnityverse.Actorz {
       // Wait the time it takes to pick up an item (subject to change)
       yield return new WaitForSeconds(0.8f);
 
-      if (category == "Tool") {
-        SetAnimPack(itemName);
-      }
+      isInterrupted = false;
+    }
+
+    public IEnumerator PickupMiscItem(string itemName) {
+      animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemName]);
+
+      isInterrupted = true;
+
+      // Wait the time it takes to pick up an item (subject to change)
+      yield return new WaitForSeconds(0.8f);
 
       isInterrupted = false;
     }
@@ -321,10 +346,11 @@ namespace GruntzUnityverse.Actorz {
 
     public void SetAnimPack(string tool) {
       AnimationPack = tool switch {
-        "Barehandz" => AnimationManager.Instance.BarehandzGruntPack,
-        "Gauntletz" => AnimationManager.Instance.GauntletzGruntPack,
-        "Shovel" => AnimationManager.Instance.ShovelGruntPack,
-        _ => AnimationManager.Instance.GauntletzGruntPack,
+        nameof(Barehandz) => AnimationManager.Instance.BarehandzGruntPack,
+        nameof(Gauntletz) => AnimationManager.Instance.GauntletzGruntPack,
+        nameof(Shovel) => AnimationManager.Instance.ShovelGruntPack,
+        //nameof(Warpstone) => AnimationManager.Instance.WarpstonePack,
+        _ => AnimationManager.Instance.BarehandzGruntPack,
       };
     }
   }

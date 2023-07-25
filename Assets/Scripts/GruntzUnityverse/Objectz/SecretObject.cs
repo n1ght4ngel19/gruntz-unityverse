@@ -8,8 +8,6 @@ namespace GruntzUnityverse.Objectz {
   /// Representation of an Object (of any kind) that is connected to a SecretSwitch.
   /// </summary>
   public class SecretObject : MapObject {
-    // [field: SerializeField] public Behaviour Behaviour { get; set; }
-    public List<MonoBehaviour> otherBehaviours;
     public bool isBlocked;
     public bool isBurn;
     public bool isDeath;
@@ -32,15 +30,6 @@ namespace GruntzUnityverse.Objectz {
       base.Start();
 
       SetEnabled(false);
-
-      // Todo: Figure out what this wants to do (seems like nothing, but have to make sure)
-      otherBehaviours = GetComponents<MonoBehaviour>().ToList();
-
-      foreach (MonoBehaviour behaviour in otherBehaviours.Where(
-        behaviour => behaviour.GetType() != typeof(SecretObject)
-      )) {
-        behaviour.enabled = false;
-      }
     }
 
     /// <summary>
@@ -56,13 +45,8 @@ namespace GruntzUnityverse.Objectz {
       _isInitiallyWater = LevelManager.Instance.IsWaterAt(location);
       SetEnabled(true);
 
-      foreach (MonoBehaviour behaviour in otherBehaviours.Where(
-        behaviour => behaviour.GetType() != typeof(SecretObject)
-      )) {
-        behaviour.enabled = true;
-      }
-
       LevelManager.Instance.SetBlockedAt(location, isBlocked);
+      // Todo: Other Node flags
     }
 
     /// <summary>

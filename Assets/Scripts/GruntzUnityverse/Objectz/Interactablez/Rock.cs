@@ -20,7 +20,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
       // 1.5s is the delay after the beginning of the GauntletzGrunt's Rock breaking animation (when the Rock actually should break)
       yield return new WaitForSeconds(1.5f);
 
-      animancer.Play(BreakAnimation);
+      Animancer.Play(BreakAnimation);
 
       yield return new WaitForSeconds(1f);
 

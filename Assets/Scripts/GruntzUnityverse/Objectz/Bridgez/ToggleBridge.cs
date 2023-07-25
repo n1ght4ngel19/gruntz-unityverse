@@ -35,7 +35,7 @@ namespace GruntzUnityverse.Objectz.Bridgez {
     }
 
     public void Toggle() {
-      animancer.Play(isDown ? _upAnim : _downAnim);
+      Animancer.Play(isDown ? _upAnim : _downAnim);
 
       isDown = !isDown;
       LevelManager.Instance.SetBlockedAt(location, isDown);

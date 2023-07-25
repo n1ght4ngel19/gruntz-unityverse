@@ -10,25 +10,25 @@ namespace GruntzUnityverse.Objectz.Switchez {
     protected override void Start() {
       base.Start();
 
-      _releasedSprite = SpriteRenderer.sprite;
+      _releasedSprite = spriteRenderer.sprite;
     }
 
     protected void PressSwitch() {
       IsPressed = true;
       HasBeenPressed = true;
-      SpriteRenderer.sprite = pressedSprite;
+      spriteRenderer.sprite = pressedSprite;
     }
 
     protected void ReleaseSwitch() {
       IsPressed = false;
       HasBeenPressed = false;
-      SpriteRenderer.sprite = _releasedSprite;
+      spriteRenderer.sprite = _releasedSprite;
     }
 
     // This is needed for situations where the Switch is toggled NOT by a Grunt (or other actor)
     protected void ToggleSwitch() {
       IsPressed = !IsPressed;
-      SpriteRenderer.sprite = IsPressed ? pressedSprite : _releasedSprite;
+      spriteRenderer.sprite = IsPressed ? pressedSprite : _releasedSprite;
     }
   }
 }

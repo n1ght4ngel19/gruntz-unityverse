@@ -25,7 +25,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(location))) {
         TogglePyramidz();
 
-        SpriteRenderer.sprite = pressedSprite;
+        spriteRenderer.sprite = pressedSprite;
         enabled = false;
       }
     }
