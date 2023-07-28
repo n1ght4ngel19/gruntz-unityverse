@@ -11,7 +11,7 @@ using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Tilemaps;
 using Vector3 = UnityEngine.Vector3;
 
@@ -103,7 +103,7 @@ namespace GruntzUnityverse.Managerz {
 
       // Todo: Play Grunt teleport away animations
       // Todo: Play King voice and dance animations
-      SceneManager.LoadSceneAsync("Menuz/StatzMenu");
+      Addressables.LoadSceneAsync("Menuz/StatzMenu");
     }
 
     private void InitializeLevel() {

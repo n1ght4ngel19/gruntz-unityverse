@@ -1,7 +1,7 @@
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Misc;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse {
   public class PauseMenu : MonoBehaviour {
@@ -51,7 +51,7 @@ namespace GruntzUnityverse {
 
     public void QuitGame() {
       Debug.Log("Save Game");
-      SceneManager.LoadSceneAsync("MainMenu");
+      Addressables.LoadSceneAsync("MainMenu");
     }
   }
 }

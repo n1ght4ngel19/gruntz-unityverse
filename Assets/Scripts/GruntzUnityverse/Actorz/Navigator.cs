@@ -103,11 +103,11 @@ namespace GruntzUnityverse.Actorz {
         ChangeFacingDirection(moveVector);
 
         if (isMoveForced) {
-          // Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(targetLocation));
+          Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(targetLocation));
 
-          // if (deadGrunt is not null) {
-          //   StartCoroutine(deadGrunt.Death("Squash"));
-          // }
+          if (deadGrunt != null) {
+            StartCoroutine(deadGrunt.Death("Squash"));
+          }
 
           isMoveForced = false;
         }
