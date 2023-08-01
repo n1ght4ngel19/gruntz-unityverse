@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class CheckpointSwitch : ObjectSwitch {
-    private Checkpoint _ownCheckpoint;
     private List<CheckpointPyramid> _pyramidz;
     private ToolName _requiredTool;
     private ToyName _requiredToy;
@@ -17,10 +16,9 @@ namespace GruntzUnityverse.Objectz.Switchez {
     protected override void Start() {
       base.Start();
 
-      _ownCheckpoint = transform.parent.GetComponent<Checkpoint>();
       _pyramidz = transform.parent.GetComponentsInChildren<CheckpointPyramid>().ToList();
 
-      SetupSprite();
+      SetupSwitch();
     }
 
     private void Update() {
@@ -31,31 +29,36 @@ namespace GruntzUnityverse.Objectz.Switchez {
         enabled = false;
       }
 
+      if (IsRequirementSatisfied()) {
+        PressSwitch();
+      } else {
+        ReleaseSwitch();
+      }
+    }
+
+    private bool IsRequirementSatisfied() {
       foreach (Grunt grunt in LevelManager.Instance.allGruntz) {
         if (!grunt.AtLocation(location)) {
           continue;
         }
 
         if (_requiredToy is not ToyName.None && grunt.HasToy(_requiredToy)) {
-          PressSwitch();
-          break;
+          return true;
         }
 
         if (_requiredTool is ToolName.Barehandz) {
-          PressSwitch();
-          break;
+          return true;
         }
 
         if (grunt.HasTool(_requiredTool)) {
-          PressSwitch();
-          break;
+          return true;
         }
-
-        ReleaseSwitch();
       }
+
+      return false;
     }
 
-    private void SetupSprite() {
+    private void SetupSwitch() {
       string spriteName = spriteRenderer.sprite.name;
 
       if (spriteName.Contains(ToolName.Gauntletz.ToString())) {

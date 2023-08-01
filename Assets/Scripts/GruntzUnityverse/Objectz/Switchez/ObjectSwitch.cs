@@ -2,10 +2,10 @@
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class ObjectSwitch : MapObject {
-    public bool IsPressed;
-    protected bool HasBeenPressed;
     public Sprite pressedSprite;
     private Sprite _releasedSprite;
+    public bool isPressed;
+    protected bool HasBeenPressed;
 
     protected override void Start() {
       base.Start();
@@ -13,22 +13,22 @@ namespace GruntzUnityverse.Objectz.Switchez {
       _releasedSprite = spriteRenderer.sprite;
     }
 
-    protected void PressSwitch() {
-      IsPressed = true;
+    public void PressSwitch() {
+      isPressed = true;
       HasBeenPressed = true;
       spriteRenderer.sprite = pressedSprite;
     }
 
-    protected void ReleaseSwitch() {
-      IsPressed = false;
+    public void ReleaseSwitch() {
+      isPressed = false;
       HasBeenPressed = false;
       spriteRenderer.sprite = _releasedSprite;
     }
 
     // This is needed for situations where the Switch is toggled NOT by a Grunt (or other actor)
     protected void ToggleSwitch() {
-      IsPressed = !IsPressed;
-      spriteRenderer.sprite = IsPressed ? pressedSprite : _releasedSprite;
+      isPressed = !isPressed;
+      spriteRenderer.sprite = isPressed ? pressedSprite : _releasedSprite;
     }
   }
 }

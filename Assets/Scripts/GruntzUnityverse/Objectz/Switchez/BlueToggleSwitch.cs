@@ -5,30 +5,28 @@ using GruntzUnityverse.Objectz.Bridgez;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class BlueToggleSwitch : ObjectSwitch {
-    private List<Bridge> Bridgez { get; set; }
+    private List<Bridge> _bridgez;
 
 
     protected override void Start() {
       base.Start();
 
-      Bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
+      _bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
     }
 
     private void Update() {
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(location))) {
-        if (HasBeenPressed) {
-          return;
+        if (!HasBeenPressed) {
+          PressSwitch();
+          ToggleBridgez();
         }
-
-        ToggleBridgez();
-        PressSwitch();
       } else {
         ReleaseSwitch();
       }
     }
 
-    private void ToggleBridgez() {
-      foreach (Bridge bridge in Bridgez) {
+    public void ToggleBridgez() {
+      foreach (Bridge bridge in _bridgez) {
         bridge.Toggle();
       }
     }

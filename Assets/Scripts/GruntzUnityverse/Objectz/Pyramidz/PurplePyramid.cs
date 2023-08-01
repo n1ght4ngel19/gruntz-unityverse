@@ -15,7 +15,7 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
     }
 
     private void Update() {
-      if (Switchez.Any(purpleSwitch => !purpleSwitch.IsPressed)) {
+      if (Switchez.Any(purpleSwitch => !purpleSwitch.isPressed)) {
         if (!HasChanged) {
           return;
         }
