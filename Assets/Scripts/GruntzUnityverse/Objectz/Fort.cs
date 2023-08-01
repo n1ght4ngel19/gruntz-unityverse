@@ -6,21 +6,21 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz {
   public class Fort : MapObject {
     [field: SerializeField] private FortTrigger FortTriggerPrefab { get; set; }
-    private List<FortTrigger> Triggers { get; set; }
+    private List<FortTrigger> _triggerz;
     private bool IsSetup { get; set; }
 
 
     protected override void Start() {
       base.Start();
 
-      Triggers = new List<FortTrigger>();
+      _triggerz = new List<FortTrigger>();
 
       Animancer.Play(Resources.Load<AnimationClip>("Animationz/MapObjectz/Fortz/Clipz/Fort_RockyRoadz"));
     }
 
     private void Update() {
       if (!IsSetup) {
-        foreach (Node node in OwnNode.Neighbours) {
+        foreach (Node node in ownNode.Neighbours) {
           SetupTriggerAtNode(node);
         }
       }
@@ -31,9 +31,9 @@ namespace GruntzUnityverse.Objectz {
     private void SetupTriggerAtNode(Node node) {
       FortTrigger trigger = Instantiate(FortTriggerPrefab, node.transform);
       trigger.location = node.OwnLocation;
-      trigger.OwnNode = LevelManager.Instance.NodeAt(trigger.location);
-      trigger.mainFort = this;
-      Triggers.Add(trigger);
+      trigger.ownNode = LevelManager.Instance.NodeAt(trigger.location);
+      trigger.ownFort = this;
+      _triggerz.Add(trigger);
     }
   }
 }

@@ -4,7 +4,7 @@ using GruntzUnityverse.Managerz;
 
 namespace GruntzUnityverse.Objectz {
   public class FortTrigger : MapObject {
-    public Fort mainFort;
+    public Fort ownFort;
 
 
     protected override void Start() {
@@ -14,8 +14,8 @@ namespace GruntzUnityverse.Objectz {
     }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.allGruntz) {
-        if (grunt.AtLocation(OwnNode.OwnLocation) && grunt.HasTool(ToolName.Warpstone)) {
+      foreach (Grunt grunt in LevelManager.Instance.playerGruntz) {
+        if (grunt.AtLocation(ownNode.OwnLocation) && grunt.HasTool(ToolName.Warpstone)) {
           LevelManager.Instance.isLevelCompleted = true;
           enabled = false;
         }

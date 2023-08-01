@@ -17,7 +17,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 
       BreakAnimation = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Rockz/Clipz/RockBreak_{area}_01");
 
-      foreach (Node node in OwnNode.Neighbours) {
+      foreach (Node node in ownNode.Neighbours) {
         GiantRockEdge edge = Instantiate(giantRockEdge, node.transform.position, Quaternion.identity);
         edge.mainRock = this;
         edge.BreakAnimation = BreakAnimation;

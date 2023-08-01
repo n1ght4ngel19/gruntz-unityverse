@@ -6,8 +6,6 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Managerz {
   public class AnimationManager : MonoBehaviour {
-    private static AnimationManager _instance;
-
     public GruntAnimationPack BarehandzGruntPack { get; set; }
     public GruntAnimationPack GauntletzGruntPack { get; set; }
     public GruntAnimationPack ShovelGruntPack { get; set; }
@@ -16,15 +14,13 @@ namespace GruntzUnityverse.Managerz {
     public Dictionary<string, AnimationClip> DeathPack { get; set; }
     // [SerializeField] public CursorAnimationPack CursorAnimations { get; set; }
 
-    public static AnimationManager Instance {
-      get => _instance;
-    }
+    public static AnimationManager Instance { get; private set; }
 
     private void Start() {
-      if (_instance != null && _instance != this) {
+      if (Instance != null && Instance != this) {
         Destroy(gameObject);
       } else {
-        _instance = this;
+        Instance = this;
       }
 
       BarehandzGruntPack = new GruntAnimationPack(ToolName.Barehandz);

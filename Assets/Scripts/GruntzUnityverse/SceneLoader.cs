@@ -13,31 +13,40 @@ namespace GruntzUnityverse {
       switch (area) {
         case Area.RockyRoadz:
           prefix = "RR_";
+
           break;
         case Area.Gruntziclez:
           prefix = "GR_";
+
           break;
         case Area.TroubleInTheTropicz:
           prefix = "TITT_";
+
           break;
         case Area.HighOnSweetz:
           prefix = "HOS_";
+
           break;
         case Area.HighRollerz:
           prefix = "HR_";
+
           break;
         case Area.HoneyIShrunkTheGruntz:
           prefix = "HISTG_";
+
           break;
         case Area.TheMiniatureMasterz:
           prefix = "TMM_";
+
           break;
         case Area.GruntzInSpace:
           prefix = "GIS_";
+
           break;
         case Area.None:
           throw new ArgumentException("The value of area should be one of the 9 areas.");
       }
+
       Addressables.LoadSceneAsync($"Assets/Levelz/{area}/{prefix}{gameObject.name}.unity");
     }
   }
