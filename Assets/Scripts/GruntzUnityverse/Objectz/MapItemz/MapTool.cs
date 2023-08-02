@@ -13,7 +13,10 @@ namespace GruntzUnityverse.Objectz.MapItemz {
       base.Start();
 
       PickupTool = gameObject.GetComponent<Tool>();
-      RotationAnimation = Resources.Load<AnimationClip>($"Animationz/MapItemz/Tool/Clipz/{PickupTool.GetType().Name}_Rotating");
+
+      RotationAnimation =
+        Resources.Load<AnimationClip>($"Animationz/MapItemz/Tool/Clipz/{PickupTool.GetType().Name}_Rotating");
+
       Animancer.Play(RotationAnimation);
     }
 

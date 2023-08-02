@@ -37,19 +37,11 @@ namespace GruntzUnityverse.Pathfinding {
         closedList.Add(currentNode);
 
         foreach (Node neighbour in currentNode.Neighbours) {
-          if (closedList.Contains(neighbour)) {
+          if (closedList.Contains(neighbour) || neighbour.IsUnavailable()) {
             continue;
           }
 
-          if (neighbour.isBlocked) {
-            continue;
-          }
-
-          if (neighbour.isWater) {
-            continue;
-          }
-
-          if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtLocation(neighbour.OwnLocation)) && !isForced) {
+          if (neighbour.IsOccupied() && !isForced) {
             continue;
           }
 
@@ -112,8 +104,8 @@ namespace GruntzUnityverse.Pathfinding {
 
     private static int DistanceBetween(Node startNode, Node endNode) {
       return Math.Max(
-        Math.Abs(startNode.OwnLocation.x - endNode.OwnLocation.x),
-        Math.Abs(startNode.OwnLocation.y - startNode.OwnLocation.y)
+        Math.Abs(startNode.location.x - endNode.location.x),
+        Math.Abs(startNode.location.y - startNode.location.y)
       );
     }
   }

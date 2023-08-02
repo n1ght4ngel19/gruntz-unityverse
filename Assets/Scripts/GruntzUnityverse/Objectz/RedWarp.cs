@@ -20,7 +20,7 @@ namespace GruntzUnityverse.Objectz {
         enabled = false;
       }
 
-      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtLocation(location))) {
+      foreach (Grunt grunt in LevelManager.Instance.playerGruntz.Where(grunt => grunt.AtLocation(location))) {
         MainCamera.transform.position = new Vector3(target.location.x, target.location.y, MainCamera.transform.position.z);
         target.spriteRenderer.enabled = true;
 
@@ -36,8 +36,6 @@ namespace GruntzUnityverse.Objectz {
       grunt.navigator.ownLocation = target.location;
       grunt.navigator.ownNode = LevelManager.Instance.NodeAt(target.location);
       grunt.navigator.targetLocation = target.location;
-      grunt.navigator.previousLocation = Vector2Int.zero;
-      grunt.navigator.savedTargetLocation = Vector2Int.zero;
       grunt.navigator.pathStart = null;
       grunt.navigator.pathEnd = null;
     }

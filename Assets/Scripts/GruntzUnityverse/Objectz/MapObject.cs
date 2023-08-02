@@ -14,24 +14,23 @@ namespace GruntzUnityverse.Objectz {
   public class MapObject : MonoBehaviour {
     public Area area;
     public Vector2Int location;
-
-    public Node OwnNode { get; set; }
-    public SpriteRenderer spriteRenderer;
-    protected AnimancerComponent Animancer;
-    protected Animator Animator;
+    public Node ownNode;
+    [HideInInspector] public SpriteRenderer spriteRenderer;
     protected Transform OwnTransform;
     protected Camera MainCamera;
+    protected AnimancerComponent Animancer;
+    private Animator _animator;
 
 
     protected virtual void Start() {
       location = Vector2Int.FloorToInt(transform.position);
-      OwnTransform = gameObject.GetComponent<Transform>();
+      ownNode = LevelManager.Instance.NodeAt(location);
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+      OwnTransform = gameObject.GetComponent<Transform>();
       MainCamera = Camera.main;
-      Animator = Animator is null ? gameObject.AddComponent<Animator>() : Animator;
-      Animancer = Animancer is null ? gameObject.AddComponent<AnimancerComponent>() : Animancer;
-      Animancer.Animator = Animator;
-      OwnNode = LevelManager.Instance.NodeAt(location);
+      _animator ??= gameObject.AddComponent<Animator>();
+      Animancer ??= gameObject.AddComponent<AnimancerComponent>();
+      Animancer.Animator = _animator;
     }
 
     protected void SetEnabled(bool value) {

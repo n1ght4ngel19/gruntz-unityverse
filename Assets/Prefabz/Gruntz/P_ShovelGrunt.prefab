@@ -27,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6986435730129850750}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16, y: 16, z: 20}
+  m_LocalPosition: {x: 0, y: 0, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2809989143708575416}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6986435730129850749
 SpriteRenderer:
@@ -100,16 +100,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e38a4316569248eaa569b3f7736a0552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Owner>k__BackingField: 0
-  commandMode: 0
+  gruntId: 0
+  owner: 0
+  moveSpeed: 0
+  health: 0
+  stamina: 0
+  powerupTime: 0
+  toyTime: 0
+  wingzTime: 0
   isSelected: 0
+  isInCircle: 0
+  isInterrupted: 0
   haveActionCommand: 0
-  <Health>k__BackingField: 0
-  animancer: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   navigator: {fileID: 0}
   equipment: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  selectedCircle: {fileID: 0}
+  healthBar: {fileID: 0}
+  animancer: {fileID: 0}
+  targetObject: {fileID: 0}
+  targetGrunt: {fileID: 0}
+  clickedNode: {fileID: 0}
 --- !u!114 &-8262829897860144415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce2387adfdc442fa29d2689b4740c40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
   toolName: 0
 --- !u!114 &-2112612349377219031
 MonoBehaviour:
@@ -135,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9077f7b7126458aa8639e9fb8e51309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
 --- !u!1001 &5047365830611351490
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -17,11 +17,9 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GruntzUnityverse.Managerz {
   public class LevelManager : MonoBehaviour {
-    private static LevelManager _Instance;
+    public static LevelManager Instance { get; private set; }
 
-    public static LevelManager Instance {
-      get => _Instance;
-    }
+    public int gruntIdCounter = 0;
 
     #region Layerz
 
@@ -34,7 +32,10 @@ namespace GruntzUnityverse.Managerz {
     #region Objectz
 
     // ----- Objectz -----
-    [field: Header("Objectz")] public List<Grunt> allGruntz;
+    [field: Header("Objectz")] public List<Grunt> playerGruntz;
+    public List<Grunt> enemyGruntz;
+    public List<Grunt> allGruntz;
+
     [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<BrickContainer> BrickContainerz { get; set; }
     [field: SerializeField] public List<BrickFoundation> BrickFoundationz { get; set; }
@@ -72,17 +73,20 @@ namespace GruntzUnityverse.Managerz {
 
     #endregion
 
-    List<Checkpoint> checkpoints;
+    #region Others
 
+    List<Checkpoint> checkpointz;
     public TMP_Text helpBoxText;
     public GameObject mapObjectContainer;
 
+    #endregion
+
 
     private void Awake() {
-      if (_Instance != null && _Instance != this) {
+      if (Instance != null && Instance != this) {
         Destroy(gameObject);
       } else {
-        _Instance = this;
+        Instance = this;
       }
 
       Application.targetFrameRate = 60;
@@ -115,7 +119,7 @@ namespace GruntzUnityverse.Managerz {
 
       CollectGruntz();
 
-      checkpoints = FindObjectsOfType<Checkpoint>().ToList();
+      checkpointz = FindObjectsOfType<Checkpoint>().ToList();
 
       foreach (GameObject go in GameObject.FindGameObjectsWithTag("Blocked")) {
         Instance.SetBlockedAt(Vector2Int.FloorToInt(go.transform.position), true);
@@ -136,8 +140,7 @@ namespace GruntzUnityverse.Managerz {
       MinMapPoint = new Vector2Int(mainCellBounds.min.x, mainCellBounds.min.y);
       MaxMapPoint = new Vector2Int(mainCellBounds.max.x, mainCellBounds.max.y);
 
-      // Todo: Procedurally place Tiles on BackgroundLayer
-      // Todo: Wave Function Collapse
+      // Todo? Procedurally place Tiles on BackgroundLayer (WFC)
     }
 
     private void CreatePathfindingNodez() {
@@ -145,17 +148,16 @@ namespace GruntzUnityverse.Managerz {
         for (int y = MinMapPoint.y; y < MaxMapPoint.y; y++) {
           Node node = Instantiate(nodePrefab, NodeContainer.transform);
           node.transform.position = new Vector3(x + 1f, y + 1f, 100);
-          node.OwnLocation = new Vector2Int(x + 1, y + 1);
+          node.location = new Vector2Int(x + 1, y + 1);
           node.GetComponent<SpriteRenderer>().enabled = false;
 
           nodes.Add(node);
-          nodeLocations.Add(node.OwnLocation);
+          nodeLocations.Add(node.location);
 
           // Todo: What about Toobz?
           if (mainLayer.HasTile(new Vector3Int(x, y, 0))) {
             TileBase currentTile = mainLayer.GetTile(new Vector3Int(x, y, 0));
 
-            // Todo: Replace 100 with NodeDepth constant
             if (currentTile.name.Contains("Collision")) {
               node.isBlocked = true;
             }
@@ -217,13 +219,20 @@ namespace GruntzUnityverse.Managerz {
 
     private void CollectGruntz() {
       foreach (Grunt grunt in FindObjectsOfType<Grunt>()) {
+        grunt.gruntId = gruntIdCounter;
+        gruntIdCounter++;
+
+        if (grunt.owner.Equals(Owner.Player)) {
+          playerGruntz.Add(grunt);
+        } else {
+          enemyGruntz.Add(grunt);
+        }
+
         allGruntz.Add(grunt);
       }
-
-      foreach (Grunt grunt in FindObjectsOfType<Grunt>().Where(grunt => grunt.owner.Equals(Owner.Self))) {
-        PlayerGruntz.Add(grunt);
-      }
     }
+
+    #region Node Methods
 
     public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
       NodeAt(gridLocation).isBlocked = isBlocked;
@@ -282,7 +291,9 @@ namespace GruntzUnityverse.Managerz {
     }
 
     public Node NodeAt(Vector2Int gridLocation) {
-      return nodes.First(node => node.OwnLocation.Equals(gridLocation));
+      return nodes.First(node => node.location.Equals(gridLocation));
     }
+
+    #endregion
   }
 }

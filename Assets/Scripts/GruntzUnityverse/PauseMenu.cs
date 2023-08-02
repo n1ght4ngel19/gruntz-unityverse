@@ -1,4 +1,3 @@
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Misc;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -30,15 +29,14 @@ namespace GruntzUnityverse {
       IsGamePaused = false;
     }
 
-    public void SaveGame() {
-      // SaverLoader.CreateSaveFile();
+    public void Save() {
       Debug.Log("Save");
+      // SaveManager.Instance.SaveGame();
     }
 
-    public void LoadGame() {
-      // SaverLoader.LoadSaveFile();
+    public void Load() {
       Debug.Log("Load");
-      Debug.Log(LevelManager.Instance.allGruntz.Count);
+      // StartCoroutine(SaveManager.Instance.LoadGame("save.json"));
     }
 
     public void ShowOptions() {

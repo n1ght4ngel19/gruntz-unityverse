@@ -63,19 +63,15 @@ namespace GruntzUnityverse.Pathfinding {
     /// </summary>
     public bool isWater;
 
-    public Vector2Int OwnLocation { get; set; }
+    public Vector2Int location;
     public List<Node> Neighbours { get; set; }
 
-    public Node(Vector2Int ownLocation) {
-      OwnLocation = ownLocation;
-    }
-
     public bool IsDiagonalTo(Node neighbour) {
-      return neighbour.OwnLocation.x != OwnLocation.x && neighbour.OwnLocation.y != OwnLocation.y;
+      return neighbour.location.x != location.x && neighbour.location.y != location.y;
     }
 
     public bool IsOrthogonalTo(Node neighbour) {
-      return neighbour.OwnLocation.x == OwnLocation.x || neighbour.OwnLocation.y == OwnLocation.y;
+      return neighbour.location.x == location.x || neighbour.location.y == location.y;
     }
 
     public bool IsUnavailable() {
@@ -89,21 +85,21 @@ namespace GruntzUnityverse.Pathfinding {
     public void SetNeighbours() {
       List<Node> neighbours = new List<Node>();
 
-      AddNodeAt(OwnLocation.OwnNorth(), neighbours);
-      AddNodeAt(OwnLocation.OwnSouth(), neighbours);
-      AddNodeAt(OwnLocation.OwnEast(), neighbours);
-      AddNodeAt(OwnLocation.OwnWest(), neighbours);
-      AddNodeAt(OwnLocation.OwnNorthEast(), neighbours);
-      AddNodeAt(OwnLocation.OwnNorthWest(), neighbours);
-      AddNodeAt(OwnLocation.OwnSouthEast(), neighbours);
-      AddNodeAt(OwnLocation.OwnSouthWest(), neighbours);
+      AddNodeAt(location.OwnNorth(), neighbours);
+      AddNodeAt(location.OwnSouth(), neighbours);
+      AddNodeAt(location.OwnEast(), neighbours);
+      AddNodeAt(location.OwnWest(), neighbours);
+      AddNodeAt(location.OwnNorthEast(), neighbours);
+      AddNodeAt(location.OwnNorthWest(), neighbours);
+      AddNodeAt(location.OwnSouthEast(), neighbours);
+      AddNodeAt(location.OwnSouthWest(), neighbours);
 
       Neighbours = neighbours;
     }
 
     private void AddNodeAt(Vector2Int location, List<Node> neighbours) {
       if (LevelManager.Instance.nodeLocations.Contains(location)) {
-        neighbours.Add(LevelManager.Instance.nodes.First(node1 => node1.OwnLocation.Equals(location)));
+        neighbours.Add(LevelManager.Instance.nodes.First(node1 => node1.location.Equals(location)));
       }
     }
   }

@@ -5,7 +5,6 @@ using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz;
-using GruntzUnityverse.Objectz.Brickz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Itemz;
 using GruntzUnityverse.Objectz.Itemz.Toolz;
@@ -19,6 +18,8 @@ namespace GruntzUnityverse.Actorz {
   /// The class describing Gruntz' behaviour.
   /// </summary>
   public class Grunt : MonoBehaviour {
+    public int gruntId;
+
     #region Stats
 
     [Header("Stats")] public Owner owner;
@@ -34,11 +35,19 @@ namespace GruntzUnityverse.Actorz {
     #region Flags
 
     [Header("Flags")] public bool isSelected;
+    public bool isInCircle;
     public bool isInterrupted;
     public bool haveActionCommand;
+    public bool haveMoveCommand;
+    public bool haveSavedTarget;
     private bool _isDying;
 
     #endregion
+
+    public bool actAsPlayer;
+    public Grunt targetGrunt;
+    public MapObject targetMapObject;
+    public Node targetNode;
 
     #region Components
 
@@ -51,10 +60,16 @@ namespace GruntzUnityverse.Actorz {
 
     #endregion
 
-    [Header("Action")][CanBeNull] public MapObject targetObject;
-    [CanBeNull] public Grunt targetGrunt;
+
+    #region Action
+
+    [Header("Action")] [CanBeNull] public MapObject targetObject;
+    // [CanBeNull] public Grunt targetGrunt;
+
+    #endregion
+
     public GruntAnimationPack AnimationPack;
-    private Node _clickedNode;
+    public Node clickedNode;
 
 
     private void Start() {
@@ -69,126 +84,114 @@ namespace GruntzUnityverse.Actorz {
       animancer = gameObject.AddComponent<AnimancerComponent>();
       animancer.Animator = _animator;
       BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
-      boxCollider.size = new Vector2(1f, 1f);
+      boxCollider.size = Vector2.one;
     }
 
-    private void Update() {
+    protected virtual void Update() {
+      // Setting flags necessary on all frames
       healthBar.spriteRenderer.enabled = isSelected;
-      bool leftCLick = Input.GetMouseButtonDown(0);
-      bool rightClick = Input.GetMouseButtonDown(1);
-      bool leftShiftDown = Input.GetKey(KeyCode.LeftShift);
-      bool isInCircle = SelectorCircle.Instance.OwnNode == navigator.ownNode;
+      isInCircle = SelectorCircle.Instance.ownNode == navigator.ownNode;
 
-      // Selection Command
-      if (isInCircle && leftCLick && !leftShiftDown) {
-        SetSingleSelected();
-
-        return;
+      // Movement
+      if (navigator.haveMoveCommand) {
+        navigator.isMoving = true;
+        navigator.MoveTowardsTargetNode();
       }
 
-      // Move or Action command
-      if (isSelected) {
-        if (rightClick) {
-          navigator.hasMoveCommand = true;
+      // Action
+      if (haveActionCommand) {}
+
+
+      // Handling action
+      // Todo: Fix this
+      // if (haveActionCommand && !isInterrupted) {
+      //   if (owner == Owner.Player) {}
+      //
+      //   if (targetGrunt is not null) {
+      //     navigator.SetTargetBesideNode(targetGrunt.navigator.ownNode);
+      //   }
+      //
+      //   if (targetGrunt is null) {
+      //     targetObject = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<MapObject>()
+      //       .FirstOrDefault(o => o.ownNode == clickedNode);
+      //   }
+      //
+      //   if (targetObject is null) {
+      //     ResetActionCommand();
+      //
+      //     return;
+      //   }
+      //
+      //   HandleItemUse();
+      // }
+
+
+      // Todo: Fix this
+      // #region Death handling
+      //
+      // // Handling the case when Grunt is on a blocked Node
+      // Node node = navigator.ownNode;
+      //
+      // // Handling death
+      // if (node.isBurn) {
+      //   StartCoroutine(Death("Burn"));
+      // }
+      //
+      // if (node.isWater) {
+      //   StartCoroutine(Death("Sink"));
+      // }
+      //
+      // if (node.isBlocked && !node.isBurn && !node.isWater) {
+      //   StartCoroutine(Death("Squash"));
+      // }
+      //
+      // // Todo: Move to Hole script!!!
+      // if (LevelManager.Instance.Holez.Any(hole => hole.location.Equals(navigator.ownLocation) && hole.IsOpen)) {
+      //   StartCoroutine(Death("Hole"));
+      // }
+      //
+      // #endregion
+
+      PlayWalkOrIdleAnimation();
+    }
+
+    private void HandleItemUse() {
+      if (equipment.tool is Gauntletz) {
+        if (targetObject is IBreakable) {
+          MoveOrDo();
 
           return;
         }
-
-        if (leftCLick && leftShiftDown) {
-          haveActionCommand = true;
-          _clickedNode = SelectorCircle.Instance.OwnNode;
-        }
       }
 
-      if (haveActionCommand && !isInterrupted) {
-        targetGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(
-          grunt => grunt.navigator.ownNode.Equals(SelectorCircle.Instance.OwnNode)
-        );
-
-        if (targetGrunt is null) {
-          targetObject = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<MapObject>()
-            .FirstOrDefault(o => o.OwnNode == _clickedNode);
-        }
-
-        if (targetObject is null) {
-          haveActionCommand = false;
-          _clickedNode = null;
+      if (equipment.tool is Shovel) {
+        if (targetObject is Hole) {
+          MoveOrDo();
 
           return;
         }
-
-        if (equipment.tool is Gauntletz) {
-          if (targetObject is Rock or BrickContainer or GiantRockEdge) {
-            MoveOrDo();
-          } else {
-            Debug.Log("No can do");
-            haveActionCommand = false;
-            targetObject = null;
-            _clickedNode = null;
-          }
-        }
-
-        if (equipment.tool is Shovel) {
-          if (targetObject is Hole) {
-            MoveOrDo();
-          } else {
-            Debug.Log("No can do");
-            haveActionCommand = false;
-            targetObject = null;
-            _clickedNode = null;
-          }
-        }
       }
 
-      // Setting move target
-      if (navigator.hasMoveCommand && !AtLocation(SelectorCircle.Instance.location)) {
-        navigator.hasMoveCommand = false;
+      Debug.Log("No can do");
+      ResetActionCommand();
+    }
 
-        if (SelectorCircle.Instance.OwnNode.IsUnavailable() || SelectorCircle.Instance.OwnNode.IsOccupied()) {
-          navigator.SetClosestToTarget(SelectorCircle.Instance.OwnNode);
-        } else {
-          navigator.targetLocation = SelectorCircle.Instance.location;
-        }
-      }
-
-      #region Death handling
-
-      // Handling the case when Grunt is on a blocked Node
-      Node node = navigator.ownNode;
-
-      // Handling death
-      if (node.isBurn) {
-        StartCoroutine(Death("Burn"));
-      }
-
-      if (node.isWater) {
-        StartCoroutine(Death("Sink"));
-      }
-
-      if (node.isBlocked && !node.isBurn && !node.isWater) {
-        StartCoroutine(Death("Squash"));
-      }
-
-      // Todo: Move to Hole script!!!
-      if (LevelManager.Instance.Holez.Any(hole => hole.location.Equals(navigator.ownLocation) && hole.IsOpen)) {
-        StartCoroutine(Death("Hole"));
-      }
-
-      #endregion
-
-      if (!isInterrupted) {
-        navigator.MoveTowardsTarget();
-      }
-
-      PlayAppropriateAnimation();
+    public void ResetActionCommand() {
+      haveActionCommand = false;
+      targetObject = null;
+      clickedNode = null;
     }
 
     public bool AtLocation(Vector2Int location) {
       return navigator.ownLocation.Equals(location);
     }
 
-    public bool IsNeighbour(MapObject mapObject) {
-      return navigator.ownNode.Neighbours.Contains(mapObject.OwnNode);
+    public bool IsNeighbourOf(MapObject target) {
+      return navigator.ownNode.Neighbours.Contains(target.ownNode);
+    }
+
+    public bool IsNeighbourOf(Grunt target) {
+      return navigator.ownNode.Neighbours.Contains(target.navigator.ownNode);
     }
 
     /// <summary>
@@ -209,20 +212,10 @@ namespace GruntzUnityverse.Actorz {
       return equipment.toy is not null && equipment.toy.Name.Equals(toy);
     }
 
-    private void PlayAppropriateAnimation() {
-      if (!AtLocation(navigator.targetLocation)) {
-        animancer.Play(AnimationPack.Walk[$"{equipment.tool.toolName}Grunt_Walk_{navigator.facingDirection}"]);
-      } else {
-        animancer.Play(AnimationPack.Idle[$"{equipment.tool.toolName}Grunt_Idle_{navigator.facingDirection}_01"]);
-      }
-    }
+    private void PlayWalkOrIdleAnimation() {
+      string walkOrIdle = navigator.isMoving ? "Walk" : "Idle";
 
-    private void SetSingleSelected() {
-      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt1 => grunt1 != this)) {
-        grunt.isSelected = false;
-      }
-
-      isSelected = true;
+      animancer.Play(AnimationPack.Walk[$"{equipment.tool.toolName}Grunt_{walkOrIdle}_{navigator.facingDirection}"]);
     }
 
     public IEnumerator PickupItem(Item item, string category, string itemName) {
@@ -282,16 +275,25 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public void MoveOrDo() {
-      if (IsNeighbour(targetObject)) {
+      if (IsNeighbourOf(targetObject)) {
         StartCoroutine(equipment.tool.Use(this));
         haveActionCommand = false;
         targetObject = null;
-        _clickedNode = null;
+        clickedNode = null;
       } else {
         Debug.Log("Setting target closest to target");
-        Debug.Log("Target's node is: " + targetObject.OwnNode);
-        navigator.SetClosestToTarget(targetObject.OwnNode);
+        Debug.Log("Target's node is: " + targetObject.ownNode);
+        navigator.SetTargetBesideNode(targetObject.ownNode);
       }
+    }
+
+    public IEnumerator GetStruck() {
+      AnimationClip struckClip =
+        AnimationPack.Struck[$"{equipment.tool.toolName}Grunt_Struck_{navigator.facingDirection}"];
+
+      animancer.Play(struckClip);
+
+      yield return new WaitForSeconds(struckClip.length);
     }
 
     public IEnumerator Death(string deathName) {
@@ -314,6 +316,7 @@ namespace GruntzUnityverse.Actorz {
       yield return new WaitForSeconds(deathClip.length);
 
       navigator.ownLocation = Vector2IntExtra.Max();
+      LevelManager.Instance.playerGruntz.Remove(this);
       LevelManager.Instance.allGruntz.Remove(this);
       Destroy(gameObject, deathClip.length);
     }
@@ -331,6 +334,7 @@ namespace GruntzUnityverse.Actorz {
       yield return new WaitForSeconds(deathClip.length);
 
       navigator.ownLocation = Vector2IntExtra.Max();
+      LevelManager.Instance.playerGruntz.Remove(this);
       LevelManager.Instance.allGruntz.Remove(this);
       Destroy(gameObject, deathClip.length);
     }

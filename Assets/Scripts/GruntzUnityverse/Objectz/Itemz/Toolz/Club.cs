@@ -12,7 +12,7 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
       Vector2Int diffVector = grunt.targetObject.location - grunt.navigator.ownLocation;
       grunt.isInterrupted = true;
 
-      grunt.navigator.ChangeFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
+      grunt.navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
 
       AnimationClip clipToPlay =
         grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.navigator.facingDirection}"];
