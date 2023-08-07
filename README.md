@@ -1,21 +1,21 @@
-<h1 style="text-align: center">
-  Gruntz Unityverse
-</h1>
-
-<h2 style="text-align: center">
-  An open-source remake of the puzzle game Gruntz, developed with Unity
-</h2>
-
-<h2 style="font-weight: bold">
-  Coming soon...
-</h2>
-<p>
-  There will be an option to download the current version of the project for playing (basically currently this means testing). These are basically standalone exectuables of the game (just like in case of a completed game), available for Windows, Linux, and macOS.
+<p align="center">
+  <picture align="center">
+    <source media="(prefers-color-scheme: light)" srcset="./GruntzLogo_S_LightMode.png" />
+    <source media="(prefers-color-scheme: dark)" srcset="GruntzLogo_S_DarkMode.png" />
+    <img src="" alt="Gruntz Logo" />
+  </picture>
 </p>
 
-<h2 style="font-weight: bold">
-  The Goal
+<h2>
+  An open-source Gruntz remake made with Unity
 </h2>
+
+<h2 style="font-weight: bold">
+  Features
+</h2>
+<p>
+  <b>Cross-platform support:</b> Thanks to Unity, the game will be natively available on Windows, Linux, and macOS!
+</p>
 <p>
   One of the main goals of this project is to completely remake Gruntz, for modern systems, with modern solutions. The other one is to enable easy modding, such as adding new Tilesets, Objects, functionality, Game Modes, and whatever you can think of.
 </p>
