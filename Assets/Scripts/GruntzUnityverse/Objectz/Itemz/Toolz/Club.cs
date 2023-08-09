@@ -1,9 +1,17 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Itemz.Toolz {
   public class Club : Tool {
+    protected override void Start() {
+      base.Start();
+
+      toolName = ToolName.Club;
+      rangeType = RangeType.Melee;
+    }
+
     public override IEnumerator Use(Grunt grunt) {
       yield return null;
     }

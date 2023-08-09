@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Todo: Redo whole class!
 namespace GruntzUnityverse.Objectz.Misc {
-  public class HelpBox : MapObject {
+  public class Helpbox : MapObject {
     [field: SerializeField] public CameraMovement MainCam { get; set; }
     [field: SerializeField] public bool IsUntouched { get; set; }
     [field: SerializeField] public string BoxText { get; set; }
@@ -19,7 +19,7 @@ namespace GruntzUnityverse.Objectz.Misc {
 
     private void Update() {
       // Pausing the game when a Grunt steps onto a HelpBox and displaying the HelpBox text
-      if (IsUntouched && LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.AtLocation(location))) {
+      if (IsUntouched && LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.AtNode(ownNode))) {
         DisplayBox();
 
         return;
@@ -32,7 +32,7 @@ namespace GruntzUnityverse.Objectz.Misc {
         return;
       }
 
-      if (LevelManager.Instance.PlayerGruntz.All(grunt => !grunt.AtLocation(location))) {
+      if (LevelManager.Instance.PlayerGruntz.All(grunt => !grunt.AtNode(ownNode))) {
         IsUntouched = true;
       }
     }

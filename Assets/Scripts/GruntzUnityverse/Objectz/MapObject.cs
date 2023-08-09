@@ -4,6 +4,8 @@ using Animancer;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.Objectz.Interactablez;
+using GruntzUnityverse.Objectz.Itemz.Toolz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
@@ -19,7 +21,7 @@ namespace GruntzUnityverse.Objectz {
     protected Transform OwnTransform;
     protected Camera MainCamera;
     protected AnimancerComponent Animancer;
-    private Animator _animator;
+    protected Animator Animator;
 
 
     protected virtual void Start() {
@@ -28,9 +30,14 @@ namespace GruntzUnityverse.Objectz {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
       OwnTransform = gameObject.GetComponent<Transform>();
       MainCamera = Camera.main;
-      _animator ??= gameObject.AddComponent<Animator>();
+      Animator ??= gameObject.AddComponent<Animator>();
       Animancer ??= gameObject.AddComponent<AnimancerComponent>();
-      Animancer.Animator = _animator;
+      Animancer.Animator = Animator;
+    }
+
+    public bool IsValidTargetFor(Grunt grunt) {
+      return grunt.equipment.tool is Gauntletz && this is IBreakable
+        || grunt.equipment.tool is Shovel && this is Hole;
     }
 
     protected void SetEnabled(bool value) {

@@ -20,14 +20,21 @@ namespace GruntzUnityverse.Objectz.Interactablez {
       // 1.5s is the delay after the beginning of the GauntletzGrunt's Rock breaking animation (when the Rock actually should break)
       yield return new WaitForSeconds(1.5f);
 
-      Animancer.Play(BreakAnimation);
+      if (this != null) {
+        Animancer.Play(BreakAnimation);
+      }
 
-      yield return new WaitForSeconds(1f);
+      transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+      transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+
+      //yield return new WaitForSeconds(1.5f);
+      yield return new WaitForSeconds(BreakAnimation.length);
 
       LevelManager.Instance.Rockz.Remove(this);
       LevelManager.Instance.SetBlockedAt(location, false);
       LevelManager.Instance.SetHardTurnAt(location, false);
-      Destroy(gameObject);
+
+      enabled = false;
     }
   }
 }

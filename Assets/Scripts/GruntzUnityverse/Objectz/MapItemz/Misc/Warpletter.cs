@@ -16,7 +16,7 @@ namespace GruntzUnityverse.Objectz.MapItemz.Misc {
     }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt.AtLocation(location))) {
+      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
         SetEnabled(false);
 
         StatzManager.Instance.acquiredWarpletterz++;

@@ -49,7 +49,7 @@ namespace GruntzUnityverse.Actorz {
     private void Start() {
       facingDirection = Direction.South;
       startingLocation = Vector2Int.RoundToInt(transform.position);
-      startingNode = LevelManager.Instance.NodeAt(ownLocation);
+      startingNode = LevelManager.Instance.NodeAt(startingLocation);
       ownLocation = startingLocation;
       ownNode = startingNode;
       targetLocation = ownLocation;
@@ -95,7 +95,7 @@ namespace GruntzUnityverse.Actorz {
         SetFacingDirection(moveVector);
 
         if (isMoveForced) {
-          Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(targetLocation));
+          Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
 
           if (deadGrunt != null) {
             StartCoroutine(deadGrunt.Death("Squash"));
@@ -125,8 +125,9 @@ namespace GruntzUnityverse.Actorz {
 
       // There's no path to target or Grunt has reached target
       if ((path == null) || (path.Count <= 1)) {
-        haveMoveCommand = false;
         isMoving = false;
+        haveMoveCommand = false;
+        isMoveForced = false;
         Debug.Log("There's no path to target or Grunt has reached target.");
 
         return;
@@ -164,7 +165,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       Grunt deathMarkedGrunt =
-        LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(targetLocation));
+        LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
 
       // Killing the target if the Grunt was forced to move (e.g. by an Arrow or by teleporting)
       if (deathMarkedGrunt != null) {
@@ -181,6 +182,7 @@ namespace GruntzUnityverse.Actorz {
       if (freeNeighbours.Count == 0) {
         path.Clear();
         haveMoveCommand = false;
+        isMoveForced = false;
 
         // Todo: Play line that says that the Grunt can't move
         return;
@@ -205,22 +207,18 @@ namespace GruntzUnityverse.Actorz {
       return new Vector3(location.x, location.y, transform.position.z);
     }
 
-    public bool AtLocation(Vector2Int location) {
-      return ownLocation == location;
-    }
-
     public void SetFacingDirection(Vector3 moveVector) {
       Vector2Int directionVector = Vector2Int.RoundToInt(moveVector);
 
       facingDirection = directionVector switch {
-        var vector when vector.Equals(Vector2IntExtra.North()) => Direction.North,
-        var vector when vector.Equals(Vector2IntExtra.NorthEast()) => Direction.Northeast,
-        var vector when vector.Equals(Vector2IntExtra.East()) => Direction.East,
-        var vector when vector.Equals(Vector2IntExtra.SouthEast()) => Direction.Southeast,
-        var vector when vector.Equals(Vector2IntExtra.South()) => Direction.South,
-        var vector when vector.Equals(Vector2IntExtra.SouthWest()) => Direction.Southwest,
-        var vector when vector.Equals(Vector2IntExtra.West()) => Direction.West,
-        var vector when vector.Equals(Vector2IntExtra.NorthWest()) => Direction.Northwest,
+        var vector when vector.Equals(Vector2Direction.north) => Direction.North,
+        var vector when vector.Equals(Vector2Direction.northeast) => Direction.Northeast,
+        var vector when vector.Equals(Vector2Direction.east) => Direction.East,
+        var vector when vector.Equals(Vector2Direction.southeast) => Direction.Southeast,
+        var vector when vector.Equals(Vector2Direction.south) => Direction.South,
+        var vector when vector.Equals(Vector2Direction.southwest) => Direction.Southwest,
+        var vector when vector.Equals(Vector2Direction.west) => Direction.West,
+        var vector when vector.Equals(Vector2Direction.northwest) => Direction.Northwest,
         _ => facingDirection,
       };
     }

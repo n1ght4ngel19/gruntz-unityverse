@@ -21,7 +21,7 @@ namespace GruntzUnityverse.Objectz.MapItemz {
     }
 
     private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtLocation(location))) {
+      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtNode(ownNode))) {
         SetEnabled(false);
 
         StatzManager.Instance.acquiredToolz++;

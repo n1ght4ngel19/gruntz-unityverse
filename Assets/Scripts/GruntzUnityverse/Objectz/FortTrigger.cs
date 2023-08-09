@@ -15,7 +15,7 @@ namespace GruntzUnityverse.Objectz {
 
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.playerGruntz) {
-        if (grunt.AtLocation(ownNode.location) && grunt.HasTool(ToolName.Warpstone)) {
+        if (grunt.AtNode(ownNode) && grunt.HasTool(ToolName.Warpstone)) {
           LevelManager.Instance.isLevelCompleted = true;
           enabled = false;
         }

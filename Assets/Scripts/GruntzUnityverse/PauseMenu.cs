@@ -8,7 +8,7 @@ namespace GruntzUnityverse {
     public GameObject pauseMenuUI;
 
     private void Update() {
-      if (Input.GetKeyDown(KeyCode.Escape) && !HelpBox.IsTextShown) {
+      if (Input.GetKeyDown(KeyCode.Escape) && !Helpbox.IsTextShown) {
         if (IsGamePaused) {
           Resume();
         } else {

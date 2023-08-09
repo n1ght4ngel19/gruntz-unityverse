@@ -15,20 +15,16 @@ namespace GruntzUnityverse.Objectz.Hazardz {
     }
 
     private void Update() {
-      if (_targetGrunt is not null && !_targetGrunt.AtLocation(location)) {
+      if (_targetGrunt is not null && !_targetGrunt.AtNode(ownNode)) {
         CancelInvoke(nameof(DamageGrunt));
 
         _targetGrunt = null;
         _isRunning = false;
       }
 
-      _targetGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtLocation(location));
+      _targetGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtNode(ownNode));
 
-      if (_targetGrunt is not null && _targetGrunt.AtLocation(location)) {
-        // foreach (Grunt grunt in LevelManager.Instance.playerGruntz.Where(grunt => grunt.AtLocation(ownLocation))) {
-        //   _targetGrunt = grunt;
-
-        // StartCoroutine(DamageGrunt(grunt));
+      if (_targetGrunt is not null && _targetGrunt.AtNode(ownNode)) {
         if (!_isRunning) {
           InvokeRepeating(nameof(DamageGrunt), 0, 1f);
         }

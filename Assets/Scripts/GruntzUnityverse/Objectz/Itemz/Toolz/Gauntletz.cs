@@ -9,8 +9,28 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Gauntletz;
+      rangeType = RangeType.Melee;
     }
 
+    public override IEnumerator UseItem() {
+      Vector2Int diffVector = ownGrunt.targetGrunt == null
+        ? ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation
+        : ownGrunt.targetGrunt.navigator.ownLocation - ownGrunt.navigator.ownLocation;
+
+      ownGrunt.isInterrupted = true;
+
+      ownGrunt.navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
+
+      AnimationClip clipToPlay =
+        ownGrunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{ownGrunt.navigator.facingDirection}"];
+
+      ownGrunt.animancer.Play(clipToPlay);
+      StartCoroutine(((IBreakable)ownGrunt.targetMapObject).Break());
+
+      yield return new WaitForSeconds(2f);
+
+      ownGrunt.CleanState();
+    }
 
     public override IEnumerator Use(Grunt grunt) {
       Vector2Int diffVector = grunt.targetObject.location - grunt.navigator.ownLocation;

@@ -12,6 +12,7 @@ namespace GruntzUnityverse {
     public bool leftClick;
     public bool rightClick;
     public bool leftShiftDown;
+    public bool leftControlDown;
     public List<Grunt> selectedGruntz;
 
     private void Awake() {
@@ -28,6 +29,7 @@ namespace GruntzUnityverse {
       leftClick = Input.GetMouseButtonDown(0);
       rightClick = Input.GetMouseButtonDown(1);
       leftShiftDown = Input.GetKey(KeyCode.LeftShift);
+      leftControlDown = Input.GetKey(KeyCode.LeftControl);
 
       // Single select command
       if (leftClick && !leftShiftDown) {
@@ -63,28 +65,58 @@ namespace GruntzUnityverse {
       if (leftClick && leftShiftDown) {
         Node clickedNode = SelectorCircle.Instance.ownNode;
 
-        MapObject targetMapObject = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<MapObject>()
+        MapObject targetMapObject = LevelManager.Instance.mapObjectContainer
+          .GetComponentsInChildren<MapObject>()
           .FirstOrDefault(obj => obj.ownNode == clickedNode);
 
         Grunt targetGrunt =
-          LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
+          LevelManager.Instance.allGruntz.FirstOrDefault(
+            grunt => grunt.navigator.ownNode == clickedNode
+          );
 
         // Issuing action command according to the target being a MapObject or a Grunt
         selectedGruntz.ForEach(
-          selectedGrunt => {
-            if (targetGrunt is not null && targetGrunt != selectedGrunt) {
-              selectedGrunt.targetGrunt = targetGrunt;
-              selectedGrunt.actAsPlayer = true;
-              // selectedGrunt.ActAsPlayer(targetGrunt);
-            } else if (targetMapObject is not null) {
-              selectedGrunt.targetMapObject = targetMapObject;
-              selectedGrunt.actAsPlayer = true;
-              // selectedGrunt.ActAsPlayer(targetMapObject);
+          grunt => {
+            grunt.CleanState();
+
+            if (targetGrunt != null && targetGrunt.IsValidTargetFor(grunt)) {
+              grunt.targetGrunt = targetGrunt;
+              grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
+              grunt.haveActionCommand = true;
+            } else if (targetMapObject != null && targetMapObject.IsValidTargetFor(grunt)) {
+              grunt.targetMapObject = targetMapObject;
+              grunt.navigator.targetNode = targetMapObject.ownNode;
+              grunt.haveActionCommand = true;
             }
           }
         );
       }
       // ------------------------------
+
+      if (leftClick && leftControlDown) {
+        Node clickedNode = SelectorCircle.Instance.ownNode;
+
+        Grunt targetGrunt =
+          LevelManager.Instance.allGruntz.FirstOrDefault(
+            grunt => grunt.navigator.ownNode == clickedNode
+          );
+
+        // Issuing action command according to the target being a Grunt or not
+        selectedGruntz.ForEach(
+          grunt => {
+            if (targetGrunt != null && targetGrunt != grunt) {
+              grunt.targetGrunt = targetGrunt;
+              grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
+              grunt.haveActionCommand = true;
+              grunt.haveGiveToyCommand = true;
+            } else if (!clickedNode.IsUnavailable()) {
+              grunt.navigator.targetNode = clickedNode;
+              grunt.haveActionCommand = true;
+              grunt.haveGiveToyCommand = true;
+            }
+          }
+        );
+      }
     }
   }
 }

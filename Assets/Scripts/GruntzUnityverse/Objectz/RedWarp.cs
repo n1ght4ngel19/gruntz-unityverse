@@ -20,7 +20,7 @@ namespace GruntzUnityverse.Objectz {
         enabled = false;
       }
 
-      foreach (Grunt grunt in LevelManager.Instance.playerGruntz.Where(grunt => grunt.AtLocation(location))) {
+      foreach (Grunt grunt in LevelManager.Instance.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
         MainCamera.transform.position = new Vector3(target.location.x, target.location.y, MainCamera.transform.position.z);
         target.spriteRenderer.enabled = true;
 

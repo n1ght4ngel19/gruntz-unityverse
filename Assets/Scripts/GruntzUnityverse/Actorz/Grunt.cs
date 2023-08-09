@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
-using Animancer;
+﻿using Animancer;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
@@ -11,6 +9,8 @@ using GruntzUnityverse.Objectz.Itemz.Toolz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using JetBrains.Annotations;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
@@ -18,58 +18,56 @@ namespace GruntzUnityverse.Actorz {
   /// The class describing Gruntz' behaviour.
   /// </summary>
   public class Grunt : MonoBehaviour {
-    public int gruntId;
-
     #region Stats
-
-    [Header("Stats")] public Owner owner;
+    [Header("Stats")]
+    public int gruntId;
+    public Owner owner;
     public float moveSpeed;
     public int health;
     public int stamina;
     public int powerupTime;
     public int toyTime;
     public int wingzTime;
-
     #endregion
 
     #region Flags
-
-    [Header("Flags")] public bool isSelected;
+    [Header("Flags")]
+    public bool isSelected;
     public bool isInCircle;
-    public bool isInterrupted;
     public bool haveActionCommand;
-    public bool haveMoveCommand;
-    public bool haveSavedTarget;
+    public bool haveGiveToyCommand;
+    public bool canInteract;
+    public bool isInterrupted;
     private bool _isDying;
-
     #endregion
-
-    public bool actAsPlayer;
-    public Grunt targetGrunt;
-    public MapObject targetMapObject;
-    public Node targetNode;
-
-    #region Components
-
-    [HideInInspector] public SpriteRenderer spriteRenderer;
-    [HideInInspector] public Navigator navigator;
-    [HideInInspector] public Equipment equipment;
-    [HideInInspector] public HealthBar healthBar;
-    [HideInInspector] public AnimancerComponent animancer;
-    private Animator _animator;
-
-    #endregion
-
 
     #region Action
-
-    [Header("Action")] [CanBeNull] public MapObject targetObject;
-    // [CanBeNull] public Grunt targetGrunt;
-
+    [Header("Action")]
+    public MapObject targetObject;
+    [CanBeNull]
+    public Grunt targetGrunt;
+    [CanBeNull]
+    public MapObject targetMapObject;
+    public InteractionType interactionType;
     #endregion
 
+    #region Components
+    [HideInInspector]
+    public SpriteRenderer spriteRenderer;
+    [HideInInspector]
+    public Navigator navigator;
+    [HideInInspector]
+    public Equipment equipment;
+    [HideInInspector]
+    public HealthBar healthBar;
+    [HideInInspector]
+    public AnimancerComponent animancer;
+    private Animator _animator;
+    #endregion
+
+    #region Other
     public GruntAnimationPack AnimationPack;
-    public Node clickedNode;
+    #endregion
 
 
     private void Start() {
@@ -97,34 +95,68 @@ namespace GruntzUnityverse.Actorz {
         navigator.isMoving = true;
         navigator.MoveTowardsTargetNode();
       }
+      // ----------------------------------------
 
       // Action
-      if (haveActionCommand) {}
+      if (haveActionCommand && !isInterrupted) {
+        // Giving or placing a Toy
+        if (haveGiveToyCommand) {
+          canInteract = targetGrunt != null
+            ? IsNeighbourOf(targetGrunt)
+            : IsNeighbourOf(navigator.targetNode);
+
+          interactionType = InteractionType.GiveToy;
+          // Attacking a Grunt or using a Tool
+        } else if (equipment.tool.rangeType == RangeType.Melee) {
+          canInteract = targetGrunt != null
+            ? IsNeighbourOf(targetGrunt)
+            : IsNeighbourOf(targetMapObject);
+
+          interactionType = targetGrunt != null
+            ? InteractionType.Attack
+            : InteractionType.Use;
+        }
+
+        navigator.haveMoveCommand = !canInteract;
+      }
+      // ----------------------------------------
+
+      // Interaction (Attack / Item use / Toy use)
+      if (canInteract && !isInterrupted) { // Todo: Add stamina condition
+        switch (interactionType) {
+          case InteractionType.None:
+            break;
+          case InteractionType.Attack:
+            // Attack
+            StartCoroutine(equipment.tool.UseItem()); // Only Barehandz for now
+
+            break;
+          case InteractionType.Use:
+            // Todo: All valid item use conditions
+            if (equipment.tool is Gauntletz && targetMapObject is IBreakable) {
+              StartCoroutine(equipment.tool.UseItem());
+            } else if (equipment.tool is Shovel && targetMapObject is Hole) {
+              StartCoroutine(equipment.tool.UseItem());
+            } else {
+              CleanState();
 
 
-      // Handling action
-      // Todo: Fix this
-      // if (haveActionCommand && !isInterrupted) {
-      //   if (owner == Owner.Player) {}
-      //
-      //   if (targetGrunt is not null) {
-      //     navigator.SetTargetBesideNode(targetGrunt.navigator.ownNode);
-      //   }
-      //
-      //   if (targetGrunt is null) {
-      //     targetObject = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<MapObject>()
-      //       .FirstOrDefault(o => o.ownNode == clickedNode);
-      //   }
-      //
-      //   if (targetObject is null) {
-      //     ResetActionCommand();
-      //
-      //     return;
-      //   }
-      //
-      //   HandleItemUse();
-      // }
+              break;
+            }
 
+            break;
+          case InteractionType.GiveToy:
+            // Give toy
+            break;
+          default:
+            break;
+        }
+      }
+      // ----------------------------------------
+
+      // Death
+      // Todo
+      // ----------------------------------------
 
       // Todo: Fix this
       // #region Death handling
@@ -155,67 +187,91 @@ namespace GruntzUnityverse.Actorz {
       PlayWalkOrIdleAnimation();
     }
 
-    private void HandleItemUse() {
-      if (equipment.tool is Gauntletz) {
-        if (targetObject is IBreakable) {
-          MoveOrDo();
-
-          return;
-        }
-      }
-
-      if (equipment.tool is Shovel) {
-        if (targetObject is Hole) {
-          MoveOrDo();
-
-          return;
-        }
-      }
-
-      Debug.Log("No can do");
-      ResetActionCommand();
+    /// <summary>
+    /// Checks if the Grunt is a valid target for another Grunt.
+    /// </summary>
+    /// <param name="grunt">The other Grunt.</param>
+    /// <returns>True if the Grunt is a valid target, false otherwise.</returns>
+    public bool IsValidTargetFor(Grunt grunt) {
+      return grunt != this && grunt.owner != owner;
     }
 
-    public void ResetActionCommand() {
+    /// <summary>
+    /// Resets all the Grunt's states and commands to default.
+    /// </summary>
+    public void CleanState() {
       haveActionCommand = false;
-      targetObject = null;
-      clickedNode = null;
+      haveGiveToyCommand = false;
+      canInteract = false;
+      isInterrupted = false;
+      targetGrunt = null;
+      targetMapObject = null;
+      interactionType = InteractionType.None;
     }
 
-    public bool AtLocation(Vector2Int location) {
-      return navigator.ownLocation.Equals(location);
+    /// <summary>
+    /// Checks if the Grunt is at the given Node.
+    /// </summary>
+    /// <param name="node">The Node in question.</param>
+    /// <returns>True if the Grunt is at the Node, false otherwise.</returns>
+    public bool AtNode(Node node) {
+      return navigator.ownNode == node;
     }
 
+    /// <summary>
+    /// Checks if the Grunt is beside the given object (Arrow, Rock, etc.).
+    /// </summary>
+    /// <param name="target">The object to check.</param>
+    /// <returns>True if the Grunt is beside the object, false otherwise.</returns>
     public bool IsNeighbourOf(MapObject target) {
       return navigator.ownNode.Neighbours.Contains(target.ownNode);
     }
 
+    /// <summary>
+    /// Checks if the Grunt is beside another given Grunt.
+    /// </summary>
+    /// <param name="target">The Grunt to check.</param>
+    /// <returns>True if the Grunt is beside the other Grunt, false otherwise.</returns>
     public bool IsNeighbourOf(Grunt target) {
       return navigator.ownNode.Neighbours.Contains(target.navigator.ownNode);
     }
 
     /// <summary>
-    /// Decides whether the Grunt has a Tool equipped.
+    /// Checks if the Grunt is beside the given Node. 
     /// </summary>
-    /// <param name="tool">The Tool to check</param>
-    /// <returns>True or false according to whether the Grunt has the Item.</returns>
+    /// <param name="target">The Node to check.</param>
+    /// <returns>True if the Grunt is beside the Node, false otherwise.</returns>
+    public bool IsNeighbourOf(Node target) {
+      return navigator.ownNode.Neighbours.Contains(target);
+    }
+
+    /// <summary>
+    /// Checks if the Grunt has the given Tool equipped.
+    /// </summary>
+    /// <param name="tool">The Tool to check.</param>
+    /// <returns>True if the Grunt has the Tool, false otherwise.</returns>
     public bool HasTool(ToolName tool) {
       return equipment.tool is not null && equipment.tool.toolName.Equals(tool);
     }
 
     /// <summary>
-    /// Decides whether the Grunt has a Toy equipped.
+    /// Checks if the Grunt has the given Toy equipped.
     /// </summary>
-    /// <param name="toy">The Toy to check</param>
-    /// <returns>True or false according to whether the Grunt has the Item.</returns>
+    /// <param name="tool">The Toy to check.</param>
+    /// <returns>True if the Grunt has the Toy, false otherwise.</returns>
     public bool HasToy(ToyName toy) {
       return equipment.toy is not null && equipment.toy.Name.Equals(toy);
     }
 
+    /// <summary>
+    /// Plays the appropriate animation given the Grunt's current state.
+    /// </summary>
     private void PlayWalkOrIdleAnimation() {
-      string walkOrIdle = navigator.isMoving ? "Walk" : "Idle";
-
-      animancer.Play(AnimationPack.Walk[$"{equipment.tool.toolName}Grunt_{walkOrIdle}_{navigator.facingDirection}"]);
+      if (navigator.isMoving) {
+        animancer.Play(AnimationPack.Walk[$"{equipment.tool.toolName}Grunt_Walk_{navigator.facingDirection}"]);
+      } else {
+        animancer.Play(AnimationPack.Idle[$"{equipment.tool.toolName}Grunt_Idle_{navigator.facingDirection}_01"]);
+      }
     }
 
     public IEnumerator PickupItem(Item item, string category, string itemName) {
@@ -279,7 +335,6 @@ namespace GruntzUnityverse.Actorz {
         StartCoroutine(equipment.tool.Use(this));
         haveActionCommand = false;
         targetObject = null;
-        clickedNode = null;
       } else {
         Debug.Log("Setting target closest to target");
         Debug.Log("Target's node is: " + targetObject.ownNode);
@@ -315,7 +370,7 @@ namespace GruntzUnityverse.Actorz {
       // Wait the time it takes to play the animation (based on the animation)
       yield return new WaitForSeconds(deathClip.length);
 
-      navigator.ownLocation = Vector2IntExtra.Max();
+      navigator.ownLocation = Vector2Direction.max;
       LevelManager.Instance.playerGruntz.Remove(this);
       LevelManager.Instance.allGruntz.Remove(this);
       Destroy(gameObject, deathClip.length);
@@ -327,13 +382,15 @@ namespace GruntzUnityverse.Actorz {
       enabled = false;
       navigator.enabled = false;
       isInterrupted = true;
-      AnimationClip deathClip = AnimationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death_01"];
+
+      AnimationClip deathClip =
+        AnimationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death_01"];
 
       animancer.Play(deathClip);
 
       yield return new WaitForSeconds(deathClip.length);
 
-      navigator.ownLocation = Vector2IntExtra.Max();
+      navigator.ownLocation = Vector2Direction.max;
       LevelManager.Instance.playerGruntz.Remove(this);
       LevelManager.Instance.allGruntz.Remove(this);
       Destroy(gameObject, deathClip.length);

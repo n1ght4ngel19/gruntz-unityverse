@@ -23,13 +23,13 @@ namespace GruntzUnityverse {
         }
 
         // When Grunt is below self
-        if (grunt.transform.position.y < transform.position.y + 0.5f) {
+        if (grunt.transform.position.y < transform.position.y + 0.1f) {
           // Set self in the background
           _spriteRenderer.sortingOrder = _initialLayerOrderValue;
         }
 
         // When Grunt is above self
-        if (grunt.transform.position.y >= transform.position.y + 0.5f) {
+        if (grunt.transform.position.y >= transform.position.y + 0.1f) {
           // Set self in the foreground
           _spriteRenderer.sortingOrder = grunt.spriteRenderer.sortingOrder + 10;
         }

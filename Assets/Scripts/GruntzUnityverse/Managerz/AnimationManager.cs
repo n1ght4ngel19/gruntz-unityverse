@@ -32,6 +32,7 @@ namespace GruntzUnityverse.Managerz {
       // CursorAnimations = new CursorAnimationPack();
       foreach (Grunt grunt in LevelManager.Instance.allGruntz) {
         grunt.SetAnimPack(grunt.equipment.tool.toolName);
+        Debug.Log(BarehandzGruntPack.Idle.Count);
       }
     }
 
@@ -40,25 +41,30 @@ namespace GruntzUnityverse.Managerz {
         {
           "Burn", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Burn")
         }, {
-          "Electrocute", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Electrocute")
+          "Electrocute",
+          Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Electrocute")
         }, {
-          "Explode", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Explode")
+          "Explode",
+          Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Explode")
         }, {
           "Fall", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Fall")
         }, {
           "Flyup", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Flyup")
         }, {
-          "Freeze", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Freeze")
+          "Freeze",
+          Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Freeze")
         }, {
           "Hole", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Hole")
         }, {
-          "Karaoke", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Karaoke")
+          "Karaoke",
+          Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Karaoke")
         }, {
           "Melt", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Melt")
         }, {
           "Sink", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Sink")
         }, {
-          "Squash", Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Squash")
+          "Squash",
+          Resources.Load<AnimationClip>("Animationz/Gruntz/Deathz/Clipz/Grunt_Death_Squash")
         },
       };
     }

@@ -85,14 +85,14 @@ namespace GruntzUnityverse.Pathfinding {
     public void SetNeighbours() {
       List<Node> neighbours = new List<Node>();
 
-      AddNodeAt(location.OwnNorth(), neighbours);
-      AddNodeAt(location.OwnSouth(), neighbours);
-      AddNodeAt(location.OwnEast(), neighbours);
-      AddNodeAt(location.OwnWest(), neighbours);
-      AddNodeAt(location.OwnNorthEast(), neighbours);
-      AddNodeAt(location.OwnNorthWest(), neighbours);
-      AddNodeAt(location.OwnSouthEast(), neighbours);
-      AddNodeAt(location.OwnSouthWest(), neighbours);
+      AddNodeAt(location + Vector2Direction.north, neighbours);
+      AddNodeAt(location + Vector2Direction.south, neighbours);
+      AddNodeAt(location + Vector2Direction.east, neighbours);
+      AddNodeAt(location + Vector2Direction.west, neighbours);
+      AddNodeAt(location + Vector2Direction.northeast, neighbours);
+      AddNodeAt(location + Vector2Direction.northwest, neighbours);
+      AddNodeAt(location + Vector2Direction.southeast, neighbours);
+      AddNodeAt(location + Vector2Direction.southwest, neighbours);
 
       Neighbours = neighbours;
     }

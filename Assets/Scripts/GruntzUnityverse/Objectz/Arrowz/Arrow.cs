@@ -3,12 +3,13 @@ using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Arrowz {
   public class Arrow : MapObject {
-    [HideInInspector] public Direction direction;
+    public Direction direction;
 
 
     protected override void Start() {
@@ -18,8 +19,10 @@ namespace GruntzUnityverse.Objectz.Arrowz {
     }
 
     protected virtual void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtLocation(location))) {
-        grunt.navigator.targetLocation = location + DirectionAsVector(direction);
+      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtNode(ownNode))) {
+        Node targetNode = LevelManager.Instance.NodeAt(location + DirectionAsVector(direction));
+        grunt.navigator.targetNode = targetNode;
+        grunt.navigator.haveMoveCommand = true;
         grunt.navigator.isMoveForced = true;
 
         return;
@@ -29,6 +32,23 @@ namespace GruntzUnityverse.Objectz.Arrowz {
     protected void SetDirection() {
       string spriteName = spriteRenderer.sprite.name;
 
+      //direction = spriteName.Contains(StringDirection.Northeast)
+      //  ? Direction.Northeast
+      //  : spriteName.Contains(StringDirection.Northwest)
+      //  ? Direction.Northwest
+      //  : spriteName.Contains(StringDirection.North)
+      //  ? Direction.North
+      //  : spriteName.Contains(StringDirection.Southeast)
+      //  ? Direction.Southeast
+      //  : spriteName.Contains(StringDirection.Southwest)
+      //  ? Direction.Southwest
+      //  : spriteName.Contains(StringDirection.South)
+      //  ? Direction.South
+      //  : spriteName.Contains(StringDirection.East)
+      //  ? Direction.East
+      //  : spriteName.Contains(StringDirection.West)
+      //  ? Direction.West
+      //  : Direction.None;
       if (spriteName.Contains("Northeast")) {
         direction = Direction.Northeast;
       } else if (spriteName.Contains("Northwest")) {
@@ -53,14 +73,14 @@ namespace GruntzUnityverse.Objectz.Arrowz {
 
     protected Vector2Int DirectionAsVector(Direction dir) {
       return dir switch {
-        Direction.North => Vector2IntExtra.North(),
-        Direction.East => Vector2IntExtra.East(),
-        Direction.South => Vector2IntExtra.South(),
-        Direction.West => Vector2IntExtra.West(),
-        Direction.Northeast => Vector2IntExtra.NorthEast(),
-        Direction.Northwest => Vector2IntExtra.NorthWest(),
-        Direction.Southeast => Vector2IntExtra.SouthEast(),
-        Direction.Southwest => Vector2IntExtra.SouthWest(),
+        Direction.North => Vector2Direction.north,
+        Direction.East => Vector2Direction.east,
+        Direction.South => Vector2Direction.south,
+        Direction.West => Vector2Direction.west,
+        Direction.Northeast => Vector2Direction.northeast,
+        Direction.Northwest => Vector2Direction.northwest,
+        Direction.Southeast => Vector2Direction.southeast,
+        Direction.Southwest => Vector2Direction.southwest,
         Direction.None => throw new ArgumentOutOfRangeException(nameof(dir), dir, "No Arrow direction specified!"),
         _ => throw new ArgumentOutOfRangeException(nameof(dir), dir, "No Arrow direction specified!"),
       };
