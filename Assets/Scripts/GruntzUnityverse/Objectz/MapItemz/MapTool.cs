@@ -2,22 +2,16 @@
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Objectz.Itemz;
-using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.MapItemz {
   public class MapTool : MapItem {
-    [field: SerializeField] public Tool PickupTool { get; set; }
+    public Tool pickupTool;
 
 
     protected override void Start() {
       base.Start();
 
-      PickupTool = gameObject.GetComponent<Tool>();
-
-      RotationAnimation =
-        Resources.Load<AnimationClip>($"Animationz/MapItemz/Tool/Clipz/{PickupTool.GetType().Name}_Rotating");
-
-      Animancer.Play(RotationAnimation);
+      pickupTool = gameObject.GetComponent<Tool>();
     }
 
     private void Update() {
@@ -25,9 +19,9 @@ namespace GruntzUnityverse.Objectz.MapItemz {
         SetEnabled(false);
 
         StatzManager.Instance.acquiredToolz++;
-        grunt.equipment.tool = PickupTool;
+        grunt.equipment.tool = pickupTool;
 
-        StartCoroutine(grunt.PickupItem(PickupTool, nameof(Tool), PickupTool.GetType().Name));
+        StartCoroutine(grunt.PickupItem(pickupTool, nameof(Tool), pickupTool.GetType().Name));
 
         break;
       }

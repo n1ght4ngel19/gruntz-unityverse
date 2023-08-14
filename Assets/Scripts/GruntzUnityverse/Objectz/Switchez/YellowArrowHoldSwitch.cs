@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class YellowArrowHoldSwitch : ObjectSwitch {
-    [field: SerializeField] public List<TwoWayArrow> Arrowz { get; set; }
+    public List<TwoWayArrow> arrowz;
 
 
     protected override void Start() {
@@ -14,33 +14,33 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
       int transformIndex = transform.parent.GetSiblingIndex();
 
-      Arrowz = transform.parent.GetComponentsInChildren<TwoWayArrow>()
+      arrowz = parent.GetComponentsInChildren<TwoWayArrow>()
         .Where(arrow => arrow.transform.parent.GetSiblingIndex() == transformIndex)
         .ToList();
     }
 
     private void Update() {
-      if (Arrowz.Count == 0) {
+      if (arrowz.Count == 0) {
         Debug.LogError(ErrorMessage.ArrowSwitchArrowzMissing + $"Switch: {transform.parent.name} -> {gameObject.name}");
 
         enabled = false;
       }
 
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
-        if (HasBeenPressed) {
+        if (hasBeenPressed) {
           return;
         }
 
         ToggleArrowz();
         PressSwitch();
-      } else if (HasBeenPressed) {
+      } else if (hasBeenPressed) {
         ToggleArrowz();
         ReleaseSwitch();
       }
     }
 
     private void ToggleArrowz() {
-      foreach (TwoWayArrow arrow in Arrowz) {
+      foreach (TwoWayArrow arrow in arrowz) {
         arrow.ChangeDirection();
       }
     }

@@ -1,37 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Objectz.Switchez;
-using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
   public class PurplePyramid : Pyramid {
-    public List<PurpleSwitch> Switchez { get; set; }
-    [field: SerializeField] public bool HasChanged { get; set; }
+    public List<PurpleSwitch> switchez;
+    public bool hasChanged;
 
     protected override void Start() {
       base.Start();
 
-      Switchez = transform.parent.GetComponentsInChildren<PurpleSwitch>().ToList();
+      switchez = transform.parent.GetComponentsInChildren<PurpleSwitch>().ToList();
     }
 
     private void Update() {
-      if (Switchez.Any(purpleSwitch => !purpleSwitch.isPressed)) {
-        if (!HasChanged) {
+      if (switchez.Any(purpleSwitch => !purpleSwitch.isPressed)) {
+        if (!hasChanged) {
           return;
         }
 
-        TogglePyramid();
-        HasChanged = false;
+        Toggle();
+        hasChanged = false;
 
         return;
       }
 
-      if (HasChanged) {
+      if (hasChanged) {
         return;
       }
 
-      TogglePyramid();
-      HasChanged = true;
+      Toggle();
+      hasChanged = true;
     }
   }
 }

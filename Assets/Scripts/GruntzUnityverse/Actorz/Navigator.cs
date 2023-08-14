@@ -75,7 +75,7 @@ namespace GruntzUnityverse.Actorz {
         path = Pathfinder.PathBetween(pathStart, pathEnd, isMoveForced, movesDiagonally);
       }
 
-      if (path == null) {
+      if (path is null) {
         return;
       }
 
@@ -97,7 +97,7 @@ namespace GruntzUnityverse.Actorz {
         if (isMoveForced) {
           Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
 
-          if (deadGrunt != null) {
+          if (deadGrunt is not null) {
             StartCoroutine(deadGrunt.Death("Squash"));
           }
 
@@ -124,7 +124,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       // There's no path to target or Grunt has reached target
-      if ((path == null) || (path.Count <= 1)) {
+      if ((path is null) || (path.Count <= 1)) {
         isMoving = false;
         haveMoveCommand = false;
         isMoveForced = false;
@@ -168,7 +168,7 @@ namespace GruntzUnityverse.Actorz {
         LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
 
       // Killing the target if the Grunt was forced to move (e.g. by an Arrow or by teleporting)
-      if (deathMarkedGrunt != null) {
+      if (deathMarkedGrunt is not null) {
         StartCoroutine(deathMarkedGrunt.Death("Squash"));
       }
 
@@ -207,8 +207,8 @@ namespace GruntzUnityverse.Actorz {
       return new Vector3(location.x, location.y, transform.position.z);
     }
 
-    public void SetFacingDirection(Vector3 moveVector) {
-      Vector2Int directionVector = Vector2Int.RoundToInt(moveVector);
+    public void SetFacingDirection(Vector3 facingVector) {
+      Vector2Int directionVector = Vector2Int.RoundToInt(facingVector);
 
       facingDirection = directionVector switch {
         var vector when vector.Equals(Vector2Direction.north) => Direction.North,

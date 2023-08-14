@@ -1,26 +1,20 @@
 ﻿using GruntzUnityverse.Managerz;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Bridgez {
-  public class CrumbleBridge : MapObject {
-    public bool isDeathBridge;
-    private AnimationClip Anim { get; set; }
-
-
-    protected override void Start() {
-      base.Start();
-
-      AssignAreaBySpriteName();
-
+  public class CrumbleBridge : Bridge {
+    protected override void LoadAnimationz() {
       string optionalDeath = isDeathBridge ? "Death" : "";
 
-      Anim = Resources.Load<AnimationClip>(
-        $"Animationz/MapObjectz/Bridgez/{area}/Clipz/Crumble{optionalDeath}Bridge_Down"
-      );
+      Addressables.LoadAssetAsync<AnimationClip>($"Crumble{optionalDeath}Bridge_Down_{abbreviatedArea}.anim")
+        .Completed += (handle) => {
+        downAnim = handle.Result;
+      };
     }
 
     public void Crumble() {
-      Animancer.Play(Anim);
+      animancer.Play(downAnim);
 
       LevelManager.Instance.SetBlockedAt(location, false);
     }

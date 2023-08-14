@@ -5,33 +5,33 @@ using GruntzUnityverse.Objectz.Pyramidz;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class GreenHoldSwitch : ObjectSwitch {
-    private List<GreenPyramid> Pyramidz { get; set; }
+    private List<GreenPyramid> _pyramidz;
 
 
     protected override void Start() {
       base.Start();
 
-      Pyramidz = transform.parent.GetComponentsInChildren<GreenPyramid>().ToList();
+      _pyramidz = transform.parent.GetComponentsInChildren<GreenPyramid>().ToList();
     }
 
 
     private void Update() {
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
-        if (HasBeenPressed) {
+        if (hasBeenPressed) {
           return;
         }
 
         TogglePyramidz();
         PressSwitch();
-      } else if (HasBeenPressed) {
+      } else if (hasBeenPressed) {
         TogglePyramidz();
         ReleaseSwitch();
       }
     }
 
     private void TogglePyramidz() {
-      foreach (GreenPyramid pyramid in Pyramidz) {
-        pyramid.TogglePyramid();
+      foreach (GreenPyramid pyramid in _pyramidz) {
+        pyramid.Toggle();
       }
     }
   }

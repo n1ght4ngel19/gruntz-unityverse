@@ -75,7 +75,7 @@ namespace GruntzUnityverse.Managerz {
 
     #region Others
 
-    List<Checkpoint> checkpointz;
+    public List<Checkpoint> checkpointz;
     public TMP_Text helpBoxText;
     public GameObject mapObjectContainer;
 
@@ -83,7 +83,7 @@ namespace GruntzUnityverse.Managerz {
 
 
     private void Awake() {
-      if (Instance != null && Instance != this) {
+      if (Instance is not null && Instance != this) {
         Destroy(gameObject);
       } else {
         Instance = this;

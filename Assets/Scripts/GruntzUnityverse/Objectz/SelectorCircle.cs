@@ -3,25 +3,25 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
   public class SelectorCircle : MapObject {
-    private static SelectorCircle _Instance;
+    private static SelectorCircle _instance;
 
     public static SelectorCircle Instance {
-      get => _Instance;
+      get => _instance;
     }
 
     protected override void Start() {
-      if (_Instance != null && _Instance != this) {
+      if (_instance is not null && _instance != this) {
         Destroy(gameObject);
       } else {
-        _Instance = this;
+        _instance = this;
       }
 
       base.Start();
     }
 
     private void Update() {
-      OwnTransform.position = MousePositionAsVector3();
-      location = Vector2Int.FloorToInt(OwnTransform.position);
+      ownTransform.position = MousePositionAsVector3();
+      location = Vector2Int.FloorToInt(ownTransform.position);
 
       if (LevelManager.Instance.nodeLocations.Contains(location)) {
         ownNode = LevelManager.Instance.NodeAt(location);
@@ -30,8 +30,8 @@ namespace GruntzUnityverse.Objectz {
 
     private Vector3 MousePositionAsVector3() {
       return new Vector3(
-        Mathf.Round(MainCamera.ScreenToWorldPoint(Input.mousePosition).x),
-        Mathf.Round(MainCamera.ScreenToWorldPoint(Input.mousePosition).y),
+        Mathf.Round(mainCamera.ScreenToWorldPoint(Input.mousePosition).x),
+        Mathf.Round(mainCamera.ScreenToWorldPoint(Input.mousePosition).y),
         15f
       );
     }

@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
   public class GiantRock : MapObject, IBreakable {
     public AnimationClip BreakAnimation { get; set; }
     public GiantRockEdge giantRockEdge;
-    public List<GiantRockEdge> edges;
+    public List<GiantRockEdge> edgez;
+
 
     protected override void Start() {
       base.Start();
-
-      AssignAreaBySpriteName();
-
-      BreakAnimation = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Rockz/Clipz/RockBreak_{area}_01");
 
       foreach (Node node in ownNode.Neighbours) {
         GiantRockEdge edge = Instantiate(giantRockEdge, node.transform.position, Quaternion.identity);
@@ -23,7 +21,7 @@ namespace GruntzUnityverse.Objectz.Interactablez {
         edge.BreakAnimation = BreakAnimation;
         edge.transform.parent = transform;
         edge.GetComponent<SpriteRenderer>().sortingOrder = GetComponent<SpriteRenderer>().sortingOrder + 1;
-        edges.Add(edge);
+        edgez.Add(edge);
       }
     }
 
@@ -33,14 +31,14 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 
       Debug.Log("1.5f delay passed");
 
-      foreach (GiantRockEdge edge in edges) {
+      foreach (GiantRockEdge edge in edgez) {
         LevelManager.Instance.SetBlockedAt(edge.location, false);
         LevelManager.Instance.SetHardTurnAt(edge.location, false);
 
         Destroy(edge.gameObject);
       }
 
-      Animancer.Play(BreakAnimation);
+      animancer.Play(BreakAnimation);
 
       yield return new WaitForSeconds(1f);
 
@@ -48,6 +46,12 @@ namespace GruntzUnityverse.Objectz.Interactablez {
       LevelManager.Instance.SetHardTurnAt(location, false);
 
       Destroy(gameObject, 1f);
+    }
+
+    protected override void LoadAnimationz() {
+      Addressables.LoadAssetAsync<AnimationClip>($"RockBreak_{abbreviatedArea}_01.anim").Completed += (handle) => {
+        BreakAnimation = handle.Result;
+      };
     }
   }
 }

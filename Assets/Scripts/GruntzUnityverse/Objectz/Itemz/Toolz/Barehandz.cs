@@ -13,7 +13,7 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
     }
 
     public override IEnumerator UseItem() {
-      Vector2Int diffVector = ownGrunt.targetGrunt == null
+      Vector2Int diffVector = ownGrunt.targetGrunt is null
         ? ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation
         : ownGrunt.targetGrunt.navigator.ownLocation - ownGrunt.navigator.ownLocation;
 
@@ -23,13 +23,10 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
       // Todo: Proper length
       yield return new WaitForSeconds(1f);
 
-      ownGrunt.haveActionCommand = false;
-      ownGrunt.canInteract = false;
-      ownGrunt.isInterrupted = false;
+      // Todo: Maybe not
+      ownGrunt.CleanState();
 
-      if (ownGrunt.targetObject == null) {
-        yield break;
-      } else {
+      if (ownGrunt.targetMapObject is not null) {
         ownGrunt.targetObject = null;
       }
     }

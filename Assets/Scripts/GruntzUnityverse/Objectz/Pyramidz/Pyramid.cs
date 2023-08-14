@@ -1,24 +1,34 @@
 ﻿using GruntzUnityverse.Managerz;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
   public class Pyramid : MapObject {
     [field: SerializeField] public bool IsDown { get; set; }
-    private AnimationClip DownAnim { get; set; }
-    private AnimationClip UpAnim { get; set; }
+    private AnimationClip _downAnim;
+    private AnimationClip _upAnim;
 
 
     protected override void Start() {
       base.Start();
 
       LevelManager.Instance.SetBlockedAt(location, !IsDown);
-
-      DownAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Pyramidz/Clipz/{GetType().Name}_Down");
-      UpAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Pyramidz/Clipz/{GetType().Name}_Up");
     }
 
-    public void TogglePyramid() {
-      Animancer.Play(IsDown ? UpAnim : DownAnim);
+    protected override void LoadAnimationz() {
+      Addressables.LoadAssetAsync<AnimationClip>($"{GetType().Name}_Down.anim").Completed +=
+        (handle) => {
+          _downAnim = handle.Result;
+        };
+
+      Addressables.LoadAssetAsync<AnimationClip>($"{GetType().Name}_Down.anim").Completed +=
+        (handle) => {
+          _upAnim = handle.Result;
+        };
+    }
+
+    public void Toggle() {
+      animancer.Play(IsDown ? _upAnim : _downAnim);
 
       IsDown = !IsDown;
       LevelManager.Instance.SetBlockedAt(location, !IsDown);

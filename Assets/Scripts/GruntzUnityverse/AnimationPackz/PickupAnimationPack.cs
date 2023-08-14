@@ -1,29 +1,50 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.AnimationPackz {
   public class PickupAnimationPack {
-    public readonly Dictionary<string, AnimationClip> Misc;
-    public readonly Dictionary<string, AnimationClip> Powerup;
-    public readonly Dictionary<string, AnimationClip> Tool;
-    public readonly Dictionary<string, AnimationClip> Toy;
+    public readonly Dictionary<string, AnimationClip> misc;
+    public readonly Dictionary<string, AnimationClip> powerup;
+    public readonly Dictionary<string, AnimationClip> tool;
+    public readonly Dictionary<string, AnimationClip> toy;
 
     public PickupAnimationPack() {
-      Misc = new Dictionary<string, AnimationClip>();
-      Powerup = new Dictionary<string, AnimationClip>();
-      Tool = new Dictionary<string, AnimationClip>();
-      Toy = new Dictionary<string, AnimationClip>();
+      misc = new Dictionary<string, AnimationClip>();
+      powerup = new Dictionary<string, AnimationClip>();
+      tool = new Dictionary<string, AnimationClip>();
+      toy = new Dictionary<string, AnimationClip>();
 
-      Misc.Add("Coin", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Misc_Coin"));
-      Misc.Add("Helpbox", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Misc_Helpbox"));
-      Misc.Add("Megaphone", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Misc_Megaphone"));
-      Misc.Add("WarpletterW", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Misc_Warpletter_W"));
-      Misc.Add("WarpletterA", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Misc_Warpletter_A"));
-      Misc.Add("WarpletterR", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Misc_Warpletter_R"));
-      Misc.Add("WarpletterP", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Misc_Warpletter_P"));
-      Tool.Add("Gauntletz", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Tool_Gauntletz"));
-      Tool.Add("Shovel", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Tool_Shovel"));
-      Toy.Add("Beachball", Resources.Load<AnimationClip>("Animationz/Gruntz/Pickupz/Clipz/Pickup_Toy_Beachball"));
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Coin.anim").Completed += (handle) => {
+        misc.Add("Coin", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Helpbox.anim").Completed += (handle) => {
+        misc.Add("Helpbox", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Megaphone.anim").Completed += (handle) => {
+        misc.Add("Megaphone", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterW.anim").Completed += (handle) => {
+        misc.Add("WarpletterW", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterA.anim").Completed += (handle) => {
+        misc.Add("WarpletterA", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterR.anim").Completed += (handle) => {
+        misc.Add("WarpletterR", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterP.anim").Completed += (handle) => {
+        misc.Add("WarpletterP", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Gauntletz.anim").Completed += (handle) => {
+        misc.Add("Gauntletz", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Shovel.anim").Completed += (handle) => {
+        misc.Add("Shovel", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Beachball.anim").Completed += (handle) => {
+        misc.Add("Beachball", handle.Result);
+      };
     }
   }
 }

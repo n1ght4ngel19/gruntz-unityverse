@@ -23,7 +23,7 @@ namespace GruntzUnityverse.Objectz.Itemz.Toolz {
       grunt.navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
 
       AnimationClip clipToPlay =
-        grunt.AnimationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.navigator.facingDirection}"];
+        grunt.animationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.navigator.facingDirection}"];
 
       grunt.animancer.Play(clipToPlay);
 

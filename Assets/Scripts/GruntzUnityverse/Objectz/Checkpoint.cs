@@ -24,7 +24,8 @@ namespace GruntzUnityverse.Objectz {
 
     private void Complete() {
       foreach (CheckpointPyramid pyramid in _pyramidz) {
-        pyramid.TogglePyramid();
+        pyramid.Toggle();
+
         pyramid.enabled = false;
       }
 

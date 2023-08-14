@@ -5,7 +5,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
     public Sprite pressedSprite;
     private Sprite _releasedSprite;
     public bool isPressed;
-    protected bool HasBeenPressed;
+    protected bool hasBeenPressed;
 
     protected override void Start() {
       base.Start();
@@ -13,15 +13,15 @@ namespace GruntzUnityverse.Objectz.Switchez {
       _releasedSprite = spriteRenderer.sprite;
     }
 
-    public void PressSwitch() {
+    protected void PressSwitch() {
       isPressed = true;
-      HasBeenPressed = true;
+      hasBeenPressed = true;
       spriteRenderer.sprite = pressedSprite;
     }
 
-    public void ReleaseSwitch() {
+    protected void ReleaseSwitch() {
       isPressed = false;
-      HasBeenPressed = false;
+      hasBeenPressed = false;
       spriteRenderer.sprite = _releasedSprite;
     }
 

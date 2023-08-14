@@ -1,38 +1,39 @@
 ﻿using GruntzUnityverse.Managerz;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Bridgez {
   public class Bridge : MapObject {
     public bool isDown;
     public bool isDeathBridge;
-    private AnimationClip _downAnim;
-    private AnimationClip _upAnim;
+    protected AnimationClip downAnim;
+    protected AnimationClip upAnim;
 
 
-    protected override void Start() {
-      base.Start();
-
-      AssignAreaBySpriteName();
-
-      string optionalDeath = isDeathBridge ? "Death" : "";
-
-      _downAnim = Resources.Load<AnimationClip>(
-        $"Animationz/MapObjectz/Bridgez/{area}/Clipz/{optionalDeath}Bridge_Down"
-      );
-
-      _upAnim = Resources.Load<AnimationClip>($"Animationz/MapObjectz/Bridgez/{area}/Clipz/{optionalDeath}Bridge_Up");
-    }
-
-    private void Update() {
+    protected virtual void Update() {
       LevelManager.Instance.SetBlockedAt(location, isDown);
       LevelManager.Instance.SetWaterAt(location, isDown);
-      LevelManager.Instance.SetDeathAt(location, isDeathBridge);
+      LevelManager.Instance.SetDeathAt(location, isDown);
 
       enabled = false;
     }
 
+    protected override void LoadAnimationz() {
+      string optionalDeath = isDeathBridge ? "Death" : "";
+
+      Addressables.LoadAssetAsync<AnimationClip>($"{optionalDeath}Bridge_Down_{abbreviatedArea}.anim").Completed +=
+        (handle) => {
+          downAnim = handle.Result;
+        };
+
+      Addressables.LoadAssetAsync<AnimationClip>($"{optionalDeath}Bridge_Up_{abbreviatedArea}.anim").Completed +=
+        (handle) => {
+          upAnim = handle.Result;
+        };
+    }
+
     public void Toggle() {
-      Animancer.Play(isDown ? _upAnim : _downAnim);
+      animancer.Play(isDown ? upAnim : downAnim);
 
       isDown = !isDown;
       LevelManager.Instance.SetBlockedAt(location, isDown);

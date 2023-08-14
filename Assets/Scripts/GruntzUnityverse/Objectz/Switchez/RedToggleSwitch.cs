@@ -6,7 +6,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
   public class RedToggleSwitch : ObjectSwitch {
     private void Update() {
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
-        if (HasBeenPressed) {
+        if (hasBeenPressed) {
           return;
         }
 
@@ -19,7 +19,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void ToggleAllRedPyramidz() {
       foreach (RedPyramid pyramid in LevelManager.Instance.RedPyramidz) {
-        pyramid.TogglePyramid();
+        pyramid.Toggle();
       }
     }
   }

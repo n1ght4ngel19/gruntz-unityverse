@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Managerz {
   public class StatzManager : MonoBehaviour {
-    private static StatzManager _Instance;
+    private static StatzManager _instance;
 
     public static StatzManager Instance {
-      get => _Instance;
+      get => _instance;
     }
 
     private void Start() {
-      if (_Instance != null && _Instance != this) {
+      if (_instance is not null && _instance != this) {
         Destroy(gameObject);
       } else {
-        _Instance = this;
+        _instance = this;
       }
 
       maxToolz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Tool>().Length;

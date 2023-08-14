@@ -6,17 +6,17 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class OneTimeSwitch : ObjectSwitch {
-    private List<BlackPyramid> Pyramidz { get; set; }
+    private List<BlackPyramid> _pyramidz;
 
 
     protected override void Start() {
       base.Start();
 
-      Pyramidz = transform.parent.GetComponentsInChildren<BlackPyramid>().ToList();
+      _pyramidz = transform.parent.GetComponentsInChildren<BlackPyramid>().ToList();
     }
 
     private void Update() {
-      if (Pyramidz.Count.Equals(0)) {
+      if (_pyramidz.Count.Equals(0)) {
         Debug.LogWarning("There is no Pyramid assigned to this Switch!");
 
         enabled = false;
@@ -31,8 +31,8 @@ namespace GruntzUnityverse.Objectz.Switchez {
     }
 
     private void TogglePyramidz() {
-      foreach (BlackPyramid pyramid in Pyramidz) {
-        pyramid.TogglePyramid();
+      foreach (BlackPyramid pyramid in _pyramidz) {
+        pyramid.Toggle();
         pyramid.enabled = false;
       }
     }

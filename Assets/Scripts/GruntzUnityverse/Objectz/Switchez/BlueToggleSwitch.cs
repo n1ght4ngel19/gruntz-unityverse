@@ -16,7 +16,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void Update() {
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
-        if (!HasBeenPressed) {
+        if (!hasBeenPressed) {
           PressSwitch();
           ToggleBridgez();
         }

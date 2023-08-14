@@ -16,13 +16,13 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void Update() {
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
-        if (HasBeenPressed) {
+        if (hasBeenPressed) {
           return;
         }
 
         ToggleBridgez();
         PressSwitch();
-      } else if (HasBeenPressed) {
+      } else if (hasBeenPressed) {
         ToggleBridgez();
         ReleaseSwitch();
       }

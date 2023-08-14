@@ -1,17 +1,26 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Actorz;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
   public class Hole : MapObject {
-    [field: SerializeField] public Sprite OpenSprite { get; set; }
-    [field: SerializeField] public Sprite FilledSprite { get; set; }
-    [field: SerializeField] public bool IsOpen { get; set; }
+    public Sprite openSprite;
+    public Sprite filledSprite;
+    public bool isOpen;
+
+    protected override void Start() {
+      base.Start();
+
+      openSprite = spriteRenderer.sprite;
+      
+      Addressables.LoadAssetAsync<Sprite>($"{abbreviatedArea}_Hole_Filled.png")
+        .Completed += (handle) => {
+          filledSprite = handle.Result;
+      };
+    }
 
     public override IEnumerator BeUsed(Grunt grunt) {
-      // Todo: Why does this not work right?
-      // animancer.Play(Resources.Load<AnimationClip>("Animationz/MapObjectz/Rockz/Clipz/RockBreak_RockyRoadz"));
-
       yield return new WaitForSeconds(1f);
 
       SwitchOpen();
@@ -20,8 +29,8 @@ namespace GruntzUnityverse.Objectz.Interactablez {
     }
 
     private void SwitchOpen() {
-      IsOpen = !IsOpen;
-      spriteRenderer.sprite = IsOpen ? OpenSprite : FilledSprite;
+      isOpen = !isOpen;
+      spriteRenderer.sprite = isOpen ? openSprite : filledSprite;
     }
   }
 }

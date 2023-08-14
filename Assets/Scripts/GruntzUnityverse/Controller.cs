@@ -16,7 +16,7 @@ namespace GruntzUnityverse {
     public List<Grunt> selectedGruntz;
 
     private void Awake() {
-      if (Instance != null && Instance != this) {
+      if (Instance is not null && Instance != this) {
         Destroy(gameObject);
       } else {
         Instance = this;
@@ -79,11 +79,11 @@ namespace GruntzUnityverse {
           grunt => {
             grunt.CleanState();
 
-            if (targetGrunt != null && targetGrunt.IsValidTargetFor(grunt)) {
+            if (targetGrunt is not null && targetGrunt.IsValidTargetFor(grunt)) {
               grunt.targetGrunt = targetGrunt;
               grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
               grunt.haveActionCommand = true;
-            } else if (targetMapObject != null && targetMapObject.IsValidTargetFor(grunt)) {
+            } else if (targetMapObject is not null && targetMapObject.IsValidTargetFor(grunt)) {
               grunt.targetMapObject = targetMapObject;
               grunt.navigator.targetNode = targetMapObject.ownNode;
               grunt.haveActionCommand = true;
@@ -104,12 +104,12 @@ namespace GruntzUnityverse {
         // Issuing action command according to the target being a Grunt or not
         selectedGruntz.ForEach(
           grunt => {
-            if (targetGrunt != null && targetGrunt != grunt) {
+            if (targetGrunt is not null && targetGrunt != grunt) { 
               grunt.targetGrunt = targetGrunt;
               grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
               grunt.haveActionCommand = true;
               grunt.haveGiveToyCommand = true;
-            } else if (!clickedNode.IsUnavailable()) {
+            } else if (!clickedNode.IsUnavailable()) { 
               grunt.navigator.targetNode = clickedNode;
               grunt.haveActionCommand = true;
               grunt.haveGiveToyCommand = true;

@@ -44,29 +44,22 @@ namespace GruntzUnityverse.Actorz {
     #region Action
     [Header("Action")]
     public MapObject targetObject;
-    [CanBeNull]
-    public Grunt targetGrunt;
-    [CanBeNull]
-    public MapObject targetMapObject;
+    [CanBeNull] public Grunt targetGrunt;
+    [CanBeNull] public MapObject targetMapObject;
     public InteractionType interactionType;
     #endregion
 
     #region Components
-    [HideInInspector]
-    public SpriteRenderer spriteRenderer;
-    [HideInInspector]
-    public Navigator navigator;
-    [HideInInspector]
-    public Equipment equipment;
-    [HideInInspector]
-    public HealthBar healthBar;
-    [HideInInspector]
-    public AnimancerComponent animancer;
+    [HideInInspector] public SpriteRenderer spriteRenderer;
+    [HideInInspector] public Navigator navigator;
+    [HideInInspector] public Equipment equipment;
+    [HideInInspector] public HealthBar healthBar;
+    [HideInInspector] public AnimancerComponent animancer;
     private Animator _animator;
     #endregion
 
     #region Other
-    public GruntAnimationPack AnimationPack;
+    public GruntAnimationPack animationPack;
     #endregion
 
 
@@ -101,18 +94,18 @@ namespace GruntzUnityverse.Actorz {
       if (haveActionCommand && !isInterrupted) {
         // Giving or placing a Toy
         if (haveGiveToyCommand) {
-          canInteract = targetGrunt != null
+          canInteract = targetGrunt is not null
             ? IsNeighbourOf(targetGrunt)
             : IsNeighbourOf(navigator.targetNode);
 
           interactionType = InteractionType.GiveToy;
           // Attacking a Grunt or using a Tool
         } else if (equipment.tool.rangeType == RangeType.Melee) {
-          canInteract = targetGrunt != null
+          canInteract = targetGrunt is not null
             ? IsNeighbourOf(targetGrunt)
             : IsNeighbourOf(targetMapObject);
 
-          interactionType = targetGrunt != null
+          interactionType = targetGrunt is not null
             ? InteractionType.Attack
             : InteractionType.Use;
         }
@@ -127,22 +120,11 @@ namespace GruntzUnityverse.Actorz {
           case InteractionType.None:
             break;
           case InteractionType.Attack:
-            // Attack
-            StartCoroutine(equipment.tool.UseItem()); // Only Barehandz for now
+            StartCoroutine(HandleAttack());
 
             break;
           case InteractionType.Use:
-            // Todo: All valid item use conditions
-            if (equipment.tool is Gauntletz && targetMapObject is IBreakable) {
-              StartCoroutine(equipment.tool.UseItem());
-            } else if (equipment.tool is Shovel && targetMapObject is Hole) {
-              StartCoroutine(equipment.tool.UseItem());
-            } else {
-              CleanState();
-
-
-              break;
-            }
+            StartCoroutine(HandleItemUse());
 
             break;
           case InteractionType.GiveToy:
@@ -185,6 +167,34 @@ namespace GruntzUnityverse.Actorz {
       // #endregion
 
       PlayWalkOrIdleAnimation();
+    }
+
+    private IEnumerator HandleItemUse() {
+      // Item
+      switch (equipment.tool) {
+        // Todo: All valid item use conditions
+        case Gauntletz when targetMapObject is IBreakable:
+          StartCoroutine(equipment.tool.UseItem());
+
+          yield return new WaitForSeconds(1.5f);
+          break;
+        case Shovel when targetMapObject is Hole:
+          StartCoroutine(equipment.tool.UseItem());
+
+          yield return new WaitForSeconds(1.5f);
+          break;
+        default:
+          Debug.Log("Say: Can't do it ");
+          CleanState();
+          break;
+      }
+    }
+
+    private IEnumerator HandleAttack() {
+      // Attack
+      StartCoroutine(equipment.tool.UseItem()); // Only Barehandz for now
+
+      yield return new WaitForSeconds(1.5f);
     }
 
     /// <summary>
@@ -257,7 +267,7 @@ namespace GruntzUnityverse.Actorz {
     /// <summary>
     /// Checks if the Grunt has the given Toy equipped.
     /// </summary>
-    /// <param name="tool">The Toy to check.</param>
+    /// <param name="toy">The Toy to check.</param>
     /// <returns>True if the Grunt has the Toy, false otherwise.</returns>
     public bool HasToy(ToyName toy) {
       return equipment.toy is not null && equipment.toy.Name.Equals(toy);
@@ -268,9 +278,9 @@ namespace GruntzUnityverse.Actorz {
     /// </summary>
     private void PlayWalkOrIdleAnimation() {
       if (navigator.isMoving) {
-        animancer.Play(AnimationPack.Walk[$"{equipment.tool.toolName}Grunt_Walk_{navigator.facingDirection}"]);
+        animancer.Play(animationPack.Walk[$"{equipment.tool.toolName}Grunt_Walk_{navigator.facingDirection}"]);
       } else {
-        animancer.Play(AnimationPack.Idle[$"{equipment.tool.toolName}Grunt_Idle_{navigator.facingDirection}_01"]);
+        animancer.Play(animationPack.Idle[$"{equipment.tool.toolName}Grunt_Idle_{navigator.facingDirection}_01"]);
       }
     }
 
@@ -294,7 +304,7 @@ namespace GruntzUnityverse.Actorz {
               break;
           }
 
-          animancer.Play(AnimationManager.Instance.PickupPack.Tool[itemName]);
+          animancer.Play(AnimationManager.Instance.PickupPack.tool[itemName]);
           // Todo: Play pickup sound
 
           yield return new WaitForSeconds(0.8f);
@@ -306,7 +316,7 @@ namespace GruntzUnityverse.Actorz {
           Destroy(GetComponents<Toy>().FirstOrDefault());
           //equipment.toy = gameObject.AddComponent<Beachball>();
 
-          animancer.Play(AnimationManager.Instance.PickupPack.Toy[itemName]);
+          animancer.Play(AnimationManager.Instance.PickupPack.toy[itemName]);
 
           break;
       }
@@ -320,7 +330,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public IEnumerator PickupMiscItem(string itemName) {
-      animancer.Play(AnimationManager.Instance.PickupPack.Misc[itemName]);
+      animancer.Play(AnimationManager.Instance.PickupPack.misc[itemName]);
 
       isInterrupted = true;
 
@@ -336,15 +346,13 @@ namespace GruntzUnityverse.Actorz {
         haveActionCommand = false;
         targetObject = null;
       } else {
-        Debug.Log("Setting target closest to target");
-        Debug.Log("Target's node is: " + targetObject.ownNode);
         navigator.SetTargetBesideNode(targetObject.ownNode);
       }
     }
 
     public IEnumerator GetStruck() {
       AnimationClip struckClip =
-        AnimationPack.Struck[$"{equipment.tool.toolName}Grunt_Struck_{navigator.facingDirection}"];
+        animationPack.Struck[$"{equipment.tool.toolName}Grunt_Struck_{navigator.facingDirection}"];
 
       animancer.Play(struckClip);
 
@@ -384,7 +392,7 @@ namespace GruntzUnityverse.Actorz {
       isInterrupted = true;
 
       AnimationClip deathClip =
-        AnimationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death_01"];
+        animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death_01"];
 
       animancer.Play(deathClip);
 
@@ -397,7 +405,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public void SetAnimPack(ToolName tool) {
-      AnimationPack = tool switch {
+      animationPack = tool switch {
         ToolName.Barehandz => AnimationManager.Instance.BarehandzGruntPack,
         ToolName.Gauntletz => AnimationManager.Instance.GauntletzGruntPack,
         ToolName.Shovel => AnimationManager.Instance.ShovelGruntPack,
@@ -406,7 +414,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public void SetAnimPack(string tool) {
-      AnimationPack = tool switch {
+      animationPack = tool switch {
         nameof(Barehandz) => AnimationManager.Instance.BarehandzGruntPack,
         nameof(Gauntletz) => AnimationManager.Instance.GauntletzGruntPack,
         nameof(Shovel) => AnimationManager.Instance.ShovelGruntPack,

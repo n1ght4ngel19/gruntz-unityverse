@@ -21,7 +21,7 @@ namespace GruntzUnityverse.Objectz {
       }
 
       foreach (Grunt grunt in LevelManager.Instance.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
-        MainCamera.transform.position = new Vector3(target.location.x, target.location.y, MainCamera.transform.position.z);
+        mainCamera.transform.position = new Vector3(target.location.x, target.location.y, mainCamera.transform.position.z);
         target.spriteRenderer.enabled = true;
 
         TeleportTo(target, grunt);
@@ -30,12 +30,12 @@ namespace GruntzUnityverse.Objectz {
       }
     }
 
-    private void TeleportTo(MapObject target, Grunt grunt) {
-      grunt.transform.position = new Vector3(target.location.x, target.location.y, grunt.transform.position.z);
+    private void TeleportTo(MapObject targetMapObject, Grunt grunt) {
+      grunt.transform.position = new Vector3(targetMapObject.location.x, targetMapObject.location.y, grunt.transform.position.z);
       // Todo: Move these into separate method
-      grunt.navigator.ownLocation = target.location;
-      grunt.navigator.ownNode = LevelManager.Instance.NodeAt(target.location);
-      grunt.navigator.targetLocation = target.location;
+      grunt.navigator.ownLocation = targetMapObject.location;
+      grunt.navigator.ownNode = LevelManager.Instance.NodeAt(targetMapObject.location);
+      grunt.navigator.targetLocation = targetMapObject.location;
       grunt.navigator.pathStart = null;
       grunt.navigator.pathEnd = null;
     }

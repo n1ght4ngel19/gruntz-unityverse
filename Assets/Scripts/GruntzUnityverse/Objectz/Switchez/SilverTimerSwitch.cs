@@ -7,13 +7,13 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
   public class SilverTimerSwitch : ObjectSwitch {
-    [field: SerializeField] public List<SilverPyramid> Pyramidz { get; set; }
+    public List<SilverPyramid> pyramidz;
     private const float TimeStep = 0.1f;
 
 
     private void Update() {
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
-        if (HasBeenPressed) {
+        if (hasBeenPressed) {
           return;
         }
 
@@ -26,7 +26,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
     }
 
     private void HandleSilverPyramidz() {
-      foreach (SilverPyramid pyramid in Pyramidz) {
+      foreach (SilverPyramid pyramid in pyramidz) {
         StartCoroutine(HandleSilverPyramid(pyramid));
       }
     }
@@ -38,7 +38,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
         yield return new WaitForSeconds(TimeStep);
       }
 
-      pyramid.TogglePyramid();
+      pyramid.Toggle();
 
       while (pyramid.Duration > 0) {
         pyramid.Duration -= TimeStep;
@@ -46,7 +46,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
         yield return new WaitForSeconds(TimeStep);
       }
 
-      pyramid.TogglePyramid();
+      pyramid.Toggle();
     }
   }
 }

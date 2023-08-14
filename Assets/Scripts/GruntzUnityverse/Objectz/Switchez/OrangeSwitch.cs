@@ -18,7 +18,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void Update() {
       if (LevelManager.Instance.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
-        if (isPressed || HasBeenPressed) {
+        if (isPressed || hasBeenPressed) {
           return;
         }
 
@@ -26,7 +26,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
         TogglePyramidz();
         ToggleOtherSwitchez();
       } else {
-        HasBeenPressed = false;
+        hasBeenPressed = false;
       }
     }
 
@@ -38,7 +38,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
 
     private void TogglePyramidz() {
       foreach (OrangePyramid pyramid in Pyramidz) {
-        pyramid.TogglePyramid();
+        pyramid.Toggle();
       }
     }
   }

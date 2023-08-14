@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GruntzUnityverse.Enumz;
+using UnityEngine;
 
 namespace GruntzUnityverse.Utility {
   public static class Vector2Direction {
@@ -12,5 +13,20 @@ namespace GruntzUnityverse.Utility {
     public static Vector2Int northwest = new Vector2Int(-1, 1);
     public static Vector2Int southeast = new Vector2Int(1, -1);
     public static Vector2Int southwest = new Vector2Int(-1, -1);
+    
+    public static Vector2Int FromDirection(Direction dir) {
+      return dir switch {
+        Direction.North => north,
+        Direction.East => east,
+        Direction.South => south,
+        Direction.West => west,
+        Direction.Northeast => northeast,
+        Direction.Northwest => northwest,
+        Direction.Southeast => southeast,
+        Direction.Southwest => southwest,
+        Direction.None => throw new System.ArgumentOutOfRangeException(nameof(dir), dir, "No direction specified!"),
+        _ => throw new System.ArgumentOutOfRangeException(nameof(dir), dir, "No direction specified!"),
+      };
+    }
   }
 }
