@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.MapItemz {
   public class MapItem : MapObject {
@@ -9,13 +8,6 @@ namespace GruntzUnityverse.Objectz.MapItemz {
       base.Start();
 
       animancer.Play(RotationAnimation);
-    }
-
-    protected override void LoadAnimationz() {
-      Addressables.LoadAssetAsync<AnimationClip>($"{GetType()}_Rotating.anim")
-        .Completed += (handle) => {
-        RotationAnimation = handle.Result;
-      };
     }
   }
 }

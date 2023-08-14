@@ -2,6 +2,8 @@
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.MapItemz.Misc {
   public class Warpletter : MapItem {
@@ -17,6 +19,13 @@ namespace GruntzUnityverse.Objectz.MapItemz.Misc {
 
         break;
       }
+    }
+
+    protected override void LoadAnimationz() {
+      Addressables.LoadAssetAsync<AnimationClip>($"{nameof(Warpletter)}{warpletterType}_Rotating.anim")
+        .Completed += (handle) => {
+        RotationAnimation = handle.Result;
+      };
     }
   }
 }

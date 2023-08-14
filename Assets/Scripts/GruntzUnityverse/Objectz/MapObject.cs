@@ -41,12 +41,12 @@ namespace GruntzUnityverse.Objectz {
       AssignAreaBySpriteName();
       LoadAnimationz();
     }
-    
+
     public bool IsValidTargetFor(Grunt grunt) {
       return grunt.equipment.tool is Gauntletz && this is IBreakable
         || grunt.equipment.tool is Shovel && this is Hole;
     }
-    
+
     /// <summary>
     /// Sets the enabled state of the MapObject and its SpriteRenderer.
     /// </summary>
@@ -55,7 +55,7 @@ namespace GruntzUnityverse.Objectz {
       enabled = value;
       spriteRenderer.enabled = value;
     }
-    
+
     /// <summary>
     /// Loads all the AnimationClips necessary for animating the MapObject.
     /// </summary>
@@ -65,7 +65,7 @@ namespace GruntzUnityverse.Objectz {
     /// Checks if the MapObject has all its necessary components and fields set up correctly.
     /// </summary>
     protected virtual void ValidateSetup() { }
-    
+
     public virtual IEnumerator BeUsed(Grunt grunt) {
       yield return null;
     }
@@ -104,21 +104,21 @@ namespace GruntzUnityverse.Objectz {
       area = spriteName.StartsWith(AbbreviateArea(Area.RockyRoadz))
         ? Area.RockyRoadz
         : spriteName.StartsWith(AbbreviateArea(Area.Gruntziclez))
-        ? Area.Gruntziclez
-        : spriteName.StartsWith(AbbreviateArea(Area.TroubleInTheTropicz))
-        ? Area.TroubleInTheTropicz
-        : spriteName.StartsWith(AbbreviateArea(Area.HighOnSweetz))
-        ? Area.HighOnSweetz
-        : spriteName.StartsWith(AbbreviateArea(Area.HighRollerz))
-        ? Area.HighRollerz
-        : spriteName.StartsWith(AbbreviateArea(Area.HoneyIShrunkTheGruntz))
-        ? Area.HoneyIShrunkTheGruntz
-        : spriteName.StartsWith(AbbreviateArea(Area.TheMiniatureMasterz))
-        ? Area.TheMiniatureMasterz
-        : spriteName.StartsWith(AbbreviateArea(Area.GruntzInSpace))
-        ? Area.GruntzInSpace
-        : Area.None;
-      
+          ? Area.Gruntziclez
+          : spriteName.StartsWith(AbbreviateArea(Area.TroubleInTheTropicz))
+            ? Area.TroubleInTheTropicz
+            : spriteName.StartsWith(AbbreviateArea(Area.HighOnSweetz))
+              ? Area.HighOnSweetz
+              : spriteName.StartsWith(AbbreviateArea(Area.HighRollerz))
+                ? Area.HighRollerz
+                : spriteName.StartsWith(AbbreviateArea(Area.HoneyIShrunkTheGruntz))
+                  ? Area.HoneyIShrunkTheGruntz
+                  : spriteName.StartsWith(AbbreviateArea(Area.TheMiniatureMasterz))
+                    ? Area.TheMiniatureMasterz
+                    : spriteName.StartsWith(AbbreviateArea(Area.GruntzInSpace))
+                      ? Area.GruntzInSpace
+                      : Area.None;
+
       abbreviatedArea = AbbreviateArea(area);
     }
   }

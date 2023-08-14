@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz {
   public class Fort : MapObject {
-    private FortTrigger _fortTriggerPrefab;
+    [SerializeField] private FortTrigger fortTriggerPrefab;
     private List<FortTrigger> _triggerz;
     private bool _isSetup;
     private AnimationClip _fortAnim;
@@ -14,11 +14,6 @@ namespace GruntzUnityverse.Objectz {
 
     protected override void Start() {
       base.Start();
-
-      Addressables.LoadAssetAsync<FortTrigger>("_FortTrigger.prefab")
-        .Completed += (handle) => {
-        _fortTriggerPrefab = handle.Result;
-      };
 
       _triggerz = new List<FortTrigger>();
 
@@ -47,7 +42,7 @@ namespace GruntzUnityverse.Objectz {
     }
 
     private void SetupTriggerAtNode(Node node) {
-      FortTrigger trigger = Instantiate(_fortTriggerPrefab, node.transform);
+      FortTrigger trigger = Instantiate(fortTriggerPrefab, node.transform);
       trigger.location = node.location;
       trigger.ownNode = LevelManager.Instance.NodeAt(trigger.location);
       trigger.ownFort = this;

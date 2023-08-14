@@ -24,25 +24,25 @@ namespace GruntzUnityverse.AnimationPackz {
       Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Megaphone.anim").Completed += (handle) => {
         misc.Add("Megaphone", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterW.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Warpletter_W.anim").Completed += (handle) => {
         misc.Add("WarpletterW", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterA.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Warpletter_A.anim").Completed += (handle) => {
         misc.Add("WarpletterA", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterR.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Warpletter_R.anim").Completed += (handle) => {
         misc.Add("WarpletterR", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterP.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Warpletter_P.anim").Completed += (handle) => {
         misc.Add("WarpletterP", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Gauntletz.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Tool_Gauntletz.anim").Completed += (handle) => {
         misc.Add("Gauntletz", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Shovel.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Tool_Shovel.anim").Completed += (handle) => {
         misc.Add("Shovel", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Beachball.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Toy_Beachball.anim").Completed += (handle) => {
         misc.Add("Beachball", handle.Result);
       };
     }

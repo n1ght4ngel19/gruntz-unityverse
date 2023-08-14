@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.MapItemz.Misc {
   public class Coin : MapItem {
@@ -14,6 +16,13 @@ namespace GruntzUnityverse.Objectz.MapItemz.Misc {
 
         break;
       }
+    }
+
+    protected override void LoadAnimationz() {
+      Addressables.LoadAssetAsync<AnimationClip>($"{nameof(Coin)}_Rotating.anim")
+        .Completed += (handle) => {
+        RotationAnimation = handle.Result;
+      };
     }
   }
 }
