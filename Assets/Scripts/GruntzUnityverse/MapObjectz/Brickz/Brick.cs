@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.Interactablez;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 

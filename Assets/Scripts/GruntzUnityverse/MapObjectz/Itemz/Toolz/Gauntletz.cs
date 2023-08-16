@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
+using GruntzUnityverse.MapObjectz.Interactablez;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {

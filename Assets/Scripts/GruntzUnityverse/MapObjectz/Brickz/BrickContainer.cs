@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.Interactablez;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Brickz {
