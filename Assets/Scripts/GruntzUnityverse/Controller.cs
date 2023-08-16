@@ -2,7 +2,7 @@
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.Objectz;
+using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 

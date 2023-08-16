@@ -1,14 +1,14 @@
-using GruntzUnityverse.Objectz.Misc;
+using GruntzUnityverse.MapObjectz.Misc;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse {
   public class PauseMenu : MonoBehaviour {
-    public static bool IsGamePaused;
+    public static bool IsGamePaused; // Todo: Move to GameManager
     public GameObject pauseMenuUI;
 
     private void Update() {
-      if (Input.GetKeyDown(KeyCode.Escape) && !Helpbox.IsTextShown) {
+      if (Input.GetKeyDown(KeyCode.Escape) && !Helpbox.isTextShown) {
         if (IsGamePaused) {
           Resume();
         } else {

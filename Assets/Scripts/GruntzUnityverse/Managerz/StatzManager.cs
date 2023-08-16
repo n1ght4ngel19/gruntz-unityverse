@@ -1,6 +1,6 @@
-﻿using GruntzUnityverse.Objectz.Itemz;
-using GruntzUnityverse.Objectz.MapItemz.Misc;
-using GruntzUnityverse.Objectz.Switchez;
+﻿using GruntzUnityverse.MapObjectz.Itemz;
+using GruntzUnityverse.MapObjectz.MapItemz.Misc;
+using GruntzUnityverse.MapObjectz.Switchez;
 using UnityEngine;
 
 namespace GruntzUnityverse.Managerz {

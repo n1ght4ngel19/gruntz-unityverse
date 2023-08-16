@@ -1,4 +1,4 @@
-﻿using GruntzUnityverse.Objectz.Itemz;
+﻿using GruntzUnityverse.MapObjectz.Itemz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {

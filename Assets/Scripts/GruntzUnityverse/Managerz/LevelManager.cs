@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Objectz;
-using GruntzUnityverse.Objectz.Brickz;
-using GruntzUnityverse.Objectz.Interactablez;
-using GruntzUnityverse.Objectz.Pyramidz;
-using GruntzUnityverse.Objectz.Switchez;
+using GruntzUnityverse.MapObjectz;
+using GruntzUnityverse.MapObjectz.Brickz;
+using GruntzUnityverse.MapObjectz.Interactablez;
+using GruntzUnityverse.MapObjectz.Pyramidz;
+using GruntzUnityverse.MapObjectz.Switchez;
 using GruntzUnityverse.Pathfinding;
 using TMPro;
 using UnityEngine;
@@ -17,7 +17,11 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GruntzUnityverse.Managerz {
   public class LevelManager : MonoBehaviour {
-    public static LevelManager Instance { get; private set; }
+    private static LevelManager _instance;
+
+    public static LevelManager Instance {
+      get => _instance;
+    }
 
     public int gruntIdCounter = 0;
 
@@ -83,10 +87,10 @@ namespace GruntzUnityverse.Managerz {
 
 
     private void Awake() {
-      if (Instance is not null && Instance != this) {
+      if (_instance is not null && _instance != this) {
         Destroy(gameObject);
       } else {
-        Instance = this;
+        _instance = this;
       }
 
       Application.targetFrameRate = 60;
