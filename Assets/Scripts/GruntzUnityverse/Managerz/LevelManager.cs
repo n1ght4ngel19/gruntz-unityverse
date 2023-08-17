@@ -130,7 +130,7 @@ namespace GruntzUnityverse.Managerz {
         Destroy(go);
       }
 
-      mapObjectContainer = GameObject.Find(NameRepository.MapObjectContainer);
+      mapObjectContainer = GameObject.Find(GlobalNamez.MapObjectContainer);
     }
 
     private void AssignLayerz() {

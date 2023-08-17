@@ -2,37 +2,37 @@
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
-using GruntzUnityverse.Objectz;
-using GruntzUnityverse.Objectz.Interactablez;
-using GruntzUnityverse.Objectz.Itemz;
-using GruntzUnityverse.Objectz.Itemz.Toolz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Linq;
+using GruntzUnityverse.MapObjectz;
+using GruntzUnityverse.MapObjectz.Interactablez;
+using GruntzUnityverse.MapObjectz.Itemz;
+using GruntzUnityverse.MapObjectz.Itemz.Toolz;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Actorz {
-  /// <summary>
-  /// The class describing Gruntz' behaviour.
-  /// </summary>
   public class Grunt : MonoBehaviour {
+    public const int MinStatValue = 0;
+    public const int MaxStatValue = 20;
+
     #region Stats
-    [Header("Stats")]
-    public int gruntId;
+    [Header("Statz")] public int gruntId;
     public Owner owner;
     public float moveSpeed;
-    public int health;
-    public int stamina;
+    [Range(MinStatValue, MaxStatValue)]public int health;
+    [Range(MinStatValue, MaxStatValue)]public int stamina;
+    [Range(MinStatValue, MaxStatValue)]public int staminaRegenRate;
     public int powerupTime;
     public int toyTime;
     public int wingzTime;
     #endregion
 
     #region Flags
-    [Header("Flags")]
-    public bool isSelected;
+    [Header("Flagz")] public bool isSelected;
     public bool isInCircle;
     public bool haveActionCommand;
     public bool haveGiveToyCommand;
@@ -42,11 +42,10 @@ namespace GruntzUnityverse.Actorz {
     #endregion
 
     #region Action
-    [Header("Action")]
-    public MapObject targetObject;
+    [Header("Action")] public MapObject targetObject;
     [CanBeNull] public Grunt targetGrunt;
     [CanBeNull] public MapObject targetMapObject;
-    public InteractionType interactionType;
+    public GruntState gruntState;
     #endregion
 
     #region Components
@@ -54,6 +53,7 @@ namespace GruntzUnityverse.Actorz {
     [HideInInspector] public Navigator navigator;
     [HideInInspector] public Equipment equipment;
     [HideInInspector] public HealthBar healthBar;
+    [HideInInspector] public StaminaBar staminaBar;
     [HideInInspector] public AnimancerComponent animancer;
     private Animator _animator;
     #endregion
@@ -70,17 +70,26 @@ namespace GruntzUnityverse.Actorz {
       equipment.tool = gameObject.GetComponents<Tool>().FirstOrDefault();
       equipment.toy = gameObject.GetComponents<Toy>().FirstOrDefault();
       healthBar = gameObject.GetComponentInChildren<HealthBar>();
-      health = 20; // Todo: Replace with constant
+      health = health <= MinStatValue ? MaxStatValue : health;
+      staminaBar = gameObject.GetComponentInChildren<StaminaBar>();
+      stamina = stamina <= MinStatValue ? MaxStatValue : stamina;
       _animator = gameObject.AddComponent<Animator>();
       animancer = gameObject.AddComponent<AnimancerComponent>();
       animancer.Animator = _animator;
       BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
       boxCollider.size = Vector2.one;
+
+      InvokeRepeating(nameof(RegenStamina), 0, 1);
     }
 
     protected virtual void Update() {
       // Setting flags necessary on all frames
-      healthBar.spriteRenderer.enabled = isSelected;
+      healthBar.spriteRenderer.enabled = isSelected || health < MaxStatValue;
+      healthBar.spriteRenderer.sprite = health <= 0 ? healthBar.frames[0] : healthBar.frames[health];
+
+      staminaBar.spriteRenderer.enabled = stamina < MaxStatValue;
+      staminaBar.spriteRenderer.sprite = staminaBar.frames[stamina];
+
       isInCircle = SelectorCircle.Instance.ownNode == navigator.ownNode;
 
       // Movement
@@ -98,16 +107,16 @@ namespace GruntzUnityverse.Actorz {
             ? IsNeighbourOf(targetGrunt)
             : IsNeighbourOf(navigator.targetNode);
 
-          interactionType = InteractionType.GiveToy;
+          gruntState = GruntState.GiveToy;
           // Attacking a Grunt or using a Tool
         } else if (equipment.tool.rangeType == RangeType.Melee) {
           canInteract = targetGrunt is not null
             ? IsNeighbourOf(targetGrunt)
             : IsNeighbourOf(targetMapObject);
 
-          interactionType = targetGrunt is not null
-            ? InteractionType.Attack
-            : InteractionType.Use;
+          gruntState = targetGrunt is not null
+            ? GruntState.Hostile
+            : GruntState.Use;
         }
 
         navigator.haveMoveCommand = !canInteract;
@@ -115,19 +124,27 @@ namespace GruntzUnityverse.Actorz {
       // ----------------------------------------
 
       // Interaction (Attack / Item use / Toy use)
-      if (canInteract && !isInterrupted) { // Todo: Add stamina condition
-        switch (interactionType) {
-          case InteractionType.None:
+      if (canInteract && !isInterrupted) {
+        switch (gruntState) {
+          case GruntState.None:
             break;
-          case InteractionType.Attack:
-            StartCoroutine(HandleAttack());
+
+          case GruntState.Hostile:
+            if (stamina == MaxStatValue) {
+              StartCoroutine(HandleAttack());
+              isInterrupted = true;
+            } else {
+              StartCoroutine(HostileIdling());
+              isInterrupted = true;
+            }
 
             break;
-          case InteractionType.Use:
+          case GruntState.Use:
             StartCoroutine(HandleItemUse());
+            isInterrupted = true;
 
             break;
-          case InteractionType.GiveToy:
+          case GruntState.GiveToy:
             // Give toy
             break;
           default:
@@ -166,7 +183,19 @@ namespace GruntzUnityverse.Actorz {
       //
       // #endregion
 
-      PlayWalkOrIdleAnimation();
+      if (!isInterrupted) {
+        PlayWalkOrIdleAnimation();
+      }
+    }
+
+    private void RegenStamina() {
+      if (stamina < MaxStatValue) {
+        stamina += staminaRegenRate;
+      }
+    }
+
+    public void TakeDamage(int damageAmount, int reduction) {
+      health -= (damageAmount - reduction);
     }
 
     private IEnumerator HandleItemUse() {
@@ -191,19 +220,37 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private IEnumerator HandleAttack() {
-      // Attack
-      StartCoroutine(equipment.tool.UseItem()); // Only Barehandz for now
+      gruntState = GruntState.Attack;
+
+      StartCoroutine(equipment.tool.Attack(targetGrunt));
+      stamina = 0;
 
       yield return new WaitForSeconds(1.5f);
+    }
+
+    private IEnumerator HostileIdling() {
+      string gruntType = $"{equipment.tool.toolName}Grunt";
+
+      Addressables.LoadAssetAsync<AnimationClip>(
+            $"{GlobalNamez.GruntAnimzPath}{gruntType}/{GlobalNamez.AttackAnimzSubPath}{gruntType}_Attack_{navigator.facingDirection}_Idle.anim")
+          .Completed +=
+        handle => {
+          Debug.Log("Hostile idle anim");
+          animancer.Play(handle.Result);
+        };
+
+      yield return new WaitForSeconds(0.75f);
+
+      isInterrupted = false;
     }
 
     /// <summary>
     /// Checks if the Grunt is a valid target for another Grunt.
     /// </summary>
-    /// <param name="grunt">The other Grunt.</param>
+    /// <param name="otherGrunt">The other Grunt.</param>
     /// <returns>True if the Grunt is a valid target, false otherwise.</returns>
-    public bool IsValidTargetFor(Grunt grunt) {
-      return grunt != this && grunt.owner != owner;
+    public bool IsValidTargetFor(Grunt otherGrunt) {
+      return otherGrunt != this && otherGrunt.owner != owner;
     }
 
     /// <summary>
@@ -216,7 +263,7 @@ namespace GruntzUnityverse.Actorz {
       isInterrupted = false;
       targetGrunt = null;
       targetMapObject = null;
-      interactionType = InteractionType.None;
+      gruntState = GruntState.Idle;
     }
 
     /// <summary>
@@ -270,7 +317,7 @@ namespace GruntzUnityverse.Actorz {
     /// <param name="toy">The Toy to check.</param>
     /// <returns>True if the Grunt has the Toy, false otherwise.</returns>
     public bool HasToy(ToyName toy) {
-      return equipment.toy is not null && equipment.toy.Name.Equals(toy);
+      return equipment.toy is not null && equipment.toy.toyName.Equals(toy);
     }
 
     /// <summary>

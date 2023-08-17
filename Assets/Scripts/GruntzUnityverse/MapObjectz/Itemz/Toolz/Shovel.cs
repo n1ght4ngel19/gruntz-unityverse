@@ -10,6 +10,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
 
       toolName = ToolName.Shovel;
       rangeType = RangeType.Melee;
+      damage = GlobalValuez.ShovelDamage;
     }
 
     public override IEnumerator Use(Grunt grunt) {
