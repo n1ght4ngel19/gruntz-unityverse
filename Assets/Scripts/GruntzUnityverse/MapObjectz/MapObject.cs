@@ -25,8 +25,7 @@ namespace GruntzUnityverse.MapObjectz {
     protected AnimancerComponent animancer;
     protected bool isValidated;
     private Animator _animator;
-    // -------------------------------------------------------------------------------- //
-
+    // ------------------------------------------------------------ //
 
     protected virtual void Start() {
       location = Vector2Int.FloorToInt(transform.position);
@@ -41,8 +40,9 @@ namespace GruntzUnityverse.MapObjectz {
 
       AssignAreaBySpriteName();
       LoadAnimationz();
+      StartCoroutine(LoadAndPlayAnimation());
     }
-    // -------------------------------------------------------------------------------- //
+    // ------------------------------------------------------------ //
 
     /// <summary>
     /// Checks if the MapObject is a valid target for a specific Grunt.
@@ -67,6 +67,13 @@ namespace GruntzUnityverse.MapObjectz {
     /// Loads all the AnimationClips necessary for animating the MapObject.
     /// </summary>
     protected virtual void LoadAnimationz() { }
+
+    /// <summary>
+    /// Loads the  AnimationClip necessary for animating the MapObject and plays it.
+    /// </summary>
+    protected virtual IEnumerator LoadAndPlayAnimation() {
+      yield return null;
+    }
 
     /// <summary>
     /// Checks if the MapObject has all its necessary components and fields set up correctly.

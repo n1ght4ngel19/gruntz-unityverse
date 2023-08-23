@@ -5,13 +5,14 @@ using GruntzUnityverse.Managerz;
 namespace GruntzUnityverse.MapObjectz {
   public class FortTrigger : MapObject {
     public Fort fort;
-
+    // ------------------------------------------------------------ //
 
     protected override void Start() {
       base.Start();
 
       spriteRenderer.enabled = false;
     }
+    // ------------------------------------------------------------ //
 
     private void Update() {
       foreach (Grunt grunt in LevelManager.Instance.playerGruntz) {

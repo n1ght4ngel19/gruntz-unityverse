@@ -8,6 +8,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public AnimationClip BreakAnimation { get; set; }
     private Vector3 _brokenScale;
     private Quaternion _brokenRotation;
+    // -------------------------------------------------------------------------------- //
 
     protected override void Start() {
       base.Start();
@@ -17,14 +18,16 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       Addressables.LoadAssetAsync<AnimationClip>($"RockBreak_{abbreviatedArea}_01.anim").Completed += (handle) => {
         BreakAnimation = handle.Result;
       };
-      
+
+      transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
       _brokenScale = new Vector3(0.7f, 0.7f, 0.7f);
       _brokenRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
     }
+    // -------------------------------------------------------------------------------- //
 
-    public IEnumerator Break() {
+    public IEnumerator Break(float contactDelay) {
       // 1.5s is the delay after the beginning of the GauntletzGrunt's Rock breaking animation (when the Rock actually should break)
-      yield return new WaitForSeconds(1.5f);
+      yield return new WaitForSeconds(contactDelay);
 
       animancer.Play(BreakAnimation);
 

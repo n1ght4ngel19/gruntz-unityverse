@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
+using GruntzUnityverse.Utility;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -10,7 +11,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public AnimationClip BreakAnimation { get; set; }
     public GiantRockEdge giantRockEdge;
     public List<GiantRockEdge> edgez;
-
+    // -------------------------------------------------------------------------------- //
 
     protected override void Start() {
       base.Start();
@@ -24,12 +25,13 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
         edgez.Add(edge);
       }
     }
+    // -------------------------------------------------------------------------------- //
 
-    public IEnumerator Break() {
+    public IEnumerator Break(float contactDelay) {
       // 1.5s is the delay after the beginning of the GauntletzGrunt's Rock breaking animation (when the Rock actually should break)
       yield return new WaitForSeconds(1.5f);
 
-      Debug.Log("1.5f delay passed");
+      ConditionalLogger.Log("1.5f delay passed");
 
       foreach (GiantRockEdge edge in edgez) {
         LevelManager.Instance.SetBlockedAt(edge.location, false);

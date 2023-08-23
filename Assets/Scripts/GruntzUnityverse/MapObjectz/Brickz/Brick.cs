@@ -29,7 +29,7 @@ namespace GruntzUnityverse.MapObjectz.Brickz {
       LevelManager.Instance.SetHardTurnAt(location, true);
     }
 
-    public virtual IEnumerator Break() {
+    public virtual IEnumerator Break(float contactDelay) {
       yield return null;
     }
 

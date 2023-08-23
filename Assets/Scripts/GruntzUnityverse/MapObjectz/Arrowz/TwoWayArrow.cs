@@ -17,6 +17,7 @@ namespace GruntzUnityverse.MapObjectz.Arrowz {
       _initialDirection = direction;
       _changedDirection = OppositeOf(_initialDirection);
     }
+    // -------------------------------------------------------------------------------- //
 
     public void ChangeDirection() {
       direction = direction.Equals(_initialDirection) ? _changedDirection : _initialDirection;

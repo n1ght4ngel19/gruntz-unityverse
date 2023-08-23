@@ -7,13 +7,14 @@ namespace GruntzUnityverse.MapObjectz {
   public class RedWarp : MapObject {
     public bool isEntrance;
     public MapObject target;
-
+    // ------------------------------------------------------------ //
 
     protected override void Start() {
       base.Start();
 
       spriteRenderer.enabled = false;
     }
+    // ------------------------------------------------------------ //
 
     private void Update() {
       if (!isEntrance) {
@@ -29,6 +30,7 @@ namespace GruntzUnityverse.MapObjectz {
         enabled = false;
       }
     }
+    // ------------------------------------------------------------ //
 
     private void TeleportTo(MapObject targetMapObject, Grunt grunt) {
       grunt.transform.position = new Vector3(targetMapObject.location.x, targetMapObject.location.y, grunt.transform.position.z);

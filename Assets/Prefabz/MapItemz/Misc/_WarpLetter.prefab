@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6999952525336863592}
   - component: {fileID: 1934257392109653503}
-  - component: {fileID: 4816915936329182590}
+  - component: {fileID: 5806297101973053921}
   m_Layer: 0
   m_Name: _WarpLetter
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4816915936329182590
+--- !u!114 &5806297101973053921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,11 +94,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3863937857550272719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e423ef6c5250f84bad389ce7dc40d50, type: 3}
+  m_Script: {fileID: 11500000, guid: 652f021e3ca340d896e75ba0108ffd65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   area: 0
-  location: {x: 0, y: 0}
+  abbreviatedArea: 
   spriteRenderer: {fileID: 0}
+  location: {x: 0, y: 0}
+  ownNode: {fileID: 0}
   <RotationAnimation>k__BackingField: {fileID: 0}
-  warpletterType: 0
+  pickupItem: {fileID: 0}

@@ -8,11 +8,13 @@ namespace GruntzUnityverse.MapObjectz {
   public class Checkpoint : MonoBehaviour {
     private List<CheckpointSwitch> _switchez;
     private List<CheckpointPyramid> _pyramidz;
+    // ------------------------------------------------------------ //
 
     private void Start() {
       _switchez = transform.parent.GetComponentsInChildren<CheckpointSwitch>().ToList();
       _pyramidz = transform.parent.GetComponentsInChildren<CheckpointPyramid>().ToList();
     }
+    // ------------------------------------------------------------ //
 
     private void Update() {
       if (_switchez.Any(checkpointSwitch => !checkpointSwitch.isPressed)) {
@@ -21,17 +23,19 @@ namespace GruntzUnityverse.MapObjectz {
 
       Complete();
     }
+    // ------------------------------------------------------------ //
 
+    /// <summary>
+    /// Takes care of everything related to completing a Checkpoint,
+    /// such as saving the game or disabling the Checkpoint.
+    /// </summary>
     private void Complete() {
-      foreach (CheckpointPyramid pyramid in _pyramidz) {
+      _pyramidz.ForEach(pyramid => {
         pyramid.Toggle();
-
         pyramid.enabled = false;
-      }
+      });
 
-      foreach (CheckpointSwitch sw in _switchez) {
-        sw.enabled = false;
-      }
+      _switchez.ForEach(sw => sw.enabled = false);
 
       // Todo: Save game here
 

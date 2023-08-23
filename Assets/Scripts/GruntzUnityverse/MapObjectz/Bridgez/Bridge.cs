@@ -10,6 +10,12 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
     protected AnimationClip upAnim;
 
 
+    protected override void Start() {
+      base.Start();
+
+      LoadAnimationz();
+    }
+
     protected virtual void Update() {
       LevelManager.Instance.SetBlockedAt(location, isDown);
       LevelManager.Instance.SetWaterAt(location, isDown);

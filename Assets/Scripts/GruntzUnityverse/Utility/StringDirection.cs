@@ -1,12 +1,12 @@
 ﻿namespace GruntzUnityverse.Utility {
-  public class StringDirection {
-    public static string North = "North";
-    public static string East = "East";
-    public static string South = "South";
-    public static string West = "West";
-    public static string Northeast = "Northeast";
-    public static string Northwest = "Northwest";
-    public static string Southeast = "Southeast";
-    public static string Southwest = "Southwest";
+  public static class StringDirection {
+    public const string North = "North";
+    public const string East = "East";
+    public const string South = "South";
+    public const string West = "West";
+    public const string Northeast = "Northeast";
+    public const string Northwest = "Northwest";
+    public const string Southeast = "Southeast";
+    public const string Southwest = "Southwest";
   }
 }

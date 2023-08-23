@@ -4,6 +4,7 @@ using UnityEngine;
 namespace GruntzUnityverse.MapObjectz {
   public class SelectorCircle : MapObject {
     private static SelectorCircle _instance;
+    // ------------------------------------------------------------ //
 
     public static SelectorCircle Instance {
       get => _instance;
@@ -18,6 +19,7 @@ namespace GruntzUnityverse.MapObjectz {
 
       base.Start();
     }
+    // ------------------------------------------------------------ //
 
     private void Update() {
       ownTransform.position = MousePositionAsVector3();
@@ -27,13 +29,12 @@ namespace GruntzUnityverse.MapObjectz {
         ownNode = LevelManager.Instance.NodeAt(location);
       }
     }
+    // ------------------------------------------------------------ //
 
     private Vector3 MousePositionAsVector3() {
-      return new Vector3(
-        Mathf.Round(mainCamera.ScreenToWorldPoint(Input.mousePosition).x),
+      return new Vector3(Mathf.Round(mainCamera.ScreenToWorldPoint(Input.mousePosition).x),
         Mathf.Round(mainCamera.ScreenToWorldPoint(Input.mousePosition).y),
-        15f
-      );
+        15f);
     }
   }
 }

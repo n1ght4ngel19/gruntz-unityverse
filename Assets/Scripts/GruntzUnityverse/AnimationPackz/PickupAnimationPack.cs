@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GruntzUnityverse.Enumz;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -15,36 +16,58 @@ namespace GruntzUnityverse.AnimationPackz {
       tool = new Dictionary<string, AnimationClip>();
       toy = new Dictionary<string, AnimationClip>();
 
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Coin.anim").Completed += (handle) => {
+      LoadMiscPickupAnimations();
+      LoadToolPickupAnimations();
+    }
+
+    private void LoadMiscPickupAnimations() {
+      // Todo: Create MiscItem enum and replace manual loading with foreach loop
+      // foreach (MiscItemName miscItemName in System.Enum.GetValues(typeof(MiscItemName))) {
+      //   Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{miscItemName}.anim").Completed += (handle) => {
+      //     tool.Add(nameof(miscItemName), handle.Result);
+      //   };
+      // }
+
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Coin.anim").Completed += (handle) => {
         misc.Add("Coin", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Helpbox.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Helpbox.anim").Completed += (handle) => {
         misc.Add("Helpbox", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Megaphone.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Megaphone.anim").Completed += (handle) => {
         misc.Add("Megaphone", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Warpletter_W.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_WarpletterW.anim").Completed += (handle) => {
         misc.Add("WarpletterW", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Warpletter_A.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_WarpletterA.anim").Completed += (handle) => {
         misc.Add("WarpletterA", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Warpletter_R.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_WarpletterR.anim").Completed += (handle) => {
         misc.Add("WarpletterR", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Warpletter_P.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_WarpletterP.anim").Completed += (handle) => {
         misc.Add("WarpletterP", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Tool_Gauntletz.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Gauntletz.anim").Completed += (handle) => {
         misc.Add("Gauntletz", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Tool_Shovel.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Shovel.anim").Completed += (handle) => {
         misc.Add("Shovel", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Toy_Beachball.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Beachball.anim").Completed += (handle) => {
         misc.Add("Beachball", handle.Result);
       };
+    }
+
+    private void LoadToolPickupAnimations() {
+      foreach (ToolName toolName in System.Enum.GetValues(typeof(ToolName))) {
+        if (toolName != ToolName.Barehandz) {
+          Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{toolName}.anim").Completed += (handle) => {
+            tool.Add(nameof(toolName), handle.Result);
+          };
+        }
+      }
     }
   }
 }

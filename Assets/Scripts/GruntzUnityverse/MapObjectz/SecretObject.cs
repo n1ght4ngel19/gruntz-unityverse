@@ -22,13 +22,14 @@ namespace GruntzUnityverse.MapObjectz {
     private bool _isInitiallyHardTurn;
     private bool _isInitiallyVoid;
     private bool _isInitiallyWater;
-
+    // ------------------------------------------------------------ //
 
     protected override void Start() {
       base.Start();
 
       SetEnabled(false);
     }
+    // ------------------------------------------------------------ //
 
     /// <summary>
     /// Activates the SecretObject.

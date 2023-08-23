@@ -29,13 +29,13 @@ namespace GruntzUnityverse.MapObjectz.Brickz {
     }
 
 
-    public IEnumerator Break() {
+    public IEnumerator Break(float contactDelay) {
       // 1.5s is the delay after the beginning of the GauntletzGrunt's Rock breaking animation (when the Brick actually should break)
       yield return new WaitForSeconds(1.5f);
 
       Brick brickToBreak = Brickz.OrderBy(brick => brick.transform.position.z).First();
 
-      StartCoroutine(brickToBreak.Break());
+      StartCoroutine(brickToBreak.Break(contactDelay));
       Brickz.Remove(brickToBreak);
 
       yield return null;

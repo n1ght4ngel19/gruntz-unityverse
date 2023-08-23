@@ -1,9 +1,22 @@
-﻿using GruntzUnityverse.Enumz;
-using UnityEngine;
+﻿using System.Collections;
+using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 
 namespace GruntzUnityverse.MapObjectz.Itemz {
-  // Todo: Inherit from Item
-  public class Powerup : MonoBehaviour {
-    [field: SerializeField] public PowerupName Name { get; set; }
+  public class Powerup : Item {
+    public PowerupName powerupName;
+    // -------------------------------------------------------------------------------- //
+
+    protected override void Start() {
+      base.Start();
+
+      category = nameof(Powerup);
+    }
+    // -------------------------------------------------------------------------------- //
+
+    public override IEnumerator Use(Grunt grunt) {
+      // Not applicable
+      yield return null;
+    }
   }
 }

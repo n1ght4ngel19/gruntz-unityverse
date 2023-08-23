@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz {
   public class EyeCandy : MonoBehaviour {
-    [field: SerializeField] public EyeCandyType Type { get; set; }
+    public EyeCandyType eyeCandyType;
+    // ------------------------------------------------------------ //
 
     private void Start() {
-      if (Type == EyeCandyType.CollidingEyeCandy) {
+      if (eyeCandyType == EyeCandyType.CollidingEyeCandy) {
         gameObject.AddComponent<AboveBelow>();
       }
     }

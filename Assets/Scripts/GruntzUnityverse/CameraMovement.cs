@@ -5,30 +5,30 @@ using UnityEngine;
 namespace GruntzUnityverse {
   public class CameraMovement : MonoBehaviour {
     private Camera Camera { get; set; }
-    private Transform OwnTransform { get; set; }
-    public bool AreControlsDisabled { get; set; }
-
+    private Transform _ownTransform;
+    public bool areControlsDisabled;      
     // The smaller the ScrollRate, the faster the camera moves
     private const int ScrollRate = 4;
-
     private float _targetZoom;
     private const float ZoomFactor = 3f;
     private const float ZoomLerpSpeed = 10;
-
+    // ------------------------------------------------------------ //
 
     private void Start() {
       Camera = gameObject.GetComponent<Camera>();
-      OwnTransform = gameObject.GetComponent<Transform>();
+      _ownTransform = gameObject.GetComponent<Transform>();
     }
+    // ------------------------------------------------------------ //
 
     private void Update() {
-      if (AreControlsDisabled) {
+      if (areControlsDisabled) {
         return;
       }
 
       ScrollWithArrowKeys();
       ZoomWithMouse();
     }
+    // ------------------------------------------------------------ //
 
     private void ZoomWithMouse() {
       if (Time.timeScale == 0) {
@@ -45,7 +45,7 @@ namespace GruntzUnityverse {
         return;
       }
 
-      Vector3 currentPosition = OwnTransform.position;
+      Vector3 currentPosition = _ownTransform.position;
       float orthographicSize = Camera.orthographicSize;
       float camHalfWidth = orthographicSize * Camera.aspect;
       bool reachedBottom = currentPosition.y - orthographicSize / 2 <= LevelManager.Instance.MinMapPoint.y + 0.25;

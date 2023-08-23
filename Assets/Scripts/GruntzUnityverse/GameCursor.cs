@@ -24,17 +24,16 @@ namespace GruntzUnityverse {
 
       _spriteRenderer = GetComponent<SpriteRenderer>();
       Cursor.visible = false;
-      // CurrentFrames = AnimationManager.CursorAnimations.Pointer;
+
     }
+    // ------------------------------------------------------------ //
 
     private void Update() {
       Counter = Counter % 10 + 1;
 
       transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 15;
-
-      // Todo
-      // SpriteRenderer.sprite = _currentFramez[Counter % CurrentFrames.Count];
     }
+    // ------------------------------------------------------------ //
 
     private void SetCursorTo(List<Sprite> frames) {
       _currentFramez = frames;

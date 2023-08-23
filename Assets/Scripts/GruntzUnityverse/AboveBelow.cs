@@ -6,6 +6,7 @@ namespace GruntzUnityverse {
   public class AboveBelow : MonoBehaviour {
     private SpriteRenderer _spriteRenderer;
     private int _initialLayerOrderValue;
+    // ------------------------------------------------------------ //
 
     private void Start() {
       _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -13,6 +14,7 @@ namespace GruntzUnityverse {
 
       InvokeRepeating(nameof(AdjustZValue), 0, 0.1f);
     }
+    // ------------------------------------------------------------ //
 
     public void AdjustZValue() {
       foreach (Grunt grunt in LevelManager.Instance.allGruntz) {

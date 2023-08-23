@@ -7,6 +7,10 @@ namespace GruntzUnityverse {
   public class SceneLoader : MonoBehaviour {
     public Area area;
 
+    /// <summary>
+    /// Loads a scene that corresponds the SceneLoader's gameObject's name.
+    /// </summary>
+    /// <exception cref="ArgumentException">Throws an error when the Area specified on the gameObject isn't valid.</exception>
     public void LoadScene() {
       string prefix = "";
 

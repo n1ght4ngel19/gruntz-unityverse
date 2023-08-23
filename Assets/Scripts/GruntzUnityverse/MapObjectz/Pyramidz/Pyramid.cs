@@ -12,6 +12,7 @@ namespace GruntzUnityverse.MapObjectz.Pyramidz {
     protected override void Start() {
       base.Start();
 
+      LoadAnimationz();
       LevelManager.Instance.SetBlockedAt(location, !IsDown);
     }
 

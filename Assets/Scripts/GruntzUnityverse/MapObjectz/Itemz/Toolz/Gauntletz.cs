@@ -3,7 +3,6 @@ using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.MapObjectz.Interactablez;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
   public class Gauntletz : Tool {
@@ -12,8 +11,13 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
 
       toolName = ToolName.Gauntletz;
       rangeType = RangeType.Melee;
+      deathName = DeathName.Burn;
       damage = GlobalValuez.GauntletzDamage;
+      mapItemName = nameof(Gauntletz);
+      contactDelay = 1.5f;
+      attackContactDelay = 0.4f;
     }
+    // -------------------------------------------------------------------------------- //
 
     public override IEnumerator UseItem() {
       Vector2Int diffVector = ownGrunt.targetGrunt is null
@@ -23,27 +27,18 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       ownGrunt.isInterrupted = true;
 
       ownGrunt.navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
-      
-      string gruntType =  $"{toolName}Grunt";
 
-      Addressables.LoadAssetAsync<AnimationClip>(
-          $"{GlobalNamez.GruntAnimzPath}{gruntType}/{GlobalNamez.UseAnimzSubPath}{gruntType}_Item_{ownGrunt.navigator.facingDirection}.anim")
-        .Completed += handle => {
-        ownGrunt.animancer.Play(handle.Result);
-      };
+      string gruntType = $"{toolName}Grunt";
+      AnimationClip clipToPlay =
+        ownGrunt.animationPack.Item[$"{gruntType}_Item_{ownGrunt.navigator.facingDirection}"];
 
-      StartCoroutine(((IBreakable)ownGrunt.targetMapObject).Break());
+      ownGrunt.animancer.Play(clipToPlay);
+
+      StartCoroutine(((IBreakable)ownGrunt.targetMapObject).Break(contactDelay));
 
       yield return new WaitForSeconds(2f);
 
       ownGrunt.CleanState();
-      // AnimationClip clipToPlay =
-      //   ownGrunt.animationPack.Item[$"{ownGrunt.equipment.tool.toolName}Grunt_Item_{ownGrunt.navigator.facingDirection}"];
-      //
-      // ownGrunt.animancer.Play(clipToPlay);
-      // StartCoroutine(((IBreakable)ownGrunt.targetMapObject).Break());
-      //
-      // yield return new WaitForSeconds(2f);
     }
 
     public override IEnumerator Use(Grunt grunt) {
@@ -57,7 +52,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
 
       grunt.animancer.Play(clipToPlay);
 
-      StartCoroutine(((IBreakable)grunt.targetObject).Break());
+      StartCoroutine(((IBreakable)grunt.targetObject).Break(contactDelay));
 
       yield return new WaitForSeconds(2f);
 

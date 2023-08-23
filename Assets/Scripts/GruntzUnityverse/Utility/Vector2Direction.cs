@@ -13,7 +13,14 @@ namespace GruntzUnityverse.Utility {
     public static Vector2Int northwest = new Vector2Int(-1, 1);
     public static Vector2Int southeast = new Vector2Int(1, -1);
     public static Vector2Int southwest = new Vector2Int(-1, -1);
-    
+
+    /// <summary>
+    /// Converts a Direction to its corresponding Vector2Int.
+    /// </summary>
+    /// <param name="dir">The Direction to check.</param>
+    /// <returns>The Vector2Int corresponding to the given Direction.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Returns with error when
+    /// there was no Direction specified or an invalid Direction was specified.</exception>
     public static Vector2Int FromDirection(Direction dir) {
       return dir switch {
         Direction.North => north,

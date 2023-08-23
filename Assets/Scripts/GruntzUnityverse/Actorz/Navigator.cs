@@ -12,33 +12,27 @@ namespace GruntzUnityverse.Actorz {
   /// </summary>
   public class Navigator : MonoBehaviour {
     #region Nodes & Locations
-
     public Vector2Int startingLocation;
     public Node startingNode;
     public Vector2Int ownLocation;
     public Node ownNode;
     public Vector2Int targetLocation;
     public Node targetNode;
-
     #endregion
 
     public bool haveMoveCommand;
     private bool _doFindPath;
 
     #region Pathfinding
-
     public Node pathStart;
     public Node pathEnd;
     public List<Node> path;
-
     #endregion
 
     #region Flags
-
     public bool isMoving;
     public bool isMoveForced;
     public bool movesDiagonally;
-
     #endregion
 
     public Vector3 moveVector;
@@ -115,7 +109,7 @@ namespace GruntzUnityverse.Actorz {
     public void MoveTowardsTargetNode() {
       // This way path is only calculated only when it's needed
       if ((targetNode.IsOccupied() || targetNode.IsUnavailable()) && targetNode != ownNode) {
-        Debug.Log("Target node is occupied or unavailable, searching for new target.");
+        ConditionalLogger.Log("Target node is occupied or unavailable, searching for new target.");
         SetTargetBesideNode(targetNode);
       }
 
@@ -128,7 +122,7 @@ namespace GruntzUnityverse.Actorz {
         isMoving = false;
         haveMoveCommand = false;
         isMoveForced = false;
-        Debug.Log("There's no path to target or Grunt has reached target.");
+        ConditionalLogger.Log("There's no path to target or Grunt has reached target.");
 
         return;
       }
@@ -200,7 +194,9 @@ namespace GruntzUnityverse.Actorz {
         }
       }
 
-      targetNode = shortestPath.Last();
+      if (shortestPath.Count != 0) {
+        targetNode = shortestPath.Last();
+      }
     }
 
     private Vector3 LocationAsPosition(Vector2Int location) {

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GruntzUnityverse.MapObjectz {
   public class Landing : MonoBehaviour {
     private Vector2Int _ownLocation;
-
+    // ------------------------------------------------------------ //
 
     private void Start() {
       _ownLocation = Vector2Int.FloorToInt(transform.position);

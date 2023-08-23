@@ -11,7 +11,9 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       toolName = ToolName.Club;
       rangeType = RangeType.Melee;
       damage = GlobalValuez.ClubDamage;
+      mapItemName = nameof(Club);
     }
+    // -------------------------------------------------------------------------------- //
 
     public override IEnumerator Use(Grunt grunt) {
       yield return null;

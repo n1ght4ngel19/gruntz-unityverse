@@ -10,9 +10,7 @@
   An open-source Gruntz remake made with Unity
 </h2>
 
-<h2 style="font-weight: bold">
-  Features
-</h2>
+<img src="./TheGoalz.png" alt="The Goalz" />
 <p>
   <b>Cross-platform support:</b> Thanks to Unity, the game will be natively available on Windows, Linux, and macOS!
 </p>
@@ -32,13 +30,6 @@
     <li>Creating art for Tilesets, EyeCandy, and other Objects</li>
   </ol>
 </p>
-
-<!-- <h2 style="font-weight: bold">
-  Testing
-</h2>
-<p>
-  At the moment, the easiest way to test the current features is to download the <a href="https://unity3d.com/get-unity/download">Unity Editor</a>, download this project, and hit play in the Editor. I know, it's a bit inconvenient
-</p> -->
 
 <h2 style="font-weight: bold">
   <a href="https://github.com/Dizgruntled/Dizgruntled">Dizgruntled</a>

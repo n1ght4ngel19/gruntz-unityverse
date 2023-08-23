@@ -1,4 +1,5 @@
-﻿using Animancer;
+﻿using System;
+using Animancer;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
@@ -11,25 +12,27 @@ using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Interactablez;
 using GruntzUnityverse.MapObjectz.Itemz;
 using GruntzUnityverse.MapObjectz.Itemz.Toolz;
+using GruntzUnityverse.MapObjectz.Itemz.Toyz;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
-    public const int MinStatValue = 0;
-    public const int MaxStatValue = 20;
+    private const int MinStatValue = 0;
+    private const int MaxStatValue = 20;
+    // -------------------------------------------------------------------------------- //
 
     #region Stats
     [Header("Statz")] public int gruntId;
     public Owner owner;
     public float moveSpeed;
-    [Range(MinStatValue, MaxStatValue)]public int health;
-    [Range(MinStatValue, MaxStatValue)]public int stamina;
-    [Range(MinStatValue, MaxStatValue)]public int staminaRegenRate;
+    [Range(MinStatValue, MaxStatValue)] public int health;
+    [Range(MinStatValue, MaxStatValue)] public int stamina;
+    [Range(MinStatValue, MaxStatValue)] public int staminaRegenRate;
     public int powerupTime;
     public int toyTime;
     public int wingzTime;
     #endregion
+    // -------------------------------------------------------------------------------- //
 
     #region Flags
     [Header("Flagz")] public bool isSelected;
@@ -40,6 +43,7 @@ namespace GruntzUnityverse.Actorz {
     public bool isInterrupted;
     private bool _isDying;
     #endregion
+    // -------------------------------------------------------------------------------- //
 
     #region Action
     [Header("Action")] public MapObject targetObject;
@@ -47,6 +51,7 @@ namespace GruntzUnityverse.Actorz {
     [CanBeNull] public MapObject targetMapObject;
     public GruntState gruntState;
     #endregion
+    // -------------------------------------------------------------------------------- //
 
     #region Components
     [HideInInspector] public SpriteRenderer spriteRenderer;
@@ -57,11 +62,12 @@ namespace GruntzUnityverse.Actorz {
     [HideInInspector] public AnimancerComponent animancer;
     private Animator _animator;
     #endregion
+    // -------------------------------------------------------------------------------- //
 
     #region Other
     public GruntAnimationPack animationPack;
     #endregion
-
+    // -------------------------------------------------------------------------------- //
 
     private void Start() {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -81,6 +87,7 @@ namespace GruntzUnityverse.Actorz {
 
       InvokeRepeating(nameof(RegenStamina), 0, 1);
     }
+    // -------------------------------------------------------------------------------- //
 
     protected virtual void Update() {
       // Setting flags necessary on all frames
@@ -88,7 +95,14 @@ namespace GruntzUnityverse.Actorz {
       healthBar.spriteRenderer.sprite = health <= 0 ? healthBar.frames[0] : healthBar.frames[health];
 
       staminaBar.spriteRenderer.enabled = stamina < MaxStatValue;
-      staminaBar.spriteRenderer.sprite = staminaBar.frames[stamina];
+
+      if (stamina > MaxStatValue) {
+        stamina = MaxStatValue;
+        staminaBar.spriteRenderer.sprite = stamina >= staminaBar.frames.Count
+          ? staminaBar.frames[^1]
+          : staminaBar.frames[stamina];
+      }
+
 
       isInCircle = SelectorCircle.Instance.ownNode == navigator.ownNode;
 
@@ -202,6 +216,13 @@ namespace GruntzUnityverse.Actorz {
       // Item
       switch (equipment.tool) {
         // Todo: All valid item use conditions
+        case Gauntletz when targetMapObject is GiantRock:
+          StartCoroutine(equipment.tool.UseItem());
+          yield return new WaitForSeconds(1.5f);
+          break;
+        case Gauntletz when targetMapObject is GiantRockEdge:
+          yield return new WaitForSeconds(1.5f);
+          break;
         case Gauntletz when targetMapObject is IBreakable:
           StartCoroutine(equipment.tool.UseItem());
 
@@ -213,7 +234,8 @@ namespace GruntzUnityverse.Actorz {
           yield return new WaitForSeconds(1.5f);
           break;
         default:
-          Debug.Log("Say: Can't do it ");
+          ConditionalLogger.Log("Say: Can't do it ");
+          
           CleanState();
           break;
       }
@@ -230,16 +252,14 @@ namespace GruntzUnityverse.Actorz {
 
     private IEnumerator HostileIdling() {
       string gruntType = $"{equipment.tool.toolName}Grunt";
+      AnimationClip clipToPlay =
+        animationPack.Attack[
+          $"{gruntType}_Attack_{navigator.facingDirection}_Idle"];
 
-      Addressables.LoadAssetAsync<AnimationClip>(
-            $"{GlobalNamez.GruntAnimzPath}{gruntType}/{GlobalNamez.AttackAnimzSubPath}{gruntType}_Attack_{navigator.facingDirection}_Idle.anim")
-          .Completed +=
-        handle => {
-          Debug.Log("Hostile idle anim");
-          animancer.Play(handle.Result);
-        };
+      animancer.Play(clipToPlay);
 
-      yield return new WaitForSeconds(0.75f);
+      // yield return new WaitForSeconds(0.75f);
+      yield return null;
 
       isInterrupted = false;
     }
@@ -324,46 +344,36 @@ namespace GruntzUnityverse.Actorz {
     /// Plays the appropriate animation given the Grunt's current state.
     /// </summary>
     private void PlayWalkOrIdleAnimation() {
-      if (navigator.isMoving) {
-        animancer.Play(animationPack.Walk[$"{equipment.tool.toolName}Grunt_Walk_{navigator.facingDirection}"]);
-      } else {
-        animancer.Play(animationPack.Idle[$"{equipment.tool.toolName}Grunt_Idle_{navigator.facingDirection}_01"]);
-      }
+      animancer.Play(navigator.isMoving
+        ? animationPack.Walk[$"{equipment.tool.toolName}Grunt_Walk_{navigator.facingDirection}"]
+        : animationPack.Idle[$"{equipment.tool.toolName}Grunt_Idle_{navigator.facingDirection}_01"]);
     }
 
-    public IEnumerator PickupItem(Item item, string category, string itemName) {
-      switch (category) {
+    public IEnumerator PickupItem(Item item) {
+      switch (item.category) {
         case nameof(Tool):
           Destroy(GetComponents<Tool>().FirstOrDefault());
 
-          switch (itemName) {
-            case nameof(Gauntletz):
-              equipment.tool = gameObject.AddComponent<Gauntletz>();
+          equipment.tool = item.mapItemName switch {
+            nameof(Gauntletz) => gameObject.AddComponent<Gauntletz>(),
+            nameof(Shovel) => gameObject.AddComponent<Shovel>(),
+            nameof(Warpstone) => gameObject.AddComponent<Warpstone>(),
+            _ => equipment.tool,
+          };
 
-              break;
-            case nameof(Shovel):
-              equipment.tool = gameObject.AddComponent<Shovel>();
-
-              break;
-            case nameof(Warpstone):
-              equipment.tool = gameObject.AddComponent<Warpstone>();
-
-              break;
-          }
-
-          animancer.Play(AnimationManager.Instance.PickupPack.tool[itemName]);
+          animancer.Play(AnimationManager.Instance.PickupPack.tool[item.mapItemName]);
           // Todo: Play pickup sound
 
           yield return new WaitForSeconds(0.8f);
 
-          SetAnimPack(itemName);
+          SetAnimPack(item.mapItemName);
 
           break;
         case nameof(Toy):
           Destroy(GetComponents<Toy>().FirstOrDefault());
-          //equipment.toy = gameObject.AddComponent<Beachball>();
+          equipment.toy = gameObject.AddComponent<Beachball>();
 
-          animancer.Play(AnimationManager.Instance.PickupPack.toy[itemName]);
+          animancer.Play(AnimationManager.Instance.PickupPack.toy[item.mapItemName]);
 
           break;
       }
@@ -431,19 +441,68 @@ namespace GruntzUnityverse.Actorz {
       Destroy(gameObject, deathClip.length);
     }
 
-    public IEnumerator Death() {
+    /// <summary>
+    /// Plays the appropriate death animation and removes the Grunt from the game.
+    /// </summary>
+    /// <param name="deathName">The death type to execute.</param>
+    public IEnumerator Death(DeathName deathName) {
       healthBar.spriteRenderer.enabled = false;
-      // Todo: Stair attribute bars, and move into separate method
       enabled = false;
       navigator.enabled = false;
       isInterrupted = true;
 
       AnimationClip deathClip =
-        animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death_01"];
+        animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death"];
+      float deathAnimLength = 2f;
+
+      switch (deathName) {
+        case DeathName.Burn:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Burn)];
+          break;
+        case DeathName.Electrocute:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Electrocute)];
+          deathAnimLength = 1.5f;
+          break;
+        case DeathName.Explode:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Explode)];
+          deathAnimLength = 1f;
+          break;
+        case DeathName.Fall:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Fall)];
+          deathAnimLength = 5f;
+          break;
+        case DeathName.Flyup:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Flyup)];
+          deathAnimLength = 1f;
+          break;
+        case DeathName.Freeze:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Flyup)];
+          break;
+        case DeathName.Hole:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Hole)];
+          deathAnimLength = 1.5f;
+          break;
+        case DeathName.Karaoke:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Karaoke)];
+          deathAnimLength = 13f;
+          break;
+        case DeathName.Melt:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Melt)];
+          deathAnimLength = 1f;
+          break;
+        case DeathName.Sink:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Sink)];
+          deathAnimLength = 1f;
+          break;
+        case DeathName.Squash:
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Squash)];
+          deathAnimLength = 0.5f;
+          break;
+      }
 
       animancer.Play(deathClip);
 
-      yield return new WaitForSeconds(deathClip.length);
+      yield return new WaitForSeconds(deathAnimLength);
 
       navigator.ownLocation = Vector2Direction.max;
       LevelManager.Instance.playerGruntz.Remove(this);

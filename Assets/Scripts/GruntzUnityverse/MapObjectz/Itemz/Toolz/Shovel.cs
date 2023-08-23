@@ -11,7 +11,9 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       toolName = ToolName.Shovel;
       rangeType = RangeType.Melee;
       damage = GlobalValuez.ShovelDamage;
+      mapItemName = nameof(Shovel);
     }
+    // -------------------------------------------------------------------------------- //
 
     public override IEnumerator Use(Grunt grunt) {
       Vector2Int diffVector = grunt.targetObject.location - grunt.navigator.ownLocation;

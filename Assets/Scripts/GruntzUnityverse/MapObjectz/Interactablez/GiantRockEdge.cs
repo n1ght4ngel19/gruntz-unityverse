@@ -14,8 +14,8 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       LevelManager.Instance.SetHardTurnAt(location, true);
     }
 
-    public IEnumerator Break() {
-      StartCoroutine(mainRock.Break());
+    public IEnumerator Break(float contactDelay) {
+      StartCoroutine(mainRock.Break(contactDelay));
 
       yield return null;
     }

@@ -1,31 +1,20 @@
-﻿using System.Linq;
+﻿using System.Collections;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Managerz;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
+using GruntzUnityverse.MapObjectz.Itemz;
 
 namespace GruntzUnityverse.MapObjectz.MapItemz.Misc {
-  public class Warpletter : MapItem {
+  public class Warpletter : Item {
     public WarpletterType warpletterType;
 
-    private void Update() {
-      foreach (Grunt grunt in LevelManager.Instance.PlayerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
-        SetEnabled(false);
+    protected override void Start() {
+      base.Start();
 
-        StatzManager.Instance.acquiredWarpletterz++;
-
-        StartCoroutine(grunt.PickupMiscItem($"{nameof(Warpletter)}{warpletterType}"));
-
-        break;
-      }
+      mapItemName = $"{nameof(Warpletter)}{warpletterType}";
     }
 
-    protected override void LoadAnimationz() {
-      Addressables.LoadAssetAsync<AnimationClip>($"{nameof(Warpletter)}{warpletterType}_Rotating.anim")
-        .Completed += (handle) => {
-        RotationAnimation = handle.Result;
-      };
+    public override IEnumerator Use(Grunt grunt) {
+      yield return null;
     }
   }
 }

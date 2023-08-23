@@ -10,6 +10,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       toolName = ToolName.Warpstone;
       rangeType = RangeType.None;
       damage = GlobalValuez.WarpstoneDamage;
+      mapItemName = nameof(Warpstone);
     }
 
     public override IEnumerator Use(Grunt grunt) {

@@ -3,6 +3,8 @@ using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz;
+using GruntzUnityverse.MapObjectz.Interactablez;
+using GruntzUnityverse.MapObjectz.Itemz.Toolz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
@@ -14,6 +16,7 @@ namespace GruntzUnityverse {
     public bool leftShiftDown;
     public bool leftControlDown;
     public List<Grunt> selectedGruntz;
+    // ------------------------------------------------------------ //
 
     private void Awake() {
       if (Instance is not null && Instance != this) {
@@ -24,6 +27,7 @@ namespace GruntzUnityverse {
 
       selectedGruntz = new List<Grunt>();
     }
+    // ------------------------------------------------------------ //
 
     private void Update() {
       leftClick = Input.GetMouseButtonDown(0);
@@ -42,26 +46,25 @@ namespace GruntzUnityverse {
           }
         }
       }
-      // ------------------------------
 
-      // Multi select command
-      // Todo
       // ------------------------------
+      // Multi select command
+      // ------------------------------
+      // Todo
 
       // Single move command
       if (rightClick && selectedGruntz.Count > 0) {
         Node clickedNode = SelectorCircle.Instance.ownNode;
 
-        selectedGruntz.ForEach(
-          grunt => {
-            grunt.navigator.targetNode = clickedNode;
-            grunt.navigator.haveMoveCommand = true;
-          }
-        );
+        selectedGruntz.ForEach(grunt => {
+          grunt.navigator.targetNode = clickedNode;
+          grunt.navigator.haveMoveCommand = true;
+        });
       }
-      // ------------------------------
 
+      // ------------------------------
       // Action command
+      // ------------------------------
       if (leftClick && leftShiftDown) {
         Node clickedNode = SelectorCircle.Instance.ownNode;
 
@@ -70,52 +73,63 @@ namespace GruntzUnityverse {
           .FirstOrDefault(obj => obj.ownNode == clickedNode);
 
         Grunt targetGrunt =
-          LevelManager.Instance.allGruntz.FirstOrDefault(
-            grunt => grunt.navigator.ownNode == clickedNode
-          );
+          LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
 
         // Issuing action command according to the target being a MapObject or a Grunt
-        selectedGruntz.ForEach(
-          grunt => {
-            grunt.CleanState();
+        selectedGruntz.ForEach(grunt => {
+          grunt.CleanState();
 
-            if (targetGrunt is not null && targetGrunt.IsValidTargetFor(grunt)) {
-              grunt.targetGrunt = targetGrunt;
-              grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
-              grunt.haveActionCommand = true;
-            } else if (targetMapObject is not null && targetMapObject.IsValidTargetFor(grunt)) {
-              grunt.targetMapObject = targetMapObject;
-              grunt.navigator.targetNode = targetMapObject.ownNode;
-              grunt.haveActionCommand = true;
+          if (targetGrunt is not null && targetGrunt.IsValidTargetFor(grunt)) {
+            grunt.targetGrunt = targetGrunt;
+            grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
+            grunt.haveActionCommand = true;
+          } else if (targetMapObject is GiantRockEdge && grunt.equipment.tool is Gauntletz) {
+            List<Node> nodeNeighbours = targetMapObject.ownNode.Neighbours;
+            List<Node> shortestPath = Pathfinder.PathBetween(grunt.navigator.ownNode, nodeNeighbours[0],
+              grunt.navigator.isMoveForced, grunt.navigator.movesDiagonally);
+
+            foreach (Node neighbour in nodeNeighbours) {
+              List<Node> pathToNode = Pathfinder.PathBetween(grunt.navigator.ownNode, neighbour,
+                grunt.navigator.isMoveForced, grunt.navigator.movesDiagonally);
+
+              if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
+                shortestPath = pathToNode;
+              }
             }
-          }
-        );
-      }
-      // ------------------------------
 
+            grunt.targetMapObject = targetMapObject;
+            grunt.navigator.targetNode = shortestPath.Last();
+            grunt.haveActionCommand = true;
+          } else if (targetMapObject is not null && targetMapObject.IsValidTargetFor(grunt)) {
+            grunt.targetMapObject = targetMapObject;
+            grunt.navigator.targetNode = targetMapObject.ownNode;
+            grunt.haveActionCommand = true;
+          }
+        });
+      }
+
+      // ------------------------------
+      // Give toy command
+      // ------------------------------
       if (leftClick && leftControlDown) {
         Node clickedNode = SelectorCircle.Instance.ownNode;
 
         Grunt targetGrunt =
-          LevelManager.Instance.allGruntz.FirstOrDefault(
-            grunt => grunt.navigator.ownNode == clickedNode
-          );
+          LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
 
         // Issuing action command according to the target being a Grunt or not
-        selectedGruntz.ForEach(
-          grunt => {
-            if (targetGrunt is not null && targetGrunt != grunt) { 
-              grunt.targetGrunt = targetGrunt;
-              grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
-              grunt.haveActionCommand = true;
-              grunt.haveGiveToyCommand = true;
-            } else if (!clickedNode.IsUnavailable()) { 
-              grunt.navigator.targetNode = clickedNode;
-              grunt.haveActionCommand = true;
-              grunt.haveGiveToyCommand = true;
-            }
+        selectedGruntz.ForEach(grunt => {
+          if (targetGrunt is not null && targetGrunt != grunt) {
+            grunt.targetGrunt = targetGrunt;
+            grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
+            grunt.haveActionCommand = true;
+            grunt.haveGiveToyCommand = true;
+          } else if (!clickedNode.IsUnavailable()) {
+            grunt.navigator.targetNode = clickedNode;
+            grunt.haveActionCommand = true;
+            grunt.haveGiveToyCommand = true;
           }
-        );
+        });
       }
     }
   }
