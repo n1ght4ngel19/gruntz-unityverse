@@ -1,39 +1,27 @@
 <p align="center">
   <picture align="center">
-    <source media="(prefers-color-scheme: light)" srcset="./GruntzLogo_S_LightMode.png" />
-    <source media="(prefers-color-scheme: dark)" srcset="GruntzLogo_S_DarkMode.png" />
+    <source media="(prefers-color-scheme: light)" srcset="./README/GruntzLogo_S_LightMode.png" />
+    <source media="(prefers-color-scheme: dark)" srcset="./README/GruntzLogo_S_DarkMode.png" />
     <img src="" alt="Gruntz Logo" />
   </picture>
 </p>
 
-<h2>
-  An open-source Gruntz remake made with Unity
-</h2>
+<img src="./README/Description.png" alt="Description" />
+<p>
+  This project is an open-source video game remake project with the intent of recreating Gruntz, a puzzle game developed by Monolith, published in 1999. That's it, the game is actively in the making, some features are already implemented, some are not, but it's getting updates as frequently as possible. Completion of the base game is expected to be from late 2023 to early 2024.
+</p>
 
-<img src="./TheGoalz.png" alt="The Goalz" />
+<img src="./README/TheGoalz.png" alt="The Goalz" />
+<p>
+  The goal is to enable players to experience an updated, extensible, more performant, and simply, modernized version of the game. This is because the game was developed for Windows, and even so it can't be trivially run on modern versions of the OS, not to speak of macOS or Linux.
+</p>
 <p>
   <b>Cross-platform support:</b> Thanks to Unity, the game will be natively available on Windows, Linux, and macOS!
 </p>
-<p>
-  One of the main goals of this project is to completely remake Gruntz, for modern systems, with modern solutions. The other one is to enable easy modding, such as adding new Tilesets, Objects, functionality, Game Modes, and whatever you can think of.
-</p>
 
-<h2 style="font-weight: bold">
-  Contribution
-</h2>
+<a href="https://github.com/Dizgruntled/Dizgruntled">
+  <img src="./README/Dizgruntled.png" alt="Dizgruntled" />
+</a>
 <p>
-  Anyone is welcome to help! You can contribute to the project in four ways (that I can think of):
-  <ol>
-    <li>Implementing features, and fixing bugs</li>
-    <li>Playing the current version to find bugs</li>
-    <li>Coming up with ideas on how to improve and extend the game</li>
-    <li>Creating art for Tilesets, EyeCandy, and other Objects</li>
-  </ol>
-</p>
-
-<h2 style="font-weight: bold">
-  <a href="https://github.com/Dizgruntled/Dizgruntled">Dizgruntled</a>
-</h2>
-<p>
-  There is another similar project currently in development called Dizgruntled, with the same goal, but a different approach. You can find the source for it <a href="https://github.com/Dizgruntled/Dizgruntled">here</a>, or by clicking on the header on top. If you want to play a more developed project, I encourage you to check it out as well, it's really cool. Also, if you just want to play it, you can find it on <a href="https://dizgruntled.com/">https://dizgruntled.com/</a>
+  There is another similar open-source project currently in development called Dizgruntled, with the same goal, but a different approach. <a href="https://github.com/Dizgruntled/Dizgruntled">You can find the source for it here</a>, or by clicking on the header on top. If you want to play with a web-based version of Gruntz, I encourage you to <a href="https://dizgruntled.com">check it out here</a>, it's really cool.
 </p>
