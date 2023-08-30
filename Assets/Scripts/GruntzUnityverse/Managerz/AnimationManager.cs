@@ -41,6 +41,10 @@ namespace GruntzUnityverse.Managerz {
 
     private void LoadDeathAnimations() {
       foreach (DeathName deathName in System.Enum.GetValues(typeof(DeathName))) {
+        if (deathName == DeathName.Default) {
+          continue;
+        }
+
         Addressables.LoadAssetAsync<AnimationClip>($"Grunt_Death_{deathName}.anim").Completed += handle => {
           DeathPack.Add(deathName.ToString(), handle.Result);
         };

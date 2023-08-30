@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Interactablez;
@@ -52,11 +53,17 @@ namespace GruntzUnityverse {
       // ------------------------------
       // Todo
 
+      // ------------------------------
       // Single move command
+      // ------------------------------
       if (rightClick && selectedGruntz.Count > 0) {
         Node clickedNode = SelectorCircle.Instance.ownNode;
 
         selectedGruntz.ForEach(grunt => {
+          // grunt.canInteract = false;
+          // grunt.gruntState = GruntState.Idle;
+          // grunt.targetGrunt = null;
+          grunt.CleanState();
           grunt.navigator.targetNode = clickedNode;
           grunt.navigator.haveMoveCommand = true;
         });

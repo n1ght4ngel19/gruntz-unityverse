@@ -24,6 +24,7 @@ namespace GruntzUnityverse.MapObjectz {
       foreach (Grunt grunt in LevelManager.Instance.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
         mainCamera.transform.position = new Vector3(target.location.x, target.location.y, mainCamera.transform.position.z);
         target.spriteRenderer.enabled = true;
+        StatzManager.acquiredSecretz++;
 
         TeleportTo(target, grunt);
 

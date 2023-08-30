@@ -7,7 +7,7 @@ namespace GruntzUnityverse {
     public static GameManager Instance {
       get => _instance;
     }
-    
+
     public bool isDebugMode;
   }
 }

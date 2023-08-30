@@ -111,7 +111,7 @@ namespace GruntzUnityverse.Managerz {
 
       // Todo: Play Grunt teleport away animations
       // Todo: Play King voice and dance animations
-      Addressables.LoadSceneAsync("Menuz/StatzMenu");
+      Addressables.LoadSceneAsync("Menuz/StatzMenu.unity");
     }
 
     private void InitializeLevel() {

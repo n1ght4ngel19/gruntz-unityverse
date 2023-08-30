@@ -109,7 +109,7 @@ namespace GruntzUnityverse.Actorz {
     public void MoveTowardsTargetNode() {
       // This way path is only calculated only when it's needed
       if ((targetNode.IsOccupied() || targetNode.IsUnavailable()) && targetNode != ownNode) {
-        ConditionalLogger.Log("Target node is occupied or unavailable, searching for new target.");
+        Debug.Log("Target node is occupied or unavailable, searching for new target.");
         SetTargetBesideNode(targetNode);
       }
 
@@ -122,7 +122,8 @@ namespace GruntzUnityverse.Actorz {
         isMoving = false;
         haveMoveCommand = false;
         isMoveForced = false;
-        ConditionalLogger.Log("There's no path to target or Grunt has reached target.");
+
+        Debug.Log("There's no path to target or Grunt has reached target.");
 
         return;
       }

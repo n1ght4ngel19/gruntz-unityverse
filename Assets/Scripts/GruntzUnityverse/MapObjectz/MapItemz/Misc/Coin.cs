@@ -7,6 +7,7 @@ namespace GruntzUnityverse.MapObjectz.MapItemz.Misc {
     protected override void Start() {
       base.Start();
 
+      category = "Misc";
       mapItemName = nameof(Coin);
     }
 

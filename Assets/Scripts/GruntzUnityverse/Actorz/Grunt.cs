@@ -7,12 +7,14 @@ using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using JetBrains.Annotations;
 using System.Collections;
+using System.ComponentModel;
 using System.Linq;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Interactablez;
 using GruntzUnityverse.MapObjectz.Itemz;
 using GruntzUnityverse.MapObjectz.Itemz.Toolz;
 using GruntzUnityverse.MapObjectz.Itemz.Toyz;
+using GruntzUnityverse.MapObjectz.MapItemz.Misc;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
@@ -79,6 +81,7 @@ namespace GruntzUnityverse.Actorz {
       health = health <= MinStatValue ? MaxStatValue : health;
       staminaBar = gameObject.GetComponentInChildren<StaminaBar>();
       stamina = stamina <= MinStatValue ? MaxStatValue : stamina;
+      gruntState = GruntState.Idle;
       _animator = gameObject.AddComponent<Animator>();
       animancer = gameObject.AddComponent<AnimancerComponent>();
       animancer.Animator = _animator;
@@ -91,29 +94,39 @@ namespace GruntzUnityverse.Actorz {
 
     protected virtual void Update() {
       // Setting flags necessary on all frames
+      isInCircle = SelectorCircle.Instance.ownNode == navigator.ownNode;
+
+      // ----------------------------------------
+      // Attribute bars
+      // ----------------------------------------
       healthBar.spriteRenderer.enabled = isSelected || health < MaxStatValue;
-      healthBar.spriteRenderer.sprite = health <= 0 ? healthBar.frames[0] : healthBar.frames[health];
+      healthBar.spriteRenderer.sprite = health <= 0
+        ? healthBar.frames[0]
+        : healthBar.frames[health];
+
+      // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+      if (stamina > MaxStatValue) {
+        stamina = MaxStatValue;
+      }
 
       staminaBar.spriteRenderer.enabled = stamina < MaxStatValue;
 
-      if (stamina > MaxStatValue) {
-        stamina = MaxStatValue;
-        staminaBar.spriteRenderer.sprite = stamina >= staminaBar.frames.Count
-          ? staminaBar.frames[^1]
-          : staminaBar.frames[stamina];
-      }
+      staminaBar.spriteRenderer.sprite = stamina >= staminaBar.frames.Count
+        ? staminaBar.frames[^1]
+        : staminaBar.frames[stamina];
 
 
-      isInCircle = SelectorCircle.Instance.ownNode == navigator.ownNode;
-
+      // ----------------------------------------
       // Movement
+      // ----------------------------------------
       if (navigator.haveMoveCommand) {
         navigator.isMoving = true;
         navigator.MoveTowardsTargetNode();
       }
-      // ----------------------------------------
 
+      // ----------------------------------------
       // Action
+      // ----------------------------------------
       if (haveActionCommand && !isInterrupted) {
         // Giving or placing a Toy
         if (haveGiveToyCommand) {
@@ -135,9 +148,10 @@ namespace GruntzUnityverse.Actorz {
 
         navigator.haveMoveCommand = !canInteract;
       }
-      // ----------------------------------------
 
+      // ----------------------------------------
       // Interaction (Attack / Item use / Toy use)
+      // ----------------------------------------
       if (canInteract && !isInterrupted) {
         switch (gruntState) {
           case GruntState.None:
@@ -153,23 +167,24 @@ namespace GruntzUnityverse.Actorz {
             }
 
             break;
+
           case GruntState.Use:
-            StartCoroutine(HandleItemUse());
-            isInterrupted = true;
+            if (stamina == MaxStatValue) {
+              StartCoroutine(HandleItemUse());
+              isInterrupted = true;
+            }
 
             break;
           case GruntState.GiveToy:
             // Give toy
             break;
-          default:
-            break;
         }
       }
-      // ----------------------------------------
 
-      // Death
-      // Todo
       // ----------------------------------------
+      // Death
+      // ----------------------------------------
+      // Todo
 
       // Todo: Fix this
       // #region Death handling
@@ -218,24 +233,31 @@ namespace GruntzUnityverse.Actorz {
         // Todo: All valid item use conditions
         case Gauntletz when targetMapObject is GiantRock:
           StartCoroutine(equipment.tool.UseItem());
+          stamina = 0;
+
           yield return new WaitForSeconds(1.5f);
           break;
         case Gauntletz when targetMapObject is GiantRockEdge:
+          StartCoroutine(equipment.tool.UseItem());
+          stamina = 0;
+
           yield return new WaitForSeconds(1.5f);
           break;
         case Gauntletz when targetMapObject is IBreakable:
           StartCoroutine(equipment.tool.UseItem());
+          stamina = 0;
 
           yield return new WaitForSeconds(1.5f);
           break;
         case Shovel when targetMapObject is Hole:
           StartCoroutine(equipment.tool.UseItem());
+          stamina = 0;
 
           yield return new WaitForSeconds(1.5f);
           break;
         default:
-          ConditionalLogger.Log("Say: Can't do it ");
-          
+          Debug.Log("Say: Can't do it ");
+
           CleanState();
           break;
       }
@@ -358,8 +380,10 @@ namespace GruntzUnityverse.Actorz {
             nameof(Gauntletz) => gameObject.AddComponent<Gauntletz>(),
             nameof(Shovel) => gameObject.AddComponent<Shovel>(),
             nameof(Warpstone) => gameObject.AddComponent<Warpstone>(),
-            _ => equipment.tool,
+            _ => throw new InvalidEnumArgumentException(),
           };
+
+          StatzManager.acquiredToolz++;
 
           animancer.Play(AnimationManager.Instance.PickupPack.tool[item.mapItemName]);
           // Todo: Play pickup sound
@@ -371,23 +395,38 @@ namespace GruntzUnityverse.Actorz {
           break;
         case nameof(Toy):
           Destroy(GetComponents<Toy>().FirstOrDefault());
+
+          equipment.toy = item.mapItemName switch {
+            nameof(Beachball) => gameObject.AddComponent<Beachball>(),
+            _ => throw new InvalidEnumArgumentException(),
+          };
+
           equipment.toy = gameObject.AddComponent<Beachball>();
+
+          StatzManager.acquiredToyz++;
 
           animancer.Play(AnimationManager.Instance.PickupPack.toy[item.mapItemName]);
 
           break;
+        case nameof(Powerup):
+          StatzManager.acquiredPowerupz++;
+
+          animancer.Play(AnimationManager.Instance.PickupPack.powerup[item.mapItemName]);
+
+          break;
+
+        case "Misc":
+          switch (item.mapItemName) {
+            case nameof(Coin):
+              StatzManager.acquiredCoinz++;
+
+              animancer.Play(AnimationManager.Instance.PickupPack.misc[item.mapItemName]);
+
+              break;
+          }
+
+          break;
       }
-
-      isInterrupted = true;
-
-      // Wait the time it takes to pick up an item (subject to change)
-      yield return new WaitForSeconds(0.8f);
-
-      isInterrupted = false;
-    }
-
-    public IEnumerator PickupMiscItem(string itemName) {
-      animancer.Play(AnimationManager.Instance.PickupPack.misc[itemName]);
 
       isInterrupted = true;
 

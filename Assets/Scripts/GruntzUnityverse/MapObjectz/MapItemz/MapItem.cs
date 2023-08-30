@@ -39,11 +39,7 @@ namespace GruntzUnityverse.MapObjectz.MapItemz {
       foreach (Grunt grunt in LevelManager.Instance.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
         SetEnabled(false);
 
-        StatzManager.Instance.acquiredCoinz++;
-
         StartCoroutine(grunt.PickupItem(pickupItem));
-
-        // StartCoroutine(grunt.PickupMiscItem($"Pickup_{pickupItem.mapItemName}.anim"));
 
         break;
       }

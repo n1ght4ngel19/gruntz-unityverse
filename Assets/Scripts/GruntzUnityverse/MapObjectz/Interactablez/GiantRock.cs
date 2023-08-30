@@ -31,7 +31,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       // 1.5s is the delay after the beginning of the GauntletzGrunt's Rock breaking animation (when the Rock actually should break)
       yield return new WaitForSeconds(1.5f);
 
-      ConditionalLogger.Log("1.5f delay passed");
+      Debug.Log("1.5f delay passed");
 
       foreach (GiantRockEdge edge in edgez) {
         LevelManager.Instance.SetBlockedAt(edge.location, false);
