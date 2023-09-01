@@ -3,7 +3,7 @@ guid: 3f8daf880216eb945ace9ccc6de29357
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,13 +103,27 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_0
+      name: Grunt_Death_Flyup_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0286e88ba90ec6547a89c3b31ab14e82
-      internalID: 2122173040
+      spriteID: 7232691181f2a9a40ac60d86d0cde253
+      internalID: -1604616842
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_1
+      name: Grunt_Death_Flyup_1
       rect:
         serializedVersion: 2
         x: 103
@@ -139,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21252ceabf795b944afef2202169d0a4
-      internalID: -1948801225
+      spriteID: 05f125c9e49118d48802d787d0f8b0b6
+      internalID: 84096251
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_2
+      name: Grunt_Death_Flyup_2
       rect:
         serializedVersion: 2
         x: 206
@@ -160,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad27bcf84f61c7b44b638ae63e34ce07
-      internalID: 1734605745
+      spriteID: 5f6aa3b4546756f4993ea4d445111268
+      internalID: 1230588749
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_3
+      name: Grunt_Death_Flyup_3
       rect:
         serializedVersion: 2
         x: 309
@@ -181,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb0b5c1469eeb91428430663e1ca90d9
-      internalID: -1145167883
+      spriteID: 2649a9d2d3186c74d8807352ac98942c
+      internalID: 1120621012
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_4
+      name: Grunt_Death_Flyup_4
       rect:
         serializedVersion: 2
         x: 412
@@ -202,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 180449c9b5579eb4281538718060b26d
-      internalID: 1969200676
+      spriteID: 39261d1ebf250564ba19ed64c76fdc43
+      internalID: -1899741385
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_5
+      name: Grunt_Death_Flyup_5
       rect:
         serializedVersion: 2
         x: 515
@@ -223,14 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32619ad9197e8d446b258ce733b6e80b
-      internalID: 2093021819
+      spriteID: 9272bef6ebcebf148a97c0127e5fbdf9
+      internalID: -1169262020
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_6
+      name: Grunt_Death_Flyup_6
       rect:
         serializedVersion: 2
         x: 618
@@ -244,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee56cd6631219834885fca9860f8b16d
-      internalID: -1646447565
+      spriteID: 075428ea002fc4d41a4d71f4c88473ce
+      internalID: 351243537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_7
+      name: Grunt_Death_Flyup_7
       rect:
         serializedVersion: 2
         x: 721
@@ -265,14 +284,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa13320f56341a04c98e7e4074867d34
-      internalID: -1448136211
+      spriteID: 531a0bb07110aca45a9b65039c2e24c2
+      internalID: -888513658
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_8
+      name: Grunt_Death_Flyup_8
       rect:
         serializedVersion: 2
         x: 824
@@ -286,14 +305,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 284a33edaf57edf44a28914db26961a8
-      internalID: -332088993
+      spriteID: ebd2b8688d8cbfa49993677674720c35
+      internalID: 1609384244
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_9
+      name: Grunt_Death_Flyup_9
       rect:
         serializedVersion: 2
         x: 927
@@ -307,14 +326,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7974969601728494cbfd64225ff6dd00
-      internalID: -1263001710
+      spriteID: 5b04eea542507e34886fd177a30fcef1
+      internalID: 337329023
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_10
+      name: Grunt_Death_Flyup_10
       rect:
         serializedVersion: 2
         x: 1030
@@ -328,14 +347,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e794fcd2c6f3e14ba96477590a175cb
-      internalID: -1803439006
+      spriteID: 1de963aa8a2371246b974cb49024dd53
+      internalID: -81625646
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_11
+      name: Grunt_Death_Flyup_11
       rect:
         serializedVersion: 2
         x: 1133
@@ -349,14 +368,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27be6065fa6638c479613f57bcb44ae0
-      internalID: 1759933813
+      spriteID: db391207c1d8ff0469649c9539be298f
+      internalID: -1970721928
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_12
+      name: Grunt_Death_Flyup_12
       rect:
         serializedVersion: 2
         x: 1236
@@ -370,14 +389,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d00a0c9cf7e84d74b90735866ebfe5bb
-      internalID: 311129959
+      spriteID: b36e651f4bba7644ba7eeee8d8457ea2
+      internalID: 1097713305
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_13
+      name: Grunt_Death_Flyup_13
       rect:
         serializedVersion: 2
         x: 1339
@@ -391,14 +410,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e90938295d52c4e47a0ea0013a0564d4
-      internalID: 312355571
+      spriteID: ea36c40f4c1adc44ebf46033fa242d25
+      internalID: -1155372053
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_14
+      name: Grunt_Death_Flyup_14
       rect:
         serializedVersion: 2
         x: 1442
@@ -412,14 +431,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3277b2e06a85d0745989794d3a6b9af8
-      internalID: 1214097851
+      spriteID: fb9b6155397179148ba26036416dff0b
+      internalID: -1416487508
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grunt_Death_Flyup_F16_15
+      name: Grunt_Death_Flyup_15
       rect:
         serializedVersion: 2
         x: 1545
@@ -433,8 +452,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1502fe4024b8e84438bc1c2bce9d8eae
-      internalID: 1090146812
+      spriteID: d1be4b867c8fa7744b8da67e581b740b
+      internalID: 402138351
       vertices: []
       indices: 
       edges: []
@@ -450,25 +469,24 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Grunt_Death_Flyup_F16_0: 2122173040
-      Grunt_Death_Flyup_F16_12: 311129959
-      Grunt_Death_Flyup_F16_1: -1948801225
-      Grunt_Death_Flyup_F16_13: 312355571
-      Grunt_Death_Flyup_F16_6: -1646447565
-      Grunt_Death_Flyup_F16_15: 1090146812
-      Grunt_Death_Flyup_F16_5: 2093021819
-      Grunt_Death_Flyup_F16_9: -1263001710
-      Grunt_Death_Flyup_F16_3: -1145167883
-      Grunt_Death_Flyup_F16_10: -1803439006
-      Grunt_Death_Flyup_F16_7: -1448136211
-      Grunt_Death_Flyup_F16_14: 1214097851
-      Grunt_Death_Flyup_F16_2: 1734605745
-      Grunt_Death_Flyup_F16_11: 1759933813
-      Grunt_Death_Flyup_F16_4: 1969200676
-      Grunt_Death_Flyup_F16_8: -332088993
-  spritePackingTag: 
+      Grunt_Death_Flyup_0: -1604616842
+      Grunt_Death_Flyup_1: 84096251
+      Grunt_Death_Flyup_10: -81625646
+      Grunt_Death_Flyup_11: -1970721928
+      Grunt_Death_Flyup_12: 1097713305
+      Grunt_Death_Flyup_13: -1155372053
+      Grunt_Death_Flyup_14: -1416487508
+      Grunt_Death_Flyup_15: 402138351
+      Grunt_Death_Flyup_2: 1230588749
+      Grunt_Death_Flyup_3: 1120621012
+      Grunt_Death_Flyup_4: -1899741385
+      Grunt_Death_Flyup_5: -1169262020
+      Grunt_Death_Flyup_6: 351243537
+      Grunt_Death_Flyup_7: -888513658
+      Grunt_Death_Flyup_8: 1609384244
+      Grunt_Death_Flyup_9: 337329023
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
