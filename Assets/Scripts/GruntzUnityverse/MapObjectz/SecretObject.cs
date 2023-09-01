@@ -1,4 +1,7 @@
-﻿using GruntzUnityverse.Managerz;
+﻿
+using System.Collections.Generic;
+using System.Linq;
+using GruntzUnityverse.Managerz;
 
 namespace GruntzUnityverse.MapObjectz {
   /// <summary>
@@ -22,12 +25,17 @@ namespace GruntzUnityverse.MapObjectz {
     private bool _isInitiallyHardTurn;
     private bool _isInitiallyVoid;
     private bool _isInitiallyWater;
+    private List<MapObject> _otherComponents;
     // ------------------------------------------------------------ //
 
     protected override void Start() {
       base.Start();
 
+
       SetEnabled(false);
+      _otherComponents = new List<MapObject>();
+      _otherComponents = gameObject.GetComponents<MapObject>().Where(mapObject => mapObject != this).ToList();
+      _otherComponents.ForEach(mapObject => mapObject.enabled = false);
     }
     // ------------------------------------------------------------ //
 
@@ -42,6 +50,7 @@ namespace GruntzUnityverse.MapObjectz {
       _isInitiallyHardTurn = LevelManager.Instance.IsHardTurnAt(location);
       _isInitiallyVoid = LevelManager.Instance.IsVoidAt(location);
       _isInitiallyWater = LevelManager.Instance.IsWaterAt(location);
+      _otherComponents.ForEach(mapObject => mapObject.enabled = true);
       SetEnabled(true);
 
       LevelManager.Instance.SetBlockedAt(location, isBlocked);

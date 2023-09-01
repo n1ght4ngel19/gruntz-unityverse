@@ -7,7 +7,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz {
   public abstract class Tool : Item {
     public ToolName toolName;
     public RangeType rangeType;
-    public DeathName deathName;
+    public DeathName deathInflicted;
     [Range(0, 40)] public int damage;
     [Range(0, 20)] public int damageReduction;
     public float contactDelay;
@@ -43,12 +43,9 @@ namespace GruntzUnityverse.MapObjectz.Itemz {
       yield return new WaitForSeconds(attackContactDelay);
 
       attackTarget.TakeDamage(ownGrunt.equipment.tool.damage, attackTarget.equipment.tool.damageReduction);
+      attackTarget.deathToDie = deathInflicted;
 
-      if (attackTarget.health <= 0) {
-        StartCoroutine(attackTarget.Death(deathName));
-
-        ownGrunt.CleanState();
-      } else {
+      if (attackTarget.health > 0) {
         ownGrunt.gruntState = GruntState.Hostile;
         ownGrunt.isInterrupted = false;
       }

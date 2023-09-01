@@ -11,7 +11,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
 
       toolName = ToolName.Gauntletz;
       rangeType = RangeType.Melee;
-      deathName = DeathName.Burn;
+      deathInflicted = DeathName.Default;
       damage = GlobalValuez.GauntletzDamage;
       mapItemName = nameof(Gauntletz);
       contactDelay = 1.5f;

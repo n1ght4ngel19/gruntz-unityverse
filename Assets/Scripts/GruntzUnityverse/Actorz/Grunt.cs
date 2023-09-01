@@ -71,6 +71,8 @@ namespace GruntzUnityverse.Actorz {
     #endregion
     // -------------------------------------------------------------------------------- //
 
+    public DeathName deathToDie;
+
     private void Start() {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
       navigator = gameObject.AddComponent<Navigator>();
@@ -93,6 +95,21 @@ namespace GruntzUnityverse.Actorz {
     // -------------------------------------------------------------------------------- //
 
     protected virtual void Update() {
+      if (_isDying) {
+        Debug.Log("Grunt is dying");
+        return;
+      }
+
+      if (health <= 0) {
+        StartCoroutine(Death(deathToDie));
+
+        return;
+      }
+
+      if (targetGrunt == null) {
+        CleanState();
+      }
+
       // Setting flags necessary on all frames
       isInCircle = SelectorCircle.Instance.ownNode == navigator.ownNode;
 
@@ -486,9 +503,10 @@ namespace GruntzUnityverse.Actorz {
     /// <param name="deathName">The death type to execute.</param>
     public IEnumerator Death(DeathName deathName) {
       healthBar.spriteRenderer.enabled = false;
-      enabled = false;
+      staminaBar.spriteRenderer.enabled = false;
       navigator.enabled = false;
       isInterrupted = true;
+      _isDying = true;
 
       AnimationClip deathClip =
         animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death"];
@@ -497,6 +515,7 @@ namespace GruntzUnityverse.Actorz {
       switch (deathName) {
         case DeathName.Burn:
           deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Burn)];
+          deathAnimLength = 1f;
           break;
         case DeathName.Electrocute:
           deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Electrocute)];
@@ -504,7 +523,7 @@ namespace GruntzUnityverse.Actorz {
           break;
         case DeathName.Explode:
           deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Explode)];
-          deathAnimLength = 1f;
+          deathAnimLength = 0.5f;
           break;
         case DeathName.Fall:
           deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Fall)];
@@ -515,7 +534,7 @@ namespace GruntzUnityverse.Actorz {
           deathAnimLength = 1f;
           break;
         case DeathName.Freeze:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Flyup)];
+          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Freeze)];
           break;
         case DeathName.Hole:
           deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Hole)];
@@ -523,7 +542,7 @@ namespace GruntzUnityverse.Actorz {
           break;
         case DeathName.Karaoke:
           deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Karaoke)];
-          deathAnimLength = 13f;
+          deathAnimLength = 15f;
           break;
         case DeathName.Melt:
           deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Melt)];
@@ -546,7 +565,7 @@ namespace GruntzUnityverse.Actorz {
       navigator.ownLocation = Vector2Direction.max;
       LevelManager.Instance.playerGruntz.Remove(this);
       LevelManager.Instance.allGruntz.Remove(this);
-      Destroy(gameObject, deathClip.length);
+      Destroy(gameObject);
     }
 
     public void SetAnimPack(ToolName tool) {

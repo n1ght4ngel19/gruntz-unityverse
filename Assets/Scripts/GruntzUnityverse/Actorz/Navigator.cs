@@ -79,6 +79,16 @@ namespace GruntzUnityverse.Actorz {
 
       Vector3 nextPosition = LocationAsPosition(path[1].location);
 
+      if (isMoveForced) {
+        Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
+
+        if (deadGrunt is not null) {
+          StartCoroutine(deadGrunt.Death(DeathName.Squash));
+        }
+
+        return;
+      }
+      
       if (Vector2.Distance(nextPosition, transform.position) > 0.1f) {
         isMoving = true;
         moveVector = (nextPosition - gameObject.transform.position).normalized;
@@ -88,17 +98,9 @@ namespace GruntzUnityverse.Actorz {
 
         SetFacingDirection(moveVector);
 
-        if (isMoveForced) {
-          Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
-
-          if (deadGrunt is not null) {
-            StartCoroutine(deadGrunt.Death("Squash"));
-          }
-
-          isMoveForced = false;
-        }
       } else {
         isMoving = false;
+        isMoveForced = false;
 
         ownLocation = path[1].location;
 

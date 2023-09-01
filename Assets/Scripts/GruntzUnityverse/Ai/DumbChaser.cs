@@ -1,4 +1,5 @@
-﻿using GruntzUnityverse.Actorz;
+﻿using System.Linq;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
@@ -6,9 +7,9 @@ using UnityEngine;
 namespace GruntzUnityverse.Ai {
   public class DumbChaser : MonoBehaviour {
     public int aggroRange;
+    public Node startingNode;
     private Grunt _self;
     private bool _hasTarget;
-    public Node startingNode;
 
     private void Start() {
       _self = gameObject.GetComponent<Grunt>();
@@ -22,52 +23,32 @@ namespace GruntzUnityverse.Ai {
     }
 
     public void DefendAreaAroundSelf() {
-      foreach (Grunt grunt in LevelManager.Instance.playerGruntz) {
-        Node gruntNode = grunt.navigator.ownNode;
-
-        if (IsWithinAggroRange(gruntNode)) {
-          // Todo: Look for weaker opponent if possible, don't try to attack stronger opponents
-          if (!_hasTarget) {
-            _self.CleanState();
-
-            _hasTarget = true;
-            _self.targetGrunt = grunt;
-            _self.navigator.targetNode = grunt.navigator.ownNode;
-            _self.haveActionCommand = true;
-          }
-        } else {
-          _hasTarget = false;
-          _self.haveActionCommand = false;
-          _self.navigator.targetNode = startingNode;
-          _self.navigator.haveMoveCommand = true;
+      if (LevelManager.Instance.playerGruntz.Any(IsWithinAggroRange)) {
+        if (_hasTarget) {
+          return;
         }
 
+        _self.CleanState();
 
-        Vector2Int absGruntLocation = AbsVector2Int(grunt.navigator.ownLocation.x, grunt.navigator.ownLocation.y);
+        Grunt targetGrunt = LevelManager.Instance.playerGruntz.First(IsWithinAggroRange);
+        _hasTarget = true;
+        _self.targetGrunt = targetGrunt;
+        _self.navigator.targetNode = targetGrunt.navigator.ownNode;
+        _self.haveActionCommand = true;
+      } else {
+        _self.CleanState();
 
-        Vector2Int absSelfStartingLocation = AbsVector2Int(_self.navigator.startingLocation.x,
-          _self.navigator.startingLocation.y);
-
-        Vector2Int absDistance = absGruntLocation - absSelfStartingLocation;
-        absDistance = AbsVector2Int(absDistance.x, absDistance.y);
-
-        if (absDistance.x <= aggroRange && absDistance.y <= aggroRange) {
-          if (!_hasTarget) {
-            _hasTarget = true;
-            _self.haveActionCommand = true;
-          }
-        } else {
-          _hasTarget = false;
-          _self.haveActionCommand = true;
-        }
+        _hasTarget = false;
+        _self.navigator.targetNode = startingNode;
+        _self.navigator.haveMoveCommand = true;
       }
     }
 
-    private bool IsWithinAggroRange(Node gruntNode) {
-      return gruntNode.location.x <= startingNode.location.x + aggroRange &&
-        gruntNode.location.x >= startingNode.location.x - aggroRange &&
-        gruntNode.location.y <= startingNode.location.y + aggroRange &&
-        gruntNode.location.y >= startingNode.location.y - aggroRange;
+    private bool IsWithinAggroRange(Grunt grunt) {
+      return grunt.navigator.ownNode.location.x <= startingNode.location.x + aggroRange &&
+        grunt.navigator.ownNode.location.x >= startingNode.location.x - aggroRange &&
+        grunt.navigator.ownNode.location.y <= startingNode.location.y + aggroRange &&
+        grunt.navigator.ownNode.location.y >= startingNode.location.y - aggroRange;
     }
 
     public Vector2Int AbsVector2Int(int x, int y) {

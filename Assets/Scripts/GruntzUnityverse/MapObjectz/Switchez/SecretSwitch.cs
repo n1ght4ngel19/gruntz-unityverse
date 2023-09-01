@@ -8,7 +8,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
   public class SecretSwitch : ObjectSwitch {
     public List<SecretObject> secretObjectz;
     private const float TimeStep = 0.1f;
-
+    // -------------------------------------------------------------------------------- //
 
     private void Update() {
       if (!LevelManager.Instance.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {

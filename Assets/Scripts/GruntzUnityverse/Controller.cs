@@ -59,14 +59,12 @@ namespace GruntzUnityverse {
       if (rightClick && selectedGruntz.Count > 0) {
         Node clickedNode = SelectorCircle.Instance.ownNode;
 
-        selectedGruntz.ForEach(grunt => {
-          // grunt.canInteract = false;
-          // grunt.gruntState = GruntState.Idle;
-          // grunt.targetGrunt = null;
+        foreach (Grunt grunt in selectedGruntz.Where(grunt1 => !grunt1.navigator.isMoveForced)) {
           grunt.CleanState();
+
           grunt.navigator.targetNode = clickedNode;
           grunt.navigator.haveMoveCommand = true;
-        });
+        }
       }
 
       // ------------------------------
