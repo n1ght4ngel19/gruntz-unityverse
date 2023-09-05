@@ -96,7 +96,6 @@ namespace GruntzUnityverse.Actorz {
 
     protected virtual void Update() {
       if (_isDying) {
-        Debug.Log("Grunt is dying");
         return;
       }
 
@@ -104,10 +103,6 @@ namespace GruntzUnityverse.Actorz {
         StartCoroutine(Death(deathToDie));
 
         return;
-      }
-
-      if (targetGrunt == null) {
-        CleanState();
       }
 
       // Setting flags necessary on all frames
@@ -132,7 +127,6 @@ namespace GruntzUnityverse.Actorz {
         ? staminaBar.frames[^1]
         : staminaBar.frames[stamina];
 
-
       // ----------------------------------------
       // Movement
       // ----------------------------------------
@@ -153,7 +147,7 @@ namespace GruntzUnityverse.Actorz {
 
           gruntState = GruntState.GiveToy;
           // Attacking a Grunt or using a Tool
-        } else if (equipment.tool.rangeType == RangeType.Melee) {
+        } else if (equipment.tool.toolRange == RangeType.Melee) {
           canInteract = targetGrunt is not null
             ? IsNeighbourOf(targetGrunt)
             : IsNeighbourOf(targetMapObject);
@@ -402,7 +396,7 @@ namespace GruntzUnityverse.Actorz {
 
           StatzManager.acquiredToolz++;
 
-          animancer.Play(AnimationManager.Instance.PickupPack.tool[item.mapItemName]);
+          animancer.Play(AnimationManager.Instance.pickupPack.tool[item.mapItemName]);
           // Todo: Play pickup sound
 
           yield return new WaitForSeconds(0.8f);
@@ -422,13 +416,13 @@ namespace GruntzUnityverse.Actorz {
 
           StatzManager.acquiredToyz++;
 
-          animancer.Play(AnimationManager.Instance.PickupPack.toy[item.mapItemName]);
+          animancer.Play(AnimationManager.Instance.pickupPack.toy[item.mapItemName]);
 
           break;
         case nameof(Powerup):
           StatzManager.acquiredPowerupz++;
 
-          animancer.Play(AnimationManager.Instance.PickupPack.powerup[item.mapItemName]);
+          animancer.Play(AnimationManager.Instance.pickupPack.powerup[item.mapItemName]);
 
           break;
 
@@ -437,7 +431,7 @@ namespace GruntzUnityverse.Actorz {
             case nameof(Coin):
               StatzManager.acquiredCoinz++;
 
-              animancer.Play(AnimationManager.Instance.PickupPack.misc[item.mapItemName]);
+              animancer.Play(AnimationManager.Instance.pickupPack.misc[item.mapItemName]);
 
               break;
           }
@@ -453,15 +447,15 @@ namespace GruntzUnityverse.Actorz {
       isInterrupted = false;
     }
 
-    public void MoveOrDo() {
-      if (IsNeighbourOf(targetObject)) {
-        StartCoroutine(equipment.tool.Use(this));
-        haveActionCommand = false;
-        targetObject = null;
-      } else {
-        navigator.SetTargetBesideNode(targetObject.ownNode);
-      }
-    }
+    // public void MoveOrDo() {
+    //   if (IsNeighbourOf(targetObject)) {
+    //     StartCoroutine(equipment.tool.Use(this));
+    //     haveActionCommand = false;
+    //     targetObject = null;
+    //   } else {
+    //     navigator.SetTargetBesideNode(targetObject.ownNode);
+    //   }
+    // }
 
     public IEnumerator GetStruck() {
       AnimationClip struckClip =
@@ -484,7 +478,7 @@ namespace GruntzUnityverse.Actorz {
       navigator.enabled = false;
       isInterrupted = true;
 
-      AnimationClip deathClip = AnimationManager.Instance.DeathPack[deathName];
+      AnimationClip deathClip = AnimationManager.Instance.deathPack[deathName];
 
       animancer.Play(deathClip);
 
@@ -514,46 +508,46 @@ namespace GruntzUnityverse.Actorz {
 
       switch (deathName) {
         case DeathName.Burn:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Burn)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Burn)];
           deathAnimLength = 1f;
           break;
         case DeathName.Electrocute:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Electrocute)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Electrocute)];
           deathAnimLength = 1.5f;
           break;
         case DeathName.Explode:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Explode)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Explode)];
           deathAnimLength = 0.5f;
           break;
         case DeathName.Fall:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Fall)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Fall)];
           deathAnimLength = 5f;
           break;
         case DeathName.Flyup:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Flyup)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Flyup)];
           deathAnimLength = 1f;
           break;
         case DeathName.Freeze:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Freeze)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Freeze)];
           break;
         case DeathName.Hole:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Hole)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Hole)];
           deathAnimLength = 1.5f;
           break;
         case DeathName.Karaoke:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Karaoke)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Karaoke)];
           deathAnimLength = 15f;
           break;
         case DeathName.Melt:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Melt)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Melt)];
           deathAnimLength = 1f;
           break;
         case DeathName.Sink:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Sink)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Sink)];
           deathAnimLength = 1f;
           break;
         case DeathName.Squash:
-          deathClip = AnimationManager.Instance.DeathPack[nameof(DeathName.Squash)];
+          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Squash)];
           deathAnimLength = 0.5f;
           break;
       }
@@ -570,20 +564,24 @@ namespace GruntzUnityverse.Actorz {
 
     public void SetAnimPack(ToolName tool) {
       animationPack = tool switch {
-        ToolName.Barehandz => AnimationManager.Instance.BarehandzGruntPack,
-        ToolName.Gauntletz => AnimationManager.Instance.GauntletzGruntPack,
-        ToolName.Shovel => AnimationManager.Instance.ShovelGruntPack,
-        _ => AnimationManager.Instance.GauntletzGruntPack,
+        ToolName.Barehandz => AnimationManager.Instance.barehandzGruntPack,
+        ToolName.Club => AnimationManager.Instance.clubGruntPack,
+        ToolName.Gauntletz => AnimationManager.Instance.gauntletzGruntPack,
+        ToolName.Shovel => AnimationManager.Instance.shovelGruntPack,
+        ToolName.Warpstone => AnimationManager.Instance.warpstoneGruntPack,
+        _ => throw new InvalidEnumArgumentException("Invalid tool name!"),
       };
     }
 
     public void SetAnimPack(string tool) {
       animationPack = tool switch {
-        nameof(Barehandz) => AnimationManager.Instance.BarehandzGruntPack,
-        nameof(Gauntletz) => AnimationManager.Instance.GauntletzGruntPack,
-        nameof(Shovel) => AnimationManager.Instance.ShovelGruntPack,
+        nameof(Barehandz) => AnimationManager.Instance.barehandzGruntPack,
+        nameof(Club) => AnimationManager.Instance.clubGruntPack,
+        nameof(Gauntletz) => AnimationManager.Instance.gauntletzGruntPack,
+        nameof(Shovel) => AnimationManager.Instance.shovelGruntPack,
+        nameof(Warpstone) => AnimationManager.Instance.warpstoneGruntPack,
         //nameof(Warpstone) => AnimationManager.Instance.WarpstonePack,
-        _ => AnimationManager.Instance.BarehandzGruntPack,
+        _ => throw new InvalidEnumArgumentException("Invalid tool name!"),
       };
     }
   }

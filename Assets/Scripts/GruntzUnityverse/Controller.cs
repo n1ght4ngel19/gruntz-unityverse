@@ -72,13 +72,13 @@ namespace GruntzUnityverse {
       // ------------------------------
       if (leftClick && leftShiftDown) {
         Node clickedNode = SelectorCircle.Instance.ownNode;
+        List<MapObject> possibleTargets = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<MapObject>().ToList();
 
-        MapObject targetMapObject = LevelManager.Instance.mapObjectContainer
-          .GetComponentsInChildren<MapObject>()
-          .FirstOrDefault(obj => obj.ownNode == clickedNode);
+        MapObject targetMapObject = possibleTargets
+          .FirstOrDefault(obj => obj.location == clickedNode.location);
 
-        Grunt targetGrunt =
-          LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
+        Grunt targetGrunt = LevelManager.Instance.allGruntz
+          .FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
 
         // Issuing action command according to the target being a MapObject or a Grunt
         selectedGruntz.ForEach(grunt => {
@@ -91,17 +91,18 @@ namespace GruntzUnityverse {
           } else if (targetMapObject is GiantRockEdge && grunt.equipment.tool is Gauntletz) {
             List<Node> nodeNeighbours = targetMapObject.ownNode.Neighbours;
             List<Node> shortestPath = Pathfinder.PathBetween(grunt.navigator.ownNode, nodeNeighbours[0],
-              grunt.navigator.isMoveForced, grunt.navigator.movesDiagonally);
+              grunt.navigator.isMoveForced, LevelManager.Instance.nodes);
 
             foreach (Node neighbour in nodeNeighbours) {
               List<Node> pathToNode = Pathfinder.PathBetween(grunt.navigator.ownNode, neighbour,
-                grunt.navigator.isMoveForced, grunt.navigator.movesDiagonally);
+                grunt.navigator.isMoveForced, LevelManager.Instance.nodes);
 
               if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
                 shortestPath = pathToNode;
               }
             }
 
+            grunt.gruntState = GruntState.Use;
             grunt.targetMapObject = targetMapObject;
             grunt.navigator.targetNode = shortestPath.Last();
             grunt.haveActionCommand = true;

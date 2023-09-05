@@ -6,14 +6,14 @@ using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class OrangeSwitch : ObjectSwitch {
-    [field: SerializeField] public List<OrangeSwitch> OtherSwitchez { get; set; }
-    private List<OrangePyramid> Pyramidz { get; set; }
+    public List<OrangeSwitch> otherSwitchez;
+    private List<OrangePyramid> _pyramidz;
 
 
     protected override void Start() {
       base.Start();
 
-      Pyramidz = transform.parent.GetComponentsInChildren<OrangePyramid>().ToList();
+      _pyramidz = transform.parent.GetComponentsInChildren<OrangePyramid>().ToList();
     }
 
     private void Update() {
@@ -31,13 +31,13 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private void ToggleOtherSwitchez() {
-      foreach (OrangeSwitch orangeSwitch in OtherSwitchez) {
+      foreach (OrangeSwitch orangeSwitch in otherSwitchez) {
         orangeSwitch.ToggleSwitch();
       }
     }
 
     private void TogglePyramidz() {
-      foreach (OrangePyramid pyramid in Pyramidz) {
+      foreach (OrangePyramid pyramid in _pyramidz) {
         pyramid.Toggle();
       }
     }

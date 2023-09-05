@@ -10,7 +10,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Gauntletz;
-      rangeType = RangeType.Melee;
+      toolRange = RangeType.Melee;
       deathInflicted = DeathName.Default;
       damage = GlobalValuez.GauntletzDamage;
       mapItemName = nameof(Gauntletz);

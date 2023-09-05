@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GruntzUnityverse.MapObjectz.Itemz {
   public abstract class Tool : Item {
     public ToolName toolName;
-    public RangeType rangeType;
+    public RangeType toolRange;
     public DeathName deathInflicted;
     [Range(0, 40)] public int damage;
     [Range(0, 20)] public int damageReduction;

@@ -9,7 +9,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Club;
-      rangeType = RangeType.Melee;
+      toolRange = RangeType.Melee;
       damage = GlobalValuez.ClubDamage;
       mapItemName = nameof(Club);
     }

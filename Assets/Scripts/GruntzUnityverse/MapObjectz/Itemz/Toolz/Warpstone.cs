@@ -8,7 +8,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Warpstone;
-      rangeType = RangeType.None;
+      toolRange = RangeType.None;
       damage = GlobalValuez.WarpstoneDamage;
       mapItemName = nameof(Warpstone);
     }

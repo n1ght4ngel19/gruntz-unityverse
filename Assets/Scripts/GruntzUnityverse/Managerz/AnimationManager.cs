@@ -7,12 +7,16 @@ using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Managerz {
   public class AnimationManager : MonoBehaviour {
-    public GruntAnimationPack BarehandzGruntPack { get; set; }
-    public GruntAnimationPack GauntletzGruntPack { get; set; }
-    public GruntAnimationPack ShovelGruntPack { get; set; }
-    public PickupAnimationPack PickupPack { get; set; }
+    public GruntAnimationPack barehandzGruntPack;
+    public GruntAnimationPack clubGruntPack;
+    public GruntAnimationPack gauntletzGruntPack;
+    public GruntAnimationPack shovelGruntPack;
+    public GruntAnimationPack warpstoneGruntPack;
+    public PickupAnimationPack pickupPack;
 
-    public Dictionary<string, AnimationClip> DeathPack { get; set; }
+    public Dictionary<string, AnimationClip> deathPack;
+    public Dictionary<string, AnimationClip> exitPack;
+
     // [SerializeField] public CursorAnimationPack CursorAnimations { get; set; }
 
     public static AnimationManager Instance { get; private set; }
@@ -24,13 +28,19 @@ namespace GruntzUnityverse.Managerz {
         Instance = this;
       }
 
-      BarehandzGruntPack = new GruntAnimationPack(ToolName.Barehandz);
-      GauntletzGruntPack = new GruntAnimationPack(ToolName.Gauntletz);
-      ShovelGruntPack = new GruntAnimationPack(ToolName.Shovel);
-      PickupPack = new PickupAnimationPack();
-      DeathPack = new Dictionary<string, AnimationClip>();
+      barehandzGruntPack = new GruntAnimationPack(ToolName.Barehandz);
+      clubGruntPack = new GruntAnimationPack(ToolName.Club);
+      gauntletzGruntPack = new GruntAnimationPack(ToolName.Gauntletz);
+      shovelGruntPack = new GruntAnimationPack(ToolName.Shovel);
+      shovelGruntPack = new GruntAnimationPack(ToolName.Shovel);
+      warpstoneGruntPack = new GruntAnimationPack(ToolName.Warpstone);
+      pickupPack = new PickupAnimationPack();
+
+      deathPack = new Dictionary<string, AnimationClip>();
+      exitPack = new Dictionary<string, AnimationClip>();
 
       LoadDeathAnimations();
+      LoadExitAnimations();
 
       // CursorAnimations = new CursorAnimationPack();
       foreach (Grunt grunt in LevelManager.Instance.allGruntz) {
@@ -46,9 +56,24 @@ namespace GruntzUnityverse.Managerz {
         }
 
         Addressables.LoadAssetAsync<AnimationClip>($"Grunt_Death_{deathName}.anim").Completed += handle => {
-          DeathPack.Add(deathName.ToString(), handle.Result);
+          deathPack.Add(deathName.ToString(), handle.Result);
         };
       }
+    }
+
+    private void LoadExitAnimations() {
+      Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_01.anim").Completed += handle => {
+        exitPack.Add("Grunt_Exit_01", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_02.anim").Completed += handle => {
+        exitPack.Add("Grunt_Exit_02", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_03.anim").Completed += handle => {
+        exitPack.Add("Grunt_Exit_03", handle.Result);
+      };
+      Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_End.anim").Completed += handle => {
+        exitPack.Add("Grunt_Exit_End", handle.Result);
+      };
     }
   }
 }

@@ -5,14 +5,14 @@ using GruntzUnityverse.Managerz;
 
 namespace GruntzUnityverse.Pathfinding {
   public static class Pathfinder {
-    public static List<Node> PathBetween(Node startNode, Node endNode, bool isForced, bool movesDiagonally) {
+    public static List<Node> PathBetween(Node startNode, Node endNode, bool isForced, List<Node> nodes) {
       List<Node> openList = new List<Node>();
       List<Node> closedList = new List<Node>();
 
       // Adding the startNode to have something to begin with
       openList.Add(startNode);
 
-      foreach (Node node in LevelManager.Instance.nodes) {
+      foreach (Node node in nodes) {
         node.gCost = int.MaxValue;
         node.fCost = node.gCost + node.hCost;
         node.previousNode = null;
@@ -82,7 +82,7 @@ namespace GruntzUnityverse.Pathfinding {
       }
 
       // Return an empty List in case there's no path to the endNode
-      return new List<Node>();
+      return null;
     }
 
     private static List<Node> PathTo(Node end) {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
@@ -66,7 +67,7 @@ namespace GruntzUnityverse.Actorz {
 
       // This way path is only calculated only when it's needed
       if (!isMoving) {
-        path = Pathfinder.PathBetween(pathStart, pathEnd, isMoveForced, movesDiagonally);
+        path = Pathfinder.PathBetween(pathStart, pathEnd, isMoveForced, LevelManager.Instance.nodes);
       }
 
       if (path is null) {
@@ -88,7 +89,7 @@ namespace GruntzUnityverse.Actorz {
 
         return;
       }
-      
+
       if (Vector2.Distance(nextPosition, transform.position) > 0.1f) {
         isMoving = true;
         moveVector = (nextPosition - gameObject.transform.position).normalized;
@@ -111,12 +112,15 @@ namespace GruntzUnityverse.Actorz {
     public void MoveTowardsTargetNode() {
       // This way path is only calculated only when it's needed
       if ((targetNode.IsOccupied() || targetNode.IsUnavailable()) && targetNode != ownNode) {
+        #if UNITY_EDITOR
         Debug.Log("Target node is occupied or unavailable, searching for new target.");
+        #endif
+
         SetTargetBesideNode(targetNode);
       }
 
       if (_doFindPath) {
-        path = Pathfinder.PathBetween(ownNode, targetNode, isMoveForced, movesDiagonally);
+        path = Pathfinder.PathBetween(ownNode, targetNode, isMoveForced, LevelManager.Instance.nodes);
       }
 
       // There's no path to target or Grunt has reached target
@@ -125,7 +129,13 @@ namespace GruntzUnityverse.Actorz {
         haveMoveCommand = false;
         isMoveForced = false;
 
-        Debug.Log("There's no path to target or Grunt has reached target.");
+        #if UNITY_EDITOR
+        string message = path is null
+          ? "There's no path to target."
+          : "Grunt has reached target.";
+
+        Debug.Log(message);
+        #endif
 
         return;
       }
@@ -177,7 +187,13 @@ namespace GruntzUnityverse.Actorz {
 
       // No path possible
       if (freeNeighbours.Count == 0) {
+        #if UNITY_EDITOR
+        Debug.Log("No free neighbours, clearing path.");
+        #endif
+
         path.Clear();
+
+        isMoving = false;
         haveMoveCommand = false;
         isMoveForced = false;
 
@@ -185,19 +201,36 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      List<Node> shortestPath = Pathfinder.PathBetween(ownNode, freeNeighbours[0], isMoveForced, movesDiagonally);
+      // List<Node> shortestPath = Pathfinder.PathBetween(ownNode, freeNeighbours[0], isMoveForced, LevelManager.Instance.nodes);
+      List<Node> shortestPath = new List<Node>();
+      int shortestLength = int.MaxValue;
 
       // Iterate over free neighbours to find shortest path
       foreach (Node neighbour in freeNeighbours) {
-        List<Node> pathToNode = Pathfinder.PathBetween(ownNode, neighbour, isMoveForced, movesDiagonally);
+        List<Node> pathToNeighbour = Pathfinder.PathBetween(ownNode, neighbour, isMoveForced, LevelManager.Instance.nodes);
 
-        // Check if current path is shorter than current shortest path
-        if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
-          shortestPath = pathToNode;
+        int pathLength = pathToNeighbour is null
+          ? int.MaxValue
+          : pathToNeighbour.Count;
+
+        if (pathToNeighbour is null) {
+          continue;
         }
+
+        #if UNITY_EDITOR
+        Debug.Log($"Shortest length is {shortestLength} and path length is {pathLength}.");
+        #endif
+
+        // Check if path to neighbour is shorter than shortest path
+        if ((pathLength == int.MaxValue) || (pathLength >= shortestLength)) {
+          continue;
+        }
+
+        shortestLength = pathLength;
+        shortestPath = pathToNeighbour;
       }
 
-      if (shortestPath.Count != 0) {
+      if (shortestLength != int.MaxValue) {
         targetNode = shortestPath.Last();
       }
     }

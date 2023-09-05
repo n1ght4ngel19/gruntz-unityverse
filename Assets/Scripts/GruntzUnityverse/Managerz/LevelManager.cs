@@ -26,15 +26,12 @@ namespace GruntzUnityverse.Managerz {
     public int gruntIdCounter = 0;
 
     #region Layerz
-
     // ----- Layerz -----
     [field: Header("Layerz")] public Tilemap mainLayer;
     public Tilemap backgroundLayer;
-
     #endregion
 
     #region Objectz
-
     // ----- Objectz -----
     [field: Header("Objectz")] public List<Grunt> playerGruntz;
     public List<Grunt> enemyGruntz;
@@ -54,12 +51,10 @@ namespace GruntzUnityverse.Managerz {
 
     [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
     [field: SerializeField] public List<Rock> Rockz { get; set; }
-    [field: SerializeField] public List<Hole> Holez { get; set; }
-
+    public List<Hole> holez;
     #endregion
 
     #region Pathfinding
-
     // ----- Pathfinding -----
     [field: Header("Pathfinding")] private GameObject NodeContainer { get; set; }
     public List<Node> nodes;
@@ -68,21 +63,17 @@ namespace GruntzUnityverse.Managerz {
 
     public Vector2Int MinMapPoint { get; set; }
     public Vector2Int MaxMapPoint { get; set; }
-
     #endregion
 
     #region Flags
-
     public bool isLevelCompleted;
-
     #endregion
 
     #region Others
-
     public List<Checkpoint> checkpointz;
     public TMP_Text helpBoxText;
     public GameObject mapObjectContainer;
-
+    public List<MapObject> mapObjectz;
     #endregion
 
 
@@ -106,11 +97,33 @@ namespace GruntzUnityverse.Managerz {
       }
     }
 
-    public IEnumerator LevelWin() {
-      yield return new WaitForSeconds(2f);
+    private IEnumerator LevelWin() {
+      int idx = Random.Range(1, 4);
 
-      // Todo: Play Grunt teleport away animations
+      float delay = idx switch {
+        1 => 1.875f,
+        2 => 3.625f,
+        3 => 1.625f,
+        _ => 0f,
+      };
+
+      foreach (Grunt grunt in playerGruntz) {
+        grunt.animancer.Play(AnimationManager.Instance.exitPack[$"Grunt_Exit_0{idx}"]);
+      }
+
+      // Wait for Grunt exit animations to finish
+      yield return new WaitForSeconds(delay);
+
+      foreach (Grunt grunt in playerGruntz) {
+        grunt.animancer.Play(AnimationManager.Instance.exitPack["Grunt_Exit_End"]);
+      }
+
+      // Wait for Grunt exit end animation to finish
+      yield return new WaitForSeconds(2.5f);
+
       // Todo: Play King voice and dance animations
+      yield return null;
+
       Addressables.LoadSceneAsync("Menuz/StatzMenu.unity");
     }
 
@@ -131,6 +144,7 @@ namespace GruntzUnityverse.Managerz {
       }
 
       mapObjectContainer = GameObject.Find(GlobalNamez.MapObjectContainer);
+      mapObjectz = mapObjectContainer.GetComponentsInChildren<MapObject>().ToList();
     }
 
     private void AssignLayerz() {
@@ -217,7 +231,7 @@ namespace GruntzUnityverse.Managerz {
       }
 
       foreach (Hole hole in FindObjectsOfType<Hole>()) {
-        Holez.Add(hole);
+        holez.Add(hole);
       }
     }
 
@@ -237,7 +251,6 @@ namespace GruntzUnityverse.Managerz {
     }
 
     #region Node Methods
-
     public void SetBlockedAt(Vector2Int gridLocation, bool isBlocked) {
       NodeAt(gridLocation).isBlocked = isBlocked;
     }
@@ -297,7 +310,6 @@ namespace GruntzUnityverse.Managerz {
     public Node NodeAt(Vector2Int gridLocation) {
       return nodes.First(node => node.location.Equals(gridLocation));
     }
-
     #endregion
   }
 }

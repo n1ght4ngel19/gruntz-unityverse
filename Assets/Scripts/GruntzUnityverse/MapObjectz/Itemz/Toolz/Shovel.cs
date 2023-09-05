@@ -9,7 +9,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Shovel;
-      rangeType = RangeType.Melee;
+      toolRange = RangeType.Melee;
       damage = GlobalValuez.ShovelDamage;
       mapItemName = nameof(Shovel);
     }

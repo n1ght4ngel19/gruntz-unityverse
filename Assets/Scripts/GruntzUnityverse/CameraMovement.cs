@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace GruntzUnityverse {
   public class CameraMovement : MonoBehaviour {
-    private Camera Camera { get; set; }
+    private Camera _cameraComponent;
     private Transform _ownTransform;
-    public bool areControlsDisabled;      
+    public bool areControlsDisabled;
     // The smaller the ScrollRate, the faster the camera moves
     private const int ScrollRate = 4;
     private float _targetZoom;
@@ -15,7 +15,7 @@ namespace GruntzUnityverse {
     // ------------------------------------------------------------ //
 
     private void Start() {
-      Camera = gameObject.GetComponent<Camera>();
+      _cameraComponent = gameObject.GetComponent<Camera>();
       _ownTransform = gameObject.GetComponent<Transform>();
     }
     // ------------------------------------------------------------ //
@@ -37,7 +37,7 @@ namespace GruntzUnityverse {
 
       _targetZoom -= Input.GetAxis("Mouse ScrollWheel") * ZoomFactor;
       _targetZoom = Math.Clamp(_targetZoom, 4f, 11f);
-      Camera.orthographicSize = Mathf.Lerp(Camera.orthographicSize, _targetZoom, Time.deltaTime * ZoomLerpSpeed);
+      _cameraComponent.orthographicSize = Mathf.Lerp(_cameraComponent.orthographicSize, _targetZoom, Time.deltaTime * ZoomLerpSpeed);
     }
 
     private void ScrollWithArrowKeys() {
@@ -46,8 +46,8 @@ namespace GruntzUnityverse {
       }
 
       Vector3 currentPosition = _ownTransform.position;
-      float orthographicSize = Camera.orthographicSize;
-      float camHalfWidth = orthographicSize * Camera.aspect;
+      float orthographicSize = _cameraComponent.orthographicSize;
+      float camHalfWidth = orthographicSize * _cameraComponent.aspect;
       bool reachedBottom = currentPosition.y - orthographicSize / 2 <= LevelManager.Instance.MinMapPoint.y + 0.25;
       bool reachedTop = currentPosition.y + orthographicSize / 2 >= LevelManager.Instance.MaxMapPoint.y - 0.25;
       bool reachedLeftSide = currentPosition.x - camHalfWidth <= LevelManager.Instance.MinMapPoint.x + 0.25;
@@ -55,19 +55,19 @@ namespace GruntzUnityverse {
 
 
       if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reachedTop) {
-        Camera.transform.position += Vector3.up / ScrollRate;
+        _cameraComponent.transform.position += Vector3.up / ScrollRate;
       }
 
       if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reachedBottom) {
-        Camera.transform.position += Vector3.down / ScrollRate;
+        _cameraComponent.transform.position += Vector3.down / ScrollRate;
       }
 
       if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reachedLeftSide) {
-        Camera.transform.position += Vector3.left / ScrollRate;
+        _cameraComponent.transform.position += Vector3.left / ScrollRate;
       }
 
       if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reachedRightSide) {
-        Camera.transform.position += Vector3.right / ScrollRate;
+        _cameraComponent.transform.position += Vector3.right / ScrollRate;
       }
     }
   }
