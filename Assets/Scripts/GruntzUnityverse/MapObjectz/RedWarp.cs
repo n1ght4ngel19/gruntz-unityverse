@@ -1,22 +1,41 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.MapObjectz {
   public class RedWarp : MapObject {
     public bool isEntrance;
     public MapObject target;
+    private AnimationClip _openingAnim;
+    private AnimationClip _swirlingAnim;
     // ------------------------------------------------------------ //
 
     protected override void Start() {
       base.Start();
 
+      Addressables.LoadAssetAsync<AnimationClip>("RedWarp_Opening.anim").Completed += handle => {
+        _openingAnim = handle.Result;
+      };
+
+      Addressables.LoadAssetAsync<AnimationClip>("RedWarp_Swirling.anim").Completed += handle => {
+        _swirlingAnim = handle.Result;
+      };
+
       spriteRenderer.enabled = false;
     }
     // ------------------------------------------------------------ //
 
+    private void OnEnable() {
+      StartCoroutine(Open());
+    }
+
     private void Update() {
+      animancer.Play(_swirlingAnim);
+
       if (!isEntrance) {
         enabled = false;
       }
@@ -32,6 +51,16 @@ namespace GruntzUnityverse.MapObjectz {
       }
     }
     // ------------------------------------------------------------ //
+
+    private IEnumerator Open() {
+      Addressables.LoadAssetAsync<AnimationClip>("RedWarp_Opening.anim").Completed += handle => {
+        animancer.Play(handle.Result);
+      };
+
+      yield return new WaitForSeconds(2f);
+
+
+    }
 
     private void TeleportTo(MapObject targetMapObject, Grunt grunt) {
       grunt.transform.position = new Vector3(targetMapObject.location.x, targetMapObject.location.y, grunt.transform.position.z);

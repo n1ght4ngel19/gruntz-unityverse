@@ -131,7 +131,7 @@ namespace GruntzUnityverse.Actorz {
 
         #if UNITY_EDITOR
         string message = path is null
-          ? "There's no path to target."
+          ? "There is no path to target."
           : "Grunt has reached target.";
 
         Debug.Log(message);

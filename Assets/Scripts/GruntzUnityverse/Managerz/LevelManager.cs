@@ -94,6 +94,8 @@ namespace GruntzUnityverse.Managerz {
     private void Update() {
       if (isLevelCompleted) {
         StartCoroutine(LevelWin());
+
+        enabled = false;
       }
     }
 
@@ -108,15 +110,17 @@ namespace GruntzUnityverse.Managerz {
       };
 
       foreach (Grunt grunt in playerGruntz) {
-        grunt.animancer.Play(AnimationManager.Instance.exitPack[$"Grunt_Exit_0{idx}"]);
+        grunt.enabled = false;
+        StartCoroutine(grunt.Exit(idx, delay));
       }
 
       // Wait for Grunt exit animations to finish
       yield return new WaitForSeconds(delay);
 
-      foreach (Grunt grunt in playerGruntz) {
-        grunt.animancer.Play(AnimationManager.Instance.exitPack["Grunt_Exit_End"]);
-      }
+      // foreach (Grunt grunt in playerGruntz) {
+      //   grunt.enabled = false;
+      //   grunt.animancer.Play(AnimationManager.Instance.exitPack["Grunt_Exit_End"]);
+      // }
 
       // Wait for Grunt exit end animation to finish
       yield return new WaitForSeconds(2.5f);

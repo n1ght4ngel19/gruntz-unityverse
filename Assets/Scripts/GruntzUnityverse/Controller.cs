@@ -89,22 +89,24 @@ namespace GruntzUnityverse {
             grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
             grunt.haveActionCommand = true;
           } else if (targetMapObject is GiantRockEdge && grunt.equipment.tool is Gauntletz) {
-            List<Node> nodeNeighbours = targetMapObject.ownNode.Neighbours;
-            List<Node> shortestPath = Pathfinder.PathBetween(grunt.navigator.ownNode, nodeNeighbours[0],
-              grunt.navigator.isMoveForced, LevelManager.Instance.nodes);
-
-            foreach (Node neighbour in nodeNeighbours) {
-              List<Node> pathToNode = Pathfinder.PathBetween(grunt.navigator.ownNode, neighbour,
-                grunt.navigator.isMoveForced, LevelManager.Instance.nodes);
-
-              if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
-                shortestPath = pathToNode;
-              }
-            }
+            grunt.navigator.SetTargetBesideNode(targetMapObject.ownNode);
+            
+            // List<Node> nodeNeighbours = targetMapObject.ownNode.Neighbours;
+            // List<Node> shortestPath = Pathfinder.PathBetween(grunt.navigator.ownNode, nodeNeighbours[0],
+            //   grunt.navigator.isMoveForced, LevelManager.Instance.nodes);
+            //
+            // foreach (Node neighbour in nodeNeighbours) {
+            //   List<Node> pathToNode = Pathfinder.PathBetween(grunt.navigator.ownNode, neighbour,
+            //     grunt.navigator.isMoveForced, LevelManager.Instance.nodes);
+            //
+            //   if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
+            //     shortestPath = pathToNode;
+            //   }
+            // }
 
             grunt.gruntState = GruntState.Use;
             grunt.targetMapObject = targetMapObject;
-            grunt.navigator.targetNode = shortestPath.Last();
+            // grunt.navigator.targetNode = shortestPath.Last();
             grunt.haveActionCommand = true;
           } else if (targetMapObject is not null && targetMapObject.IsValidTargetFor(grunt)) {
             grunt.targetMapObject = targetMapObject;

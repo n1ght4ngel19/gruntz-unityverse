@@ -1,6 +1,7 @@
 using GruntzUnityverse.MapObjectz.Misc;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
 namespace GruntzUnityverse {
   public class PauseMenu : MonoBehaviour {
@@ -9,6 +10,10 @@ namespace GruntzUnityverse {
 
     private void Update() {
       if (Input.GetKeyDown(KeyCode.Escape) && !Helpbox.isTextShown) {
+        Debug.Log(SceneManager.GetActiveScene().name);
+        // if (SceneManager.GetActiveScene().name == "StatzMenu") {
+        //   Addressables.LoadSceneAsync("Menuz/MainMenu.unity");
+        // }
         if (isGamePaused) {
           Resume();
         } else {
@@ -71,7 +76,7 @@ namespace GruntzUnityverse {
     /// </summary>
     public void QuitGame() {
       Debug.Log("Save Game");
-      Addressables.LoadSceneAsync("MainMenu");
+      Addressables.LoadSceneAsync("Menuz/MainMenu.unity");
     }
   }
 }

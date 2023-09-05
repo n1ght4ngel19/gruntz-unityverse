@@ -562,6 +562,18 @@ namespace GruntzUnityverse.Actorz {
       Destroy(gameObject);
     }
 
+    public IEnumerator Exit(int idx, float delay) {
+      animancer.Play(AnimationManager.Instance.exitPack[$"Grunt_Exit_0{idx}"]);
+
+      // Wait for Grunt exit animation to finish
+      yield return new WaitForSeconds(delay);
+
+      animancer.Play(AnimationManager.Instance.exitPack["Grunt_Exit_End"]);
+
+      // Wait for Grunt exit end animation to finish
+      yield return new WaitForSeconds(2.5f);
+    }
+
     public void SetAnimPack(ToolName tool) {
       animationPack = tool switch {
         ToolName.Barehandz => AnimationManager.Instance.barehandzGruntPack,
