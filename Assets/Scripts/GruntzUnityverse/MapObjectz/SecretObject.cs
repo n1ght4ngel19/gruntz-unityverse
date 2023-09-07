@@ -1,7 +1,5 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
 
 namespace GruntzUnityverse.MapObjectz {
   /// <summary>
@@ -26,18 +24,26 @@ namespace GruntzUnityverse.MapObjectz {
     private bool _isInitiallyVoid;
     private bool _isInitiallyWater;
     private List<MapObject> _otherComponents;
+    private bool _isInitialized;
     // ------------------------------------------------------------ //
 
-    protected override void Start() {
-      base.Start();
+    // protected override void Start() {
+    //   base.Start();
+    //
+    //
+    // }
+    // ------------------------------------------------------------ //
 
+    private void Update() {
+      if (!_isInitialized) {
+        _isInitialized = true;
 
-      SetEnabled(false);
-      _otherComponents = new List<MapObject>();
-      _otherComponents = gameObject.GetComponents<MapObject>().Where(mapObject => mapObject != this).ToList();
-      _otherComponents.ForEach(mapObject => mapObject.enabled = false);
+        SetEnabled(false);
+        _otherComponents = new List<MapObject>();
+        _otherComponents = gameObject.GetComponents<MapObject>().Where(mapObject => mapObject != this).ToList();
+        _otherComponents.ForEach(mapObject => mapObject.enabled = false);
+      }
     }
-    // ------------------------------------------------------------ //
 
     /// <summary>
     /// Activates the SecretObject.

@@ -13,27 +13,32 @@ namespace GruntzUnityverse.MapObjectz {
     private AnimationClip _swirlingAnim;
     // ------------------------------------------------------------ //
 
-    // protected override void Start() {
-    //   base.Start();
-    //
-    //   spriteRenderer.enabled = false;
-    // }
+    protected override void Start() {
+      base.Start();
+
+      SetEnabled(false);
+
+      // if (isEntrance) {
+      //   target.SetEnabled(false);
+      // }
+    }
     // ------------------------------------------------------------ //
 
     private void OnEnable() {
       StartCoroutine(Open());
+
+      if (isEntrance) {
+        target.SetEnabled(true);
+      }
     }
 
     private void Update() {
-      animancer.Play(_swirlingAnim);
-
       if (!isEntrance) {
-        enabled = false;
+        return;
       }
 
       foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
         mainCamera.transform.position = new Vector3(target.location.x, target.location.y, mainCamera.transform.position.z);
-        target.spriteRenderer.enabled = true;
         StatzManager.acquiredSecretz++;
 
         TeleportTo(target, grunt);
@@ -56,7 +61,7 @@ namespace GruntzUnityverse.MapObjectz {
     private IEnumerator Open() {
       animancer.Play(_openingAnim);
 
-      yield return new WaitForSeconds(2f);
+      yield return new WaitForSeconds(1f);
 
       animancer.Play(_swirlingAnim);
     }
