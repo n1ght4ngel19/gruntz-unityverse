@@ -33,9 +33,10 @@ namespace GruntzUnityverse.MapObjectz {
     /// such as saving the game or disabling the Checkpoint.
     /// </summary>
     private void Complete() {
+      int idx = Random.Range(1, 4);
       // Todo: Randomized voice
       // Todo: Different clip based on clicking
-      Addressables.LoadAssetAsync<AudioClip>("Voice_Checkpoint_Good_01.wav").Completed += handle => {
+      Addressables.LoadAssetAsync<AudioClip>($"Voice_Checkpoint_Good_0{idx}.wav").Completed += handle => {
         GameManager.Instance.audioSource.PlayOneShot(handle.Result);
       };
 

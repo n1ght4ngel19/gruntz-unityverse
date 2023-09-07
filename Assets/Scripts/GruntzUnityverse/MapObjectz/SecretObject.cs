@@ -27,13 +27,6 @@ namespace GruntzUnityverse.MapObjectz {
     private bool _isInitialized;
     // ------------------------------------------------------------ //
 
-    // protected override void Start() {
-    //   base.Start();
-    //
-    //
-    // }
-    // ------------------------------------------------------------ //
-
     private void Update() {
       if (!_isInitialized) {
         _isInitialized = true;
