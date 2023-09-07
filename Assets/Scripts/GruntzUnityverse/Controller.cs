@@ -38,9 +38,10 @@ namespace GruntzUnityverse {
             bool doPlayVoice = Random.Range(0, 11) <= GameManager.Instance.selectVoicePlayFrequency;
 
             if (doPlayVoice) {
-              // Todo: Randomized voice
               // Todo: Different clip based on clicking
-              Addressables.LoadAssetAsync<AudioClip>("Voice_SelectGrunt_1_01.wav").Completed += handle => {
+              int idx = Random.Range(1, 12);
+
+              Addressables.LoadAssetAsync<AudioClip>($"Voice_SelectGrunt_1_{idx}.wav").Completed += handle => {
                 grunt.audioSource.PlayOneShot(handle.Result);
               };
             }
@@ -52,9 +53,9 @@ namespace GruntzUnityverse {
 
         foreach (Grunt grunt in GameManager.Instance.currentLevelManager.enemyGruntz) {
           if (grunt.isInCircle) {
-            // Todo: Randomized voice
-            // Todo: Different clip based on clicking
-            Addressables.LoadAssetAsync<AudioClip>("Voice_EnemySelect_02.wav").Completed += handle => {
+            int idx = Random.Range(1, 12);
+
+            Addressables.LoadAssetAsync<AudioClip>($"Voice_EnemySelect_{idx}.wav").Completed += handle => {
               grunt.audioSource.PlayOneShot(handle.Result);
             };
           }

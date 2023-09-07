@@ -94,7 +94,7 @@ namespace GruntzUnityverse.Actorz {
       audioSource = gameObject.AddComponent<AudioSource>();
 
       SetAnimPack(equipment.tool.toolName);
-      
+
       InvokeRepeating(nameof(RegenStamina), 0, 1);
     }
     // -------------------------------------------------------------------------------- //
@@ -403,14 +403,7 @@ namespace GruntzUnityverse.Actorz {
           StatzManager.acquiredToolz++;
 
           animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.tool[item.mapItemName]);
-
-          // Todo: Randomized voice
-          Addressables.LoadAssetAsync<AudioClip>($"Pickup_Tool_{item.mapItemName}_01.wav").Completed += (handle) => {
-            GameManager.Instance.audioSource.PlayOneShot(handle.Result);
-          };
-
-          // Todo: Play pickup sound
-
+          PlayRandomVoice(nameof(Tool), item);
           SetAnimPack(item.mapItemName);
 
           break;
@@ -427,12 +420,14 @@ namespace GruntzUnityverse.Actorz {
           StatzManager.acquiredToyz++;
 
           animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.toy[item.mapItemName]);
+          PlayRandomVoice(nameof(Toy), item);
 
           break;
         case nameof(Powerup):
           StatzManager.acquiredPowerupz++;
 
           animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.powerup[item.mapItemName]);
+          PlayRandomVoice(nameof(Powerup), item);
 
           break;
 
@@ -442,14 +437,16 @@ namespace GruntzUnityverse.Actorz {
               StatzManager.acquiredCoinz++;
 
               animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.misc[item.mapItemName]);
+              PlayRandomVoice("Misc", item);
 
               break;
             case nameof(Warpletter):
               StatzManager.acquiredWarpletterz++;
+
               WarpletterType type = ((Warpletter)item).warpletterType;
 
-              Debug.Log($"{item.mapItemName}{type}");
               animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.misc[$"{item.mapItemName}{type}"]);
+              PlayRandomVoice("Misc", item);
 
               break;
           }
@@ -646,6 +643,30 @@ namespace GruntzUnityverse.Actorz {
         // ToolName.Wingz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         _ => throw new InvalidEnumArgumentException("Invalid tool name!"),
       };
+    }
+
+    public void PlayRandomVoice(string voiceType, Item pickupItem) {
+      int voiceIndex = Random.Range(1, 3);
+
+      switch (voiceType) {
+        case "Misc":
+          voiceIndex = Random.Range(1, 17);
+
+          Addressables.LoadAssetAsync<AudioClip>($"Assets/Audio/Voicez/Pickupz/Pickup_GenericPickup_{voiceIndex}.wav")
+            .Completed += handle => {
+            GameManager.Instance.audioSource.PlayOneShot(handle.Result);
+          };
+
+          break;
+        default:
+          Addressables.LoadAssetAsync<AudioClip>(
+              $"Assets/Audio/Voicez/Pickupz/Pickup_{voiceType}_{pickupItem.mapItemName}_0{voiceIndex}.wav")
+            .Completed += handle => {
+            GameManager.Instance.audioSource.PlayOneShot(handle.Result);
+          };
+
+          break;
+      }
     }
   }
 }
