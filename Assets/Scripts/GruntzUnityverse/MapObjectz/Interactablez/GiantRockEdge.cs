@@ -10,8 +10,8 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     protected override void Start() {
       base.Start();
 
-      LevelManager.Instance.SetBlockedAt(location, true);
-      LevelManager.Instance.SetHardTurnAt(location, true);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, true);
+      GameManager.Instance.currentLevelManager.SetHardTurnAt(location, true);
     }
 
     public IEnumerator Break(float contactDelay) {

@@ -13,7 +13,7 @@ namespace GruntzUnityverse.MapObjectz.Pyramidz {
       base.Start();
 
       LoadAnimationz();
-      LevelManager.Instance.SetBlockedAt(location, !IsDown);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, !IsDown);
     }
 
     protected override void LoadAnimationz() {
@@ -32,8 +32,8 @@ namespace GruntzUnityverse.MapObjectz.Pyramidz {
       animancer.Play(IsDown ? _upAnim : _downAnim);
 
       IsDown = !IsDown;
-      LevelManager.Instance.SetBlockedAt(location, !IsDown);
-      LevelManager.Instance.SetHardTurnAt(location, !IsDown);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, !IsDown);
+      GameManager.Instance.currentLevelManager.SetHardTurnAt(location, !IsDown);
     }
   }
 }

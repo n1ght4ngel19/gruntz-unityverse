@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6614523138704185893}
   - component: {fileID: 6057601565982675655}
   - component: {fileID: 3676978304024823144}
+  - component: {fileID: 4805688880656188443}
+  - component: {fileID: 7570381895282333364}
   m_Layer: 0
   m_Name: SilverTimerSwitch
   m_TagString: Untagged
@@ -98,8 +100,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   area: 0
-  location: {x: 0, y: 0}
+  abbreviatedArea: 
   spriteRenderer: {fileID: 0}
-  IsPressed: 0
+  isTargetable: 0
+  location: {x: 0, y: 0}
+  ownNode: {fileID: 0}
   pressedSprite: {fileID: 0}
-  <Pyramidz>k__BackingField: []
+  isPressed: 0
+  pyramidz: []
+--- !u!95 &4805688880656188443
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831242626146821270}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7570381895282333364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831242626146821270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 0}
+  _ActionOnDisable: 0

@@ -44,7 +44,7 @@ namespace GruntzUnityverse.Actorz {
     private void Start() {
       facingDirection = Direction.South;
       startingLocation = Vector2Int.RoundToInt(transform.position);
-      startingNode = LevelManager.Instance.NodeAt(startingLocation);
+      startingNode = GameManager.Instance.currentLevelManager.NodeAt(startingLocation);
       ownLocation = startingLocation;
       ownNode = startingNode;
       targetLocation = ownLocation;
@@ -53,7 +53,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     private void Update() {
-      ownNode = LevelManager.Instance.NodeAt(ownLocation);
+      ownNode = GameManager.Instance.currentLevelManager.NodeAt(ownLocation);
 
       SetDiagonalFlag();
     }
@@ -62,12 +62,12 @@ namespace GruntzUnityverse.Actorz {
     /// Moves the <see cref="Grunt"/> towards its current target.
     /// </summary>
     public void MoveTowardsTarget() {
-      pathStart = LevelManager.Instance.NodeAt(ownLocation);
-      pathEnd = LevelManager.Instance.NodeAt(targetLocation);
+      pathStart = GameManager.Instance.currentLevelManager.NodeAt(ownLocation);
+      pathEnd = GameManager.Instance.currentLevelManager.NodeAt(targetLocation);
 
       // This way path is only calculated only when it's needed
       if (!isMoving) {
-        path = Pathfinder.PathBetween(pathStart, pathEnd, isMoveForced, LevelManager.Instance.nodes);
+        path = Pathfinder.PathBetween(pathStart, pathEnd, isMoveForced, GameManager.Instance.currentLevelManager.nodes);
       }
 
       if (path is null) {
@@ -81,7 +81,7 @@ namespace GruntzUnityverse.Actorz {
       Vector3 nextPosition = LocationAsPosition(path[1].location);
 
       if (isMoveForced) {
-        Grunt deadGrunt = LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
+        Grunt deadGrunt = GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
 
         if (deadGrunt is not null) {
           StartCoroutine(deadGrunt.Death(DeathName.Squash));
@@ -120,7 +120,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       if (_doFindPath) {
-        path = Pathfinder.PathBetween(ownNode, targetNode, isMoveForced, LevelManager.Instance.nodes);
+        path = Pathfinder.PathBetween(ownNode, targetNode, isMoveForced, GameManager.Instance.currentLevelManager.nodes);
       }
 
       // There's no path to target or Grunt has reached target
@@ -172,7 +172,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       Grunt deathMarkedGrunt =
-        LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
+        GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
 
       // Killing the target if the Grunt was forced to move (e.g. by an Arrow or by teleporting)
       if (deathMarkedGrunt is not null) {
@@ -201,13 +201,13 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      // List<Node> shortestPath = Pathfinder.PathBetween(ownNode, freeNeighbours[0], isMoveForced, LevelManager.Instance.nodes);
+      // List<Node> shortestPath = Pathfinder.PathBetween(ownNode, freeNeighbours[0], isMoveForced, GameManager.Instance.currentLevelManager.nodes);
       List<Node> shortestPath = new List<Node>();
       int shortestLength = int.MaxValue;
 
       // Iterate over free neighbours to find shortest path
       foreach (Node neighbour in freeNeighbours) {
-        List<Node> pathToNeighbour = Pathfinder.PathBetween(ownNode, neighbour, isMoveForced, LevelManager.Instance.nodes);
+        List<Node> pathToNeighbour = Pathfinder.PathBetween(ownNode, neighbour, isMoveForced, GameManager.Instance.currentLevelManager.nodes);
 
         int pathLength = pathToNeighbour is null
           ? int.MaxValue

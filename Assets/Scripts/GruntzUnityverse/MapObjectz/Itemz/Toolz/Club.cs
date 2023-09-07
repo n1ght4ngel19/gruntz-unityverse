@@ -15,10 +15,6 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
     }
     // -------------------------------------------------------------------------------- //
 
-    public override IEnumerator Use(Grunt grunt) {
-      yield return null;
-    }
-
     public override IEnumerator Attack(Grunt attackTarget) {
       Vector2Int diffVector = attackTarget.targetObject.location - attackTarget.navigator.ownLocation;
       attackTarget.isInterrupted = true;

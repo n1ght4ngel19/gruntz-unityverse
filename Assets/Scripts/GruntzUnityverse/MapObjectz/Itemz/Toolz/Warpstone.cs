@@ -1,5 +1,4 @@
 using System.Collections;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
 
 namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
@@ -12,8 +11,9 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       damage = GlobalValuez.WarpstoneDamage;
       mapItemName = nameof(Warpstone);
     }
+    // -------------------------------------------------------------------------------- //
 
-    public override IEnumerator Use(Grunt grunt) {
+    public override IEnumerator UseTool() {
       yield return null;
     }
   }

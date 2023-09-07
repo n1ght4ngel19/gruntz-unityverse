@@ -16,7 +16,7 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
     public void Crumble() {
       animancer.Play(downAnim);
 
-      LevelManager.Instance.SetBlockedAt(location, false);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, false);
     }
   }
 }

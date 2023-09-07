@@ -17,9 +17,9 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
     }
 
     protected virtual void Update() {
-      LevelManager.Instance.SetBlockedAt(location, isDown);
-      LevelManager.Instance.SetWaterAt(location, isDown);
-      LevelManager.Instance.SetDeathAt(location, isDown);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, isDown);
+      GameManager.Instance.currentLevelManager.SetWaterAt(location, isDown);
+      GameManager.Instance.currentLevelManager.SetDeathAt(location, isDown);
 
       enabled = false;
     }
@@ -42,8 +42,8 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
       animancer.Play(isDown ? upAnim : downAnim);
 
       isDown = !isDown;
-      LevelManager.Instance.SetBlockedAt(location, isDown);
-      LevelManager.Instance.SetWaterAt(location, isDown);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, isDown);
+      GameManager.Instance.currentLevelManager.SetWaterAt(location, isDown);
     }
   }
 }

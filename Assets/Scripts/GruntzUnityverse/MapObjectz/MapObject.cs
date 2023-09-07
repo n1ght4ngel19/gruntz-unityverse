@@ -17,6 +17,7 @@ namespace GruntzUnityverse.MapObjectz {
     public Area area;
     [HideInInspector] public string abbreviatedArea;
     [HideInInspector] public SpriteRenderer spriteRenderer;
+    public bool isTargetable;
     public Vector2Int location;
     public Node ownNode;
     protected Transform ownTransform;
@@ -29,13 +30,14 @@ namespace GruntzUnityverse.MapObjectz {
 
     protected virtual void Start() {
       location = Vector2Int.FloorToInt(transform.position);
-      ownNode = LevelManager.Instance.NodeAt(location);
+      ownNode = GameManager.Instance.currentLevelManager.NodeAt(location);
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
       ownTransform = gameObject.GetComponent<Transform>();
       parent = ownTransform.parent;
       mainCamera = Camera.main;
-      _animator ??= gameObject.AddComponent<Animator>();
-      animancer ??= gameObject.AddComponent<AnimancerComponent>();
+      // audioSource = gameObject.AddComponent<AudioSource>();
+      _animator = gameObject.GetComponent<Animator>();
+      animancer = gameObject.GetComponent<AnimancerComponent>();
       animancer.Animator = _animator;
 
       AssignAreaBySpriteName();
@@ -58,8 +60,12 @@ namespace GruntzUnityverse.MapObjectz {
     /// Sets the enabled state of the MapObject and its SpriteRenderer.
     /// </summary>
     /// <param name="value">True or false, based on the intent.</param>
-    protected void SetEnabled(bool value) {
+    public void SetEnabled(bool value) {
       enabled = value;
+      spriteRenderer.enabled = value;
+    }
+
+    public void SetRendererEnabled(bool value) {
       spriteRenderer.enabled = value;
     }
 

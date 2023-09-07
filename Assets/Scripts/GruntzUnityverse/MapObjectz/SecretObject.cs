@@ -43,17 +43,17 @@ namespace GruntzUnityverse.MapObjectz {
     /// Activates the SecretObject.
     /// </summary>
     public void ActivateSecret() {
-      _isInitiallyBlocked = LevelManager.Instance.IsBlockedAt(location);
-      _isInitiallyBurn = LevelManager.Instance.IsBurnAt(location);
-      _isInitiallyDeath = LevelManager.Instance.IsDeathAt(location);
-      _isInitiallyEdge = LevelManager.Instance.IsEdgeAt(location);
-      _isInitiallyHardTurn = LevelManager.Instance.IsHardTurnAt(location);
-      _isInitiallyVoid = LevelManager.Instance.IsVoidAt(location);
-      _isInitiallyWater = LevelManager.Instance.IsWaterAt(location);
+      _isInitiallyBlocked = GameManager.Instance.currentLevelManager.IsBlockedAt(location);
+      _isInitiallyBurn = GameManager.Instance.currentLevelManager.IsBurnAt(location);
+      _isInitiallyDeath = GameManager.Instance.currentLevelManager.IsDeathAt(location);
+      _isInitiallyEdge = GameManager.Instance.currentLevelManager.IsEdgeAt(location);
+      _isInitiallyHardTurn = GameManager.Instance.currentLevelManager.IsHardTurnAt(location);
+      _isInitiallyVoid = GameManager.Instance.currentLevelManager.IsVoidAt(location);
+      _isInitiallyWater = GameManager.Instance.currentLevelManager.IsWaterAt(location);
       _otherComponents.ForEach(mapObject => mapObject.enabled = true);
       SetEnabled(true);
 
-      LevelManager.Instance.SetBlockedAt(location, isBlocked);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, isBlocked);
       // Todo: Other Node flags
     }
 
@@ -61,13 +61,13 @@ namespace GruntzUnityverse.MapObjectz {
     /// Deactivates the SecretObject.
     /// </summary>
     public void DeactivateSecret() {
-      LevelManager.Instance.SetBlockedAt(location, _isInitiallyBlocked);
-      LevelManager.Instance.SetBurnAt(location, _isInitiallyBurn);
-      LevelManager.Instance.SetDeathAt(location, _isInitiallyDeath);
-      LevelManager.Instance.SetEdgeAt(location, _isInitiallyEdge);
-      LevelManager.Instance.SetHardTurnAt(location, _isInitiallyHardTurn);
-      LevelManager.Instance.SetVoidAt(location, _isInitiallyVoid);
-      LevelManager.Instance.SetWaterAt(location, _isInitiallyWater);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, _isInitiallyBlocked);
+      GameManager.Instance.currentLevelManager.SetBurnAt(location, _isInitiallyBurn);
+      GameManager.Instance.currentLevelManager.SetDeathAt(location, _isInitiallyDeath);
+      GameManager.Instance.currentLevelManager.SetEdgeAt(location, _isInitiallyEdge);
+      GameManager.Instance.currentLevelManager.SetHardTurnAt(location, _isInitiallyHardTurn);
+      GameManager.Instance.currentLevelManager.SetVoidAt(location, _isInitiallyVoid);
+      GameManager.Instance.currentLevelManager.SetWaterAt(location, _isInitiallyWater);
 
       Destroy(gameObject);
     }

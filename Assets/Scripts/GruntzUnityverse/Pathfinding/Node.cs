@@ -105,7 +105,7 @@ namespace GruntzUnityverse.Pathfinding {
     /// </summary>
     /// <returns>True if the Node is occupied, false otherwise.</returns>
     public bool IsOccupied() {
-      return LevelManager.Instance.allGruntz.Any(grunt => grunt.navigator.ownNode.Equals(this));
+      return GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.navigator.ownNode.Equals(this));
     }
 
     /// <summary>
@@ -133,8 +133,8 @@ namespace GruntzUnityverse.Pathfinding {
     /// <param name="loc">The location to check for a neighbour.</param>
     /// <param name="neighbours">The list of Nodes to add the new Node to.</param>
     private static void AddNodeAt(Vector2Int loc, List<Node> neighbours) {
-      if (LevelManager.Instance.nodeLocations.Contains(loc)) {
-        neighbours.Add(LevelManager.Instance.nodes.First(node1 => node1.location.Equals(loc)));
+      if (GameManager.Instance.currentLevelManager.nodeLocations.Contains(loc)) {
+        neighbours.Add(GameManager.Instance.currentLevelManager.nodes.First(node1 => node1.location.Equals(loc)));
       }
     }
   }

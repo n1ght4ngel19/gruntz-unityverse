@@ -6,6 +6,8 @@ using GruntzUnityverse.Enumz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Brickz;
 using GruntzUnityverse.MapObjectz.Interactablez;
+using GruntzUnityverse.MapObjectz.Itemz;
+using GruntzUnityverse.MapObjectz.MapItemz.Misc;
 using GruntzUnityverse.MapObjectz.Pyramidz;
 using GruntzUnityverse.MapObjectz.Switchez;
 using GruntzUnityverse.Pathfinding;
@@ -17,12 +19,6 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GruntzUnityverse.Managerz {
   public class LevelManager : MonoBehaviour {
-    private static LevelManager _instance;
-
-    public static LevelManager Instance {
-      get => _instance;
-    }
-
     public int gruntIdCounter = 0;
 
     #region Layerz
@@ -76,14 +72,7 @@ namespace GruntzUnityverse.Managerz {
     public List<MapObject> mapObjectz;
     #endregion
 
-
-    private void Awake() {
-      if (_instance is not null && _instance != this) {
-        Destroy(gameObject);
-      } else {
-        _instance = this;
-      }
-
+    private void OnEnable() {
       Application.targetFrameRate = 60;
       NodeContainer = GameObject.Find("NodeContainer");
       helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
@@ -92,11 +81,13 @@ namespace GruntzUnityverse.Managerz {
     }
 
     private void Update() {
-      if (isLevelCompleted) {
-        StartCoroutine(LevelWin());
-
-        enabled = false;
+      if (!isLevelCompleted) {
+        return;
       }
+
+      StartCoroutine(LevelWin());
+
+      enabled = false;
     }
 
     private IEnumerator LevelWin() {
@@ -117,18 +108,40 @@ namespace GruntzUnityverse.Managerz {
       // Wait for Grunt exit animations to finish
       yield return new WaitForSeconds(delay);
 
-      // foreach (Grunt grunt in playerGruntz) {
-      //   grunt.enabled = false;
-      //   grunt.animancer.Play(AnimationManager.Instance.exitPack["Grunt_Exit_End"]);
-      // }
-
       // Wait for Grunt exit end animation to finish
       yield return new WaitForSeconds(2.5f);
 
       // Todo: Play King voice and dance animations
       yield return null;
 
-      Addressables.LoadSceneAsync("Menuz/StatzMenu.unity");
+      StatzManager.maxToolz =
+        GameManager.Instance.currentLevelManager.mapObjectContainer
+          .GetComponentsInChildren<Tool>()
+          .Length;
+      StatzManager.maxToyz =
+        GameManager.Instance.currentLevelManager.mapObjectContainer
+          .GetComponentsInChildren<Toy>()
+          .Length;
+      StatzManager.maxPowerupz =
+        GameManager.Instance.currentLevelManager.mapObjectContainer
+          .GetComponentsInChildren<Powerup>()
+          .Length;
+      StatzManager.maxCoinz =
+        GameManager.Instance.currentLevelManager.mapObjectContainer
+          .GetComponentsInChildren<Coin>()
+          .Length;
+      StatzManager.maxSecretz =
+        GameManager.Instance.currentLevelManager.mapObjectContainer
+          .GetComponentsInChildren<SecretSwitch>()
+          .Length;
+      StatzManager.maxWarpletterz =
+        GameManager.Instance.currentLevelManager.mapObjectContainer
+          .GetComponentsInChildren<Warpletter>()
+          .Length;
+
+      Addressables.LoadSceneAsync("Menuz/StatzMenu.unity").Completed += handle => {
+        GameManager.Instance.hasChangedMusic = false;
+      };
     }
 
     private void InitializeLevel() {
@@ -143,7 +156,7 @@ namespace GruntzUnityverse.Managerz {
       checkpointz = FindObjectsOfType<Checkpoint>().ToList();
 
       foreach (GameObject go in GameObject.FindGameObjectsWithTag("Blocked")) {
-        Instance.SetBlockedAt(Vector2Int.FloorToInt(go.transform.position), true);
+        SetBlockedAt(Vector2Int.FloorToInt(go.transform.position), true);
         Destroy(go);
       }
 

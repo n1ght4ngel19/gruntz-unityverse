@@ -25,8 +25,8 @@ namespace GruntzUnityverse.MapObjectz.Brickz {
                 ? BrickType.Blue
                 : BrickType.None;
 
-      LevelManager.Instance.SetBlockedAt(location, true);
-      LevelManager.Instance.SetHardTurnAt(location, true);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, true);
+      GameManager.Instance.currentLevelManager.SetHardTurnAt(location, true);
     }
 
     public virtual IEnumerator Break(float contactDelay) {

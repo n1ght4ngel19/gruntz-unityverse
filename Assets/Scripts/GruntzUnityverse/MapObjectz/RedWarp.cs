@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
@@ -14,19 +13,11 @@ namespace GruntzUnityverse.MapObjectz {
     private AnimationClip _swirlingAnim;
     // ------------------------------------------------------------ //
 
-    protected override void Start() {
-      base.Start();
-
-      Addressables.LoadAssetAsync<AnimationClip>("RedWarp_Opening.anim").Completed += handle => {
-        _openingAnim = handle.Result;
-      };
-
-      Addressables.LoadAssetAsync<AnimationClip>("RedWarp_Swirling.anim").Completed += handle => {
-        _swirlingAnim = handle.Result;
-      };
-
-      spriteRenderer.enabled = false;
-    }
+    // protected override void Start() {
+    //   base.Start();
+    //
+    //   spriteRenderer.enabled = false;
+    // }
     // ------------------------------------------------------------ //
 
     private void OnEnable() {
@@ -40,7 +31,7 @@ namespace GruntzUnityverse.MapObjectz {
         enabled = false;
       }
 
-      foreach (Grunt grunt in LevelManager.Instance.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
         mainCamera.transform.position = new Vector3(target.location.x, target.location.y, mainCamera.transform.position.z);
         target.spriteRenderer.enabled = true;
         StatzManager.acquiredSecretz++;
@@ -52,21 +43,29 @@ namespace GruntzUnityverse.MapObjectz {
     }
     // ------------------------------------------------------------ //
 
-    private IEnumerator Open() {
+    protected override void LoadAnimationz() {
       Addressables.LoadAssetAsync<AnimationClip>("RedWarp_Opening.anim").Completed += handle => {
-        animancer.Play(handle.Result);
+        _openingAnim = handle.Result;
       };
+
+      Addressables.LoadAssetAsync<AnimationClip>("RedWarp_Swirling.anim").Completed += handle => {
+        _swirlingAnim = handle.Result;
+      };
+    }
+
+    private IEnumerator Open() {
+      animancer.Play(_openingAnim);
 
       yield return new WaitForSeconds(2f);
 
-
+      animancer.Play(_swirlingAnim);
     }
 
     private void TeleportTo(MapObject targetMapObject, Grunt grunt) {
       grunt.transform.position = new Vector3(targetMapObject.location.x, targetMapObject.location.y, grunt.transform.position.z);
       // Todo: Move these into separate method
       grunt.navigator.ownLocation = targetMapObject.location;
-      grunt.navigator.ownNode = LevelManager.Instance.NodeAt(targetMapObject.location);
+      grunt.navigator.ownNode = GameManager.Instance.currentLevelManager.NodeAt(targetMapObject.location);
       grunt.navigator.targetLocation = targetMapObject.location;
       grunt.navigator.pathStart = null;
       grunt.navigator.pathEnd = null;

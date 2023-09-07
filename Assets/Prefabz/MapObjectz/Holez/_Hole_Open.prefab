@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6614523138704185893}
   - component: {fileID: 6057601565982675655}
   - component: {fileID: 2781348672147975807}
+  - component: {fileID: 6087330126764521914}
+  - component: {fileID: -1855098264167133326}
   m_Layer: 0
   m_Name: _Hole_Open
   m_TagString: Untagged
@@ -98,9 +100,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   area: 0
+  abbreviatedArea: 
+  spriteRenderer: {fileID: 0}
+  isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  <OpenSprite>k__BackingField: {fileID: 21300000, guid: e95cd40bd2a0bc147ae3e9d2d4448739, type: 3}
-  <FilledSprite>k__BackingField: {fileID: 21300000, guid: e95cd40bd2a0bc147ae3e9d2d4448739, type: 3}
-  <IsOpen>k__BackingField: 1
+  openSprite: {fileID: 0}
+  filledSprite: {fileID: 0}
+  isOpen: 0
+--- !u!95 &6087330126764521914
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831242626146821270}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-1855098264167133326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831242626146821270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 0}
+  _ActionOnDisable: 0

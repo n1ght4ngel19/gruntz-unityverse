@@ -11,9 +11,6 @@ namespace GruntzUnityverse {
     private void Update() {
       if (Input.GetKeyDown(KeyCode.Escape) && !Helpbox.isTextShown) {
         Debug.Log(SceneManager.GetActiveScene().name);
-        // if (SceneManager.GetActiveScene().name == "StatzMenu") {
-        //   Addressables.LoadSceneAsync("Menuz/MainMenu.unity");
-        // }
         if (isGamePaused) {
           Resume();
         } else {
@@ -76,7 +73,9 @@ namespace GruntzUnityverse {
     /// </summary>
     public void QuitGame() {
       Debug.Log("Save Game");
-      Addressables.LoadSceneAsync("Menuz/MainMenu.unity");
+      Addressables.LoadSceneAsync("Menuz/MainMenu.unity").Completed += handle => {
+        GameManager.Instance.hasChangedMusic = false;
+      };
     }
   }
 }

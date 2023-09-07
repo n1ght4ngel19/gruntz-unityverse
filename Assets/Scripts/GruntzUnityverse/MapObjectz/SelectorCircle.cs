@@ -1,32 +1,13 @@
-using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz {
   public class SelectorCircle : MapObject {
-    private static SelectorCircle _instance;
-    // ------------------------------------------------------------ //
-
-    public static SelectorCircle Instance {
-      get => _instance;
-    }
-
-    protected override void Start() {
-      if (_instance is not null && _instance != this) {
-        Destroy(gameObject);
-      } else {
-        _instance = this;
-      }
-
-      base.Start();
-    }
-    // ------------------------------------------------------------ //
-
     private void Update() {
       ownTransform.position = MousePositionAsVector3();
       location = Vector2Int.FloorToInt(ownTransform.position);
 
-      if (LevelManager.Instance.nodeLocations.Contains(location)) {
-        ownNode = LevelManager.Instance.NodeAt(location);
+      if (GameManager.Instance.currentLevelManager.nodeLocations.Contains(location)) {
+        ownNode = GameManager.Instance.currentLevelManager.NodeAt(location);
       }
     }
     // ------------------------------------------------------------ //

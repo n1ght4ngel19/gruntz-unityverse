@@ -1,7 +1,4 @@
-﻿using GruntzUnityverse.MapObjectz.Itemz;
-using GruntzUnityverse.MapObjectz.MapItemz.Misc;
-using GruntzUnityverse.MapObjectz.Switchez;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace GruntzUnityverse.Managerz {
@@ -19,14 +16,6 @@ namespace GruntzUnityverse.Managerz {
       coinzValueText = GameObject.Find("CoinzValueText")?.GetComponent<TMP_Text>();
       secretzValueText = GameObject.Find("SecretzValueText")?.GetComponent<TMP_Text>();
       warpletterzValueText = GameObject.Find("WarpletterzValueText")?.GetComponent<TMP_Text>();
-
-
-      maxToolz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Tool>().Length;
-      maxToyz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Toy>().Length;
-      maxPowerupz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Powerup>().Length;
-      maxCoinz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Coin>().Length;
-      maxSecretz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<SecretSwitch>().Length;
-      maxWarpletterz = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<Warpletter>().Length;
     }
 
     private void Update() {
@@ -67,6 +56,33 @@ namespace GruntzUnityverse.Managerz {
       }
 
       enabled = false;
+    }
+
+    public static void Clean() {
+      hourz = 0;
+      minutez = 0;
+      secondz = 0;
+      
+      survivorz = 0;
+      deathz = 0;
+      
+      maxToolz = 0;
+      acquiredToolz = 0;
+      
+      maxToyz = 0;
+      acquiredToyz = 0;
+      
+      maxPowerupz = 0;
+      acquiredPowerupz = 0;
+      
+      maxCoinz = 0;
+      acquiredCoinz = 0;
+      
+      maxSecretz = 0;
+      acquiredSecretz = 0;
+      
+      maxWarpletterz = 0;
+      acquiredWarpletterz = 0;
     }
 
     public TMP_Text timeValueText;

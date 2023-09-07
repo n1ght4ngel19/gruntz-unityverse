@@ -19,7 +19,7 @@ namespace GruntzUnityverse.MapObjectz.Misc {
 
     private void Update() {
       // Pausing the game when a Grunt steps onto a HelpBox and displaying the HelpBox text
-      if (isUntouched && LevelManager.Instance.PlayerGruntz.Any(grunt => grunt.AtNode(ownNode))) {
+      if (isUntouched && GameManager.Instance.currentLevelManager.PlayerGruntz.Any(grunt => grunt.AtNode(ownNode))) {
         DisplayHelpbox();
 
         return;
@@ -32,7 +32,7 @@ namespace GruntzUnityverse.MapObjectz.Misc {
         return;
       }
 
-      if (LevelManager.Instance.PlayerGruntz.All(grunt => !grunt.AtNode(ownNode))) {
+      if (GameManager.Instance.currentLevelManager.PlayerGruntz.All(grunt => !grunt.AtNode(ownNode))) {
         isUntouched = true;
       }
     }
@@ -41,14 +41,14 @@ namespace GruntzUnityverse.MapObjectz.Misc {
     private void DisplayHelpbox() {
       isUntouched = false;
       Time.timeScale = 0;
-      LevelManager.Instance.helpBoxText.text = boxText;
+      GameManager.Instance.currentLevelManager.helpBoxText.text = boxText;
       isTextShown = true;
       cameraMovement.areControlsDisabled = true;
     }
 
     private void HideHelpbox() {
       Time.timeScale = 1;
-      LevelManager.Instance.helpBoxText.text = "";
+      GameManager.Instance.currentLevelManager.helpBoxText.text = "";
       isTextShown = false;
       cameraMovement.areControlsDisabled = false;
     }

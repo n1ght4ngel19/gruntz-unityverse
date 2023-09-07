@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using GruntzUnityverse.Actorz;
+﻿using GruntzUnityverse.Actorz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Itemz {
@@ -14,7 +13,5 @@ namespace GruntzUnityverse.MapObjectz.Itemz {
       spriteRenderer = GetComponent<SpriteRenderer>();
       ownGrunt = gameObject.GetComponent<Grunt>();
     }
-
-    public abstract IEnumerator Use(Grunt grunt);
   }
 }

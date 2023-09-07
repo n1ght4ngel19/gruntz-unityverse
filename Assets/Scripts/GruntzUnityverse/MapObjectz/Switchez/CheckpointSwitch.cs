@@ -37,7 +37,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private bool IsRequirementSatisfied() {
-      foreach (Grunt grunt in LevelManager.Instance.allGruntz) {
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz) {
         if (!grunt.AtNode(ownNode)) {
           continue;
         }

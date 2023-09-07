@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
@@ -15,7 +14,6 @@ namespace GruntzUnityverse.Ai {
       _self = gameObject.GetComponent<Grunt>();
     }
 
-
     private void Update() {
       startingNode ??= _self.navigator.ownNode;
 
@@ -23,14 +21,14 @@ namespace GruntzUnityverse.Ai {
     }
 
     public void DefendAreaAroundSelf() {
-      if (LevelManager.Instance.playerGruntz.Any(IsWithinAggroRange)) {
+      if (GameManager.Instance.currentLevelManager.playerGruntz.Any(IsWithinAggroRange)) {
         if (_hasTarget) {
           return;
         }
 
         _self.CleanState();
 
-        Grunt targetGrunt = LevelManager.Instance.playerGruntz.First(IsWithinAggroRange);
+        Grunt targetGrunt = GameManager.Instance.currentLevelManager.playerGruntz.First(IsWithinAggroRange);
         _hasTarget = true;
         _self.targetGrunt = targetGrunt;
         _self.navigator.targetNode = targetGrunt.navigator.ownNode;

@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GauntletzGrunt_Attack_West_Idle
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,18 +18,20 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: 1143875403, guid: d3101beeec150be41957e1e8b930dbd1, type: 3}
-    - time: 0.25
+    - time: 0.33333334
       value: {fileID: 154677327, guid: d3101beeec150be41957e1e8b930dbd1, type: 3}
-    - time: 0.5
+    - time: 0.6666667
       value: {fileID: 1168443934, guid: d3101beeec150be41957e1e8b930dbd1, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 4
+    flags: 2
+  m_SampleRate: 3
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -43,6 +45,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: 1143875403, guid: d3101beeec150be41957e1e8b930dbd1, type: 3}
     - {fileID: 154677327, guid: d3101beeec150be41957e1e8b930dbd1, type: 3}

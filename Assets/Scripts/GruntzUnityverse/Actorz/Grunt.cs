@@ -1,5 +1,4 @@
-﻿using System;
-using Animancer;
+﻿using Animancer;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
@@ -16,6 +15,7 @@ using GruntzUnityverse.MapObjectz.Itemz.Toolz;
 using GruntzUnityverse.MapObjectz.Itemz.Toyz;
 using GruntzUnityverse.MapObjectz.MapItemz.Misc;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
@@ -72,6 +72,7 @@ namespace GruntzUnityverse.Actorz {
     // -------------------------------------------------------------------------------- //
 
     public DeathName deathToDie;
+    public AudioSource audioSource;
 
     private void Start() {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -84,12 +85,16 @@ namespace GruntzUnityverse.Actorz {
       staminaBar = gameObject.GetComponentInChildren<StaminaBar>();
       stamina = stamina <= MinStatValue ? MaxStatValue : stamina;
       gruntState = GruntState.Idle;
-      _animator = gameObject.AddComponent<Animator>();
-      animancer = gameObject.AddComponent<AnimancerComponent>();
+      _animator = gameObject.GetComponent<Animator>();
+      animancer = gameObject.GetComponent<AnimancerComponent>();
       animancer.Animator = _animator;
       BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
       boxCollider.size = Vector2.one;
 
+      audioSource = gameObject.AddComponent<AudioSource>();
+
+      SetAnimPack(equipment.tool.toolName);
+      
       InvokeRepeating(nameof(RegenStamina), 0, 1);
     }
     // -------------------------------------------------------------------------------- //
@@ -106,7 +111,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       // Setting flags necessary on all frames
-      isInCircle = SelectorCircle.Instance.ownNode == navigator.ownNode;
+      isInCircle = GameManager.Instance.selectorCircle.ownNode == navigator.ownNode;
 
       // ----------------------------------------
       // Attribute bars
@@ -169,7 +174,9 @@ namespace GruntzUnityverse.Actorz {
             break;
 
           case GruntState.Hostile:
-            if (stamina == MaxStatValue) {
+            if (targetGrunt is null) {
+              CleanState();
+            } else if (stamina == MaxStatValue) {
               StartCoroutine(HandleAttack());
               isInterrupted = true;
             } else {
@@ -192,11 +199,6 @@ namespace GruntzUnityverse.Actorz {
         }
       }
 
-      // ----------------------------------------
-      // Death
-      // ----------------------------------------
-      // Todo
-
       // Todo: Fix this
       // #region Death handling
       //
@@ -217,7 +219,7 @@ namespace GruntzUnityverse.Actorz {
       // }
       //
       // // Todo: Move to Hole script!!!
-      // if (LevelManager.Instance.Holez.Any(hole => hole.location.Equals(navigator.ownLocation) && hole.IsOpen)) {
+      // if (GameManager.Instance.currentLevelManager.Holez.Any(hole => hole.location.Equals(navigator.ownLocation) && hole.IsOpen)) {
       //   StartCoroutine(Death("Hole"));
       // }
       //
@@ -243,31 +245,36 @@ namespace GruntzUnityverse.Actorz {
       switch (equipment.tool) {
         // Todo: All valid item use conditions
         case Gauntletz when targetMapObject is GiantRock:
-          StartCoroutine(equipment.tool.UseItem());
+          StartCoroutine(equipment.tool.UseTool());
           stamina = 0;
 
-          yield return new WaitForSeconds(1.5f);
+          // Todo: Move GauntletzGrunt item anim length into constant
+          yield return new WaitForSeconds(2f);
           break;
         case Gauntletz when targetMapObject is GiantRockEdge:
-          StartCoroutine(equipment.tool.UseItem());
+          StartCoroutine(equipment.tool.UseTool());
           stamina = 0;
 
-          yield return new WaitForSeconds(1.5f);
+          // Todo: Move GauntletzGrunt item anim length into constant
+          yield return new WaitForSeconds(2f);
           break;
         case Gauntletz when targetMapObject is IBreakable:
-          StartCoroutine(equipment.tool.UseItem());
+          StartCoroutine(equipment.tool.UseTool());
           stamina = 0;
 
-          yield return new WaitForSeconds(1.5f);
+          // Todo: Move GauntletzGrunt item anim length into constant
+          yield return new WaitForSeconds(2f);
           break;
         case Shovel when targetMapObject is Hole:
-          StartCoroutine(equipment.tool.UseItem());
+          StartCoroutine(equipment.tool.UseTool());
           stamina = 0;
 
           yield return new WaitForSeconds(1.5f);
           break;
         default:
+          #if UNITY_EDITOR
           Debug.Log("Say: Can't do it ");
+          #endif
 
           CleanState();
           break;
@@ -280,7 +287,7 @@ namespace GruntzUnityverse.Actorz {
       StartCoroutine(equipment.tool.Attack(targetGrunt));
       stamina = 0;
 
-      yield return new WaitForSeconds(1.5f);
+      yield return new WaitForSeconds(equipment.tool.attackContactDelay);
     }
 
     private IEnumerator HostileIdling() {
@@ -291,7 +298,6 @@ namespace GruntzUnityverse.Actorz {
 
       animancer.Play(clipToPlay);
 
-      // yield return new WaitForSeconds(0.75f);
       yield return null;
 
       isInterrupted = false;
@@ -396,10 +402,14 @@ namespace GruntzUnityverse.Actorz {
 
           StatzManager.acquiredToolz++;
 
-          animancer.Play(AnimationManager.Instance.pickupPack.tool[item.mapItemName]);
-          // Todo: Play pickup sound
+          animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.tool[item.mapItemName]);
 
-          yield return new WaitForSeconds(0.8f);
+          // Todo: Randomized voice
+          Addressables.LoadAssetAsync<AudioClip>($"Pickup_Tool_{item.mapItemName}_01.wav").Completed += (handle) => {
+            GameManager.Instance.audioSource.PlayOneShot(handle.Result);
+          };
+
+          // Todo: Play pickup sound
 
           SetAnimPack(item.mapItemName);
 
@@ -416,13 +426,13 @@ namespace GruntzUnityverse.Actorz {
 
           StatzManager.acquiredToyz++;
 
-          animancer.Play(AnimationManager.Instance.pickupPack.toy[item.mapItemName]);
+          animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.toy[item.mapItemName]);
 
           break;
         case nameof(Powerup):
           StatzManager.acquiredPowerupz++;
 
-          animancer.Play(AnimationManager.Instance.pickupPack.powerup[item.mapItemName]);
+          animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.powerup[item.mapItemName]);
 
           break;
 
@@ -431,7 +441,15 @@ namespace GruntzUnityverse.Actorz {
             case nameof(Coin):
               StatzManager.acquiredCoinz++;
 
-              animancer.Play(AnimationManager.Instance.pickupPack.misc[item.mapItemName]);
+              animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.misc[item.mapItemName]);
+
+              break;
+            case nameof(Warpletter):
+              StatzManager.acquiredWarpletterz++;
+              WarpletterType type = ((Warpletter)item).warpletterType;
+
+              Debug.Log($"{item.mapItemName}{type}");
+              animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.misc[$"{item.mapItemName}{type}"]);
 
               break;
           }
@@ -441,21 +459,12 @@ namespace GruntzUnityverse.Actorz {
 
       isInterrupted = true;
 
-      // Wait the time it takes to pick up an item (subject to change)
-      yield return new WaitForSeconds(0.8f);
+      // Wait more than the length of the pickup animations,
+      // this way the Grunt holds the item for some time
+      yield return new WaitForSeconds(1.5f);
 
       isInterrupted = false;
     }
-
-    // public void MoveOrDo() {
-    //   if (IsNeighbourOf(targetObject)) {
-    //     StartCoroutine(equipment.tool.Use(this));
-    //     haveActionCommand = false;
-    //     targetObject = null;
-    //   } else {
-    //     navigator.SetTargetBesideNode(targetObject.ownNode);
-    //   }
-    // }
 
     public IEnumerator GetStruck() {
       AnimationClip struckClip =
@@ -463,7 +472,7 @@ namespace GruntzUnityverse.Actorz {
 
       animancer.Play(struckClip);
 
-      yield return new WaitForSeconds(struckClip.length);
+      yield return new WaitForSeconds(0.5f);
     }
 
     public IEnumerator Death(string deathName) {
@@ -478,7 +487,7 @@ namespace GruntzUnityverse.Actorz {
       navigator.enabled = false;
       isInterrupted = true;
 
-      AnimationClip deathClip = AnimationManager.Instance.deathPack[deathName];
+      AnimationClip deathClip = GameManager.Instance.currentAnimationManager.deathPack[deathName];
 
       animancer.Play(deathClip);
 
@@ -486,8 +495,14 @@ namespace GruntzUnityverse.Actorz {
       yield return new WaitForSeconds(deathClip.length);
 
       navigator.ownLocation = Vector2Direction.max;
-      LevelManager.Instance.playerGruntz.Remove(this);
-      LevelManager.Instance.allGruntz.Remove(this);
+
+      if (owner == Owner.Player) {
+        GameManager.Instance.currentLevelManager.playerGruntz.Remove(this);
+      } else {
+        GameManager.Instance.currentLevelManager.enemyGruntz.Remove(this);
+      }
+
+      GameManager.Instance.currentLevelManager.allGruntz.Remove(this);
       Destroy(gameObject, deathClip.length);
     }
 
@@ -504,71 +519,72 @@ namespace GruntzUnityverse.Actorz {
 
       AnimationClip deathClip =
         animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death"];
-      float deathAnimLength = 2f;
+      float deathAnimLength = 1f;
 
       switch (deathName) {
         case DeathName.Burn:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Burn)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Burn)];
           deathAnimLength = 1f;
           break;
         case DeathName.Electrocute:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Electrocute)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Electrocute)];
           deathAnimLength = 1.5f;
           break;
         case DeathName.Explode:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Explode)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Explode)];
           deathAnimLength = 0.5f;
           break;
         case DeathName.Fall:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Fall)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Fall)];
           deathAnimLength = 5f;
           break;
         case DeathName.Flyup:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Flyup)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Flyup)];
           deathAnimLength = 1f;
           break;
         case DeathName.Freeze:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Freeze)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Freeze)];
           break;
         case DeathName.Hole:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Hole)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Hole)];
           deathAnimLength = 1.5f;
           break;
         case DeathName.Karaoke:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Karaoke)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Karaoke)];
           deathAnimLength = 15f;
           break;
         case DeathName.Melt:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Melt)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Melt)];
           deathAnimLength = 1f;
           break;
         case DeathName.Sink:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Sink)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Sink)];
           deathAnimLength = 1f;
           break;
         case DeathName.Squash:
-          deathClip = AnimationManager.Instance.deathPack[nameof(DeathName.Squash)];
+          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Squash)];
           deathAnimLength = 0.5f;
           break;
       }
+
+      navigator.ownLocation = Vector2Direction.max;
+      GameManager.Instance.currentLevelManager.playerGruntz.Remove(this);
+      GameManager.Instance.currentLevelManager.allGruntz.Remove(this);
 
       animancer.Play(deathClip);
 
       yield return new WaitForSeconds(deathAnimLength);
 
-      navigator.ownLocation = Vector2Direction.max;
-      LevelManager.Instance.playerGruntz.Remove(this);
-      LevelManager.Instance.allGruntz.Remove(this);
       Destroy(gameObject);
     }
 
     public IEnumerator Exit(int idx, float delay) {
-      animancer.Play(AnimationManager.Instance.exitPack[$"Grunt_Exit_0{idx}"]);
+      animancer.Play(GameManager.Instance.currentAnimationManager.exitPack[$"Grunt_Exit_0{idx}"]);
 
       // Wait for Grunt exit animation to finish
       yield return new WaitForSeconds(delay);
 
-      animancer.Play(AnimationManager.Instance.exitPack["Grunt_Exit_End"]);
+      animancer.Play(GameManager.Instance.currentAnimationManager.exitPack["Grunt_Exit_End"]);
 
       // Wait for Grunt exit end animation to finish
       yield return new WaitForSeconds(2.5f);
@@ -576,23 +592,58 @@ namespace GruntzUnityverse.Actorz {
 
     public void SetAnimPack(ToolName tool) {
       animationPack = tool switch {
-        ToolName.Barehandz => AnimationManager.Instance.barehandzGruntPack,
-        ToolName.Club => AnimationManager.Instance.clubGruntPack,
-        ToolName.Gauntletz => AnimationManager.Instance.gauntletzGruntPack,
-        ToolName.Shovel => AnimationManager.Instance.shovelGruntPack,
-        ToolName.Warpstone => AnimationManager.Instance.warpstoneGruntPack,
+        ToolName.Barehandz => GameManager.Instance.currentAnimationManager.barehandzGruntPack,
+        ToolName.Bomb => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Boomerang => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.BoxingGlovez => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Bricklayer => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Club => GameManager.Instance.currentAnimationManager.clubGruntPack,
+        ToolName.Gauntletz => GameManager.Instance.currentAnimationManager.gauntletzGruntPack,
+        ToolName.GooberStraw => GameManager.Instance.currentAnimationManager.gooberStrawGruntPack,
+        ToolName.GravityBootz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.GunHat => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.NerfGun => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Rockz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Shield => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Shovel => GameManager.Instance.currentAnimationManager.shovelGruntPack,
+        ToolName.Spring => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.SpyGear => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Sword => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.TimeBombz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Toob => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Wand => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Warpstone => GameManager.Instance.currentAnimationManager.warpstoneGruntPack,
+        ToolName.WelderKit => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Wingz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         _ => throw new InvalidEnumArgumentException("Invalid tool name!"),
       };
     }
 
     public void SetAnimPack(string tool) {
       animationPack = tool switch {
-        nameof(Barehandz) => AnimationManager.Instance.barehandzGruntPack,
-        nameof(Club) => AnimationManager.Instance.clubGruntPack,
-        nameof(Gauntletz) => AnimationManager.Instance.gauntletzGruntPack,
-        nameof(Shovel) => AnimationManager.Instance.shovelGruntPack,
-        nameof(Warpstone) => AnimationManager.Instance.warpstoneGruntPack,
-        //nameof(Warpstone) => AnimationManager.Instance.WarpstonePack,
+        nameof(Barehandz) => GameManager.Instance.currentAnimationManager.barehandzGruntPack,
+        // ToolName.Bomb => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.Boomerang => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.BoxingGlovez => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.Bricklayer => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        nameof(Club) => GameManager.Instance.currentAnimationManager.clubGruntPack,
+        nameof(Gauntletz) => GameManager.Instance.currentAnimationManager.gauntletzGruntPack,
+        nameof(GooberStraw) => GameManager.Instance.currentAnimationManager.gooberStrawGruntPack,
+        // ToolName.GravityBootz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.GunHat => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.NerfGun => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.Rockz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.Shield => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        nameof(Shovel) => GameManager.Instance.currentAnimationManager.shovelGruntPack,
+        // ToolName.Spring => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.SpyGear => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.Sword => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.TimeBombz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.Toob => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.Wand => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        nameof(Warpstone) => GameManager.Instance.currentAnimationManager.warpstoneGruntPack,
+        // ToolName.WelderKit => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        // ToolName.Wingz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         _ => throw new InvalidEnumArgumentException("Invalid tool name!"),
       };
     }

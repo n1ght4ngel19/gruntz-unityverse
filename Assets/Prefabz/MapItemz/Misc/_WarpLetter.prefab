@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6999952525336863592}
   - component: {fileID: 1934257392109653503}
   - component: {fileID: 5806297101973053921}
+  - component: {fileID: 8089533164587357133}
+  - component: {fileID: -115959778669483406}
   m_Layer: 0
   m_Name: _WarpLetter
   m_TagString: Untagged
@@ -27,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3863937857550272719}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -71,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -370743279
+  m_SortingLayer: -1
   m_SortingOrder: 15
   m_Sprite: {fileID: 21300000, guid: e95cd40bd2a0bc147ae3e9d2d4448739, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,7 +102,43 @@ MonoBehaviour:
   area: 0
   abbreviatedArea: 
   spriteRenderer: {fileID: 0}
+  isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
   <RotationAnimation>k__BackingField: {fileID: 0}
   pickupItem: {fileID: 0}
+--- !u!95 &8089533164587357133
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863937857550272719}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-115959778669483406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863937857550272719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 0}
+  _ActionOnDisable: 0

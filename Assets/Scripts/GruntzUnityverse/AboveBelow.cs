@@ -17,7 +17,7 @@ namespace GruntzUnityverse {
     // ------------------------------------------------------------ //
 
     public void AdjustZValue() {
-      foreach (Grunt grunt in LevelManager.Instance.allGruntz) {
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz) {
         Vector3 gruntPosition = grunt.transform.position;
 
         if (Vector2.Distance(grunt.transform.position, transform.position) > 2f) {

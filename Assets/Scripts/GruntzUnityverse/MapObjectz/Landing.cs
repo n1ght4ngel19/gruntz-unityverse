@@ -8,8 +8,8 @@ namespace GruntzUnityverse.MapObjectz {
 
     private void Start() {
       _ownLocation = Vector2Int.FloorToInt(transform.position);
-      LevelManager.Instance.SetBlockedAt(_ownLocation, false);
-      LevelManager.Instance.SetWaterAt(_ownLocation, false);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(_ownLocation, false);
+      GameManager.Instance.currentLevelManager.SetWaterAt(_ownLocation, false);
       enabled = false;
     }
   }

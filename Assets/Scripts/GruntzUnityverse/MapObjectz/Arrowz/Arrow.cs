@@ -22,8 +22,8 @@ namespace GruntzUnityverse.MapObjectz.Arrowz {
         ValidateSetup();
       }
 
-      foreach (Grunt grunt in LevelManager.Instance.allGruntz.Where(grunt => grunt.AtNode(ownNode))) {
-        Node targetNode = LevelManager.Instance.NodeAt(location + Vector2Direction.FromDirection(direction));
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz.Where(grunt => grunt.AtNode(ownNode))) {
+        Node targetNode = GameManager.Instance.currentLevelManager.NodeAt(location + Vector2Direction.FromDirection(direction));
         grunt.navigator.targetNode = targetNode;
         grunt.navigator.haveMoveCommand = true;
         grunt.navigator.isMoveForced = true;

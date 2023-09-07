@@ -15,7 +15,8 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
     }
     // -------------------------------------------------------------------------------- //
 
-    public override IEnumerator UseItem() {
+    // Todo: Why does this exist?
+    public override IEnumerator UseTool() {
       Vector2Int diffVector = ownGrunt.targetGrunt is null
         ? ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation
         : ownGrunt.targetGrunt.navigator.ownLocation - ownGrunt.navigator.ownLocation;
@@ -32,11 +33,6 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       if (ownGrunt.targetMapObject is not null) {
         ownGrunt.targetObject = null;
       }
-    }
-
-    public override IEnumerator Use(Grunt grunt) {
-      // Not applicable
-      yield return null;
     }
   }
 }

@@ -14,7 +14,7 @@ namespace GruntzUnityverse.MapObjectz.Brickz {
       base.Start();
 
       Brickz = GetComponentsInChildren<Brick>().ToList();
-      LevelManager.Instance.BrickContainerz.Add(this);
+      GameManager.Instance.currentLevelManager.BrickContainerz.Add(this);
     }
 
     private void Update() {
@@ -22,9 +22,9 @@ namespace GruntzUnityverse.MapObjectz.Brickz {
         return;
       }
 
-      LevelManager.Instance.BrickContainerz.Remove(this);
-      LevelManager.Instance.SetBlockedAt(location, false);
-      LevelManager.Instance.SetHardTurnAt(location, false);
+      GameManager.Instance.currentLevelManager.BrickContainerz.Remove(this);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, false);
+      GameManager.Instance.currentLevelManager.SetHardTurnAt(location, false);
       Destroy(gameObject, 1f);
     }
 

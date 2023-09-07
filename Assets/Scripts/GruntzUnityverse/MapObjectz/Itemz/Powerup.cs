@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Enumz;
+﻿using GruntzUnityverse.Enumz;
 
 namespace GruntzUnityverse.MapObjectz.Itemz {
   public class Powerup : Item {
@@ -11,12 +9,6 @@ namespace GruntzUnityverse.MapObjectz.Itemz {
       base.Start();
 
       category = nameof(Powerup);
-    }
-    // -------------------------------------------------------------------------------- //
-
-    public override IEnumerator Use(Grunt grunt) {
-      // Not applicable
-      yield return null;
     }
   }
 }

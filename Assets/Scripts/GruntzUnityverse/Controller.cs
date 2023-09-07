@@ -2,16 +2,15 @@
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Interactablez;
 using GruntzUnityverse.MapObjectz.Itemz.Toolz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse {
   public class Controller : MonoBehaviour {
-    public static Controller Instance { get; private set; }
     public bool leftClick;
     public bool rightClick;
     public bool leftShiftDown;
@@ -19,13 +18,7 @@ namespace GruntzUnityverse {
     public List<Grunt> selectedGruntz;
     // ------------------------------------------------------------ //
 
-    private void Awake() {
-      if (Instance is not null && Instance != this) {
-        Destroy(gameObject);
-      } else {
-        Instance = this;
-      }
-
+    private void OnEnable() {
       selectedGruntz = new List<Grunt>();
     }
     // ------------------------------------------------------------ //
@@ -38,12 +31,32 @@ namespace GruntzUnityverse {
 
       // Single select command
       if (leftClick && !leftShiftDown) {
-        foreach (Grunt grunt in LevelManager.Instance.playerGruntz) {
+        foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz) {
           grunt.isSelected = grunt.isInCircle;
 
-          if (grunt.isInCircle) {
+          if (grunt.isSelected) {
+            bool doPlayVoice = Random.Range(0, 11) <= GameManager.Instance.selectVoicePlayFrequency;
+
+            if (doPlayVoice) {
+              // Todo: Randomized voice
+              // Todo: Different clip based on clicking
+              Addressables.LoadAssetAsync<AudioClip>("Voice_SelectGrunt_1_01.wav").Completed += handle => {
+                grunt.audioSource.PlayOneShot(handle.Result);
+              };
+            }
+
             selectedGruntz.Clear();
             selectedGruntz.Add(grunt);
+          }
+        }
+
+        foreach (Grunt grunt in GameManager.Instance.currentLevelManager.enemyGruntz) {
+          if (grunt.isInCircle) {
+            // Todo: Randomized voice
+            // Todo: Different clip based on clicking
+            Addressables.LoadAssetAsync<AudioClip>("Voice_EnemySelect_02.wav").Completed += handle => {
+              grunt.audioSource.PlayOneShot(handle.Result);
+            };
           }
         }
       }
@@ -57,7 +70,7 @@ namespace GruntzUnityverse {
       // Single move command
       // ------------------------------
       if (rightClick && selectedGruntz.Count > 0) {
-        Node clickedNode = SelectorCircle.Instance.ownNode;
+        Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
 
         foreach (Grunt grunt in selectedGruntz.Where(grunt1 => !grunt1.navigator.isMoveForced)) {
           grunt.CleanState();
@@ -71,13 +84,14 @@ namespace GruntzUnityverse {
       // Action command
       // ------------------------------
       if (leftClick && leftShiftDown) {
-        Node clickedNode = SelectorCircle.Instance.ownNode;
-        List<MapObject> possibleTargets = LevelManager.Instance.mapObjectContainer.GetComponentsInChildren<MapObject>().ToList();
+        Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
+        List<MapObject> possibleTargets =
+          GameManager.Instance.currentLevelManager.mapObjectContainer.GetComponentsInChildren<MapObject>().ToList();
 
         MapObject targetMapObject = possibleTargets
-          .FirstOrDefault(obj => obj.location == clickedNode.location);
+          .FirstOrDefault(obj => obj.location == clickedNode.location && obj.isTargetable);
 
-        Grunt targetGrunt = LevelManager.Instance.allGruntz
+        Grunt targetGrunt = GameManager.Instance.currentLevelManager.allGruntz
           .FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
 
         // Issuing action command according to the target being a MapObject or a Grunt
@@ -88,16 +102,17 @@ namespace GruntzUnityverse {
             grunt.targetGrunt = targetGrunt;
             grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
             grunt.haveActionCommand = true;
+            // Special Giant Rock treatment
           } else if (targetMapObject is GiantRockEdge && grunt.equipment.tool is Gauntletz) {
             grunt.navigator.SetTargetBesideNode(targetMapObject.ownNode);
-            
+
             // List<Node> nodeNeighbours = targetMapObject.ownNode.Neighbours;
             // List<Node> shortestPath = Pathfinder.PathBetween(grunt.navigator.ownNode, nodeNeighbours[0],
-            //   grunt.navigator.isMoveForced, LevelManager.Instance.nodes);
+            //   grunt.navigator.isMoveForced, GameManager.Instance.currentLevelManager.nodes);
             //
             // foreach (Node neighbour in nodeNeighbours) {
             //   List<Node> pathToNode = Pathfinder.PathBetween(grunt.navigator.ownNode, neighbour,
-            //     grunt.navigator.isMoveForced, LevelManager.Instance.nodes);
+            //     grunt.navigator.isMoveForced, GameManager.Instance.currentLevelManager.nodes);
             //
             //   if (pathToNode.Count != 0 && pathToNode.Count < shortestPath.Count) {
             //     shortestPath = pathToNode;
@@ -120,10 +135,10 @@ namespace GruntzUnityverse {
       // Give toy command
       // ------------------------------
       if (leftClick && leftControlDown) {
-        Node clickedNode = SelectorCircle.Instance.ownNode;
+        Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
 
         Grunt targetGrunt =
-          LevelManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
+          GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
 
         // Issuing action command according to the target being a Grunt or not
         selectedGruntz.ForEach(grunt => {

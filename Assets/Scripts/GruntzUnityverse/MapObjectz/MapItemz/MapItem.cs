@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Linq;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Itemz;
+using GruntzUnityverse.MapObjectz.MapItemz.Misc;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -27,16 +27,25 @@ namespace GruntzUnityverse.MapObjectz.MapItemz {
     protected override IEnumerator LoadAndPlayAnimation() {
       yield return new WaitUntil(() => pickupItem.mapItemName.Length > 0);
 
-      Addressables.LoadAssetAsync<AnimationClip>($"{pickupItem.mapItemName}_Rotating.anim")
-        .Completed += (handle) => {
-        RotationAnimation = handle.Result;
+      if (pickupItem.mapItemName == nameof(Warpletter)) {
+        Addressables.LoadAssetAsync<AnimationClip>($"{nameof(Warpletter)}{((Warpletter)pickupItem).warpletterType}_Rotating.anim")
+          .Completed += (handle) => {
+          RotationAnimation = handle.Result;
 
-        animancer.Play(RotationAnimation);
-      };
+          animancer.Play(RotationAnimation);
+        };
+      } else {
+        Addressables.LoadAssetAsync<AnimationClip>($"{pickupItem.mapItemName}_Rotating.anim")
+          .Completed += (handle) => {
+          RotationAnimation = handle.Result;
+
+          animancer.Play(RotationAnimation);
+        };
+      }
     }
 
     protected virtual void HandlePickup() {
-      foreach (Grunt grunt in LevelManager.Instance.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
         SetEnabled(false);
 
         StartCoroutine(grunt.PickupItem(pickupItem));

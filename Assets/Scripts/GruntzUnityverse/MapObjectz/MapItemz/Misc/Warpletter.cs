@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Enumz;
+﻿using GruntzUnityverse.Enumz;
 using GruntzUnityverse.MapObjectz.Itemz;
 
 namespace GruntzUnityverse.MapObjectz.MapItemz.Misc {
@@ -10,11 +8,8 @@ namespace GruntzUnityverse.MapObjectz.MapItemz.Misc {
     protected override void Start() {
       base.Start();
 
-      mapItemName = $"{nameof(Warpletter)}{warpletterType}";
-    }
-
-    public override IEnumerator Use(Grunt grunt) {
-      yield return null;
+      category = "Misc";
+      mapItemName = nameof(Warpletter);
     }
   }
 }

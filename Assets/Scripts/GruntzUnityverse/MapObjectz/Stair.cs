@@ -6,7 +6,7 @@ namespace GruntzUnityverse.MapObjectz {
     // ------------------------------------------------------------ //
 
     private void Update() {
-      LevelManager.Instance.SetBlockedAt(location, isBlocked);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, isBlocked);
       enabled = false;
     }
   }

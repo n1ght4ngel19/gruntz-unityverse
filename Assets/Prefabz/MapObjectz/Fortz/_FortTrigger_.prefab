@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3795564419514229400}
   - component: {fileID: -776845666441466971}
+  - component: {fileID: -5871865358726966306}
   - component: {fileID: -7280204479753039330}
+  - component: {fileID: 4248679431916825333}
   m_Layer: 0
   m_Name: _FortTrigger_
   m_TagString: Untagged
@@ -85,6 +87,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &-5871865358726966306
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8232245122548251227}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-7280204479753039330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +121,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   area: 0
+  abbreviatedArea: 
+  spriteRenderer: {fileID: 0}
+  isTargetable: 0
   location: {x: 0, y: 0}
-  animancer: {fileID: 0}
-  mainFort: {fileID: 0}
+  ownNode: {fileID: 0}
+  fort: {fileID: 0}
+--- !u!114 &4248679431916825333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8232245122548251227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 0}
+  _ActionOnDisable: 0

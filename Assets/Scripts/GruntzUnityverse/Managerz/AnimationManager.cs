@@ -10,6 +10,7 @@ namespace GruntzUnityverse.Managerz {
     public GruntAnimationPack barehandzGruntPack;
     public GruntAnimationPack clubGruntPack;
     public GruntAnimationPack gauntletzGruntPack;
+    public GruntAnimationPack gooberStrawGruntPack;
     public GruntAnimationPack shovelGruntPack;
     public GruntAnimationPack warpstoneGruntPack;
     public PickupAnimationPack pickupPack;
@@ -19,19 +20,11 @@ namespace GruntzUnityverse.Managerz {
 
     // [SerializeField] public CursorAnimationPack CursorAnimations { get; set; }
 
-    public static AnimationManager Instance { get; private set; }
-
-    private void Start() {
-      if (Instance is not null && Instance != this) {
-        Destroy(gameObject);
-      } else {
-        Instance = this;
-      }
-
+    private void OnEnable() {
       barehandzGruntPack = new GruntAnimationPack(ToolName.Barehandz);
       clubGruntPack = new GruntAnimationPack(ToolName.Club);
       gauntletzGruntPack = new GruntAnimationPack(ToolName.Gauntletz);
-      shovelGruntPack = new GruntAnimationPack(ToolName.Shovel);
+      gooberStrawGruntPack = new GruntAnimationPack(ToolName.GooberStraw);
       shovelGruntPack = new GruntAnimationPack(ToolName.Shovel);
       warpstoneGruntPack = new GruntAnimationPack(ToolName.Warpstone);
       pickupPack = new PickupAnimationPack();
@@ -43,9 +36,9 @@ namespace GruntzUnityverse.Managerz {
       LoadExitAnimations();
 
       // CursorAnimations = new CursorAnimationPack();
-      foreach (Grunt grunt in LevelManager.Instance.allGruntz) {
-        grunt.SetAnimPack(grunt.equipment.tool.toolName);
-      }
+      // foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz) {
+      //   grunt.SetAnimPack(grunt.equipment.tool.toolName);
+      // }
     }
     // -------------------------------------------------------------------------------- //
 

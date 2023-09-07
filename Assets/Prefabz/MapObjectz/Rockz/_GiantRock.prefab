@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6614523138704185893}
   - component: {fileID: 6057601565982675655}
   - component: {fileID: -3088110649691867537}
+  - component: {fileID: 7552245956968344056}
+  - component: {fileID: -1705360533089305375}
   m_Layer: 0
   m_Name: _GiantRock
   m_TagString: Untagged
@@ -98,6 +100,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   area: 0
+  abbreviatedArea: 
+  spriteRenderer: {fileID: 0}
+  isTargetable: 1
   location: {x: 0, y: 0}
+  ownNode: {fileID: 0}
+  hiddenItem: {fileID: 0}
   giantRockEdge: {fileID: 2293320700441908421, guid: e6a43d63a0bfd5e4c9ae592c73321652, type: 3}
-  edges: []
+  edgez: []
+--- !u!95 &7552245956968344056
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831242626146821270}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-1705360533089305375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831242626146821270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 0}
+  _ActionOnDisable: 0

@@ -48,10 +48,10 @@ namespace GruntzUnityverse {
       Vector3 currentPosition = _ownTransform.position;
       float orthographicSize = _cameraComponent.orthographicSize;
       float camHalfWidth = orthographicSize * _cameraComponent.aspect;
-      bool reachedBottom = currentPosition.y - orthographicSize / 2 <= LevelManager.Instance.MinMapPoint.y + 0.25;
-      bool reachedTop = currentPosition.y + orthographicSize / 2 >= LevelManager.Instance.MaxMapPoint.y - 0.25;
-      bool reachedLeftSide = currentPosition.x - camHalfWidth <= LevelManager.Instance.MinMapPoint.x + 0.25;
-      bool reachedRightSide = currentPosition.x + camHalfWidth >= LevelManager.Instance.MaxMapPoint.x - 0.25;
+      bool reachedBottom = currentPosition.y - orthographicSize / 2 <= GameManager.Instance.currentLevelManager.MinMapPoint.y + 0.25;
+      bool reachedTop = currentPosition.y + orthographicSize / 2 >= GameManager.Instance.currentLevelManager.MaxMapPoint.y - 0.25;
+      bool reachedLeftSide = currentPosition.x - camHalfWidth <= GameManager.Instance.currentLevelManager.MinMapPoint.x + 0.25;
+      bool reachedRightSide = currentPosition.x + camHalfWidth >= GameManager.Instance.currentLevelManager.MaxMapPoint.x - 0.25;
 
 
       if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reachedTop) {

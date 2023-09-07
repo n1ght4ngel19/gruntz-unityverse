@@ -51,7 +51,9 @@ namespace GruntzUnityverse {
           throw new ArgumentException("The value of area should be one of the 9 areas.");
       }
 
-      Addressables.LoadSceneAsync($"Assets/Levelz/{area}/{prefix}{gameObject.name}.unity");
+      Addressables.LoadSceneAsync($"Assets/Levelz/{area}/{prefix}{gameObject.name}.unity").Completed += handle => {
+        GameManager.Instance.hasChangedMusic = false;
+      };
     }
   }
 }

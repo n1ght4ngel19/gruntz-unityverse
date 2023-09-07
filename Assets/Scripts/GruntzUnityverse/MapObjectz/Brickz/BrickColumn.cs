@@ -8,9 +8,9 @@ namespace GruntzUnityverse.MapObjectz.Brickz {
     private void Start() {
       Location = Vector2Int.FloorToInt(transform.position);
 
-      LevelManager.Instance.BrickColumnz.Add(this);
-      LevelManager.Instance.SetBlockedAt(Location, true);
-      LevelManager.Instance.NodeAt(Location).isHardTurn = true;
+      GameManager.Instance.currentLevelManager.BrickColumnz.Add(this);
+      GameManager.Instance.currentLevelManager.SetBlockedAt(Location, true);
+      GameManager.Instance.currentLevelManager.NodeAt(Location).isHardTurn = true;
     }
   }
 }

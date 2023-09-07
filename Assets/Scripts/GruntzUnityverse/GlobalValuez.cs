@@ -1,7 +1,7 @@
 ﻿namespace GruntzUnityverse {
   public static class GlobalValuez {
     public const int BarehandzDamage = 1;
-    public const int BombDamage = 20;
+    public const int BombDamage = 40;
     public const int BoomerangDamage = 6;
     public const int BoxingGlovezDamage = 1;
     public const int BricklayerDamage = 4;
@@ -17,11 +17,11 @@
     public const int SpringDamage = 5;
     public const int SpyGearDamage = 4;
     public const int SwordDamage = 10;
-    public const int TimeBombzDamage = 20;
+    public const int TimeBombzDamage = 40;
     public const int ToobDamage = 2;
     public const int WandDamage = 0;
     public const int WarpstoneDamage = 0;
-    public const int WelderKitDamage = 20;
+    public const int WelderKitDamage = 40;
     public const int WingzDamage = 2;
   }
 }

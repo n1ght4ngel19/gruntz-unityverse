@@ -10,7 +10,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz {
     public DeathName deathInflicted;
     [Range(0, 40)] public int damage;
     [Range(0, 20)] public int damageReduction;
-    public float contactDelay;
+    public float itemUseContactDelay;
     public float attackContactDelay;
     // -------------------------------------------------------------------------------- //
 
@@ -20,11 +20,6 @@ namespace GruntzUnityverse.MapObjectz.Itemz {
       category = nameof(Tool);
     }
     // -------------------------------------------------------------------------------- //
-
-    public override IEnumerator Use(Grunt grunt) {
-      // Not applicable
-      yield return null;
-    }
 
     public virtual IEnumerator Attack(Grunt attackTarget) {
       Vector2Int diffVector = attackTarget.navigator.ownLocation - ownGrunt.navigator.ownLocation;
@@ -48,10 +43,12 @@ namespace GruntzUnityverse.MapObjectz.Itemz {
       if (attackTarget.health > 0) {
         ownGrunt.gruntState = GruntState.Hostile;
         ownGrunt.isInterrupted = false;
+      } else {
+        ownGrunt.CleanState();
       }
     }
 
-    public virtual IEnumerator UseItem() {
+    public virtual IEnumerator UseTool() {
       yield return null;
     }
   }
