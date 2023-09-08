@@ -10,6 +10,8 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       toolRange = RangeType.Melee;
       damage = GlobalValuez.ShovelDamage;
       mapItemName = nameof(Shovel);
+      itemUseContactDelay = 1.5f;
+      attackContactDelay = 0.5f;
     }
     // -------------------------------------------------------------------------------- //
 
