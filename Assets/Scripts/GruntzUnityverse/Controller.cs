@@ -33,6 +33,7 @@ namespace GruntzUnityverse {
       if (leftClick && !leftShiftDown) {
         foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz) {
           grunt.isSelected = grunt.isInCircle;
+          grunt.selectedCircle.spriteRenderer.enabled = grunt.isSelected;
 
           if (grunt.isSelected) {
             bool doPlayVoice = Random.Range(0, 11) <= GameManager.Instance.selectVoicePlayFrequency;

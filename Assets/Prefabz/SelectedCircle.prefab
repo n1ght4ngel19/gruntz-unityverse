@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -5533557309717360252}
   - component: {fileID: 7246651318330908534}
   m_Layer: 0
-  m_Name: GruntSelectedCircle
+  m_Name: SelectedCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8551138866716519849}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.5, y: 3.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &-5533557309717360252
 SpriteRenderer:
@@ -71,10 +71,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 45
-  m_Sprite: {fileID: -443036668, guid: 5f51480a96c6a324a928e3e54282a0ff, type: 3}
+  m_SortingLayerID: -370743279
+  m_SortingLayer: -1
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -2054718259, guid: 12ef002ad8c6d564191028889a2c11fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,4 +97,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db8778d12714aa8aa008a81e2e329d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animancer: {fileID: 0}
   spriteRenderer: {fileID: 0}

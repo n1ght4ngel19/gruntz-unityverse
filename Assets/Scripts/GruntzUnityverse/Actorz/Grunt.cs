@@ -63,6 +63,7 @@ namespace GruntzUnityverse.Actorz {
     [HideInInspector] public StaminaBar staminaBar;
     [HideInInspector] public AnimancerComponent animancer;
     private Animator _animator;
+    public SelectedCircle selectedCircle;
     #endregion
     // -------------------------------------------------------------------------------- //
 
@@ -88,6 +89,7 @@ namespace GruntzUnityverse.Actorz {
       _animator = gameObject.GetComponent<Animator>();
       animancer = gameObject.GetComponent<AnimancerComponent>();
       animancer.Animator = _animator;
+      selectedCircle = gameObject.GetComponentInChildren<SelectedCircle>();
       BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
       boxCollider.size = Vector2.one;
 
@@ -135,7 +137,7 @@ namespace GruntzUnityverse.Actorz {
       // ----------------------------------------
       // Movement
       // ----------------------------------------
-      if (navigator.haveMoveCommand) {
+      if (navigator.haveMoveCommand && !isInterrupted) {
         navigator.isMoving = true;
         navigator.MoveTowardsTargetNode();
       }
