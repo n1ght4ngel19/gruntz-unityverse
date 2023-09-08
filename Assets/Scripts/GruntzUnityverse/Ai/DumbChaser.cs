@@ -17,12 +17,15 @@ namespace GruntzUnityverse.Ai {
     private void Update() {
       startingNode ??= _self.navigator.ownNode;
 
-      DefendAreaAroundSelf();
+      DefendArea();
     }
 
-    public void DefendAreaAroundSelf() {
+    public void DefendArea() {
       if (GameManager.Instance.currentLevelManager.playerGruntz.Any(IsWithinAggroRange)) {
         if (_hasTarget) {
+          _self.navigator.targetNode = _self.targetGrunt.navigator.ownNode;
+          _self.haveActionCommand = true;
+
           return;
         }
 

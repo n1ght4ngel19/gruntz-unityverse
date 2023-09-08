@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
+using GruntzUnityverse.Actorz;
+using UnityEngine;
 
 namespace GruntzUnityverse.Pathfinding {
   public static class Pathfinder {
-    public static List<Node> PathBetween(Node startNode, Node endNode, bool isForced, List<Node> nodes) {
+    public static List<Node> PathBetween(Node startNode, Node endNode, bool isForced, List<Node> nodes, Grunt pathGrunt) {
       List<Node> openList = new List<Node>();
       List<Node> closedList = new List<Node>();
 
@@ -41,7 +42,29 @@ namespace GruntzUnityverse.Pathfinding {
             continue;
           }
 
+          // Skip Node if it's occupied
           if (neighbour.IsOccupied() && !isForced) {
+            continue;
+          }
+
+          bool doSkip = false;
+
+          foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz) {
+            if (grunt == pathGrunt || !grunt.navigator.isMoving) {
+              continue;
+            }
+
+            if (grunt.navigator.path?.Count >= 2 && grunt.navigator.path[1] == neighbour) {
+              #if UNITY_EDITOR
+              Debug.Log("Another Grunt is moving to this node, skipping.");
+              #endif
+
+              doSkip = true;
+            }
+          }
+
+          // Skip Node if another Grunt is moving to it already
+          if (doSkip) {
             continue;
           }
 
@@ -81,7 +104,7 @@ namespace GruntzUnityverse.Pathfinding {
         }
       }
 
-      // Return an empty List in case there's no path to the endNode
+      // Return null in case there's no path to the endNode
       return null;
     }
 
@@ -103,10 +126,8 @@ namespace GruntzUnityverse.Pathfinding {
     }
 
     private static int DistanceBetween(Node startNode, Node endNode) {
-      return Math.Max(
-        Math.Abs(startNode.location.x - endNode.location.x),
-        Math.Abs(startNode.location.y - startNode.location.y)
-      );
+      return Math.Max(Math.Abs(startNode.location.x - endNode.location.x),
+        Math.Abs(startNode.location.y - startNode.location.y));
     }
   }
 }

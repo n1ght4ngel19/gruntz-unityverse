@@ -160,6 +160,8 @@ namespace GruntzUnityverse.Actorz {
           gruntState = targetGrunt is not null
             ? GruntState.Hostile
             : GruntState.Use;
+        } else if (equipment.tool.toolRange == RangeType.Ranged) {
+          // Todo: Implement ranged tools
         }
 
         navigator.haveMoveCommand = !canInteract;

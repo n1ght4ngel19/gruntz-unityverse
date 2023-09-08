@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Utility;
 using UnityEngine;
 
@@ -105,7 +104,8 @@ namespace GruntzUnityverse.Pathfinding {
     /// </summary>
     /// <returns>True if the Node is occupied, false otherwise.</returns>
     public bool IsOccupied() {
-      return GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.navigator.ownNode.Equals(this));
+      return GameManager.Instance.currentLevelManager.allGruntz.Any(otherGrunt
+        => otherGrunt.navigator.ownNode.Equals(this));
     }
 
     /// <summary>
