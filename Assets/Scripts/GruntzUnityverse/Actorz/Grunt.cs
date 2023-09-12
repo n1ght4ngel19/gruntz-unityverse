@@ -25,6 +25,7 @@ namespace GruntzUnityverse.Actorz {
 
     #region Stats
     [Header("Statz")] public int gruntId;
+    public int playerGruntId;
     public Owner owner;
     public float moveSpeed;
     [Range(MinStatValue, MaxStatValue)] public int health;

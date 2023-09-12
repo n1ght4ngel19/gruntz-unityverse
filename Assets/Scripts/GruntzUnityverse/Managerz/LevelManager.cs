@@ -19,7 +19,8 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GruntzUnityverse.Managerz {
   public class LevelManager : MonoBehaviour {
-    public int gruntIdCounter;
+    public int gruntIdCounter = 1;
+    public int playerGruntIdCounter = 1;
 
     #region Layerz
     // ----- Layerz -----
@@ -260,6 +261,11 @@ namespace GruntzUnityverse.Managerz {
       foreach (Grunt grunt in FindObjectsOfType<Grunt>()) {
         grunt.gruntId = gruntIdCounter;
         gruntIdCounter++;
+
+        if (grunt.owner == Owner.Player) {
+          grunt.playerGruntId = playerGruntIdCounter;
+          playerGruntIdCounter++;
+        }
 
         if (grunt.owner.Equals(Owner.Player)) {
           playerGruntz.Add(grunt);

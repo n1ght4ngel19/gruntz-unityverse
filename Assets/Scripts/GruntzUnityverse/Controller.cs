@@ -29,39 +29,17 @@ namespace GruntzUnityverse {
       leftShiftDown = Input.GetKey(KeyCode.LeftShift);
       leftControlDown = Input.GetKey(KeyCode.LeftControl);
 
-      // Single select command
+
+      // Single select command with clicking
       if (leftClick && !leftShiftDown) {
-        foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz) {
-          grunt.isSelected = grunt.isInCircle;
-          grunt.selectedCircle.spriteRenderer.enabled = grunt.isSelected;
+        DeselectAllGruntz();
 
-          if (grunt.isSelected) {
-            bool doPlayVoice = Random.Range(0, 11) <= GameManager.Instance.selectVoicePlayFrequency;
-
-            if (doPlayVoice) {
-              // Todo: Different clip based on clicking
-              int idx = Random.Range(1, 12);
-
-              Addressables.LoadAssetAsync<AudioClip>($"Voice_SelectGrunt_1_{idx}.wav").Completed += handle => {
-                grunt.audioSource.PlayOneShot(handle.Result);
-              };
-            }
-
-            selectedGruntz.Clear();
-            selectedGruntz.Add(grunt);
-          }
-        }
-
-        foreach (Grunt grunt in GameManager.Instance.currentLevelManager.enemyGruntz) {
-          if (grunt.isInCircle) {
-            int idx = Random.Range(1, 12);
-
-            Addressables.LoadAssetAsync<AudioClip>($"Voice_EnemySelect_{idx}.wav").Completed += handle => {
-              grunt.audioSource.PlayOneShot(handle.Result);
-            };
-          }
-        }
+        SelectGrunt(GameManager.Instance.currentLevelManager.allGruntz
+          .FirstOrDefault(grunt => grunt.isInCircle));
       }
+
+      // Single select command with numeric keys
+      SelectById();
 
       // ------------------------------
       // Multi select command
@@ -143,6 +121,91 @@ namespace GruntzUnityverse {
           }
         });
       }
+    }
+
+    public void SelectGrunt(Grunt grunt) {
+      if (grunt is null) {
+        return;
+      }
+
+      switch (grunt.owner) {
+        case Owner.Player:
+          grunt.isSelected = true;
+          grunt.selectedCircle.spriteRenderer.enabled = true;
+
+          bool doPlayVoice = Random.Range(0, 11) <= GameManager.Instance.selectVoicePlayFrequency;
+
+          if (doPlayVoice) {
+            // Todo: Different clip based on clicking
+            int selectVoiceIndex = Random.Range(1, 12);
+
+            Addressables.LoadAssetAsync<AudioClip>($"Voice_SelectGrunt_1_{selectVoiceIndex}.wav").Completed += handle => {
+              grunt.audioSource.PlayOneShot(handle.Result);
+            };
+          }
+
+          selectedGruntz.Clear();
+          selectedGruntz.Add(grunt);
+
+          break;
+        case Owner.Ai:
+          int enemySelectVoiceIndex = Random.Range(1, 12);
+
+          Addressables.LoadAssetAsync<AudioClip>($"Voice_EnemySelect_{enemySelectVoiceIndex}.wav").Completed += handle => {
+            grunt.audioSource.PlayOneShot(handle.Result);
+          };
+
+          break;
+      }
+    }
+
+    public void DeselectAllGruntz() {
+      GameManager.Instance.currentLevelManager.playerGruntz.ForEach(grunt => {
+        grunt.isSelected = false;
+        grunt.selectedCircle.spriteRenderer.enabled = false;
+      });
+    }
+
+    private void SelectById() {
+      int alphaKeyPressed = 0;
+
+      if (Input.GetKeyDown(KeyCode.Alpha1)) {
+        alphaKeyPressed = 1;
+      }
+      if (Input.GetKeyDown(KeyCode.Alpha2)) {
+        alphaKeyPressed = 2;
+      }
+      if (Input.GetKeyDown(KeyCode.Alpha3)) {
+        alphaKeyPressed = 3;
+      }
+      if (Input.GetKeyDown(KeyCode.Alpha4)) {
+        alphaKeyPressed = 4;
+      }
+      if (Input.GetKeyDown(KeyCode.Alpha5)) {
+        alphaKeyPressed = 5;
+      }
+      if (Input.GetKeyDown(KeyCode.Alpha6)) {
+        alphaKeyPressed = 6;
+      }
+      if (Input.GetKeyDown(KeyCode.Alpha7)) {
+        alphaKeyPressed = 7;
+      }
+      if (Input.GetKeyDown(KeyCode.Alpha8)) {
+        alphaKeyPressed = 8;
+      }
+      if (Input.GetKeyDown(KeyCode.Alpha9)) {
+        alphaKeyPressed = 9;
+      }
+
+      Grunt gruntToSelect = GameManager.Instance.currentLevelManager.playerGruntz
+        .FirstOrDefault(grunt => grunt.playerGruntId == alphaKeyPressed);
+
+      if (gruntToSelect is null) {
+        return;
+      }
+
+      DeselectAllGruntz();
+      SelectGrunt(gruntToSelect);
     }
   }
 }

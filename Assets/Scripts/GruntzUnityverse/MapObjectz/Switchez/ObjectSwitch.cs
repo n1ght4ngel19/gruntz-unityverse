@@ -38,9 +38,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     protected virtual void SetupSpritez() {
       releasedSprite = spriteRenderer.sprite;
 
-      string typeAsString = GetType().ToString().Split(".").Last();
-
-      Addressables.LoadAssetAsync<Sprite[]>($"{GlobalNamez.SwitchSpritezPath}/{typeAsString}.png").Completed += handle => {
+      Addressables.LoadAssetAsync<Sprite[]>($"{GlobalNamez.SwitchSpritezPath}/{GetType().Name}.png").Completed += handle => {
         pressedSprite = handle.Result[1];
       };
     }
