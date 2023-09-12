@@ -15,7 +15,7 @@ namespace GruntzUnityverse {
     public bool rightClick;
     public bool leftShiftDown;
     public bool leftControlDown;
-    public List<Grunt> selectedGruntz;
+    public static List<Grunt> selectedGruntz;
     // ------------------------------------------------------------ //
 
     private void OnEnable() {
@@ -123,7 +123,7 @@ namespace GruntzUnityverse {
       }
     }
 
-    public void SelectGrunt(Grunt grunt) {
+    public static void SelectGrunt(Grunt grunt) {
       if (grunt is null) {
         return;
       }
@@ -144,7 +144,6 @@ namespace GruntzUnityverse {
             };
           }
 
-          selectedGruntz.Clear();
           selectedGruntz.Add(grunt);
 
           break;
@@ -159,7 +158,9 @@ namespace GruntzUnityverse {
       }
     }
 
-    public void DeselectAllGruntz() {
+    public static void DeselectAllGruntz() {
+      selectedGruntz.Clear();
+
       GameManager.Instance.currentLevelManager.playerGruntz.ForEach(grunt => {
         grunt.isSelected = false;
         grunt.selectedCircle.spriteRenderer.enabled = false;

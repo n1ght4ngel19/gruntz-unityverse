@@ -1711,6 +1711,97 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3270769494937209712, guid: 71bfc4076697ca044b8483dafdc1ec07, type: 3}
   m_PrefabInstance: {fileID: 127667126}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &132940076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 132940077}
+  - component: {fileID: 132940080}
+  - component: {fileID: 132940079}
+  - component: {fileID: 132940078}
+  m_Layer: 5
+  m_Name: SelectRect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &132940077
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132940076}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 682176265}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &132940078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132940076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed2085b68389d142810c75d3e2f9c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 0}
+  startPosition: {x: 0, y: 0}
+  endPosition: {x: 0, y: 0}
+--- !u!114 &132940079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132940076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &132940080
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132940076}
+  m_CullTransparentMesh: 1
 --- !u!1001 &137001397
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2161,6 +2252,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 1
   isBurn: 0
   isDeath: 0
@@ -2223,6 +2315,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 1
 --- !u!212 &174105363
 SpriteRenderer:
@@ -3523,6 +3616,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 0
   isBurn: 0
   isDeath: 0
@@ -3585,6 +3679,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 0
 --- !u!212 &275426945
 SpriteRenderer:
@@ -5556,6 +5651,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 1
   isBurn: 0
   isDeath: 0
@@ -5618,6 +5714,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 1
 --- !u!212 &459769865
 SpriteRenderer:
@@ -5925,6 +6022,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 0
   isBurn: 0
   isDeath: 0
@@ -5987,6 +6085,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   direction: 0
 --- !u!212 &479195533
 SpriteRenderer:
@@ -8164,6 +8263,7 @@ RectTransform:
   m_Children:
   - {fileID: 331608416}
   - {fileID: 355176010}
+  - {fileID: 132940077}
   m_Father: {fileID: 293608802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -10154,6 +10254,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 0
   isBurn: 0
   isDeath: 0
@@ -10216,6 +10317,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   direction: 0
 --- !u!212 &888730692
 SpriteRenderer:
@@ -11801,6 +11903,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 0
   isBurn: 0
   isDeath: 0
@@ -11863,6 +11966,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   direction: 0
 --- !u!212 &999246196
 SpriteRenderer:
@@ -15459,6 +15563,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   <RotationAnimation>k__BackingField: {fileID: 0}
   pickupItem: {fileID: 0}
 --- !u!212 &1340079493
@@ -17035,6 +17140,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 0
   isBurn: 0
   isDeath: 0
@@ -17314,7 +17420,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
-  pressedSprite: {fileID: 1452596887, guid: 56c754337f679eb45bd617a4e0fa9608, type: 3}
+  parent: {fileID: 0}
   isPressed: 0
   secretObjectz:
   - {fileID: 479195529}
@@ -17777,6 +17883,7 @@ GameObject:
   - component: {fileID: 1547750400}
   - component: {fileID: 1547750401}
   - component: {fileID: 1547750399}
+  - component: {fileID: 1547750403}
   m_Layer: 0
   m_Name: Level
   m_TagString: Immovable
@@ -17840,6 +17947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gruntIdCounter: 0
+  playerGruntIdCounter: 1
   mainLayer: {fileID: 0}
   background: {fileID: 0}
   playerGruntz: []
@@ -17884,7 +17992,6 @@ MonoBehaviour:
   rightClick: 0
   leftShiftDown: 0
   leftControlDown: 0
-  selectedGruntz: []
 --- !u!114 &1547750402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17897,6 +18004,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c809d4017b74d62b78c04be9c0cefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1547750403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547750393}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed2085b68389d142810c75d3e2f9c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 0}
+  startPosition: {x: 0, y: 0}
+  endPosition: {x: 0, y: 0}
 --- !u!1001 &1553223594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18047,6 +18169,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   <RotationAnimation>k__BackingField: {fileID: 0}
   pickupItem: {fileID: 0}
 --- !u!212 &1553414092
@@ -19769,6 +19892,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   <RotationAnimation>k__BackingField: {fileID: 0}
   pickupItem: {fileID: 0}
 --- !u!212 &1720237552
@@ -23823,6 +23947,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   isBlocked: 0
   isBurn: 0
   isDeath: 0
@@ -36777,6 +36902,7 @@ MonoBehaviour:
   isTargetable: 0
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  parent: {fileID: 0}
   <RotationAnimation>k__BackingField: {fileID: 0}
   pickupItem: {fileID: 0}
 --- !u!212 &2014436115528644293
