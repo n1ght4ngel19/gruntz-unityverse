@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Pyramidz;
-using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class OneTimeSwitch : ObjectSwitch {
@@ -12,22 +10,23 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     protected override void Start() {
       base.Start();
 
-      _pyramidz = transform.parent.GetComponentsInChildren<BlackPyramid>().ToList();
+      _pyramidz = parent.GetComponentsInChildren<BlackPyramid>().ToList();
+      
+      if (_pyramidz.Count.Equals(0)) {
+        DisableWithError("There is no Pyramid assigned to this Switch, this way the Switch won't work properly!");
+      }
     }
 
     private void Update() {
-      if (_pyramidz.Count.Equals(0)) {
-        Debug.LogWarning("There is no Pyramid assigned to this Switch!");
-
-        enabled = false;
-      }
-
       if (GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
         TogglePyramidz();
-
-        spriteRenderer.sprite = pressedSprite;
-        enabled = false;
+        PressSwitch();
       }
+    }
+
+    protected override void PressSwitch() {
+      spriteRenderer.sprite = pressedSprite;
+      enabled = false;
     }
 
     private void TogglePyramidz() {

@@ -13,9 +13,9 @@ namespace GruntzUnityverse.MapObjectz {
     // ------------------------------------------------------------ //
 
     private void Start() {
-      _switchez = transform.parent.GetComponentsInChildren<CheckpointSwitch>().ToList();
-      _pyramidz = transform.parent.GetComponentsInChildren<CheckpointPyramid>().ToList();
-      _flagz = transform.parent.GetComponentsInChildren<CheckpointFlag>().ToList();
+      _switchez = GetComponentsInChildren<CheckpointSwitch>().ToList();
+      _pyramidz = GetComponentsInChildren<CheckpointPyramid>().ToList();
+      _flagz = GetComponentsInChildren<CheckpointFlag>().ToList();
     }
     // ------------------------------------------------------------ //
 

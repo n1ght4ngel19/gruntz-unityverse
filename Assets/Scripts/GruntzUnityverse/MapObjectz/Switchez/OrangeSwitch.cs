@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Pyramidz;
-using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class OrangeSwitch : ObjectSwitch {
     public List<OrangeSwitch> otherSwitchez;
     private List<OrangePyramid> _pyramidz;
 
-
     protected override void Start() {
       base.Start();
 
-      _pyramidz = transform.parent.GetComponentsInChildren<OrangePyramid>().ToList();
+      _pyramidz = parent.GetComponentsInChildren<OrangePyramid>().ToList();
+
+      if (_pyramidz.Count.Equals(0)) {
+        DisableWithError("There is no Orange Pyramid assigned to this Switch, this way the Switch won't work properly!");
+      }
     }
 
     private void Update() {

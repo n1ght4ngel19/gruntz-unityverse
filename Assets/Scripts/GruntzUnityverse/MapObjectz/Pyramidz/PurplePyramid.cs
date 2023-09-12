@@ -10,7 +10,7 @@ namespace GruntzUnityverse.MapObjectz.Pyramidz {
     protected override void Start() {
       base.Start();
 
-      switchez = transform.parent.GetComponentsInChildren<PurpleSwitch>().ToList();
+      switchez = parent.GetComponentsInChildren<PurpleSwitch>().ToList();
     }
 
     private void Update() {

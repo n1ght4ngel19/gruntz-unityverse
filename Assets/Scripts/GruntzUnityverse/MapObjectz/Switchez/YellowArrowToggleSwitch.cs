@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Arrowz;
 using UnityEngine;
 
@@ -13,16 +12,16 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       base.Start();
 
       // Todo: WTF
-      int transformIndex = transform.parent.GetSiblingIndex();
+      int transformIndex = parent.GetSiblingIndex();
 
       arrowz = parent.GetComponentsInChildren<TwoWayArrow>()
-        .Where(arrow => arrow.transform.parent.GetSiblingIndex() == transformIndex)
+        .Where(arrow => arrow.parent.GetSiblingIndex() == transformIndex)
         .ToList();
     }
 
     private void Update() {
       if (arrowz.Count == 0) {
-        Debug.LogError(ErrorMessage.ArrowSwitchArrowzMissing + $"Switch: {transform.parent.name} -> {gameObject.name}");
+        Debug.LogError(ErrorMessage.ArrowSwitchArrowzMissing + $"Switch: {parent.name} -> {gameObject.name}");
 
         enabled = false;
       }

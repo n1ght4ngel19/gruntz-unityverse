@@ -1,15 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Pyramidz;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class SilverTimerSwitch : ObjectSwitch {
-    public List<SilverPyramid> pyramidz;
+    private List<SilverPyramid> _pyramidz;
     private const float TimeStep = 0.1f;
 
+    protected override void Start() {
+      base.Start();
+
+      _pyramidz = parent.GetComponentsInChildren<SilverPyramid>().ToList();
+
+      if (_pyramidz.Count.Equals(0)) {
+        DisableWithError("There is no Silver Pyramid assigned to this Switch, this way the Switch won't work properly!");
+      }
+    }
 
     private void Update() {
       if (GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
@@ -26,7 +34,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private void HandleSilverPyramidz() {
-      foreach (SilverPyramid pyramid in pyramidz) {
+      foreach (SilverPyramid pyramid in _pyramidz) {
         StartCoroutine(HandleSilverPyramid(pyramid));
       }
     }

@@ -3,11 +3,11 @@ using System.Collections;
 using Animancer;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Interactablez;
 using GruntzUnityverse.MapObjectz.Itemz.Toolz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.MapObjectz {
   /// <summary>
@@ -20,12 +20,13 @@ namespace GruntzUnityverse.MapObjectz {
     public bool isTargetable;
     public Vector2Int location;
     public Node ownNode;
+    public Transform parent;
     protected Transform ownTransform;
     protected Camera mainCamera;
-    protected Transform parent;
     protected AnimancerComponent animancer;
     protected bool isValidated;
     private Animator _animator;
+    protected Sprite unusedSprite;
     // ------------------------------------------------------------ //
 
     protected virtual void Start() {
@@ -43,6 +44,10 @@ namespace GruntzUnityverse.MapObjectz {
       AssignAreaBySpriteName();
       LoadAnimationz();
       StartCoroutine(LoadAndPlayAnimation());
+
+      Addressables.LoadAssetAsync<Sprite>("Assets/Spritez/Objectz/Unused.png").Completed += handle => {
+        unusedSprite = handle.Result;
+      };
     }
     // ------------------------------------------------------------ //
 
@@ -63,6 +68,13 @@ namespace GruntzUnityverse.MapObjectz {
     public void SetEnabled(bool value) {
       enabled = value;
       spriteRenderer.enabled = value;
+    }
+
+    protected void DisableWithError(string message) {
+      Debug.LogError(message);
+      
+      spriteRenderer.sprite = unusedSprite;
+      enabled = false;
     }
 
     public void SetRendererEnabled(bool value) {

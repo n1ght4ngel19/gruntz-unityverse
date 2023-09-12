@@ -2,9 +2,9 @@
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Pyramidz;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class CheckpointSwitch : ObjectSwitch {
@@ -16,24 +16,42 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     protected override void Start() {
       base.Start();
 
-      _pyramidz = transform.parent.GetComponentsInChildren<CheckpointPyramid>().ToList();
+      _pyramidz = parent.GetComponentsInChildren<CheckpointPyramid>().ToList();
+
+      if (_pyramidz.Count.Equals(0)) {
+        DisableWithError("There is no Checkpoint Pyramid assigned to this Switch, this way the Checkpoint won't work properly!");
+      }
 
       SetupSwitch();
+      SetupSpritez();
     }
 
     private void Update() {
       // Todo: Replace with proper error handling like with Arrow Switchez
-      if (_pyramidz.Count.Equals(0)) {
-        Debug.LogError("There is no Pyramid assigned to this Switch, this way the Checkpoint won't work properly!");
 
-        enabled = false;
-      }
 
       if (IsRequirementSatisfied()) {
         PressSwitch();
       } else {
         ReleaseSwitch();
       }
+    }
+
+    protected override void SetupSpritez() {
+      string typeAsString = GetType().ToString().Split(".").Last();
+
+      releasedSprite = spriteRenderer.sprite;
+
+      string requiredItemName = _requiredTool is ToolName.None
+        ? _requiredToy.ToString()
+        : _requiredTool.ToString();
+
+      Debug.Log(requiredItemName);
+
+      Addressables.LoadAssetAsync<Sprite[]>($"{GlobalNamez.SwitchSpritezPath}/{typeAsString}_{requiredItemName}.png").Completed +=
+        handle => {
+          pressedSprite = handle.Result[1];
+        };
     }
 
     private bool IsRequirementSatisfied() {
@@ -46,7 +64,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
           return true;
         }
 
-        if (_requiredTool is ToolName.Barehandz) {
+        if (_requiredTool is not ToolName.None && (grunt.HasTool(_requiredTool) || _requiredTool is ToolName.Barehandz)) {
           return true;
         }
 
@@ -67,11 +85,13 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
         _requiredTool = ToolName.Shovel;
       } else if (spriteName.Contains(ToolName.Warpstone.ToString())) {
         _requiredTool = ToolName.Warpstone;
-      } else {
+      } else if (spriteName.Contains(ToolName.Barehandz.ToString())) {
         _requiredTool = ToolName.Barehandz;
-      }
+      } else {
+        _requiredTool = ToolName.None;
+      } // Todo: Other tools
 
-      // Todo: Others
+      // Todo: Toy names
     }
   }
 }

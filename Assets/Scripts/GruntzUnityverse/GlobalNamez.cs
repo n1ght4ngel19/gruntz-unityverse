@@ -1,5 +1,6 @@
 ﻿namespace GruntzUnityverse {
   public static class GlobalNamez {
+    public const string SwitchSpritezPath = "Assets/Spritez/Objectz/Switchez";
     public const string MapObjectContainer = "MapObjectz";
     public const string GruntAnimzPath = "Assets/Animationz/Gruntz/";
     public const string AttackAnimzSubPath = "Attack/Clipz/";

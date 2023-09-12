@@ -23,5 +23,6 @@
     Warpstone = 20,
     WelderKit = 21,
     Wingz = 22,
+    None = 23,
   }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Pyramidz;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
@@ -11,7 +10,11 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     protected override void Start() {
       base.Start();
 
-      _pyramidz = transform.parent.GetComponentsInChildren<GreenPyramid>().ToList();
+      _pyramidz = parent.GetComponentsInChildren<GreenPyramid>().ToList();
+
+      if (_pyramidz.Count.Equals(0)) {
+        DisableWithError("There is no Green Pyramid assigned to this Switch, this way the Switch won't work properly!");
+      }
     }
 
     private void Update() {

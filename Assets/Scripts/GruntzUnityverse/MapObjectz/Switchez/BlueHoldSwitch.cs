@@ -1,17 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.Bridgez;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class BlueHoldSwitch : ObjectSwitch {
-    private List<Bridge> Bridgez { get; set; }
+    private List<Bridge> _bridgez;
 
 
     protected override void Start() {
       base.Start();
 
-      Bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
+      _bridgez = parent.GetComponentsInChildren<Bridge>().ToList();
+
+      if (_bridgez.Count.Equals(0)) {
+        DisableWithError("There is no Bridge assigned to this Switch, this way the Switch won't work properly!");
+      }
     }
 
     private void Update() {
@@ -29,7 +32,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private void ToggleBridgez() {
-      foreach (Bridge bridge in Bridgez) {
+      foreach (Bridge bridge in _bridgez) {
         bridge.Toggle();
       }
     }

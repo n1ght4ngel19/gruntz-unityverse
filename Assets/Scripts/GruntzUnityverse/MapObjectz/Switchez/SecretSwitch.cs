@@ -10,6 +10,16 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     private const float TimeStep = 0.1f;
     // -------------------------------------------------------------------------------- //
 
+    protected override void Start() {
+      base.Start();
+
+      secretObjectz = parent.GetComponentsInChildren<SecretObject>().ToList();
+      
+      if (secretObjectz.Count.Equals(0)) {
+        DisableWithError("There is no Secret Object assigned to this Switch, this way the Switch won't work properly!");
+      }
+    }
+
     private void Update() {
       if (!GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
         return;

@@ -19,12 +19,12 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GruntzUnityverse.Managerz {
   public class LevelManager : MonoBehaviour {
-    public int gruntIdCounter = 0;
+    public int gruntIdCounter;
 
     #region Layerz
     // ----- Layerz -----
     [field: Header("Layerz")] public Tilemap mainLayer;
-    public Tilemap backgroundLayer;
+    public Tilemap background;
     #endregion
 
     #region Objectz
@@ -52,7 +52,7 @@ namespace GruntzUnityverse.Managerz {
 
     #region Pathfinding
     // ----- Pathfinding -----
-    [field: Header("Pathfinding")] private GameObject NodeContainer { get; set; }
+    [field: Header("Pathfinding")] public GameObject nodeContainer;
     public List<Node> nodes;
     public List<Vector2Int> nodeLocations;
     public Node nodePrefab;
@@ -74,7 +74,7 @@ namespace GruntzUnityverse.Managerz {
 
     private void OnEnable() {
       Application.targetFrameRate = 60;
-      NodeContainer = GameObject.Find("NodeContainer");
+      nodeContainer = GameObject.FindGameObjectWithTag("NodeContainer");
       helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
 
       InitializeLevel();
@@ -160,16 +160,16 @@ namespace GruntzUnityverse.Managerz {
         Destroy(go);
       }
 
-      mapObjectContainer = GameObject.Find(GlobalNamez.MapObjectContainer);
-      mapObjectz = mapObjectContainer.GetComponentsInChildren<MapObject>().ToList();
+      mapObjectContainer = GameObject.FindGameObjectWithTag("MapObjectContainer");
+      mapObjectz = FindObjectsOfType<MapObject>().ToList();
     }
 
     private void AssignLayerz() {
       mainLayer = GameObject.Find("MainLayer").GetComponent<Tilemap>();
       mainLayer.CompressBounds();
 
-      backgroundLayer = GameObject.Find("BackgroundLayer").GetComponent<Tilemap>();
-      backgroundLayer.CompressBounds();
+      background = GameObject.Find("Background").GetComponent<Tilemap>();
+      background.CompressBounds();
 
       BoundsInt mainCellBounds = mainLayer.cellBounds;
       MinMapPoint = new Vector2Int(mainCellBounds.min.x, mainCellBounds.min.y);
@@ -181,7 +181,7 @@ namespace GruntzUnityverse.Managerz {
     private void CreatePathfindingNodez() {
       for (int x = MinMapPoint.x; x < MaxMapPoint.x; x++) {
         for (int y = MinMapPoint.y; y < MaxMapPoint.y; y++) {
-          Node node = Instantiate(nodePrefab, NodeContainer.transform);
+          Node node = Instantiate(nodePrefab, nodeContainer.transform);
           node.transform.position = new Vector3(x + 1f, y + 1f, 100);
           node.location = new Vector2Int(x + 1, y + 1);
           node.GetComponent<SpriteRenderer>().enabled = false;
@@ -241,6 +241,10 @@ namespace GruntzUnityverse.Managerz {
 
       foreach (SilverPyramid pyramid in FindObjectsOfType<SilverPyramid>()) {
         SilverPyramidz.Add(pyramid);
+      }
+
+      foreach (OrangeSwitch sw in FindObjectsOfType<OrangeSwitch>()) {
+        OrangeSwitchez.Add(sw);
       }
 
       foreach (Rock rock in FindObjectsOfType<Rock>()) {

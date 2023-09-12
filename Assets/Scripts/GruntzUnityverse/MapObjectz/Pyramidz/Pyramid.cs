@@ -1,5 +1,4 @@
-﻿using GruntzUnityverse.Managerz;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.MapObjectz.Pyramidz {
@@ -22,7 +21,7 @@ namespace GruntzUnityverse.MapObjectz.Pyramidz {
           _downAnim = handle.Result;
         };
 
-      Addressables.LoadAssetAsync<AnimationClip>($"{GetType().Name}_Down.anim").Completed +=
+      Addressables.LoadAssetAsync<AnimationClip>($"{GetType().Name}_Up.anim").Completed +=
         (handle) => {
           _upAnim = handle.Result;
         };

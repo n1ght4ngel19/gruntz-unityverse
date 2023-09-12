@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using GruntzUnityverse.Managerz;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class PurpleSwitch : ObjectSwitch {
