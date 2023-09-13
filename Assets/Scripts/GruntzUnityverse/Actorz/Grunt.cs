@@ -319,13 +319,6 @@ namespace GruntzUnityverse.Actorz {
       gruntState = GruntState.Idle;
     }
 
-    public void ClearData() {
-      CleanState();
-
-      navigator.ownNode = null;
-      navigator.targetNode = null;
-    }
-
     /// <summary>
     /// Checks if the Grunt is at the given Node.
     /// </summary>
