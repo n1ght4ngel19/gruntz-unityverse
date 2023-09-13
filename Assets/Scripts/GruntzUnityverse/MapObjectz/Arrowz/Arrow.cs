@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utility;
 using UnityEngine;
@@ -9,6 +8,7 @@ using UnityEngine;
 namespace GruntzUnityverse.MapObjectz.Arrowz {
   public class Arrow : MapObject {
     public Direction direction;
+    public Node nodeInDirection;
 
 
     protected override void Start() {
@@ -22,9 +22,9 @@ namespace GruntzUnityverse.MapObjectz.Arrowz {
         ValidateSetup();
       }
 
-      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz.Where(grunt => grunt.AtNode(ownNode))) {
-        Node targetNode = GameManager.Instance.currentLevelManager.NodeAt(location + Vector2Direction.FromDirection(direction));
-        grunt.navigator.targetNode = targetNode;
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz
+        .Where(grunt => grunt.AtNode(ownNode) && !grunt.navigator.isMoveForced)) {
+        grunt.navigator.targetNode = nodeInDirection;
         grunt.navigator.haveMoveCommand = true;
         grunt.navigator.isMoveForced = true;
 
@@ -62,6 +62,8 @@ namespace GruntzUnityverse.MapObjectz.Arrowz {
         : spriteName.Contains(StringDirection.West)
         ? Direction.West
         : Direction.None;
+
+      nodeInDirection = GameManager.Instance.currentLevelManager.NodeAt(location + Vector2Direction.FromDirection(direction));
     }
   }
 }

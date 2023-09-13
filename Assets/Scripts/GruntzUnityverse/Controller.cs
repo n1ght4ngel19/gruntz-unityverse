@@ -29,13 +29,12 @@ namespace GruntzUnityverse {
       leftShiftDown = Input.GetKey(KeyCode.LeftShift);
       leftControlDown = Input.GetKey(KeyCode.LeftControl);
 
-
       // Single select command with clicking
       if (leftClick && !leftShiftDown) {
         DeselectAllGruntz();
 
         SelectGrunt(GameManager.Instance.currentLevelManager.allGruntz
-          .FirstOrDefault(grunt => grunt.isInCircle));
+          .FirstOrDefault(grunt => grunt.navigator.ownNode == GameManager.Instance.selectorCircle.ownNode));
       }
 
       // Single select command with numeric keys
@@ -52,7 +51,7 @@ namespace GruntzUnityverse {
       if (rightClick && selectedGruntz.Count > 0) {
         Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
 
-        foreach (Grunt grunt in selectedGruntz.Where(grunt1 => !grunt1.navigator.isMoveForced)) {
+        foreach (Grunt grunt in selectedGruntz.Where(grunt1 => !grunt1.navigator.isMoveForced && !grunt1.isInterrupted)) {
           grunt.CleanState();
 
           grunt.navigator.targetNode = clickedNode;
@@ -65,8 +64,11 @@ namespace GruntzUnityverse {
       // ------------------------------
       if (leftClick && leftShiftDown) {
         Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
+
         List<MapObject> possibleTargets =
-          GameManager.Instance.currentLevelManager.mapObjectContainer.GetComponentsInChildren<MapObject>().ToList();
+          GameManager.Instance.currentLevelManager.mapObjectContainer
+            .GetComponentsInChildren<MapObject>()
+            .ToList();
 
         MapObject targetMapObject = possibleTargets
           .FirstOrDefault(obj => obj.location == clickedNode.location && obj.isTargetable);
@@ -88,7 +90,6 @@ namespace GruntzUnityverse {
 
             grunt.gruntState = GruntState.Use;
             grunt.targetMapObject = targetMapObject;
-            // grunt.navigator.targetNode = shortestPath.Last();
             grunt.haveActionCommand = true;
           } else if (targetMapObject is not null && targetMapObject.IsValidTargetFor(grunt)) {
             grunt.targetMapObject = targetMapObject;

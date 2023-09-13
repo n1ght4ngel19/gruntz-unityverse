@@ -15,7 +15,6 @@ namespace GruntzUnityverse {
     private void Update() {
       if (Input.GetKeyDown(KeyCode.Mouse0)) {
         startPosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        // rectTransform.position = Camera.main.ViewportToWorldPoint(startPosition);
       }
 
       if (Input.GetKey(KeyCode.Mouse0)) {
@@ -25,7 +24,6 @@ namespace GruntzUnityverse {
 
       if (Input.GetKeyUp(KeyCode.Mouse0) && startPosition != endPosition) {
         _doDraw = false;
-        Controller.selectedGruntz.Clear();
 
         float minX = Mathf.Min(startPosition.x, endPosition.x);
         float maxX = Mathf.Max(startPosition.x, endPosition.x);

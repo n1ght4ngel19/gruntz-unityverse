@@ -144,27 +144,38 @@ namespace GruntzUnityverse.Actorz {
       }
 
       // ----------------------------------------
-      // Action
+      // Action command
       // ----------------------------------------
       if (haveActionCommand && !isInterrupted) {
-        // Giving or placing a Toy
         if (haveGiveToyCommand) {
+          // ----------------------------------------
+          // Giving or placing a Toy
+          // ----------------------------------------
           canInteract = targetGrunt is not null
             ? IsNeighbourOf(targetGrunt)
             : IsNeighbourOf(navigator.targetNode);
 
           gruntState = GruntState.GiveToy;
+        } else {
+          // ----------------------------------------
           // Attacking a Grunt or using a Tool
-        } else if (equipment.tool.toolRange == RangeType.Melee) {
-          canInteract = targetGrunt is not null
-            ? IsNeighbourOf(targetGrunt)
-            : IsNeighbourOf(targetMapObject);
+          // ----------------------------------------
+          switch (equipment.tool.toolRange) {
+            case RangeType.Melee:
+              canInteract = targetGrunt is not null
+                ? IsNeighbourOf(targetGrunt)
+                : IsNeighbourOf(targetMapObject);
 
-          gruntState = targetGrunt is not null
-            ? GruntState.Hostile
-            : GruntState.Use;
-        } else if (equipment.tool.toolRange == RangeType.Ranged) {
-          // Todo: Implement ranged tools
+              gruntState = targetGrunt is not null
+                ? GruntState.Hostile
+                : GruntState.Use;
+              break;
+            case RangeType.Ranged:
+              // Todo: Implement ranged tools
+              break;
+            case RangeType.None:
+              throw new InvalidEnumArgumentException($"RangeType cannot be RangeType.None for Tool {equipment.tool.name} on Grunt {name}!");
+          }
         }
 
         navigator.haveMoveCommand = !canInteract;
@@ -176,10 +187,12 @@ namespace GruntzUnityverse.Actorz {
       if (canInteract && !isInterrupted) {
         switch (gruntState) {
           case GruntState.None:
-            break;
+            throw new InvalidEnumArgumentException($"GruntState cannot be GruntState.None for Grunt {name}!");
 
+          // Attacking if possible, otherwise idling in hostile state
           case GruntState.Hostile:
-            if (targetGrunt is null) {
+            // Comparing with '==' instead of 'is' because this way 'Missing' is detected as well, not just 'null'
+            if (targetGrunt == null) {
               CleanState();
             } else if (stamina == MaxStatValue) {
               StartCoroutine(HandleAttack());
@@ -203,32 +216,6 @@ namespace GruntzUnityverse.Actorz {
             break;
         }
       }
-
-      // Todo: Fix this
-      // #region Death handling
-      //
-      // // Handling the case when Grunt is on a blocked Node
-      // Node node = navigator.ownNode;
-      //
-      // // Handling death
-      // if (node.isBurn) {
-      //   StartCoroutine(Death("Burn"));
-      // }
-      //
-      // if (node.isWater) {
-      //   StartCoroutine(Death("Sink"));
-      // }
-      //
-      // if (node.isBlocked && !node.isBurn && !node.isWater) {
-      //   StartCoroutine(Death("Squash"));
-      // }
-      //
-      // // Todo: Move to Hole script!!!
-      // if (GameManager.Instance.currentLevelManager.Holez.Any(hole => hole.location.Equals(navigator.ownLocation) && hole.IsOpen)) {
-      //   StartCoroutine(Death("Hole"));
-      // }
-      //
-      // #endregion
 
       if (!isInterrupted) {
         PlayWalkOrIdleAnimation();
@@ -321,6 +308,8 @@ namespace GruntzUnityverse.Actorz {
     /// Resets all the Grunt's states and commands to default.
     /// </summary>
     public void CleanState() {
+      // navigator.haveMoveCommand = false;
+      // navigator.targetNode = navigator.ownNode;
       haveActionCommand = false;
       haveGiveToyCommand = false;
       canInteract = false;
@@ -328,6 +317,13 @@ namespace GruntzUnityverse.Actorz {
       targetGrunt = null;
       targetMapObject = null;
       gruntState = GruntState.Idle;
+    }
+
+    public void ClearData() {
+      CleanState();
+
+      navigator.ownNode = null;
+      navigator.targetNode = null;
     }
 
     /// <summary>
@@ -480,7 +476,11 @@ namespace GruntzUnityverse.Actorz {
     public IEnumerator Death(string deathName) {
       if (!_isDying) {
         _isDying = true;
-        transform.position += Vector3.forward * 15;
+        transform.position += Vector3.forward * 15; // ? Todo: Remove
+      }
+
+      if (deathName == DeathName.Squash.ToString()) {
+        GameManager.Instance.currentLevelManager.allGruntz.Remove(this);
       }
 
       healthBar.spriteRenderer.enabled = false;
@@ -505,7 +505,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       GameManager.Instance.currentLevelManager.allGruntz.Remove(this);
-      Destroy(gameObject, deathClip.length);
+      Destroy(gameObject, deathClip.length * 2);
     }
 
     /// <summary>

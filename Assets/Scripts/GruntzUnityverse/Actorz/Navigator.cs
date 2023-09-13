@@ -59,18 +59,20 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public void MoveTowardsTargetNode() {
-      // When the target Node is not the Grunt's own Node and it's also not a valid target, search for a new target
-      if ((targetNode.IsOccupied() || targetNode.IsUnavailable())
+      if (isMoveForced) {
+        HandleForcedMovement(isMoveForced);
+        // When the target Node is not the Grunt's own Node and it's also not a valid target, search for a new target
+      } else if ((targetNode.IsOccupied() || targetNode.IsUnavailable())
         && targetNode != ownNode) {
         #if UNITY_EDITOR
-        Debug.Log("Target node is occupied or unavailable, searching for new target.");
+        // Debug.Log("Target node is occupied or unavailable, searching for new target.");
         #endif
 
         SetTargetBesideNode(targetNode);
       }
 
       if (_doFindPath && ownNode != targetNode) {
-        Debug.Log("Searching for a path.");
+        // Debug.Log("Searching for a path.");
         path = Pathfinder.PathBetween(ownNode, targetNode, isMoveForced, GameManager.Instance.currentLevelManager.nodes, ownGrunt);
       }
 
@@ -81,11 +83,11 @@ namespace GruntzUnityverse.Actorz {
         isMoveForced = false;
 
         #if UNITY_EDITOR
-        string message = path is null
-          ? "There is no path to target."
-          : "Grunt has reached target.";
-
-        Debug.Log(message);
+        // string message = path is null
+        //   ? "There is no path to target."
+        //   : "Grunt has reached target.";
+        //
+        // Debug.Log(message);
         #endif
 
         return;
@@ -97,7 +99,6 @@ namespace GruntzUnityverse.Actorz {
       if (Vector2.Distance(nextPosition, transform.position) > StepThreshold) {
         MoveSomeTowards(nextPosition);
         SetFacingDirection(moveVector);
-        HandleForcedMovement(isMoveForced);
       } else {
         FinishStep();
       }
@@ -122,12 +123,13 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      Grunt deathMarkedGrunt =
-        GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.AtNode(targetNode));
+      Grunt deathMarkedGrunt = GameManager.Instance.currentLevelManager.allGruntz
+        .FirstOrDefault(grunt => grunt.AtNode(targetNode) && grunt != ownGrunt);
 
       // Killing the target if the Grunt was forced to move (e.g. by an Arrow or by teleporting)
       if (deathMarkedGrunt is not null) {
         StartCoroutine(deathMarkedGrunt.Death("Squash"));
+        deathMarkedGrunt = null;
       }
 
       isMoveForced = false;
@@ -171,7 +173,7 @@ namespace GruntzUnityverse.Actorz {
         }
 
         #if UNITY_EDITOR
-        Debug.Log($"Shortest length is {shortestLength} and path length is {pathLength}.");
+        // Debug.Log($"Shortest length is {shortestLength} and path length is {pathLength}.");
         #endif
 
         // Check if path to neighbour is shorter than shortest path

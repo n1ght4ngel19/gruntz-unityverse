@@ -43,7 +43,7 @@ namespace GruntzUnityverse.Pathfinding {
           }
 
           // Skip Node if it's occupied
-          if (neighbour.IsOccupied() && !isForced) {
+          if (neighbour.IsOccupied()) {
             continue;
           }
 
