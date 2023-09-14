@@ -96,6 +96,7 @@ namespace GruntzUnityverse.Actorz {
       boxCollider.size = Vector2.one;
 
       audioSource = gameObject.AddComponent<AudioSource>();
+      audioSource.playOnAwake = false;
 
       SetAnimPack(equipment.tool.toolName);
 
@@ -653,7 +654,7 @@ namespace GruntzUnityverse.Actorz {
 
           Addressables.LoadAssetAsync<AudioClip>($"Assets/Audio/Voicez/Pickupz/Pickup_GenericPickup_{voiceIndex}.wav")
             .Completed += handle => {
-            GameManager.Instance.audioSource.PlayOneShot(handle.Result);
+            audioSource.PlayOneShot(handle.Result);
           };
 
           break;
@@ -661,7 +662,7 @@ namespace GruntzUnityverse.Actorz {
           Addressables.LoadAssetAsync<AudioClip>(
               $"Assets/Audio/Voicez/Pickupz/Pickup_{voiceType}_{pickupItem.mapItemName}_0{voiceIndex}.wav")
             .Completed += handle => {
-            GameManager.Instance.audioSource.PlayOneShot(handle.Result);
+            audioSource.PlayOneShot(handle.Result);
           };
 
           break;

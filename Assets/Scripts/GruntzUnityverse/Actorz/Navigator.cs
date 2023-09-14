@@ -90,7 +90,9 @@ namespace GruntzUnityverse.Actorz {
         // Debug.Log(message);
         #endif
 
-        ownGrunt.PlayCommandVoice("Bad");
+        if (path is not null) {
+          ownGrunt.PlayCommandVoice("Bad");
+        }
 
         return;
       }

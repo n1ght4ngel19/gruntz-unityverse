@@ -1,13 +1,15 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class ObjectSwitch : MapObject {
     public bool isPressed;
     protected bool hasBeenPressed;
+    protected bool hasBeenReleased;
     protected Sprite pressedSprite;
     protected Sprite releasedSprite;
+    private AudioClip _pressClip;
+    private AudioClip _releaseClip;
 
     protected override void Start() {
       base.Start();
@@ -15,18 +17,34 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       if (this is not CheckpointSwitch) {
         SetupSpritez();
       }
+
+      Addressables.LoadAssetAsync<AudioClip>("Assets/Audio/Soundz/Sound_Switch_Down.wav").Completed += handle => {
+        _pressClip = handle.Result;
+      };
+
+      Addressables.LoadAssetAsync<AudioClip>("Assets/Audio/Soundz/Sound_Switch_Up.wav").Completed += handle => {
+        _releaseClip = handle.Result;
+      };
+
+      hasBeenReleased = true;
     }
 
     protected virtual void PressSwitch() {
       isPressed = true;
       hasBeenPressed = true;
+      hasBeenReleased = false;
       spriteRenderer.sprite = pressedSprite;
+      AudioSource.PlayClipAtPoint(_pressClip, Camera.main.transform.position);
+      Debug.Log("Pressing");
     }
 
     protected void ReleaseSwitch() {
       isPressed = false;
       hasBeenPressed = false;
+      hasBeenReleased = true;
       spriteRenderer.sprite = releasedSprite;
+      AudioSource.PlayClipAtPoint(_releaseClip, Camera.main.transform.position);
+      Debug.Log("Releasing");
     }
 
     // This is needed for situations where the Switch is toggled NOT by a Grunt (or other actor)

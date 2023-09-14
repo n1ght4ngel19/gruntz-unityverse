@@ -11,7 +11,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
 
         ToggleAllRedPyramidz();
         PressSwitch();
-      } else if (hasBeenPressed) {
+      } else if (!hasBeenReleased) {
         ToggleAllRedPyramidz();
         ReleaseSwitch();
       }

@@ -27,12 +27,9 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private void Update() {
-      // Todo: Replace with proper error handling like with Arrow Switchez
-
-
       if (IsRequirementSatisfied()) {
         PressSwitch();
-      } else {
+      } else if (!hasBeenReleased) {
         ReleaseSwitch();
       }
     }

@@ -28,7 +28,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
         HandleSilverPyramidz();
 
         PressSwitch();
-      } else {
+      } else if (!hasBeenReleased) {
         ReleaseSwitch();
       }
     }

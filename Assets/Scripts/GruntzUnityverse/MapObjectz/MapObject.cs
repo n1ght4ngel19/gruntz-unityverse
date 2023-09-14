@@ -36,7 +36,6 @@ namespace GruntzUnityverse.MapObjectz {
       ownTransform = gameObject.GetComponent<Transform>();
       parent = ownTransform.parent;
       mainCamera = Camera.main;
-      // audioSource = gameObject.AddComponent<AudioSource>();
       _animator = gameObject.GetComponent<Animator>();
       animancer = gameObject.GetComponent<AnimancerComponent>();
       animancer.Animator = _animator;

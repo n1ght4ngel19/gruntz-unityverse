@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Managerz;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class SecretSwitch : ObjectSwitch {
@@ -26,6 +27,9 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       }
 
       ToggleSwitch();
+      Addressables.LoadAssetAsync<AudioClip>("Assets/Audio/Soundz/Sound_SecretSwitch.wav").Completed += handle => {
+        GameManager.Instance.audioSource.PlayOneShot(handle.Result);
+      };
 
       foreach (SecretObject secretObject in secretObjectz) {
         StartCoroutine(HandleSecretObject(secretObject));

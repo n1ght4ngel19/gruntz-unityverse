@@ -25,7 +25,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
 
         ToggleBridgez();
         PressSwitch();
-      } else if (hasBeenPressed) {
+      } else if (!hasBeenReleased) {
         ToggleBridgez();
         ReleaseSwitch();
       }

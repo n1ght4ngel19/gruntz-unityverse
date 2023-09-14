@@ -25,7 +25,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
 
         TogglePyramidz();
         PressSwitch();
-      } else {
+      } else if (!hasBeenReleased) {
         ReleaseSwitch();
       }
     }

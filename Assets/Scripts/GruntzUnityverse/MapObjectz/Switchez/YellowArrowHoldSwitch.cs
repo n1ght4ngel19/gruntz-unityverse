@@ -32,7 +32,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
 
         ToggleArrowz();
         PressSwitch();
-      } else if (hasBeenPressed) {
+      } else if (!hasBeenReleased) {
         ToggleArrowz();
         ReleaseSwitch();
       }
