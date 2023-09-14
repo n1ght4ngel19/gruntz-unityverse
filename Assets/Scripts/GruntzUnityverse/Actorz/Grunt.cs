@@ -44,6 +44,7 @@ namespace GruntzUnityverse.Actorz {
     public bool haveGiveToyCommand;
     public bool canInteract;
     public bool isInterrupted;
+    public bool hasPlayedMovementAcknowledgeSound = true;
     private bool _isDying;
     #endregion
     // -------------------------------------------------------------------------------- //
@@ -665,6 +666,22 @@ namespace GruntzUnityverse.Actorz {
 
           break;
       }
+    }
+
+    public void PlayCommandVoice(string goodOrBad) {
+      if (hasPlayedMovementAcknowledgeSound) {
+        return;
+      }
+
+      hasPlayedMovementAcknowledgeSound = true;
+
+      int voiceIndex = Random.Range(1, 11);
+      string textVoiceIndex = voiceIndex < 10 ? $"0{voiceIndex}" : $"{voiceIndex}";
+      string audioPath = $"Assets/Audio/Voicez/Commandz/{goodOrBad}/Voice_Command_{goodOrBad}_{textVoiceIndex}.wav";
+
+      Addressables.LoadAssetAsync<AudioClip>(audioPath).Completed += handle => {
+        audioSource.PlayOneShot(handle.Result);
+      };
     }
   }
 }

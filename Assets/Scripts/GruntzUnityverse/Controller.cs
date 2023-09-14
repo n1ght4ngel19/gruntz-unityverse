@@ -56,6 +56,7 @@ namespace GruntzUnityverse {
 
           grunt.navigator.targetNode = clickedNode;
           grunt.navigator.haveMoveCommand = true;
+          grunt.hasPlayedMovementAcknowledgeSound = false;
         }
       }
 

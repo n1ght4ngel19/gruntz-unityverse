@@ -90,8 +90,12 @@ namespace GruntzUnityverse.Actorz {
         // Debug.Log(message);
         #endif
 
+        ownGrunt.PlayCommandVoice("Bad");
+
         return;
       }
+
+      ownGrunt.PlayCommandVoice("Good");
 
       Vector3 nextPosition = LocationAsPosition(path[1].location);
 
