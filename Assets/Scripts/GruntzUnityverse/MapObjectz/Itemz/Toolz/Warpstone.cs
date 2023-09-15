@@ -1,5 +1,6 @@
 using System.Collections;
 using GruntzUnityverse.Enumz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 
 namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
   public class Warpstone : Tool {

@@ -9,6 +9,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Linq;
 using GruntzUnityverse.MapObjectz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.Interactablez;
 using GruntzUnityverse.MapObjectz.Itemz;
 using GruntzUnityverse.MapObjectz.Itemz.Toolz;

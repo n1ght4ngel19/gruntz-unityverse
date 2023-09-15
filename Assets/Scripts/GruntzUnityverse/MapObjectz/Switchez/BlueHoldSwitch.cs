@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.Bridgez;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {

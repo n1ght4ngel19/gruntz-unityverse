@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GruntzUnityverse.MapObjectz.BaseClasses;
+using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Pyramidz {
   public class SilverPyramid : Pyramid {

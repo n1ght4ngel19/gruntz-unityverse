@@ -1,10 +1,11 @@
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz {
   public class SelectorCircle : MapObject {
     private void Update() {
-      ownTransform.position = MousePositionAsVector3();
-      location = Vector2Int.FloorToInt(ownTransform.position);
+      transform.position = MousePositionAsVector3();
+      location = Vector2Int.FloorToInt(transform.position);
 
       if (GameManager.Instance.currentLevelManager.nodeLocations.Contains(location)) {
         ownNode = GameManager.Instance.currentLevelManager.NodeAt(location);

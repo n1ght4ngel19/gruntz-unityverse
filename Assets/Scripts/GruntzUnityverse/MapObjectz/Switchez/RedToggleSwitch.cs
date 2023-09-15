@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.Pyramidz;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {

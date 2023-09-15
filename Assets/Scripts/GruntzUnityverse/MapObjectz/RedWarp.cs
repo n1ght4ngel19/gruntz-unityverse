@@ -2,6 +2,7 @@
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 

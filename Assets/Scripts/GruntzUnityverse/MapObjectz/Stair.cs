@@ -1,4 +1,5 @@
 ﻿using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 
 namespace GruntzUnityverse.MapObjectz {
   public class Stair : MapObject {

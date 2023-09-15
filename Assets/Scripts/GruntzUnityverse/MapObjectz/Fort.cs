@@ -4,6 +4,7 @@ using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

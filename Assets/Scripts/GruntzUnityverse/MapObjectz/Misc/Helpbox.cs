@@ -1,5 +1,6 @@
 using System.Linq;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Misc {

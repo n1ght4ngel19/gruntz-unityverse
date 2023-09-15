@@ -1,5 +1,6 @@
 ﻿using System;
 using GruntzUnityverse.Enumz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Arrowz {

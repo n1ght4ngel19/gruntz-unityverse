@@ -2,6 +2,7 @@ using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 
 namespace GruntzUnityverse.MapObjectz.Hazardz {
   public class Spikez : MapObject {

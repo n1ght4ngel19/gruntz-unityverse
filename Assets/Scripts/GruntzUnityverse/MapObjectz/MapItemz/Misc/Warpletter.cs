@@ -1,4 +1,5 @@
 ﻿using GruntzUnityverse.Enumz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.Itemz;
 
 namespace GruntzUnityverse.MapObjectz.MapItemz.Misc {

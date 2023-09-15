@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2293320700441908421}
   - component: {fileID: 1151324707606530518}
   - component: {fileID: -4444269600322597262}
+  - component: {fileID: 5268836606719271675}
   m_Layer: 0
   m_Name: GiantRockEdge
   m_TagString: Untagged
@@ -22,7 +23,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &6614523138704185893
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -37,7 +38,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6057601565982675655
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -99,12 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4154e121f8d242e597b92dad5344aa2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  area: 0
-  abbreviatedArea: 
   spriteRenderer: {fileID: 0}
-  isTargetable: 1
+  parent: {fileID: 0}
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
+  area: 0
+  abbreviatedArea: 
+  isTargetable: 1
   mainRock: {fileID: 0}
 --- !u!95 &1151324707606530518
 Animator:
@@ -141,3 +143,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Animator: {fileID: 1151324707606530518}
   _ActionOnDisable: 0
+--- !u!114 &5268836606719271675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831242626146821270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 989047691, guid: e0277ee5c436c344a9d7720bdc0391d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

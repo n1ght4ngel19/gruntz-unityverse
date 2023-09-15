@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Managerz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Interactablez {

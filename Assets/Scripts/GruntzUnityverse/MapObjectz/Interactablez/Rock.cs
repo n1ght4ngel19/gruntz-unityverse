@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.MapItemz;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

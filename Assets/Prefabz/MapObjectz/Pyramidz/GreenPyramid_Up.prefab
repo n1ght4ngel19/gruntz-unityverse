@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 6614523138704185893}
   - component: {fileID: 6057601565982675655}
   - component: {fileID: 5746067939772015399}
-  - component: {fileID: -8233399660383651067}
-  - component: {fileID: -6108950746466124319}
   m_Layer: 0
   m_Name: GreenPyramid_Up
   m_TagString: Untagged
@@ -22,7 +20,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &6614523138704185893
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -37,7 +35,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6057601565982675655
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -99,45 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1ec23b9e824dee944aa47c44cc5bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  parent: {fileID: 0}
+  ownNode: {fileID: 0}
+  location: {x: 0, y: 0}
   area: 0
   abbreviatedArea: 
-  spriteRenderer: {fileID: 0}
   isTargetable: 0
-  location: {x: 0, y: 0}
-  ownNode: {fileID: 0}
-  <IsDown>k__BackingField: 0
---- !u!95 &-8233399660383651067
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8831242626146821270}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-6108950746466124319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8831242626146821270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Animator: {fileID: -8233399660383651067}
-  _ActionOnDisable: 0
+  isDown: 0

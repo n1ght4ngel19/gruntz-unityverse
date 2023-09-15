@@ -1,4 +1,4 @@
-﻿using GruntzUnityverse.Managerz;
+﻿using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -27,12 +27,12 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
     protected override void LoadAnimationz() {
       string optionalDeath = isDeathBridge ? "Death" : "";
 
-      Addressables.LoadAssetAsync<AnimationClip>($"{optionalDeath}Bridge_Down_{abbreviatedArea}.anim").Completed +=
+      Addressables.LoadAssetAsync<AnimationClip>($"Assets/Animationz/MapObjectz/Bridgez/{area}/Clipz/{abbreviatedArea}_{optionalDeath}Bridge_Down.anim").Completed +=
         (handle) => {
           downAnim = handle.Result;
         };
 
-      Addressables.LoadAssetAsync<AnimationClip>($"{optionalDeath}Bridge_Up_{abbreviatedArea}.anim").Completed +=
+      Addressables.LoadAssetAsync<AnimationClip>($"Assets/Animationz/MapObjectz/Bridgez/{area}/Clipz/{abbreviatedArea}_{optionalDeath}Bridge_Up.anim").Completed +=
         (handle) => {
           upAnim = handle.Result;
         };

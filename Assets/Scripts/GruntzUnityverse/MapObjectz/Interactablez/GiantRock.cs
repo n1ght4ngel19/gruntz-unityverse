@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.MapObjectz.MapItemz;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

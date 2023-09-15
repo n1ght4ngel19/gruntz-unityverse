@@ -1,4 +1,5 @@
-﻿using GruntzUnityverse.MapObjectz.Itemz;
+﻿using GruntzUnityverse.MapObjectz.BaseClasses;
+using GruntzUnityverse.MapObjectz.Itemz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
