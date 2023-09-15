@@ -9,13 +9,13 @@ namespace GruntzUnityverse.MapObjectz {
   public class Checkpoint : MonoBehaviour {
     private List<CheckpointSwitch> _switchez;
     private List<CheckpointPyramid> _pyramidz;
-    private List<CheckpointFlag> _flagz;
+    private List<Flag> _flagz;
     // ------------------------------------------------------------ //
 
     private void Start() {
       _switchez = GetComponentsInChildren<CheckpointSwitch>().ToList();
       _pyramidz = GetComponentsInChildren<CheckpointPyramid>().ToList();
-      _flagz = GetComponentsInChildren<CheckpointFlag>().ToList();
+      _flagz = GetComponentsInChildren<Flag>().ToList();
     }
     // ------------------------------------------------------------ //
 
