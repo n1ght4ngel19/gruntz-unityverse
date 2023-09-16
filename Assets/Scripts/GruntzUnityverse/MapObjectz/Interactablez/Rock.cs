@@ -22,7 +22,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
 
       GameManager.Instance.currentLevelManager.SetBlockedAt(location, true);
       GameManager.Instance.currentLevelManager.SetHardTurnAt(location, true);
-      Addressables.LoadAssetAsync<AnimationClip>($"RockBreak_{abbreviatedArea}_01.anim").Completed += (handle) => {
+      Addressables.LoadAssetAsync<AnimationClip>($"RockBreak_{abbreviatedArea}_01.anim").Completed += handle => {
         BreakAnimation = handle.Result;
       };
 

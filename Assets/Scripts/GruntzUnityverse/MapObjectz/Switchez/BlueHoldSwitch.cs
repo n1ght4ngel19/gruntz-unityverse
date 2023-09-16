@@ -24,18 +24,16 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
           return;
         }
 
-        ToggleBridgez();
         PressSwitch();
-      } else if (!hasBeenReleased) {
         ToggleBridgez();
+      } else if (!hasBeenReleased) {
         ReleaseSwitch();
+        ToggleBridgez();
       }
     }
 
     private void ToggleBridgez() {
-      foreach (Bridge bridge in _bridgez) {
-        bridge.Toggle();
-      }
+      _bridgez.ForEach(bridge => bridge.Toggle());
     }
   }
 }

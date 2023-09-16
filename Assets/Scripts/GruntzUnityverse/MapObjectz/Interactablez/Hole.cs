@@ -16,7 +16,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       openSprite = spriteRenderer.sprite;
       
       Addressables.LoadAssetAsync<Sprite>($"{abbreviatedArea}_Hole_Filled.png")
-        .Completed += (handle) => {
+        .Completed += handle => {
           filledSprite = handle.Result;
       };
     }

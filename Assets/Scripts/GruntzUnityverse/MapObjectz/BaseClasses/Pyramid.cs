@@ -17,12 +17,12 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
 
     protected override void LoadAnimationz() {
       Addressables.LoadAssetAsync<AnimationClip>($"{GetType().Name}_Down.anim").Completed +=
-        (handle) => {
+        handle => {
           _downAnim = handle.Result;
         };
 
       Addressables.LoadAssetAsync<AnimationClip>($"{GetType().Name}_Up.anim").Completed +=
-        (handle) => {
+        handle => {
           _upAnim = handle.Result;
         };
     }

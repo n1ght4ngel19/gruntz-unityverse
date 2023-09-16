@@ -14,6 +14,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
   /// The base for all other objects.
   /// </summary>
   public class MapObject : MonoBehaviour {
+    #region Fields
     public SpriteRenderer spriteRenderer; // HideInInspector
     protected Camera mainCamera;
     public Transform parent;
@@ -26,6 +27,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     protected AnimancerComponent animancer; // HideInInspector
     private Animator _animator;
     private Sprite _unusedSprite;
+    #endregion
     // ------------------------------------------------------------ //
 
     private void OnValidate() {
@@ -39,7 +41,13 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       animancer.Animator = _animator;
     }
 
-    protected virtual void Start() {
+    protected virtual void Start() { }
+    // ------------------------------------------------------------ //
+
+    /// <summary>
+    /// Sets up the MapObject for use and validates the setup wherever necessary.
+    /// </summary>
+    public virtual void Setup() {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
       mainCamera = Camera.main;
       parent = transform.parent;
@@ -47,6 +55,8 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       ownNode = GameManager.Instance.currentLevelManager.NodeAt(location);
 
       AssignAreaBySpriteName();
+      
+      // Todo: Only call these in classes that need them
       LoadAnimationz();
       StartCoroutine(LoadAndPlayAnimation());
 
@@ -54,7 +64,6 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
         _unusedSprite = handle.Result;
       };
     }
-    // ------------------------------------------------------------ //
 
     /// <summary>
     /// Checks if the MapObject is a valid target for a specific Grunt.

@@ -49,7 +49,7 @@ namespace GruntzUnityverse.MapObjectz {
       yield return new WaitUntil(() => area != Area.None);
 
       Addressables.LoadAssetAsync<AnimationClip>($"Fort_{area}.anim")
-        .Completed += (handle) => {
+        .Completed += handle => {
         _fortAnim = handle.Result;
 
         animancer.Play(_fortAnim);

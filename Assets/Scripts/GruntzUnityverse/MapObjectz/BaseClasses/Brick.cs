@@ -34,7 +34,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
 
     protected override void LoadAnimationz() {
       Addressables.LoadAssetAsync<AnimationClip>($"Effect_Shared_BrickBreak_{GetType()}.anim").Completed +=
-        (handle) => {
+        handle => {
           BreakAnimation = handle.Result;
         };
     }

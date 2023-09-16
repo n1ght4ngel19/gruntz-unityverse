@@ -164,6 +164,7 @@ namespace GruntzUnityverse.Managerz {
 
       mapObjectContainer = GameObject.FindGameObjectWithTag("MapObjectContainer");
       mapObjectz = FindObjectsOfType<MapObject>().ToList();
+      mapObjectz.ForEach(obj => obj.Setup());
     }
 
     private void AssignLayerz() {

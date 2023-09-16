@@ -4,46 +4,49 @@ using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.MapObjectz.Bridgez {
   public class Bridge : MapObject {
-    public bool isDown;
-    public bool isDeathBridge;
-    protected AnimationClip downAnim;
-    protected AnimationClip upAnim;
+    private bool _isDeath;
+    private bool _isDown;
+    private AnimationClip _downAnim;
+    private AnimationClip _upAnim;
 
+    // ------------------------------------------------------------ //
+    // OVERRIDES
+    // ------------------------------------------------------------ //
+    public override void Setup() {
+      base.Setup();
 
-    protected override void Start() {
-      base.Start();
+      _isDeath = spriteRenderer.sprite.name.Contains("Death");
+      _isDown = !spriteRenderer.sprite.name.EndsWith("_0");
+      ownNode.isBlocked = _isDown;
+      ownNode.isWater = _isDown;
+      ownNode.isDeath = _isDown && _isDeath;
 
       LoadAnimationz();
     }
 
-    protected virtual void Update() {
-      GameManager.Instance.currentLevelManager.SetBlockedAt(location, isDown);
-      GameManager.Instance.currentLevelManager.SetWaterAt(location, isDown);
-      GameManager.Instance.currentLevelManager.SetDeathAt(location, isDown);
-
-      enabled = false;
-    }
-
     protected override void LoadAnimationz() {
-      string optionalDeath = isDeathBridge ? "Death" : "";
+      string optionalDeath = _isDeath ? "Death" : "";
+      string downPath = $"{GlobalNamez.BridgeAnimzPath}/{area}/Clipz/{abbreviatedArea}_{optionalDeath}Bridge_Down.anim";
+      string upPath = $"{GlobalNamez.BridgeAnimzPath}/{area}/Clipz/{abbreviatedArea}_{optionalDeath}Bridge_Up.anim";
 
-      Addressables.LoadAssetAsync<AnimationClip>($"Assets/Animationz/MapObjectz/Bridgez/{area}/Clipz/{abbreviatedArea}_{optionalDeath}Bridge_Down.anim").Completed +=
-        (handle) => {
-          downAnim = handle.Result;
-        };
+      Addressables.LoadAssetAsync<AnimationClip>(downPath).Completed += handle => {
+        _downAnim = handle.Result;
+      };
 
-      Addressables.LoadAssetAsync<AnimationClip>($"Assets/Animationz/MapObjectz/Bridgez/{area}/Clipz/{abbreviatedArea}_{optionalDeath}Bridge_Up.anim").Completed +=
-        (handle) => {
-          upAnim = handle.Result;
-        };
+      Addressables.LoadAssetAsync<AnimationClip>(upPath).Completed += handle => {
+        _upAnim = handle.Result;
+      };
     }
 
+    // ------------------------------------------------------------ //
+    // CLASS METHODS
+    // ------------------------------------------------------------ //
     public void Toggle() {
-      animancer.Play(isDown ? upAnim : downAnim);
+      animancer.Play(_isDown ? _upAnim : _downAnim);
 
-      isDown = !isDown;
-      GameManager.Instance.currentLevelManager.SetBlockedAt(location, isDown);
-      GameManager.Instance.currentLevelManager.SetWaterAt(location, isDown);
+      _isDown = !_isDown;
+      ownNode.isBlocked = _isDown;
+      ownNode.isWater = _isDown;
     }
   }
 }
