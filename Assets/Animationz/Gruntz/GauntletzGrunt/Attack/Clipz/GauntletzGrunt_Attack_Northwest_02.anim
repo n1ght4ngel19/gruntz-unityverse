@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GauntletzGrunt_Attack_Northwest_02
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,28 +18,30 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: -755216802, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
-    - time: 0.125
+    - time: 0.0625
       value: {fileID: 1483458809, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
-    - time: 0.25
+    - time: 0.125
       value: {fileID: -1891327363, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
-    - time: 0.375
+    - time: 0.1875
       value: {fileID: -481434131, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
-    - time: 0.5
+    - time: 0.25
       value: {fileID: 1559657154, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
-    - time: 0.625
+    - time: 0.3125
       value: {fileID: 2087115266, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
-    - time: 0.75
+    - time: 0.375
       value: {fileID: -147792753, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
-    - time: 0.875
+    - time: 0.4375
       value: {fileID: -497613380, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 8
+    flags: 2
+  m_SampleRate: 16
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -53,6 +55,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: -755216802, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
     - {fileID: 1483458809, guid: ff28a07007d1e1d4dbdf347ee572770d, type: 3}
@@ -67,7 +71,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: 0.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

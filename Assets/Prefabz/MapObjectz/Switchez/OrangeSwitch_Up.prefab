@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 6614523138704185893}
   - component: {fileID: 6057601565982675655}
   - component: {fileID: 2347755042252230743}
-  - component: {fileID: -1950094908465073060}
-  - component: {fileID: -5763352950795359515}
   m_Layer: 0
   m_Name: OrangeSwitch_Up
   m_TagString: Untagged
@@ -22,7 +20,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &6614523138704185893
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -37,7 +35,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6057601565982675655
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -99,47 +97,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce43fd397cb4732bf574dc2de4420e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  area: 0
-  abbreviatedArea: 
   spriteRenderer: {fileID: 0}
-  isTargetable: 0
+  parent: {fileID: 0}
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
-  pressedSprite: {fileID: 0}
+  area: 0
+  abbreviatedArea: 
+  isTargetable: 0
   isPressed: 0
   otherSwitchez: []
---- !u!95 &-1950094908465073060
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8831242626146821270}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-5763352950795359515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8831242626146821270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Animator: {fileID: 0}
-  _ActionOnDisable: 0

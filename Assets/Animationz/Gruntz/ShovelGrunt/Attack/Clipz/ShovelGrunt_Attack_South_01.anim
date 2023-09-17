@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ShovelGrunt_Attack_South_01
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,24 +18,26 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: -829921884, guid: b92d35e2bca591641961c4a279fe83cb, type: 3}
-    - time: 0.125
+    - time: 0.083333336
       value: {fileID: 479879919, guid: b92d35e2bca591641961c4a279fe83cb, type: 3}
-    - time: 0.25
+    - time: 0.16666667
       value: {fileID: -1292905489, guid: b92d35e2bca591641961c4a279fe83cb, type: 3}
-    - time: 0.375
+    - time: 0.25
       value: {fileID: 1967382470, guid: b92d35e2bca591641961c4a279fe83cb, type: 3}
-    - time: 0.5
+    - time: 0.33333334
       value: {fileID: -1412682453, guid: b92d35e2bca591641961c4a279fe83cb, type: 3}
-    - time: 0.625
+    - time: 0.41666666
       value: {fileID: -1268600295, guid: b92d35e2bca591641961c4a279fe83cb, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 8
+    flags: 2
+  m_SampleRate: 12
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -49,6 +51,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: -829921884, guid: b92d35e2bca591641961c4a279fe83cb, type: 3}
     - {fileID: 479879919, guid: b92d35e2bca591641961c4a279fe83cb, type: 3}
