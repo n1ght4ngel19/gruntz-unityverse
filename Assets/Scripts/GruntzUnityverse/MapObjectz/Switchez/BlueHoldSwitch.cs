@@ -14,7 +14,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       _bridgez = parent.GetComponentsInChildren<Bridge>().ToList();
 
       if (_bridgez.Count.Equals(0)) {
-        DisableWithError("There is no Bridge assigned to this Switch, this way the Switch won't work properly!");
+        WarnWithSpriteChange("There is no Bridge assigned to this Switch, this way the Switch won't work properly!");
       }
     }
 

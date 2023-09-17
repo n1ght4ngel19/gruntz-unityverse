@@ -20,7 +20,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       _pyramidz = parent.GetComponentsInChildren<CheckpointPyramid>().ToList();
 
       if (_pyramidz.Count.Equals(0)) {
-        DisableWithError("There is no Checkpoint Pyramid assigned to this Switch, this way the Checkpoint won't work properly!");
+        WarnWithSpriteChange("There is no Checkpoint Pyramid assigned to this Switch, this way the Checkpoint won't work properly!");
       }
 
       SetupSwitch();
@@ -43,8 +43,6 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       string requiredItemName = _requiredTool is ToolName.None
         ? _requiredToy.ToString()
         : _requiredTool.ToString();
-
-      Debug.Log(requiredItemName);
 
       Addressables.LoadAssetAsync<Sprite[]>($"{GlobalNamez.SwitchSpritezPath}/{typeAsString}_{requiredItemName}.png").Completed +=
         handle => {

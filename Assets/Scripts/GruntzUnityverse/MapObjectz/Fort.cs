@@ -64,7 +64,7 @@ namespace GruntzUnityverse.MapObjectz {
       FortTrigger trigger = Instantiate(fortTriggerPrefab, node.transform);
       trigger.location = node.location;
       trigger.ownNode = GameManager.Instance.currentLevelManager.NodeAt(trigger.location);
-      trigger.fort = this;
+      trigger.ownFort = this;
       _triggerz.Add(trigger);
     }
   }

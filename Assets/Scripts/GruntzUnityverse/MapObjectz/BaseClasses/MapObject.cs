@@ -84,11 +84,10 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       spriteRenderer.enabled = value;
     }
 
-    protected void DisableWithError(string message) {
-      Debug.LogError(message);
+    protected void WarnWithSpriteChange(string message) {
+      Debug.LogWarning(message);
 
       spriteRenderer.sprite = _unusedSprite;
-      enabled = false;
     }
 
     public void SetRendererEnabled(bool value) {

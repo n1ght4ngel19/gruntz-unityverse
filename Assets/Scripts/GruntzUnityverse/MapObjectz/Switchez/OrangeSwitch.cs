@@ -14,7 +14,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       _pyramidz = parent.GetComponentsInChildren<OrangePyramid>().ToList();
 
       if (_pyramidz.Count.Equals(0)) {
-        DisableWithError("There is no Orange Pyramid assigned to this Switch, this way the Switch won't work properly!");
+        WarnWithSpriteChange("There is no Orange Pyramid assigned to this Switch, this way the Switch won't work properly!");
       }
     }
 

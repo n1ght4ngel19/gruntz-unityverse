@@ -18,7 +18,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       secretObjectz = parent.GetComponentsInChildren<SecretObject>().ToList();
       
       if (secretObjectz.Count.Equals(0)) {
-        DisableWithError("There is no Secret Object assigned to this Switch, this way the Switch won't work properly!");
+        WarnWithSpriteChange("There is no Secret Object assigned to this Switch, this way the Switch won't work properly!");
       }
     }
 

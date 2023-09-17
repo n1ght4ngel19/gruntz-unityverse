@@ -27,6 +27,8 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
         edge.mainRock = this;
         edge.BreakAnimation = BreakAnimation;
         edge.transform.parent = transform;
+        edge.ownNode = node;
+        edge.location = node.location;
         edge.GetComponent<SpriteRenderer>().sortingOrder = GetComponent<SpriteRenderer>().sortingOrder + 1;
         edgez.Add(edge);
       }

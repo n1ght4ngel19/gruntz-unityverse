@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 
@@ -9,8 +8,6 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public GiantRock mainRock;
 
     protected override void Start() {
-      base.Start();
-
       GameManager.Instance.currentLevelManager.SetBlockedAt(location, true);
       GameManager.Instance.currentLevelManager.SetHardTurnAt(location, true);
     }
