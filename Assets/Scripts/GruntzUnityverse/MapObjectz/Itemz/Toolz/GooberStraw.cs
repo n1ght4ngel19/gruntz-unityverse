@@ -8,9 +8,12 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.GooberStraw;
-      toolRange = RangeType.Melee;
+      range = Range.Melee;
+      deathInflicted = DeathName.Default;
       damage = GlobalValuez.GooberStrawDamage;
       mapItemName = nameof(GooberStraw);
+      itemUseContactDelay = 0.5f;
+      attackContactDelay = 0.4f;
     }
     // -------------------------------------------------------------------------------- //
 

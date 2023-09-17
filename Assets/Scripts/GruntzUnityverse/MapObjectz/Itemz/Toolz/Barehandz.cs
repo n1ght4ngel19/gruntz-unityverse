@@ -10,7 +10,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Barehandz;
-      toolRange = RangeType.Melee;
+      range = Range.Melee;
       damage = GlobalValuez.BarehandzDamage;
       mapItemName = nameof(Barehandz);
       // itemUseContactDelay = Not applicable;

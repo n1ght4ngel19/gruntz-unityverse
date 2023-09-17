@@ -10,11 +10,11 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Club;
-      toolRange = RangeType.Melee;
+      range = Range.Melee;
       damage = GlobalValuez.ClubDamage;
       mapItemName = nameof(Club);
       // itemUseContactDelay = Not applicable;
-      attackContactDelay = 1f;
+      attackContactDelay = 0.8f;
     }
     // -------------------------------------------------------------------------------- //
 

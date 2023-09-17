@@ -20,7 +20,6 @@ namespace GruntzUnityverse.Actorz {
     public Grunt ownGrunt;
     #endregion
 
-    public bool haveMoveCommand;
     private bool _doFindPath;
 
     #region Pathfinding
@@ -61,34 +60,34 @@ namespace GruntzUnityverse.Actorz {
     public void MoveTowardsTargetNode() {
       if (isMoveForced) {
         HandleForcedMovement(isMoveForced);
-        // When the target Node is not the Grunt's own Node and it's also not a valid target, search for a new target
-      } else if ((targetNode.IsOccupied() || targetNode.IsUnavailable())
-        && targetNode != ownNode) {
-        #if UNITY_EDITOR
-        // Debug.Log("Target node is occupied or unavailable, searching for new target.");
-        #endif
-
+      } else if ((targetNode.IsOccupied() || targetNode.IsUnavailable()) && targetNode != ownNode) {
         SetTargetBesideNode(targetNode);
       }
 
       if (_doFindPath && ownNode != targetNode) {
-        // Debug.Log("Searching for a path.");
         path = Pathfinder.PathBetween(ownNode, targetNode, isMoveForced, GameManager.Instance.currentLevelManager.nodes, ownGrunt);
       }
 
-      // There's no path to target or Grunt has reached target
+      // There is no path to target or Grunt has reached target
       if ((path is null) || (path.Count <= 1)) {
-        isMoving = false;
-        haveMoveCommand = false;
-        isMoveForced = false;
+        switch (ownGrunt.state) {
+          case GruntState.MovingToUsing:
+            ownGrunt.state = GruntState.Using;
+            break;
 
-        #if UNITY_EDITOR
-        // string message = path is null
-        //   ? "There is no path to target."
-        //   : "Grunt has reached target.";
-        //
-        // Debug.Log(message);
-        #endif
+          case GruntState.MovingToAttacking:
+            Debug.Log("Moving from MovingToAttacking to Attacking");
+            ownGrunt.state = GruntState.Attacking;
+            break;
+
+          case GruntState.MovingToGiving:
+            ownGrunt.state = GruntState.Giving;
+            break;
+
+          default:
+            ownGrunt.CleanState();
+            break;
+        }
 
         if (path is not null) {
           ownGrunt.PlayCommandVoice("Bad");
@@ -98,30 +97,16 @@ namespace GruntzUnityverse.Actorz {
       }
 
       ownGrunt.PlayCommandVoice("Good");
-
       Vector3 nextPosition = LocationAsPosition(path[1].location);
+      isMoving = true;
 
-      // Continuing only if the Grunt is not close enough to the target
+      // Continuing only if Grunt is not close enough to target
       if (Vector2.Distance(nextPosition, transform.position) > StepThreshold) {
         MoveSomeTowards(nextPosition);
         SetFacingDirection(moveVector);
       } else {
         FinishStep();
       }
-    }
-
-    private void FinishStep() {
-      ownLocation = path[1].location;
-      _doFindPath = true;
-
-      path.RemoveAt(1);
-    }
-
-    private void MoveSomeTowards(Vector3 nextPosition) {
-      _doFindPath = false;
-      moveVector = (nextPosition - gameObject.transform.position).normalized;
-      // Todo: Swap 0.6f to Grunt's moveSpeed
-      gameObject.transform.position += moveVector * (Time.deltaTime / 0.6f);
     }
 
     private void HandleForcedMovement(bool isForced) {
@@ -141,6 +126,19 @@ namespace GruntzUnityverse.Actorz {
       isMoveForced = false;
     }
 
+    private void MoveSomeTowards(Vector3 nextPosition) {
+      _doFindPath = false;
+      moveVector = (nextPosition - gameObject.transform.position).normalized;
+      gameObject.transform.position += moveVector * (Time.deltaTime / ownGrunt.moveSpeed);
+    }
+
+    private void FinishStep() {
+      ownLocation = path[1].location;
+      _doFindPath = true;
+
+      path.RemoveAt(1);
+    }
+
     public void SetTargetBesideNode(Node node) {
       List<Node> freeNeighbours = node.Neighbours.FindAll(node1
         => !node1.IsUnavailable()
@@ -155,7 +153,7 @@ namespace GruntzUnityverse.Actorz {
         path.Clear();
 
         isMoving = false;
-        haveMoveCommand = false;
+        ownGrunt.haveMoveCommand = false;
         isMoveForced = false;
 
         // Todo: Play line that says that the Grunt can't move

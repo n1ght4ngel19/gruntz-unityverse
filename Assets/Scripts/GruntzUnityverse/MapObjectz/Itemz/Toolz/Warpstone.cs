@@ -8,14 +8,18 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Warpstone;
-      toolRange = RangeType.None;
+      range = Range.None;
       damage = GlobalValuez.WarpstoneDamage;
       mapItemName = nameof(Warpstone);
+      // itemUseContactDelay = Not applicable;
+      // attackContactDelay = Not applicable;
     }
     // -------------------------------------------------------------------------------- //
 
     public override IEnumerator UseTool() {
       yield return null;
+
+      ownGrunt.CleanState();
     }
   }
 }

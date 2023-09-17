@@ -10,22 +10,20 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Gauntletz;
-      toolRange = RangeType.Melee;
+      range = Range.Melee;
       deathInflicted = DeathName.Default;
       damage = GlobalValuez.GauntletzDamage;
       mapItemName = nameof(Gauntletz);
       itemUseContactDelay = 1.5f;
-      attackContactDelay = 0.5f;
+      attackContactDelay = 0.4f;
     }
     // -------------------------------------------------------------------------------- //
 
+    // Todo: Refactor this to be used like the Attack(Grunt attackTarget) method.
     public override IEnumerator UseTool() {
       Vector2Int diffVector = ownGrunt.targetGrunt is null
         ? ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation
         : ownGrunt.targetGrunt.navigator.ownLocation - ownGrunt.navigator.ownLocation;
-
-      ownGrunt.isInterrupted = true;
-
       ownGrunt.navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
 
       string gruntType = $"{toolName}Grunt";

@@ -7,8 +7,13 @@ namespace GruntzUnityverse.Ai {
   public class DumbChaser : MonoBehaviour {
     public int aggroRange;
     public Node startingNode;
+
+    public bool hasAggro;
+    public bool hasCleaned;
+    public bool hasAlready;
+
     private Grunt _self;
-    private bool _hasTarget;
+    private Grunt _targetGrunt;
 
     private void Start() {
       _self = gameObject.GetComponent<Grunt>();
@@ -16,32 +21,51 @@ namespace GruntzUnityverse.Ai {
 
     private void Update() {
       startingNode ??= _self.navigator.ownNode;
+      hasAggro = GameManager.Instance.currentLevelManager.playerGruntz.Any(IsWithinAggroRange);
 
-      DefendArea();
+      if (hasAggro) {
+        hasCleaned = false;
+
+        if (!hasAlready) {
+          hasAlready = true;
+          _self.targetGrunt = GameManager.Instance.currentLevelManager.playerGruntz.First(IsWithinAggroRange);
+          _self.navigator.targetNode = _self.targetGrunt.navigator.ownNode;
+          _self.haveActionCommand = true;
+        }
+      } else if (!hasCleaned) {
+        hasCleaned = true;
+        hasAlready = false;
+
+        _self.CleanState();
+        _self.navigator.targetNode = startingNode;
+        _self.haveMoveCommand = true;
+      }
+
+      // DefendArea();
     }
 
     public void DefendArea() {
       if (GameManager.Instance.currentLevelManager.playerGruntz.Any(IsWithinAggroRange)) {
-        if (_hasTarget) {
-          _self.navigator.targetNode = _self.targetGrunt.navigator.ownNode;
-          _self.haveActionCommand = true;
+        Grunt potentialTarget = GameManager.Instance.currentLevelManager.playerGruntz.First(IsWithinAggroRange);
 
-          return;
-        }
+        _self.targetGrunt = potentialTarget;
+
+        _self.navigator.targetNode = _self.targetGrunt.navigator.ownNode;
+        _self.haveActionCommand = true;
+
+        // return;
 
         _self.CleanState();
 
         Grunt targetGrunt = GameManager.Instance.currentLevelManager.playerGruntz.First(IsWithinAggroRange);
-        _hasTarget = true;
         _self.targetGrunt = targetGrunt;
         _self.navigator.targetNode = targetGrunt.navigator.ownNode;
         _self.haveActionCommand = true;
       } else {
         _self.CleanState();
 
-        _hasTarget = false;
         _self.navigator.targetNode = startingNode;
-        _self.navigator.haveMoveCommand = true;
+        _self.haveMoveCommand = true;
       }
     }
 

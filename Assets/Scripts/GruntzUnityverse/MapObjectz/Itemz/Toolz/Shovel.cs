@@ -8,11 +8,12 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       base.Start();
 
       toolName = ToolName.Shovel;
-      toolRange = RangeType.Melee;
+      range = Range.Melee;
+      deathInflicted = DeathName.Default;
       damage = GlobalValuez.ShovelDamage;
       mapItemName = nameof(Shovel);
       itemUseContactDelay = 1.5f;
-      attackContactDelay = 0.5f;
+      attackContactDelay = 0.4f;
     }
     // -------------------------------------------------------------------------------- //
 
@@ -38,6 +39,8 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
     public override IEnumerator UseTool() {
       // Todo: Implement
       yield return null;
+
+      ownGrunt.CleanState();
     }
   }
 }

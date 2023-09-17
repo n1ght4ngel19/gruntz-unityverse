@@ -2,7 +2,6 @@
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.Interactablez;
 using GruntzUnityverse.MapObjectz.Itemz.Toolz;
@@ -42,21 +41,24 @@ namespace GruntzUnityverse {
       SelectById();
 
       // ------------------------------
-      // Multi select command
+      // Multi select command with rect
       // ------------------------------
       // Todo
 
       // ------------------------------
-      // Single move command
+      // Move command
       // ------------------------------
       if (rightClick && selectedGruntz.Count > 0) {
         Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
 
-        foreach (Grunt grunt in selectedGruntz.Where(grunt1 => !grunt1.navigator.isMoveForced && !grunt1.isInterrupted)) {
-          grunt.CleanState();
+        foreach (Grunt grunt in selectedGruntz) {
+          if (grunt.navigator.isMoveForced) {
+            continue;
+          }
 
+          grunt.CleanState();
           grunt.navigator.targetNode = clickedNode;
-          grunt.navigator.haveMoveCommand = true;
+          grunt.haveMoveCommand = true;
           grunt.hasPlayedMovementAcknowledgeSound = false;
         }
       }
@@ -82,27 +84,38 @@ namespace GruntzUnityverse {
         selectedGruntz.ForEach(grunt => {
           grunt.CleanState();
 
+          // Attack command
           if (targetGrunt is not null && targetGrunt.IsValidTargetFor(grunt)) {
+            grunt.haveMovingToAttackingCommand = true;
             grunt.targetGrunt = targetGrunt;
             grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
-            grunt.haveActionCommand = true;
-            // Special Giant Rock treatment
-          } else if (targetMapObject is GiantRockEdge && grunt.equipment.tool is Gauntletz) {
-            grunt.navigator.SetTargetBesideNode(targetMapObject.ownNode);
+            // grunt.hasPlayedAttackAcknowledgeSound = false;
 
-            grunt.gruntState = GruntState.Use;
-            grunt.targetMapObject = targetMapObject;
-            grunt.haveActionCommand = true;
-          } else if (targetMapObject is not null && targetMapObject.IsValidTargetFor(grunt)) {
+            return;
+          }
+
+          // GiantRockEdge break command
+          if (targetMapObject is GiantRockEdge && grunt.equipment.tool is Gauntletz) {
+            grunt.haveMovingToUsingCommand = true;
             grunt.targetMapObject = targetMapObject;
             grunt.navigator.targetNode = targetMapObject.ownNode;
-            grunt.haveActionCommand = true;
+            grunt.hasPlayedMovementAcknowledgeSound = false;
+
+            return;
+          }
+
+          // Use command
+          if (targetMapObject is not null && targetMapObject.IsValidTargetFor(grunt)) {
+            grunt.haveMovingToUsingCommand = true;
+            grunt.targetMapObject = targetMapObject;
+            grunt.navigator.targetNode = targetMapObject.ownNode;
+            grunt.hasPlayedMovementAcknowledgeSound = false;
           }
         });
       }
 
       // ------------------------------
-      // Give toy command
+      // Giving command
       // ------------------------------
       if (leftClick && leftControlDown) {
         Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
@@ -110,17 +123,15 @@ namespace GruntzUnityverse {
         Grunt targetGrunt =
           GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
 
-        // Issuing action command according to the target being a Grunt or not
+        // Issuing action command according to the target being a Grunt or a spot on the ground
         selectedGruntz.ForEach(grunt => {
           if (targetGrunt is not null && targetGrunt != grunt) {
             grunt.targetGrunt = targetGrunt;
             grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
-            grunt.haveActionCommand = true;
-            grunt.haveGiveToyCommand = true;
+            grunt.haveGivingCommand = true;
           } else if (!clickedNode.IsUnavailable()) {
             grunt.navigator.targetNode = clickedNode;
-            grunt.haveActionCommand = true;
-            grunt.haveGiveToyCommand = true;
+            grunt.haveGivingCommand = true;
           }
         });
       }

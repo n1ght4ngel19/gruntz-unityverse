@@ -1,4 +1,5 @@
-﻿using Animancer;
+﻿using System;
+using Animancer;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Managerz;
@@ -8,23 +9,24 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.ComponentModel;
 using System.Linq;
-using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
-using GruntzUnityverse.MapObjectz.Interactablez;
-using GruntzUnityverse.MapObjectz.Itemz;
 using GruntzUnityverse.MapObjectz.Itemz.Toolz;
 using GruntzUnityverse.MapObjectz.Itemz.Toyz;
 using GruntzUnityverse.MapObjectz.MapItemz.Misc;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Random = UnityEngine.Random;
+using Range = GruntzUnityverse.Enumz.Range;
 
 namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
     private const int MinStatValue = 0;
     private const int MaxStatValue = 20;
-    // -------------------------------------------------------------------------------- //
 
-    #region Stats
+    // ------------------------------------------------------------ //
+    // Statz
+    // ------------------------------------------------------------ //
+    #region Statz
     [Header("Statz")] public int gruntId;
     public int playerGruntId;
     public Owner owner;
@@ -36,29 +38,40 @@ namespace GruntzUnityverse.Actorz {
     public int toyTime;
     public int wingzTime;
     #endregion
-    // -------------------------------------------------------------------------------- //
 
-    #region Flags
+    // ------------------------------------------------------------ //
+    // Flagz
+    // ------------------------------------------------------------ //
+    #region Flagz
     [Header("Flagz")] public bool isSelected;
     public bool isInCircle;
+    public bool isMoving;
+    public bool haveMoveCommand;
     public bool haveActionCommand;
-    public bool haveGiveToyCommand;
-    public bool canInteract;
+    public bool haveGivingCommand;
+    public bool haveMovingToUsingCommand;
+    public bool haveMovingToAttackingCommand;
+    public bool haveMovingToGivingCommand;
     public bool isInterrupted;
     public bool hasPlayedMovementAcknowledgeSound = true;
     private bool _isDying;
+    private bool _alreadyHostileIdling;
     #endregion
-    // -------------------------------------------------------------------------------- //
 
+    // ------------------------------------------------------------ //
+    // Action
+    // ------------------------------------------------------------ //
     #region Action
     [Header("Action")] public MapObject targetObject;
     [CanBeNull] public Grunt targetGrunt;
     [CanBeNull] public MapObject targetMapObject;
-    public GruntState gruntState;
+    public GruntState state;
     #endregion
-    // -------------------------------------------------------------------------------- //
 
-    #region Components
+    // ------------------------------------------------------------ //
+    // Componentz
+    // ------------------------------------------------------------ //
+    #region Componentz
     [HideInInspector] public SpriteRenderer spriteRenderer;
     [HideInInspector] public Navigator navigator;
     [HideInInspector] public Equipment equipment;
@@ -68,15 +81,15 @@ namespace GruntzUnityverse.Actorz {
     private Animator _animator;
     public SelectedCircle selectedCircle;
     #endregion
-    // -------------------------------------------------------------------------------- //
 
+    // ------------------------------------------------------------ //
+    // Other
+    // ------------------------------------------------------------ //
     #region Other
     public GruntAnimationPack animationPack;
-    #endregion
-    // -------------------------------------------------------------------------------- //
-
     public DeathName deathToDie;
     public AudioSource audioSource;
+    #endregion
 
     private void Start() {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -88,9 +101,9 @@ namespace GruntzUnityverse.Actorz {
       health = health <= MinStatValue ? MaxStatValue : health;
       staminaBar = gameObject.GetComponentInChildren<StaminaBar>();
       stamina = stamina <= MinStatValue ? MaxStatValue : stamina;
-      gruntState = GruntState.Idle;
-      _animator = gameObject.GetComponent<Animator>();
-      animancer = gameObject.GetComponent<AnimancerComponent>();
+      state = GruntState.Idle;
+      _animator ??= gameObject.AddComponent<Animator>();
+      animancer ??= gameObject.AddComponent<AnimancerComponent>();
       animancer.Animator = _animator;
       selectedCircle = gameObject.GetComponentInChildren<SelectedCircle>();
       BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
@@ -100,12 +113,13 @@ namespace GruntzUnityverse.Actorz {
       audioSource.playOnAwake = false;
 
       SetAnimPack(equipment.tool.toolName);
-
-      InvokeRepeating(nameof(RegenStamina), 0, 1);
     }
-    // -------------------------------------------------------------------------------- //
 
     protected virtual void Update() {
+      // ----------------------------------------
+      // Death
+      // ----------------------------------------
+      #region Death
       if (_isDying) {
         return;
       }
@@ -115,13 +129,28 @@ namespace GruntzUnityverse.Actorz {
 
         return;
       }
+      #endregion
+
+      // ----------------------------------------
+      // Stamina regen
+      // ----------------------------------------
+      switch (stamina) {
+        case 0:
+          InvokeRepeating(nameof(RegenStamina), 0, 1);
+          break;
+
+        case MaxStatValue:
+          CancelInvoke(nameof(RegenStamina));
+          break;
+      }
 
       // Setting flags necessary on all frames
       isInCircle = GameManager.Instance.selectorCircle.ownNode == navigator.ownNode;
 
       // ----------------------------------------
-      // Attribute bars
+      // Attribute barz
       // ----------------------------------------
+      #region Attribute barz
       healthBar.spriteRenderer.enabled = isSelected || health < MaxStatValue;
       healthBar.spriteRenderer.sprite = health <= 0
         ? healthBar.frames[0]
@@ -137,165 +166,220 @@ namespace GruntzUnityverse.Actorz {
       staminaBar.spriteRenderer.sprite = stamina >= staminaBar.frames.Count
         ? staminaBar.frames[^1]
         : staminaBar.frames[stamina];
+      #endregion
 
-      // ----------------------------------------
-      // Movement
-      // ----------------------------------------
-      if (navigator.haveMoveCommand && !isInterrupted) {
-        navigator.isMoving = true;
-        navigator.MoveTowardsTargetNode();
+      // Use isInterrupted to disallow any commands while the Grunt is doing something
+      if (isInterrupted) {
+        return;
       }
 
       // ----------------------------------------
-      // Action command
+      // Action command // Todo: Remove!!!
       // ----------------------------------------
-      if (haveActionCommand && !isInterrupted) {
-        if (haveGiveToyCommand) {
-          // ----------------------------------------
-          // Giving or placing a Toy
-          // ----------------------------------------
-          canInteract = targetGrunt is not null
-            ? IsNeighbourOf(targetGrunt)
-            : IsNeighbourOf(navigator.targetNode);
+      if (haveActionCommand) {
+        state = targetGrunt is not null
+          ? GruntState.Attacking
+          : targetMapObject is not null
+            ? GruntState.Using
+            : GruntState.Idle;
 
-          gruntState = GruntState.GiveToy;
-        } else {
-          // ----------------------------------------
-          // Attacking a Grunt or using a Tool
-          // ----------------------------------------
-          switch (equipment.tool.toolRange) {
-            case RangeType.Melee:
-              canInteract = targetGrunt is not null
-                ? IsNeighbourOf(targetGrunt)
-                : IsNeighbourOf(targetMapObject);
+        haveActionCommand = false;
+      }
 
-              gruntState = targetGrunt is not null
-                ? GruntState.Hostile
-                : GruntState.Use;
-              break;
-            case RangeType.Ranged:
-              // Todo: Implement ranged tools
-              break;
-            case RangeType.None:
-              throw new InvalidEnumArgumentException($"RangeType cannot be RangeType.None for Tool {equipment.tool.name} on Grunt {name}!");
+      // ----------------------------------------
+      // Command
+      // ----------------------------------------
+      #region Command
+      if (haveMoveCommand) {
+        state = GruntState.Moving;
+        haveMoveCommand = false;
+      }
+
+      if (haveGivingCommand) {
+        state = GruntState.Giving;
+
+        haveGivingCommand = false;
+      }
+
+      if (haveMovingToUsingCommand) {
+        state = GruntState.MovingToUsing;
+
+        haveMovingToUsingCommand = false;
+      }
+
+      if (haveMovingToAttackingCommand) {
+        state = GruntState.MovingToAttacking;
+
+        haveMovingToAttackingCommand = false;
+      }
+
+      if (haveMovingToGivingCommand) {
+        state = GruntState.MovingToGiving;
+
+        haveMovingToGivingCommand = false;
+      }
+      #endregion
+
+      // ----------------------------------------
+      // Action
+      // ----------------------------------------
+      switch (state) {
+        case GruntState.None:
+          break;
+
+        case GruntState.Idle:
+          break;
+
+        case GruntState.Moving:
+          navigator.MoveTowardsTargetNode();
+
+          break;
+
+        case GruntState.Using:
+          if (stamina < MaxStatValue) {
+            state = GruntState.UsingIdle;
+            break;
           }
-        }
 
-        navigator.haveMoveCommand = !canInteract;
-      }
+          switch (equipment.tool.range) {
+            case Range.Melee:
+              if (IsNeighbourOf(targetMapObject) && stamina == MaxStatValue) {
+                stamina = 0;
+                isInterrupted = true;
+                StartCoroutine(equipment.tool.UseTool());
 
-      // ----------------------------------------
-      // Interaction (Attack / Item use / Toy use)
-      // ----------------------------------------
-      if (canInteract && !isInterrupted) {
-        switch (gruntState) {
-          case GruntState.None:
-            throw new InvalidEnumArgumentException($"GruntState cannot be GruntState.None for Grunt {name}!");
+                if (targetMapObject == null) {
+                  CleanState();
+                }
+              }
 
-          // Attacking if possible, otherwise idling in hostile state
-          case GruntState.Hostile:
-            // Comparing with '==' instead of 'is' because this way 'Missing' is detected as well, not just 'null'
-            if (targetGrunt == null) {
-              CleanState();
-            } else if (stamina == MaxStatValue) {
-              StartCoroutine(HandleAttack());
-              isInterrupted = true;
-            } else {
-              StartCoroutine(HostileIdling());
-              isInterrupted = true;
-            }
+              if (!IsNeighbourOf(targetMapObject)) {
+                CleanState(); // Todo: Is this needed?
+              }
+
+              break;
+
+            case Range.Ranged:
+              break;
+
+            case Range.None:
+              throw new InvalidEnumArgumentException($"Range cannot be None for Tool {equipment.tool.name} on Grunt {name}!");
+            default:
+              throw new ArgumentOutOfRangeException();
+          }
+
+          break;
+
+        case GruntState.UsingIdle:
+          if (targetMapObject == null) {
+            CleanState();
 
             break;
+          }
 
-          case GruntState.Use:
-            if (stamina == MaxStatValue) {
-              StartCoroutine(HandleItemUse());
-              isInterrupted = true;
-            }
+          if (stamina == MaxStatValue) {
+            state = GruntState.Using;
+          }
+
+          break;
+
+        case GruntState.Attacking:
+          if (stamina < MaxStatValue) {
+            state = GruntState.AttackingIdle;
+            break;
+          }
+
+          switch (equipment.tool.range) {
+            case Range.Melee:
+              if (IsNeighbourOf(targetGrunt) && stamina == MaxStatValue) {
+                stamina = 0;
+                isInterrupted = true;
+                StartCoroutine(equipment.tool.Attack(targetGrunt));
+
+                if (targetGrunt == null) {
+                  CleanState();
+                }
+
+                break;
+              }
+
+              if (!IsNeighbourOf(targetGrunt)) {
+                CleanState(); // Todo: Make the Grunt follow its target instead of idling
+              }
+
+              break;
+
+            case Range.Ranged:
+              // if (HasWithinRange(targetGrunt) && stamina == MaxStatValue) {
+              //   isInterrupted = true;
+              //   StartCoroutine(equipment.tool.Attack(targetGrunt));
+              // }
+
+              break;
+
+            case Range.None:
+              throw new InvalidEnumArgumentException($"Range cannot be None for Tool {equipment.tool.name} on Grunt {name}!");
+
+            default:
+              throw new ArgumentOutOfRangeException();
+          }
+
+          break;
+
+        case GruntState.AttackingIdle:
+          if (targetGrunt == null) {
+            CleanState();
 
             break;
-          case GruntState.GiveToy:
-            // Give toy
-            break;
-        }
+          }
+
+          if (stamina == MaxStatValue) {
+            state = GruntState.Attacking;
+          }
+
+          break;
+
+        case GruntState.Giving:
+          break;
+
+        case GruntState.MovingToUsing:
+          if (!IsNeighbourOf(targetMapObject)) {
+            navigator.MoveTowardsTargetNode();
+          } else {
+            state = GruntState.Using;
+          }
+          break;
+
+        case GruntState.MovingToAttacking:
+          if (!IsNeighbourOf(targetGrunt)) {
+            navigator.MoveTowardsTargetNode();
+          } else {
+            state = GruntState.Attacking;
+          }
+
+          break;
+
+        case GruntState.MovingToGiving:
+          if (!IsNeighbourOf(targetGrunt)) {
+            navigator.MoveTowardsTargetNode();
+          } else {
+            state = GruntState.Giving;
+          }
+          break;
+
+        default:
+          throw new ArgumentOutOfRangeException();
       }
 
-      if (!isInterrupted) {
-        PlayWalkOrIdleAnimation();
-      }
+      PlayNonCombatAnimation();
     }
 
     private void RegenStamina() {
-      if (stamina < MaxStatValue) {
-        stamina += staminaRegenRate;
-      }
+      stamina += staminaRegenRate;
     }
 
     public void TakeDamage(int damageAmount, int reduction) {
       health -= (damageAmount - reduction);
-    }
-
-    private IEnumerator HandleItemUse() {
-      // Item
-      switch (equipment.tool) {
-        // Todo: All valid item use conditions
-        case Gauntletz when targetMapObject is GiantRock:
-          StartCoroutine(equipment.tool.UseTool());
-          stamina = 0;
-
-          // Todo: Move GauntletzGrunt item anim length into constant
-          yield return new WaitForSeconds(2f);
-          break;
-        case Gauntletz when targetMapObject is GiantRockEdge:
-          StartCoroutine(equipment.tool.UseTool());
-          stamina = 0;
-
-          // Todo: Move GauntletzGrunt item anim length into constant
-          yield return new WaitForSeconds(2f);
-          break;
-        case Gauntletz when targetMapObject is IBreakable:
-          StartCoroutine(equipment.tool.UseTool());
-          stamina = 0;
-
-          // Todo: Move GauntletzGrunt item anim length into constant
-          yield return new WaitForSeconds(2f);
-          break;
-        case Shovel when targetMapObject is Hole:
-          StartCoroutine(equipment.tool.UseTool());
-          stamina = 0;
-
-          yield return new WaitForSeconds(1.5f);
-          break;
-        default:
-          #if UNITY_EDITOR
-          Debug.Log("Say: Can't do it ");
-          #endif
-
-          CleanState();
-          break;
-      }
-    }
-
-    private IEnumerator HandleAttack() {
-      gruntState = GruntState.Attack;
-
-      StartCoroutine(equipment.tool.Attack(targetGrunt));
-      stamina = 0;
-
-      yield return new WaitForSeconds(equipment.tool.attackContactDelay);
-    }
-
-    private IEnumerator HostileIdling() {
-      string gruntType = $"{equipment.tool.toolName}Grunt";
-      AnimationClip clipToPlay =
-        animationPack.Attack[
-          $"{gruntType}_Attack_{navigator.facingDirection}_Idle"];
-
-      animancer.Play(clipToPlay);
-
-      yield return null;
-
-      isInterrupted = false;
     }
 
     /// <summary>
@@ -308,18 +392,18 @@ namespace GruntzUnityverse.Actorz {
     }
 
     /// <summary>
-    /// Resets all the Grunt's states and commands to default.
+    /// Resets the Grunt.
     /// </summary>
     public void CleanState() {
-      // navigator.haveMoveCommand = false;
-      // navigator.targetNode = navigator.ownNode;
+      navigator.isMoving = false;
+      navigator.isMoveForced = false;
       haveActionCommand = false;
-      haveGiveToyCommand = false;
-      canInteract = false;
+      haveGivingCommand = false;
+      haveMovingToUsingCommand = false;
       isInterrupted = false;
       targetGrunt = null;
       targetMapObject = null;
-      gruntState = GruntState.Idle;
+      state = GruntState.Idle;
     }
 
     /// <summary>
@@ -377,12 +461,48 @@ namespace GruntzUnityverse.Actorz {
     }
 
     /// <summary>
-    /// Plays the appropriate animation given the Grunt's current state.
+    /// Plays the appropriate non-combat animation given the Grunt's current state.
     /// </summary>
-    private void PlayWalkOrIdleAnimation() {
-      animancer.Play(navigator.isMoving
-        ? animationPack.Walk[$"{equipment.tool.toolName}Grunt_Walk_{navigator.facingDirection}"]
-        : animationPack.Idle[$"{equipment.tool.toolName}Grunt_Idle_{navigator.facingDirection}_01"]);
+    private void PlayNonCombatAnimation() {
+      AnimationClip clipToPlay;
+      string gruntType = $"{equipment.tool.toolName}Grunt";
+
+      switch (state) {
+        case GruntState.Idle:
+          clipToPlay = animationPack.Idle[$"{gruntType}_Idle_{navigator.facingDirection}_01"];
+          animancer.Play(clipToPlay);
+          break;
+
+        case GruntState.UsingIdle:
+          clipToPlay = animationPack.Idle[$"{gruntType}_Idle_{navigator.facingDirection}_01"];
+          animancer.Play(clipToPlay);
+          break;
+
+        case GruntState.Moving:
+          clipToPlay = animationPack.Walk[$"{gruntType}_Walk_{navigator.facingDirection}"];
+          animancer.Play(clipToPlay);
+          break;
+
+        case GruntState.MovingToUsing:
+          clipToPlay = animationPack.Walk[$"{gruntType}_Walk_{navigator.facingDirection}"];
+          animancer.Play(clipToPlay);
+          break;
+
+        case GruntState.MovingToAttacking:
+          clipToPlay = animationPack.Walk[$"{gruntType}_Walk_{navigator.facingDirection}"];
+          animancer.Play(clipToPlay);
+          break;
+
+        case GruntState.MovingToGiving:
+          clipToPlay = animationPack.Walk[$"{gruntType}_Walk_{navigator.facingDirection}"];
+          animancer.Play(clipToPlay);
+          break;
+
+        case GruntState.AttackingIdle:
+          clipToPlay = animationPack.Attack[$"{gruntType}_Attack_{navigator.facingDirection}_Idle"];
+          animancer.Play(clipToPlay);
+          break;
+      }
     }
 
     public IEnumerator PickupItem(Item item) {
@@ -451,6 +571,7 @@ namespace GruntzUnityverse.Actorz {
           break;
       }
 
+      // Prevent the Grunt from moving while picking up the item
       isInterrupted = true;
 
       // Wait more than the length of the pickup animations,
@@ -480,7 +601,6 @@ namespace GruntzUnityverse.Actorz {
       }
 
       healthBar.spriteRenderer.enabled = false;
-      // Todo: Stair attribute bars, and move into separate method
       enabled = false;
       navigator.enabled = false;
       isInterrupted = true;
