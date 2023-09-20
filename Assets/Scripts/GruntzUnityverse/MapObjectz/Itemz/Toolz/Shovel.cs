@@ -5,8 +5,6 @@ using GruntzUnityverse.MapObjectz.BaseClasses;
 namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
   public class Shovel : Tool {
     protected override void Start() {
-      base.Start();
-
       toolName = ToolName.Shovel;
       range = Range.Melee;
       deathInflicted = DeathName.Default;
@@ -14,6 +12,8 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       mapItemName = nameof(Shovel);
       itemUseContactDelay = 1.5f;
       attackContactDelay = 0.4f;
+
+      base.Start();
     }
     // -------------------------------------------------------------------------------- //
 

@@ -5,8 +5,6 @@ using GruntzUnityverse.MapObjectz.BaseClasses;
 namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
   public class GooberStraw : Tool {
     protected override void Start() {
-      base.Start();
-
       toolName = ToolName.GooberStraw;
       range = Range.Melee;
       deathInflicted = DeathName.Default;
@@ -14,6 +12,8 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       mapItemName = nameof(GooberStraw);
       itemUseContactDelay = 0.5f;
       attackContactDelay = 0.4f;
+
+      base.Start();
     }
     // -------------------------------------------------------------------------------- //
 

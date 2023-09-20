@@ -7,14 +7,14 @@ using UnityEngine;
 namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
   public class Barehandz : Tool {
     protected override void Start() {
-      base.Start();
-
       toolName = ToolName.Barehandz;
       range = Range.Melee;
       damage = GlobalValuez.BarehandzDamage;
       mapItemName = nameof(Barehandz);
       // itemUseContactDelay = Not applicable;
       attackContactDelay = 0.5f;
+
+      base.Start();
     }
     // -------------------------------------------------------------------------------- //
 

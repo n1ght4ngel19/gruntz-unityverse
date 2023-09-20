@@ -41,7 +41,7 @@ namespace GruntzUnityverse.MapObjectz.Hazardz {
       _targetGrunt.health -= damage;
 
       if (_targetGrunt.health <= 0) {
-        StartCoroutine(_targetGrunt.Death(DeathName.Default));
+        StartCoroutine(_targetGrunt.Die(DeathName.Default));
 
         return;
       }

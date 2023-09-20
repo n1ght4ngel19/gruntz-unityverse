@@ -9,34 +9,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6986435730129850746, guid: 545525dc002542e43904ede6c8d75dc1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 10.681313
-      objectReference: {fileID: 0}
-    - target: {fileID: 6986435730129850746, guid: 545525dc002542e43904ede6c8d75dc1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -17.330421
-      objectReference: {fileID: 0}
-    - target: {fileID: 6986435730129850746, guid: 545525dc002542e43904ede6c8d75dc1, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 6986435730129850746, guid: 545525dc002542e43904ede6c8d75dc1, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6986435730129850746, guid: 545525dc002542e43904ede6c8d75dc1, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6986435730129850746, guid: 545525dc002542e43904ede6c8d75dc1, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6986435730129850746, guid: 545525dc002542e43904ede6c8d75dc1, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6986435730129850746, guid: 545525dc002542e43904ede6c8d75dc1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -89,12 +61,13 @@ MonoBehaviour:
   mapItemName: 
   category: 
   toolName: 0
-  rangeType: 0
+  range: 0
   deathInflicted: 0
   damage: 0
   damageReduction: 0
-  contactDelay: 0
+  itemUseContactDelay: 0
   attackContactDelay: 0
+  useSound: {fileID: 0}
 --- !u!114 &-3865999189034551425
 MonoBehaviour:
   m_ObjectHideFlags: 0

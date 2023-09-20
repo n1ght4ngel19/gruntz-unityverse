@@ -1,76 +1,58 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
 namespace GruntzUnityverse.Ai {
   public class DumbChaser : MonoBehaviour {
     public int aggroRange;
-    public Node startingNode;
+    [HideInInspector] public Node startingNode;
+    [HideInInspector] public Grunt self;
+    [HideInInspector] public List<Grunt> targetz;
+    [HideInInspector] public Node targetCurrentNode;
 
-    public bool hasAggro;
-    public bool hasCleaned;
-    public bool hasAlready;
-
-    private Grunt _self;
-    private Grunt _targetGrunt;
+    private void OnValidate() {
+      gameObject.GetComponentInChildren<RangeRect>().transform.localScale = new Vector3(aggroRange * 2 + 1, aggroRange * 2 + 1, 1);
+    }
 
     private void Start() {
-      _self = gameObject.GetComponent<Grunt>();
+      self = gameObject.GetComponent<Grunt>();
+      targetz = new List<Grunt>();
     }
 
     private void Update() {
-      startingNode ??= _self.navigator.ownNode;
-      hasAggro = GameManager.Instance.currentLevelManager.playerGruntz.Any(IsWithinAggroRange);
+      startingNode ??= self.navigator.ownNode;
 
-      if (hasAggro) {
-        hasCleaned = false;
+      targetz = GameManager.Instance.currentLevelManager.playerGruntz.Where(IsWithinAggroRange).ToList();
 
-        if (!hasAlready) {
-          hasAlready = true;
-          _self.targetGrunt = GameManager.Instance.currentLevelManager.playerGruntz.First(IsWithinAggroRange);
-          _self.navigator.targetNode = _self.targetGrunt.navigator.ownNode;
-          _self.haveActionCommand = true;
+      if (targetz.Count > 0) {
+        // Todo?: Select weakest Grunt
+        if (self.targetGrunt == null) {
+          self.haveMovingToAttackingCommand = true;
+          self.targetGrunt = targetz[0];
+          self.navigator.targetNode = self.targetGrunt.navigator.ownNode;
+          targetCurrentNode = self.targetGrunt.navigator.ownNode;
+          // grunt.hasPlayedDizgruntledAttackSound = false;
+        } else if (self.targetGrunt.navigator.ownNode != targetCurrentNode) {
+          targetCurrentNode = self.targetGrunt.navigator.ownNode;
+
+          if (!self.IsNeighbourOf(self.targetGrunt)) {
+            self.haveMovingToAttackingCommand = true;
+            self.navigator.targetNode = self.targetGrunt.navigator.ownNode;
+          }
         }
-      } else if (!hasCleaned) {
-        hasCleaned = true;
-        hasAlready = false;
-
-        _self.CleanState();
-        _self.navigator.targetNode = startingNode;
-        _self.haveMoveCommand = true;
-      }
-
-      // DefendArea();
-    }
-
-    public void DefendArea() {
-      if (GameManager.Instance.currentLevelManager.playerGruntz.Any(IsWithinAggroRange)) {
-        Grunt potentialTarget = GameManager.Instance.currentLevelManager.playerGruntz.First(IsWithinAggroRange);
-
-        _self.targetGrunt = potentialTarget;
-
-        _self.navigator.targetNode = _self.targetGrunt.navigator.ownNode;
-        _self.haveActionCommand = true;
-
-        // return;
-
-        _self.CleanState();
-
-        Grunt targetGrunt = GameManager.Instance.currentLevelManager.playerGruntz.First(IsWithinAggroRange);
-        _self.targetGrunt = targetGrunt;
-        _self.navigator.targetNode = targetGrunt.navigator.ownNode;
-        _self.haveActionCommand = true;
       } else {
-        _self.CleanState();
-
-        _self.navigator.targetNode = startingNode;
-        _self.haveMoveCommand = true;
+        self.CleanState();
+        self.navigator.targetNode = startingNode;
+        self.haveMoveCommand = true;
       }
     }
 
     private bool IsWithinAggroRange(Grunt grunt) {
-      return grunt.navigator.ownNode.location.x <= startingNode.location.x + aggroRange &&
+      return grunt.owner == Owner.Player &&
+        grunt.navigator.ownNode.location.x <= startingNode.location.x + aggroRange &&
         grunt.navigator.ownNode.location.x >= startingNode.location.x - aggroRange &&
         grunt.navigator.ownNode.location.y <= startingNode.location.y + aggroRange &&
         grunt.navigator.ownNode.location.y >= startingNode.location.y - aggroRange;

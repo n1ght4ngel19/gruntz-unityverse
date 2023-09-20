@@ -31,8 +31,8 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     // ------------------------------------------------------------ //
 
     private void OnValidate() {
-      transform.hideFlags = HideFlags.HideInInspector;
-      gameObject.GetComponent<SpriteRenderer>().hideFlags = HideFlags.HideInInspector;
+      // transform.hideFlags = HideFlags.HideInInspector;
+      // gameObject.GetComponent<SpriteRenderer>().hideFlags = HideFlags.HideInInspector;
     }
 
     private void Awake() {

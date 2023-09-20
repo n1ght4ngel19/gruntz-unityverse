@@ -125,7 +125,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       if (health <= 0) {
-        StartCoroutine(Death(deathToDie));
+        StartCoroutine(Die(deathToDie));
 
         return;
       }
@@ -333,6 +333,9 @@ namespace GruntzUnityverse.Actorz {
             break;
           }
 
+          Vector2Int diffVector = targetGrunt.navigator.ownLocation - navigator.ownLocation;
+          navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
+
           if (stamina == MaxStatValue) {
             state = GruntState.Attacking;
           }
@@ -351,10 +354,10 @@ namespace GruntzUnityverse.Actorz {
           break;
 
         case GruntState.MovingToAttacking:
-          if (!IsNeighbourOf(targetGrunt)) {
-            navigator.MoveTowardsTargetNode();
-          } else {
+          if (IsNeighbourOf(targetGrunt) && navigator.ownNode == navigator.targetNode) {
             state = GruntState.Attacking;
+          } else {
+            navigator.MoveTowardsTargetNode();
           }
 
           break;
@@ -581,7 +584,7 @@ namespace GruntzUnityverse.Actorz {
       isInterrupted = false;
     }
 
-    public IEnumerator GetStruck() {
+    public IEnumerator GetHit() {
       AnimationClip struckClip =
         animationPack.Struck[$"{equipment.tool.toolName}Grunt_Struck_{navigator.facingDirection}"];
 
@@ -590,45 +593,11 @@ namespace GruntzUnityverse.Actorz {
       yield return new WaitForSeconds(0.5f);
     }
 
-    public IEnumerator Death(string deathName) {
-      if (!_isDying) {
-        _isDying = true;
-        transform.position += Vector3.forward * 15; // ? Todo: Remove
-      }
-
-      if (deathName == DeathName.Squash.ToString()) {
-        GameManager.Instance.currentLevelManager.allGruntz.Remove(this);
-      }
-
-      healthBar.spriteRenderer.enabled = false;
-      enabled = false;
-      navigator.enabled = false;
-      isInterrupted = true;
-
-      AnimationClip deathClip = GameManager.Instance.currentAnimationManager.deathPack[deathName];
-
-      animancer.Play(deathClip);
-
-      // Wait the time it takes to play the animation (based on the animation)
-      yield return new WaitForSeconds(deathClip.length);
-
-      navigator.ownLocation = Vector2Direction.max;
-
-      if (owner == Owner.Player) {
-        GameManager.Instance.currentLevelManager.playerGruntz.Remove(this);
-      } else {
-        GameManager.Instance.currentLevelManager.enemyGruntz.Remove(this);
-      }
-
-      GameManager.Instance.currentLevelManager.allGruntz.Remove(this);
-      Destroy(gameObject, deathClip.length * 2);
-    }
-
     /// <summary>
     /// Plays the appropriate death animation and removes the Grunt from the game.
     /// </summary>
     /// <param name="deathName">The death type to execute.</param>
-    public IEnumerator Death(DeathName deathName) {
+    public IEnumerator Die(DeathName deathName) {
       healthBar.spriteRenderer.enabled = false;
       staminaBar.spriteRenderer.enabled = false;
       navigator.enabled = false;
@@ -637,7 +606,7 @@ namespace GruntzUnityverse.Actorz {
 
       AnimationClip deathClip =
         animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death"];
-      float deathAnimLength = 1f;
+      float deathAnimLength = 2f;
 
       switch (deathName) {
         case DeathName.Burn:
@@ -658,7 +627,7 @@ namespace GruntzUnityverse.Actorz {
           break;
         case DeathName.Flyup:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Flyup)];
-          deathAnimLength = 1f;
+          deathAnimLength = 0.5f;
           break;
         case DeathName.Freeze:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Freeze)];
@@ -691,7 +660,11 @@ namespace GruntzUnityverse.Actorz {
 
       animancer.Play(deathClip);
 
-      yield return new WaitForSeconds(deathAnimLength);
+      Addressables.LoadAssetAsync<AudioClip>("").Completed += handle => {
+        audioSource.PlayOneShot(handle.Result);
+      };
+
+      yield return new WaitForSeconds(deathAnimLength + 0.5f);
 
       Destroy(gameObject);
     }
@@ -806,4 +779,5 @@ namespace GruntzUnityverse.Actorz {
       };
     }
   }
+
 }

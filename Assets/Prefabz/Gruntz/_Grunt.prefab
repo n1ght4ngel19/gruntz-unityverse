@@ -112,15 +112,19 @@ MonoBehaviour:
   wingzTime: 0
   isSelected: 0
   isInCircle: 0
+  isMoving: 0
+  haveMoveCommand: 0
   haveActionCommand: 0
-  haveGiveToyCommand: 0
-  canInteract: 0
+  haveGivingCommand: 0
+  haveMovingToUsingCommand: 0
+  haveMovingToAttackingCommand: 0
+  haveMovingToGivingCommand: 0
   isInterrupted: 0
   hasPlayedMovementAcknowledgeSound: 1
   targetObject: {fileID: 0}
   targetGrunt: {fileID: 0}
   targetMapObject: {fileID: 0}
-  gruntState: 0
+  state: 0
   spriteRenderer: {fileID: 0}
   navigator: {fileID: 0}
   equipment: {fileID: 0}

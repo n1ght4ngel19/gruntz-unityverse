@@ -119,7 +119,7 @@ namespace GruntzUnityverse.Actorz {
 
       // Killing the target if the Grunt was forced to move (e.g. by an Arrow or by teleporting)
       if (deathMarkedGrunt is not null) {
-        StartCoroutine(deathMarkedGrunt.Death("Squash"));
+        StartCoroutine(deathMarkedGrunt.Die(DeathName.Squash));
         deathMarkedGrunt = null;
       }
 

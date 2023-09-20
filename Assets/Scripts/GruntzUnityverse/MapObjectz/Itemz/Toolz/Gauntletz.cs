@@ -7,8 +7,6 @@ using UnityEngine;
 namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
   public class Gauntletz : Tool {
     protected override void Start() {
-      base.Start();
-
       toolName = ToolName.Gauntletz;
       range = Range.Melee;
       deathInflicted = DeathName.Default;
@@ -16,6 +14,8 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       mapItemName = nameof(Gauntletz);
       itemUseContactDelay = 1.5f;
       attackContactDelay = 0.4f;
+
+      base.Start();
     }
     // -------------------------------------------------------------------------------- //
 
@@ -30,6 +30,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       AnimationClip clipToPlay =
         ownGrunt.animationPack.Item[$"{gruntType}_Item_{ownGrunt.navigator.facingDirection}"];
 
+      ownGrunt.audioSource.PlayOneShot(useSound);
       ownGrunt.animancer.Play(clipToPlay);
 
       StartCoroutine(ownGrunt.targetMapObject is GiantRockEdge
