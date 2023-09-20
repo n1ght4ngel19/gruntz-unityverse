@@ -12,12 +12,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     protected override void Start() {
       base.Start();
 
-      // Todo: WTF
-      int transformIndex = parent.GetSiblingIndex();
-
-      arrowz = parent.GetComponentsInChildren<TwoWayArrow>()
-        .Where(arrow => arrow.parent.GetSiblingIndex() == transformIndex)
-        .ToList();
+      arrowz = parent.GetComponentsInChildren<TwoWayArrow>().ToList();
     }
 
     private void Update() {
@@ -32,8 +27,8 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
           return;
         }
 
-        ToggleArrowz();
         PressSwitch();
+        ToggleArrowz();
       } else if (!hasBeenReleased) {
         ReleaseSwitch();
       }

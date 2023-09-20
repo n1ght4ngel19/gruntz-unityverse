@@ -10,7 +10,6 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     public Direction direction;
     public Node nodeInDirection;
 
-
     protected override void Start() {
       base.Start();
 
