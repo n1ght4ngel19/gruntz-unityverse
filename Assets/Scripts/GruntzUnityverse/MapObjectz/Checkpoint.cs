@@ -45,7 +45,7 @@ namespace GruntzUnityverse.MapObjectz {
       };
 
       _flagz.ForEach(flag => {
-        StartCoroutine(flag.PlayAnim());
+        flag.PlayAnim();
       });
 
       _pyramidz.ForEach(pyramid => {

@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using GruntzUnityverse.Actorz;
+using System.Linq;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,28 +9,52 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public Sprite openSprite;
     public Sprite filledSprite;
     public bool isOpen;
+    public MapItem hiddenItem;
+    private AnimationClip _dirtFlyingAnim;
+    private bool _isInitialized;
 
     protected override void Start() {
       base.Start();
 
-      openSprite = spriteRenderer.sprite;
-      
+      isTargetable = true;
+      ownNode.isHole = isOpen;
+
       Addressables.LoadAssetAsync<Sprite>($"{abbreviatedArea}_Hole_Filled.png")
         .Completed += handle => {
-          filledSprite = handle.Result;
+        filledSprite = handle.Result;
+      };
+
+      Addressables.LoadAssetAsync<Sprite>($"{abbreviatedArea}_Hole_Open.png")
+        .Completed += handle => {
+        openSprite = handle.Result;
+      };
+
+      Addressables.LoadAssetAsync<AnimationClip>($"Effect_{area}_Dirt_01.anim").Completed += handle => {
+        _dirtFlyingAnim = handle.Result;
       };
     }
 
-    public override IEnumerator BeUsed(Grunt grunt) {
-      yield return new WaitForSeconds(1f);
+    private void Update() {
+      if (!_isInitialized) {
+        _isInitialized = true;
 
-      SwitchOpen();
+        hiddenItem = FindObjectsOfType<MapItem>()
+          .FirstOrDefault(item =>
+            item.ownNode == ownNode);
 
-      grunt.targetObject = null;
+        hiddenItem?.SetRendererEnabled(false);
+      }
     }
 
-    private void SwitchOpen() {
+    public override IEnumerator BeUsed() {
+      // yield return new WaitForSeconds(0.5f);
+
+      Debug.Log("Being used");
+      animancer.Play(_dirtFlyingAnim);
+      yield return new WaitForSeconds(_dirtFlyingAnim.length + 0.5f);
+
       isOpen = !isOpen;
+      ownNode.isHole = isOpen;
       spriteRenderer.sprite = isOpen ? openSprite : filledSprite;
     }
   }

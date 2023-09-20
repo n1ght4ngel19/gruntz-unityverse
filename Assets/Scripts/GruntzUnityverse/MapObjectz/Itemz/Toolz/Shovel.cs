@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
+using GruntzUnityverse.MapObjectz.Interactablez;
+using UnityEngine;
 
 namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
   public class Shovel : Tool {
@@ -37,8 +39,21 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
     // }
 
     public override IEnumerator UseTool() {
-      // Todo: Implement
-      yield return null;
+      Vector2Int diffVector = ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation;
+      ownGrunt.navigator.FaceTowards(new Vector3(diffVector.x, diffVector.y, 0));
+
+      AnimationClip clipToPlay =
+        ownGrunt.animationPack.Item[$"{gruntType}_Item_{ownGrunt.navigator.facingDirection}"];
+
+      // ownGrunt.audioSource.PlayOneShot(useSound);
+      ownGrunt.animancer.Play(clipToPlay);
+
+      // StartCoroutine(((Hole)ownGrunt.targetMapObject).PlayAnim());
+      // StartCoroutine(((Hole)ownGrunt.targetMapObject).PlayAnim());
+
+      yield return StartCoroutine(((Hole)ownGrunt.targetMapObject).BeUsed());
+
+      // yield return new WaitForSeconds(2f);
 
       ownGrunt.CleanState();
     }

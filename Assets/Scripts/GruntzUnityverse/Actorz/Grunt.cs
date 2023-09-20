@@ -123,9 +123,24 @@ namespace GruntzUnityverse.Actorz {
       if (_isDying) {
         return;
       }
-
       if (health <= 0) {
         StartCoroutine(Die(deathToDie));
+
+        return;
+      }
+      if (navigator.ownNode.isBlocked) {
+        spriteRenderer.sortingLayerID = SortingLayer.NameToID("AlwaysBottom");
+        StartCoroutine(Die(DeathName.Squash));
+
+        return;
+      }
+      if (navigator.ownNode.isDeath || navigator.ownNode.isWater) {
+        StartCoroutine(Die(DeathName.Sink));
+
+        return;
+      }
+      if (navigator.ownNode.isHole) {
+        StartCoroutine(Die(DeathName.Hole));
 
         return;
       }
@@ -334,7 +349,7 @@ namespace GruntzUnityverse.Actorz {
           }
 
           Vector2Int diffVector = targetGrunt.navigator.ownLocation - navigator.ownLocation;
-          navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
+          navigator.FaceTowards(new Vector3(diffVector.x, diffVector.y, 0));
 
           if (stamina == MaxStatValue) {
             state = GruntState.Attacking;
@@ -468,41 +483,40 @@ namespace GruntzUnityverse.Actorz {
     /// </summary>
     private void PlayNonCombatAnimation() {
       AnimationClip clipToPlay;
-      string gruntType = $"{equipment.tool.toolName}Grunt";
 
       switch (state) {
         case GruntState.Idle:
-          clipToPlay = animationPack.Idle[$"{gruntType}_Idle_{navigator.facingDirection}_01"];
+          clipToPlay = animationPack.Idle[$"{equipment.tool.gruntType}_Idle_{navigator.facingDirection}_01"];
           animancer.Play(clipToPlay);
           break;
 
         case GruntState.UsingIdle:
-          clipToPlay = animationPack.Idle[$"{gruntType}_Idle_{navigator.facingDirection}_01"];
+          clipToPlay = animationPack.Idle[$"{equipment.tool.gruntType}_Idle_{navigator.facingDirection}_01"];
           animancer.Play(clipToPlay);
           break;
 
         case GruntState.Moving:
-          clipToPlay = animationPack.Walk[$"{gruntType}_Walk_{navigator.facingDirection}"];
+          clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
           animancer.Play(clipToPlay);
           break;
 
         case GruntState.MovingToUsing:
-          clipToPlay = animationPack.Walk[$"{gruntType}_Walk_{navigator.facingDirection}"];
+          clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
           animancer.Play(clipToPlay);
           break;
 
         case GruntState.MovingToAttacking:
-          clipToPlay = animationPack.Walk[$"{gruntType}_Walk_{navigator.facingDirection}"];
+          clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
           animancer.Play(clipToPlay);
           break;
 
         case GruntState.MovingToGiving:
-          clipToPlay = animationPack.Walk[$"{gruntType}_Walk_{navigator.facingDirection}"];
+          clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
           animancer.Play(clipToPlay);
           break;
 
         case GruntState.AttackingIdle:
-          clipToPlay = animationPack.Attack[$"{gruntType}_Attack_{navigator.facingDirection}_Idle"];
+          clipToPlay = animationPack.Attack[$"{equipment.tool.gruntType}_Attack_{navigator.facingDirection}_Idle"];
           animancer.Play(clipToPlay);
           break;
       }
@@ -664,7 +678,7 @@ namespace GruntzUnityverse.Actorz {
         audioSource.PlayOneShot(handle.Result);
       };
 
-      yield return new WaitForSeconds(deathAnimLength + 0.5f);
+      yield return new WaitForSeconds(deathAnimLength);
 
       Destroy(gameObject);
     }

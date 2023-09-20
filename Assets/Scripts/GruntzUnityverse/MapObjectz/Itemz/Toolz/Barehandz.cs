@@ -20,12 +20,10 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
 
     // Todo: Why does this exist?
     public override IEnumerator UseTool() {
-      Vector2Int diffVector = ownGrunt.targetGrunt is null
-        ? ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation
-        : ownGrunt.targetGrunt.navigator.ownLocation - ownGrunt.navigator.ownLocation;
+      Vector2Int diffVector = ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation;
 
       ownGrunt.isInterrupted = true;
-      ownGrunt.navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
+      ownGrunt.navigator.FaceTowards(new Vector3(diffVector.x, diffVector.y, 0));
 
       // Todo: Proper length
       yield return new WaitForSeconds(1f);

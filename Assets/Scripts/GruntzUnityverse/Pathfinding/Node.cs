@@ -60,6 +60,12 @@ namespace GruntzUnityverse.Pathfinding {
     /// Gruntz will NOT use these Nodes for pathfinding.
     /// </summary>
     public bool isVoid;
+    
+    /// <summary>
+    /// This flag shows whether a Hole is situated on the Node.
+    /// Gruntz WILL use these Nodes for pathfinding.
+    /// </summary>
+    public bool isHole;
 
     /// <summary>
     /// This flag shows whether the Node is on a tile where Gruntz can drown.

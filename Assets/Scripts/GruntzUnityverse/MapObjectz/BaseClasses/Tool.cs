@@ -14,6 +14,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     public float itemUseContactDelay;
     public float attackContactDelay;
     public AudioClip useSound;
+    public string gruntType;
     // -------------------------------------------------------------------------------- //
 
     protected override void Start() {
@@ -21,7 +22,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
 
       category = nameof(Tool);
 
-      string gruntType = $"{toolName}Grunt";
+      gruntType = $"{toolName}Grunt";
       string path = $"Assets/Audio/Soundz/Gruntz/{gruntType}/Sound_{gruntType}_UseItem.wav";
       Addressables.LoadAssetAsync<AudioClip>(path).Completed += handle => {
         useSound = handle.Result;
@@ -31,9 +32,8 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
 
     public virtual IEnumerator Attack(Grunt attackTarget) {
       Vector2Int diffVector = attackTarget.navigator.ownLocation - ownGrunt.navigator.ownLocation;
-      ownGrunt.navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
+      ownGrunt.navigator.FaceTowards(new Vector3(diffVector.x, diffVector.y, 0));
 
-      string gruntType = $"{GetType().Name}Grunt";
       string attackIndex = $"0{Random.Range(1, 3)}";
       AnimationClip clipToPlay = ownGrunt.animationPack.Attack[$"{gruntType}_Attack_{ownGrunt.navigator.facingDirection}_{attackIndex}"];
 

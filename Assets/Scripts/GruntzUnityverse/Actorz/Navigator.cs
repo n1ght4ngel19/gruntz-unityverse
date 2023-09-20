@@ -102,7 +102,7 @@ namespace GruntzUnityverse.Actorz {
       // Continuing only if Grunt is not close enough to target
       if (Vector2.Distance(nextPosition, transform.position) > StepThreshold) {
         MoveSomeTowards(nextPosition);
-        SetFacingDirection(moveVector);
+        FaceTowards(moveVector);
       } else {
         FinishStep();
       }
@@ -118,6 +118,7 @@ namespace GruntzUnityverse.Actorz {
 
       // Killing the target if the Grunt was forced to move (e.g. by an Arrow or by teleporting)
       if (deathMarkedGrunt is not null) {
+        deathMarkedGrunt.spriteRenderer.sortingOrder = 0;
         StartCoroutine(deathMarkedGrunt.Die(DeathName.Squash));
         deathMarkedGrunt = null;
       }
@@ -193,7 +194,7 @@ namespace GruntzUnityverse.Actorz {
       return new Vector3(location.x, location.y, transform.position.z);
     }
 
-    public void SetFacingDirection(Vector3 facingVector) {
+    public void FaceTowards(Vector3 facingVector) {
       Vector2Int directionVector = Vector2Int.RoundToInt(facingVector);
 
       facingDirection = directionVector switch {

@@ -55,7 +55,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       ownNode = GameManager.Instance.currentLevelManager.NodeAt(location);
 
       AssignAreaBySpriteName();
-      
+
       // Todo: Only call these in classes that need them
       LoadAnimationz();
       StartCoroutine(LoadAndPlayAnimation());
@@ -111,7 +111,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     /// </summary>
     protected virtual void ValidateSetup() { }
 
-    public virtual IEnumerator BeUsed(Grunt grunt) {
+    public virtual IEnumerator BeUsed() {
       yield return null;
     }
 

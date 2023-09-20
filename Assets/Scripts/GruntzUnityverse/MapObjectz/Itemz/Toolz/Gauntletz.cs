@@ -21,12 +21,9 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
 
     // Todo: Refactor this to be used like the Attack(Grunt attackTarget) method.
     public override IEnumerator UseTool() {
-      Vector2Int diffVector = ownGrunt.targetGrunt is null
-        ? ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation
-        : ownGrunt.targetGrunt.navigator.ownLocation - ownGrunt.navigator.ownLocation;
-      ownGrunt.navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
+      Vector2Int diffVector = ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation;
+      ownGrunt.navigator.FaceTowards(new Vector3(diffVector.x, diffVector.y, 0));
 
-      string gruntType = $"{toolName}Grunt";
       AnimationClip clipToPlay =
         ownGrunt.animationPack.Item[$"{gruntType}_Item_{ownGrunt.navigator.facingDirection}"];
 
