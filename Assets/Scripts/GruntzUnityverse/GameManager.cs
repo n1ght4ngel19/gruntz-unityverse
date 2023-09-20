@@ -75,8 +75,6 @@ namespace GruntzUnityverse {
       }
 
       if (Input.GetKeyDown(KeyCode.Escape)) {
-        Debug.Log(SceneManager.GetActiveScene().name);
-
         if (SceneManager.GetActiveScene().name == "StatzMenu") {
           Addressables.LoadSceneAsync("Menuz/MainMenu.unity").Completed += handle => {
             hasChangedMusic = false;

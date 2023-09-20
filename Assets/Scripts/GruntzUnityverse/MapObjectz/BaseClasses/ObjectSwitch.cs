@@ -36,7 +36,6 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       hasBeenReleased = false;
       spriteRenderer.sprite = pressedSprite;
       AudioSource.PlayClipAtPoint(_pressClip, Camera.main.transform.position);
-      Debug.Log("Pressing");
     }
 
     protected void ReleaseSwitch() {
@@ -45,7 +44,6 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       hasBeenReleased = true;
       spriteRenderer.sprite = releasedSprite;
       AudioSource.PlayClipAtPoint(_releaseClip, Camera.main.transform.position);
-      Debug.Log("Releasing");
     }
 
     // This is needed for situations where the Switch is toggled NOT by a Grunt (or other actor)

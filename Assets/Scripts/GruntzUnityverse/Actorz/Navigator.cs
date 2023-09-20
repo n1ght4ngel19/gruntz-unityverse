@@ -76,7 +76,6 @@ namespace GruntzUnityverse.Actorz {
             break;
 
           case GruntState.MovingToAttacking:
-            Debug.Log("Moving from MovingToAttacking to Attacking");
             ownGrunt.state = GruntState.Attacking;
             break;
 
@@ -175,10 +174,6 @@ namespace GruntzUnityverse.Actorz {
         if (pathToNeighbour is null) {
           continue;
         }
-
-        #if UNITY_EDITOR
-        // Debug.Log($"Shortest length is {shortestLength} and path length is {pathLength}.");
-        #endif
 
         // Check if path to neighbour is shorter than shortest path
         if ((pathLength == int.MaxValue) || (pathLength >= shortestLength)) {

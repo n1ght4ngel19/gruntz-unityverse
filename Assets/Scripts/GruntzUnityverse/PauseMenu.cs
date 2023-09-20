@@ -10,7 +10,6 @@ namespace GruntzUnityverse {
 
     private void Update() {
       if (Input.GetKeyDown(KeyCode.Escape) && !Helpbox.isTextShown) {
-        Debug.Log(SceneManager.GetActiveScene().name);
         if (isGamePaused) {
           Resume();
         } else {

@@ -24,7 +24,6 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       string gruntType = $"{toolName}Grunt";
       string path = $"Assets/Audio/Soundz/Gruntz/{gruntType}/Sound_{gruntType}_UseItem.wav";
       Addressables.LoadAssetAsync<AudioClip>(path).Completed += handle => {
-        Debug.Log(path);
         useSound = handle.Result;
       };
     }

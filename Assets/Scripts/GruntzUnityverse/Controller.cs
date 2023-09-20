@@ -182,7 +182,7 @@ namespace GruntzUnityverse {
     }
 
     private void SelectById() {
-      int alphaKeyPressed = 0;
+      int alphaKeyPressed = -1;
 
       if (Input.GetKeyDown(KeyCode.Alpha1)) {
         alphaKeyPressed = 1;
@@ -211,16 +211,23 @@ namespace GruntzUnityverse {
       if (Input.GetKeyDown(KeyCode.Alpha9)) {
         alphaKeyPressed = 9;
       }
-
-      Grunt gruntToSelect = GameManager.Instance.currentLevelManager.playerGruntz
-        .FirstOrDefault(grunt => grunt.playerGruntId == alphaKeyPressed);
-
-      if (gruntToSelect is null) {
-        return;
+      if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) {
+        alphaKeyPressed = 0;
       }
 
-      DeselectAllGruntz();
-      SelectGrunt(gruntToSelect);
+      if (alphaKeyPressed == 0) {
+        GameManager.Instance.currentLevelManager.playerGruntz.ForEach(SelectGrunt);
+      } else {
+        Grunt gruntToSelect = GameManager.Instance.currentLevelManager.playerGruntz
+          .FirstOrDefault(grunt => grunt.playerGruntId == alphaKeyPressed);
+
+        if (gruntToSelect is null) {
+          return;
+        }
+
+        DeselectAllGruntz();
+        SelectGrunt(gruntToSelect);
+      }
     }
   }
 }
