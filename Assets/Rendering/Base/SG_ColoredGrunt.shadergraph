@@ -8,6 +8,12 @@
         },
         {
             "m_Id": "2c974432117c4bf098c10e4c43159d7b"
+        },
+        {
+            "m_Id": "68a9d760491144aaaf932060ba82f861"
+        },
+        {
+            "m_Id": "bc177b094890487ea3f13335a0340abb"
         }
     ],
     "m_Keywords": [],
@@ -1030,10 +1036,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1553.0,
-            "y": -49.000003814697269,
+            "x": 1569.0,
+            "y": -47.000022888183597,
             "width": 208.0,
-            "height": 326.0000305175781
+            "height": 326.0
         }
     },
     "m_Slots": [
@@ -1280,6 +1286,34 @@
 }
 
 {
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "68a9d760491144aaaf932060ba82f861",
+    "m_Guid": {
+        "m_GuidSerialized": "115222e1-e2d5-4889-9ef6-9e80ccbbb73b"
+    },
+    "m_Name": "Lightness",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Lightness",
+    "m_DefaultReferenceName": "_Lightness",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 1.0,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
+    }
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "699f072b5fa64d3b8b75a6a1524056fd",
@@ -1405,6 +1439,12 @@
         },
         {
             "m_Id": "2c974432117c4bf098c10e4c43159d7b"
+        },
+        {
+            "m_Id": "bc177b094890487ea3f13335a0340abb"
+        },
+        {
+            "m_Id": "68a9d760491144aaaf932060ba82f861"
         }
     ]
 }
@@ -2052,6 +2092,34 @@
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "bc177b094890487ea3f13335a0340abb",
+    "m_Guid": {
+        "m_GuidSerialized": "b5705c88-e85a-4ba4-b4c3-b5f7b3500f23"
+    },
+    "m_Name": "Darkness",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Darkness",
+    "m_DefaultReferenceName": "_Darkness",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 1.0,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
     }
 }
 

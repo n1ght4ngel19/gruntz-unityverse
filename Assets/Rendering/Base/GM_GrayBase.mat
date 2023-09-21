@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_GruntColorSwap
+  m_Name: GM_GrayBase
   m_Shader: {fileID: -6465566751694194690, guid: 5a2f5d9e1208ede4dbe090ca79c0216a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -53,11 +53,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Darkness: 1
     - _EnableExternalAlpha: 0
     - _Fuzziness: 0.4
     - _GreenRange: 0.5
     - _Hue: 0
     - _Hue_1: 0
+    - _Lightness: 1.5
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
