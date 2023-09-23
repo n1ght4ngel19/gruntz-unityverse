@@ -12,12 +12,14 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public MapItem hiddenItem;
     private AnimationClip _dirtFlyingAnim;
     private bool _isInitialized;
+    public Sprite currentSprite;
 
     protected override void Start() {
       base.Start();
 
       isTargetable = true;
       ownNode.isHole = isOpen;
+      currentSprite = spriteRenderer.sprite;
 
       Addressables.LoadAssetAsync<Sprite>($"{abbreviatedArea}_Hole_Filled.png")
         .Completed += handle => {
@@ -34,6 +36,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       };
     }
 
+    // Todo: Disable Update
     private void Update() {
       if (!_isInitialized) {
         _isInitialized = true;
@@ -50,12 +53,27 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       // yield return new WaitForSeconds(0.5f);
 
       Debug.Log("Being used");
-      animancer.Play(_dirtFlyingAnim);
-      yield return new WaitForSeconds(_dirtFlyingAnim.length + 0.5f);
+      // Todo: Play on dummy object
+      // animancer.Play(_dirtFlyingAnim);
+
+      // Todo: Play appropriate sound
+      Addressables.LoadAssetAsync<AudioClip>($"{abbreviatedArea}_RockBreak.wav").Completed += handle => {
+        GameManager.Instance.audioSource.PlayOneShot(handle.Result);
+      };
+
+      // yield return new WaitForSeconds(_dirtFlyingAnim.length);
+      yield return new WaitForSeconds(2.5f);
+
+      // Todo: Remove dummy object
+      // animancer.Stop();
 
       isOpen = !isOpen;
       ownNode.isHole = isOpen;
-      spriteRenderer.sprite = isOpen ? openSprite : filledSprite;
+      hiddenItem?.SetRendererEnabled(true);
+      spriteRenderer.sprite =
+        spriteRenderer.sprite == openSprite
+          ? filledSprite
+          : openSprite;
     }
   }
 }

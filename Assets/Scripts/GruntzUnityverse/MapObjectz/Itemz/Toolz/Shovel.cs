@@ -45,15 +45,13 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       AnimationClip clipToPlay =
         ownGrunt.animationPack.Item[$"{gruntType}_Item_{ownGrunt.navigator.facingDirection}"];
 
-      // ownGrunt.audioSource.PlayOneShot(useSound);
       ownGrunt.animancer.Play(clipToPlay);
 
-      // StartCoroutine(((Hole)ownGrunt.targetMapObject).PlayAnim());
-      // StartCoroutine(((Hole)ownGrunt.targetMapObject).PlayAnim());
+      yield return new WaitForSeconds(0.5f);
 
-      yield return StartCoroutine(((Hole)ownGrunt.targetMapObject).BeUsed());
+      StartCoroutine(((Hole)ownGrunt.targetMapObject).BeUsed());
 
-      // yield return new WaitForSeconds(2f);
+      yield return new WaitForSeconds(2.5f);
 
       ownGrunt.CleanState();
     }
