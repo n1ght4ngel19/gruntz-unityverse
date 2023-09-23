@@ -7,6 +7,13 @@ namespace GruntzUnityverse {
   public class SceneLoader : MonoBehaviour {
     public Area area;
 
+
+    public void LoadSceneOfName(string sceneName) {
+      Addressables.LoadSceneAsync(sceneName).Completed += handle => {
+        GameManager.Instance.hasChangedMusic = false;
+      };
+    }
+
     /// <summary>
     /// Loads a scene that corresponds the SceneLoader's gameObject's name.
     /// </summary>
