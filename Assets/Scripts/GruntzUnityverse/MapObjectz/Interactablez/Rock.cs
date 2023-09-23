@@ -31,6 +31,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     }
     // -------------------------------------------------------------------------------- //
 
+    // Todo: Disable Update
     private void Update() {
       if (!_isInitialized) {
         _isInitialized = true;

@@ -7,7 +7,7 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
     /// <summary>
     /// The time in seconds between the Bridge toggling its state.
     /// </summary>
-    public int interval;
+    [Range(0f, 50f)]public float interval;
     private bool _isDeath;
     private bool _isDown;
     private AnimationClip _downAnim;

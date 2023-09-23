@@ -15,14 +15,14 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
   /// </summary>
   public class MapObject : MonoBehaviour {
     #region Fields
-    public SpriteRenderer spriteRenderer; // HideInInspector
-    protected Camera mainCamera;
-    public Transform parent;
-    public Vector2Int location;
-    public Node ownNode;
+    [HideInInspector] public SpriteRenderer spriteRenderer; // HideInInspector
+    [HideInInspector] public Transform parent;
+    [HideInInspector] public Vector2Int location;
+    [HideInInspector] public Node ownNode;
     public Area area;
     public string abbreviatedArea;
     public bool isTargetable;
+    protected Camera mainCamera;
     protected bool isValidated;
     protected AnimancerComponent animancer; // HideInInspector
     private Animator _animator;
@@ -71,6 +71,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     /// <param name="grunt">The Grunt whose target is the MapObject.</param>
     /// <returns>True if the MapObject is a valid target for the Grunt, false otherwise.</returns>
     public bool IsValidTargetFor(Grunt grunt) {
+      Debug.Log("Valid");
       return grunt.equipment.tool is Gauntletz && this is IBreakable
         || grunt.equipment.tool is Shovel && this is Hole;
     }

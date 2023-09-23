@@ -53,9 +53,9 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     }
 
     protected virtual void SetupSpritez() {
-      releasedSprite = spriteRenderer.sprite;
-
+      Debug.Log($"{GlobalNamez.SwitchSpritezPath}/{GetType().Name}.png");
       Addressables.LoadAssetAsync<Sprite[]>($"{GlobalNamez.SwitchSpritezPath}/{GetType().Name}.png").Completed += handle => {
+        releasedSprite = handle.Result[0];
         pressedSprite = handle.Result[1];
       };
     }
