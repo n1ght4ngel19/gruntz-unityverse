@@ -13,6 +13,7 @@ using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.Itemz.Toolz;
 using GruntzUnityverse.MapObjectz.Itemz.Toyz;
 using GruntzUnityverse.MapObjectz.MapItemz.Misc;
+using PlasticPipe.Tube;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
@@ -128,14 +129,20 @@ namespace GruntzUnityverse.Actorz {
 
         return;
       }
-      if (navigator.ownNode.isBlocked) {
-        spriteRenderer.sortingLayerID = SortingLayer.NameToID("AlwaysBottom");
-        StartCoroutine(Die(DeathName.Squash));
+      if (navigator.ownNode.isDeath || navigator.ownNode.isWater) {
+        StartCoroutine(Die(DeathName.Sink));
 
         return;
       }
-      if (navigator.ownNode.isDeath || navigator.ownNode.isWater) {
-        StartCoroutine(Die(DeathName.Sink));
+      if (navigator.ownNode.isBlocked) {
+        spriteRenderer.sortingLayerName = "AlwaysBottom";
+        StartCoroutine(Die(DeathName.Explode));
+
+        return;
+      }
+      if (GameManager.Instance.currentLevelManager.rollingBallz.Any(ball => ball.ownNode == navigator.ownNode)) {
+        spriteRenderer.sortingLayerName = "AlwaysBottom";
+        StartCoroutine(Die(DeathName.Squash));
 
         return;
       }

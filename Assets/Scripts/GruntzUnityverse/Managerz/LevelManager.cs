@@ -15,6 +15,7 @@ using GruntzUnityverse.Pathfinding;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Vector3 = UnityEngine.Vector3;
 
@@ -31,9 +32,10 @@ namespace GruntzUnityverse.Managerz {
 
     #region Objectz
     // ----- Objectz -----
-    [field: Header("Objectz")] public List<Grunt> playerGruntz;
+    [field: Header("Objectz & Actorz")] public List<Grunt> playerGruntz;
     public List<Grunt> enemyGruntz;
     public List<Grunt> allGruntz;
+    public List<RollingBall> rollingBallz;
 
     [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<BrickContainer> BrickContainerz { get; set; }
@@ -154,6 +156,8 @@ namespace GruntzUnityverse.Managerz {
       CollectObjectz();
 
       CollectGruntz();
+
+      CollectRollingBallz();
 
       checkpointz = FindObjectsOfType<Checkpoint>().ToList();
 
@@ -277,6 +281,10 @@ namespace GruntzUnityverse.Managerz {
 
         allGruntz.Add(grunt);
       }
+    }
+
+    private void CollectRollingBallz() {
+      FindObjectsOfType<RollingBall>().ToList().ForEach(ball => rollingBallz.Add(ball));
     }
 
     #region Node Methods

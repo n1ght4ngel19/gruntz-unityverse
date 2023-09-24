@@ -25,7 +25,6 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
         BreakAnimation = handle.Result;
       };
 
-      transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
       _brokenScale = new Vector3(0.7f, 0.7f, 0.7f);
       _brokenRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
     }
