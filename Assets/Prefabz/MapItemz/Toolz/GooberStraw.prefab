@@ -17,6 +17,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1934257392109653503, guid: 250dbe23547491c44ab68564656081de, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1268169773, guid: b8a8ff61c25948a4c8e6d8f41f843336, type: 3}
+    - target: {fileID: 1934257392109653503, guid: 250dbe23547491c44ab68564656081de, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
@@ -42,14 +46,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3863937857550272719, guid: 250dbe23547491c44ab68564656081de, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5470066089904073000}
+      addedObject: {fileID: 2995067082427439369}
   m_SourcePrefab: {fileID: 100100000, guid: 250dbe23547491c44ab68564656081de, type: 3}
 --- !u!1 &5698697000698716299 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3863937857550272719, guid: 250dbe23547491c44ab68564656081de, type: 3}
   m_PrefabInstance: {fileID: 8830047834285598788}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5470066089904073000
+--- !u!114 &2995067082427439369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,14 +62,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5698697000698716299}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cdf6ee10d3d430da636eeceaee0da34, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ed8e614226e45e389f0cfcd3278d8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
   ownGrunt: {fileID: 0}
   mapItemName: 
   category: 
-  toolName: 6
+  toolName: 0
   range: 0
   deathInflicted: 0
   damage: 0

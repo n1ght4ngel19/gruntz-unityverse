@@ -9,12 +9,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1934257392109653503, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8125
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934257392109653503, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_Size.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934257392109653503, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 1117834997, guid: 79755c8e15c99b94c97d282f2ec86846, type: 3}
+      objectReference: {fileID: -1245836154, guid: 8eba6e6bef59a774cbe2526591e436cc, type: 3}
+    - target: {fileID: 1934257392109653503, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3863937857550272719, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
       propertyPath: m_Name
-      value: Beachball Variant
+      value: Beachball
       objectReference: {fileID: 0}
     - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -82,3 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
+  ownGrunt: {fileID: 0}
+  mapItemName: 
+  category: 
+  toyName: 0

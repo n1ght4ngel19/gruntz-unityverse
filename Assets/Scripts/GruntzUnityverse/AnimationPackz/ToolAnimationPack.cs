@@ -9,9 +9,9 @@ namespace GruntzUnityverse.AnimationPackz {
     public readonly List<Sprite> Warpstone1;
   
     public ToolAnimationPack() {
-      Club = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Itemz/Toolz/ToolClub").ToList();
-      Gauntletz = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Itemz/Toolz/ToolGauntletz").ToList();
-      Warpstone1 = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Itemz/Toolz/ToolWarpstone1").ToList();
+      // Club = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Itemz/Toolz/ToolClub").ToList();
+      // Gauntletz = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Itemz/Toolz/ToolGauntletz").ToList();
+      // Warpstone1 = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Itemz/Toolz/ToolWarpstone1").ToList();
     }
   }
 }

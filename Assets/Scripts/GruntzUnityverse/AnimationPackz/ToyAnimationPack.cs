@@ -7,7 +7,7 @@ namespace GruntzUnityverse.AnimationPackz {
     public readonly List<Sprite> Beachball;
   
     public ToyAnimationPack() {
-      Beachball = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Itemz/Toyz/ToyBeachball").ToList();
+      // Beachball = Resources.LoadAll<Sprite>("Animated Sprites/MapObjectz/Itemz/Toyz/ToyBeachball").ToList();
     }
   }
 }

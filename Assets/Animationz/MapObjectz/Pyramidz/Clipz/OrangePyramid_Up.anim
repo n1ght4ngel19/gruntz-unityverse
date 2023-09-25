@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OrangePyramid_Up
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,17 +18,19 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
-      value: {fileID: -473622692, guid: e5f7f0187e05ebb4bba93df58ec7cd72, type: 3}
+      value: {fileID: -473622692, guid: 81c8324f2a6f17f4995c8657bf322891, type: 3}
     - time: 0.033333335
-      value: {fileID: -1718394119, guid: e5f7f0187e05ebb4bba93df58ec7cd72, type: 3}
+      value: {fileID: -1718394119, guid: 81c8324f2a6f17f4995c8657bf322891, type: 3}
     - time: 0.06666667
-      value: {fileID: 831383803, guid: e5f7f0187e05ebb4bba93df58ec7cd72, type: 3}
+      value: {fileID: 831383803, guid: 81c8324f2a6f17f4995c8657bf322891, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 30
   m_WrapMode: 0
   m_Bounds:
@@ -43,16 +45,18 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -473622692, guid: e5f7f0187e05ebb4bba93df58ec7cd72, type: 3}
-    - {fileID: -1718394119, guid: e5f7f0187e05ebb4bba93df58ec7cd72, type: 3}
-    - {fileID: 831383803, guid: e5f7f0187e05ebb4bba93df58ec7cd72, type: 3}
+    - {fileID: -473622692, guid: 81c8324f2a6f17f4995c8657bf322891, type: 3}
+    - {fileID: -1718394119, guid: 81c8324f2a6f17f4995c8657bf322891, type: 3}
+    - {fileID: 831383803, guid: 81c8324f2a6f17f4995c8657bf322891, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.10000001
+    m_StopTime: 0.1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -63,7 +67,7 @@ AnimationClip:
     m_LoopBlendPositionY: 0
     m_LoopBlendPositionXZ: 0
     m_KeepOriginalOrientation: 0
-    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionY: 0
     m_KeepOriginalPositionXZ: 0
     m_HeightFromFeet: 0
     m_Mirror: 0
