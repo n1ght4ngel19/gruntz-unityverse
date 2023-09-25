@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6a7a10f3487376438299abc337bc495, type: 3}
-  m_Name: BarehandzGrunt_Attack
+  m_Name: BarehandzGrunt_Idle_West
   m_EditorClassIdentifier: 
   _animations:
-  - _name: BarehandzGrunt_Attack_West_01
+  - _name: BarehandzGrunt_Idle_West_02
+    _length: 5
+    _loop: 1
+    _autoFramerate: 1
+    _frameRate: 5
+  - _name: BarehandzGrunt_Idle_West_01
     _length: 4
-    _loop: 0
-    _autoFramerate: 0
-    _frameRate: 8
-  - _name: BarehandzGrunt_Attack_West_02
-    _length: 6
-    _loop: 0
-    _autoFramerate: 0
-    _frameRate: 12
-  - _name: BarehandzGrunt_Attack_West_Idle
-    _length: 3
     _loop: 1
     _autoFramerate: 0
     _frameRate: 4
+  - _name: BarehandzGrunt_Idle_West_03
+    _length: 7
+    _loop: 1
+    _autoFramerate: 1
+    _frameRate: 7
