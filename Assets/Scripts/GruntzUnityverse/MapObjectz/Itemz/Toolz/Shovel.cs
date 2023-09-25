@@ -19,25 +19,6 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
     }
     // -------------------------------------------------------------------------------- //
 
-    // public override IEnumerator UseItem() {
-    //   Vector2Int diffVector = grunt.targetObject.location - grunt.navigator.ownLocation;
-    //   grunt.isInterrupted = true;
-    //
-    //   grunt.navigator.SetFacingDirection(new Vector3(diffVector.x, diffVector.y, 0));
-    //
-    //   AnimationClip clipToPlay =
-    //     // Todo: Replace with right animation
-    //     grunt.animationPack.Item[$"{GetType().Name}Grunt_Item_{grunt.navigator.facingDirection}"];
-    //
-    //   grunt.animancer.Play(clipToPlay);
-    //
-    //   StartCoroutine(grunt.targetObject.BeUsed(grunt));
-    //
-    //   yield return new WaitForSeconds(1.6f);
-    //
-    //   grunt.isInterrupted = false;
-    // }
-
     public override IEnumerator UseTool() {
       Vector2Int diffVector = ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation;
       ownGrunt.navigator.FaceTowards(new Vector3(diffVector.x, diffVector.y, 0));
@@ -45,6 +26,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       AnimationClip clipToPlay =
         ownGrunt.animationPack.Item[$"{gruntType}_Item_{ownGrunt.navigator.facingDirection}"];
 
+      ownGrunt.audioSource.PlayOneShot(useSound);
       ownGrunt.animancer.Play(clipToPlay);
 
       yield return new WaitForSeconds(0.5f);

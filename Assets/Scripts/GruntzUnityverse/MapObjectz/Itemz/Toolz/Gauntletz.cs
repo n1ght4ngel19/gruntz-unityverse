@@ -12,14 +12,14 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
       deathInflicted = DeathName.Default;
       damage = GlobalValuez.GauntletzDamage;
       mapItemName = nameof(Gauntletz);
-      itemUseContactDelay = 1.5f;
+      itemUseContactDelay = 0.75f;
       attackContactDelay = 0.4f;
 
       base.Start();
     }
     // -------------------------------------------------------------------------------- //
 
-    // Todo: Refactor this to be used like the Attack(Grunt attackTarget) method.
+    // Todo: ? Refactor this to be used like the Attack(Grunt attackTarget) method.
     public override IEnumerator UseTool() {
       Vector2Int diffVector = ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation;
       ownGrunt.navigator.FaceTowards(new Vector3(diffVector.x, diffVector.y, 0));
@@ -34,7 +34,7 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
         ? ((GiantRockEdge)ownGrunt.targetMapObject).mainRock.Break(itemUseContactDelay)
         : ((IBreakable)ownGrunt.targetMapObject).Break(itemUseContactDelay));
 
-      yield return new WaitForSeconds(2f);
+      yield return new WaitForSeconds(1f);
 
       ownGrunt.CleanState();
     }

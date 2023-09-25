@@ -83,7 +83,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     }
 
     protected override void LoadAnimationz() {
-      Addressables.LoadAssetAsync<AnimationClip>($"RockBreak_{abbreviatedArea}_01.anim").Completed += handle => {
+      Addressables.LoadAssetAsync<AnimationClip>($"{abbreviatedArea}_RockBreak.anim").Completed += handle => {
         BreakAnimation = handle.Result;
       };
     }

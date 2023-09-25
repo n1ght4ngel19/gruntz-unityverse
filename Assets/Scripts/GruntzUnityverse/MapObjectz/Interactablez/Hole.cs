@@ -50,9 +50,6 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     }
 
     public override IEnumerator BeUsed() {
-      // yield return new WaitForSeconds(0.5f);
-
-      Debug.Log("Being used");
       // Todo: Play on dummy object
       // animancer.Play(_dirtFlyingAnim);
 
@@ -61,11 +58,9 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
         GameManager.Instance.audioSource.PlayOneShot(handle.Result);
       };
 
-      // yield return new WaitForSeconds(_dirtFlyingAnim.length);
       yield return new WaitForSeconds(2.5f);
 
-      // Todo: Remove dummy object
-      // animancer.Stop();
+      // Todo: Destroy dummy object
 
       isOpen = !isOpen;
       ownNode.isHole = isOpen;

@@ -21,7 +21,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       ownNode.isBlocked = true;
       ownNode.isHardTurn = true;
 
-      Addressables.LoadAssetAsync<AnimationClip>($"RockBreak_{abbreviatedArea}_01.anim").Completed += handle => {
+      Addressables.LoadAssetAsync<AnimationClip>($"{abbreviatedArea}_RockBreak.anim").Completed += handle => {
         BreakAnimation = handle.Result;
       };
 

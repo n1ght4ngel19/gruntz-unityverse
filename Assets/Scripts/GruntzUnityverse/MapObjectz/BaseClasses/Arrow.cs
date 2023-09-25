@@ -33,8 +33,6 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       foreach (RollingBall ball in GameManager.Instance.currentLevelManager.rollingBallz
         .Where(rollingBall => rollingBall.ownNode == ownNode)) {
         ball.ChangeDirection(direction);
-        // ball.moveDirection = direction;
-        // ball.animancer.Play(ball.rollAnimSet[moveDirection.ToString()]);
 
         return;
       }

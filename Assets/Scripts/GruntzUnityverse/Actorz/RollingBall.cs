@@ -1,37 +1,41 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Enumz;
+using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Actorz {
-  public class RollingBall : MapObject {
+  public class RollingBall : MapObject, IAudioSource {
     public float speed;
     public Direction moveDirection;
     private Dictionary<string, AnimationClip> _rollAnimSet;
     private Vector3 _brokenScale;
     private Quaternion _brokenRotation;
     private bool _hasStarted;
-
-    protected override void Start() {
-      _brokenScale = new Vector3(0.7f, 0.7f, 0.7f);
-      _brokenRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
-    }
+    public AudioSource AudioSource { get; set; }
+    public AudioClip breakSound;
+    // ------------------------------------------------------------ //
 
     private void Update() {
       if (!_hasStarted) {
         animancer.Play(_rollAnimSet[moveDirection.ToString()]);
         _hasStarted = true;
 
+        Addressables.LoadAssetAsync<AudioClip>($"{abbreviatedArea}_RollingBall.wav").Completed += handle => {
+          AudioSource.clip = handle.Result;
+          AudioSource.Play();
+        };
+
         return;
       }
+
       if (ownNode.isBlocked || (ownNode.isWater && ownNode.Neighbours.Any(node => !node.isWater))) {
         animancer.Play(_rollAnimSet["Explosion"]);
 
-        Addressables.LoadAssetAsync<AudioClip>($"{abbreviatedArea}_RockBreak.wav").Completed += handle => {
-          GameManager.Instance.audioSource.PlayOneShot(handle.Result);
-        };
+        AudioSource.Stop();
+        AudioSource.PlayOneShot(breakSound);
 
         transform.localScale = _brokenScale;
         transform.localRotation = _brokenRotation;
@@ -41,6 +45,7 @@ namespace GruntzUnityverse.Actorz {
 
         return;
       }
+
       if (ownNode.isWater || ownNode.isHole || ownNode.isVoid) {
         animancer.Play(_rollAnimSet["Sink"]);
         spriteRenderer.enabled = false;
@@ -52,6 +57,9 @@ namespace GruntzUnityverse.Actorz {
       Move();
     }
 
+    // ------------------------------------------------------------ //
+    // CLASS METHODS
+    // ------------------------------------------------------------ //
     public void Move() {
       if (Vector2.Distance(ownNode.location, transform.position) > 0.5f) {
         ownNode = GameManager.Instance.currentLevelManager.NodeAt(Vector2Int.FloorToInt(transform.position));
@@ -73,6 +81,21 @@ namespace GruntzUnityverse.Actorz {
       animancer.Play(_rollAnimSet[moveDirection.ToString()]);
     }
 
+    // ------------------------------------------------------------ //
+    // OVERRIDES
+    // ------------------------------------------------------------ //
+    public override void Setup() {
+      base.Setup();
+
+      _brokenScale = new Vector3(0.7f, 0.7f, 0.7f);
+      _brokenRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+
+      AudioSource = gameObject.AddComponent<AudioSource>();
+      AudioSource.loop = true;
+      Addressables.LoadAssetAsync<AudioClip>($"{abbreviatedArea}_RockBreak.wav").Completed += handle => {
+        breakSound = handle.Result;
+      };
+    }
     protected override void LoadAnimationz() {
       _rollAnimSet = new Dictionary<string, AnimationClip>();
 

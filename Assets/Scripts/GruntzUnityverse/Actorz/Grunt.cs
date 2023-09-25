@@ -13,7 +13,6 @@ using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.Itemz.Toolz;
 using GruntzUnityverse.MapObjectz.Itemz.Toyz;
 using GruntzUnityverse.MapObjectz.MapItemz.Misc;
-using PlasticPipe.Tube;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
@@ -132,22 +131,39 @@ namespace GruntzUnityverse.Actorz {
       if (navigator.ownNode.isDeath || navigator.ownNode.isWater) {
         StartCoroutine(Die(DeathName.Sink));
 
+        int randIdx = Random.Range(1, 16);
+        string voicePath = randIdx >= 10
+          ? $"Assets/Audio/Voicez/Deathz/Voice_Death_Sink_{randIdx}.wav"
+          : $"Assets/Audio/Voicez/Deathz/Voice_Death_Sink_0{randIdx}.wav";
+        PlayVoice(voicePath);
+
         return;
       }
       if (navigator.ownNode.isBlocked) {
         spriteRenderer.sortingLayerName = "AlwaysBottom";
+
+        int randIdx = Random.Range(1, 7);
+        PlayVoice($"Assets/Audio/Voicez/Deathz/Voice_Death_Explode_0{randIdx}.wav");
+
         StartCoroutine(Die(DeathName.Explode));
 
         return;
       }
       if (GameManager.Instance.currentLevelManager.rollingBallz.Any(ball => ball.ownNode == navigator.ownNode)) {
         spriteRenderer.sortingLayerName = "AlwaysBottom";
+
+        int randIdx = Random.Range(1, 7);
+        PlayVoice($"Assets/Audio/Voicez/Deathz/Voice_Death_Explode_0{randIdx}.wav");
+
         StartCoroutine(Die(DeathName.Squash));
 
         return;
       }
       if (navigator.ownNode.isHole) {
         StartCoroutine(Die(DeathName.Hole));
+
+        int randIdx = Random.Range(1, 5);
+        PlayVoice($"Assets/Audio/Voicez/Deathz/Voice_Death_Hole_0{randIdx}.wav");
 
         return;
       }
@@ -606,12 +622,28 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public IEnumerator GetHit() {
-      AnimationClip struckClip =
-        animationPack.Struck[$"{equipment.tool.toolName}Grunt_Struck_{navigator.facingDirection}"];
+      int clipIdx = Random.Range(1, 3);
+      string clipKey = $"{equipment.tool.gruntType}_Struck_{navigator.facingDirection}_0{clipIdx}";
+      AnimationClip struckClip = animationPack.Struck[clipKey];
+
+      animancer.Play(struckClip);  
+
+      isInterrupted = true;
+      yield return new WaitForSeconds(0.5f);
+      isInterrupted = false;
+    }
+
+    public IEnumerator GetHitBy(Grunt attacker) {
+      navigator.facingDirection = DirectionUtility.OppositeOf(attacker.navigator.facingDirection);
+      int clipIdx = Random.Range(1, 3);
+      string clipKey = $"{equipment.tool.gruntType}_Struck_{navigator.facingDirection}_0{clipIdx}";
+      AnimationClip struckClip = animationPack.Struck[clipKey];
 
       animancer.Play(struckClip);
 
+      isInterrupted = true;
       yield return new WaitForSeconds(0.5f);
+      isInterrupted = false;
     }
 
     /// <summary>
@@ -687,7 +719,9 @@ namespace GruntzUnityverse.Actorz {
 
       yield return new WaitForSeconds(deathAnimLength);
 
-      Destroy(gameObject);
+      spriteRenderer.enabled = false;
+      selectedCircle.spriteRenderer.enabled = false;
+      Destroy(gameObject, 1f);
     }
 
     public IEnumerator Exit(int idx, float delay) {
@@ -769,6 +803,7 @@ namespace GruntzUnityverse.Actorz {
 
           Addressables.LoadAssetAsync<AudioClip>($"Assets/Audio/Voicez/Pickupz/Pickup_GenericPickup_{voiceIndex}.wav")
             .Completed += handle => {
+            audioSource.Stop();
             audioSource.PlayOneShot(handle.Result);
           };
 
@@ -777,6 +812,7 @@ namespace GruntzUnityverse.Actorz {
           Addressables.LoadAssetAsync<AudioClip>(
               $"Assets/Audio/Voicez/Pickupz/Pickup_{voiceType}_{pickupItem.mapItemName}_0{voiceIndex}.wav")
             .Completed += handle => {
+            audioSource.Stop();
             audioSource.PlayOneShot(handle.Result);
           };
 
@@ -785,7 +821,7 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public void PlayCommandVoice(string goodOrBad) {
-      if (hasPlayedMovementAcknowledgeSound) {
+      if (hasPlayedMovementAcknowledgeSound || audioSource.isPlaying) {
         return;
       }
 
@@ -799,6 +835,11 @@ namespace GruntzUnityverse.Actorz {
         audioSource.PlayOneShot(handle.Result);
       };
     }
-  }
 
+    public void PlayVoice(string clipKey) {
+      Addressables.LoadAssetAsync<AudioClip>(clipKey).Completed += handle => {
+        audioSource.PlayOneShot(handle.Result);
+      };
+    }
+  }
 }

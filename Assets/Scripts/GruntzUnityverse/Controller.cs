@@ -154,7 +154,9 @@ namespace GruntzUnityverse {
             int selectVoiceIndex = Random.Range(1, 12);
 
             Addressables.LoadAssetAsync<AudioClip>($"Voice_SelectGrunt_1_{selectVoiceIndex}.wav").Completed += handle => {
-              grunt.audioSource.PlayOneShot(handle.Result);
+              if (!grunt.audioSource.isPlaying) {
+                grunt.audioSource.PlayOneShot(handle.Result);
+              }
             };
           }
 
@@ -165,7 +167,9 @@ namespace GruntzUnityverse {
           int enemySelectVoiceIndex = Random.Range(1, 12);
 
           Addressables.LoadAssetAsync<AudioClip>($"Voice_EnemySelect_{enemySelectVoiceIndex}.wav").Completed += handle => {
-            grunt.audioSource.PlayOneShot(handle.Result);
+            if (!grunt.audioSource.isPlaying) {
+              grunt.audioSource.PlayOneShot(handle.Result);
+            }
           };
 
           break;

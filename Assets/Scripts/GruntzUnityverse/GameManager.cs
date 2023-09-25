@@ -60,16 +60,22 @@ namespace GruntzUnityverse {
       };
 
       if (!hasChangedMusic) {
-        string musicLoopName = SceneManager.GetActiveScene().name switch {
-          "StatzMenu" => "StatzMenuLoop.wav",
-          "MainMenu" => "MenuLoop.wav",
-          _ => "",
-        };
-
-        Addressables.LoadAssetAsync<AudioClip>(musicLoopName).Completed += handle => {
-          audioSource.clip = handle.Result;
-          audioSource.Play();
-        };
+        if (SceneManager.GetActiveScene().name == "StatzMenu") {
+          Addressables.LoadAssetAsync<AudioClip>("StatzMenuLoop.wav").Completed += handle => {
+            audioSource.clip = handle.Result;
+            audioSource.loop = true;
+            audioSource.Play();
+          };
+        } else if (SceneManager.GetActiveScene().name == "MainMenu") {
+          Addressables.LoadAssetAsync<AudioClip>("MenuLoop.wav").Completed += handle => {
+            audioSource.clip = handle.Result;
+            audioSource.loop = true;
+            audioSource.Play();
+          };
+        } else {
+          audioSource.loop = false;
+          audioSource.Stop();
+        }
 
         hasChangedMusic = true;
       }

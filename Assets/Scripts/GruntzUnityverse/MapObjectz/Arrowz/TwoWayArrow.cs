@@ -17,7 +17,7 @@ namespace GruntzUnityverse.MapObjectz.Arrowz {
       base.Start();
 
       _initialDirection = direction;
-      _changedDirection = OppositeOf(_initialDirection);
+      _changedDirection = DirectionUtility.OppositeOf(_initialDirection);
 
       _initialSprite = spriteRenderer.sprite;
       Addressables.LoadAssetAsync<Sprite>($"Assets/Spritez/Objectz/Arrowz/Arrow_2W_{_changedDirection}.png")
@@ -31,20 +31,6 @@ namespace GruntzUnityverse.MapObjectz.Arrowz {
       direction = direction.Equals(_initialDirection) ? _changedDirection : _initialDirection;
       spriteRenderer.sprite = direction.Equals(_initialDirection) ? _initialSprite : changedSprite;
       nodeInDirection = GameManager.Instance.currentLevelManager.NodeAt(location + Vector2Direction.FromDirection(direction));
-    }
-
-    private static Direction OppositeOf(Direction dir) {
-      return dir switch {
-        Direction.North => Direction.South,
-        Direction.East => Direction.West,
-        Direction.South => Direction.North,
-        Direction.West => Direction.East,
-        Direction.Northeast => Direction.Southwest,
-        Direction.Northwest => Direction.Southeast,
-        Direction.Southeast => Direction.Northwest,
-        Direction.Southwest => Direction.Northeast,
-        var _ => throw new ArgumentOutOfRangeException(),
-      };
     }
   }
 }

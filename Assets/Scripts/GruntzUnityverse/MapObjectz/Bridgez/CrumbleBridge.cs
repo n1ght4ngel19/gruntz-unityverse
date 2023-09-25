@@ -3,12 +3,15 @@ using System.Threading.Tasks;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace GruntzUnityverse.MapObjectz.Bridgez {
-  public class CrumbleBridge : MapObject {
+  public class CrumbleBridge : MapObject, IAudioSource {
     public int crumbleDelay;
     private bool _isDeath;
     private AnimationClip _anim;
+    public AudioSource AudioSource { get; set; }
+    public AudioClip crumbleSound;
     // ------------------------------------------------------------ //
 
     private void Update() {
@@ -17,6 +20,24 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
       }
 
       Crumble();
+    }
+
+    // ------------------------------------------------------------ //
+    // CLASS METHODS
+    // ------------------------------------------------------------ //
+    private async void Crumble() {
+      await Task.Delay(crumbleDelay * 1000);
+
+      animancer.Play(_anim);
+      AudioSource.PlayOneShot(crumbleSound);
+
+      await Task.Delay(200);
+
+      ownNode.isBlocked = true;
+      ownNode.isWater = true;
+      ownNode.isDeath = _isDeath;
+
+      SetEnabled(false);
     }
 
     // ------------------------------------------------------------ //
@@ -31,6 +52,12 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
       ownNode.isDeath = false;
 
       LoadAnimationz();
+
+      AudioSource = gameObject.AddComponent<AudioSource>();
+      string optionalDeath = _isDeath ? "Death" : "";
+      Addressables.LoadAssetAsync<AudioClip>($"{abbreviatedArea}_{optionalDeath}Bridge.wav").Completed += handle => {
+        crumbleSound = handle.Result;
+      };
     }
 
     protected override void LoadAnimationz() {
@@ -41,23 +68,6 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
         .Completed += handle => {
         _anim = handle.Result;
       };
-    }
-
-    // ------------------------------------------------------------ //
-    // CLASS METHODS
-    // ------------------------------------------------------------ //
-    private async void Crumble() {
-      await Task.Delay(crumbleDelay * 1000);
-
-      animancer.Play(_anim);
-
-      await Task.Delay(200);
-
-      ownNode.isBlocked = true;
-      ownNode.isWater = true;
-      ownNode.isDeath = _isDeath;
-
-      SetEnabled(false);
     }
   }
 }
