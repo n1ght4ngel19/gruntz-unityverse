@@ -21,9 +21,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6986435730129850749, guid: 0bf5eb4a5c374e34aaf0bb7cc1229cbf, type: 3}
+      propertyPath: m_Size.x
+      value: 3.9375
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986435730129850749, guid: 0bf5eb4a5c374e34aaf0bb7cc1229cbf, type: 3}
+      propertyPath: m_Size.y
+      value: 1.84375
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986435730129850749, guid: 0bf5eb4a5c374e34aaf0bb7cc1229cbf, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -446035421, guid: 5e0d28815b1d0d74cb1d083001ccae6c, type: 3}
+      objectReference: {fileID: -446035421, guid: 7955a22d2900c9e4784e48c57db76718, type: 3}
+    - target: {fileID: 6986435730129850749, guid: 0bf5eb4a5c374e34aaf0bb7cc1229cbf, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6986435730129850750, guid: 0bf5eb4a5c374e34aaf0bb7cc1229cbf, type: 3}
       propertyPath: m_Name
       value: P_GooberStrawGrunt
@@ -68,6 +80,7 @@ MonoBehaviour:
   itemUseContactDelay: 0
   attackContactDelay: 0
   useSound: {fileID: 0}
+  gruntType: 
 --- !u!114 &2103593973524406222
 MonoBehaviour:
   m_ObjectHideFlags: 0
