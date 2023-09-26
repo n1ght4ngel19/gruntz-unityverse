@@ -3,16 +3,18 @@ using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.MapObjectz.BaseClasses {
   public class Pyramid : MapObject {
-    public bool isDown;
+    private bool _isDown;
     private AnimationClip _downAnim;
     private AnimationClip _upAnim;
 
+    // ------------------------------------------------------------ //
+    // OVERRIDES
+    // ------------------------------------------------------------ //
+    public override void Setup() {
+      base.Setup();
 
-    protected override void Start() {
-      base.Start();
-
-      LoadAnimationz();
-      GameManager.Instance.currentLevelManager.SetBlockedAt(location, !isDown);
+      _isDown = !spriteRenderer.sprite.name.EndsWith("_0");
+      ownNode.isBlocked = !_isDown;
     }
 
     protected override void LoadAnimationz() {
@@ -28,11 +30,11 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     }
 
     public void Toggle() {
-      animancer.Play(isDown ? _upAnim : _downAnim);
+      animancer.Play(_isDown ? _upAnim : _downAnim);
 
-      isDown = !isDown;
-      GameManager.Instance.currentLevelManager.SetBlockedAt(location, !isDown);
-      GameManager.Instance.currentLevelManager.SetHardTurnAt(location, !isDown);
+      _isDown = !_isDown;
+      GameManager.Instance.currentLevelManager.SetBlockedAt(location, !_isDown);
+      GameManager.Instance.currentLevelManager.SetHardTurnAt(location, !_isDown);
     }
   }
 }

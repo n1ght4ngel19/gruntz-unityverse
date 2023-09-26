@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 
 namespace GruntzUnityverse.MapObjectz.Bridgez {
   public class CrumbleBridge : MapObject, IAudioSource {
@@ -15,7 +14,7 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
     // ------------------------------------------------------------ //
 
     private void Update() {
-      if (!GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
+      if (GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.navigator.ownNode != ownNode)) {
         return;
       }
 

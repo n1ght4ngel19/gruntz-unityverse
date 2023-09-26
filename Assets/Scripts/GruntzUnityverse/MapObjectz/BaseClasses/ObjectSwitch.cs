@@ -1,4 +1,5 @@
-﻿using GruntzUnityverse.MapObjectz.Switchez;
+﻿using System.Linq;
+using GruntzUnityverse.MapObjectz.Switchez;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -12,24 +13,9 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     private AudioClip _pressClip;
     private AudioClip _releaseClip;
 
-    protected override void Start() {
-      base.Start();
-
-      if (this is not CheckpointSwitch) {
-        SetupSpritez();
-      }
-
-      Addressables.LoadAssetAsync<AudioClip>("Assets/Audio/Soundz/Sound_Switch_Down.wav").Completed += handle => {
-        _pressClip = handle.Result;
-      };
-
-      Addressables.LoadAssetAsync<AudioClip>("Assets/Audio/Soundz/Sound_Switch_Up.wav").Completed += handle => {
-        _releaseClip = handle.Result;
-      };
-
-      hasBeenReleased = true;
-    }
-
+    // ------------------------------------------------------------ //
+    // CLASS METHODS
+    // ------------------------------------------------------------ //
     protected virtual void PressSwitch() {
       isPressed = true;
       hasBeenPressed = true;
@@ -53,11 +39,36 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     }
 
     protected virtual void SetupSpritez() {
-      Debug.Log($"{GlobalNamez.SwitchSpritezPath}/{GetType().Name}.png");
       Addressables.LoadAssetAsync<Sprite[]>($"{GlobalNamez.SwitchSpritezPath}/{GetType().Name}.png").Completed += handle => {
         releasedSprite = handle.Result[0];
         pressedSprite = handle.Result[1];
       };
+    }
+
+    public bool IsBeingPressed() {
+      return GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.navigator.ownNode == ownNode)
+        || GameManager.Instance.currentLevelManager.rollingBallz.Any(ball => ball.ownNode == ownNode);
+    }
+
+    // ------------------------------------------------------------ //
+    // OVERRIDES
+    // ------------------------------------------------------------ //
+    public override void Setup() {
+      base.Setup();
+
+      if (this is not CheckpointSwitch) {
+        SetupSpritez();
+      }
+
+      Addressables.LoadAssetAsync<AudioClip>("Assets/Audio/Soundz/Sound_Switch_Down.wav").Completed += handle => {
+        _pressClip = handle.Result;
+      };
+
+      Addressables.LoadAssetAsync<AudioClip>("Assets/Audio/Soundz/Sound_Switch_Up.wav").Completed += handle => {
+        _releaseClip = handle.Result;
+      };
+
+      hasBeenReleased = true;
     }
   }
 }

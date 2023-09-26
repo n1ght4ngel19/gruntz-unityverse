@@ -18,14 +18,14 @@ namespace GruntzUnityverse.MapObjectz.Hazardz {
     // -------------------------------------------------------------------------------- //
 
     private void Update() {
-      if (_targetGrunt is not null && !_targetGrunt.AtNode(ownNode)) {
+      if (_targetGrunt is not null && _targetGrunt.navigator.ownNode != ownNode) {
         CancelInvoke(nameof(DamageGrunt));
 
         _targetGrunt = null;
         _isRunning = false;
       }
 
-      _targetGrunt = GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.AtNode(ownNode));
+      _targetGrunt = GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == ownNode);
 
       if (_targetGrunt != null && _targetGrunt.AtNode(ownNode)) {
         if (!_isRunning) {

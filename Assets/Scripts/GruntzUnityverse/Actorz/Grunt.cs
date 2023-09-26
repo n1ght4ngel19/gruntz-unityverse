@@ -713,9 +713,10 @@ namespace GruntzUnityverse.Actorz {
 
       animancer.Play(deathClip);
 
-      Addressables.LoadAssetAsync<AudioClip>("").Completed += handle => {
-        audioSource.PlayOneShot(handle.Result);
-      };
+      // Todo: Play death sound HERE
+      // Addressables.LoadAssetAsync<AudioClip>("").Completed += handle => {
+      //   audioSource.PlayOneShot(handle.Result);
+      // };
 
       yield return new WaitForSeconds(deathAnimLength);
 

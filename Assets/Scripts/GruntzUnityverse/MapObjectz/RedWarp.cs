@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -38,7 +37,7 @@ namespace GruntzUnityverse.MapObjectz {
         return;
       }
 
-      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz.Where(grunt => grunt.navigator.ownNode == ownNode)) {
         mainCamera.transform.position = new Vector3(target.location.x, target.location.y, mainCamera.transform.position.z);
 
         TeleportTo(target, grunt);

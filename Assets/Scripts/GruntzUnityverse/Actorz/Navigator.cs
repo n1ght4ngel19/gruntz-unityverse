@@ -114,7 +114,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       Grunt deathMarkedGrunt = GameManager.Instance.currentLevelManager.allGruntz
-        .FirstOrDefault(grunt => grunt.AtNode(targetNode) && grunt != ownGrunt);
+        .FirstOrDefault(grunt => grunt.navigator.ownNode == targetNode && grunt != ownGrunt);
 
       // Killing the target if the Grunt was forced to move (e.g. by an Arrow or by teleporting)
       if (deathMarkedGrunt is not null) {

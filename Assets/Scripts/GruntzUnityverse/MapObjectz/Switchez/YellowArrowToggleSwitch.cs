@@ -22,7 +22,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
         enabled = false;
       }
 
-      if (GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
+      if (IsBeingPressed()) {
         if (hasBeenPressed) {
           return;
         }

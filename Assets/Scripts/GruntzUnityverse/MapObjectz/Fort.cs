@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
@@ -15,31 +12,17 @@ namespace GruntzUnityverse.MapObjectz {
     private List<FortTrigger> _triggerz;
     private bool _isSetup;
     private AnimationClip _fortAnim;
-    // ------------------------------------------------------------ //
 
-    protected override void Start() {
-      base.Start();
-
+    public override void Setup() {
+      base.Setup();
+      
       _triggerz = new List<FortTrigger>();
-    }
-    // ------------------------------------------------------------ //
 
-    private void Update() {
-      if (!isValidated) {
-        ValidateSetup();
-      }
-    }
-    // ------------------------------------------------------------ //
-
-    /// <summary>
-    /// Class-specific override of the base class' ValidateSetup() method.
-    /// </summary>
-    protected override void ValidateSetup() {
       foreach (Node node in ownNode.Neighbours) {
         SetupTriggerAtNode(node);
       }
 
-      isValidated = true;
+      StartCoroutine(LoadAndPlayAnimation());
     }
 
     /// <summary>

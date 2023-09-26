@@ -15,15 +15,14 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
   /// </summary>
   public class MapObject : MonoBehaviour {
     #region Fields
-    [HideInInspector] public SpriteRenderer spriteRenderer; // HideInInspector
-    [HideInInspector] public Transform parent;
-    [HideInInspector] public Vector2Int location;
-    [HideInInspector] public Node ownNode;
+    public SpriteRenderer spriteRenderer; // HideInInspector
+    public Transform parent;
+    public Vector2Int location;
+    public Node ownNode;
     public Area area;
     public string abbreviatedArea;
     public bool isTargetable;
     protected Camera mainCamera;
-    protected bool isValidated;
     protected AnimancerComponent animancer; // HideInInspector
     private Animator _animator;
     private Sprite _unusedSprite;
@@ -49,7 +48,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     /// </summary>
     public virtual void Setup() {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-      mainCamera = Camera.main;
+      mainCamera = GameObject.Find("ControlledCamera").GetComponent<Camera>();
       parent = transform.parent;
       location = Vector2Int.FloorToInt(transform.position);
       ownNode = GameManager.Instance.currentLevelManager.NodeAt(location);
@@ -58,7 +57,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
 
       // Todo: Only call these in classes that need them
       LoadAnimationz();
-      StartCoroutine(LoadAndPlayAnimation());
+      // StartCoroutine(LoadAndPlayAnimation());
 
       Addressables.LoadAssetAsync<Sprite>("Assets/Spritez/Objectz/Unused.png").Completed += handle => {
         _unusedSprite = handle.Result;

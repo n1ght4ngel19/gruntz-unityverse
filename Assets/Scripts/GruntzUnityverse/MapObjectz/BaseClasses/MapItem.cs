@@ -49,7 +49,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     // CLASS METHODS
     // ------------------------------------------------------------ //
     private void HandlePickup() {
-      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz.Where(grunt => grunt.AtNode(ownNode))) {
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz.Where(grunt => grunt.navigator.ownNode == ownNode)) {
         SetEnabled(false);
 
         StartCoroutine(grunt.PickupItem(pickupItem));

@@ -12,7 +12,6 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public AnimationClip BreakAnimation { get; set; }
     private Quaternion _brokenRotation;
     public MapItem hiddenItem;
-    private bool _isInitialized;
     public GiantRockEdge giantRockEdge;
     public List<GiantRockEdge> edgez;
     // -------------------------------------------------------------------------------- //
@@ -42,8 +41,6 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     // -------------------------------------------------------------------------------- //
 
     private void Update() {
-      _isInitialized = true;
-
       hiddenItem = FindObjectsOfType<MapItem>()
         .FirstOrDefault(item =>
           item.ownNode == ownNode);

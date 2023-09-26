@@ -5,7 +5,7 @@ using GruntzUnityverse.MapObjectz.Pyramidz;
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class RedToggleSwitch : ObjectSwitch {
     private void Update() {
-      if (GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.AtNode(ownNode))) {
+      if (IsBeingPressed()) {
         if (hasBeenPressed) {
           return;
         }

@@ -52,7 +52,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
 
     private bool IsRequirementSatisfied() {
       foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz) {
-        if (!grunt.AtNode(ownNode)) {
+        if (grunt.navigator.ownNode != ownNode) {
           continue;
         }
 
@@ -83,11 +83,18 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
         _requiredTool = ToolName.Warpstone;
       } else if (spriteName.Contains(ToolName.Barehandz.ToString())) {
         _requiredTool = ToolName.Barehandz;
+      } else if (spriteName.Contains(ToolName.Warpstone.ToString())) {
+        _requiredTool = ToolName.Warpstone;
       } else {
         _requiredTool = ToolName.None;
-      } // Todo: Other tools
+      } // Todo: Other Toolz
 
-      // Todo: Toy names
+
+      if (spriteName.Contains(ToyName.Beachball.ToString())) {
+        _requiredToy = ToyName.Beachball;
+      } else if (spriteName.Contains(ToyName.GoKart.ToString())) {
+        _requiredToy = ToyName.GoKart;
+      } // Todo: Other Toyz
     }
   }
 }

@@ -14,13 +14,15 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     private bool _isInitialized;
     public Sprite currentSprite;
 
-    protected override void Start() {
-      base.Start();
+    public override void Setup() {
+      base.Setup();
 
       isTargetable = true;
       ownNode.isHole = isOpen;
       currentSprite = spriteRenderer.sprite;
+    }
 
+    protected override void LoadAnimationz() {
       Addressables.LoadAssetAsync<Sprite>($"{abbreviatedArea}_Hole_Filled.png")
         .Completed += handle => {
         filledSprite = handle.Result;

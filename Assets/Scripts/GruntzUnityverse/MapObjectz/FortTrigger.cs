@@ -14,7 +14,7 @@ namespace GruntzUnityverse.MapObjectz {
 
     private void Update() {
       foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz) {
-        if (!grunt.AtNode(ownNode) || !grunt.HasTool(ToolName.Warpstone)) {
+        if (grunt.navigator.ownNode != ownNode || !grunt.HasTool(ToolName.Warpstone)) {
           continue;
         }
 

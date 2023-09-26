@@ -1,5 +1,4 @@
 using System.Linq;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 
@@ -20,7 +19,7 @@ namespace GruntzUnityverse.MapObjectz.Misc {
 
     private void Update() {
       // Pausing the game when a Grunt steps onto a HelpBox and displaying the HelpBox text
-      if (isUntouched && GameManager.Instance.currentLevelManager.PlayerGruntz.Any(grunt => grunt.AtNode(ownNode))) {
+      if (isUntouched && GameManager.Instance.currentLevelManager.PlayerGruntz.Any(grunt => grunt.navigator.ownNode == ownNode)) {
         DisplayHelpbox();
 
         return;
@@ -33,7 +32,7 @@ namespace GruntzUnityverse.MapObjectz.Misc {
         return;
       }
 
-      if (GameManager.Instance.currentLevelManager.PlayerGruntz.All(grunt => !grunt.AtNode(ownNode))) {
+      if (GameManager.Instance.currentLevelManager.PlayerGruntz.All(grunt => grunt.navigator.ownNode != ownNode)) {
         isUntouched = true;
       }
     }

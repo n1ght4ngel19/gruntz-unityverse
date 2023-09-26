@@ -12,23 +12,22 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     private Quaternion _brokenRotation;
     public MapItem hiddenItem;
     private bool _isInitialized;
-    // -------------------------------------------------------------------------------- //
 
-    protected override void Start() {
-      base.Start();
+    public override void Setup() {
+      base.Setup();
 
       isTargetable = true;
       ownNode.isBlocked = true;
       ownNode.isHardTurn = true;
-
-      Addressables.LoadAssetAsync<AnimationClip>($"{abbreviatedArea}_RockBreak.anim").Completed += handle => {
-        BreakAnimation = handle.Result;
-      };
-
       _brokenScale = new Vector3(0.7f, 0.7f, 0.7f);
       _brokenRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
     }
-    // -------------------------------------------------------------------------------- //
+
+    protected override void LoadAnimationz() {
+      Addressables.LoadAssetAsync<AnimationClip>($"{abbreviatedArea}_RockBreak.anim").Completed += handle => {
+        BreakAnimation = handle.Result;
+      };
+    }
 
     // Todo: Disable Update
     private void Update() {

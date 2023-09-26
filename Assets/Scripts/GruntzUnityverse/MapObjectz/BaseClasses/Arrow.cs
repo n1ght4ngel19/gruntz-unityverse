@@ -10,19 +10,9 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     public Direction direction;
     public Node nodeInDirection;
 
-    protected override void Start() {
-      base.Start();
-
-      SetDirection();
-    }
-
     protected virtual void Update() {
-      if (!isValidated) {
-        ValidateSetup();
-      }
-
       foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz
-        .Where(grunt => grunt.AtNode(ownNode) && !grunt.navigator.isMoveForced)) {
+        .Where(grunt => grunt.navigator.ownNode == ownNode && !grunt.navigator.isMoveForced)) {
         grunt.navigator.targetNode = nodeInDirection;
         grunt.navigator.isMoveForced = true;
         grunt.haveMoveCommand = true;
@@ -38,14 +28,34 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       }
     }
 
-    protected override void ValidateSetup() {
-      if (direction == Direction.None) {
-        Debug.LogError("Arrow direction is None, disabling Arrow.");
+    public override void Setup() {
+      base.Setup();
+
+      string spriteName = spriteRenderer.sprite.name;
+
+      if (spriteName.Contains(Direction.East.ToString())) {
+        direction = Direction.East;
+      } else if (spriteName.Contains(Direction.North.ToString())) {
+        direction = Direction.North;
+      } else if (spriteName.Contains(Direction.Northeast.ToString())) {
+        direction = Direction.Northeast;
+      } else if (spriteName.Contains(Direction.Northwest.ToString())) {
+        direction = Direction.Northwest;
+      } else if (spriteName.Contains(Direction.South.ToString())) {
+        direction = Direction.South;
+      } else if (spriteName.Contains(Direction.Southeast.ToString())) {
+        direction = Direction.Southeast;
+      } else if (spriteName.Contains(Direction.Southwest.ToString())) {
+        direction = Direction.Southwest;
+      } else if (spriteName.Contains(Direction.West.ToString())) {
+        direction = Direction.West;
+      } else {
+        Debug.LogError($"Arrow sprite name {spriteName} does not contain any direction, disabling Arrow.");
 
         enabled = false;
       }
 
-      isValidated = true;
+      SetDirection();
     }
 
     private void SetDirection() {
