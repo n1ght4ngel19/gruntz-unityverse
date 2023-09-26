@@ -392,7 +392,7 @@ namespace GruntzUnityverse.Actorz {
           break;
 
         case GruntState.MovingToAttacking:
-          if (IsNeighbourOf(targetGrunt) && navigator.ownNode == navigator.targetNode) {
+          if (IsNeighbourOf(targetGrunt)) {
             state = GruntState.Attacking;
           } else {
             navigator.MoveTowardsTargetNode();

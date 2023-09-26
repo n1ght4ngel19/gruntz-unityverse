@@ -31,7 +31,7 @@ namespace GruntzUnityverse.MapObjectz {
     protected override IEnumerator LoadAndPlayAnimation() {
       yield return new WaitUntil(() => area != Area.None);
 
-      Addressables.LoadAssetAsync<AnimationClip>($"Fort_{area}.anim")
+      Addressables.LoadAssetAsync<AnimationClip>($"{abbreviatedArea}_Fort.anim")
         .Completed += handle => {
         _fortAnim = handle.Result;
 

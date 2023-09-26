@@ -46,8 +46,8 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
 
     protected override void LoadAnimationz() {
       string optionalDeath = _isDeath ? "Death" : "";
-      string downPath = $"{GlobalNamez.BridgeAnimzPath}/{area}/Clipz/{abbreviatedArea}_{optionalDeath}Bridge_Down.anim";
-      string upPath = $"{GlobalNamez.BridgeAnimzPath}/{area}/Clipz/{abbreviatedArea}_{optionalDeath}Bridge_Up.anim";
+      string downPath = $"{abbreviatedArea}_{optionalDeath}Bridge_Down.anim";
+      string upPath = $"{abbreviatedArea}_{optionalDeath}Bridge_Up.anim";
 
       Addressables.LoadAssetAsync<AnimationClip>(downPath).Completed += handle => {
         _downAnim = handle.Result;

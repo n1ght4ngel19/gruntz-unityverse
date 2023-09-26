@@ -99,27 +99,27 @@ namespace GruntzUnityverse.Actorz {
     protected override void LoadAnimationz() {
       _rollAnimSet = new Dictionary<string, AnimationClip>();
 
-      string key = $"Assets/Animationz/RollingBallz/{area}/Clipz/{abbreviatedArea}_RollingBall_{Direction.East}.anim";
+      string key = $"{abbreviatedArea}_RollingBall_{Direction.East}.anim";
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("East", handle.Result);
       };
-      key = $"Assets/Animationz/RollingBallz/{area}/Clipz/{abbreviatedArea}_RollingBall_{Direction.South}.anim";
+      key = $"{abbreviatedArea}_RollingBall_{Direction.South}.anim";
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("South", handle.Result);
       };
-      key = $"Assets/Animationz/RollingBallz/{area}/Clipz/{abbreviatedArea}_RollingBall_{Direction.North}.anim";
+      key = $"{abbreviatedArea}_RollingBall_{Direction.North}.anim";
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("North", handle.Result);
       };
-      key = $"Assets/Animationz/RollingBallz/{area}/Clipz/{abbreviatedArea}_RollingBall_{Direction.West}.anim";
+      key = $"{abbreviatedArea}_RollingBall_{Direction.West}.anim";
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("West", handle.Result);
       };
-      key = $"Assets/Animationz/RollingBallz/{area}/Clipz/{abbreviatedArea}_RollingBall_Explosion.anim";
+      key = $"{abbreviatedArea}_RollingBall_Explosion.anim";
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("Explosion", handle.Result);
       };
-      key = $"Assets/Animationz/RollingBallz/{area}/Clipz/{abbreviatedArea}_RollingBall_Sink.anim";
+      key = $"{abbreviatedArea}_RollingBall_Sink.anim";
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("Sink", handle.Result);
       };

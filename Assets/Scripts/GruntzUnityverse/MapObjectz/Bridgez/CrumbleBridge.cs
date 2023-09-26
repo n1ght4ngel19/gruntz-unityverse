@@ -63,7 +63,7 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
       string optionalDeath = _isDeath ? "Death" : "";
 
       Addressables.LoadAssetAsync<AnimationClip>(
-          $"{GlobalNamez.BridgeAnimzPath}/{area}/Clipz/{abbreviatedArea}_Crumble{optionalDeath}Bridge.anim")
+          $"{abbreviatedArea}_Crumble{optionalDeath}Bridge.anim")
         .Completed += handle => {
         _anim = handle.Result;
       };

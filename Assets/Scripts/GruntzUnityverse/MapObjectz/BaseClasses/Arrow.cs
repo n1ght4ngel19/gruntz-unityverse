@@ -33,20 +33,20 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
 
       string spriteName = spriteRenderer.sprite.name;
 
-      if (spriteName.Contains(Direction.East.ToString())) {
-        direction = Direction.East;
-      } else if (spriteName.Contains(Direction.North.ToString())) {
-        direction = Direction.North;
-      } else if (spriteName.Contains(Direction.Northeast.ToString())) {
+      if (spriteName.Contains(Direction.Northeast.ToString())) {
         direction = Direction.Northeast;
       } else if (spriteName.Contains(Direction.Northwest.ToString())) {
         direction = Direction.Northwest;
-      } else if (spriteName.Contains(Direction.South.ToString())) {
-        direction = Direction.South;
       } else if (spriteName.Contains(Direction.Southeast.ToString())) {
         direction = Direction.Southeast;
       } else if (spriteName.Contains(Direction.Southwest.ToString())) {
         direction = Direction.Southwest;
+      } else if (spriteName.Contains(Direction.East.ToString())) {
+        direction = Direction.East;
+      } else if (spriteName.Contains(Direction.North.ToString())) {
+        direction = Direction.North;
+      } else if (spriteName.Contains(Direction.South.ToString())) {
+        direction = Direction.South;
       } else if (spriteName.Contains(Direction.West.ToString())) {
         direction = Direction.West;
       } else {
