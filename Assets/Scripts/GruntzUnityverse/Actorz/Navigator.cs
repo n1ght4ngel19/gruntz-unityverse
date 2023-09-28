@@ -135,6 +135,7 @@ namespace GruntzUnityverse.Actorz {
     private void FinishStep() {
       ownLocation = path[1].location;
       _doFindPath = true;
+      isMoving = false;
 
       path.RemoveAt(1);
     }

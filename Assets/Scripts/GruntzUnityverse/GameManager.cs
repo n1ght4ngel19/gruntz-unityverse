@@ -45,6 +45,7 @@ namespace GruntzUnityverse {
 
     private void Update() {
       SceneManager.sceneLoaded += (scene, mode) => {
+        Time.timeScale = 1f;
         if (scene.name != "StatzMenu" || scene.name != "MainMenu") {
           currentLevelManager = FindObjectOfType<LevelManager>();
           currentLevelManager.enabled = true;
@@ -86,6 +87,15 @@ namespace GruntzUnityverse {
             hasChangedMusic = false;
           };
         }
+      }
+
+      bool isComboPressed =
+        Input.GetKeyDown(KeyCode.LeftControl)
+        && Input.GetKeyDown(KeyCode.LeftShift)
+        && Input.GetKeyDown(KeyCode.T);
+
+      if (isComboPressed) {
+        Addressables.LoadSceneAsync("TestLevel.unity");
       }
     }
 

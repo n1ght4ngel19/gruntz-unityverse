@@ -436,7 +436,7 @@ namespace GruntzUnityverse.Actorz {
     /// Resets the Grunt.
     /// </summary>
     public void CleanState() {
-      navigator.isMoving = false;
+      // navigator.isMoving = false;
       navigator.isMoveForced = false;
       haveActionCommand = false;
       haveGivingCommand = false;
