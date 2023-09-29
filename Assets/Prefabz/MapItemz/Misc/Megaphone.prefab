@@ -11,10 +11,10 @@ PrefabInstance:
     - target: {fileID: 1934257392109653503, guid: 76a6c63640f5c2140802c96032942ea1, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1417346397, guid: dde8e8378a6340249a7fe759532dc27f, type: 3}
+      objectReference: {fileID: -1116789359, guid: 9892300a91ae4484bbfb6dc917856773, type: 3}
     - target: {fileID: 3863937857550272719, guid: 76a6c63640f5c2140802c96032942ea1, type: 3}
       propertyPath: m_Name
-      value: Coin
+      value: Megaphone
       objectReference: {fileID: 0}
     - target: {fileID: 6999952525336863592, guid: 76a6c63640f5c2140802c96032942ea1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,14 +62,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3863937857550272719, guid: 76a6c63640f5c2140802c96032942ea1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -6094322162293032728}
+      addedObject: {fileID: -4832149792127714684}
   m_SourcePrefab: {fileID: 100100000, guid: 76a6c63640f5c2140802c96032942ea1, type: 3}
 --- !u!1 &987664298398629824 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3863937857550272719, guid: 76a6c63640f5c2140802c96032942ea1, type: 3}
   m_PrefabInstance: {fileID: 4047491899518711567}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-6094322162293032728
+--- !u!114 &-4832149792127714684
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,10 +78,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 987664298398629824}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feb7f2a8b77f4229ab1945129a7c9df4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d85d188b24dd3a4d95dd9826a1e8aa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
   ownGrunt: {fileID: 0}
   mapItemName: 
   category: Misc
+  cameraMovement: {fileID: 0}
+  isUntouched: 0
+  boxText: 
