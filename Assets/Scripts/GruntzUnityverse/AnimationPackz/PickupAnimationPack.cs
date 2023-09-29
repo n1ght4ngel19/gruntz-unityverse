@@ -1,6 +1,10 @@
 using System.Collections.Generic;
+using GruntzUnityverse.Itemz.Powerup;
+using GruntzUnityverse.Itemz.Toolz;
+using GruntzUnityverse.Itemz.Toyz;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.UIElements;
 
 namespace GruntzUnityverse.AnimationPackz {
   public class PickupAnimationPack {
@@ -18,6 +22,7 @@ namespace GruntzUnityverse.AnimationPackz {
       LoadMiscPickupAnimations();
       LoadToolPickupAnimations();
       LoadToyPickupAnimations();
+      LoadPowerupPickupAnimations();
     }
 
     private void LoadMiscPickupAnimations() {
@@ -28,28 +33,33 @@ namespace GruntzUnityverse.AnimationPackz {
       //   };
       // }
 
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Coin.anim").Completed += handle => {
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Coin.anim").Completed += handle => {
         misc.Add("Coin", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Helpbox.anim").Completed += handle => {
+
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Helpbox.anim").Completed += handle => {
         misc.Add("Helpbox", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_Megaphone.anim").Completed += handle => {
+
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Megaphone.anim").Completed += handle => {
         misc.Add("Megaphone", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterW.anim").Completed += handle => {
+
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_WarpletterW.anim").Completed += handle => {
         misc.Add("WarpletterW", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterA.anim").Completed += handle => {
+
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_WarpletterA.anim").Completed += handle => {
         misc.Add("WarpletterA", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterR.anim").Completed += handle => {
+
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_WarpletterR.anim").Completed += handle => {
         misc.Add("WarpletterR", handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Misc_WarpletterP.anim").Completed += handle => {
+
+      Addressables.LoadAssetAsync<AnimationClip>("Pickup_WarpletterP.anim").Completed += handle => {
         misc.Add("WarpletterP", handle.Result);
       };
-
     }
 
     private void LoadToolPickupAnimations() {
@@ -62,14 +72,24 @@ namespace GruntzUnityverse.AnimationPackz {
       //   }
       // }
 
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Tool_Gauntletz.anim").Completed += handle => {
-        tool.Add("Gauntletz", handle.Result);
+      Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{nameof(Gauntletz)}.anim").Completed += handle => {
+        tool.Add(nameof(Gauntletz), handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Tool_Shovel.anim").Completed += handle => {
-        tool.Add("Shovel", handle.Result);
+
+      Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{nameof(Shovel)}.anim").Completed += handle => {
+        tool.Add(nameof(Shovel), handle.Result);
       };
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Tool_Warpstone.anim").Completed += handle => {
-        tool.Add("Warpstone", handle.Result);
+
+      Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{nameof(Warpstone)}.anim").Completed += handle => {
+        tool.Add(nameof(Warpstone), handle.Result);
+      };
+
+      Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{nameof(GooberStraw)}.anim").Completed += handle => {
+        tool.Add(nameof(GooberStraw), handle.Result);
+      };
+
+      Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{nameof(Club)}.anim").Completed += handle => {
+        tool.Add(nameof(Club), handle.Result);
       };
     }
 
@@ -79,8 +99,23 @@ namespace GruntzUnityverse.AnimationPackz {
       //     toy.Add(nameof(toyName), handle.Result);
       //   };
       // }
-      Addressables.LoadAssetAsync<AnimationClip>("Pickup_Toy_Beachball.anim").Completed += handle => {
-        toy.Add("Beachball", handle.Result);
+
+      Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{nameof(Beachball)}.anim").Completed += handle => {
+        toy.Add(nameof(Beachball), handle.Result);
+      };
+    }
+
+    private void LoadPowerupPickupAnimations() {
+      Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{nameof(ZapCola)}Can.anim").Completed += handle => {
+        powerup.Add($"{nameof(ZapCola)}Can", handle.Result);
+      };
+
+      Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{nameof(ZapCola)}Bottle.anim").Completed += handle => {
+        powerup.Add($"{nameof(ZapCola)}Bottle", handle.Result);
+      };
+
+      Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{nameof(ZapCola)}Keg.anim").Completed += handle => {
+        powerup.Add($"{nameof(ZapCola)}Keg", handle.Result);
       };
     }
   }

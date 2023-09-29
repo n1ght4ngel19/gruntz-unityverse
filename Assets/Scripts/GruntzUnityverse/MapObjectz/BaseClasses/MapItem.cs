@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Linq;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.MapObjectz.MapItemz.Misc;
+using GruntzUnityverse.Itemz.Misc;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -28,21 +28,27 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     protected override IEnumerator LoadAndPlayAnimation() {
       yield return new WaitUntil(() => pickupItem.mapItemName.Length > 0);
 
-      if (pickupItem.mapItemName == nameof(Warpletter)) {
-        Addressables.LoadAssetAsync<AnimationClip>($"{nameof(Warpletter)}{((Warpletter)pickupItem).warpletterType}_Rotating.anim")
-          .Completed += handle => {
-          _rotationAnimation = handle.Result;
+      string animKey = pickupItem.mapItemName == nameof(Warpletter)
+        ? $"{nameof(Warpletter)}{((Warpletter)pickupItem).warpletterType}_Rotating.anim"
+        : $"{pickupItem.mapItemName}_Rotating.anim";
 
-          animancer.Play(_rotationAnimation);
-        };
-      } else {
-        Addressables.LoadAssetAsync<AnimationClip>($"{pickupItem.mapItemName}_Rotating.anim")
-          .Completed += handle => {
-          _rotationAnimation = handle.Result;
+      // Addressables.LoadAssetAsync<AnimationClip>($"{nameof(Warpletter)}{((Warpletter)pickupItem).warpletterType}_Rotating.anim")
+      //   .Completed += handle => {
+      //   _rotationAnimation = handle.Result;
+      //
+      //   animancer.Play(_rotationAnimation);
+      // };
+      // Addressables.LoadAssetAsync<AnimationClip>($"{pickupItem.mapItemName}_Rotating.anim")
+      //   .Completed += handle => {
+      //   _rotationAnimation = handle.Result;
+      //
+      //   animancer.Play(_rotationAnimation);
+      // };
+      Addressables.LoadAssetAsync<AnimationClip>(animKey).Completed += handle => {
+        _rotationAnimation = handle.Result;
 
-          animancer.Play(_rotationAnimation);
-        };
-      }
+        animancer.Play(_rotationAnimation);
+      };
     }
 
     // ------------------------------------------------------------ //

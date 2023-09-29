@@ -16,7 +16,6 @@ namespace GruntzUnityverse.Actorz {
     private bool _hasStarted;
     public AudioSource AudioSource { get; set; }
     public AudioClip breakSound;
-    // ------------------------------------------------------------ //
 
     private void Update() {
       if (!_hasStarted) {
@@ -31,6 +30,7 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
+      #region Destroying the Ball
       if (ownNode.isBlocked || (ownNode.isWater && ownNode.Neighbours.Any(node => !node.isWater))) {
         animancer.Play(_rollAnimSet["Explosion"]);
 
@@ -53,6 +53,7 @@ namespace GruntzUnityverse.Actorz {
 
         return;
       }
+      #endregion
 
       Move();
     }
@@ -61,7 +62,7 @@ namespace GruntzUnityverse.Actorz {
     // CLASS METHODS
     // ------------------------------------------------------------ //
     public void Move() {
-      if (Vector2.Distance(ownNode.location, transform.position) > 0.5f) {
+      if (Vector2.Distance(ownNode.location, transform.position) > 0.9f) {
         ownNode = GameManager.Instance.currentLevelManager.NodeAt(Vector2Int.FloorToInt(transform.position));
       }
 
@@ -92,34 +93,47 @@ namespace GruntzUnityverse.Actorz {
 
       AudioSource = gameObject.AddComponent<AudioSource>();
       AudioSource.loop = true;
+
       Addressables.LoadAssetAsync<AudioClip>($"{abbreviatedArea}_RockBreak.wav").Completed += handle => {
         breakSound = handle.Result;
       };
     }
+
     protected override void LoadAnimationz() {
       _rollAnimSet = new Dictionary<string, AnimationClip>();
 
       string key = $"{abbreviatedArea}_RollingBall_{Direction.East}.anim";
+
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("East", handle.Result);
       };
+
       key = $"{abbreviatedArea}_RollingBall_{Direction.South}.anim";
+
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("South", handle.Result);
       };
+
       key = $"{abbreviatedArea}_RollingBall_{Direction.North}.anim";
+
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("North", handle.Result);
       };
+
       key = $"{abbreviatedArea}_RollingBall_{Direction.West}.anim";
+
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("West", handle.Result);
       };
+
       key = $"{abbreviatedArea}_RollingBall_Explosion.anim";
+
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("Explosion", handle.Result);
       };
+
       key = $"{abbreviatedArea}_RollingBall_Sink.anim";
+
       Addressables.LoadAssetAsync<AnimationClip>(key).Completed += handle => {
         _rollAnimSet.Add("Sink", handle.Result);
       };

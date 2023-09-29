@@ -3,7 +3,7 @@ using GruntzUnityverse.Enumz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
 
-namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
+namespace GruntzUnityverse.Itemz.Toolz {
   public class Barehandz : Tool {
     protected override void Start() {
       toolName = ToolName.Barehandz;

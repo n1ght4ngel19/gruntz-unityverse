@@ -88,6 +88,7 @@ PlayerSettings:
   hideHomeButton: 0
   submitAnalytics: 1
   usePlayerLog: 1
+  dedicatedServerOptimizations: 0
   bakeCollisionMeshes: 0
   forceSingleInstance: 0
   useFlipModelSwapchain: 1
@@ -127,6 +128,7 @@ PlayerSettings:
   switchNVNMaxPublicTextureIDCount: 0
   switchNVNMaxPublicSamplerIDCount: 0
   switchNVNGraphicsFirmwareMemory: 32
+  switchMaxWorkerMultiple: 8
   stadiaPresentMode: 0
   stadiaTargetFramerate: 0
   vulkanNumSwapchainBuffers: 3
@@ -360,6 +362,7 @@ PlayerSettings:
   switchSocketConcurrencyLimit: 14
   switchScreenResolutionBehavior: 2
   switchUseCPUProfiler: 0
+  switchEnableFileSystemTrace: 0
   switchUseGOLDLinker: 0
   switchLTOSetting: 0
   switchApplicationID: 0x01004b9000490000
@@ -601,19 +604,20 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: UNITY_POST_PROCESSING_STACK_V2
-    EmbeddedLinux: UNITY_POST_PROCESSING_STACK_V2
-    GameCoreXboxOne: UNITY_POST_PROCESSING_STACK_V2
-    Nintendo Switch: UNITY_POST_PROCESSING_STACK_V2
-    PS4: UNITY_POST_PROCESSING_STACK_V2
-    PS5: UNITY_POST_PROCESSING_STACK_V2
-    QNX: UNITY_POST_PROCESSING_STACK_V2
-    Stadia: UNITY_POST_PROCESSING_STACK_V2
-    Standalone: UNITY_POST_PROCESSING_STACK_V2
-    VisionOS: UNITY_POST_PROCESSING_STACK_V2
-    WebGL: UNITY_POST_PROCESSING_STACK_V2
-    XboxOne: UNITY_POST_PROCESSING_STACK_V2
-    tvOS: UNITY_POST_PROCESSING_STACK_V2
+    Android: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    EmbeddedLinux: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    GameCoreXboxOne: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    Nintendo Switch: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    PS4: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    PS5: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    QNX: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    Stadia: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    Standalone: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    VisionOS: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    WebGL: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    XboxOne: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
+    iPhone: TextMeshPro
+    tvOS: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

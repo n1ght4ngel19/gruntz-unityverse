@@ -9,10 +9,10 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.ComponentModel;
 using System.Linq;
+using GruntzUnityverse.Itemz.Misc;
+using GruntzUnityverse.Itemz.Toolz;
+using GruntzUnityverse.Itemz.Toyz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
-using GruntzUnityverse.MapObjectz.Itemz.Toolz;
-using GruntzUnityverse.MapObjectz.Itemz.Toyz;
-using GruntzUnityverse.MapObjectz.MapItemz.Misc;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
@@ -26,6 +26,7 @@ namespace GruntzUnityverse.Actorz {
     // ------------------------------------------------------------ //
     // Statz
     // ------------------------------------------------------------ //
+
     #region Statz
     [Header("Statz")] public int gruntId;
     public int playerGruntId;
@@ -42,6 +43,7 @@ namespace GruntzUnityverse.Actorz {
     // ------------------------------------------------------------ //
     // Flagz
     // ------------------------------------------------------------ //
+
     #region Flagz
     [Header("Flagz")] public bool isSelected;
     public bool isInCircle;
@@ -61,6 +63,7 @@ namespace GruntzUnityverse.Actorz {
     // ------------------------------------------------------------ //
     // Action
     // ------------------------------------------------------------ //
+
     #region Action
     [Header("Action")] public MapObject targetObject;
     [CanBeNull] public Grunt targetGrunt;
@@ -71,6 +74,7 @@ namespace GruntzUnityverse.Actorz {
     // ------------------------------------------------------------ //
     // Componentz
     // ------------------------------------------------------------ //
+
     #region Componentz
     [HideInInspector] public SpriteRenderer spriteRenderer;
     [HideInInspector] public Navigator navigator;
@@ -85,6 +89,7 @@ namespace GruntzUnityverse.Actorz {
     // ------------------------------------------------------------ //
     // Other
     // ------------------------------------------------------------ //
+
     #region Other
     public GruntAnimationPack animationPack;
     public DeathName deathToDie;
@@ -119,26 +124,32 @@ namespace GruntzUnityverse.Actorz {
       // ----------------------------------------
       // Death
       // ----------------------------------------
+
       #region Death
       if (_isDying) {
         return;
       }
+
       if (health <= 0) {
         StartCoroutine(Die(deathToDie));
 
         return;
       }
+
       if (navigator.ownNode.isDeath || navigator.ownNode.isWater) {
         StartCoroutine(Die(DeathName.Sink));
 
         int randIdx = Random.Range(1, 16);
+
         string voicePath = randIdx >= 10
           ? $"Assets/Audio/Voicez/Deathz/Voice_Death_Sink_{randIdx}.wav"
           : $"Assets/Audio/Voicez/Deathz/Voice_Death_Sink_0{randIdx}.wav";
+
         PlayVoice(voicePath);
 
         return;
       }
+
       if (navigator.ownNode.isBlocked) {
         spriteRenderer.sortingLayerName = "AlwaysBottom";
 
@@ -149,6 +160,7 @@ namespace GruntzUnityverse.Actorz {
 
         return;
       }
+
       if (GameManager.Instance.currentLevelManager.rollingBallz.Any(ball => ball.ownNode == navigator.ownNode)) {
         spriteRenderer.sortingLayerName = "AlwaysBottom";
 
@@ -159,6 +171,7 @@ namespace GruntzUnityverse.Actorz {
 
         return;
       }
+
       if (navigator.ownNode.isHole) {
         StartCoroutine(Die(DeathName.Hole));
 
@@ -175,10 +188,12 @@ namespace GruntzUnityverse.Actorz {
       switch (stamina) {
         case 0:
           InvokeRepeating(nameof(RegenStamina), 0, 1);
+
           break;
 
         case MaxStatValue:
           CancelInvoke(nameof(RegenStamina));
+
           break;
       }
 
@@ -188,8 +203,10 @@ namespace GruntzUnityverse.Actorz {
       // ----------------------------------------
       // Attribute barz
       // ----------------------------------------
+
       #region Attribute barz
       healthBar.spriteRenderer.enabled = isSelected || health < MaxStatValue;
+
       healthBar.spriteRenderer.sprite = health <= 0
         ? healthBar.frames[0]
         : healthBar.frames[health];
@@ -227,6 +244,7 @@ namespace GruntzUnityverse.Actorz {
       // ----------------------------------------
       // Command
       // ----------------------------------------
+
       #region Command
       if (haveMoveCommand) {
         state = GruntState.Moving;
@@ -276,6 +294,7 @@ namespace GruntzUnityverse.Actorz {
         case GruntState.Using:
           if (stamina < MaxStatValue) {
             state = GruntState.UsingIdle;
+
             break;
           }
 
@@ -324,6 +343,7 @@ namespace GruntzUnityverse.Actorz {
         case GruntState.Attacking:
           if (stamina < MaxStatValue) {
             state = GruntState.AttackingIdle;
+
             break;
           }
 
@@ -389,6 +409,7 @@ namespace GruntzUnityverse.Actorz {
           } else {
             state = GruntState.Using;
           }
+
           break;
 
         case GruntState.MovingToAttacking:
@@ -406,6 +427,7 @@ namespace GruntzUnityverse.Actorz {
           } else {
             state = GruntState.Giving;
           }
+
           break;
 
         default:
@@ -511,36 +533,43 @@ namespace GruntzUnityverse.Actorz {
         case GruntState.Idle:
           clipToPlay = animationPack.Idle[$"{equipment.tool.gruntType}_Idle_{navigator.facingDirection}_01"];
           animancer.Play(clipToPlay);
+
           break;
 
         case GruntState.UsingIdle:
           clipToPlay = animationPack.Idle[$"{equipment.tool.gruntType}_Idle_{navigator.facingDirection}_01"];
           animancer.Play(clipToPlay);
+
           break;
 
         case GruntState.Moving:
           clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
           animancer.Play(clipToPlay);
+
           break;
 
         case GruntState.MovingToUsing:
           clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
           animancer.Play(clipToPlay);
+
           break;
 
         case GruntState.MovingToAttacking:
           clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
           animancer.Play(clipToPlay);
+
           break;
 
         case GruntState.MovingToGiving:
           clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
           animancer.Play(clipToPlay);
+
           break;
 
         case GruntState.AttackingIdle:
           clipToPlay = animationPack.Attack[$"{equipment.tool.gruntType}_Attack_{navigator.facingDirection}_Idle"];
           animancer.Play(clipToPlay);
+
           break;
       }
     }
@@ -554,6 +583,8 @@ namespace GruntzUnityverse.Actorz {
             nameof(Gauntletz) => gameObject.AddComponent<Gauntletz>(),
             nameof(Shovel) => gameObject.AddComponent<Shovel>(),
             nameof(Warpstone) => gameObject.AddComponent<Warpstone>(),
+            nameof(GooberStraw) => gameObject.AddComponent<GooberStraw>(),
+            nameof(Club) => gameObject.AddComponent<Club>(),
             _ => throw new InvalidEnumArgumentException(),
           };
 
@@ -606,6 +637,11 @@ namespace GruntzUnityverse.Actorz {
               PlayRandomVoice("Misc", item);
 
               break;
+            case nameof(Helpbox):
+              animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.misc[$"{item.mapItemName}"]);
+              PlayRandomVoice("Misc", item);
+
+              break;
           }
 
           break;
@@ -626,10 +662,12 @@ namespace GruntzUnityverse.Actorz {
       string clipKey = $"{equipment.tool.gruntType}_Struck_{navigator.facingDirection}_0{clipIdx}";
       AnimationClip struckClip = animationPack.Struck[clipKey];
 
-      animancer.Play(struckClip);  
+      animancer.Play(struckClip);
 
       isInterrupted = true;
+
       yield return new WaitForSeconds(0.5f);
+
       isInterrupted = false;
     }
 
@@ -642,7 +680,9 @@ namespace GruntzUnityverse.Actorz {
       animancer.Play(struckClip);
 
       isInterrupted = true;
+
       yield return new WaitForSeconds(0.5f);
+
       isInterrupted = false;
     }
 
@@ -659,51 +699,63 @@ namespace GruntzUnityverse.Actorz {
 
       AnimationClip deathClip =
         animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death"];
+
       float deathAnimLength = 2f;
 
       switch (deathName) {
         case DeathName.Burn:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Burn)];
           deathAnimLength = 1f;
+
           break;
         case DeathName.Electrocute:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Electrocute)];
           deathAnimLength = 1.5f;
+
           break;
         case DeathName.Explode:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Explode)];
           deathAnimLength = 0.5f;
+
           break;
         case DeathName.Fall:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Fall)];
           deathAnimLength = 5f;
+
           break;
         case DeathName.Flyup:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Flyup)];
           deathAnimLength = 0.5f;
+
           break;
         case DeathName.Freeze:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Freeze)];
+
           break;
         case DeathName.Hole:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Hole)];
           deathAnimLength = 1.5f;
+
           break;
         case DeathName.Karaoke:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Karaoke)];
           deathAnimLength = 15f;
+
           break;
         case DeathName.Melt:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Melt)];
           deathAnimLength = 1f;
+
           break;
         case DeathName.Sink:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Sink)];
           deathAnimLength = 1f;
+
           break;
         case DeathName.Squash:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Squash)];
           deathAnimLength = 0.5f;
+
           break;
       }
 

@@ -81,8 +81,10 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
         _requiredTool = ToolName.Shovel;
       } else if (spriteName.Contains(ToolName.Warpstone.ToString())) {
         _requiredTool = ToolName.Warpstone;
-      } else if (spriteName.Contains(ToolName.Warpstone.ToString())) {
-        _requiredTool = ToolName.Warpstone;
+      } else if (spriteName.Contains(ToolName.Club.ToString())) {
+        _requiredTool = ToolName.Club;
+      } else if (spriteName.Contains(ToolName.GooberStraw.ToString())) {
+        _requiredTool = ToolName.GooberStraw;
       } else {
         _requiredTool = ToolName.Barehandz;
       } // Todo: Other Toolz

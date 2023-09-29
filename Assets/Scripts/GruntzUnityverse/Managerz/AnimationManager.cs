@@ -39,6 +39,15 @@ namespace GruntzUnityverse.Managerz {
       // foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz) {
       //   grunt.SetAnimPack(grunt.equipment.tool.toolName);
       // }
+      
+      Debug.Log("tool " + pickupPack.tool.Count);
+
+      foreach (var item in pickupPack.tool) {
+        Debug.Log(item);
+      }
+      Debug.Log("toy " + pickupPack.toy.Count);
+      Debug.Log("powerup " + pickupPack.powerup.Count);
+      Debug.Log("misc " + pickupPack.misc.Count);
     }
     // -------------------------------------------------------------------------------- //
 

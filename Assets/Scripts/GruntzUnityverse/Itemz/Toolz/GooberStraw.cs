@@ -2,7 +2,7 @@
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 
-namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
+namespace GruntzUnityverse.Itemz.Toolz {
   public class GooberStraw : Tool {
     protected override void Start() {
       toolName = ToolName.GooberStraw;
@@ -15,7 +15,6 @@ namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
 
       base.Start();
     }
-    // -------------------------------------------------------------------------------- //
 
     public override IEnumerator UseTool() {
       // Todo: Implement

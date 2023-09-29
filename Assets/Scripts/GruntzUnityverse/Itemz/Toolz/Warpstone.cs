@@ -2,7 +2,7 @@ using System.Collections;
 using GruntzUnityverse.Enumz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 
-namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
+namespace GruntzUnityverse.Itemz.Toolz {
   public class Warpstone : Tool {
     protected override void Start() {
       toolName = ToolName.Warpstone;

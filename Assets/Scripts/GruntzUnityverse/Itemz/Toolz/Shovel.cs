@@ -4,7 +4,7 @@ using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.Interactablez;
 using UnityEngine;
 
-namespace GruntzUnityverse.MapObjectz.Itemz.Toolz {
+namespace GruntzUnityverse.Itemz.Toolz {
   public class Shovel : Tool {
     protected override void Start() {
       toolName = ToolName.Shovel;

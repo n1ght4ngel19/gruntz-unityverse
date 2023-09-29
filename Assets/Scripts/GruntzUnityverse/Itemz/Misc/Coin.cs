@@ -1,12 +1,11 @@
 ﻿using GruntzUnityverse.MapObjectz.BaseClasses;
 
-namespace GruntzUnityverse.MapItemz.Misc {
-  public class Coin : Item {
+namespace GruntzUnityverse.Itemz.Misc {
+  public class Coin : MiscItem {
     protected override void Start() {
-      base.Start();
-
-      category = "Misc";
       mapItemName = nameof(Coin);
+
+      base.Start();
     }
   }
 }
