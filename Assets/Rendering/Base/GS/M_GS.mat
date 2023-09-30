@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_HueChange
-  m_Shader: {fileID: -6465566751694194690, guid: 5c450f6f813cb6644883b87b51830bd5, type: 3}
+  m_Name: M_GS
+  m_Shader: {fileID: -6465566751694194690, guid: f6ce08259f9feb6418339968efc29e83, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cb125100f1817cc418f670a309f0f433, type: 3}
+        m_Texture: {fileID: 2800000, guid: 54af544181a4d9a4faf830c95ee22f47, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -53,8 +53,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Darkness: 1
     - _EnableExternalAlpha: 0
-    - _Hue: 220
+    - _Hue: 0
+    - _Lightness: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
@@ -62,7 +64,7 @@ Material:
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5076753412914750025
+--- !u!114 &1383981202324895758
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
