@@ -10,6 +10,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Linq;
 using GruntzUnityverse.Itemz.Misc;
+using GruntzUnityverse.Itemz.Powerup;
 using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.Itemz.Toyz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
@@ -616,6 +617,10 @@ namespace GruntzUnityverse.Actorz {
 
           animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.powerup[item.mapItemName]);
           PlayRandomVoice(nameof(Powerup), item);
+
+          if (item is ZapCola cola) {
+            health += cola.healAmount;
+          }
 
           break;
 
