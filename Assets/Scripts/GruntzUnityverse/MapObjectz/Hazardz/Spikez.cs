@@ -40,6 +40,12 @@ namespace GruntzUnityverse.MapObjectz.Hazardz {
     public void DamageGrunt() {
       _targetGrunt.health -= damage;
 
+      if (_targetGrunt == null) {
+        CancelInvoke(nameof(DamageGrunt));
+
+        return;
+      }
+      
       if (_targetGrunt.health <= 0) {
         StartCoroutine(_targetGrunt.Die(DeathName.Default));
 

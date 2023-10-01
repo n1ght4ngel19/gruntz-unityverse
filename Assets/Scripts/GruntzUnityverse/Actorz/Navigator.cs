@@ -11,8 +11,6 @@ namespace GruntzUnityverse.Actorz {
   /// </summary>
   public class Navigator : MonoBehaviour {
     #region Nodes & Locations
-    public Vector2Int startingLocation;
-    public Node startingNode;
     public Vector2Int ownLocation;
     public Node ownNode;
     public Vector2Int targetLocation;
@@ -38,13 +36,10 @@ namespace GruntzUnityverse.Actorz {
     public Direction facingDirection;
     private const float StepThreshold = 0.1f;
 
-
     private void Start() {
       facingDirection = Direction.South;
-      startingLocation = Vector2Int.RoundToInt(transform.position);
-      startingNode = GameManager.Instance.currentLevelManager.NodeAt(startingLocation);
-      ownLocation = startingLocation;
-      ownNode = startingNode;
+      ownLocation = Vector2Int.RoundToInt(transform.position);
+      ownNode = GameManager.Instance.currentLevelManager.NodeAt(ownLocation);
       targetLocation = ownLocation;
       targetNode = ownNode;
       ownGrunt = gameObject.GetComponent<Grunt>();

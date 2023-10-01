@@ -1,4 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using CI.QuickSave;
+using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using GruntzUnityverse.Itemz.Misc;
+using GruntzUnityverse.Itemz.Toolz;
+using GruntzUnityverse.Itemz.Toyz;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
@@ -42,7 +50,21 @@ namespace GruntzUnityverse {
     /// </summary>
     public void Save() {
       Debug.Log("Save");
-      // SaveManager.Instance.SaveGame();
+
+      // _{System.DateTime.Now:yyyy-MM-dd_HH-mm-ss}
+      string saveName = $"{SceneManager.GetActiveScene().name}";
+
+      QuickSaveWriter writer = QuickSaveWriter.Create(saveName, new QuickSaveSettings());
+
+      List<GruntData> gruntData = new List<GruntData>();
+
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz) {
+        gruntData.Add(new GruntData(grunt));
+      }
+
+      writer.Write("GruntData", gruntData);
+
+      writer.Commit();
     }
 
     /// <summary>
@@ -50,7 +72,26 @@ namespace GruntzUnityverse {
     /// </summary>
     public void Load() {
       Debug.Log("Load");
-      // StartCoroutine(SaveManager.Instance.LoadGame("save.json"));
+
+      GameManager.Instance.currentLevelManager.playerGruntz.Clear();
+      GameManager.Instance.currentLevelManager.enemyGruntz.Clear();
+      GameManager.Instance.currentLevelManager.allGruntz.Clear();
+
+      foreach (Grunt grunt in FindObjectsOfType<Grunt>()) {
+        Destroy(grunt.gameObject);
+      }
+
+      QuickSaveReader reader = QuickSaveReader.Create($"{SceneManager.GetActiveScene().name}");
+
+      reader.Read<List<GruntData>>("GruntData", (r) => {
+        foreach (GruntData data in r) {
+          Addressables.InstantiateAsync($"P_{data.tool}Grunt.prefab").Completed += handle => {
+            Grunt g = handle.Result.GetComponent<Grunt>();
+            g.saveData = data;
+            g.hasSaveData = true;
+          };
+        }
+      });
     }
 
     /// <summary>
@@ -72,9 +113,11 @@ namespace GruntzUnityverse {
     /// </summary>
     public void QuitGame() {
       Debug.Log("Save Game");
+
       Addressables.LoadSceneAsync("Menuz/MainMenu.unity").Completed += handle => {
         GameManager.Instance.hasChangedMusic = false;
       };
     }
   }
+
 }

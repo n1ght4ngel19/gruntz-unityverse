@@ -3,7 +3,7 @@ guid: 5647b43d4d924f1469851bde47b37ecc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 0
+    flipGreenChannel: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -450,25 +456,24 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BarehandzGrunt_Idle_South_8_8_3: -2023489319
-      BarehandzGrunt_Idle_South_8_8_12: -251216798
-      BarehandzGrunt_Idle_South_8_8_10: 114277665
-      BarehandzGrunt_Idle_South_8_8_15: -1601056641
-      BarehandzGrunt_Idle_South_8_8_5: 560102673
-      BarehandzGrunt_Idle_South_8_8_2: 586451370
-      BarehandzGrunt_Idle_South_8_8_11: 896807125
-      BarehandzGrunt_Idle_South_8_8_4: 854904597
-      BarehandzGrunt_Idle_South_8_8_8: -1505971543
-      BarehandzGrunt_Idle_South_8_8_14: 528570600
       BarehandzGrunt_Idle_South_8_8_0: -2040304132
       BarehandzGrunt_Idle_South_8_8_1: -877357658
-      BarehandzGrunt_Idle_South_8_8_9: -1333753399
+      BarehandzGrunt_Idle_South_8_8_10: 114277665
+      BarehandzGrunt_Idle_South_8_8_11: 896807125
+      BarehandzGrunt_Idle_South_8_8_12: -251216798
+      BarehandzGrunt_Idle_South_8_8_13: 1928688153
+      BarehandzGrunt_Idle_South_8_8_14: 528570600
+      BarehandzGrunt_Idle_South_8_8_15: -1601056641
+      BarehandzGrunt_Idle_South_8_8_2: 586451370
+      BarehandzGrunt_Idle_South_8_8_3: -2023489319
+      BarehandzGrunt_Idle_South_8_8_4: 854904597
+      BarehandzGrunt_Idle_South_8_8_5: 560102673
       BarehandzGrunt_Idle_South_8_8_6: -1508474823
       BarehandzGrunt_Idle_South_8_8_7: 1678758451
-      BarehandzGrunt_Idle_South_8_8_13: 1928688153
-  spritePackingTag: 
+      BarehandzGrunt_Idle_South_8_8_8: -1505971543
+      BarehandzGrunt_Idle_South_8_8_9: -1333753399
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

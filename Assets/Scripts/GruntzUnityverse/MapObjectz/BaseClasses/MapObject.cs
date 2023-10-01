@@ -14,6 +14,8 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
   /// The base for all other objects.
   /// </summary>
   public class MapObject : MonoBehaviour {
+    public int objectId;
+
     #region Fields
     public SpriteRenderer spriteRenderer; // HideInInspector
     public Transform parent;
@@ -27,6 +29,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     private Animator _animator;
     private Sprite _unusedSprite;
     #endregion
+
     // ------------------------------------------------------------ //
 
     private void OnValidate() {
@@ -47,6 +50,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     /// Sets up the MapObject for use and validates the setup wherever necessary.
     /// </summary>
     public virtual void Setup() {
+      objectId = GameManager.Instance.currentLevelManager.mapObjectIdCounter++;
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
       mainCamera = GameObject.Find("ControlledCamera").GetComponent<Camera>();
       parent = transform.parent;
@@ -71,6 +75,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     /// <returns>True if the MapObject is a valid target for the Grunt, false otherwise.</returns>
     public bool IsValidTargetFor(Grunt grunt) {
       Debug.Log("Valid");
+
       return grunt.equipment.tool is Gauntletz && this is IBreakable
         || grunt.equipment.tool is Shovel && this is Hole;
     }

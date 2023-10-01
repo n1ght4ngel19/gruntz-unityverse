@@ -21,6 +21,9 @@ using Range = GruntzUnityverse.Enumz.Range;
 
 namespace GruntzUnityverse.Actorz {
   public class Grunt : MonoBehaviour {
+    public bool hasSaveData;
+    public GruntData saveData;
+
     private const int MinStatValue = 0;
     private const int MaxStatValue = 20;
 
@@ -78,8 +81,8 @@ namespace GruntzUnityverse.Actorz {
 
     #region Componentz
     [HideInInspector] public SpriteRenderer spriteRenderer;
-    [HideInInspector] public Navigator navigator;
-    [HideInInspector] public Equipment equipment;
+    public Navigator navigator;
+    public Equipment equipment;
     [HideInInspector] public HealthBar healthBar;
     [HideInInspector] public StaminaBar staminaBar;
     [HideInInspector] public AnimancerComponent animancer;
@@ -99,29 +102,42 @@ namespace GruntzUnityverse.Actorz {
 
     private void Start() {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-      navigator = gameObject.AddComponent<Navigator>();
-      equipment = gameObject.AddComponent<Equipment>();
+      navigator = gameObject.GetComponent<Navigator>();
+      equipment = gameObject.GetComponent<Equipment>();
       equipment.tool = gameObject.GetComponents<Tool>().FirstOrDefault();
       equipment.toy = gameObject.GetComponents<Toy>().FirstOrDefault();
+
       healthBar = gameObject.GetComponentInChildren<HealthBar>();
       health = health <= MinStatValue ? MaxStatValue : health;
       staminaBar = gameObject.GetComponentInChildren<StaminaBar>();
       stamina = stamina <= MinStatValue ? MaxStatValue : stamina;
+
       state = GruntState.Idle;
-      _animator ??= gameObject.AddComponent<Animator>();
-      animancer ??= gameObject.AddComponent<AnimancerComponent>();
+      _animator = gameObject.GetComponent<Animator>();
+      animancer = gameObject.GetComponent<AnimancerComponent>();
       animancer.Animator = _animator;
+
       selectedCircle = gameObject.GetComponentInChildren<SelectedCircle>();
-      BoxCollider2D boxCollider = gameObject.AddComponent<BoxCollider2D>();
+      BoxCollider2D boxCollider = gameObject.GetComponent<BoxCollider2D>();
       boxCollider.size = Vector2.one;
 
-      audioSource = gameObject.AddComponent<AudioSource>();
+      audioSource = gameObject.GetComponent<AudioSource>();
       audioSource.playOnAwake = false;
 
       SetAnimPack(equipment.tool.toolName);
     }
 
+    // private void OnEnable() {
+    //   SetAnimPack(equipment.tool.toolName);
+    //   Debug.Log("Setting animpack");
+    // }
+
     protected virtual void Update() {
+      if (hasSaveData) {
+        hasSaveData = false;
+
+        HandleSaveData(saveData);
+      }
       // ----------------------------------------
       // Death
       // ----------------------------------------
@@ -528,6 +544,8 @@ namespace GruntzUnityverse.Actorz {
     /// Plays the appropriate non-combat animation given the Grunt's current state.
     /// </summary>
     private void PlayNonCombatAnimation() {
+      SetAnimPack(equipment.tool.toolName);
+
       AnimationClip clipToPlay;
 
       switch (state) {
@@ -575,25 +593,58 @@ namespace GruntzUnityverse.Actorz {
       }
     }
 
+    public void ChangeToolTo(ToolName tool) {
+      Destroy(GetComponents<Tool>().FirstOrDefault());
+
+      equipment.tool = tool switch {
+        ToolName.Barehandz => gameObject.AddComponent<Barehandz>(),
+        ToolName.Gauntletz => gameObject.AddComponent<Gauntletz>(),
+        ToolName.Shovel => gameObject.AddComponent<Shovel>(),
+        ToolName.Warpstone => gameObject.AddComponent<Warpstone>(),
+        ToolName.GooberStraw => gameObject.AddComponent<GooberStraw>(),
+        ToolName.Club => gameObject.AddComponent<Club>(),
+        _ => throw new InvalidEnumArgumentException(),
+      };
+
+      SetAnimPack(tool);
+    }
+
+    public void ChangeToolTo(string tool) {
+      Destroy(GetComponents<Tool>().FirstOrDefault());
+
+      equipment.tool = tool switch {
+        nameof(Barehandz) => gameObject.AddComponent<Barehandz>(),
+        nameof(Gauntletz) => gameObject.AddComponent<Gauntletz>(),
+        nameof(Shovel) => gameObject.AddComponent<Shovel>(),
+        nameof(Warpstone) => gameObject.AddComponent<Warpstone>(),
+        nameof(GooberStraw) => gameObject.AddComponent<GooberStraw>(),
+        nameof(Club) => gameObject.AddComponent<Club>(),
+        _ => throw new InvalidEnumArgumentException(),
+      };
+
+      SetAnimPack(tool);
+    }
+
     public IEnumerator PickupItem(Item item) {
       switch (item.category) {
         case nameof(Tool):
-          Destroy(GetComponents<Tool>().FirstOrDefault());
-
-          equipment.tool = item.mapItemName switch {
-            nameof(Gauntletz) => gameObject.AddComponent<Gauntletz>(),
-            nameof(Shovel) => gameObject.AddComponent<Shovel>(),
-            nameof(Warpstone) => gameObject.AddComponent<Warpstone>(),
-            nameof(GooberStraw) => gameObject.AddComponent<GooberStraw>(),
-            nameof(Club) => gameObject.AddComponent<Club>(),
-            _ => throw new InvalidEnumArgumentException(),
-          };
+          // Destroy(GetComponents<Tool>().FirstOrDefault());
+          //
+          // equipment.tool = item.mapItemName switch {
+          //   nameof(Gauntletz) => gameObject.AddComponent<Gauntletz>(),
+          //   nameof(Shovel) => gameObject.AddComponent<Shovel>(),
+          //   nameof(Warpstone) => gameObject.AddComponent<Warpstone>(),
+          //   nameof(GooberStraw) => gameObject.AddComponent<GooberStraw>(),
+          //   nameof(Club) => gameObject.AddComponent<Club>(),
+          //   _ => throw new InvalidEnumArgumentException(),
+          // };
+          // SetAnimPack(item.mapItemName);
+          ChangeToolTo(item.mapItemName);
 
           StatzManager.acquiredToolz++;
 
           animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.tool[item.mapItemName]);
           PlayRandomVoice(nameof(Tool), item);
-          SetAnimPack(item.mapItemName);
 
           break;
         case nameof(Toy):
@@ -897,6 +948,66 @@ namespace GruntzUnityverse.Actorz {
     public void PlayVoice(string clipKey) {
       Addressables.LoadAssetAsync<AudioClip>(clipKey).Completed += handle => {
         audioSource.PlayOneShot(handle.Result);
+      };
+    }
+
+    public void HandleSaveData(GruntData data) {
+      gruntId = data.gruntId;
+      gameObject.name = data.gruntName;
+      transform.position = data.position;
+      owner = data.owner;
+
+      // g.state = data.state;
+      state = data.state switch {
+        "Idle" => GruntState.Moving,
+        "Moving" => GruntState.Moving,
+        "Using" => GruntState.Moving,
+        "Attacking" => GruntState.Moving,
+        "Giving" => GruntState.Moving,
+        _ => GruntState.Moving,
+      };
+
+      health = data.health;
+      stamina = data.stamina;
+      toyTime = data.toyTime;
+      wingzTime = data.wingzTime;
+
+      isInterrupted = data.isInterrupted;
+
+      navigator.ownLocation = data.navigatorOwnLocation;
+      navigator.ownNode = GameManager.Instance.currentLevelManager.NodeAt(data.navigatorOwnLocation);
+      navigator.targetNode = GameManager.Instance.currentLevelManager.NodeAt(data.navigatorTargetNodeLocation);
+      haveMoveCommand = data.haveMoveCommand;
+
+      navigator.isMoving = data.navigatorIsMoving;
+      navigator.isMoveForced = data.navigatorIsMoveForced;
+      navigator.movesDiagonally = data.navigatorMovesDiagonally;
+
+      navigator.moveVector = data.navigatorMoveVector;
+      navigator.facingDirection = data.navigatorFacingDirection;
+
+      if (data.targetGruntId != -1) {
+        targetGrunt = GameManager.Instance.currentLevelManager.enemyGruntz
+          .First(grunt => grunt.gruntId == data.targetGruntId);
+      }
+      
+      if (data.targetMapObjectId != -1) {
+        targetMapObject = GameManager.Instance.currentLevelManager.mapObjectz
+          .First(mapObject => mapObject.objectId == data.targetMapObjectId);
+      }
+
+      // Adding the Grunt to the LevelManager's appropriate lists
+      GameManager.Instance.currentLevelManager.allGruntz.Add(this);
+
+      if (owner == Owner.Player) {
+        GameManager.Instance.currentLevelManager.playerGruntz.Add(this);
+      } else {
+        GameManager.Instance.currentLevelManager.enemyGruntz.Add(this);
+      }
+
+      // Setting the Grunt's color
+      Addressables.LoadAssetAsync<Material>($"{data.materialKey}.mat").Completed += handle2 => {
+        spriteRenderer.material = handle2.Result;
       };
     }
   }

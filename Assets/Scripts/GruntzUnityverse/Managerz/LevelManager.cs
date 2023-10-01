@@ -21,6 +21,7 @@ namespace GruntzUnityverse.Managerz {
   public class LevelManager : MonoBehaviour {
     public int gruntIdCounter = 1;
     public int playerGruntIdCounter = 1;
+    public int mapObjectIdCounter = 1;
 
     #region Layerz
     // ----- Layerz -----
@@ -120,22 +121,27 @@ namespace GruntzUnityverse.Managerz {
         GameManager.Instance.currentLevelManager.mapObjectContainer
           .GetComponentsInChildren<Tool>()
           .Length;
+
       StatzManager.maxToyz =
         GameManager.Instance.currentLevelManager.mapObjectContainer
           .GetComponentsInChildren<Toy>()
           .Length;
+
       StatzManager.maxPowerupz =
         GameManager.Instance.currentLevelManager.mapObjectContainer
           .GetComponentsInChildren<Powerup>()
           .Length;
+
       StatzManager.maxCoinz =
         GameManager.Instance.currentLevelManager.mapObjectContainer
           .GetComponentsInChildren<Coin>()
           .Length;
+
       StatzManager.maxSecretz =
         GameManager.Instance.currentLevelManager.mapObjectContainer
           .GetComponentsInChildren<SecretSwitch>()
           .Length;
+
       StatzManager.maxWarpletterz =
         GameManager.Instance.currentLevelManager.mapObjectContainer
           .GetComponentsInChildren<Warpletter>()
@@ -166,7 +172,11 @@ namespace GruntzUnityverse.Managerz {
 
       mapObjectContainer = GameObject.FindGameObjectWithTag("MapObjectContainer");
       mapObjectz = FindObjectsOfType<MapObject>().ToList();
-      mapObjectz.ForEach(obj => obj.Setup());
+
+      mapObjectz.ForEach(obj => {
+        // obj.objectId = mapObjectIdCounter++;
+        obj.Setup();
+      });
     }
 
     private void AssignLayerz() {
@@ -346,5 +356,6 @@ namespace GruntzUnityverse.Managerz {
       return nodes.First(node => node.location.Equals(gridLocation));
     }
     #endregion
+
   }
 }
