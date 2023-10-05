@@ -12,14 +12,12 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public MapItem hiddenItem;
     private AnimationClip _dirtFlyingAnim;
     private bool _isInitialized;
-    public Sprite currentSprite;
 
     public override void Setup() {
       base.Setup();
 
       isTargetable = true;
       ownNode.isHole = isOpen;
-      currentSprite = spriteRenderer.sprite;
     }
 
     protected override void LoadAnimationz() {

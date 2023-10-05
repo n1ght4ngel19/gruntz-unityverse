@@ -39,6 +39,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     }
 
     protected virtual void SetupSpritez() {
+      // Todo: Rename all Addressable assets to simple {SwitchType}.png
       Addressables.LoadAssetAsync<Sprite[]>($"{GlobalNamez.SwitchSpritezPath}/{GetType().Name}.png").Completed += handle => {
         releasedSprite = handle.Result[0];
         pressedSprite = handle.Result[1];

@@ -11,7 +11,6 @@ namespace GruntzUnityverse.MapObjectz {
         ownNode = GameManager.Instance.currentLevelManager.NodeAt(location);
       }
     }
-    // ------------------------------------------------------------ //
 
     private Vector3 MousePositionAsVector3() {
       return new Vector3(Mathf.Round(mainCamera.ScreenToWorldPoint(Input.mousePosition).x),

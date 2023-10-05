@@ -126,7 +126,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     /// <param name="inputArea">The enum value to transform.</param>
     /// <returns>The abbreviated form, or None if not applicable.</returns>
     /// <exception cref="ArgumentException">Throws an exception if an invalid enum value has been entered.</exception>
-    private static string AbbreviateArea(Area inputArea) {
+    public static string AbbreviateArea(Area inputArea) {
       return inputArea switch {
         Area.RockyRoadz => "RR",
         Area.Gruntziclez => "GR",

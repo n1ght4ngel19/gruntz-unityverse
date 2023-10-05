@@ -93,6 +93,8 @@ namespace GruntzUnityverse.Actorz {
 
       AudioSource = gameObject.AddComponent<AudioSource>();
       AudioSource.loop = true;
+      
+      GameManager.Instance.currentLevelManager.rollingBallz.Add(this);
 
       Addressables.LoadAssetAsync<AudioClip>($"{abbreviatedArea}_RockBreak.wav").Completed += handle => {
         breakSound = handle.Result;

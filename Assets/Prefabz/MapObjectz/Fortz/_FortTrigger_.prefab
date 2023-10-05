@@ -21,7 +21,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &3795564419514229400
 Transform:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -36,7 +36,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &-776845666441466971
 SpriteRenderer:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -98,14 +98,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf166f3a92d74d799758a8ff8fab8463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
+  objectId: 0
+  spriteRenderer: {fileID: -776845666441466971}
   parent: {fileID: 0}
   location: {x: 0, y: 0}
   ownNode: {fileID: 0}
   area: 0
   abbreviatedArea: 
   isTargetable: 0
-  fort: {fileID: 0}
+  ownFort: {fileID: 0}
 --- !u!114 &4813061261381804871
 MonoBehaviour:
   m_ObjectHideFlags: 0

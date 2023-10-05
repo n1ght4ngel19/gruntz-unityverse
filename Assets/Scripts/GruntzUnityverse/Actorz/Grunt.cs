@@ -14,6 +14,7 @@ using GruntzUnityverse.Itemz.Powerup;
 using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.Itemz.Toyz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
+using GruntzUnityverse.Saving;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
@@ -127,9 +128,41 @@ namespace GruntzUnityverse.Actorz {
       SetAnimPack(equipment.tool.toolName);
     }
 
-    // private void OnEnable() {
+    // public void SetupGrunt() {
+    //   gruntId = GameManager.Instance.currentLevelManager.gruntIdCounter++;
+    //   GameManager.Instance.currentLevelManager.allGruntz.Add(this);
+    //
+    //   if (owner == Owner.Player) {
+    //     playerGruntId = GameManager.Instance.currentLevelManager.playerGruntIdCounter++;
+    //     GameManager.Instance.currentLevelManager.playerGruntz.Add(this);
+    //   } else {
+    //     GameManager.Instance.currentLevelManager.dizGruntled.Add(this);
+    //   }
+    //
+    //   spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+    //   navigator = gameObject.GetComponent<Navigator>();
+    //   equipment = gameObject.GetComponent<Equipment>();
+    //   equipment.tool = gameObject.GetComponents<Tool>().FirstOrDefault();
+    //   equipment.toy = gameObject.GetComponents<Toy>().FirstOrDefault();
+    //
+    //   healthBar = gameObject.GetComponentInChildren<HealthBar>();
+    //   health = health <= MinStatValue ? MaxStatValue : health;
+    //   staminaBar = gameObject.GetComponentInChildren<StaminaBar>();
+    //   stamina = stamina <= MinStatValue ? MaxStatValue : stamina;
+    //
+    //   state = GruntState.Idle;
+    //   _animator = gameObject.GetComponent<Animator>();
+    //   animancer = gameObject.GetComponent<AnimancerComponent>();
+    //   animancer.Animator = _animator;
+    //
+    //   selectedCircle = gameObject.GetComponentInChildren<SelectedCircle>();
+    //   BoxCollider2D boxCollider = gameObject.GetComponent<BoxCollider2D>();
+    //   boxCollider.size = Vector2.one;
+    //
+    //   audioSource = gameObject.GetComponent<AudioSource>();
+    //   audioSource.playOnAwake = false;
+    //
     //   SetAnimPack(equipment.tool.toolName);
-    //   Debug.Log("Setting animpack");
     // }
 
     protected virtual void Update() {
@@ -987,10 +1020,10 @@ namespace GruntzUnityverse.Actorz {
       navigator.facingDirection = data.navigatorFacingDirection;
 
       if (data.targetGruntId != -1) {
-        targetGrunt = GameManager.Instance.currentLevelManager.enemyGruntz
+        targetGrunt = GameManager.Instance.currentLevelManager.dizGruntled
           .First(grunt => grunt.gruntId == data.targetGruntId);
       }
-      
+
       if (data.targetMapObjectId != -1) {
         targetMapObject = GameManager.Instance.currentLevelManager.mapObjectz
           .First(mapObject => mapObject.objectId == data.targetMapObjectId);
@@ -1002,7 +1035,7 @@ namespace GruntzUnityverse.Actorz {
       if (owner == Owner.Player) {
         GameManager.Instance.currentLevelManager.playerGruntz.Add(this);
       } else {
-        GameManager.Instance.currentLevelManager.enemyGruntz.Add(this);
+        GameManager.Instance.currentLevelManager.dizGruntled.Add(this);
       }
 
       // Setting the Grunt's color

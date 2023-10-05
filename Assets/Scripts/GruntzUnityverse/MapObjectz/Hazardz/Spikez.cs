@@ -1,7 +1,6 @@
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Managerz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 
 namespace GruntzUnityverse.MapObjectz.Hazardz {
@@ -10,12 +9,11 @@ namespace GruntzUnityverse.MapObjectz.Hazardz {
     private Grunt _targetGrunt;
     private bool _isRunning;
 
-    protected override void Start() {
-      base.Start();
+    public override void Setup() {
+      base.Setup();
 
       damage = 2;
     }
-    // -------------------------------------------------------------------------------- //
 
     private void Update() {
       if (_targetGrunt is not null && _targetGrunt.navigator.ownNode != ownNode) {
@@ -35,7 +33,6 @@ namespace GruntzUnityverse.MapObjectz.Hazardz {
         _isRunning = true;
       }
     }
-    // -------------------------------------------------------------------------------- //
 
     public void DamageGrunt() {
       _targetGrunt.health -= damage;
@@ -45,7 +42,7 @@ namespace GruntzUnityverse.MapObjectz.Hazardz {
 
         return;
       }
-      
+
       if (_targetGrunt.health <= 0) {
         StartCoroutine(_targetGrunt.Die(DeathName.Default));
 

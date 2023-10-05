@@ -23,6 +23,20 @@ namespace GruntzUnityverse.Managerz {
     public int playerGruntIdCounter = 1;
     public int mapObjectIdCounter = 1;
 
+    public Transform arrowzParent;
+    public Transform brickzParent;
+    public Transform bridgezParent;
+    public Transform eyeCandyParent;
+    public Transform spikezParent;
+    public Transform staticHazardzParent;
+    public Transform holezParent;
+    public Transform puzzlezParent;
+    public Transform rockzParent;
+    public Transform mapItemzParent;
+    public Transform dizgruntledParent;
+    public Transform playerGruntzParent;
+    public Transform utilityparent;
+
     #region Layerz
     // ----- Layerz -----
     [field: Header("Layerz")] public Tilemap mainLayer;
@@ -31,12 +45,12 @@ namespace GruntzUnityverse.Managerz {
 
     #region Objectz
     // ----- Objectz -----
-    [field: Header("Objectz & Actorz")] public List<Grunt> playerGruntz;
-    public List<Grunt> enemyGruntz;
+    [field: Header("Objectz & Actorz")]
+    public List<Grunt> playerGruntz;
+    public List<Grunt> dizGruntled;
     public List<Grunt> allGruntz;
     public List<RollingBall> rollingBallz;
 
-    [field: SerializeField] public List<Grunt> PlayerGruntz { get; set; }
     [field: SerializeField] public List<BrickContainer> BrickContainerz { get; set; }
     [field: SerializeField] public List<BrickFoundation> BrickFoundationz { get; set; }
     [field: SerializeField] public List<BrickColumn> BrickColumnz { get; set; }
@@ -79,6 +93,20 @@ namespace GruntzUnityverse.Managerz {
       Application.targetFrameRate = 60;
       nodeContainer = GameObject.FindGameObjectWithTag("NodeContainer");
       helpBoxText = GameObject.Find("ScrollBox").GetComponentInChildren<TMP_Text>();
+
+      arrowzParent = GameObject.Find("Arrowz").transform;
+      brickzParent = GameObject.Find("Brickz").transform;
+      bridgezParent = GameObject.Find("Bridgez").transform;
+      eyeCandyParent = GameObject.Find("EyeCandy").transform;
+      spikezParent = GameObject.Find("Spikez").transform;
+      staticHazardzParent = GameObject.Find("Static Hazardz").transform;
+      holezParent = GameObject.Find("Holez").transform;
+      puzzlezParent = GameObject.Find("Puzzlez").transform;
+      rockzParent = GameObject.Find("Rockz").transform;
+      dizgruntledParent = GameObject.Find("Dizgruntled").transform;
+      playerGruntzParent = GameObject.Find("Player Gruntz").transform;
+      mapItemzParent = GameObject.Find("MapItemz").transform;
+      utilityparent = GameObject.Find("Utility").transform;
 
       InitializeLevel();
     }
@@ -161,7 +189,9 @@ namespace GruntzUnityverse.Managerz {
 
       CollectGruntz();
 
-      CollectRollingBallz();
+      // foreach (Grunt grunt in FindObjectsOfType<Grunt>()) {
+      //   grunt.SetupGrunt();
+      // }
 
       checkpointz = FindObjectsOfType<Checkpoint>().ToList();
 
@@ -174,7 +204,6 @@ namespace GruntzUnityverse.Managerz {
       mapObjectz = FindObjectsOfType<MapObject>().ToList();
 
       mapObjectz.ForEach(obj => {
-        // obj.objectId = mapObjectIdCounter++;
         obj.Setup();
       });
     }
@@ -273,26 +302,20 @@ namespace GruntzUnityverse.Managerz {
 
     private void CollectGruntz() {
       foreach (Grunt grunt in FindObjectsOfType<Grunt>()) {
-        grunt.gruntId = gruntIdCounter;
-        gruntIdCounter++;
+        grunt.gruntId = gruntIdCounter++;
 
         if (grunt.owner == Owner.Player) {
-          grunt.playerGruntId = playerGruntIdCounter;
-          playerGruntIdCounter++;
+          grunt.playerGruntId = playerGruntIdCounter++;
         }
 
         if (grunt.owner.Equals(Owner.Player)) {
           playerGruntz.Add(grunt);
         } else {
-          enemyGruntz.Add(grunt);
+          dizGruntled.Add(grunt);
         }
 
         allGruntz.Add(grunt);
       }
-    }
-
-    private void CollectRollingBallz() {
-      FindObjectsOfType<RollingBall>().ToList().ForEach(ball => rollingBallz.Add(ball));
     }
 
     #region Node Methods

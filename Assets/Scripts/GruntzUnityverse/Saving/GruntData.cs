@@ -2,7 +2,7 @@
 using GruntzUnityverse.Enumz;
 using UnityEngine;
 
-namespace GruntzUnityverse {
+namespace GruntzUnityverse.Saving {
   public struct GruntData {
     public int gruntId;
     public string gruntName;

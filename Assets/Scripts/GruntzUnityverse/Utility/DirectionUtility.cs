@@ -16,5 +16,19 @@ namespace GruntzUnityverse.Utility {
         var _ => throw new ArgumentOutOfRangeException(),
       };
     }
+    
+    public static Direction StringDirectionAsDirection(string dir) {
+      return dir switch {
+        StringDirection.North => Direction.North,
+        StringDirection.East => Direction.East,
+        StringDirection.South => Direction.South,
+        StringDirection.West => Direction.West,
+        StringDirection.Northeast => Direction.Northeast,
+        StringDirection.Northwest => Direction.Northwest,
+        StringDirection.Southeast => Direction.Southeast,
+        StringDirection.Southwest => Direction.Southwest,
+        var _ => throw new ArgumentOutOfRangeException(),
+      };
+    }
   }
 }

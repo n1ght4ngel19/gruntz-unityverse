@@ -1,16 +1,13 @@
-﻿using GruntzUnityverse.Managerz;
-using UnityEngine;
+﻿using GruntzUnityverse.MapObjectz.BaseClasses;
 
 namespace GruntzUnityverse.MapObjectz.Brickz {
-  public class BrickColumn : MonoBehaviour {
-    private Vector2Int Location { get; set; }
-
-    private void Start() {
-      Location = Vector2Int.FloorToInt(transform.position);
+  public class BrickColumn : MapObject {
+    public override void Setup() {
+      base.Setup();
 
       GameManager.Instance.currentLevelManager.BrickColumnz.Add(this);
-      GameManager.Instance.currentLevelManager.SetBlockedAt(Location, true);
-      GameManager.Instance.currentLevelManager.NodeAt(Location).isHardTurn = true;
+      ownNode.isBlocked = true;
+      ownNode.isHardTurn = true;
     }
   }
 }

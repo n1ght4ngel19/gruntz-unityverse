@@ -9455,7 +9455,7 @@ Transform:
   m_GameObject: {fileID: 972593521}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9463,7 +9463,7 @@ Transform:
   - {fileID: 132533536}
   - {fileID: 1174846316}
   - {fileID: 940144113}
-  m_Father: {fileID: 989795775}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &972593523
 MonoBehaviour:
@@ -9841,7 +9841,6 @@ Transform:
   - {fileID: 190045314}
   - {fileID: 1782481738}
   - {fileID: 1695271211}
-  - {fileID: 972593522}
   - {fileID: 788933723}
   - {fileID: 1423079458}
   - {fileID: 583068165}
@@ -16934,6 +16933,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gruntIdCounter: 0
   playerGruntIdCounter: 1
+  mapObjectIdCounter: 1
+  rockzParent: {fileID: 0}
+  enemyGruntzParent: {fileID: 0}
+  playerGruntzParent: {fileID: 0}
+  spikezParent: {fileID: 0}
+  staticHazardzParent: {fileID: 0}
+  eyeCandyParent: {fileID: 0}
+  holezParent: {fileID: 0}
+  puzzlezParent: {fileID: 0}
+  arrowzParent: {fileID: 0}
+  brickzParent: {fileID: 0}
+  mapItemzParent: {fileID: 0}
   mainLayer: {fileID: 0}
   background: {fileID: 0}
   playerGruntz: []
@@ -37349,5 +37360,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1547750395}
   - {fileID: 989795775}
+  - {fileID: 972593522}
   - {fileID: 1710357780}
   - {fileID: 293608802}

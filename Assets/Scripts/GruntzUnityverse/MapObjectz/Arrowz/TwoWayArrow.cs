@@ -11,20 +11,18 @@ namespace GruntzUnityverse.MapObjectz.Arrowz {
     private Direction _initialDirection;
     private Direction _changedDirection;
 
-
-    protected override void Start() {
-      base.Start();
+    public override void Setup() {
+      base.Setup();
 
       _initialDirection = direction;
       _changedDirection = DirectionUtility.OppositeOf(_initialDirection);
-
       _initialSprite = spriteRenderer.sprite;
-      Addressables.LoadAssetAsync<Sprite>($"Assets/Spritez/Objectz/Arrowz/Arrow_2W_{_changedDirection}.png")
+
+      Addressables.LoadAssetAsync<Sprite>($"Arrow_2W_{_changedDirection}.png")
         .Completed += handle => {
         changedSprite = handle.Result;
       };
     }
-    // -------------------------------------------------------------------------------- //
 
     public void ChangeDirection() {
       direction = direction.Equals(_initialDirection) ? _changedDirection : _initialDirection;

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8551138866716519848}
   - component: {fileID: -5533557309717360252}
   - component: {fileID: 7246651318330908534}
+  - component: {fileID: 1524243947459614154}
+  - component: {fileID: -4553068545882844053}
   m_Layer: 0
   m_Name: SelectedCircle
   m_TagString: Untagged
@@ -97,5 +99,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db8778d12714aa8aa008a81e2e329d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
-  animancer: {fileID: 0}
+  spriteRenderer: {fileID: -5533557309717360252}
+  animancer: {fileID: 1524243947459614154}
+--- !u!114 &1524243947459614154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551138866716519849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: -4553068545882844053}
+  _ActionOnDisable: 0
+--- !u!95 &-4553068545882844053
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551138866716519849}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

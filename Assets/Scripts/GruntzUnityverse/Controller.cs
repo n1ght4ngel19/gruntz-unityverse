@@ -138,7 +138,7 @@ namespace GruntzUnityverse {
     }
 
     public static void SelectGrunt(Grunt grunt) {
-      if (grunt is null) {
+      if (grunt == null) {
         return;
       }
 
