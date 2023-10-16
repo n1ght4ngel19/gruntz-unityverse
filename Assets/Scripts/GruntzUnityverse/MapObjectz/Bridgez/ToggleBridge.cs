@@ -55,9 +55,10 @@ namespace GruntzUnityverse.MapObjectz.Bridgez {
       ownNode.isDeath = _isDown && _isDeath;
 
       LoadAnimationz();
-      
+
       AudioSource = gameObject.AddComponent<AudioSource>();
       string optionalDeath = _isDeath ? "Death" : "";
+
       Addressables.LoadAssetAsync<AudioClip>($"{abbreviatedArea}_{optionalDeath}Bridge.wav").Completed += handle => {
         toggleSound = handle.Result;
       };

@@ -10,8 +10,6 @@ namespace GruntzUnityverse.Actorz {
 
     private void Start() {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-      _animator = gameObject.AddComponent<Animator>();
-      animancer = gameObject.AddComponent<AnimancerComponent>();
       animancer.Animator = _animator;
       spriteRenderer.enabled = false;
 

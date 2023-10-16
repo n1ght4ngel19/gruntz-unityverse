@@ -174,7 +174,6 @@ namespace GruntzUnityverse.Actorz {
       // ----------------------------------------
       // Death
       // ----------------------------------------
-
       #region Death
       if (_isDying) {
         return;
@@ -661,17 +660,6 @@ namespace GruntzUnityverse.Actorz {
     public IEnumerator PickupItem(Item item) {
       switch (item.category) {
         case nameof(Tool):
-          // Destroy(GetComponents<Tool>().FirstOrDefault());
-          //
-          // equipment.tool = item.mapItemName switch {
-          //   nameof(Gauntletz) => gameObject.AddComponent<Gauntletz>(),
-          //   nameof(Shovel) => gameObject.AddComponent<Shovel>(),
-          //   nameof(Warpstone) => gameObject.AddComponent<Warpstone>(),
-          //   nameof(GooberStraw) => gameObject.AddComponent<GooberStraw>(),
-          //   nameof(Club) => gameObject.AddComponent<Club>(),
-          //   _ => throw new InvalidEnumArgumentException(),
-          // };
-          // SetAnimPack(item.mapItemName);
           ChangeToolTo(item.mapItemName);
 
           StatzManager.acquiredToolz++;
@@ -687,8 +675,6 @@ namespace GruntzUnityverse.Actorz {
             nameof(Beachball) => gameObject.AddComponent<Beachball>(),
             _ => throw new InvalidEnumArgumentException(),
           };
-
-          equipment.toy = gameObject.AddComponent<Beachball>();
 
           StatzManager.acquiredToyz++;
 
