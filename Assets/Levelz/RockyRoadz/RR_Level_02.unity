@@ -6645,7 +6645,7 @@ GameObject:
   - component: {fileID: 788933725}
   - component: {fileID: 788933724}
   m_Layer: 0
-  m_Name: Eye Candy
+  m_Name: EyeCandy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8197,7 +8197,7 @@ Transform:
   m_GameObject: {fileID: 972593521}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8205,7 +8205,7 @@ Transform:
   - {fileID: 945148452}
   - {fileID: 10011097}
   - {fileID: 1928267999}
-  m_Father: {fileID: 989795775}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &972593523
 MonoBehaviour:
@@ -8519,7 +8519,6 @@ Transform:
   - {fileID: 190045314}
   - {fileID: 1782481738}
   - {fileID: 1695271211}
-  - {fileID: 972593522}
   - {fileID: 788933723}
   - {fileID: 1423079458}
   - {fileID: 583068165}
@@ -13458,13 +13457,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gruntIdCounter: 0
   playerGruntIdCounter: 1
+  mapObjectIdCounter: 1
+  arrowzParent: {fileID: 0}
+  brickzParent: {fileID: 0}
+  bridgezParent: {fileID: 0}
+  eyeCandyParent: {fileID: 0}
+  spikezParent: {fileID: 0}
+  staticHazardzParent: {fileID: 0}
+  holezParent: {fileID: 0}
+  puzzlezParent: {fileID: 0}
+  rockzParent: {fileID: 0}
+  mapItemzParent: {fileID: 0}
+  dizgruntledParent: {fileID: 0}
+  playerGruntzParent: {fileID: 0}
+  utilityparent: {fileID: 0}
   mainLayer: {fileID: 0}
   background: {fileID: 0}
   playerGruntz: []
-  enemyGruntz: []
+  dizGruntled: []
   allGruntz: []
   rollingBallz: []
-  <PlayerGruntz>k__BackingField: []
   <BrickContainerz>k__BackingField: []
   <BrickFoundationz>k__BackingField: []
   <BrickColumnz>k__BackingField: []
@@ -30172,5 +30184,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1547750395}
   - {fileID: 989795775}
+  - {fileID: 972593522}
   - {fileID: 1710357780}
   - {fileID: 293608802}
