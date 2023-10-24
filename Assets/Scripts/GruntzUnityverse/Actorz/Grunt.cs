@@ -54,7 +54,6 @@ namespace GruntzUnityverse.Actorz {
     public bool isInCircle;
     public bool isMoving;
     public bool haveMoveCommand;
-    public bool haveActionCommand;
     public bool haveGivingCommand;
     public bool haveMovingToUsingCommand;
     public bool haveMovingToAttackingCommand;
@@ -86,6 +85,8 @@ namespace GruntzUnityverse.Actorz {
     public Equipment equipment;
     [HideInInspector] public HealthBar healthBar;
     [HideInInspector] public StaminaBar staminaBar;
+    [HideInInspector] public ToyTimeBar toyTimeBar;
+    [HideInInspector] public WingzTimeBar wingzTimeBar;
     [HideInInspector] public AnimancerComponent animancer;
     private Animator _animator;
     public SelectedCircle selectedCircle;
@@ -109,9 +110,20 @@ namespace GruntzUnityverse.Actorz {
       equipment.toy = gameObject.GetComponents<Toy>().FirstOrDefault();
 
       healthBar = gameObject.GetComponentInChildren<HealthBar>();
-      health = health <= MinStatValue ? MaxStatValue : health;
+      health = MaxStatValue;
+      healthBar.spriteRenderer.enabled = false;
+
       staminaBar = gameObject.GetComponentInChildren<StaminaBar>();
-      stamina = stamina <= MinStatValue ? MaxStatValue : stamina;
+      stamina = MaxStatValue;
+      staminaBar.spriteRenderer.enabled = false;
+
+      toyTimeBar = gameObject.GetComponentInChildren<ToyTimeBar>();
+      toyTime = MinStatValue;
+      toyTimeBar.spriteRenderer.enabled = false;
+
+      wingzTimeBar = gameObject.GetComponentInChildren<WingzTimeBar>();
+      wingzTime = MinStatValue;
+      wingzTimeBar.spriteRenderer.enabled = false;
 
       state = GruntState.Idle;
       _animator = gameObject.GetComponent<Animator>();
@@ -171,9 +183,11 @@ namespace GruntzUnityverse.Actorz {
 
         HandleSaveData(saveData);
       }
+
       // ----------------------------------------
       // Death
       // ----------------------------------------
+
       #region Death
       if (_isDying) {
         return;
@@ -246,7 +260,6 @@ namespace GruntzUnityverse.Actorz {
           break;
       }
 
-      // Setting flags necessary on all frames
       isInCircle = GameManager.Instance.selectorCircle.ownNode == navigator.ownNode;
 
       // ----------------------------------------
@@ -267,27 +280,20 @@ namespace GruntzUnityverse.Actorz {
 
       staminaBar.spriteRenderer.enabled = stamina < MaxStatValue;
 
-      staminaBar.spriteRenderer.sprite = stamina >= staminaBar.frames.Count
+      staminaBar.spriteRenderer.sprite = stamina >= MaxStatValue && !toyTimeBar.spriteRenderer.enabled
         ? staminaBar.frames[^1]
         : staminaBar.frames[stamina];
+
+      toyTimeBar.spriteRenderer.enabled = toyTime > MinStatValue;
+
+      toyTimeBar.spriteRenderer.sprite = toyTime <= MinStatValue
+        ? toyTimeBar.frames[0]
+        : toyTimeBar.frames[toyTime];
       #endregion
 
       // Use isInterrupted to disallow any commands while the Grunt is doing something
       if (isInterrupted) {
         return;
-      }
-
-      // ----------------------------------------
-      // Action command // Todo: Remove!!!
-      // ----------------------------------------
-      if (haveActionCommand) {
-        state = targetGrunt is not null
-          ? GruntState.Attacking
-          : targetMapObject is not null
-            ? GruntState.Using
-            : GruntState.Idle;
-
-        haveActionCommand = false;
       }
 
       // ----------------------------------------
@@ -450,6 +456,10 @@ namespace GruntzUnityverse.Actorz {
           break;
 
         case GruntState.Giving:
+          // Play giving voice here
+          GiveToy();
+          CleanState();
+
           break;
 
         case GruntState.MovingToUsing:
@@ -479,6 +489,9 @@ namespace GruntzUnityverse.Actorz {
 
           break;
 
+        case GruntState.Playing:
+          break;
+
         default:
           throw new ArgumentOutOfRangeException();
       }
@@ -488,6 +501,10 @@ namespace GruntzUnityverse.Actorz {
 
     private void RegenStamina() {
       stamina += staminaRegenRate;
+    }
+
+    private void RegenToyTime() {
+      toyTime--;
     }
 
     public void TakeDamage(int damageAmount, int reduction) {
@@ -509,22 +526,12 @@ namespace GruntzUnityverse.Actorz {
     public void CleanState() {
       // navigator.isMoving = false;
       navigator.isMoveForced = false;
-      haveActionCommand = false;
       haveGivingCommand = false;
       haveMovingToUsingCommand = false;
       isInterrupted = false;
       targetGrunt = null;
       targetMapObject = null;
       state = GruntState.Idle;
-    }
-
-    /// <summary>
-    /// Checks if the Grunt is at the given Node.
-    /// </summary>
-    /// <param name="node">The Node in question.</param>
-    /// <returns>True if the Grunt is at the Node, false otherwise.</returns>
-    public bool AtNode(Node node) {
-      return navigator.ownNode == node;
     }
 
     /// <summary>
@@ -623,22 +630,6 @@ namespace GruntzUnityverse.Actorz {
 
           break;
       }
-    }
-
-    public void ChangeToolTo(ToolName tool) {
-      Destroy(GetComponents<Tool>().FirstOrDefault());
-
-      equipment.tool = tool switch {
-        ToolName.Barehandz => gameObject.AddComponent<Barehandz>(),
-        ToolName.Gauntletz => gameObject.AddComponent<Gauntletz>(),
-        ToolName.Shovel => gameObject.AddComponent<Shovel>(),
-        ToolName.Warpstone => gameObject.AddComponent<Warpstone>(),
-        ToolName.GooberStraw => gameObject.AddComponent<GooberStraw>(),
-        ToolName.Club => gameObject.AddComponent<Club>(),
-        _ => throw new InvalidEnumArgumentException(),
-      };
-
-      SetAnimPack(tool);
     }
 
     public void ChangeToolTo(string tool) {
@@ -747,6 +738,12 @@ namespace GruntzUnityverse.Actorz {
     }
 
     public IEnumerator GetHitBy(Grunt attacker) {
+      if (state == GruntState.Playing) {
+        StopCoroutine(nameof(PlayWithToy));
+        CleanState();
+        toyTime = MinStatValue;
+      }
+
       navigator.facingDirection = DirectionUtility.OppositeOf(attacker.navigator.facingDirection);
       int clipIdx = Random.Range(1, 3);
       string clipKey = $"{equipment.tool.gruntType}_Struck_{navigator.facingDirection}_0{clipIdx}";
@@ -768,6 +765,8 @@ namespace GruntzUnityverse.Actorz {
     public IEnumerator Die(DeathName deathName) {
       healthBar.spriteRenderer.enabled = false;
       staminaBar.spriteRenderer.enabled = false;
+      toyTimeBar.spriteRenderer.enabled = false;
+      wingzTimeBar.spriteRenderer.enabled = false;
       navigator.enabled = false;
       isInterrupted = true;
       _isDying = true;
@@ -775,6 +774,7 @@ namespace GruntzUnityverse.Actorz {
       AnimationClip deathClip =
         animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death"];
 
+      string voicePath = "Assets/Audio/Voicez/Deathz/Voice_Death_";
       float deathAnimLength = 2f;
 
       switch (deathName) {
@@ -782,54 +782,89 @@ namespace GruntzUnityverse.Actorz {
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Burn)];
           deathAnimLength = 1f;
 
+          int burnRandIdx = Random.Range(1, 8);
+          voicePath += $"{nameof(DeathName.Burn)}_0{burnRandIdx}.wav";
+
           break;
         case DeathName.Electrocute:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Electrocute)];
           deathAnimLength = 1.5f;
+
+          int elecRandIdx = Random.Range(1, 10);
+          voicePath += $"{nameof(DeathName.Electrocute)}_0{elecRandIdx}.wav";
 
           break;
         case DeathName.Explode:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Explode)];
           deathAnimLength = 0.5f;
 
+          int expRandIdx = Random.Range(1, 7);
+          voicePath += $"{nameof(DeathName.Explode)}_0{expRandIdx}.wav";
+
           break;
         case DeathName.Fall:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Fall)];
           deathAnimLength = 5f;
+
+          int fallRandIdx = Random.Range(1, 11);
+          string fallIdxStr = fallRandIdx >= 10 ? fallRandIdx.ToString() : $"0{fallRandIdx}";
+          voicePath += $"{nameof(DeathName.Fall)}_{fallIdxStr}.wav";
 
           break;
         case DeathName.Flyup:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Flyup)];
           deathAnimLength = 0.5f;
 
+          int flyUpRandIdx = Random.Range(1, 7);
+          voicePath += $"{nameof(DeathName.Flyup)}_0{flyUpRandIdx}.wav";
+
           break;
         case DeathName.Freeze:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Freeze)];
+
+          int freezeRandIdx = Random.Range(1, 10);
+          voicePath += $"{nameof(DeathName.Freeze)}_0{freezeRandIdx}.wav";
 
           break;
         case DeathName.Hole:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Hole)];
           deathAnimLength = 1.5f;
 
+          int holeRandIdx = Random.Range(1, 5);
+          voicePath += $"{nameof(DeathName.Hole)}_0{holeRandIdx}.wav";
+
           break;
         case DeathName.Karaoke:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Karaoke)];
           deathAnimLength = 15f;
+
+          int karaokeRandIdx = Random.Range(1, 10);
+          voicePath += $"{nameof(DeathName.Karaoke)}_0{karaokeRandIdx}.wav";
 
           break;
         case DeathName.Melt:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Melt)];
           deathAnimLength = 1f;
 
+          int meltRandIdx = Random.Range(1, 10);
+          voicePath += $"{nameof(DeathName.Melt)}_0{meltRandIdx}.wav";
+
           break;
         case DeathName.Sink:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Sink)];
           deathAnimLength = 1f;
 
+          int sinkRandIdx = Random.Range(1, 11);
+          string sinkIdxStr = sinkRandIdx >= 10 ? sinkRandIdx.ToString() : $"0{sinkRandIdx}";
+          voicePath += $"{nameof(DeathName.Sink)}_{sinkIdxStr}.wav";
+
           break;
         case DeathName.Squash:
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Squash)];
           deathAnimLength = 0.5f;
+
+          int squashRandIdx = Random.Range(1, 7);
+          voicePath += $"{nameof(DeathName.Explode)}_0{squashRandIdx}.wav";
 
           break;
       }
@@ -838,12 +873,11 @@ namespace GruntzUnityverse.Actorz {
       GameManager.Instance.currentLevelManager.playerGruntz.Remove(this);
       GameManager.Instance.currentLevelManager.allGruntz.Remove(this);
 
-      animancer.Play(deathClip);
+      Addressables.LoadAssetAsync<AudioClip>(voicePath).Completed += handle => {
+        audioSource.PlayOneShot(handle.Result);
+      };
 
-      // Todo: Play death sound HERE
-      // Addressables.LoadAssetAsync<AudioClip>("").Completed += handle => {
-      //   audioSource.PlayOneShot(handle.Result);
-      // };
+      animancer.Play(deathClip);
 
       yield return new WaitForSeconds(deathAnimLength);
 
@@ -968,6 +1002,68 @@ namespace GruntzUnityverse.Actorz {
       Addressables.LoadAssetAsync<AudioClip>(clipKey).Completed += handle => {
         audioSource.PlayOneShot(handle.Result);
       };
+    }
+
+    public IEnumerator PlayWithToy(ToyName toy) {
+      state = GruntState.Playing;
+      toyTime = MaxStatValue;
+
+      float duration = 2f;
+
+      switch (toy) {
+        case ToyName.None:
+          break;
+        case ToyName.BabyWalker:
+          break;
+        case ToyName.Beachball:
+          animancer.Play(GameManager.Instance.currentAnimationManager.toyPlayPack.beachball1);
+
+          duration = 26f;
+
+          break;
+        case ToyName.GoKart:
+          break;
+        case ToyName.JackInTheBox:
+          break;
+        case ToyName.Jumprope:
+          break;
+        case ToyName.MonsterWheelz:
+          break;
+        case ToyName.PogoStick:
+          break;
+        case ToyName.Scroll:
+          break;
+        case ToyName.SqueakToy:
+          break;
+        case ToyName.YoYo:
+          break;
+        default:
+          throw new ArgumentOutOfRangeException(nameof(toy), toy, null);
+      }
+
+      staminaBar.spriteRenderer.enabled = false;
+      wingzTimeBar.spriteRenderer.enabled = false;
+
+      toyTime = MaxStatValue;
+      toyTimeBar.spriteRenderer.enabled = true;
+
+      if (toyTime == MaxStatValue) {
+        InvokeRepeating(nameof(RegenToyTime), 0, duration / MaxStatValue);
+      }
+
+      yield return new WaitForSeconds(duration);
+
+      CancelInvoke(nameof(RegenToyTime));
+
+      toyTime = MinStatValue;
+      toyTimeBar.spriteRenderer.enabled = false;
+
+      CleanState();
+    }
+
+    public void GiveToy() {
+      StartCoroutine(targetGrunt.PlayWithToy(equipment.toy.toyName));
+      Destroy(GetComponent<Toy>());
     }
 
     public void HandleSaveData(GruntData data) {

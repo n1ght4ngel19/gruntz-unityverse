@@ -23,6 +23,10 @@ namespace GruntzUnityverse.Ai {
     }
 
     private void Update() {
+      if (self.state == GruntState.Playing) {
+        return;
+      }
+
       startingNode ??= self.navigator.ownNode;
 
       targetz = GameManager.Instance.currentLevelManager.playerGruntz.Where(IsWithinAggroRange).ToList();

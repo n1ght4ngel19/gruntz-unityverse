@@ -25,7 +25,7 @@ namespace GruntzUnityverse.MapObjectz.Hazardz {
 
       _targetGrunt = GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == ownNode);
 
-      if (_targetGrunt != null && _targetGrunt.AtNode(ownNode)) {
+      if (_targetGrunt != null && _targetGrunt.navigator.ownNode == ownNode) {
         if (!_isRunning) {
           InvokeRepeating(nameof(DamageGrunt), 0, 1f);
         }

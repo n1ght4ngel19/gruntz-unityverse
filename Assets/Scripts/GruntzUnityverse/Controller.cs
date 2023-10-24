@@ -29,19 +29,19 @@ namespace GruntzUnityverse {
       leftShiftDown = Input.GetKey(KeyCode.LeftShift);
       leftControlDown = Input.GetKey(KeyCode.LeftControl);
 
-      // Single select command with clicking
-      if (leftClick && !leftShiftDown) {
+      // Single select with click
+      if (leftClick && !leftShiftDown && !leftControlDown) {
         DeselectAllGruntz();
 
         SelectGrunt(GameManager.Instance.currentLevelManager.allGruntz
           .FirstOrDefault(grunt => grunt.navigator.ownNode == GameManager.Instance.selectorCircle.ownNode));
       }
 
-      // Single select command with numeric keys
+      // Single select with numeric keys
       SelectById();
 
       // ------------------------------
-      // Multi select command with rect
+      // Multi select with rect
       // ------------------------------
       // Todo
 
@@ -118,6 +118,7 @@ namespace GruntzUnityverse {
       // Giving command
       // ------------------------------
       if (leftClick && leftControlDown) {
+        Debug.Log("left click and left control");
         Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
 
         Grunt targetGrunt =
@@ -125,13 +126,19 @@ namespace GruntzUnityverse {
 
         // Issuing action command according to the target being a Grunt or a spot on the ground
         selectedGruntz.ForEach(grunt => {
+          if (grunt.equipment.toy == null) {
+            return;
+          }
+
           if (targetGrunt is not null && targetGrunt != grunt) {
             grunt.targetGrunt = targetGrunt;
             grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
-            grunt.haveGivingCommand = true;
+            grunt.haveMovingToGivingCommand = true;
+            // grunt.hasPlayedGiveToyAcknowledgeSound = false;
           } else if (!clickedNode.IsUnavailable()) {
             grunt.navigator.targetNode = clickedNode;
-            grunt.haveGivingCommand = true;
+            grunt.haveMovingToGivingCommand = true;
+            // grunt.hasPlayedGiveToyAcknowledgeSound = false;
           }
         });
       }
@@ -191,30 +198,39 @@ namespace GruntzUnityverse {
       if (Input.GetKeyDown(KeyCode.Alpha1)) {
         alphaKeyPressed = 1;
       }
+
       if (Input.GetKeyDown(KeyCode.Alpha2)) {
         alphaKeyPressed = 2;
       }
+
       if (Input.GetKeyDown(KeyCode.Alpha3)) {
         alphaKeyPressed = 3;
       }
+
       if (Input.GetKeyDown(KeyCode.Alpha4)) {
         alphaKeyPressed = 4;
       }
+
       if (Input.GetKeyDown(KeyCode.Alpha5)) {
         alphaKeyPressed = 5;
       }
+
       if (Input.GetKeyDown(KeyCode.Alpha6)) {
         alphaKeyPressed = 6;
       }
+
       if (Input.GetKeyDown(KeyCode.Alpha7)) {
         alphaKeyPressed = 7;
       }
+
       if (Input.GetKeyDown(KeyCode.Alpha8)) {
         alphaKeyPressed = 8;
       }
+
       if (Input.GetKeyDown(KeyCode.Alpha9)) {
         alphaKeyPressed = 9;
       }
+
       if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A)) {
         alphaKeyPressed = 0;
       }

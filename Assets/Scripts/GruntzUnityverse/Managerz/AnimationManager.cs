@@ -13,6 +13,7 @@ namespace GruntzUnityverse.Managerz {
     public GruntAnimationPack shovelGruntPack;
     public GruntAnimationPack warpstoneGruntPack;
     public PickupAnimationPack pickupPack;
+    public ToyPlayPack toyPlayPack;
 
     public Dictionary<string, AnimationClip> deathPack;
     public Dictionary<string, AnimationClip> exitPack;
@@ -27,6 +28,7 @@ namespace GruntzUnityverse.Managerz {
       shovelGruntPack = new GruntAnimationPack(ToolName.Shovel);
       warpstoneGruntPack = new GruntAnimationPack(ToolName.Warpstone);
       pickupPack = new PickupAnimationPack();
+      toyPlayPack = new ToyPlayPack();
 
       deathPack = new Dictionary<string, AnimationClip>();
       exitPack = new Dictionary<string, AnimationClip>();
@@ -56,12 +58,15 @@ namespace GruntzUnityverse.Managerz {
       Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_01.anim").Completed += handle => {
         exitPack.Add("Grunt_Exit_01", handle.Result);
       };
+
       Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_02.anim").Completed += handle => {
         exitPack.Add("Grunt_Exit_02", handle.Result);
       };
+
       Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_03.anim").Completed += handle => {
         exitPack.Add("Grunt_Exit_03", handle.Result);
       };
+
       Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_End.anim").Completed += handle => {
         exitPack.Add("Grunt_Exit_End", handle.Result);
       };

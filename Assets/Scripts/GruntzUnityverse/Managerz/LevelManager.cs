@@ -37,6 +37,8 @@ namespace GruntzUnityverse.Managerz {
     public Transform playerGruntzParent;
     public Transform utilityparent;
 
+    public King king;
+
     #region Layerz
     // ----- Layerz -----
     [field: Header("Layerz")] public Tilemap mainLayer;
@@ -108,6 +110,8 @@ namespace GruntzUnityverse.Managerz {
       mapItemzParent = GameObject.Find("MapItemz").transform;
       utilityparent = GameObject.Find("Utility").transform;
 
+      king = FindObjectOfType<King>();
+
       InitializeLevel();
     }
 
@@ -142,9 +146,20 @@ namespace GruntzUnityverse.Managerz {
       // Wait for Grunt exit end animation to finish
       yield return new WaitForSeconds(2.5f);
 
-      // Todo: Play King voice and dance animations
-      yield return null;
+      king.StopAllCoroutines();
 
+      StartCoroutine(king.Joy());
+
+      yield return new WaitForSeconds(10f);
+
+      GatherStatz();
+
+      Addressables.LoadSceneAsync("Menuz/StatzMenu.unity").Completed += handle => {
+        GameManager.Instance.hasChangedMusic = false;
+      };
+    }
+
+    private void GatherStatz() {
       StatzManager.maxToolz =
         GameManager.Instance.currentLevelManager.mapObjectContainer
           .GetComponentsInChildren<Tool>()
@@ -174,10 +189,6 @@ namespace GruntzUnityverse.Managerz {
         GameManager.Instance.currentLevelManager.mapObjectContainer
           .GetComponentsInChildren<Warpletter>()
           .Length;
-
-      Addressables.LoadSceneAsync("Menuz/StatzMenu.unity").Completed += handle => {
-        GameManager.Instance.hasChangedMusic = false;
-      };
     }
 
     private void InitializeLevel() {

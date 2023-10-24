@@ -80,6 +80,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -2705400709490389288}
   m_SourcePrefab: {fileID: 100100000, guid: a9ef6e9b3170d0544b4720f9ea4e2a35, type: 3}
+--- !u!212 &209194785932432859 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1934257392109653503, guid: a9ef6e9b3170d0544b4720f9ea4e2a35, type: 3}
+  m_PrefabInstance: {fileID: 1743149607887788068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3292023950639665387 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3863937857550272719, guid: a9ef6e9b3170d0544b4720f9ea4e2a35, type: 3}
@@ -97,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e423ef6c5250f84bad389ce7dc40d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 209194785932432859}
   ownGrunt: {fileID: 0}
   mapItemName: 
   category: Misc

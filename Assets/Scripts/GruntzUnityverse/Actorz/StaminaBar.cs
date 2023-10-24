@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Actorz {
   public class StaminaBar : MonoBehaviour {
@@ -9,7 +10,10 @@ namespace GruntzUnityverse.Actorz {
 
     private void Start() {
       spriteRenderer = GetComponent<SpriteRenderer>();
-      frames = Resources.LoadAll<Sprite>("Animationz/AttributeBarz/staminaBar").ToList();
+
+      Addressables.LoadAssetAsync<Sprite[]>("StaminaBar.png").Completed += handle => {
+        frames = handle.Result.ToList();
+      };
     }
   }
 }

@@ -11,5 +11,6 @@
     MovingToUsing = 8,
     MovingToAttacking = 9,
     MovingToGiving = 10,
+    Playing = 11,
   }
 }

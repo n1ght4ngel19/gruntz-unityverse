@@ -16,7 +16,6 @@ namespace GruntzUnityverse.Saving {
     public int toyTime;
     public int wingzTime;
 
-    public bool haveActionCommand;
     public bool haveMoveCommand;
     public bool haveGivingCommand;
     public bool haveMovingToUsingCommand;
@@ -53,7 +52,6 @@ namespace GruntzUnityverse.Saving {
       wingzTime = grunt.wingzTime;
 
       haveMoveCommand = grunt.haveMoveCommand;
-      haveActionCommand = grunt.haveActionCommand;
       haveGivingCommand = grunt.haveGivingCommand;
       haveMovingToUsingCommand = grunt.haveMovingToUsingCommand;
       haveMovingToAttackingCommand = grunt.haveMovingToAttackingCommand;
