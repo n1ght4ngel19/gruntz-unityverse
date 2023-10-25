@@ -18,6 +18,7 @@ namespace GruntzUnityverse {
     public AudioListener audioListener;
     public AudioSource audioSource;
     public bool hasChangedMusic;
+    public bool isPausedOnLevelLoad;
 
     /// <summary>
     /// The threshold for the frequency of the voice clip played when a Grunt is selected.
@@ -46,7 +47,9 @@ namespace GruntzUnityverse {
     private void Update() {
       SceneManager.sceneLoaded += (scene, mode) => {
         Time.timeScale = 1f;
+
         if (scene.name != "StatzMenu" || scene.name != "MainMenu") {
+          Time.timeScale = 0f;
           currentLevelManager = FindObjectOfType<LevelManager>();
           currentLevelManager.enabled = true;
           currentLevelManager.gameObject.GetComponent<Controller>().enabled = true;
@@ -96,6 +99,11 @@ namespace GruntzUnityverse {
 
       if (isComboPressed) {
         Addressables.LoadSceneAsync("TestLevel.unity");
+      }
+
+      if (isPausedOnLevelLoad && Input.GetKeyDown(KeyCode.Escape)) {
+        isPausedOnLevelLoad = false;
+        Time.timeScale = 1f;
       }
     }
 

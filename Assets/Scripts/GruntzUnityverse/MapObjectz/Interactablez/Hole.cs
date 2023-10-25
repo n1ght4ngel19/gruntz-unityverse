@@ -9,7 +9,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public Sprite openSprite;
     public Sprite filledSprite;
     public bool isOpen;
-    public MapItem hiddenItem;
+    public MapObject hiddenItem;
     private AnimationClip _dirtFlyingAnim;
     private bool _isInitialized;
 
@@ -41,7 +41,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       if (!_isInitialized) {
         _isInitialized = true;
 
-        hiddenItem = FindObjectsOfType<MapItem>()
+        hiddenItem = FindObjectsOfType<MapObject>()
           .FirstOrDefault(item =>
             item.ownNode == ownNode);
 
@@ -65,6 +65,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       isOpen = !isOpen;
       ownNode.isHole = isOpen;
       hiddenItem?.SetRendererEnabled(true);
+
       spriteRenderer.sprite =
         spriteRenderer.sprite == openSprite
           ? filledSprite

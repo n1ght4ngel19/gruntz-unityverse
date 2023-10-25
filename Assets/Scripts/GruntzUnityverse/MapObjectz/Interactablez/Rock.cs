@@ -10,7 +10,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public AnimationClip BreakAnimation { get; set; }
     private Vector3 _brokenScale;
     private Quaternion _brokenRotation;
-    public MapItem hiddenItem;
+    public MapObject hiddenItem;
     private bool _isInitialized;
 
     public override void Setup() {
@@ -34,7 +34,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       if (!_isInitialized) {
         _isInitialized = true;
 
-        hiddenItem = FindObjectsOfType<MapItem>()
+        hiddenItem = FindObjectsOfType<MapObject>()
           .FirstOrDefault(item =>
             item.ownNode == ownNode);
 
