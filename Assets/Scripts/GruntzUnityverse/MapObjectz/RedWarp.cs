@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEngine;
@@ -11,41 +10,26 @@ namespace GruntzUnityverse.MapObjectz {
     public MapObject target;
     private AnimationClip _openingAnim;
     private AnimationClip _swirlingAnim;
-    // ------------------------------------------------------------ //
-
-    protected override void Start() {
-      base.Start();
-
-      SetEnabled(false);
-
-      // if (isEntrance) {
-      //   target.SetEnabled(false);
-      // }
-    }
-    // ------------------------------------------------------------ //
 
     private void OnEnable() {
       StartCoroutine(Open());
-
-      if (isEntrance) {
-        target.SetEnabled(true);
-      }
     }
 
     private void Update() {
-      if (!isEntrance) {
+      if (!isEntrance || !IsGruntOnTop()) {
         return;
       }
 
-      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz.Where(grunt => grunt.navigator.ownNode == ownNode)) {
-        mainCamera.transform.position = new Vector3(target.location.x, target.location.y, mainCamera.transform.position.z);
+      SetEnabled(false);
+      mainCamera.transform.position = new Vector3(target.location.x, target.location.y, mainCamera.transform.position.z);
 
-        TeleportTo(target, grunt);
+      target.SetEnabled(true);
+      TeleportTo(target, GetGruntOnTop());
 
-        enabled = false;
-      }
+      // Addressables.LoadAssetAsync<AudioClip>("Assets/Audio/Soundz/Sound_RedWarp.wav").Completed += handle => {
+      //   GameManager.Instance.audioSource.PlayOneShot(handle.Result);
+      // };
     }
-    // ------------------------------------------------------------ //
 
     protected override void LoadAnimationz() {
       Addressables.LoadAssetAsync<AnimationClip>("RedWarp_Opening.anim").Completed += handle => {
@@ -67,7 +51,7 @@ namespace GruntzUnityverse.MapObjectz {
 
     private void TeleportTo(MapObject targetMapObject, Grunt grunt) {
       grunt.transform.position = new Vector3(targetMapObject.location.x, targetMapObject.location.y, grunt.transform.position.z);
-      // Todo: Move these into separate method
+      // Todo: ??? Move these into separate method
       grunt.navigator.ownLocation = targetMapObject.location;
       grunt.navigator.ownNode = GameManager.Instance.currentLevelManager.NodeAt(targetMapObject.location);
       grunt.navigator.targetLocation = targetMapObject.location;

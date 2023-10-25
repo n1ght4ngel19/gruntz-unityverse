@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using Animancer;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
@@ -30,13 +31,6 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     private Sprite _unusedSprite;
     #endregion
 
-    // ------------------------------------------------------------ //
-
-    private void OnValidate() {
-      // transform.hideFlags = HideFlags.HideInInspector;
-      // gameObject.GetComponent<SpriteRenderer>().hideFlags = HideFlags.HideInInspector;
-    }
-
     private void Awake() {
       _animator ??= gameObject.AddComponent<Animator>();
       animancer ??= gameObject.AddComponent<AnimancerComponent>();
@@ -44,7 +38,6 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     }
 
     protected virtual void Start() { }
-    // ------------------------------------------------------------ //
 
     /// <summary>
     /// Sets up the MapObject for use and validates the setup wherever necessary.
@@ -170,6 +163,14 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
                       : Area.None;
 
       abbreviatedArea = AbbreviateArea(area);
+    }
+
+    public bool IsGruntOnTop() {
+      return GameManager.Instance.currentLevelManager.allGruntz.Any(grunt => grunt.navigator.ownNode == ownNode);
+    }
+
+    public Grunt GetGruntOnTop() {
+      return GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == ownNode);
     }
   }
 }
