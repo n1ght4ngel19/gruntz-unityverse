@@ -22,6 +22,7 @@ namespace GruntzUnityverse.Managerz {
     public int gruntIdCounter = 1;
     public int playerGruntIdCounter = 1;
     public int mapObjectIdCounter = 1;
+    public int puddleCounter = 0;
 
     public Transform arrowzParent;
     public Transform brickzParent;

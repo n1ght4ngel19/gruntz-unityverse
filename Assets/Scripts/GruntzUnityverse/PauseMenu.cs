@@ -22,7 +22,7 @@ namespace GruntzUnityverse {
     public GameObject pauseMenuUI;
 
     private void Update() {
-      if (Input.GetKeyDown(KeyCode.Escape) && !Helpbox.isTextShown) {
+      if (Input.GetKeyDown(KeyCode.Escape) && !Helpbox.isTextShown && !GameManager.Instance.isPausedOnLevelLoad) {
         if (isGamePaused) {
           Resume();
         } else {
@@ -30,7 +30,6 @@ namespace GruntzUnityverse {
         }
       }
     }
-    // ------------------------------------------------------------ //
 
     /// <summary>
     /// Activates the pause menu and pauses the game.

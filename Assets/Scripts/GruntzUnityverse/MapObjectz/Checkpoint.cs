@@ -38,7 +38,7 @@ namespace GruntzUnityverse.MapObjectz {
         GameManager.Instance.audioSource.PlayOneShot(handle.Result);
       };
 
-      Addressables.LoadAssetAsync<AudioClip>("Sound_CheckpointFlag_Raise.wav").Completed += handle => {
+      Addressables.LoadAssetAsync<AudioClip>("Sound_FlagRaise.wav").Completed += handle => {
         GameManager.Instance.audioSource.clip = handle.Result;
       };
 

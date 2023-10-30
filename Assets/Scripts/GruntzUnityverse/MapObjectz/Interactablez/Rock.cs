@@ -36,7 +36,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
 
         hiddenItem = FindObjectsOfType<MapObject>()
           .FirstOrDefault(item =>
-            item.ownNode == ownNode);
+            item.ownNode == ownNode && item != this);
 
         hiddenItem?.SetRendererEnabled(false);
       }
@@ -62,7 +62,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       yield return new WaitForSeconds(BreakAnimation.length);
 
       spriteRenderer.sortingLayerName = "AlwaysBottom";
-      spriteRenderer.sortingOrder = 15;
+      spriteRenderer.sortingOrder = 10;
       enabled = false;
     }
   }

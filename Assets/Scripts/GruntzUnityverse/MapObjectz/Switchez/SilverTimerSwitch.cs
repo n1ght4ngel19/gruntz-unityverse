@@ -8,7 +8,6 @@ using UnityEngine;
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class SilverTimerSwitch : ObjectSwitch {
     private List<SilverPyramid> _pyramidz;
-    private const float TimeStep = 0.1f;
 
     protected override void Start() {
       base.Start();
@@ -41,21 +40,18 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private IEnumerator HandleSilverPyramid(SilverPyramid pyramid) {
-      while (pyramid.Delay > 0) {
-        pyramid.Delay -= TimeStep;
+      pyramid.Toggle();
 
-        yield return new WaitForSeconds(TimeStep);
-      }
+      yield return new WaitForSeconds(pyramid.initialDelay);
 
       pyramid.Toggle();
 
-      while (pyramid.Duration > 0) {
-        pyramid.Duration -= TimeStep;
 
-        yield return new WaitForSeconds(TimeStep);
+      foreach (float delay in pyramid.toggleDelayz) {
+        yield return new WaitForSeconds(delay);
+
+        pyramid.Toggle();
       }
-
-      pyramid.Toggle();
     }
   }
 }

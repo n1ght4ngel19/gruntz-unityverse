@@ -17,7 +17,6 @@ namespace GruntzUnityverse.Itemz.Toolz {
 
       base.Start();
     }
-    // -------------------------------------------------------------------------------- //
 
     public override IEnumerator UseTool() {
       Vector2Int diffVector = ownGrunt.targetMapObject.location - ownGrunt.navigator.ownLocation;

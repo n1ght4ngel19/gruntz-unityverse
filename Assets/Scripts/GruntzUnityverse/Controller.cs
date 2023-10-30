@@ -118,7 +118,6 @@ namespace GruntzUnityverse {
       // Giving command
       // ------------------------------
       if (leftClick && leftControlDown) {
-        Debug.Log("left click and left control");
         Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
 
         Grunt targetGrunt =

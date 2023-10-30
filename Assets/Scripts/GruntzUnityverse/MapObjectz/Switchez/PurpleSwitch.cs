@@ -1,14 +1,15 @@
-﻿using System.Linq;
-using GruntzUnityverse.MapObjectz.BaseClasses;
+﻿using GruntzUnityverse.MapObjectz.BaseClasses;
 
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class PurpleSwitch : ObjectSwitch {
     private void Update() {
       if (IsBeingPressed()) {
-        if (!hasBeenPressed) {
-          PressSwitch();
+        if (hasBeenPressed) {
+          return;
         }
-      } else {
+
+        PressSwitch();
+      } else if (!hasBeenReleased) {
         ReleaseSwitch();
       }
     }

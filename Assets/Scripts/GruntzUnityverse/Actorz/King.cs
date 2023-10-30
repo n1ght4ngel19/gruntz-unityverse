@@ -26,6 +26,8 @@ namespace GruntzUnityverse.Actorz {
 
       Addressables.LoadAssetAsync<AnimationClip>("Warlord_King_Moving.anim").Completed += handle => {
         _movingAnim = handle.Result;
+
+        StartCoroutine(Move());
       };
 
       Addressables.LoadAssetAsync<AnimationClip>("Warlord_King_Idle.anim").Completed += handle => {
@@ -47,8 +49,6 @@ namespace GruntzUnityverse.Actorz {
       Addressables.LoadAssetAsync<AnimationClip>("Warlord_King_Panic.anim").Completed += handle => {
         _panicAnim = handle.Result;
       };
-
-      StartCoroutine(Move());
     }
 
     public IEnumerator Move() {

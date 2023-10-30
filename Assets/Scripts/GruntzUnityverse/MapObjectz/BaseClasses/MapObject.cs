@@ -70,7 +70,8 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       Debug.Log("Valid");
 
       return grunt.equipment.tool is Gauntletz && this is IBreakable
-        || grunt.equipment.tool is Shovel && this is Hole;
+        || grunt.equipment.tool is Shovel && this is Hole
+        || grunt.equipment.tool is GooberStraw && this is GruntPuddle;
     }
 
     /// <summary>

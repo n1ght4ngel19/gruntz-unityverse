@@ -860,6 +860,7 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case DeathName.Squash:
+          transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
           deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Squash)];
           deathAnimLength = 0.5f;
 
@@ -872,6 +873,17 @@ namespace GruntzUnityverse.Actorz {
       navigator.ownLocation = Vector2Direction.max;
       GameManager.Instance.currentLevelManager.playerGruntz.Remove(this);
       GameManager.Instance.currentLevelManager.allGruntz.Remove(this);
+
+
+      Addressables.InstantiateAsync("GruntPuddle.prefab").Completed += handle => {
+        GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
+        puddle.GetComponent<SpriteRenderer>().sprite = spriteRenderer.sprite;
+        puddle.transform.position = transform.position;
+        string materialKey = spriteRenderer.material.name.Split("(")[0].Trim();
+        // Debug.Log(materialKey);
+        puddle.SetMaterial(materialKey);
+      };
+
 
       Addressables.LoadAssetAsync<AudioClip>(voicePath).Completed += handle => {
         audioSource.PlayOneShot(handle.Result);

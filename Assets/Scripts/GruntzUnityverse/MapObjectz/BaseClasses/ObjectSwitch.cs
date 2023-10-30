@@ -24,9 +24,8 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
       AudioSource.PlayClipAtPoint(_pressClip, Camera.main.transform.position);
     }
 
-    protected void ReleaseSwitch() {
+    protected virtual void ReleaseSwitch() {
       isPressed = false;
-      hasBeenPressed = false;
       hasBeenReleased = true;
       spriteRenderer.sprite = releasedSprite;
       AudioSource.PlayClipAtPoint(_releaseClip, Camera.main.transform.position);

@@ -47,6 +47,7 @@ namespace GruntzUnityverse {
     private void Update() {
       SceneManager.sceneLoaded += (scene, mode) => {
         Time.timeScale = 1f;
+        isPausedOnLevelLoad = true;
 
         if (scene.name != "StatzMenu" || scene.name != "MainMenu") {
           Time.timeScale = 0f;

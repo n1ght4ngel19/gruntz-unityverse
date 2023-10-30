@@ -43,7 +43,7 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
 
         hiddenItem = FindObjectsOfType<MapObject>()
           .FirstOrDefault(item =>
-            item.ownNode == ownNode);
+            item.ownNode == ownNode && item != this);
 
         hiddenItem?.SetRendererEnabled(false);
       }

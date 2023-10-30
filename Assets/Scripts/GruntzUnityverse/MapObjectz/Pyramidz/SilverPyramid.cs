@@ -1,9 +1,9 @@
-﻿using GruntzUnityverse.MapObjectz.BaseClasses;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using GruntzUnityverse.MapObjectz.BaseClasses;
 
 namespace GruntzUnityverse.MapObjectz.Pyramidz {
   public class SilverPyramid : Pyramid {
-    [field: SerializeField] public float Delay { get; set; }
-    [field: SerializeField] public float Duration { get; set; }
+    public float initialDelay;
+    public List<float> toggleDelayz;
   }
 }
