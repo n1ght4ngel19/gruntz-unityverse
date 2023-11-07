@@ -3,7 +3,7 @@ using GruntzUnityverse.MapObjectz.Interactablez;
 using UnityEditor;
 using UnityEngine;
 
-namespace GruntzUnityverse.Actorz.Editor {
+namespace GruntzUnityverse.Editor {
   [CustomEditor(typeof(Rock))]
   public class RockEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {

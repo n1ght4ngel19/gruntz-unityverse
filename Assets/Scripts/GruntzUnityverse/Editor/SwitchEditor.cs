@@ -1,7 +1,7 @@
 ﻿using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEditor;
 
-namespace GruntzUnityverse.Actorz.Editor {
+namespace GruntzUnityverse.Editor {
   [CustomEditor(typeof(ObjectSwitch), true), CanEditMultipleObjects]
   public class SwitchEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {

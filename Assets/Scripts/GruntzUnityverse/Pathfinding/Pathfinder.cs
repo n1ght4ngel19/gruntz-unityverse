@@ -6,14 +6,14 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Pathfinding {
   public static class Pathfinder {
-    public static List<Node> PathBetween(Node startNode, Node endNode, bool isForced, List<Node> nodes, Grunt pathGrunt) {
+    public static List<Node> PathBetween(Node startNode, Node endNode, bool isForced, List<Node> grid, Grunt pathGrunt) {
       List<Node> openList = new List<Node>();
       List<Node> closedList = new List<Node>();
 
       // Adding the startNode to have something to begin with
       openList.Add(startNode);
 
-      foreach (Node node in nodes) {
+      foreach (Node node in grid) {
         node.gCost = int.MaxValue;
         node.fCost = node.gCost + node.hCost;
         node.previousNode = null;
@@ -38,12 +38,9 @@ namespace GruntzUnityverse.Pathfinding {
         closedList.Add(currentNode);
 
         foreach (Node neighbour in currentNode.Neighbours) {
-          if (closedList.Contains(neighbour) || neighbour.IsUnavailable()) {
-            continue;
-          }
-
-          // Skip Node if it's occupied
-          if (neighbour.IsOccupied()) {
+          if (closedList.Contains(neighbour)
+            || neighbour.IsUnavailable()
+            || neighbour.IsOccupied()) {
             continue;
           }
 

@@ -1,7 +1,7 @@
 ﻿using GruntzUnityverse.MapObjectz.BaseClasses;
 using UnityEditor;
 
-namespace GruntzUnityverse.Actorz.Editor {
+namespace GruntzUnityverse.Editor {
   [CustomEditor(typeof(Pyramid), true), CanEditMultipleObjects]
   public class PyramidEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {

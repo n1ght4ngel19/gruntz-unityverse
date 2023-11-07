@@ -1,8 +1,9 @@
-﻿using GruntzUnityverse.Enumz;
+﻿using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Enumz;
 using UnityEditor;
 using UnityEngine;
 
-namespace GruntzUnityverse.Actorz.Editor {
+namespace GruntzUnityverse.Editor {
   [CustomEditor(typeof(RollingBall))]
   public class RollingBallEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {

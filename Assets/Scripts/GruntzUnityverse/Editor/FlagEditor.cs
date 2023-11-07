@@ -1,7 +1,7 @@
 ﻿using GruntzUnityverse.MapObjectz;
 using UnityEditor;
 
-namespace GruntzUnityverse.Actorz.Editor {
+namespace GruntzUnityverse.Editor {
   [CustomEditor(typeof(Flag), true), CanEditMultipleObjects]
   public class FlagEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {

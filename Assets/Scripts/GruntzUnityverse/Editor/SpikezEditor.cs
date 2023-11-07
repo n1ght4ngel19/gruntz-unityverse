@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace GruntzUnityverse.Actorz.Editor {
+namespace GruntzUnityverse.Editor {
   [CustomEditor(typeof(Spikez), true), CanEditMultipleObjects]
   public class SpikezEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {

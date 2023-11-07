@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace GruntzUnityverse.Actorz.Editor {
+namespace GruntzUnityverse.Editor {
   [CustomEditor(typeof(Helpbox), true), CanEditMultipleObjects]
   public class HelpboxEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {

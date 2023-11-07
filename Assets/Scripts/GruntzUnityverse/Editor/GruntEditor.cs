@@ -1,7 +1,7 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using GruntzUnityverse.Actorz;
+using UnityEditor;
 
-namespace GruntzUnityverse.Actorz.Editor {
+namespace GruntzUnityverse.Editor {
   [CustomEditor(typeof(Grunt))]
   public class GruntEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {

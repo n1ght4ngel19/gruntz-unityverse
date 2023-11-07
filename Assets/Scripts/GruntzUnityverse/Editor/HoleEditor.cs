@@ -3,7 +3,7 @@ using GruntzUnityverse.MapObjectz.Interactablez;
 using UnityEditor;
 using UnityEngine;
 
-namespace GruntzUnityverse.Actorz.Editor {
+namespace GruntzUnityverse.Editor {
   [CustomEditor(typeof(Hole)), CanEditMultipleObjects]
   public class HoleEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {
