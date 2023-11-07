@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Itemz.Misc;
+using GruntzUnityverse.Itemz.MiscItemz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.BaseClasses;
 using GruntzUnityverse.MapObjectz.Brickz;
@@ -213,7 +213,9 @@ namespace GruntzUnityverse.Managerz {
       }
 
       mapObjectContainer = GameObject.FindGameObjectWithTag("MapObjectContainer");
-      mapObjectz = FindObjectsOfType<MapObject>().ToList();
+      mapObjectz = FindObjectsOfType<MapObject>()
+        .Where(mo => mo.gameObject.GetComponent<SecretObject>() == null) // Filter Secret Objects
+        .ToList();
 
       mapObjectz.ForEach(obj => {
         obj.Setup();

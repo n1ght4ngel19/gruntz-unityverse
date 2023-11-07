@@ -9,14 +9,11 @@ using UnityEngine.AddressableAssets;
 namespace GruntzUnityverse.MapObjectz.Switchez {
   public class SecretSwitch : ObjectSwitch {
     public List<SecretObject> secretObjectz;
-    private const float TimeStep = 0.1f;
-    // -------------------------------------------------------------------------------- //
-
     protected override void Start() {
       base.Start();
 
       secretObjectz = parent.GetComponentsInChildren<SecretObject>().ToList();
-      
+
       if (secretObjectz.Count.Equals(0)) {
         WarnWithSpriteChange("There is no Secret Object assigned to this Switch, this way the Switch won't work properly!");
       }
@@ -28,6 +25,7 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
       }
 
       ToggleSwitch();
+
       Addressables.LoadAssetAsync<AudioClip>("Assets/Audio/Soundz/Sound_SecretSwitch.wav").Completed += handle => {
         GameManager.Instance.audioSource.PlayOneShot(handle.Result);
       };
@@ -41,19 +39,11 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
     }
 
     private IEnumerator HandleSecretObject(SecretObject secretObject) {
-      while (secretObject.delay > 0) {
-        secretObject.delay -= TimeStep;
-
-        yield return new WaitForSeconds(TimeStep);
-      }
+      yield return new WaitForSeconds(secretObject.delay);
 
       secretObject.ActivateSecret();
 
-      while (secretObject.duration > 0) {
-        secretObject.duration -= TimeStep;
-
-        yield return new WaitForSeconds(TimeStep);
-      }
+      yield return new WaitForSeconds(secretObject.duration);
 
       secretObject.DeactivateSecret();
     }

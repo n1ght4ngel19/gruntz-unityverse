@@ -18,7 +18,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     public int objectId;
 
     #region Fields
-    public SpriteRenderer spriteRenderer; // HideInInspector
+    public SpriteRenderer spriteRenderer;
     public Transform parent;
     public Vector2Int location;
     public Node ownNode;
@@ -26,7 +26,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     public string abbreviatedArea;
     public bool isTargetable;
     protected Camera mainCamera;
-    protected AnimancerComponent animancer; // HideInInspector
+    protected AnimancerComponent animancer;
     private Animator _animator;
     private Sprite _unusedSprite;
     #endregion

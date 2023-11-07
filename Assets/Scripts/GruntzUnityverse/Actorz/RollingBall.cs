@@ -62,18 +62,18 @@ namespace GruntzUnityverse.Actorz {
     // CLASS METHODS
     // ------------------------------------------------------------ //
     public void Move() {
-      if (Vector2.Distance(ownNode.location, transform.position) > 0.9f) {
+      if (Vector2.Distance(ownNode.location, transform.position) > 0.85f) {
         ownNode = GameManager.Instance.currentLevelManager.NodeAt(Vector2Int.FloorToInt(transform.position));
       }
 
       if (moveDirection == Direction.North) {
-        transform.position += Vector3.up * (speed * Time.deltaTime);
+        transform.position += Vector3.up * (Time.deltaTime / speed);
       } else if (moveDirection == Direction.East) {
-        transform.position += Vector3.right * (speed * Time.deltaTime);
+        transform.position += Vector3.right * (Time.deltaTime / speed);
       } else if (moveDirection == Direction.South) {
-        transform.position += Vector3.down * (speed * Time.deltaTime);
+        transform.position += Vector3.down * (Time.deltaTime / speed);
       } else if (moveDirection == Direction.West) {
-        transform.position += Vector3.left * (speed * Time.deltaTime);
+        transform.position += Vector3.left * (Time.deltaTime / speed);
       }
     }
 

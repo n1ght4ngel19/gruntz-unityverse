@@ -7,7 +7,6 @@ namespace GruntzUnityverse.MapObjectz.Switchez {
   public class BlueHoldSwitch : ObjectSwitch {
     private List<Bridge> _bridgez;
 
-
     protected override void Start() {
       base.Start();
 

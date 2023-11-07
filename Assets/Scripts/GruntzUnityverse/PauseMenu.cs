@@ -3,7 +3,7 @@ using System.Linq;
 using CI.QuickSave;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Enumz;
-using GruntzUnityverse.Itemz.Misc;
+using GruntzUnityverse.Itemz.MiscItemz;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.MapObjectz.Arrowz;
 using GruntzUnityverse.MapObjectz.BaseClasses;

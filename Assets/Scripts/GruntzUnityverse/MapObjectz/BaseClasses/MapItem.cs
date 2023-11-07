@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Linq;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Itemz.Misc;
+using GruntzUnityverse.Itemz.MiscItemz;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -11,7 +11,9 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     private AnimationClip _rotationAnimation;
 
     private void Update() {
-      HandlePickup();
+      if (spriteRenderer.enabled) {
+        HandlePickup();
+      }
     }
 
     // ------------------------------------------------------------ //

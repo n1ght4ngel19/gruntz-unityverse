@@ -11,8 +11,10 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     private Vector3 _brokenScale;
     private Quaternion _brokenRotation;
     public MapObject hiddenItem;
-    private bool _isInitialized;
 
+    // ------------------------------------------------------------ //
+    // OVERRIDES
+    // ------------------------------------------------------------ //
     public override void Setup() {
       base.Setup();
 
@@ -21,25 +23,19 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       ownNode.isHardTurn = true;
       _brokenScale = new Vector3(0.7f, 0.7f, 0.7f);
       _brokenRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+
+      if (hiddenItem == null) {
+        hiddenItem = transform.GetComponentsInChildren<MapObject>()
+          .FirstOrDefault(mo => mo != this);
+      }
+
+      hiddenItem?.SetRendererEnabled(false);
     }
 
     protected override void LoadAnimationz() {
       Addressables.LoadAssetAsync<AnimationClip>($"{abbreviatedArea}_RockBreak.anim").Completed += handle => {
         BreakAnimation = handle.Result;
       };
-    }
-
-    // Todo: Disable Update
-    private void Update() {
-      if (!_isInitialized) {
-        _isInitialized = true;
-
-        hiddenItem = FindObjectsOfType<MapObject>()
-          .FirstOrDefault(item =>
-            item.ownNode == ownNode && item != this);
-
-        hiddenItem?.SetRendererEnabled(false);
-      }
     }
 
     public IEnumerator Break(float contactDelay) {

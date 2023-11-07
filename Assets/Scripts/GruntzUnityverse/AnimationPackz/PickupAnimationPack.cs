@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using GruntzUnityverse.Itemz.Powerup;
+using GruntzUnityverse.Itemz.Powerupz;
 using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.Itemz.Toyz;
 using UnityEngine;

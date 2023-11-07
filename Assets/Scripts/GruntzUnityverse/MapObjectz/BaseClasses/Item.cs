@@ -7,7 +7,6 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     public Grunt ownGrunt;
     public string mapItemName;
     public string category;
-    // ------------------------------------------------------------ //
 
     protected virtual void Start() {
       spriteRenderer = GetComponent<SpriteRenderer>();

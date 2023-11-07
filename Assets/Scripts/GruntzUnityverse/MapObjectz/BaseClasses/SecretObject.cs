@@ -25,7 +25,8 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     private bool _isInitiallyWater;
     private List<MapObject> _otherComponents;
     private bool _isInitialized;
-    // ------------------------------------------------------------ //
+
+    private MapObject _sibling;
 
     private void Update() {
       if (!_isInitialized) {
@@ -42,6 +43,8 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     /// Activates the SecretObject.
     /// </summary>
     public void ActivateSecret() {
+      _sibling = GameManager.Instance.currentLevelManager.mapObjectz.First(mo => mo.location == location && mo != this);
+      _sibling.SetEnabled(false);
       _isInitiallyBlocked = GameManager.Instance.currentLevelManager.IsBlockedAt(location);
       _isInitiallyBurn = GameManager.Instance.currentLevelManager.IsBurnAt(location);
       _isInitiallyDeath = GameManager.Instance.currentLevelManager.IsDeathAt(location);
@@ -60,6 +63,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     /// Deactivates the SecretObject.
     /// </summary>
     public void DeactivateSecret() {
+      _sibling.SetEnabled(true);
       GameManager.Instance.currentLevelManager.SetBlockedAt(location, _isInitiallyBlocked);
       GameManager.Instance.currentLevelManager.SetBurnAt(location, _isInitiallyBurn);
       GameManager.Instance.currentLevelManager.SetDeathAt(location, _isInitiallyDeath);

@@ -11,13 +11,19 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
     public bool isOpen;
     public MapObject hiddenItem;
     private AnimationClip _dirtFlyingAnim;
-    private bool _isInitialized;
 
+    // ------------------------------------------------------------ //
+    // OVERRIDES
+    // ------------------------------------------------------------ //
     public override void Setup() {
       base.Setup();
 
       isTargetable = true;
       ownNode.isHole = isOpen;
+      hiddenItem = transform.GetComponentsInChildren<MapObject>()
+        .FirstOrDefault(mo => mo != this);
+
+      hiddenItem?.SetRendererEnabled(false);
     }
 
     protected override void LoadAnimationz() {
@@ -34,19 +40,6 @@ namespace GruntzUnityverse.MapObjectz.Interactablez {
       Addressables.LoadAssetAsync<AnimationClip>($"Effect_{area}_Dirt_01.anim").Completed += handle => {
         _dirtFlyingAnim = handle.Result;
       };
-    }
-
-    // Todo: Disable Update
-    private void Update() {
-      if (!_isInitialized) {
-        _isInitialized = true;
-
-        hiddenItem = FindObjectsOfType<MapObject>()
-          .FirstOrDefault(item =>
-            item.ownNode == ownNode && item != this);
-
-        hiddenItem?.SetRendererEnabled(false);
-      }
     }
 
     public override IEnumerator BeUsed() {
