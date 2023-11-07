@@ -8,7 +8,7 @@ namespace GruntzUnityverse.Saving {
     public string gruntName;
     public string tool;
     public Vector3 position;
-    public Owner owner;
+    public Team team;
     public string materialKey;
     public string state;
     public int health;
@@ -43,7 +43,7 @@ namespace GruntzUnityverse.Saving {
       gruntName = grunt.gameObject.name;
       tool = grunt.equipment.tool.mapItemName;
       position = grunt.transform.position;
-      owner = grunt.owner;
+      team = grunt.team;
       materialKey = grunt.spriteRenderer.material.name.Split("(")[0].Trim();
       state = grunt.state.ToString();
       health = grunt.health;

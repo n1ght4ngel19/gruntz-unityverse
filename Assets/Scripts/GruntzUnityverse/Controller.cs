@@ -10,18 +10,38 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse {
+  /// <summary>
+  /// Player input manager for orchestrating input/command communication.
+  /// </summary>
   public class Controller : MonoBehaviour {
+    /// <summary>
+    /// Shorthand for "Input.GetMouseButtonDown(0)".
+    /// </summary>
     public bool leftClick;
+
+    /// <summary>
+    /// Shorthand for "Input.GetMouseButtonDown(1)".
+    /// </summary>
     public bool rightClick;
+
+    /// <summary>
+    /// Shorthand for "Input.GetKey(KeyCode.LeftShift)".
+    /// </summary>
     public bool leftShiftDown;
+
+    /// <summary>
+    /// Shorthand for "Input.GetKey(KeyCode.LeftControl)".
+    /// </summary>
     public bool leftControlDown;
+
+    /// <summary>
+    /// The Gruntz currently selected by the team.
+    /// </summary>
     public static List<Grunt> selectedGruntz;
-    // ------------------------------------------------------------ //
 
     private void OnEnable() {
       selectedGruntz = new List<Grunt>();
     }
-    // ------------------------------------------------------------ //
 
     private void Update() {
       leftClick = Input.GetMouseButtonDown(0);
@@ -33,8 +53,11 @@ namespace GruntzUnityverse {
       if (leftClick && !leftShiftDown && !leftControlDown) {
         DeselectAllGruntz();
 
-        SelectGrunt(GameManager.Instance.currentLevelManager.allGruntz
-          .FirstOrDefault(grunt => grunt.navigator.ownNode == GameManager.Instance.selectorCircle.ownNode));
+        SelectGrunt(
+          GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(
+            grunt => grunt.navigator.ownNode == GameManager.Instance.selectorCircle.ownNode
+          )
+        );
       }
 
       // Single select with numeric keys
@@ -69,49 +92,53 @@ namespace GruntzUnityverse {
       if (leftClick && leftShiftDown) {
         Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
 
-        List<MapObject> possibleTargets =
-          GameManager.Instance.currentLevelManager.mapObjectContainer
-            .GetComponentsInChildren<MapObject>()
-            .ToList();
+        List<MapObject> possibleTargets = GameManager.Instance.currentLevelManager
+          .mapObjectContainer.GetComponentsInChildren<MapObject>()
+          .ToList();
 
-        MapObject targetMapObject = possibleTargets
-          .FirstOrDefault(obj => obj.location == clickedNode.location && obj.isTargetable);
+        MapObject targetMapObject = possibleTargets.FirstOrDefault(
+          obj => obj.location == clickedNode.location && obj.isTargetable
+        );
 
-        Grunt targetGrunt = GameManager.Instance.currentLevelManager.allGruntz
-          .FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
+        Grunt targetGrunt =
+          GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(
+            grunt => grunt.navigator.ownNode == clickedNode
+          );
 
         // Issuing action command according to the target being a MapObject or a Grunt
-        selectedGruntz.ForEach(grunt => {
-          grunt.CleanState();
+        selectedGruntz.ForEach(
+          grunt => {
+            grunt.CleanState();
 
-          // Attack command
-          if (targetGrunt is not null && targetGrunt.IsValidTargetFor(grunt)) {
-            grunt.haveMovingToAttackingCommand = true;
-            grunt.targetGrunt = targetGrunt;
-            grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
-            // grunt.hasPlayedAttackAcknowledgeSound = false;
+            // Attack command (when target is a Grunt)
+            if (targetGrunt is not null && targetGrunt.IsValidTargetFor(grunt)) {
+              grunt.haveMovingToAttackingCommand = true;
+              grunt.targetGrunt = targetGrunt;
+              grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
+              // grunt.hasPlayedAttackAcknowledgeSound = false;
 
-            return;
+              return;
+            }
+
+            // GiantRockEdge break command (when target is a MapObject)
+            if (targetMapObject is GiantRockEdge && grunt.equipment.tool is Gauntletz) {
+              grunt.haveMovingToUsingCommand = true;
+              grunt.targetMapObject = targetMapObject;
+              grunt.navigator.targetNode = targetMapObject.ownNode;
+              grunt.hasPlayedMovementAcknowledgeSound = false;
+
+              return;
+            }
+
+            // Use command (when target is a MapObject)
+            if (targetMapObject is not null && targetMapObject.IsValidTargetFor(grunt)) {
+              grunt.haveMovingToUsingCommand = true;
+              grunt.targetMapObject = targetMapObject;
+              grunt.navigator.targetNode = targetMapObject.ownNode;
+              grunt.hasPlayedMovementAcknowledgeSound = false;
+            }
           }
-
-          // GiantRockEdge break command
-          if (targetMapObject is GiantRockEdge && grunt.equipment.tool is Gauntletz) {
-            grunt.haveMovingToUsingCommand = true;
-            grunt.targetMapObject = targetMapObject;
-            grunt.navigator.targetNode = targetMapObject.ownNode;
-            grunt.hasPlayedMovementAcknowledgeSound = false;
-
-            return;
-          }
-
-          // Use command
-          if (targetMapObject is not null && targetMapObject.IsValidTargetFor(grunt)) {
-            grunt.haveMovingToUsingCommand = true;
-            grunt.targetMapObject = targetMapObject;
-            grunt.navigator.targetNode = targetMapObject.ownNode;
-            grunt.hasPlayedMovementAcknowledgeSound = false;
-          }
-        });
+        );
       }
 
       // ------------------------------
@@ -121,25 +148,29 @@ namespace GruntzUnityverse {
         Node clickedNode = GameManager.Instance.selectorCircle.ownNode;
 
         Grunt targetGrunt =
-          GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(grunt => grunt.navigator.ownNode == clickedNode);
+          GameManager.Instance.currentLevelManager.allGruntz.FirstOrDefault(
+            grunt => grunt.navigator.ownNode == clickedNode
+          );
 
         // Issuing action command according to the target being a Grunt or a spot on the ground
-        selectedGruntz.ForEach(grunt => {
-          if (grunt.equipment.toy == null) {
-            return;
-          }
+        selectedGruntz.ForEach(
+          grunt => {
+            if (grunt.equipment.toy == null) {
+              return;
+            }
 
-          if (targetGrunt is not null && targetGrunt != grunt) {
-            grunt.targetGrunt = targetGrunt;
-            grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
-            grunt.haveMovingToGivingCommand = true;
-            // grunt.hasPlayedGiveToyAcknowledgeSound = false;
-          } else if (!clickedNode.IsUnavailable()) {
-            grunt.navigator.targetNode = clickedNode;
-            grunt.haveMovingToGivingCommand = true;
-            // grunt.hasPlayedGiveToyAcknowledgeSound = false;
+            if (targetGrunt is not null && targetGrunt != grunt) {
+              grunt.targetGrunt = targetGrunt;
+              grunt.navigator.targetNode = targetGrunt.navigator.ownNode;
+              grunt.haveMovingToGivingCommand = true;
+              // grunt.hasPlayedGiveToyAcknowledgeSound = false;
+            } else if (!clickedNode.IsUnavailable()) {
+              grunt.navigator.targetNode = clickedNode;
+              grunt.haveMovingToGivingCommand = true;
+              // grunt.hasPlayedGiveToyAcknowledgeSound = false;
+            }
           }
-        });
+        );
       }
     }
 
@@ -148,8 +179,8 @@ namespace GruntzUnityverse {
         return;
       }
 
-      switch (grunt.owner) {
-        case Owner.Player:
+      switch (grunt.team) {
+        case Team.Player:
           grunt.isSelected = true;
           grunt.selectedCircle.spriteRenderer.enabled = true;
 
@@ -159,7 +190,8 @@ namespace GruntzUnityverse {
             // Todo: Different clip based on clicking
             int selectVoiceIndex = Random.Range(1, 12);
 
-            Addressables.LoadAssetAsync<AudioClip>($"Voice_SelectGrunt_1_{selectVoiceIndex}.wav").Completed += handle => {
+            Addressables.LoadAssetAsync<AudioClip>($"Voice_SelectGrunt_1_{selectVoiceIndex}.wav")
+              .Completed += handle => {
               if (!grunt.audioSource.isPlaying) {
                 grunt.audioSource.PlayOneShot(handle.Result);
               }
@@ -169,10 +201,11 @@ namespace GruntzUnityverse {
           selectedGruntz.Add(grunt);
 
           break;
-        case Owner.Ai:
+        case Team.Ai:
           int enemySelectVoiceIndex = Random.Range(1, 12);
 
-          Addressables.LoadAssetAsync<AudioClip>($"Voice_EnemySelect_{enemySelectVoiceIndex}.wav").Completed += handle => {
+          Addressables.LoadAssetAsync<AudioClip>($"Voice_EnemySelect_{enemySelectVoiceIndex}.wav")
+            .Completed += handle => {
             if (!grunt.audioSource.isPlaying) {
               grunt.audioSource.PlayOneShot(handle.Result);
             }
@@ -185,10 +218,12 @@ namespace GruntzUnityverse {
     public static void DeselectAllGruntz() {
       selectedGruntz.Clear();
 
-      GameManager.Instance.currentLevelManager.playerGruntz.ForEach(grunt => {
-        grunt.isSelected = false;
-        grunt.selectedCircle.spriteRenderer.enabled = false;
-      });
+      GameManager.Instance.currentLevelManager.playerGruntz.ForEach(
+        grunt => {
+          grunt.isSelected = false;
+          grunt.selectedCircle.spriteRenderer.enabled = false;
+        }
+      );
     }
 
     private void SelectById() {
@@ -237,8 +272,10 @@ namespace GruntzUnityverse {
       if (alphaKeyPressed == 0) {
         GameManager.Instance.currentLevelManager.playerGruntz.ForEach(SelectGrunt);
       } else {
-        Grunt gruntToSelect = GameManager.Instance.currentLevelManager.playerGruntz
-          .FirstOrDefault(grunt => grunt.playerGruntId == alphaKeyPressed);
+        Grunt gruntToSelect =
+          GameManager.Instance.currentLevelManager.playerGruntz.FirstOrDefault(
+            grunt => grunt.playerGruntId == alphaKeyPressed
+          );
 
         if (gruntToSelect is null) {
           return;

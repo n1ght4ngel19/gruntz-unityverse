@@ -1,4 +1,7 @@
 ﻿namespace GruntzUnityverse {
+  /// <summary>
+  /// Container for storing constant asset address parts.
+  /// </summary>
   public static class GlobalNamez {
     public const string SwitchSpritezPath = "Assets/Spritez/Objectz/Switchez";
     public const string MapObjectContainer = "MapObjectz";

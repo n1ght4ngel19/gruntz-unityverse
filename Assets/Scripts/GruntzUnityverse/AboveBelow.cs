@@ -1,12 +1,13 @@
 ﻿using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Managerz;
 using UnityEngine;
 
 namespace GruntzUnityverse {
+  /// <summary>
+  /// Helper script for EyeCandy objects for moving themselves before/behind moving Gruntz.
+  /// </summary>
   public class AboveBelow : MonoBehaviour {
     private SpriteRenderer _spriteRenderer;
     private int _initialLayerOrderValue;
-    // ------------------------------------------------------------ //
 
     private void Start() {
       _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -14,8 +15,10 @@ namespace GruntzUnityverse {
 
       InvokeRepeating(nameof(AdjustZValue), 0, 0.1f);
     }
-    // ------------------------------------------------------------ //
 
+    /// <summary>
+    /// Adjusts the GameObject's layer value when a Grunt is moving nearby.
+    /// </summary>
     public void AdjustZValue() {
       foreach (Grunt grunt in GameManager.Instance.currentLevelManager.allGruntz) {
         Vector3 gruntPosition = grunt.transform.position;

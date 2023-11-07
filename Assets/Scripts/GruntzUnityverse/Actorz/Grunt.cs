@@ -21,8 +21,15 @@ using Random = UnityEngine.Random;
 using Range = GruntzUnityverse.Enumz.Range;
 
 namespace GruntzUnityverse.Actorz {
+  /// <summary>
+  /// The class describing Gruntz' behaviour.
+  /// </summary>
   public class Grunt : MonoBehaviour {
     public bool hasSaveData;
+
+    /// <summary>
+    /// The data to set the Grunt's state provided by a saved game state.
+    /// </summary>
     public GruntData saveData;
 
     private const int MinStatValue = 0;
@@ -33,13 +40,33 @@ namespace GruntzUnityverse.Actorz {
     // ------------------------------------------------------------ //
 
     #region Statz
-    [Header("Statz")] public int gruntId;
+    /// <summary>
+    /// The ID differentiating all Gruntz present on a Level.
+    /// </summary>
+    [Header("Statz")]
+    public int gruntId;
+
+    /// <summary>
+    /// The ID differentiating the Gruntz on a certain team.
+    /// </summary>
     public int playerGruntId;
-    public Owner owner;
+
+    /// <summary>
+    /// The team controlling the Grunt.
+    /// </summary>
+    public Team team;
+
     public float moveSpeed;
-    [Range(MinStatValue, MaxStatValue)] public int health;
-    [Range(MinStatValue, MaxStatValue)] public int stamina;
-    [Range(MinStatValue, MaxStatValue)] public int staminaRegenRate;
+
+    [Range(MinStatValue, MaxStatValue)]
+    public int health;
+
+    [Range(MinStatValue, MaxStatValue)]
+    public int stamina;
+
+    [Range(MinStatValue, MaxStatValue)]
+    public int staminaRegenRate;
+
     public int powerupTime;
     public int toyTime;
     public int wingzTime;
@@ -50,7 +77,9 @@ namespace GruntzUnityverse.Actorz {
     // ------------------------------------------------------------ //
 
     #region Flagz
-    [Header("Flagz")] public bool isSelected;
+    [Header("Flagz")]
+    public bool isSelected;
+
     public bool isInCircle;
     public bool isMoving;
     public bool haveMoveCommand;
@@ -69,9 +98,15 @@ namespace GruntzUnityverse.Actorz {
     // ------------------------------------------------------------ //
 
     #region Action
-    [Header("Action")] public MapObject targetObject;
-    [CanBeNull] public Grunt targetGrunt;
-    [CanBeNull] public MapObject targetMapObject;
+    [Header("Action")]
+    public MapObject targetObject;
+
+    [CanBeNull]
+    public Grunt targetGrunt;
+
+    [CanBeNull]
+    public MapObject targetMapObject;
+
     public GruntState state;
     #endregion
 
@@ -80,14 +115,27 @@ namespace GruntzUnityverse.Actorz {
     // ------------------------------------------------------------ //
 
     #region Componentz
-    [HideInInspector] public SpriteRenderer spriteRenderer;
+    [HideInInspector]
+    public SpriteRenderer spriteRenderer;
+
     public Navigator navigator;
     public Equipment equipment;
-    [HideInInspector] public HealthBar healthBar;
-    [HideInInspector] public StaminaBar staminaBar;
-    [HideInInspector] public ToyTimeBar toyTimeBar;
-    [HideInInspector] public WingzTimeBar wingzTimeBar;
-    [HideInInspector] public AnimancerComponent animancer;
+
+    [HideInInspector]
+    public HealthBar healthBar;
+
+    [HideInInspector]
+    public StaminaBar staminaBar;
+
+    [HideInInspector]
+    public ToyTimeBar toyTimeBar;
+
+    [HideInInspector]
+    public WingzTimeBar wingzTimeBar;
+
+    [HideInInspector]
+    public AnimancerComponent animancer;
+
     private Animator _animator;
     public SelectedCircle selectedCircle;
     #endregion
@@ -144,7 +192,7 @@ namespace GruntzUnityverse.Actorz {
     //   gruntId = GameManager.Instance.currentLevelManager.gruntIdCounter++;
     //   GameManager.Instance.currentLevelManager.allGruntz.Add(this);
     //
-    //   if (owner == Owner.Player) {
+    //   if (team == Team.Player) {
     //     playerGruntId = GameManager.Instance.currentLevelManager.playerGruntIdCounter++;
     //     GameManager.Instance.currentLevelManager.playerGruntz.Add(this);
     //   } else {
@@ -224,7 +272,9 @@ namespace GruntzUnityverse.Actorz {
         return;
       }
 
-      if (GameManager.Instance.currentLevelManager.rollingBallz.Any(ball => ball.ownNode == navigator.ownNode)) {
+      if (GameManager.Instance.currentLevelManager.rollingBallz.Any(
+        ball => ball.ownNode == navigator.ownNode
+      )) {
         spriteRenderer.sortingLayerName = "AlwaysBottom";
 
         int randIdx = Random.Range(1, 7);
@@ -280,9 +330,10 @@ namespace GruntzUnityverse.Actorz {
 
       staminaBar.spriteRenderer.enabled = stamina < MaxStatValue;
 
-      staminaBar.spriteRenderer.sprite = stamina >= MaxStatValue && !toyTimeBar.spriteRenderer.enabled
-        ? staminaBar.frames[^1]
-        : staminaBar.frames[stamina];
+      staminaBar.spriteRenderer.sprite =
+        stamina >= MaxStatValue && !toyTimeBar.spriteRenderer.enabled
+          ? staminaBar.frames[^1]
+          : staminaBar.frames[stamina];
 
       toyTimeBar.spriteRenderer.enabled = toyTime > MinStatValue;
 
@@ -375,7 +426,9 @@ namespace GruntzUnityverse.Actorz {
               break;
 
             case Range.None:
-              throw new InvalidEnumArgumentException($"Range cannot be None for Tool {equipment.tool.name} on Grunt {name}!");
+              throw new InvalidEnumArgumentException(
+                $"Range cannot be None for Tool {equipment.tool.name} on Grunt {name}!"
+              );
             default:
               throw new ArgumentOutOfRangeException();
           }
@@ -431,7 +484,9 @@ namespace GruntzUnityverse.Actorz {
               break;
 
             case Range.None:
-              throw new InvalidEnumArgumentException($"Range cannot be None for Tool {equipment.tool.name} on Grunt {name}!");
+              throw new InvalidEnumArgumentException(
+                $"Range cannot be None for Tool {equipment.tool.name} on Grunt {name}!"
+              );
 
             default:
               throw new ArgumentOutOfRangeException();
@@ -517,7 +572,7 @@ namespace GruntzUnityverse.Actorz {
     /// <param name="otherGrunt">The other Grunt.</param>
     /// <returns>True if the Grunt is a valid target, false otherwise.</returns>
     public bool IsValidTargetFor(Grunt otherGrunt) {
-      return otherGrunt != this && otherGrunt.owner != owner;
+      return otherGrunt != this && otherGrunt.team != team;
     }
 
     /// <summary>
@@ -589,43 +644,58 @@ namespace GruntzUnityverse.Actorz {
 
       switch (state) {
         case GruntState.Idle:
-          clipToPlay = animationPack.Idle[$"{equipment.tool.gruntType}_Idle_{navigator.facingDirection}_01"];
+          clipToPlay =
+            animationPack.Idle[$"{equipment.tool.gruntType}_Idle_{navigator.facingDirection}_01"];
+
           animancer.Play(clipToPlay);
 
           break;
 
         case GruntState.UsingIdle:
-          clipToPlay = animationPack.Idle[$"{equipment.tool.gruntType}_Idle_{navigator.facingDirection}_01"];
+          clipToPlay =
+            animationPack.Idle[$"{equipment.tool.gruntType}_Idle_{navigator.facingDirection}_01"];
+
           animancer.Play(clipToPlay);
 
           break;
 
         case GruntState.Moving:
-          clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
+          clipToPlay =
+            animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
+
           animancer.Play(clipToPlay);
 
           break;
 
         case GruntState.MovingToUsing:
-          clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
+          clipToPlay =
+            animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
+
           animancer.Play(clipToPlay);
 
           break;
 
         case GruntState.MovingToAttacking:
-          clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
+          clipToPlay =
+            animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
+
           animancer.Play(clipToPlay);
 
           break;
 
         case GruntState.MovingToGiving:
-          clipToPlay = animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
+          clipToPlay =
+            animationPack.Walk[$"{equipment.tool.gruntType}_Walk_{navigator.facingDirection}"];
+
           animancer.Play(clipToPlay);
 
           break;
 
         case GruntState.AttackingIdle:
-          clipToPlay = animationPack.Attack[$"{equipment.tool.gruntType}_Attack_{navigator.facingDirection}_Idle"];
+          clipToPlay =
+            animationPack.Attack[
+              $"{equipment.tool.gruntType}_Attack_{navigator.facingDirection}_Idle"];
+
           animancer.Play(clipToPlay);
 
           break;
@@ -655,7 +725,10 @@ namespace GruntzUnityverse.Actorz {
 
           StatzManager.acquiredToolz++;
 
-          animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.tool[item.mapItemName]);
+          animancer.Play(
+            GameManager.Instance.currentAnimationManager.pickupPack.tool[item.mapItemName]
+          );
+
           PlayRandomVoice(nameof(Tool), item);
 
           break;
@@ -669,14 +742,20 @@ namespace GruntzUnityverse.Actorz {
 
           StatzManager.acquiredToyz++;
 
-          animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.toy[item.mapItemName]);
+          animancer.Play(
+            GameManager.Instance.currentAnimationManager.pickupPack.toy[item.mapItemName]
+          );
+
           PlayRandomVoice(nameof(Toy), item);
 
           break;
         case nameof(Powerup):
           StatzManager.acquiredPowerupz++;
 
-          animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.powerup[item.mapItemName]);
+          animancer.Play(
+            GameManager.Instance.currentAnimationManager.pickupPack.powerup[item.mapItemName]
+          );
+
           PlayRandomVoice(nameof(Powerup), item);
 
           if (item is ZapCola cola) {
@@ -690,7 +769,10 @@ namespace GruntzUnityverse.Actorz {
             case nameof(Coin):
               StatzManager.acquiredCoinz++;
 
-              animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.misc[item.mapItemName]);
+              animancer.Play(
+                GameManager.Instance.currentAnimationManager.pickupPack.misc[item.mapItemName]
+              );
+
               PlayRandomVoice("Misc", item);
 
               break;
@@ -699,12 +781,19 @@ namespace GruntzUnityverse.Actorz {
 
               WarpletterType type = ((Warpletter)item).warpletterType;
 
-              animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.misc[$"{item.mapItemName}{type}"]);
+              animancer.Play(
+                GameManager.Instance.currentAnimationManager.pickupPack.misc[
+                  $"{item.mapItemName}{type}"]
+              );
+
               PlayRandomVoice("Misc", item);
 
               break;
             case nameof(Helpbox):
-              animancer.Play(GameManager.Instance.currentAnimationManager.pickupPack.misc[$"{item.mapItemName}"]);
+              animancer.Play(
+                GameManager.Instance.currentAnimationManager.pickupPack.misc[$"{item.mapItemName}"]
+              );
+
               PlayRandomVoice("Misc", item);
 
               break;
@@ -771,15 +860,16 @@ namespace GruntzUnityverse.Actorz {
       isInterrupted = true;
       _isDying = true;
 
-      AnimationClip deathClip =
-        animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death"];
+      AnimationClip deathClip = animationPack.Death[$"{equipment.tool.GetType().Name}Grunt_Death"];
 
       string voicePath = "Assets/Audio/Voicez/Deathz/Voice_Death_";
       float deathAnimLength = 2f;
 
       switch (deathName) {
         case DeathName.Burn:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Burn)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Burn)];
+
           deathAnimLength = 1f;
 
           int burnRandIdx = Random.Range(1, 8);
@@ -787,7 +877,9 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case DeathName.Electrocute:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Electrocute)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Electrocute)];
+
           deathAnimLength = 1.5f;
 
           int elecRandIdx = Random.Range(1, 10);
@@ -795,7 +887,9 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case DeathName.Explode:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Explode)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Explode)];
+
           deathAnimLength = 0.5f;
 
           int expRandIdx = Random.Range(1, 7);
@@ -803,7 +897,9 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case DeathName.Fall:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Fall)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Fall)];
+
           deathAnimLength = 5f;
 
           int fallRandIdx = Random.Range(1, 11);
@@ -812,7 +908,9 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case DeathName.Flyup:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Flyup)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Flyup)];
+
           deathAnimLength = 0.5f;
 
           int flyUpRandIdx = Random.Range(1, 7);
@@ -820,14 +918,17 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case DeathName.Freeze:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Freeze)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Freeze)];
 
           int freezeRandIdx = Random.Range(1, 10);
           voicePath += $"{nameof(DeathName.Freeze)}_0{freezeRandIdx}.wav";
 
           break;
         case DeathName.Hole:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Hole)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Hole)];
+
           deathAnimLength = 1.5f;
 
           int holeRandIdx = Random.Range(1, 5);
@@ -835,7 +936,9 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case DeathName.Karaoke:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Karaoke)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Karaoke)];
+
           deathAnimLength = 15f;
 
           int karaokeRandIdx = Random.Range(1, 10);
@@ -843,7 +946,9 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case DeathName.Melt:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Melt)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Melt)];
+
           deathAnimLength = 1f;
 
           int meltRandIdx = Random.Range(1, 10);
@@ -851,7 +956,9 @@ namespace GruntzUnityverse.Actorz {
 
           break;
         case DeathName.Sink:
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Sink)];
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Sink)];
+
           deathAnimLength = 1f;
 
           int sinkRandIdx = Random.Range(1, 11);
@@ -861,7 +968,10 @@ namespace GruntzUnityverse.Actorz {
           break;
         case DeathName.Squash:
           transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-          deathClip = GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Squash)];
+
+          deathClip =
+            GameManager.Instance.currentAnimationManager.deathPack[nameof(DeathName.Squash)];
+
           deathAnimLength = 0.5f;
 
           int squashRandIdx = Random.Range(1, 7);
@@ -915,12 +1025,14 @@ namespace GruntzUnityverse.Actorz {
         ToolName.Barehandz => GameManager.Instance.currentAnimationManager.barehandzGruntPack,
         ToolName.Bomb => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.Boomerang => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
-        ToolName.BoxingGlovez => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.BoxingGlovez =>
+          throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.Bricklayer => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.Club => GameManager.Instance.currentAnimationManager.clubGruntPack,
         ToolName.Gauntletz => GameManager.Instance.currentAnimationManager.gauntletzGruntPack,
         ToolName.GooberStraw => GameManager.Instance.currentAnimationManager.gooberStrawGruntPack,
-        ToolName.GravityBootz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.GravityBootz =>
+          throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.GunHat => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.NerfGun => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.Rockz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
@@ -975,7 +1087,9 @@ namespace GruntzUnityverse.Actorz {
         case "Misc":
           voiceIndex = Random.Range(1, 17);
 
-          Addressables.LoadAssetAsync<AudioClip>($"Assets/Audio/Voicez/Pickupz/Pickup_GenericPickup_{voiceIndex}.wav")
+          Addressables.LoadAssetAsync<AudioClip>(
+              $"Assets/Audio/Voicez/Pickupz/Pickup_GenericPickup_{voiceIndex}.wav"
+            )
             .Completed += handle => {
             audioSource.Stop();
             audioSource.PlayOneShot(handle.Result);
@@ -984,7 +1098,8 @@ namespace GruntzUnityverse.Actorz {
           break;
         default:
           Addressables.LoadAssetAsync<AudioClip>(
-              $"Assets/Audio/Voicez/Pickupz/Pickup_{voiceType}_{pickupItem.mapItemName}_0{voiceIndex}.wav")
+              $"Assets/Audio/Voicez/Pickupz/Pickup_{voiceType}_{pickupItem.mapItemName}_0{voiceIndex}.wav"
+            )
             .Completed += handle => {
             audioSource.Stop();
             audioSource.PlayOneShot(handle.Result);
@@ -1003,7 +1118,9 @@ namespace GruntzUnityverse.Actorz {
 
       int voiceIndex = Random.Range(1, 11);
       string textVoiceIndex = voiceIndex < 10 ? $"0{voiceIndex}" : $"{voiceIndex}";
-      string audioPath = $"Assets/Audio/Voicez/Commandz/{goodOrBad}/Voice_Command_{goodOrBad}_{textVoiceIndex}.wav";
+
+      string audioPath =
+        $"Assets/Audio/Voicez/Commandz/{goodOrBad}/Voice_Command_{goodOrBad}_{textVoiceIndex}.wav";
 
       Addressables.LoadAssetAsync<AudioClip>(audioPath).Completed += handle => {
         audioSource.PlayOneShot(handle.Result);
@@ -1082,7 +1199,7 @@ namespace GruntzUnityverse.Actorz {
       gruntId = data.gruntId;
       gameObject.name = data.gruntName;
       transform.position = data.position;
-      owner = data.owner;
+      team = data.team;
 
       // g.state = data.state;
       state = data.state switch {
@@ -1102,8 +1219,13 @@ namespace GruntzUnityverse.Actorz {
       isInterrupted = data.isInterrupted;
 
       navigator.ownLocation = data.navigatorOwnLocation;
-      navigator.ownNode = GameManager.Instance.currentLevelManager.NodeAt(data.navigatorOwnLocation);
-      navigator.targetNode = GameManager.Instance.currentLevelManager.NodeAt(data.navigatorTargetNodeLocation);
+
+      navigator.ownNode =
+        GameManager.Instance.currentLevelManager.NodeAt(data.navigatorOwnLocation);
+
+      navigator.targetNode =
+        GameManager.Instance.currentLevelManager.NodeAt(data.navigatorTargetNodeLocation);
+
       haveMoveCommand = data.haveMoveCommand;
 
       navigator.isMoving = data.navigatorIsMoving;
@@ -1114,19 +1236,22 @@ namespace GruntzUnityverse.Actorz {
       navigator.facingDirection = data.navigatorFacingDirection;
 
       if (data.targetGruntId != -1) {
-        targetGrunt = GameManager.Instance.currentLevelManager.dizGruntled
-          .First(grunt => grunt.gruntId == data.targetGruntId);
+        targetGrunt =
+          GameManager.Instance.currentLevelManager.dizGruntled.First(
+            grunt => grunt.gruntId == data.targetGruntId
+          );
       }
 
       if (data.targetMapObjectId != -1) {
-        targetMapObject = GameManager.Instance.currentLevelManager.mapObjectz
-          .First(mapObject => mapObject.objectId == data.targetMapObjectId);
+        targetMapObject = GameManager.Instance.currentLevelManager.mapObjectz.First(
+          mapObject => mapObject.objectId == data.targetMapObjectId
+        );
       }
 
       // Adding the Grunt to the LevelManager's appropriate lists
       GameManager.Instance.currentLevelManager.allGruntz.Add(this);
 
-      if (owner == Owner.Player) {
+      if (team == Team.Player) {
         GameManager.Instance.currentLevelManager.playerGruntz.Add(this);
       } else {
         GameManager.Instance.currentLevelManager.dizGruntled.Add(this);

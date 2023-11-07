@@ -318,11 +318,11 @@ namespace GruntzUnityverse.Managerz {
       foreach (Grunt grunt in FindObjectsOfType<Grunt>()) {
         grunt.gruntId = gruntIdCounter++;
 
-        if (grunt.owner == Owner.Player) {
+        if (grunt.team == Team.Player) {
           grunt.playerGruntId = playerGruntIdCounter++;
         }
 
-        if (grunt.owner.Equals(Owner.Player)) {
+        if (grunt.team.Equals(Team.Player)) {
           playerGruntz.Add(grunt);
         } else {
           dizGruntled.Add(grunt);

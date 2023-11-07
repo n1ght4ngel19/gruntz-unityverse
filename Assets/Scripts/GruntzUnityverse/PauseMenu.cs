@@ -17,6 +17,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 namespace GruntzUnityverse {
+  /// <summary>
+  /// Handler for the Pause Menu UI and functionalities.
+  /// </summary>
   public class PauseMenu : MonoBehaviour {
     public static bool isGamePaused; // Todo: Move to GameManager
     public GameObject pauseMenuUI;
@@ -32,7 +35,7 @@ namespace GruntzUnityverse {
     }
 
     /// <summary>
-    /// Activates the pause menu and pauses the game.
+    /// Activates the Pause Menu and stops the game.
     /// </summary>
     private void Pause() {
       pauseMenuUI.SetActive(true);
@@ -41,7 +44,7 @@ namespace GruntzUnityverse {
     }
 
     /// <summary>
-    /// Deactivates the pause menu and resumes the game.
+    /// Deactivates the Pause Menu and resumes the game.
     /// </summary>
     public void Resume() {
       pauseMenuUI.SetActive(false);
@@ -78,7 +81,7 @@ namespace GruntzUnityverse {
     }
 
     /// <summary>
-    /// Loads the game's state from a file.
+    /// Loads a game state from a file.
     /// </summary>
     public void Load() {
       Debug.Log("Loading");
@@ -102,7 +105,7 @@ namespace GruntzUnityverse {
             g.saveData = data;
             g.hasSaveData = true;
 
-            g.transform.parent = g.owner == Owner.Player
+            g.transform.parent = g.team == Team.Player
               ? GameManager.Instance.currentLevelManager.playerGruntzParent
               : GameManager.Instance.currentLevelManager.dizgruntledParent;
           };
@@ -282,21 +285,21 @@ namespace GruntzUnityverse {
     }
 
     /// <summary>
-    /// Displays the options menu.
+    /// Displays the Options Menu.
     /// </summary>
     public void ShowOptions() {
       Debug.Log("Options");
     }
 
     /// <summary>
-    /// Displays the help menu.
+    /// Displays the Help Menu.
     /// </summary>
     public void ShowHelp() {
       Debug.Log("Help");
     }
 
     /// <summary>
-    /// Quits the game and returns to the main menu.
+    /// Quits the current level and loads the Main Menu.
     /// </summary>
     public void QuitGame() {
       Debug.Log("Save Game");

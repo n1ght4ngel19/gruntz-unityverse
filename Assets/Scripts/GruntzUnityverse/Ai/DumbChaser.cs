@@ -55,7 +55,7 @@ namespace GruntzUnityverse.Ai {
     }
 
     private bool IsWithinAggroRange(Grunt grunt) {
-      return grunt.owner == Owner.Player &&
+      return grunt.team == Team.Player &&
         grunt.navigator.ownNode.location.x <= startingNode.location.x + aggroRange &&
         grunt.navigator.ownNode.location.x >= startingNode.location.x - aggroRange &&
         grunt.navigator.ownNode.location.y <= startingNode.location.y + aggroRange &&

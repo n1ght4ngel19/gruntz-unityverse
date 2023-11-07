@@ -1,4 +1,7 @@
 ﻿namespace GruntzUnityverse {
+  /// <summary>
+  /// Container for storing constant values needed in-game.
+  /// </summary>
   public static class GlobalValuez {
     public const int BarehandzDamage = 1;
     public const int BombDamage = 40;
