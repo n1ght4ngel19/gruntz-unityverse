@@ -29,7 +29,7 @@ namespace GruntzUnityverse.Ai {
 
       startingNode ??= self.navigator.ownNode;
 
-      targetz = GameManager.Instance.currentLevelManager.playerGruntz.Where(IsWithinAggroRange).ToList();
+      targetz = GameManager.Instance.currentLevelManager.player1Gruntz.Where(IsWithinAggroRange).ToList();
 
       if (targetz.Count > 0) {
         // Todo?: Select weakest Grunt
@@ -55,7 +55,7 @@ namespace GruntzUnityverse.Ai {
     }
 
     private bool IsWithinAggroRange(Grunt grunt) {
-      return grunt.team == Team.Player &&
+      return grunt.team == Team.Player1 &&
         grunt.navigator.ownNode.location.x <= startingNode.location.x + aggroRange &&
         grunt.navigator.ownNode.location.x >= startingNode.location.x - aggroRange &&
         grunt.navigator.ownNode.location.y <= startingNode.location.y + aggroRange &&

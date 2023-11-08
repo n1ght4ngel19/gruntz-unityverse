@@ -7,6 +7,9 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
   /// This is needed since 
   /// </summary>
   public class SecretObject : MapObject {
+    public float delay;
+    public float duration;
+
     public bool isBlocked;
     public bool isBurn;
     public bool isDeath;
@@ -14,8 +17,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     public bool isHardTurn;
     public bool isVoid;
     public bool isWater;
-    public float delay;
-    public float duration;
+
     private bool _isInitiallyBlocked;
     private bool _isInitiallyBurn;
     private bool _isInitiallyDeath;
@@ -26,7 +28,7 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     private List<MapObject> _otherComponents;
     private bool _isInitialized;
 
-    private MapObject _sibling;
+    private List<MapObject> _siblings;
 
     private void Update() {
       if (!_isInitialized) {
@@ -43,27 +45,38 @@ namespace GruntzUnityverse.MapObjectz.BaseClasses {
     /// Activates the SecretObject.
     /// </summary>
     public void ActivateSecret() {
-      _sibling = GameManager.Instance.currentLevelManager.mapObjectz.First(mo => mo.location == location && mo != this);
-      _sibling.SetEnabled(false);
-      _isInitiallyBlocked = GameManager.Instance.currentLevelManager.IsBlockedAt(location);
-      _isInitiallyBurn = GameManager.Instance.currentLevelManager.IsBurnAt(location);
-      _isInitiallyDeath = GameManager.Instance.currentLevelManager.IsDeathAt(location);
-      _isInitiallyEdge = GameManager.Instance.currentLevelManager.IsEdgeAt(location);
-      _isInitiallyHardTurn = GameManager.Instance.currentLevelManager.IsHardTurnAt(location);
-      _isInitiallyVoid = GameManager.Instance.currentLevelManager.IsVoidAt(location);
-      _isInitiallyWater = GameManager.Instance.currentLevelManager.IsWaterAt(location);
-      _otherComponents.ForEach(mapObject => mapObject.enabled = true);
+      // Deactivate any other MapObjects that are at the same location.
+      _siblings = GameManager.Instance.currentLevelManager.mapObjectz.Where(mo => mo.location == location && mo != this).ToList();
+      _siblings.ForEach(sibling => sibling.SetEnabled(false));
+
+      _isInitiallyBlocked = ownNode.isBlocked;
+      _isInitiallyBurn = ownNode.isBurn;
+      _isInitiallyDeath = ownNode.isDeath;
+      _isInitiallyEdge = ownNode.isEdge;
+      _isInitiallyHardTurn = ownNode.isHardTurn;
+      _isInitiallyVoid = ownNode.isVoid;
+      _isInitiallyWater = ownNode.isWater;
+
+      // Enable Components other than the SecretObject (if there are any).
+      _otherComponents.ForEach(mapObject => mapObject.SetEnabled(true));
+
       SetEnabled(true);
 
-      GameManager.Instance.currentLevelManager.SetBlockedAt(location, isBlocked);
-      // Todo: Other Node flags
+      ownNode.isBlocked = isBlocked;
+      ownNode.isBurn = isBurn;
+      ownNode.isDeath = isDeath;
+      ownNode.isEdge = isEdge;
+      ownNode.isHardTurn = isHardTurn;
+      ownNode.isVoid = isVoid;
+      ownNode.isWater = isWater;
     }
 
     /// <summary>
     /// Deactivates the SecretObject.
     /// </summary>
     public void DeactivateSecret() {
-      _sibling.SetEnabled(true);
+      _siblings.ForEach(sibling => sibling.SetEnabled(true));
+
       GameManager.Instance.currentLevelManager.SetBlockedAt(location, _isInitiallyBlocked);
       GameManager.Instance.currentLevelManager.SetBurnAt(location, _isInitiallyBurn);
       GameManager.Instance.currentLevelManager.SetDeathAt(location, _isInitiallyDeath);

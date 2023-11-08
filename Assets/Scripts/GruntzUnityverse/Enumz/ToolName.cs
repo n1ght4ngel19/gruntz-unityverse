@@ -9,7 +9,7 @@
     Gauntletz = 6,
     GooberStraw = 7,
     GravityBootz = 8,
-    GunHat = 9,
+    Gunhat = 9,
     NerfGun = 10,
     Rockz = 11,
     Shield = 12,

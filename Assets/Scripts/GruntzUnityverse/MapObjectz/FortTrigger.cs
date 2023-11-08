@@ -13,7 +13,7 @@ namespace GruntzUnityverse.MapObjectz {
     }
 
     private void Update() {
-      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz) {
+      foreach (Grunt grunt in GameManager.Instance.currentLevelManager.player1Gruntz) {
         if (grunt.navigator.ownNode != ownNode || !grunt.HasTool(ToolName.Warpstone)) {
           continue;
         }

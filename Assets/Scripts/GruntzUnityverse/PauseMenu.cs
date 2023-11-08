@@ -86,8 +86,8 @@ namespace GruntzUnityverse {
     public void Load() {
       Debug.Log("Loading");
 
-      GameManager.Instance.currentLevelManager.playerGruntz.Clear();
-      GameManager.Instance.currentLevelManager.dizGruntled.Clear();
+      GameManager.Instance.currentLevelManager.player1Gruntz.Clear();
+      GameManager.Instance.currentLevelManager.ai1Gruntz.Clear();
       GameManager.Instance.currentLevelManager.allGruntz.Clear();
 
       GameManager.Instance.currentLevelManager.rollingBallz.Clear();
@@ -105,7 +105,7 @@ namespace GruntzUnityverse {
             g.saveData = data;
             g.hasSaveData = true;
 
-            g.transform.parent = g.team == Team.Player
+            g.transform.parent = g.team == Team.Player1
               ? GameManager.Instance.currentLevelManager.playerGruntzParent
               : GameManager.Instance.currentLevelManager.dizgruntledParent;
           };

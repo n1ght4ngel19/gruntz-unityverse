@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace GruntzUnityverse.Editor {
-  [CustomEditor(typeof(RollingBall))]
+  [CustomEditor(typeof(RollingBall), true), CanEditMultipleObjects]
   public class RollingBallEditor : UnityEditor.Editor {
     public override void OnInspectorGUI() {
       RollingBall inspected = (RollingBall)target;

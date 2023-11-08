@@ -7,6 +7,7 @@ using UnityEngine.AddressableAssets;
 namespace GruntzUnityverse.Managerz {
   public class AnimationManager : MonoBehaviour {
     public GruntAnimationPack barehandzGruntPack;
+    public GruntAnimationPack bricklayerGruntPack;
     public GruntAnimationPack clubGruntPack;
     public GruntAnimationPack gauntletzGruntPack;
     public GruntAnimationPack gooberStrawGruntPack;

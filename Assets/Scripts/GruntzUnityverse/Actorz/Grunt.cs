@@ -273,8 +273,8 @@ namespace GruntzUnityverse.Actorz {
       }
 
       if (GameManager.Instance.currentLevelManager.rollingBallz.Any(
-        ball => ball.ownNode == navigator.ownNode
-      )) {
+          ball => ball.ownNode == navigator.ownNode
+        )) {
         spriteRenderer.sortingLayerName = "AlwaysBottom";
 
         int randIdx = Random.Range(1, 7);
@@ -981,7 +981,7 @@ namespace GruntzUnityverse.Actorz {
       }
 
       navigator.ownLocation = Vector2Direction.max;
-      GameManager.Instance.currentLevelManager.playerGruntz.Remove(this);
+      GameManager.Instance.currentLevelManager.player1Gruntz.Remove(this);
       GameManager.Instance.currentLevelManager.allGruntz.Remove(this);
 
 
@@ -1025,15 +1025,13 @@ namespace GruntzUnityverse.Actorz {
         ToolName.Barehandz => GameManager.Instance.currentAnimationManager.barehandzGruntPack,
         ToolName.Bomb => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.Boomerang => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
-        ToolName.BoxingGlovez =>
-          throw new InvalidEnumArgumentException("Tool not yet implemented!"),
-        ToolName.Bricklayer => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.BoxingGlovez => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Bricklayer => GameManager.Instance.currentAnimationManager.bricklayerGruntPack,
         ToolName.Club => GameManager.Instance.currentAnimationManager.clubGruntPack,
         ToolName.Gauntletz => GameManager.Instance.currentAnimationManager.gauntletzGruntPack,
         ToolName.GooberStraw => GameManager.Instance.currentAnimationManager.gooberStrawGruntPack,
-        ToolName.GravityBootz =>
-          throw new InvalidEnumArgumentException("Tool not yet implemented!"),
-        ToolName.GunHat => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.GravityBootz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        ToolName.Gunhat => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.NerfGun => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.Rockz => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         ToolName.Shield => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
@@ -1057,7 +1055,7 @@ namespace GruntzUnityverse.Actorz {
         // ToolName.Bomb => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         // ToolName.Boomerang => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
         // ToolName.BoxingGlovez => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
-        // ToolName.Bricklayer => throw new InvalidEnumArgumentException("Tool not yet implemented!"),
+        nameof(Bricklayer) => GameManager.Instance.currentAnimationManager.bricklayerGruntPack,
         nameof(Club) => GameManager.Instance.currentAnimationManager.clubGruntPack,
         nameof(Gauntletz) => GameManager.Instance.currentAnimationManager.gauntletzGruntPack,
         nameof(GooberStraw) => GameManager.Instance.currentAnimationManager.gooberStrawGruntPack,
@@ -1135,7 +1133,12 @@ namespace GruntzUnityverse.Actorz {
 
     public IEnumerator PlayWithToy(ToyName toy) {
       state = GruntState.Playing;
+
+      staminaBar.spriteRenderer.enabled = false;
+      wingzTimeBar.spriteRenderer.enabled = false;
+
       toyTime = MaxStatValue;
+      toyTimeBar.spriteRenderer.enabled = true;
 
       float duration = 2f;
 
@@ -1170,15 +1173,7 @@ namespace GruntzUnityverse.Actorz {
           throw new ArgumentOutOfRangeException(nameof(toy), toy, null);
       }
 
-      staminaBar.spriteRenderer.enabled = false;
-      wingzTimeBar.spriteRenderer.enabled = false;
-
-      toyTime = MaxStatValue;
-      toyTimeBar.spriteRenderer.enabled = true;
-
-      if (toyTime == MaxStatValue) {
-        InvokeRepeating(nameof(RegenToyTime), 0, duration / MaxStatValue);
-      }
+      InvokeRepeating(nameof(RegenToyTime), 0, duration / MaxStatValue);
 
       yield return new WaitForSeconds(duration);
 
@@ -1237,7 +1232,7 @@ namespace GruntzUnityverse.Actorz {
 
       if (data.targetGruntId != -1) {
         targetGrunt =
-          GameManager.Instance.currentLevelManager.dizGruntled.First(
+          GameManager.Instance.currentLevelManager.ai1Gruntz.First(
             grunt => grunt.gruntId == data.targetGruntId
           );
       }
@@ -1251,10 +1246,10 @@ namespace GruntzUnityverse.Actorz {
       // Adding the Grunt to the LevelManager's appropriate lists
       GameManager.Instance.currentLevelManager.allGruntz.Add(this);
 
-      if (team == Team.Player) {
-        GameManager.Instance.currentLevelManager.playerGruntz.Add(this);
+      if (team == Team.Player1) {
+        GameManager.Instance.currentLevelManager.player1Gruntz.Add(this);
       } else {
-        GameManager.Instance.currentLevelManager.dizGruntled.Add(this);
+        GameManager.Instance.currentLevelManager.ai1Gruntz.Add(this);
       }
 
       // Setting the Grunt's color

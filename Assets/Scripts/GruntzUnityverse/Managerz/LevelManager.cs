@@ -49,8 +49,8 @@ namespace GruntzUnityverse.Managerz {
     #region Objectz
     // ----- Objectz -----
     [field: Header("Objectz & Actorz")]
-    public List<Grunt> playerGruntz;
-    public List<Grunt> dizGruntled;
+    public List<Grunt> player1Gruntz;
+    public List<Grunt> ai1Gruntz;
     public List<Grunt> allGruntz;
     public List<RollingBall> rollingBallz;
 
@@ -136,7 +136,7 @@ namespace GruntzUnityverse.Managerz {
         _ => 0f,
       };
 
-      foreach (Grunt grunt in playerGruntz) {
+      foreach (Grunt grunt in player1Gruntz) {
         grunt.enabled = false;
         StartCoroutine(grunt.Exit(idx, delay));
       }
@@ -213,6 +213,7 @@ namespace GruntzUnityverse.Managerz {
       }
 
       mapObjectContainer = GameObject.FindGameObjectWithTag("MapObjectContainer");
+
       mapObjectz = FindObjectsOfType<MapObject>()
         .Where(mo => mo.gameObject.GetComponent<SecretObject>() == null) // Filter Secret Objects
         .ToList();
@@ -318,14 +319,14 @@ namespace GruntzUnityverse.Managerz {
       foreach (Grunt grunt in FindObjectsOfType<Grunt>()) {
         grunt.gruntId = gruntIdCounter++;
 
-        if (grunt.team == Team.Player) {
+        if (grunt.team == Team.Player1) {
           grunt.playerGruntId = playerGruntIdCounter++;
         }
 
-        if (grunt.team.Equals(Team.Player)) {
-          playerGruntz.Add(grunt);
+        if (grunt.team.Equals(Team.Player1)) {
+          player1Gruntz.Add(grunt);
         } else {
-          dizGruntled.Add(grunt);
+          ai1Gruntz.Add(grunt);
         }
 
         allGruntz.Add(grunt);

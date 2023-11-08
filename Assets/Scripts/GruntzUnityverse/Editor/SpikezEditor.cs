@@ -11,7 +11,7 @@ namespace GruntzUnityverse.Editor {
       EditorGUILayout.LabelField("Object Id", inspected.objectId.ToString());
 
       GUILayout.BeginHorizontal();
-      EditorGUILayout.LabelField("Hidden Item", GUILayout.Width(100));
+      EditorGUILayout.LabelField("Damage", GUILayout.Width(100));
       inspected.damage = EditorGUILayout.IntSlider(inspected.damage, 0, 40);
       GUILayout.EndHorizontal();
     }

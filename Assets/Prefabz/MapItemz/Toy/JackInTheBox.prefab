@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &153827298434530461
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1934257392109653503, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8125
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934257392109653503, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_Size.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934257392109653503, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2025094611, guid: 6228cc985a1d92e4d86e4146c9f2c996, type: 3}
+    - target: {fileID: 1934257392109653503, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3863937857550272719, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_Name
+      value: JackInTheBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -15.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999952525336863592, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3863937857550272719, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4511190986104966681}
+  m_SourcePrefab: {fileID: 100100000, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+--- !u!1 &4016637053784912978 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3863937857550272719, guid: c096ebbe8d0435244a1cd08d6aeecbdf, type: 3}
+  m_PrefabInstance: {fileID: 153827298434530461}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4511190986104966681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016637053784912978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0312198994c43349f5dc6851e19d88a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  ownGrunt: {fileID: 0}
+  mapItemName: 
+  category: 
+  toyName: 0

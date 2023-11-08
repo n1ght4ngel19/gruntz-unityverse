@@ -42,7 +42,7 @@ namespace GruntzUnityverse {
         float minY = Mathf.Min(startPosition.y, endPosition.y);
         float maxY = Mathf.Max(startPosition.y, endPosition.y);
 
-        foreach (Grunt grunt in GameManager.Instance.currentLevelManager.playerGruntz) {
+        foreach (Grunt grunt in GameManager.Instance.currentLevelManager.player1Gruntz) {
           Vector3 gruntPoint = Camera.main.WorldToViewportPoint(grunt.transform.position);
 
           if (gruntPoint.x < minX

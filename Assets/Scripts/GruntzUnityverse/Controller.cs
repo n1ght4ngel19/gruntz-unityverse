@@ -180,7 +180,7 @@ namespace GruntzUnityverse {
       }
 
       switch (grunt.team) {
-        case Team.Player:
+        case Team.Player1:
           grunt.isSelected = true;
           grunt.selectedCircle.spriteRenderer.enabled = true;
 
@@ -201,7 +201,7 @@ namespace GruntzUnityverse {
           selectedGruntz.Add(grunt);
 
           break;
-        case Team.Ai:
+        case Team.Ai1:
           int enemySelectVoiceIndex = Random.Range(1, 12);
 
           Addressables.LoadAssetAsync<AudioClip>($"Voice_EnemySelect_{enemySelectVoiceIndex}.wav")
@@ -218,7 +218,7 @@ namespace GruntzUnityverse {
     public static void DeselectAllGruntz() {
       selectedGruntz.Clear();
 
-      GameManager.Instance.currentLevelManager.playerGruntz.ForEach(
+      GameManager.Instance.currentLevelManager.player1Gruntz.ForEach(
         grunt => {
           grunt.isSelected = false;
           grunt.selectedCircle.spriteRenderer.enabled = false;
@@ -270,10 +270,10 @@ namespace GruntzUnityverse {
       }
 
       if (alphaKeyPressed == 0) {
-        GameManager.Instance.currentLevelManager.playerGruntz.ForEach(SelectGrunt);
+        GameManager.Instance.currentLevelManager.player1Gruntz.ForEach(SelectGrunt);
       } else {
         Grunt gruntToSelect =
-          GameManager.Instance.currentLevelManager.playerGruntz.FirstOrDefault(
+          GameManager.Instance.currentLevelManager.player1Gruntz.FirstOrDefault(
             grunt => grunt.playerGruntId == alphaKeyPressed
           );
 
