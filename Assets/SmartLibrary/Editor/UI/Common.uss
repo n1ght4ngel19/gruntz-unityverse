@@ -1,0 +1,145 @@
+﻿/*****************************************************************************/
+/* General */
+/*****************************************************************************/
+.bewildered-renamable-label {
+    height: 18px;
+    padding-left: 3px;
+    padding-bottom: 1px;
+    -unity-text-align: middle-left;
+}
+
+.bewildered-renamable-label > .unity-text-field {
+    flex-grow: 1;
+    left: -3px;
+    margin-left: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.unity-toolbar-spacer {
+    flex-grow: 1;
+}
+
+.bewildered-icon-button {
+    padding-left: 4px;
+    padding-right: 4px;
+    justify-content: center;
+}
+
+.bewildered-library-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.bewildered-list-view__drag_bar {
+    position: absolute;
+    height: 2px;
+}
+
+.unity-base-field__inspector-field {
+    margin-right: 3px;
+}
+
+/*****************************************************************************/
+/* Tree View */
+/*****************************************************************************/
+.bewildered-tree-view__item > .bewildered-tree-view__item-indents-container {
+    flex-direction: row;
+}
+
+.bewildered-tree-view__item > .bewildered-tree-view__item-indents-container > .bewildered-tree-view__item-indent {
+    width: 12px;
+}
+
+/*****************************************************************************/
+/* Folder Field */
+/*****************************************************************************/
+.bewildered-folder-field {
+    flex-shrink: 1;
+}
+
+.bewildered-folder-field__input {
+    flex-direction: row;
+    border-width: 1px;
+    border-radius: 3px;
+}
+
+.bewildered-folder-field__folder {
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 0%;
+}
+
+/*.bewildered-folder-field__selector {*/
+/*    flex-shrink: 0;*/
+/*    align-self: center;*/
+/*    width: 18px;*/
+/*    height: 18px;*/
+/*    padding: 3px 3px 3px 3px;*/
+/*}*/
+.bewildered-folder-field__selector {
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+.bewildered-folder-field-display__label {
+    margin-left: 2px;
+    padding: 1px 2px 0px 0px;
+    flex-grow: 1;
+    flex-basis: 0%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -unity-text-overflow-position: start;
+}
+
+.bewildered-folder-field-display__icon {
+    margin: 2px 0px 2px 0px;
+    padding: 0px 0px 0px 2px;
+    flex-shrink: 0;
+    align-self: center;
+    max-width: 14px;
+    max-height: 12px;
+}
+
+/*****************************************************************************/
+/* Collection Field */
+/*****************************************************************************/
+.bewildered-collection-field {
+    flex-shrink: 1;
+}
+
+.bewildered-collection-field__input {
+    flex-direction: row;
+    border-width: 1px;
+    border-radius: 3px;
+}
+
+.bewildered-collection-field__collection {
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.bewildered-collection-field__selector {
+    flex-shrink: 0;
+    align-self: center;
+    width: 18px;
+    height: 18px;
+    padding: 3px 3px 3px 3px;
+}
+
+.bewildered-collection-field-display__label {
+    margin-left: 2px;
+    padding: 1px 16px 0px 0px;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.bewildered-collection-field-display__icon {
+    margin: 2px 0px 2px 0px;
+    padding: 0px 0px 0px 2px;
+    flex-shrink: 0;
+    align-self: center;
+    max-width: 14px;
+    max-height: 12px;
+}

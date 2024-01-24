@@ -50,6 +50,7 @@ namespace GruntzUnityverse.Managerz {
     // ----- Objectz -----
     [field: Header("Objectz & Actorz")]
     public List<Grunt> player1Gruntz;
+
     public List<Grunt> ai1Gruntz;
     public List<Grunt> allGruntz;
     public List<RollingBall> rollingBallz;
@@ -57,13 +58,7 @@ namespace GruntzUnityverse.Managerz {
     [field: SerializeField] public List<BrickContainer> BrickContainerz { get; set; }
     [field: SerializeField] public List<BrickFoundation> BrickFoundationz { get; set; }
     [field: SerializeField] public List<BrickColumn> BrickColumnz { get; set; }
-    [field: SerializeField] public List<BlackPyramid> BlackPyramidz { get; set; }
-    [field: SerializeField] public List<CheckpointPyramid> CheckpointPyramidz { get; set; }
-    [field: SerializeField] public List<GreenPyramid> GreenPyramidz { get; set; }
-    [field: SerializeField] public List<OrangePyramid> OrangePyramidz { get; set; }
-    [field: SerializeField] public List<PurplePyramid> PurplePyramidz { get; set; }
     [field: SerializeField] public List<RedPyramid> RedPyramidz { get; set; }
-    [field: SerializeField] public List<SilverPyramid> SilverPyramidz { get; set; }
 
     [field: SerializeField] public List<OrangeSwitch> OrangeSwitchez { get; set; }
     [field: SerializeField] public List<Rock> Rockz { get; set; }
@@ -218,9 +213,11 @@ namespace GruntzUnityverse.Managerz {
         .Where(mo => mo.gameObject.GetComponent<SecretObject>() == null) // Filter Secret Objects
         .ToList();
 
-      mapObjectz.ForEach(obj => {
-        obj.Setup();
-      });
+      mapObjectz.ForEach(
+        obj => {
+          obj.Setup();
+        }
+      );
     }
 
     private void AssignLayerz() {
@@ -274,32 +271,8 @@ namespace GruntzUnityverse.Managerz {
 
     // Todo: Move to individual object classes?
     private void CollectObjectz() {
-      foreach (BlackPyramid pyramid in FindObjectsOfType<BlackPyramid>()) {
-        BlackPyramidz.Add(pyramid);
-      }
-
-      foreach (CheckpointPyramid pyramid in FindObjectsOfType<CheckpointPyramid>()) {
-        CheckpointPyramidz.Add(pyramid);
-      }
-
-      foreach (GreenPyramid pyramid in FindObjectsOfType<GreenPyramid>()) {
-        GreenPyramidz.Add(pyramid);
-      }
-
-      foreach (OrangePyramid pyramid in FindObjectsOfType<OrangePyramid>()) {
-        OrangePyramidz.Add(pyramid);
-      }
-
-      foreach (PurplePyramid pyramid in FindObjectsOfType<PurplePyramid>()) {
-        PurplePyramidz.Add(pyramid);
-      }
-
       foreach (RedPyramid pyramid in FindObjectsOfType<RedPyramid>()) {
         RedPyramidz.Add(pyramid);
-      }
-
-      foreach (SilverPyramid pyramid in FindObjectsOfType<SilverPyramid>()) {
-        SilverPyramidz.Add(pyramid);
       }
 
       foreach (OrangeSwitch sw in FindObjectsOfType<OrangeSwitch>()) {

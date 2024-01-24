@@ -67,17 +67,11 @@ namespace GruntzUnityverse.Pathfinding {
 
           // When neighbour is diagonal to the current node, and there is a hard-turn object on the side, skip this neighbour
           if (neighbour.IsDiagonalTo(currentNode)) {
-            bool shouldContinue = false;
-
-            foreach (Node neighboursNeighbour in neighbour.Neighbours) {
-              if (neighboursNeighbour.IsOrthogonalTo(neighbour)
+            bool shouldContinue = neighbour.Neighbours.Any(
+              neighboursNeighbour => neighboursNeighbour.IsOrthogonalTo(neighbour)
                 && neighboursNeighbour.isHardTurn
-                && currentNode.Neighbours.Contains(neighboursNeighbour)) {
-                shouldContinue = true;
-
-                break;
-              }
-            }
+                && currentNode.Neighbours.Contains(neighboursNeighbour)
+            );
 
             if (shouldContinue) {
               continue;

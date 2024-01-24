@@ -9,18 +9,13 @@ TagManager:
   - ForegroundEyeCandy
   - Inaccessible
   - Blocked
-  - ToolzValueText
   - Immovable
   - NodeContainer
   - MapObjectContainer
-  - Text
-  - PowerupzValueText
-  - ToyzValueText
-  - DeathzValueText
-  - SurvivorzValueText
-  - TimeValueText
-  - CoinzValueText
-  - SecretzValueText
+  - Background
+  - MainMap
+  - Level
+  - NodeGrid
   layers:
   - Default
   - TransparentFX
@@ -57,6 +52,9 @@ TagManager:
   m_SortingLayers:
   - name: Level
     uniqueID: 2614105281
+    locked: 0
+  - name: Actorz
+    uniqueID: 3791120955
     locked: 0
   - name: AlwaysBottom
     uniqueID: 3924224017

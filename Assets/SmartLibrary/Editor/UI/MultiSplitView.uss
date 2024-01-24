@@ -1,0 +1,56 @@
+.bewildered-multi-split-view {
+    flex-grow: 1;
+}
+
+.bewildered-multi-split-view__panes-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.bewildered-multi-split-view__dividers-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.bewildered-multi-split-view__divider-anchor {
+    position: absolute;
+    background-color: rgb(35, 35, 35);
+}
+
+.bewildered-multi-split-view__divider-anchor-vertical {
+    height: 1px;
+    left: 0;
+    right: 0;
+}
+
+.bewildered-multi-split-view__divider-anchor-horizontal {
+    width: 1px;
+    top: 0;
+    bottom: 0;
+}
+
+.bewildered-multi-split-view__divider {
+    position: absolute;
+}
+
+.bewildered-multi-split-view__divider-anchor-vertical > .bewildered-multi-split-view__divider {
+    height: 10px;
+    top: -5px;
+    left: 0px;
+    right: 0px;
+    cursor: resize-vertical;
+}
+
+.bewildered-multi-split-view__divider-anchor-horizontal > .bewildered-multi-split-view__divider {
+    width: 10px;
+    left: -5px;
+    top: 0px;
+    bottom: 0px;
+    cursor: resize-horizontal;
+}
