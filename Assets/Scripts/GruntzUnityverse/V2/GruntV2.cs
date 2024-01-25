@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Animancer;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.V2.DataPersistence;
+using GruntzUnityverse.V2.Objectz;
+using GruntzUnityverse.V2.Utils;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2 {
-  public class GruntV2 : MonoBehaviour, IGridObject {
+  public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 
     #region Pathfinder Testing
     [Header("Pathfinder Testing")]
@@ -35,12 +38,14 @@ namespace GruntzUnityverse.V2 {
     /// <summary>
     /// The statz of this Grunt, such as health or stamina. 
     /// </summary>
-    public Statz statz;
+    private Statz _statz;
 
     /// <summary>
     /// The flagz representing the current state of this Grunt.
     /// </summary>
-    public Flagz flagz;
+    private Flagz _flagz;
+
+    public bool Selected => _flagz.selected;
 
     /// <summary>
     /// The attribute barz of this Grunt.
@@ -52,6 +57,7 @@ namespace GruntzUnityverse.V2 {
     /// <summary>
     /// The navigator responsible for movement and pathfinding.
     /// </summary>
+    [Header("Navigation")]
     public Navigator navigator;
 
     /// <summary>
@@ -63,17 +69,14 @@ namespace GruntzUnityverse.V2 {
     #region Animation
     [Header("Animation")]
     public AnimancerComponent animancer;
+
     public AnimationClip idle;
     #endregion
 
     public GameObject selectionMarker;
 
-    // --------------------------------------------------
-    // IGridObject
-    // --------------------------------------------------
-    public Vector2Int Location2D { get; set; }
-
-    private void Awake() {
+    private void Start() {
+      Guid = System.Guid.NewGuid().ToString();
       animancer.Play(idle);
     }
 
@@ -82,16 +85,12 @@ namespace GruntzUnityverse.V2 {
     }
 
     private void UpdateLocation() {
-      Location2D = Vector2Int.RoundToInt(transform.position);
+      location2D = Vector2Int.RoundToInt(transform.position);
     }
 
-    public void Select(bool doSelect) {
+    public void SetSelected(bool value) {
       // Debug.Log($"You selected me, {gruntName}!");
-      flagz.selected = doSelect;
-    }
-
-    public void Deselect() {
-      flagz.selected = false;
+      _flagz.selected = value;
     }
 
     public void Move(Vector2Int target) {
@@ -104,7 +103,7 @@ namespace GruntzUnityverse.V2 {
     }
 
     public void TestPathfinding() {
-      System.DateTime startTime = System.DateTime.Now;
+      DateTime startTime = DateTime.Now;
 
       foreach (NodeV2 nodeV2 in startNode.transform.parent.GetComponentsInChildren<NodeV2>().ToHashSet()) {
         nodeV2.GetComponent<SpriteRenderer>().material = white;
@@ -123,7 +122,7 @@ namespace GruntzUnityverse.V2 {
       }
 
       Debug.Log(
-        $"Pathfinding took {(System.DateTime.Now - startTime).TotalMilliseconds}ms or {(System.DateTime.Now - startTime).TotalMilliseconds / 1000}s"
+        $"Pathfinding took {(DateTime.Now - startTime).TotalMilliseconds}ms or {(DateTime.Now - startTime).TotalMilliseconds / 1000}s"
       );
 
       foreach (NodeV2 node in path) {
@@ -133,5 +132,51 @@ namespace GruntzUnityverse.V2 {
       startNode.GetComponent<SpriteRenderer>().material = red;
       endNode.GetComponent<SpriteRenderer>().material = blue;
     }
+
+    // --------------------------------------------------
+    // IDataPersistence
+    // --------------------------------------------------
+    public string Guid { get; set; }
+
+    /// <summary>
+    /// Saves the data to a GruntDataV2 object.
+    /// </summary>
+    /// <param name="data"></param>
+    public void Save(ref GameData data) {
+      GruntDataV2 saveData = new GruntDataV2 {
+        guid = Guid,
+        gruntName = gruntName,
+        position = transform.position,
+      };
+
+      data.gruntData.SafeAdd(saveData);
+
+      Debug.Log($"Saving {gruntName} at {transform.position} with GUID {Guid}");
+    }
+
+    // ?Unnecessary
+    public void Load(GameData data) {
+      // GruntDataV2 loadData = data.gruntData.First(); // Remove the data from the list so it doesn't get loaded again
+      //
+      // Guid = loadData.guid;
+      // gruntName = loadData.gruntName;
+      // transform.position = loadData.position;
+    }
+
+    /// <summary>
+    /// Loads the data from a GruntDataV2 object.
+    /// </summary>
+    /// <param name="data"></param>
+    public void Load(GruntDataV2 data) {
+      Guid = data.guid;
+      gruntName = data.gruntName;
+      // transform.position = data.position;
+    }
+
+    // --------------------------------------------------
+    // IAnimatable
+    // --------------------------------------------------
+    public Animator Animator { get; set; }
+    public AnimancerComponent Animancer { get; set; }
   }
 }

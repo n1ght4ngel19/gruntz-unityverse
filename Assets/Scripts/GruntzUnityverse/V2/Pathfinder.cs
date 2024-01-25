@@ -37,7 +37,7 @@ namespace GruntzUnityverse.V2 {
 
         // Debug coloring
         if (debug) {
-          all.First(node => node.Location2D == current.Location2D)
+          all.First(node => node.location2D == current.location2D)
             .GetComponent<SpriteRenderer>()
             .material = debugColor;
         }
@@ -86,8 +86,8 @@ namespace GruntzUnityverse.V2 {
     }
 
     private static int Euclidean(NodeV2 start, NodeV2 end) {
-      int dxE = Math.Abs(start.Location2D.x - end.Location2D.x);
-      int dyE = Math.Abs(start.Location2D.y - end.Location2D.y);
+      int dxE = Math.Abs(start.location2D.x - end.location2D.x);
+      int dyE = Math.Abs(start.location2D.y - end.location2D.y);
 
       // Euclidean distance
       int euclideanDistance = (int)Math.Sqrt(dxE * dxE + dyE * dyE);
@@ -97,13 +97,13 @@ namespace GruntzUnityverse.V2 {
 
     private static int Chebyshev(NodeV2 start, NodeV2 end) {
       return Math.Max(
-        Math.Abs(start.Location2D.x - end.Location2D.x),
-        Math.Abs(start.Location2D.y - end.Location2D.y)
+        Math.Abs(start.location2D.x - end.location2D.x),
+        Math.Abs(start.location2D.y - end.location2D.y)
       );
     }
 
     private static int Manhattan(NodeV2 start, NodeV2 end) {
-      return Math.Abs(start.Location2D.x - end.Location2D.x) + Math.Abs(start.Location2D.y - end.Location2D.y);
+      return Math.Abs(start.location2D.x - end.location2D.x) + Math.Abs(start.location2D.y - end.location2D.y);
     }
 
     /// <summary>

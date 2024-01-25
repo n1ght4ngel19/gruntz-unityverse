@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using GruntzUnityverse.V2.Objectz;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2 {
   /// <summary>
   /// Custom representation of a node used for pathfinding.
   /// </summary>
-  public class NodeV2 : MonoBehaviour, IGridObject {
+  public class NodeV2 : GridObject {
 
     #region Pathfinding
     // --------------------------------------------------
@@ -33,17 +32,21 @@ namespace GruntzUnityverse.V2 {
     /// <summary>
     /// Total cost (g + h).
     /// </summary>
-    public int F {
-      get => g + h;
-    }
+    public int F => g + h;
 
     /// <summary>
     /// The neighbours of this NodeV2.
     /// </summary>  
     public List<NodeV2> neighbours;
 
+    /// <summary>
+    /// The diagonal neighbours of this NodeV2.
+    /// </summary>
     public List<NodeV2> diagonalNeighbours;
 
+    /// <summary>
+    /// The orthogonal neighbours of this NodeV2.
+    /// </summary>
     public List<NodeV2> orthogonalNeighbours;
 
     /// <summary>
@@ -83,12 +86,6 @@ namespace GruntzUnityverse.V2 {
 
     public TileType tileType;
 
-    // --------------------------------------------------
-    // IGridObject
-    // --------------------------------------------------
-    [field: SerializeField]
-    public Vector2Int Location2D { get; set; }
-
     /// <summary>
     /// Sets up this NodeV2 with the given parameters.
     /// </summary>
@@ -97,12 +94,16 @@ namespace GruntzUnityverse.V2 {
     /// <param name="nodes">The list of all nodes in the grid.</param>
     public void Setup(Vector3Int position, string tileName, List<NodeV2> nodes) {
       transform.position = position - Vector3Int.one / 2;
-      Location2D = new Vector2Int(position.x, position.y);
-      AssignType(tileName);
+      location2D = new Vector2Int(position.x, position.y);
+      AssignTileType(tileName);
       nodes.Add(this);
     }
 
-    public void AssignType(string tileName) {
+    /// <summary>
+    /// Assigns the tile type of this NodeV2 based on the given tile name.
+    /// </summary>
+    /// <param name="tileName"></param>
+    private void AssignTileType(string tileName) {
       if (tileName.Contains("Ground")) {
         tileType = TileType.Ground;
       } else if (tileName.Contains("Collision")) {
@@ -118,31 +119,30 @@ namespace GruntzUnityverse.V2 {
       }
     }
 
-    public bool IsDiagonalTo(NodeV2 toCheck) {
-      return Math.Abs(toCheck.Location2D.x - Location2D.x) != 0
-        && Math.Abs(toCheck.Location2D.y - Location2D.y) != 0;
-    }
-
-    public bool IsSameRowOrColumnAs(NodeV2 toCheck) {
-      return toCheck.Location2D.x == Location2D.x
-        || toCheck.Location2D.y == Location2D.y;
-    }
-
+    /// <summary>
+    /// Returns whether this NodeV2 can be reached diagonally from the given NodeV2.
+    /// </summary>
+    /// <param name="toCheck"></param>
+    /// <returns></returns>
     public bool CannotReachDiagonally(NodeV2 toCheck) {
       return IsDiagonalTo(toCheck)
         && neighbours.Any(n => n.hardCorner && toCheck.neighbours.Contains(n));
     }
 
+    /// <summary>
+    /// Assigns the neighbours of this NodeV2 based from the given list of nodes.
+    /// </summary>
+    /// <param name="nodes"></param>
     public void AssignNeighbours(List<NodeV2> nodes) {
       neighbourSet = new NeighbourSet {
-        up = nodes.FirstOrDefault(n => n.Location2D == Location2D + Vector2Int.up),
-        upRight = nodes.FirstOrDefault(n => n.Location2D == Location2D + Vector2Int.up + Vector2Int.right),
-        right = nodes.FirstOrDefault(n => n.Location2D == Location2D + Vector2Int.right),
-        downRight = nodes.FirstOrDefault(n => n.Location2D == Location2D + Vector2Int.down + Vector2Int.right),
-        down = nodes.FirstOrDefault(n => n.Location2D == Location2D + Vector2Int.down),
-        downLeft = nodes.FirstOrDefault(n => n.Location2D == Location2D + Vector2Int.down + Vector2Int.left),
-        left = nodes.FirstOrDefault(n => n.Location2D == Location2D + Vector2Int.left),
-        upLeft = nodes.FirstOrDefault(n => n.Location2D == Location2D + Vector2Int.up + Vector2Int.left),
+        up = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.up),
+        upRight = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.up + Vector2Int.right),
+        right = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.right),
+        downRight = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.down + Vector2Int.right),
+        down = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.down),
+        downLeft = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.down + Vector2Int.left),
+        left = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.left),
+        upLeft = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.up + Vector2Int.left),
       };
 
       neighbours = neighbourSet.AsList();

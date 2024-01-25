@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.V2.DataPersistence;
 using InfinityCode.Observers;
 using UnityEngine;
 
@@ -17,18 +18,17 @@ namespace GruntzUnityverse.V2 {
     }
 
     private void OnSelect() {
-      Debug.Log("OnSelect");
       selectedGruntz.Clear();
 
-      if (gruntz.Value.Any(grunt => grunt.Location2D == selector.location2D)) {
+      if (gruntz.Value.Any(grunt => grunt.location2D == selector.location2D)) {
         Debug.Log("Selecting");
       }
 
       gruntz.Value.ForEach(
         grunt => {
-          grunt.Select(grunt.Location2D == selector.location2D);
+          grunt.SetSelected(grunt.location2D == selector.location2D);
 
-          if (grunt.flagz.selected) {
+          if (grunt.Selected) {
             selectedGruntz.Add(grunt);
           }
         }
@@ -36,18 +36,15 @@ namespace GruntzUnityverse.V2 {
     }
 
     private void OnMove() {
-      Debug.Log("OnMove");
       Vector2Int target = Vector2Int.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
       gruntz.Value
-        .Where(grunt => grunt.flagz.selected)
+        .Where(grunt => grunt.Selected)
         .ToList()
         .ForEach(grunt => grunt.Move(target));
     }
 
     private void OnAction() {
-      Debug.Log("OnAction");
-
       // gruntz.Value
       //   .Where(grunt => grunt.flagz.selected)
       //   .ToList()
@@ -55,12 +52,18 @@ namespace GruntzUnityverse.V2 {
     }
 
     private void OnGive() {
-      Debug.Log("OnGive");
-
       // gruntz.Value
       //   .Where(grunt => grunt.flagz.selected)
       //   .ToList()
       //   .ForEach(grunt => grunt.Give());
+    }
+
+    private void OnSaveGame() {
+      DataPersistenceManager.Instance.SaveGame();
+    }
+
+    private void OnLoadGame() {
+      DataPersistenceManager.Instance.LoadGame();
     }
 
     private bool CompareVector2Int(Vector3 a, Vector3 b) {

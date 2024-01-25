@@ -33,8 +33,8 @@ namespace GruntzUnityverse.V2 {
           }
 
           // Prune neighbour, if possible
-          int dx = neighbour.Location2D.x - current.Location2D.x;
-          int dy = neighbour.Location2D.y - current.Location2D.y;
+          int dx = neighbour.location2D.x - current.location2D.x;
+          int dy = neighbour.location2D.y - current.location2D.y;
 
           if (dx != 0 && dy != 0) {
             PruneForcedNeighbours(current, neighbour, nodes, closedSet);
@@ -63,8 +63,8 @@ namespace GruntzUnityverse.V2 {
     }
 
     private static void PruneForcedNeighbours(NodeV2 current, NodeV2 neighbour, HashSet<NodeV2> nodes, HashSet<NodeV2> closedSet) {
-      int dx = neighbour.Location2D.x - current.Location2D.x;
-      int dy = neighbour.Location2D.y - current.Location2D.y;
+      int dx = neighbour.location2D.x - current.location2D.x;
+      int dy = neighbour.location2D.y - current.location2D.y;
 
       // Cardinal move
       if (dx == 0 || dy == 0) {
@@ -83,7 +83,7 @@ namespace GruntzUnityverse.V2 {
     }
 
     private static NodeV2 GetNode(int x, int y, HashSet<NodeV2> nodes) {
-      return nodes.FirstOrDefault(node => node.Location2D.x == x && node.Location2D.y == y);
+      return nodes.FirstOrDefault(node => node.location2D.x == x && node.location2D.y == y);
     }
 
     private static List<NodeV2> RetracePath(NodeV2 start, NodeV2 goal) {
@@ -101,8 +101,8 @@ namespace GruntzUnityverse.V2 {
     }
 
     public static int Heuristic(NodeV2 node1, NodeV2 node2) {
-      return Math.Abs(node1.Location2D.x - node2.Location2D.x)
-        + Math.Abs(node1.Location2D.y - node2.Location2D.y);
+      return Math.Abs(node1.location2D.x - node2.location2D.x)
+        + Math.Abs(node1.location2D.y - node2.location2D.y);
     }
   }
 }
