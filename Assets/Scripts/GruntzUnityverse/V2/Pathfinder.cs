@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Graphs;
 using UnityEngine;
 using Utils;
 
@@ -9,6 +10,7 @@ namespace GruntzUnityverse.V2 {
   /// Pathfinder class incorporating multiple pathfinding algorithms (possibly).
   /// </summary>
   public static class Pathfinder {
+    public static Color yellow = new Color(255, 255, 0);
     /// <summary>
     /// A* search algorithm.
     /// </summary>
@@ -16,7 +18,7 @@ namespace GruntzUnityverse.V2 {
     /// <param name="end">The NodeV2 to end the search at.</param>
     /// <param name="all">All nodes in the given context.</param>
     /// <returns>A list of nodes representing the path from start to end.</returns>
-    public static List<NodeV2> AstarSearch(NodeV2 start, NodeV2 end, HashSet<NodeV2> all, bool debug, Material debugColor) {
+    public static List<NodeV2> AstarSearch(NodeV2 start, NodeV2 end, HashSet<NodeV2> all) {
       PriorityQueue<NodeV2, int> openSet = new PriorityQueue<NodeV2, int>();
       HashSet<NodeV2> closedSet = new HashSet<NodeV2>();
       int counter = 0;
@@ -36,11 +38,11 @@ namespace GruntzUnityverse.V2 {
         NodeV2 current = openSet.Dequeue();
 
         // Debug coloring
-        if (debug) {
-          all.First(node => node.location2D == current.location2D)
-            .GetComponent<SpriteRenderer>()
-            .material = debugColor;
-        }
+        // if (debug) {
+        //   all.First(node => node.location2D == current.location2D)
+        //     .GetComponent<SpriteRenderer>()
+        //     .material = debugColor;
+        // }
 
         counter++;
 

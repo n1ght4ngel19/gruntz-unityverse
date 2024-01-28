@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.V2.DataPersistence {
   public class DataPersistenceManager : MonoBehaviour {
@@ -36,6 +37,11 @@ namespace GruntzUnityverse.V2.DataPersistence {
     private void Start() {
       currentGameData = new GameData();
       _fileDataHandler = new FileDataHandler(Application.persistentDataPath, dataFileName);
+      gruntzTransform = GameObject.Find("Gruntz").transform;
+
+      Addressables.LoadAssetAsync<GruntV2>("BaseGrunt.prefab").Completed += handle => {
+        baseGrunt = handle.Result;
+      };
     }
 
     /// <summary>
@@ -109,6 +115,20 @@ namespace GruntzUnityverse.V2.DataPersistence {
         .ToList();
 
       toDestroy.ForEach(mb => Destroy(mb.gameObject));
+    }
+
+    [ContextMenu("Generate GUIDs")]
+    public void GenerateGuids() {
+      List<IDataPersistence> list = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+        .OfType<IDataPersistence>()
+        .ToList();
+
+      list.ForEach(
+        dpo => {
+          dpo.Guid = Guid.NewGuid().ToString();
+          Debug.Log($"Generated GUID {dpo.Guid} for {dpo}");
+        }
+      );
     }
   }
 }

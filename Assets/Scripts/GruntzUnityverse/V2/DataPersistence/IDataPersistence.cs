@@ -5,5 +5,7 @@
     void Load(GameData data);
 
     void Save(ref GameData data);
+
+    void GenerateGuid();
   }
 }

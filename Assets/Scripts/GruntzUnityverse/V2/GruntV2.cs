@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Animancer;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.V2.DataPersistence;
 using GruntzUnityverse.V2.Objectz;
 using GruntzUnityverse.V2.Utils;
@@ -10,20 +8,6 @@ using UnityEngine;
 
 namespace GruntzUnityverse.V2 {
   public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
-
-    #region Pathfinder Testing
-    [Header("Pathfinder Testing")]
-    public bool colorDebug;
-
-    public NodeV2 startNode;
-    public NodeV2 endNode;
-
-    public Material white;
-    public Material green;
-    public Material red;
-    public Material blue;
-    public Material yellow;
-    #endregion
 
     #region Statz
     // --------------------------------------------------
@@ -38,14 +22,12 @@ namespace GruntzUnityverse.V2 {
     /// <summary>
     /// The statz of this Grunt, such as health or stamina. 
     /// </summary>
-    private Statz _statz;
+    public Statz statz;
 
     /// <summary>
     /// The flagz representing the current state of this Grunt.
     /// </summary>
-    private Flagz _flagz;
-
-    public bool Selected => _flagz.selected;
+    public Flagz flagz;
 
     /// <summary>
     /// The attribute barz of this Grunt.
@@ -58,7 +40,7 @@ namespace GruntzUnityverse.V2 {
     /// The navigator responsible for movement and pathfinding.
     /// </summary>
     [Header("Navigation")]
-    public Navigator navigator;
+    public NavigatorV2 navigator;
 
     /// <summary>
     /// The location of the this Grunt's target on the grid.
@@ -66,73 +48,110 @@ namespace GruntzUnityverse.V2 {
     public Vector2Int targetLocation2D;
     #endregion
 
-    #region Animation
-    [Header("Animation")]
-    public AnimancerComponent animancer;
+    #region Componentz
+    // --------------------------------------------------
+    // Componentz
+    // --------------------------------------------------
+    public GameObject selectionMarker;
+    #endregion
 
+    #region Animation
+    // --------------------------------------------------
+    // Animation
+    // --------------------------------------------------
     public AnimationClip idle;
     #endregion
 
-    public GameObject selectionMarker;
+    #region Events
+    // --------------------------------------------------
+    // Events
+    // --------------------------------------------------
+    protected override void Awake() {
+      base.Awake();
+
+      Animator = GetComponent<Animator>();
+      Animancer = GetComponent<AnimancerComponent>();
+    }
 
     private void Start() {
-      Guid = System.Guid.NewGuid().ToString();
-      animancer.Play(idle);
+      Animancer.Play(idle);
     }
 
     private void Update() {
       UpdateLocation();
     }
+    #endregion
 
+    /// <summary>
+    /// Updates the location of the Grunt.
+    /// </summary>
     private void UpdateLocation() {
       location2D = Vector2Int.RoundToInt(transform.position);
     }
 
+    /// <summary>
+    /// Sets the selected state of the Grunt.
+    /// </summary>
+    /// <param name="value">The state to set.</param>
     public void SetSelected(bool value) {
       // Debug.Log($"You selected me, {gruntName}!");
-      _flagz.selected = value;
+      flagz.selected = value;
     }
 
+    /// <summary>
+    /// Moves the Grunt to the given location.
+    /// </summary>
+    /// <param name="target">The location to move to.</param>
     public void Move(Vector2Int target) {
       Debug.Log($"Moving {gruntName} to {targetLocation2D}");
       SetTargetLocation(target);
+
+      List<NodeV2> path = Pathfinder.AstarSearch(
+        navigator.node,
+        navigator.targetNode,
+        GM.Instance.level.levelNodes.ToHashSet()
+      );
     }
 
     public void SetTargetLocation(Vector2Int target) {
       targetLocation2D = target;
     }
 
-    public void TestPathfinding() {
-      DateTime startTime = DateTime.Now;
+    // /// <summary>
+    // /// For testing purposes.
+    // /// </summary>
+    // public void TestPathfinding() {
+    //   DateTime startTime = DateTime.Now;
+    //
+    //   foreach (NodeV2 nodeV2 in startNode.transform.parent.GetComponentsInChildren<NodeV2>().ToHashSet()) {
+    //     nodeV2.GetComponent<SpriteRenderer>().material = white;
+    //   }
+    //
+    //   if (path.Count <= 0) {
+    //     return;
+    //   }
+    //
+    //   Debug.Log(
+    //     $"Pathfinding took {(DateTime.Now - startTime).TotalMilliseconds}ms or {(DateTime.Now - startTime).TotalMilliseconds / 1000}s"
+    //   );
+    //
+    //   foreach (NodeV2 node in path) {
+    //     node.GetComponent<SpriteRenderer>().material = green;
+    //   }
+    //
+    //   startNode.GetComponent<SpriteRenderer>().material = red;
+    //   endNode.GetComponent<SpriteRenderer>().material = blue;
+    // }
 
-      foreach (NodeV2 nodeV2 in startNode.transform.parent.GetComponentsInChildren<NodeV2>().ToHashSet()) {
-        nodeV2.GetComponent<SpriteRenderer>().material = white;
-      }
+    #region IAnimatable
+    // --------------------------------------------------
+    // IAnimatable
+    // --------------------------------------------------
+    public Animator Animator { get; set; }
+    public AnimancerComponent Animancer { get; set; }
+    #endregion
 
-      List<NodeV2> path = Pathfinder.AstarSearch(
-        startNode,
-        endNode,
-        startNode.transform.parent.GetComponentsInChildren<NodeV2>().ToHashSet(),
-        colorDebug,
-        yellow
-      );
-
-      if (path.Count <= 0) {
-        return;
-      }
-
-      Debug.Log(
-        $"Pathfinding took {(DateTime.Now - startTime).TotalMilliseconds}ms or {(DateTime.Now - startTime).TotalMilliseconds / 1000}s"
-      );
-
-      foreach (NodeV2 node in path) {
-        node.GetComponent<SpriteRenderer>().material = green;
-      }
-
-      startNode.GetComponent<SpriteRenderer>().material = red;
-      endNode.GetComponent<SpriteRenderer>().material = blue;
-    }
-
+    #region IDataPersistence
     // --------------------------------------------------
     // IDataPersistence
     // --------------------------------------------------
@@ -173,10 +192,10 @@ namespace GruntzUnityverse.V2 {
       // transform.position = data.position;
     }
 
-    // --------------------------------------------------
-    // IAnimatable
-    // --------------------------------------------------
-    public Animator Animator { get; set; }
-    public AnimancerComponent Animancer { get; set; }
+    public void GenerateGuid() {
+      Guid = System.Guid.NewGuid().ToString();
+    }
+    #endregion
+
   }
 }

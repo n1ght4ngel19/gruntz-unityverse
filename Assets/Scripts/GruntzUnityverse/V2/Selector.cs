@@ -14,7 +14,8 @@ namespace GruntzUnityverse.V2 {
     }
 
     private void OnMove() {
-      Instantiate(baseGrunt, transform.position, Quaternion.identity, gruntzTransform);
+      GruntV2 gruntV2 = Instantiate(baseGrunt, transform.position, Quaternion.identity, gruntzTransform);
+      gruntV2.GenerateGuid();
     }
   }
 }
