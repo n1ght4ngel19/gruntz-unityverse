@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bd0c20bbf8ecb4d4b9d7170e0b936053
+guid: 60afb9f2d5505b646a0bcecf3ef70384
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -65,7 +65,7 @@ TextureImporter:
   ignorePngGamma: 0
   applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -106,15 +106,28 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: OneTimeSwitch_0
+      name: HISTG_ToggleBridge_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -124,18 +137,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ed2e59d67e34eb4494e27a1c052e3a5
-      internalID: 345119258
+      spriteID: 80e0b91dcc1d3fe4ab452326403d9cae
+      internalID: 1816808722
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: OneTimeSwitch_1
+      name: HISTG_ToggleBridge_1
       rect:
         serializedVersion: 2
-        x: 33
-        y: 1
+        x: 32
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -145,8 +158,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 150d2df11f2baf849964d8500e69b0c0
-      internalID: 1253235137
+      spriteID: ed9d94fea8037ee4d88926e80d3fa877
+      internalID: 2001637069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HISTG_ToggleBridge_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 703ab8c2cccab024c9d13f62ab5a1424
+      internalID: -31004687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HISTG_ToggleBridge_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2447098e9d6a9794596e2126fece8dae
+      internalID: -992104987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HISTG_ToggleBridge_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f36c4332d29e5c40bb13834db6ea744
+      internalID: 914361930
       vertices: []
       indices: 
       edges: []
@@ -162,8 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      OneTimeSwitch_0: 345119258
-      OneTimeSwitch_1: 1253235137
+      HISTG_ToggleBridge_0: 1816808722
+      HISTG_ToggleBridge_1: 2001637069
+      HISTG_ToggleBridge_2: -31004687
+      HISTG_ToggleBridge_3: -992104987
+      HISTG_ToggleBridge_4: 914361930
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

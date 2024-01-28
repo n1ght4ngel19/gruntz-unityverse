@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ca92c344a4694654980c708d922d5da9
+guid: 1b4d01aa770e64d49b5fd6f805bc638e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -65,7 +65,7 @@ TextureImporter:
   ignorePngGamma: 0
   applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -106,15 +106,28 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CheckpointSwitch_Barehandz_0
+      name: TITT_ToggleBridge_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -124,18 +137,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 54f622501052955459f2213654e0718d
-      internalID: 130148692
+      spriteID: afde612e943d62548af4699bdc0d009b
+      internalID: 1272071654
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CheckpointSwitch_Barehandz_1
+      name: TITT_ToggleBridge_1
       rect:
         serializedVersion: 2
-        x: 33
-        y: 1
+        x: 32
+        y: 0
         width: 32
         height: 32
       alignment: 0
@@ -145,8 +158,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 349421cddaef4c844aa07fa460bf13c4
-      internalID: 586889000
+      spriteID: a4d04af47793e3a48ab16d773ab7a303
+      internalID: -1548279706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TITT_ToggleBridge_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ea80e3a5767f4741aca25bf7def9c5f
+      internalID: -1039235310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TITT_ToggleBridge_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85a241b1d466fe64dbbdef5adfe89c53
+      internalID: -2036349727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TITT_ToggleBridge_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d4b128804885d847ae769a875881e65
+      internalID: 1491282720
       vertices: []
       indices: 
       edges: []
@@ -162,8 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CheckpointSwitch_Barehandz_0: 130148692
-      CheckpointSwitch_Barehandz_1: 586889000
+      TITT_ToggleBridge_0: 1272071654
+      TITT_ToggleBridge_1: -1548279706
+      TITT_ToggleBridge_2: -1039235310
+      TITT_ToggleBridge_3: -2036349727
+      TITT_ToggleBridge_4: 1491282720
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
