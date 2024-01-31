@@ -394,17 +394,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9c36c2b0aa43e98b8ac6f31a455b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isObstacle: 1
   location2D: {x: 0, y: 0}
-  isBlocking: 0
+  node: {fileID: 0}
+  testStartNode: {fileID: 0}
+  testEndNode: {fileID: 0}
   gruntName: Grumley
   statz:
-    health: 0
-    stamina: 0
-    staminaRegenRate: 0
+    health: 20
+    stamina: 20
+    staminaRegenRate: 2
     powerupTime: 0
     toyTime: 0
     wingzTime: 0
-    moveSpeed: 0
+    moveSpeed: 0.6
   flagz:
     selected: 0
     idle: 0
@@ -416,6 +419,9 @@ MonoBehaviour:
     staminaBar: {fileID: 4401293049510515629}
     toyTimeBar: {fileID: 669920470423989890}
     wingzTimeBar: {fileID: 4053850924163349047}
+  tool: {fileID: 0}
+  toy: {fileID: 0}
+  powerup: {fileID: 0}
   navigator: {fileID: 8986531425140854438}
   targetLocation2D: {x: 0, y: 0}
   selectionMarker: {fileID: 818739118923963330}

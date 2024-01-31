@@ -103,8 +103,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484e4249eeb44fc2bf0e87a1bbded928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actAsObstacle: 1
+  actAsWater: 0
+  actAsFire: 0
+  actAsVoid: 0
   location2D: {x: 0, y: 0}
-  isBlocking: 1
+  node: {fileID: 0}
   <Animator>k__BackingField: {fileID: 6260734195924743711}
   <Animancer>k__BackingField: {fileID: 6911840383049941242}
   <ToggleOnAnim>k__BackingField: {fileID: 7400000, guid: 4e95f31f0a9a56b498260e994111f7d6, type: 2}
