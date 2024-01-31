@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz.Switchez {
   public abstract class SwitchV2 : GridObject, IBinaryToggleable {
-    private void Start() {
+    protected override void Start() {
       Setup();
     }
 

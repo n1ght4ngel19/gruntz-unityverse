@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GruntzUnityverse.V2.Pathfinding;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Utils {

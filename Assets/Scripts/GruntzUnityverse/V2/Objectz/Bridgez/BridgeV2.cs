@@ -14,7 +14,7 @@ namespace GruntzUnityverse.V2.Objectz.Bridgez {
     [field: SerializeField] public AnimationClip ToggleOffAnim { get; set; }
 
     public void Toggle() {
-      if (isBlocking) {
+      if (node.isWater) {
         ToggleOn();
       } else {
         ToggleOff();
@@ -23,13 +23,15 @@ namespace GruntzUnityverse.V2.Objectz.Bridgez {
 
     public void ToggleOn() {
       Debug.Log("Bridge raised!");
-      isBlocking = false;
+      node.isWater = false;
+
       Animancer.Play(ToggleOnAnim);
     }
 
     public void ToggleOff() {
       Debug.Log("Bridge lowered!");
-      isBlocking = true;
+      node.isWater = true;
+
       Animancer.Play(ToggleOffAnim);
     }
     #endregion

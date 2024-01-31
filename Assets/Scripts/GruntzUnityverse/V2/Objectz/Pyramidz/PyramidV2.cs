@@ -14,7 +14,7 @@ namespace GruntzUnityverse.V2.Objectz.Pyramidz {
     [field: SerializeField] public AnimationClip ToggleOffAnim { get; set; }
 
     public virtual void Toggle() {
-      if (isBlocking) {
+      if (actAsObstacle) {
         ToggleOff();
       } else {
         ToggleOn();
@@ -22,12 +22,12 @@ namespace GruntzUnityverse.V2.Objectz.Pyramidz {
     }
 
     public virtual void ToggleOn() {
-      isBlocking = true;
+      actAsObstacle = true;
       Animancer.Play(ToggleOnAnim);
     }
 
     public virtual void ToggleOff() {
-      isBlocking = false;
+      actAsObstacle = false;
       Animancer.Play(ToggleOffAnim);
     }
     #endregion

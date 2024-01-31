@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.V2.Pathfinding;
 
 namespace GruntzUnityverse.V2 {
   public class JumpPointSearch {
