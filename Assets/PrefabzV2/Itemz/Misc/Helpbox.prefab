@@ -59,5 +59,53 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7856108286464215537, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 3980278598619253929}
   m_SourcePrefab: {fileID: 100100000, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+--- !u!95 &3065960172523616459 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3373029965003962344, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+  m_PrefabInstance: {fileID: 307109444759375651}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7179023716521344881 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7485570136701087826, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+  m_PrefabInstance: {fileID: 307109444759375651}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585630454565242578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7585630454565242578 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7856108286464215537, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+  m_PrefabInstance: {fileID: 307109444759375651}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3980278598619253929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585630454565242578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94218d794e53415785fcd192edc19230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actAsObstacle: 0
+  actAsWater: 0
+  actAsFire: 0
+  actAsVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  itemName: Helpbox
+  rotatingAnim: {fileID: 7400000, guid: b939da36098b15e408bd07daf79c65a1, type: 2}
+  pickupAnim: {fileID: 7400000, guid: fad22746528bb8542b099aaf351fadf2, type: 2}
+  <Animator>k__BackingField: {fileID: 3065960172523616459}
+  <Animancer>k__BackingField: {fileID: 7179023716521344881}
+  helpboxText: {fileID: 0}

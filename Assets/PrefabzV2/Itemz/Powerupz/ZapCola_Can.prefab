@@ -59,5 +59,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7856108286464215537, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1386461338710999901}
   m_SourcePrefab: {fileID: 100100000, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+--- !u!1 &7585630454565242578 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7856108286464215537, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+  m_PrefabInstance: {fileID: 307109444759375651}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1386461338710999901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585630454565242578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f1ee88d1bc942a9b0e9cb4102e5845e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actAsObstacle: 0
+  actAsWater: 0
+  actAsFire: 0
+  actAsVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  itemName: Bottle of Zap Cola
+  rotatingAnim: {fileID: 7400000, guid: fe0ba846e104d7d47bde78040fb7069c, type: 2}
+  pickupAnim: {fileID: 7400000, guid: 2c715ecaddad06b4c922ca8fcbb7edb8, type: 2}
+  <Animator>k__BackingField: {fileID: 3065960172523616459, guid: f449d7e371f71dd44a8d9609fba2dbb0, type: 3}
+  <Animancer>k__BackingField: {fileID: 7179023716521344881, guid: f449d7e371f71dd44a8d9609fba2dbb0, type: 3}
+  duration: 0
+  healAmount: 10

@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 2382834934221608555}
   - component: {fileID: 7890690913535624833}
   - component: {fileID: 2879499836149728836}
+  - component: {fileID: 7870216830220584668}
   - component: {fileID: 8986531425140854438}
   - component: {fileID: 5953476298560794903}
   - component: {fileID: -4227858990208798214}
@@ -394,7 +395,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9c36c2b0aa43e98b8ac6f31a455b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isObstacle: 1
+  actAsObstacle: 0
+  actAsWater: 0
+  actAsFire: 0
+  actAsVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
   testStartNode: {fileID: 0}
@@ -422,10 +426,38 @@ MonoBehaviour:
   tool: {fileID: 0}
   toy: {fileID: 0}
   powerup: {fileID: 0}
-  navigator: {fileID: 8986531425140854438}
-  targetLocation2D: {x: 0, y: 0}
   selectionMarker: {fileID: 818739118923963330}
   idle: {fileID: 7400000, guid: 1cb6673f83ac4b940b70f4587f3e293c, type: 2}
+--- !u!114 &7870216830220584668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310684839589108344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: dacdceb490c394d48aa04de3a73fc45c, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: InGame
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!114 &8986531425140854438
 MonoBehaviour:
   m_ObjectHideFlags: 0
