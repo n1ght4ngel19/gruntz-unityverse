@@ -40,9 +40,10 @@ namespace GruntzUnityverse.V2.DataPersistence {
       _fileDataHandler = new FileDataHandler(Application.persistentDataPath, dataFileName);
       gruntzTransform = GameObject.Find("Gruntz").transform;
 
-      Addressables.LoadAssetAsync<GruntV2>("BaseGrunt.prefab").Completed += handle => {
-        baseGrunt = handle.Result;
-      };
+      // Todo: Find out why this doesn't work
+      // Addressables.LoadAssetAsync<GruntV2>("BaseGrunt.prefab").Completed += handle => {
+      //   baseGrunt = handle.Result;
+      // };
     }
 
     /// <summary>
@@ -86,7 +87,7 @@ namespace GruntzUnityverse.V2.DataPersistence {
       try {
         DestroyEverything();
       } catch (Exception e) {
-        Console.WriteLine(e);
+        Debug.LogException(e);
 
         throw;
       } finally {
@@ -130,6 +131,17 @@ namespace GruntzUnityverse.V2.DataPersistence {
           Debug.Log($"Generated GUID {dpo.Guid} for {dpo}");
         }
       );
+    }
+
+    // --------------------------------------------------
+    // Input Actions
+    // --------------------------------------------------
+    private void OnSaveGame() {
+      DataPersistenceManager.Instance.SaveGame();
+    }
+
+    private void OnLoadGame() {
+      DataPersistenceManager.Instance.LoadGame();
     }
   }
 }

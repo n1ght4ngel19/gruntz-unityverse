@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using GruntzUnityverse.V2.Grunt;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Itemz.Powerupz {
@@ -8,12 +9,14 @@ namespace GruntzUnityverse.V2.Itemz.Powerupz {
     /// </summary>
     public float speedMultiplier;
 
-    public override IEnumerator Activate() {
-      affectedGrunt.statz.moveSpeed *= speedMultiplier;
+    protected override IEnumerator Pickup(GruntV2 target) {
+      yield return base.Pickup(target);
+
+      target.statz.moveSpeed *= speedMultiplier;
 
       yield return new WaitForSeconds(duration);
 
-      affectedGrunt.statz.moveSpeed /= speedMultiplier;
+      target.statz.moveSpeed /= speedMultiplier;
     }
   }
 }

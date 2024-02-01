@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.V2.Grunt;
-using InfinityCode.Observers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,9 +13,9 @@ namespace GruntzUnityverse.V2.Core {
     public static GM Instance { get; private set; }
 
     /// <summary>
-    /// The current level.
+    /// The selector responsible for selecting and highlighting objects.
     /// </summary>
-    public LevelV2 level;
+    public Selector selector;
 
     /// <summary>
     /// All the Gruntz in the current level.
@@ -24,10 +23,11 @@ namespace GruntzUnityverse.V2.Core {
     [Header("Gruntz")]
     public List<GruntV2> allGruntz;
 
+
     /// <summary>
-    /// The Gruntz currently selected by the player, linked to the SelectedGruntz in the InputManager.
+    /// The Gruntz currently selected by the player.
     /// </summary>
-    public LinkedValue<List<GruntV2>> selectedGruntz;
+    public HashSet<GruntV2> selectedGruntz;
 
     private void Awake() {
       if (Instance != null && Instance != this) {
@@ -38,22 +38,17 @@ namespace GruntzUnityverse.V2.Core {
 
       SceneManager.sceneLoaded += OnSceneLoaded;
       Application.targetFrameRate = 60;
-
-      DontDestroyOnLoad(this);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-      if (scene.name == "MainMenu") {
+      if (scene.name is "MainMenu" or "StatzMenu") {
         return;
       }
 
       Debug.Log($"Loaded {scene.name}");
 
-      level = FindFirstObjectByType<LevelV2>();
-      // level.Initialize();
-
       allGruntz = FindObjectsByType<GruntV2>(FindObjectsSortMode.None).ToList();
-      selectedGruntz = new LinkedValue<List<GruntV2>>(FindFirstObjectByType<InputManager>(), "selectedGruntz");
+      selectedGruntz = new HashSet<GruntV2>(allGruntz.Where(grunt => grunt.flagz.selected));
 
       FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
         .ToList()

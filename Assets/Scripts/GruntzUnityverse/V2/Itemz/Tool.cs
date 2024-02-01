@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using GruntzUnityverse.V2.Grunt;
+using UnityEngine;
 
 namespace GruntzUnityverse.V2.Itemz {
   /// <summary>
@@ -26,11 +27,17 @@ namespace GruntzUnityverse.V2.Itemz {
     /// <summary>
     /// The time needed in secondz before this Tool's effect is applied (e.g. before a rock is thrown).
     /// </summary>
+    // Todo: Maybe not needed -> use animation length instead
     public float useTime;
 
-    protected override void Pickup(GruntV2 grunt) {
-      grunt.tool = grunt.gameObject.AddComponent(GetType()) as Tool;
-      Destroy(gameObject);
+    // Todo: Maybe not needed -> use animation length instead
+    public float attackTime;
+
+    protected override IEnumerator Pickup(GruntV2 target) {
+      yield return base.Pickup(target);
+
+      target.tool = target.gameObject.AddComponent(GetType()) as Tool;
+      // Todo: Set target's animation pack to this Tool's animation pack
     }
 
     /// <summary>
@@ -40,6 +47,8 @@ namespace GruntzUnityverse.V2.Itemz {
     /// Provides no implementation since each child class has a different effect.
     /// </summary>
     /// <returns>An IEnumerator since this is a coroutine.</returns>
-    public abstract IEnumerator Use();
+    public abstract IEnumerator Use(GruntV2 target);
+
+    public abstract IEnumerator Use(GameObject target);
   }
 }

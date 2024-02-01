@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using GruntzUnityverse.V2.Core;
+using GruntzUnityverse.V2.Editor;
 using GruntzUnityverse.V2.Pathfinding;
 using UnityEngine;
 
@@ -50,7 +51,7 @@ namespace GruntzUnityverse.V2.Objectz {
     }
 
     protected virtual void Start() {
-      node = GM.Instance.level.levelNodes.First(n => n.location2D == location2D);
+      node = LevelV2.Instance.levelNodes.First(n => n.location2D == location2D);
       node.isBlocked = actAsObstacle;
       node.isWater = actAsWater;
       node.isFire = actAsFire;

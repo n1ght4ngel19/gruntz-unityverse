@@ -2,14 +2,15 @@
 using GruntzUnityverse.V2.Grunt;
 using UnityEngine;
 
-namespace GruntzUnityverse.V2.Itemz.Collectiblez {
-  public class CoinV2 : Collectible {
+namespace GruntzUnityverse.V2.Itemz.Powerupz {
+  public class ZapCola : Powerup {
+    [Range(5, 20)]
+    public int healAmount;
 
     protected override IEnumerator Pickup(GruntV2 target) {
       yield return base.Pickup(target);
 
-      // Todo: Add coin to Level Statz
-      Debug.Log("Coin picked up!");
+      target.statz.health += healAmount;
 
       yield return null;
     }

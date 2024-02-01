@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Animancer;
@@ -45,6 +44,8 @@ namespace GruntzUnityverse.V2.Grunt {
     /// </summary>
     public Flagz flagz;
 
+    public bool IsInterrupted => flagz.interrupted;
+
     /// <summary>
     /// The attribute barz of this Grunt.
     /// </summary>
@@ -74,40 +75,26 @@ namespace GruntzUnityverse.V2.Grunt {
     #endregion
 
     // --------------------------------------------------
-    // Navigation
-    // --------------------------------------------------
-
-    #region Navigation
-    /// <summary>
-    /// The navigator responsible for movement and pathfinding.
-    /// </summary>
-    [Header("Navigation")]
-    public NavigatorV2 navigator;
-
-    /// <summary>
-    /// The location of the this Grunt's target on the grid.
-    /// </summary>
-    public Vector2Int targetLocation2D;
-    #endregion
-
-    #region Componentz
-    // --------------------------------------------------
     // Componentz
     // --------------------------------------------------
+
+    #region Componentz
     public GameObject selectionMarker;
     #endregion
 
-    #region Animation
     // --------------------------------------------------
     // Animation
     // --------------------------------------------------
+
+    #region Animation
     public AnimationClip idle;
     #endregion
 
-    #region Events
     // --------------------------------------------------
     // Events
     // --------------------------------------------------
+
+    #region Events
     protected override void Awake() {
       base.Awake();
 
@@ -131,7 +118,7 @@ namespace GruntzUnityverse.V2.Grunt {
     /// </summary>
     private void UpdateLocation() {
       location2D = Vector2Int.RoundToInt(transform.position);
-      node = GM.Instance.level.levelNodes.First(n => n.location2D == location2D);
+      node = LevelV2.Instance.levelNodes.First(n => n.location2D == location2D);
       node.isOccupied = true;
     }
 
@@ -144,23 +131,138 @@ namespace GruntzUnityverse.V2.Grunt {
       flagz.selected = value;
     }
 
+    // --------------------------------------------------
+    // Input Actions
+    // --------------------------------------------------
+
+    #region Input Actions
+    // Left click
+    private void OnSelect() {
+      if (GM.Instance.selector.location2D == location2D) {
+        flagz.selected = true;
+        GM.Instance.selectedGruntz.Add(this);
+      } else {
+        flagz.selected = false;
+        GM.Instance.selectedGruntz.Remove(this);
+      }
+    }
+
+    // Left click & Shift
+    private void OnAdditionalSelect() {
+      if (GM.Instance.selector.location2D != location2D) {
+        return;
+      }
+
+      flagz.selected = true;
+      GM.Instance.selectedGruntz.Add(this);
+    }
+
+    // Left click & Ctrl
+    private void OnAction() {
+      if (!flagz.selected || IsInterrupted) {
+        return;
+      }
+
+      GameObject interactable =
+        GameObject.FindGameObjectsWithTag("Interactable")
+          .FirstOrDefault(i => i.GetComponent<GridObject>().location2D == GM.Instance.selector.location2D);
+
+      GruntV2 grunt = GM.Instance.allGruntz
+        .FirstOrDefault(g => g.location2D == GM.Instance.selector.location2D);
+
+      if (interactable == null && grunt == null) {
+        // Todo: Play voice line for not being able to interact with nothing
+
+        return;
+      }
+
+      if (interactable != null) {
+        // if (!interactable.GetComponent<IInteractable>().IsCompatibleWith(tool)) {
+        //   // Todo: Play voice line for having an incompatible tool
+        //   return;
+        // }
+
+        StartCoroutine(tool.Use(interactable));
+      } else if (grunt != null) {
+        /*
+         * Todo: Take into account the following:
+         * - whether the target is friendly or not
+         * - the tool's reach
+         * - the Grunt's ability to reach the target
+         */
+        StartCoroutine(tool.Use(grunt));
+      }
+
+      Debug.Log($"Acting with {gruntName}");
+    }
+
+    // Todo: Needs similar logic to OnAction
+    // Left click & Alt
+    private void OnGive() {
+      if (!flagz.selected || IsInterrupted) {
+        return;
+      }
+
+      if (toy == null) {
+        // Todo: Play voice line for not having a toy
+
+        return;
+      }
+
+      GruntV2 target = GM.Instance.allGruntz
+        .FirstOrDefault(grunt => grunt.location2D == GM.Instance.selector.location2D);
+
+      // Todo: Move beside target
+
+      // Todo: Give toy to target
+      Debug.Log($"Giving with {gruntName}");
+    }
+
+    private void OnMove() {
+      if (!flagz.selected) {
+        return;
+      }
+
+      if (IsInterrupted) {
+        return;
+      }
+
+      NodeV2 start = LevelV2.Instance.levelNodes
+        .First(n => n.location2D == location2D);
+
+      NodeV2 target = LevelV2.Instance.levelNodes
+        .First(n => n.location2D == GM.Instance.selector.location2D);
+
+      List<NodeV2> path = Pathfinder.AstarSearch(
+        start,
+        target,
+        LevelV2.Instance.levelNodes.ToHashSet()
+      );
+
+      if (path.Count <= 0) {
+        Debug.Log("No path found");
+
+        return;
+      }
+
+      Move(path[0]);
+    }
+    #endregion
+
     /// <summary>
     /// Moves the Grunt to the given location.
     /// </summary>
     /// <param name="target">The location to move to.</param>
-    public void Move(Vector2Int target) {
-      Debug.Log($"Moving {gruntName} to {targetLocation2D}");
-      SetTargetLocation(target);
+    public void Move(NodeV2 next) {
+      Debug.Log($"Moving {gruntName} to {next.location2D}");
+      // Todo: Transform.Translate or whatever
 
-      List<NodeV2> path = Pathfinder.AstarSearch(
-        navigator.node,
-        navigator.targetNode,
-        GM.Instance.level.levelNodes.ToHashSet()
-      );
+      // Then ...
+      OnMove();
     }
 
-    public void SetTargetLocation(Vector2Int target) {
-      targetLocation2D = target;
+    public void PlaceOnGround(NodeV2 placeNode) {
+      // Todo: Go beside placeNode and place the Toy on it (if there is one equipped)
     }
 
     // /// <summary>
@@ -193,13 +295,6 @@ namespace GruntzUnityverse.V2.Grunt {
       Debug.Log(
         $"Pathfinding took {(DateTime.Now - startTime).TotalMilliseconds}ms or {(DateTime.Now - startTime).TotalMilliseconds / 1000}s"
       );
-
-      // foreach (NodeV2 node in path) {
-      //   node.GetComponent<SpriteRenderer>().material = green;
-      // }
-      //
-      // testStartNode.GetComponent<SpriteRenderer>().material = red;
-      // testEndNode.GetComponent<SpriteRenderer>().material = blue;
     }
 
     #region IAnimatable

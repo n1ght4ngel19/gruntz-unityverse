@@ -1,4 +1,5 @@
-﻿using Animancer;
+﻿using System.Collections;
+using Animancer;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.V2.Grunt;
 using GruntzUnityverse.V2.Objectz;
@@ -17,10 +18,15 @@ namespace GruntzUnityverse.V2.Itemz {
     public AnimationClip rotatingAnim;
 
     /// <summary>
+    /// The animation clip the Grunt uses that picks up this item.
+    /// </summary>
+    public AnimationClip pickupAnim;
+
+    /// <summary>
     /// The animation pack this item uses on the Grunt that picks it up.
     /// </summary>
     public GruntAnimationPack animationPack;
-    
+
     #region IAnimatable
     // --------------------------------------------------
     // IAnimatable
@@ -43,7 +49,12 @@ namespace GruntzUnityverse.V2.Itemz {
     /// (Provides no implementation since child classes need to modify
     /// different properties of the Grunt picking up the item.)
     /// </summary>
-    protected abstract void Pickup(GruntV2 grunt);
+    protected virtual IEnumerator Pickup(GruntV2 target) {
+      target.Animancer.Play(pickupAnim);
+
+      // Todo: Wait proper length
+      yield return new WaitForSeconds(0.5f);
+    }
 
     /// <summary>
     /// Called when an <see cref="GruntV2"/> moves onto this Item.
@@ -51,12 +62,19 @@ namespace GruntzUnityverse.V2.Itemz {
     /// This is checked inside the method, so there is no need to expose this method to child classes.
     /// </summary>
     /// <param name="other">The collider of the colliding object.</param>
-    private void OnCollisionEnter2D(Collision2D other) {
+    protected virtual IEnumerator OnTriggerEnter2D(Collider2D other) {
       GruntV2 grunt = other.gameObject.GetComponent<GruntV2>();
 
-      if (grunt != null) {
-        Pickup(grunt);
+      if (grunt == null) {
+        yield break;
       }
+
+      Animancer.Stop();
+      spriteRenderer.enabled = false;
+
+      yield return Pickup(grunt);
+
+      Destroy(gameObject);
     }
   }
 }
