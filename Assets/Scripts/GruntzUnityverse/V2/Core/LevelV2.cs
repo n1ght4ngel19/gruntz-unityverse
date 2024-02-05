@@ -2,7 +2,6 @@
 using System.Linq;
 using GruntzUnityverse.V2.Pathfinding;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 namespace GruntzUnityverse.V2.Core {
@@ -47,11 +46,19 @@ namespace GruntzUnityverse.V2.Core {
 
         // Create new node and set it up
         Instantiate(nodePrefab, mainMap.GetCellCenterLocal(position), Quaternion.identity, nodeGrid.transform)
-          .Setup(position, tile.name, levelNodes);
+          .SetupNode(position, tile.name, levelNodes);
       }
 
       // Assign neighbours to all nodes AFTER all nodes have been created
       levelNodes.ForEach(n => n.AssignNeighbours(levelNodes));
+
+      foreach (GameObject go in GameObject.FindGameObjectsWithTag("Blocker")) {
+        Vector2Int position = Vector2Int.RoundToInt(go.transform.position);
+        Debug.Log(position);
+
+        levelNodes.FirstOrDefault(n => n.location2D.Equals(position))!.isBlocked = true;
+      }
     }
+
   }
 }

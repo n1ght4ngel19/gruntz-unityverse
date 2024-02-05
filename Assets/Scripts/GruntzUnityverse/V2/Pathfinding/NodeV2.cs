@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.V2.Core;
+using GruntzUnityverse.V2.Grunt;
+using GruntzUnityverse.V2.Utils;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Pathfinding {
@@ -21,7 +24,7 @@ namespace GruntzUnityverse.V2.Pathfinding {
     /// <summary>
     /// The collider used for checking interactions with this NodeV2.
     /// </summary>
-    protected CircleCollider2D circleCollider2D;
+    public CircleCollider2D circleCollider2D;
 
 
     #region Pathfinding
@@ -78,7 +81,8 @@ namespace GruntzUnityverse.V2.Pathfinding {
     /// If true, this NodeV2 is occupied by an actor.
     /// </summary>
     [Header("Flags")]
-    public bool isOccupied;
+    public bool IsOccupied => GM.Instance.allGruntz.Any(gr => gr.node == this);
+
 
     /// <summary>
     /// If true, this NodeV2 is blocked by a wall or other obstacle.
@@ -93,21 +97,21 @@ namespace GruntzUnityverse.V2.Pathfinding {
     /// If true, this NodeV2 is walkable. This combines the 'occupied' and 'blocked' flags.
     /// </summary>
     public bool IsWalkable {
-      get => !isOccupied && !isBlocked && !isWater && !isFire && !isVoid;
+      get => !IsOccupied && !isBlocked && !isWater && !isFire && !isVoid;
     }
 
     /// <summary>
     /// If true, this NodeV2 is walkable with a Toob equipped.
     /// </summary>
     public bool IsWalkableWithToob {
-      get => !isOccupied && !isBlocked && !isFire && !isVoid;
+      get => !IsOccupied && !isBlocked && !isFire && !isVoid;
     }
 
     /// <summary>
     /// If true, this NodeV2 is walkable with Wingz equipped.
     /// </summary>
     public bool IsWalkableWithWingz {
-      get => !isOccupied;
+      get => !IsOccupied;
     }
 
     /// <summary>
@@ -125,7 +129,7 @@ namespace GruntzUnityverse.V2.Pathfinding {
     /// <param name="position">The position of this NodeV2 in the grid. </param>
     /// <param name="tileName">The name of the tile this NodeV2 is based on.</param>
     /// <param name="nodes">The list of all nodes in the grid.</param>
-    public void Setup(Vector3Int position, string tileName, List<NodeV2> nodes) {
+    public void SetupNode(Vector3Int position, string tileName, List<NodeV2> nodes) {
       transform.position = position - Vector3Int.one / 2;
       location2D = new Vector2Int(position.x, position.y);
       AssignTileType(tileName);
@@ -161,9 +165,9 @@ namespace GruntzUnityverse.V2.Pathfinding {
     /// </summary>
     /// <param name="toCheck"></param>
     /// <returns></returns>
-    public bool CannotReachDiagonally(NodeV2 toCheck) {
-      return IsDiagonalTo(toCheck)
-        && neighbours.Any(n => n.hardCorner && toCheck.neighbours.Contains(n));
+    public bool CanReachDiagonally(NodeV2 toCheck) {
+      return !diagonalNeighbours.Contains(toCheck)
+        || !neighbours.Any(n => n.hardCorner && toCheck.neighbours.Contains(n));
     }
 
     /// <summary>
@@ -172,14 +176,14 @@ namespace GruntzUnityverse.V2.Pathfinding {
     /// <param name="nodes"></param>
     public void AssignNeighbours(List<NodeV2> nodes) {
       neighbourSet = new NeighbourSet {
-        up = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.up),
-        upRight = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.up + Vector2Int.right),
-        right = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.right),
-        downRight = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.down + Vector2Int.right),
-        down = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.down),
-        downLeft = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.down + Vector2Int.left),
-        left = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.left),
-        upLeft = nodes.FirstOrDefault(n => n.location2D == location2D + Vector2Int.up + Vector2Int.left),
+        up = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.Up())),
+        upRight = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.UpRight())),
+        right = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.Right())),
+        downRight = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.DownRight())),
+        down = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.Down())),
+        downLeft = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.DownLeft())),
+        left = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.Left())),
+        upLeft = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.UpLeft())),
       };
 
       neighbours = neighbourSet.AsList();
@@ -197,6 +201,14 @@ namespace GruntzUnityverse.V2.Pathfinding {
         neighbourSet.down,
         neighbourSet.left,
       };
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+      GruntV2 grunt = other.gameObject.GetComponent<GruntV2>();
+
+      if (grunt != null) {
+        grunt.node = this;
+      }
     }
 
     /// <summary>

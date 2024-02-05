@@ -27,19 +27,22 @@ namespace GruntzUnityverse.V2.Itemz {
     /// </summary>
     public GruntAnimationPack animationPack;
 
-    #region IAnimatable
     // --------------------------------------------------
     // IAnimatable
     // --------------------------------------------------
-    [field: SerializeField]
-    public Animator Animator { get; set; }
 
-    [field: SerializeField]
-    public AnimancerComponent Animancer { get; set; }
+    #region IAnimatable
+    [field: SerializeField] public Animator Animator { get; set; }
+
+    [field: SerializeField] public AnimancerComponent Animancer { get; set; }
     #endregion
 
-    protected override void Awake() {
-      base.Awake();
+    protected override void Start() {
+      if (GetComponent<GruntV2>() != null) {
+        return;
+      }
+
+      base.Start();
 
       Animancer.Play(rotatingAnim);
     }
@@ -50,10 +53,14 @@ namespace GruntzUnityverse.V2.Itemz {
     /// different properties of the Grunt picking up the item.)
     /// </summary>
     protected virtual IEnumerator Pickup(GruntV2 target) {
+      target.flagz.interrupted = true;
+
       target.Animancer.Play(pickupAnim);
 
-      // Todo: Wait proper length
-      yield return new WaitForSeconds(0.5f);
+      // All pickup animationz are 1 second long
+      yield return new WaitForSeconds(1f);
+
+      target.flagz.interrupted = false;
     }
 
     /// <summary>
@@ -76,5 +83,13 @@ namespace GruntzUnityverse.V2.Itemz {
 
       Destroy(gameObject);
     }
+
+    // protected override void OnDestroy() {
+    //   if (!SceneLoaded()) {
+    //     return;
+    //   }
+    //
+    //   base.OnDestroy();
+    // }
   }
 }

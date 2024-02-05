@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GruntzUnityverse.V2.Utils;
 
 namespace GruntzUnityverse.V2.Pathfinding {
   [System.Serializable]
@@ -15,37 +16,14 @@ namespace GruntzUnityverse.V2.Pathfinding {
     public List<NodeV2> AsList() {
       List<NodeV2> list = new List<NodeV2>();
 
-      if (up != null) {
-        list.Add(up);
-      }
-
-      if (upRight != null) {
-        list.Add(upRight);
-      }
-
-      if (right != null) {
-        list.Add(right);
-      }
-
-      if (downRight != null) {
-        list.Add(downRight);
-      }
-
-      if (down != null) {
-        list.Add(down);
-      }
-
-      if (downLeft != null) {
-        list.Add(downLeft);
-      }
-
-      if (left != null) {
-        list.Add(left);
-      }
-
-      if (upLeft != null) {
-        list.Add(upLeft);
-      }
+      list.CheckNullAdd(up);
+      list.CheckNullAdd(upRight);
+      list.CheckNullAdd(right);
+      list.CheckNullAdd(downRight);
+      list.CheckNullAdd(down);
+      list.CheckNullAdd(downLeft);
+      list.CheckNullAdd(left);
+      list.CheckNullAdd(upLeft);
 
       return list;
     }

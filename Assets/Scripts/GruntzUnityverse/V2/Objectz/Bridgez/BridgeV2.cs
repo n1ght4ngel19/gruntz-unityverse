@@ -22,14 +22,12 @@ namespace GruntzUnityverse.V2.Objectz.Bridgez {
     }
 
     public void ToggleOn() {
-      Debug.Log("Bridge raised!");
       node.isWater = false;
 
       Animancer.Play(ToggleOnAnim);
     }
 
     public void ToggleOff() {
-      Debug.Log("Bridge lowered!");
       node.isWater = true;
 
       Animancer.Play(ToggleOffAnim);

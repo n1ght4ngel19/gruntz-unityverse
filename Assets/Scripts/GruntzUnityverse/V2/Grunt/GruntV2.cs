@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Animancer;
@@ -8,7 +9,9 @@ using GruntzUnityverse.V2.Itemz;
 using GruntzUnityverse.V2.Objectz;
 using GruntzUnityverse.V2.Pathfinding;
 using GruntzUnityverse.V2.Utils;
+using UnityEditor;
 using UnityEngine;
+using Tool = GruntzUnityverse.V2.Itemz.Tool;
 
 namespace GruntzUnityverse.V2.Grunt {
   /// <summary>
@@ -90,6 +93,10 @@ namespace GruntzUnityverse.V2.Grunt {
     public AnimationClip idle;
     #endregion
 
+    public List<NodeV2> path;
+    public NodeV2 targetNode;
+    public NodeV2 next;
+
     // --------------------------------------------------
     // Events
     // --------------------------------------------------
@@ -109,17 +116,21 @@ namespace GruntzUnityverse.V2.Grunt {
     }
 
     private void Update() {
-      UpdateLocation(); // Todo: Only update when the Grunt moves
+      if (flagz.moving) {
+        Vector3 moveVector = (next.transform.position - transform.position).normalized;
+        gameObject.transform.position += moveVector * (Time.deltaTime / .6f);
+        location2D = node.location2D;
+      }
     }
     #endregion
 
-    /// <summary>
-    /// Updates the location of the Grunt.
-    /// </summary>
-    private void UpdateLocation() {
-      location2D = Vector2Int.RoundToInt(transform.position);
-      node = LevelV2.Instance.levelNodes.First(n => n.location2D == location2D);
-      node.isOccupied = true;
+    public void TakeDamage(int damage) {
+      statz.health -= damage;
+
+      if (statz.health <= 0) {
+        // Die();
+        Debug.Log("Im dead!");
+      }
     }
 
     /// <summary>
@@ -139,8 +150,9 @@ namespace GruntzUnityverse.V2.Grunt {
     // Left click
     private void OnSelect() {
       if (GM.Instance.selector.location2D == location2D) {
+        Debug.Log($"Selected {gruntName}");
         flagz.selected = true;
-        GM.Instance.selectedGruntz.Add(this);
+        GM.Instance.selectedGruntz.UniqueAdd(this);
       } else {
         flagz.selected = false;
         GM.Instance.selectedGruntz.Remove(this);
@@ -154,7 +166,7 @@ namespace GruntzUnityverse.V2.Grunt {
       }
 
       flagz.selected = true;
-      GM.Instance.selectedGruntz.Add(this);
+      GM.Instance.selectedGruntz.UniqueAdd(this);
     }
 
     // Left click & Ctrl
@@ -162,6 +174,8 @@ namespace GruntzUnityverse.V2.Grunt {
       if (!flagz.selected || IsInterrupted) {
         return;
       }
+
+      Debug.Log("OnAction");
 
       GameObject interactable =
         GameObject.FindGameObjectsWithTag("Interactable")
@@ -209,6 +223,8 @@ namespace GruntzUnityverse.V2.Grunt {
         return;
       }
 
+      Debug.Log("OnGive");
+
       GruntV2 target = GM.Instance.allGruntz
         .FirstOrDefault(grunt => grunt.location2D == GM.Instance.selector.location2D);
 
@@ -218,47 +234,71 @@ namespace GruntzUnityverse.V2.Grunt {
       Debug.Log($"Giving with {gruntName}");
     }
 
+    // Right click
     private void OnMove() {
+      // No need to check for IsInterrupted(),
+      // since we need to be able to set another target while the Grunt is moving
       if (!flagz.selected) {
         return;
       }
 
-      if (IsInterrupted) {
-        return;
-      }
-
-      NodeV2 start = LevelV2.Instance.levelNodes
-        .First(n => n.location2D == location2D);
-
-      NodeV2 target = LevelV2.Instance.levelNodes
+      targetNode = LevelV2.Instance.levelNodes
         .First(n => n.location2D == GM.Instance.selector.location2D);
 
-      List<NodeV2> path = Pathfinder.AstarSearch(
-        start,
-        target,
-        LevelV2.Instance.levelNodes.ToHashSet()
-      );
-
-      if (path.Count <= 0) {
-        Debug.Log("No path found");
-
-        return;
-      }
-
-      Move(path[0]);
+      StartCoroutine(Move());
     }
     #endregion
 
     /// <summary>
-    /// Moves the Grunt to the given location.
+    /// Moves the Grunt to the current target node.
     /// </summary>
-    /// <param name="target">The location to move to.</param>
-    public void Move(NodeV2 next) {
-      Debug.Log($"Moving {gruntName} to {next.location2D}");
-      // Todo: Transform.Translate or whatever
+    public IEnumerator Move() {
+      if (flagz.moving) {
+        yield break;
+      }
 
-      // Then ...
-      OnMove();
+      // Clicking on Grunt's own node or Grunt has reached his target
+      if (node == targetNode) {
+        Debug.Log("I'm there!");
+
+        yield break;
+      }
+
+      // Grunt cannot move
+      if (IsInterrupted) {
+        Debug.Log("I'm interrupted!");
+
+        // return;
+        yield break;
+      }
+
+      List<NodeV2> newPath = Pathfinder.AstarSearch(node, targetNode, LevelV2.Instance.levelNodes.ToHashSet());
+
+      if (newPath.Count <= 0) {
+        Debug.Log("New path is zero");
+
+        yield break;
+      }
+
+      next = newPath[0];
+
+      Vector2Int moveVector = (next.location2D - node.location2D);
+      // FaceTowards(moveVector);
+
+      flagz.moving = true;
+
+      DateTime startTime = DateTime.Now;
+
+      // It takes 0.6 seconds to move to the next node
+      yield return new WaitWhile(() => node != next);
+
+      DateTime endTime = DateTime.Now;
+
+      Debug.Log(endTime - startTime);
+
+      flagz.moving = false;
+
+      StartCoroutine(Move());
     }
 
     public void PlaceOnGround(NodeV2 placeNode) {
@@ -275,7 +315,7 @@ namespace GruntzUnityverse.V2.Grunt {
 
       DateTime startTime = DateTime.Now;
 
-      List<NodeV2> path = Pathfinder.AstarSearch(
+      path = Pathfinder.AstarSearch(
         testStartNode,
         testEndNode,
         GameObject.Find("NodeGrid").GetComponentsInChildren<NodeV2>().ToHashSet()
@@ -305,10 +345,11 @@ namespace GruntzUnityverse.V2.Grunt {
     public AnimancerComponent Animancer { get; set; }
     #endregion
 
-    #region IDataPersistence
     // --------------------------------------------------
     // IDataPersistence
     // --------------------------------------------------
+
+    #region IDataPersistence
     public string Guid { get; set; }
 
     /// <summary>
@@ -322,7 +363,7 @@ namespace GruntzUnityverse.V2.Grunt {
         position = transform.position,
       };
 
-      data.gruntData.SafeAdd(saveData);
+      data.gruntData.CheckNotExistsAdd(saveData);
 
       Debug.Log($"Saving {gruntName} at {transform.position} with GUID {Guid}");
     }
@@ -352,4 +393,29 @@ namespace GruntzUnityverse.V2.Grunt {
     #endregion
 
   }
+
+  #if UNITY_EDITOR
+  [CustomEditor(typeof(GruntV2))]
+  public class GruntV2Editor : UnityEditor.Editor {
+    public override void OnInspectorGUI() {
+      GruntV2 grunt = (GruntV2)target;
+
+      GUILayout.Space(10);
+
+      if (GUILayout.Button("Test Pathfinding")) {
+        grunt.TestPathfinding();
+      }
+
+      GUILayout.Space(10);
+
+      if (GUILayout.Button("Generate Guid")) {
+        grunt.GenerateGuid();
+      }
+
+      GUILayout.Space(10);
+
+      base.OnInspectorGUI();
+    }
+  }
+  #endif
 }

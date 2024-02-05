@@ -4,8 +4,12 @@ using UnityEngine;
 namespace GruntzUnityverse.V2.Objectz.Switchez {
   public abstract class SwitchV2 : GridObject, IBinaryToggleable {
     protected override void Start() {
+      base.Start();
+
       Setup();
     }
+
+    protected virtual void Setup() { }
 
     #region IBinaryToggleable
     // --------------------------------------------------
@@ -24,13 +28,11 @@ namespace GruntzUnityverse.V2.Objectz.Switchez {
     }
 
     public virtual void ToggleOn() {
-      Debug.Log("Switch pressed!");
       IsOn = true;
       spriteRenderer.sprite = OnSprite;
     }
 
     public virtual void ToggleOff() {
-      Debug.Log("Switch released!");
       IsOn = false;
       spriteRenderer.sprite = OffSprite;
     }
@@ -51,7 +53,5 @@ namespace GruntzUnityverse.V2.Objectz.Switchez {
 
       ToggleOff();
     }
-
-    protected virtual void Setup() { }
   }
 }

@@ -14,6 +14,6 @@ namespace GruntzUnityverse.V2.Grunt {
     public int powerupTime;
     public int toyTime;
     public int wingzTime; // Is this needed?
-    public float moveSpeed;
+    public float moveDuration;
   }
 }

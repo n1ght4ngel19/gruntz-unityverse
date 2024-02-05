@@ -137,11 +137,11 @@ namespace GruntzUnityverse.V2.DataPersistence {
     // Input Actions
     // --------------------------------------------------
     private void OnSaveGame() {
-      DataPersistenceManager.Instance.SaveGame();
+      Instance.SaveGame();
     }
 
     private void OnLoadGame() {
-      DataPersistenceManager.Instance.LoadGame();
+      Instance.LoadGame();
     }
   }
 }

@@ -4,6 +4,6 @@ namespace GruntzUnityverse.V2.Objectz {
   public interface IObjectHolder {
     public ItemV2 HeldItem { get; set; }
     
-    public void DropItem();
+    public void DropItem(bool isSceneLoaded);
   }
 }

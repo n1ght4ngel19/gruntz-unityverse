@@ -14,26 +14,31 @@ namespace GruntzUnityverse.V2.Pathfinding {
     /// </summary>
     /// <param name="start">The NodeV2 to start the search from.</param>
     /// <param name="end">The NodeV2 to end the search at.</param>
-    /// <param name="grid">All nodes in the given context.</param>
+    /// <param name="nodes">All nodes in the given context.</param>
     /// <param name="colorDebug">Whether to color the nodes in the grid to show the pathfinding process.</param>
     /// <returns>A list of nodes representing the path from start to end.</returns>
-    public static List<NodeV2> AstarSearch(NodeV2 start, NodeV2 end, HashSet<NodeV2> grid, bool colorDebug = false) {
+    public static List<NodeV2> AstarSearch(NodeV2 start, NodeV2 end, HashSet<NodeV2> nodes, bool colorDebug = false) {
+      if (end == start) {
+        return new List<NodeV2>();
+      }
+
       // When the selected end node is not walkable, find a new end node if possible
       if (!end.IsWalkable) {
-        List<NodeV2> freeNeighbours = end.neighbours.Where(n => n.IsWalkable).ToList();
-
-        if (freeNeighbours.Count == 0) {
-          Debug.Log("No path found!");
-
+        // When the target is right beside the start, return an empty list
+        if (start.neighbours.Contains(end)) {
           return new List<NodeV2>();
         }
 
-        List<NodeV2> shortestPath = freeNeighbours.OrderBy(n => CalculateHeuristic(start, n)).ToList();
+        List<NodeV2> freeNeighbours = end.neighbours.Where(n => n.IsWalkable).ToList();
 
-        end = shortestPath.First();
+        if (freeNeighbours.Count == 0) {
+          return new List<NodeV2>();
+        }
 
-        Debug.Log($"New end node: {end.location2D}");
+        end = freeNeighbours.OrderBy(n => CalculateHeuristic(start, n)).First();
       }
+
+      HashSet<NodeV2> grid = new HashSet<NodeV2>(nodes);
 
       // Use a PriorityQueue to keep track of the nodes to check, since we need to sort Nodes in it anyway by their F cost,
       // and a PriorityQueue does this automatically
@@ -47,8 +52,7 @@ namespace GruntzUnityverse.V2.Pathfinding {
 
       foreach (NodeV2 node in grid) {
         node.g = int.MaxValue;
-        node.h = int.MaxValue;
-        node.SetColor(new Color(255, 255, 255, 0.5f));
+        node.parent = null;
       }
 
       start.g = 0;
@@ -70,8 +74,6 @@ namespace GruntzUnityverse.V2.Pathfinding {
 
         // If goal is reached, retrace the path
         if (current == end) {
-          Debug.Log($"Checked {counter} nodes");
-
           return RetracePath(start, end);
         }
 
@@ -84,8 +86,8 @@ namespace GruntzUnityverse.V2.Pathfinding {
 
           // Todo: Check if NodeV2 is another actor's next node, and skip it if so
 
-          // Check if neighbour can't be reached diagonally directly, and skip it if so
-          if (current.CannotReachDiagonally(neighbour)) {
+          // Check if neighbour can be reached diagonally directly, and skip it if not
+          if (!current.CanReachDiagonally(neighbour)) {
             continue;
           }
 
@@ -99,25 +101,22 @@ namespace GruntzUnityverse.V2.Pathfinding {
 
           // See if PriorityQueue contains neighbour, and only enqueue it if it doesn't
           if (!openSet.UnorderedItems.ToList().Select(tuple => tuple.Item1).Contains(neighbour)) {
-            Debug.Log($"Enqueuing neighbour {neighbour.location2D} with F {neighbour.F}");
-
             openSet.Enqueue(neighbour, neighbour.F);
           }
         }
       }
 
-      Debug.Log("No path found!");
-      Debug.Log($"Checked {counter} nodes");
+      Debug.Log($"No path found, checked {counter} nodes");
 
-      // Return empty list if no path was found
+      // If no path was found, return an empty list 
       return new List<NodeV2>();
     }
 
-    public enum Heuristic {
-      Euclidean,
-      Chebyshev,
-      Octile,
+    private enum Heuristic {
       Manhattan,
+      Chebyshev,
+      Euclidean,
+      Octile,
     }
 
     private static int CalculateHeuristic(NodeV2 start, NodeV2 end, Heuristic heuristic = Heuristic.Manhattan) {
@@ -129,14 +128,8 @@ namespace GruntzUnityverse.V2.Pathfinding {
       };
     }
 
-    private static int Euclidean(NodeV2 start, NodeV2 end) {
-      int dxE = Math.Abs(start.location2D.x - end.location2D.x);
-      int dyE = Math.Abs(start.location2D.y - end.location2D.y);
-
-      // Euclidean distance
-      int euclideanDistance = (int)Math.Sqrt(dxE * dxE + dyE * dyE);
-
-      return euclideanDistance;
+    private static int Manhattan(NodeV2 start, NodeV2 end) {
+      return Math.Abs(start.location2D.x - end.location2D.x) + Math.Abs(start.location2D.y - end.location2D.y);
     }
 
     private static int Chebyshev(NodeV2 start, NodeV2 end) {
@@ -146,8 +139,14 @@ namespace GruntzUnityverse.V2.Pathfinding {
       );
     }
 
-    private static int Manhattan(NodeV2 start, NodeV2 end) {
-      return Math.Abs(start.location2D.x - end.location2D.x) + Math.Abs(start.location2D.y - end.location2D.y);
+    private static int Euclidean(NodeV2 start, NodeV2 end) {
+      int dxE = Math.Abs(start.location2D.x - end.location2D.x);
+      int dyE = Math.Abs(start.location2D.y - end.location2D.y);
+
+      // Euclidean distance
+      int euclideanDistance = (int)Math.Sqrt(dxE * dxE + dyE * dyE);
+
+      return euclideanDistance;
     }
 
     private static int Octile(NodeV2 start, NodeV2 end) {

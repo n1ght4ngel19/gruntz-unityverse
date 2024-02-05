@@ -11,6 +11,12 @@ namespace GruntzUnityverse.V2.Objectz.Switchez {
     /// </summary>
     public List<BridgeV2> bridgez;
 
+    protected override void Setup() {
+      base.Setup();
+
+      bridgez = transform.parent.GetComponentsInChildren<BridgeV2>().ToList();
+    }
+
     protected override IEnumerator OnTriggerEnter2D(Collider2D other) {
       ToggleOn();
 
@@ -23,10 +29,6 @@ namespace GruntzUnityverse.V2.Objectz.Switchez {
       ToggleOff();
 
       yield break;
-    }
-
-    protected override void Setup() {
-      bridgez = transform.parent.GetComponentsInChildren<BridgeV2>().ToList();
     }
   }
 }

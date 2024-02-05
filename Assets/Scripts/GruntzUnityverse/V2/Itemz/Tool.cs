@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using GruntzUnityverse.V2.Core;
 using GruntzUnityverse.V2.Grunt;
 using UnityEngine;
 
@@ -37,6 +38,7 @@ namespace GruntzUnityverse.V2.Itemz {
       yield return base.Pickup(target);
 
       target.tool = target.gameObject.AddComponent(GetType()) as Tool;
+      GM.Instance.levelStatz.toolz++;
       // Todo: Set target's animation pack to this Tool's animation pack
     }
 

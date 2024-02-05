@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
 using GruntzUnityverse.V2.Core;
 using GruntzUnityverse.V2.Editor;
@@ -78,11 +77,19 @@ namespace GruntzUnityverse.V2.Objectz {
       circleCollider2D.isTrigger = false;
     }
 
+    protected bool SceneLoaded() {
+      return gameObject.scene.isLoaded;
+    }
+
     /// <summary>
     /// Reverts the effects this GridObject has on the NodeV2 it is occupying.
     /// Can be overridden to add additional effects specific to child classes.
     /// </summary>
     protected virtual void OnDestroy() {
+      if (!SceneLoaded()) {
+        return;
+      }
+
       node.isBlocked = actAsObstacle ? false : node.isBlocked;
     }
   }

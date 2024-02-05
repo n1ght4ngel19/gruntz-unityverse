@@ -103,8 +103,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e185902864442e89b9a3b5a8aa9a33a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actAsObstacle: 0
+  actAsWater: 0
+  actAsFire: 0
+  actAsVoid: 0
   location2D: {x: 0, y: 0}
-  isBlocking: 0
+  node: {fileID: 0}
   <IsOn>k__BackingField: 0
   <OnSprite>k__BackingField: {fileID: -1529189713, guid: 560ec454ed659e74f8b25a4295edccd7, type: 3}
   <OffSprite>k__BackingField: {fileID: 570220676, guid: 560ec454ed659e74f8b25a4295edccd7, type: 3}
@@ -180,7 +184,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.2
+  m_Radius: 0.05
 --- !u!114 &6683694277298422766
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,12 +7,10 @@ namespace GruntzUnityverse.V2.Objectz {
   /// A Grunt-sized piece of rock that blocks the path and possibly holds an <see cref="ItemV2"/>.
   /// </summary>
   public class RockV2 : GridObject, IObjectHolder {
-    [field: SerializeField]
+    [field: SerializeField] public ItemV2 HeldItem { get; set; }
 
-    public ItemV2 HeldItem { get; set; }
-
-    public void DropItem() {
-      if (HeldItem == null) {
+    public void DropItem(bool isSceneLoaded) {
+      if (!isSceneLoaded || HeldItem == null) {
         return;
       }
 
@@ -22,7 +20,7 @@ namespace GruntzUnityverse.V2.Objectz {
     protected override void OnDestroy() {
       base.OnDestroy();
 
-      DropItem();
+      DropItem(gameObject.scene.isLoaded);
     }
   }
 

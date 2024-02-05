@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1949379253702438865}
   - component: {fileID: 2099201685880584031}
   - component: {fileID: 6456712544459651228}
+  - component: {fileID: 8233337035928914528}
   m_Layer: 0
   m_Name: NodeV2
   m_TagString: Untagged
@@ -45,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1875e2e313c14a28956779337c4e2158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  location2D: {x: 0, y: 0}
+  circleCollider2D: {fileID: 8233337035928914528}
   parent: {fileID: 0}
   g: 0
   h: 0
@@ -60,11 +63,12 @@ MonoBehaviour:
     downLeft: {fileID: 0}
     left: {fileID: 0}
     upLeft: {fileID: 0}
-  occupied: 0
-  blocked: 0
+  isBlocked: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
   hardCorner: 0
   tileType: 0
-  <Location2D>k__BackingField: {x: 0, y: 0}
 --- !u!212 &6456712544459651228
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -119,3 +123,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &8233337035928914528
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4737850966241860254}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.05

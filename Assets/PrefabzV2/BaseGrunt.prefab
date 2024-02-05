@@ -401,6 +401,10 @@ MonoBehaviour:
   actAsVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
+  state: 
+  moveCommand: 0
+  newMoveCommand: 0
+  next: {fileID: 0}
   testStartNode: {fileID: 0}
   testEndNode: {fileID: 0}
   gruntName: Grumley
@@ -411,7 +415,7 @@ MonoBehaviour:
     powerupTime: 0
     toyTime: 0
     wingzTime: 0
-    moveSpeed: 0.6
+    moveDuration: 6
   flagz:
     selected: 0
     idle: 0
@@ -428,6 +432,11 @@ MonoBehaviour:
   powerup: {fileID: 0}
   selectionMarker: {fileID: 818739118923963330}
   idle: {fileID: 7400000, guid: 1cb6673f83ac4b940b70f4587f3e293c, type: 2}
+  path: []
+  targetNode: {fileID: 0}
+  moveStartTime: 0
+  moveDuration: 0
+  speed: 0
 --- !u!114 &7870216830220584668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,7 +554,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.2
+  m_Radius: 0.05
 --- !u!50 &-8774166172813497283
 Rigidbody2D:
   serializedVersion: 4

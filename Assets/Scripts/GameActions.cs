@@ -80,6 +80,15 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""217a9013-9a2f-4343-ae2a-50e9720d4543"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +201,17 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""action"": ""LoadGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e46c7d6a-aea9-419d-b7d5-0a9eecb0d893"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +226,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_InGame_Move = m_InGame.FindAction("Move", throwIfNotFound: true);
         m_InGame_SaveGame = m_InGame.FindAction("SaveGame", throwIfNotFound: true);
         m_InGame_LoadGame = m_InGame.FindAction("LoadGame", throwIfNotFound: true);
+        m_InGame_Escape = m_InGame.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +294,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_Move;
     private readonly InputAction m_InGame_SaveGame;
     private readonly InputAction m_InGame_LoadGame;
+    private readonly InputAction m_InGame_Escape;
     public struct InGameActions
     {
         private @GameActions m_Wrapper;
@@ -283,6 +305,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_InGame_Move;
         public InputAction @SaveGame => m_Wrapper.m_InGame_SaveGame;
         public InputAction @LoadGame => m_Wrapper.m_InGame_LoadGame;
+        public InputAction @Escape => m_Wrapper.m_InGame_Escape;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -310,6 +333,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @LoadGame.started += instance.OnLoadGame;
             @LoadGame.performed += instance.OnLoadGame;
             @LoadGame.canceled += instance.OnLoadGame;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
         }
 
         private void UnregisterCallbacks(IInGameActions instance)
@@ -332,6 +358,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @LoadGame.started -= instance.OnLoadGame;
             @LoadGame.performed -= instance.OnLoadGame;
             @LoadGame.canceled -= instance.OnLoadGame;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
         }
 
         public void RemoveCallbacks(IInGameActions instance)
@@ -357,5 +386,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSaveGame(InputAction.CallbackContext context);
         void OnLoadGame(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
 }

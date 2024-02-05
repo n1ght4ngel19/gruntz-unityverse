@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GruntzUnityverse.V2.Core;
 
 namespace GruntzUnityverse.V2.Objectz.Switchez {
   public class SecretSwitchV2 : SwitchV2 {
@@ -9,6 +10,7 @@ namespace GruntzUnityverse.V2.Objectz.Switchez {
 
       DisableTrigger();
 
+      GM.Instance.levelStatz.secretz++;
       secretObjectz.ForEach(so => StartCoroutine(so.ToggleOn()));
     }
   }

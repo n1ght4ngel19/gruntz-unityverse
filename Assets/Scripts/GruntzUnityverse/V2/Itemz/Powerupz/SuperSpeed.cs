@@ -12,11 +12,11 @@ namespace GruntzUnityverse.V2.Itemz.Powerupz {
     protected override IEnumerator Pickup(GruntV2 target) {
       yield return base.Pickup(target);
 
-      target.statz.moveSpeed *= speedMultiplier;
+      // target.statz.moveDuration *= speedMultiplier;
 
       yield return new WaitForSeconds(duration);
 
-      target.statz.moveSpeed /= speedMultiplier;
+      // target.statz.moveDuration /= speedMultiplier;
     }
   }
 }

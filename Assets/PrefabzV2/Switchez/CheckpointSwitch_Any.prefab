@@ -103,13 +103,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6fd2effb1bb425fb140112000b468f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actAsObstacle: 0
+  actAsWater: 0
+  actAsFire: 0
+  actAsVoid: 0
   location2D: {x: 0, y: 0}
-  isBlocking: 0
+  node: {fileID: 0}
   <IsOn>k__BackingField: 0
   <OnSprite>k__BackingField: {fileID: 1720063778, guid: ca92c344a4694654980c708d922d5da9, type: 3}
   <OffSprite>k__BackingField: {fileID: -829766337, guid: ca92c344a4694654980c708d922d5da9, type: 3}
-  pyramidz: []
-  otherSwitchez: []
 --- !u!95 &6260734195924743711
 Animator:
   serializedVersion: 7
@@ -181,7 +183,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.2
+  m_Radius: 0.05
 --- !u!114 &774676511495005596
 MonoBehaviour:
   m_ObjectHideFlags: 0

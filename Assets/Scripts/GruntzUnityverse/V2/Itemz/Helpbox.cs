@@ -9,7 +9,8 @@ namespace GruntzUnityverse.V2.Itemz {
     protected override IEnumerator Pickup(GruntV2 target) {
       yield return base.Pickup(target);
 
-      // Todo: Pause game and show helpbox UI
+      Time.timeScale = 0f;
+      // Todo: Show helpbox UI
       Debug.Log(helpboxText.text);
     }
 
