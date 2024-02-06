@@ -301,6 +301,27 @@ namespace GruntzUnityverse.V2.Grunt {
       StartCoroutine(Move());
     }
 
+    /// <summary>
+    /// Moves the Grunt to the current target node.
+    /// </summary>
+    public IEnumerator MoveTo(NodeV2 otherNode) {
+      flagz.interrupted = true;
+      yield return new WaitUntil(() => !flagz.moving);
+
+      targetNode = otherNode;
+      next = otherNode;
+
+      Vector2Int moveVector = (otherNode.location2D - node.location2D);
+      // FaceTowards(moveVector);
+
+      flagz.moving = true;
+
+      yield return new WaitWhile(() => node != otherNode);
+
+      flagz.moving = false;
+      flagz.interrupted = false;
+    }
+
     public void PlaceOnGround(NodeV2 placeNode) {
       // Todo: Go beside placeNode and place the Toy on it (if there is one equipped)
     }
