@@ -18,14 +18,6 @@ namespace GruntzUnityverse.V2.Grunt {
   /// The class representing a Grunt in the game.
   /// </summary>
   public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
-
-    #region Pathfinder Testing
-    [Header("Pathfinder Testing")]
-    public NodeV2 testStartNode;
-
-    public NodeV2 testEndNode;
-    #endregion
-
     // --------------------------------------------------
     // Statz
     // --------------------------------------------------
@@ -306,6 +298,7 @@ namespace GruntzUnityverse.V2.Grunt {
     /// </summary>
     public IEnumerator MoveTo(NodeV2 otherNode) {
       flagz.interrupted = true;
+
       yield return new WaitUntil(() => !flagz.moving);
 
       targetNode = otherNode;
@@ -326,44 +319,12 @@ namespace GruntzUnityverse.V2.Grunt {
       // Todo: Go beside placeNode and place the Toy on it (if there is one equipped)
     }
 
-    // /// <summary>
-    // /// For testing purposes.
-    // /// </summary>
-    public void TestPathfinding() {
-      foreach (NodeV2 nodeV2 in testStartNode.transform.parent.GetComponentsInChildren<NodeV2>().ToHashSet()) {
-        nodeV2.SetColor(Color.white);
-      }
-
-      DateTime startTime = DateTime.Now;
-
-      path = Pathfinder.AstarSearch(
-        testStartNode,
-        testEndNode,
-        GameObject.Find("NodeGrid").GetComponentsInChildren<NodeV2>().ToHashSet()
-        // GM.Instance.level.levelNodes.ToHashSet()
-      );
-
-      if (path.Count <= 0) {
-        Debug.Log(
-          $"Pathfinding took {(DateTime.Now - startTime).TotalMilliseconds}ms or {(DateTime.Now - startTime).TotalMilliseconds / 1000}s"
-        );
-
-        return;
-      }
-
-      Debug.Log($"Path is {path.Count} nodes long");
-
-      Debug.Log(
-        $"Pathfinding took {(DateTime.Now - startTime).TotalMilliseconds}ms or {(DateTime.Now - startTime).TotalMilliseconds / 1000}s"
-      );
-    }
-
     #region IAnimatable
     // --------------------------------------------------
     // IAnimatable
     // --------------------------------------------------
-    public Animator Animator { get; set; }
-    public AnimancerComponent Animancer { get; set; }
+    [field: SerializeField] public Animator Animator { get; set; }
+    [field: SerializeField] public AnimancerComponent Animancer { get; set; }
     #endregion
 
     // --------------------------------------------------
@@ -420,12 +381,6 @@ namespace GruntzUnityverse.V2.Grunt {
   public class GruntV2Editor : UnityEditor.Editor {
     public override void OnInspectorGUI() {
       GruntV2 grunt = (GruntV2)target;
-
-      GUILayout.Space(10);
-
-      if (GUILayout.Button("Test Pathfinding")) {
-        grunt.TestPathfinding();
-      }
 
       GUILayout.Space(10);
 

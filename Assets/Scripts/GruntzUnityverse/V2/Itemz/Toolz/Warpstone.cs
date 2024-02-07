@@ -4,9 +4,9 @@ using GruntzUnityverse.V2.Grunt;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Itemz.Toolz {
-  public class WarpstoneV2 : Tool {
+  public class Warpstone : Tool {
     protected override IEnumerator Pickup(GruntV2 target) {
-      yield  return base.Pickup(target);
+      yield return base.Pickup(target);
 
       GM.Instance.levelStatz.warpstoneRecovered = true;
     }

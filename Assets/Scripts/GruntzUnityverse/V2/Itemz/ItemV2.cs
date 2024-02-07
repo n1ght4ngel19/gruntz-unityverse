@@ -3,6 +3,7 @@ using Animancer;
 using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.V2.Grunt;
 using GruntzUnityverse.V2.Objectz;
+using UnityEditor;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Itemz {
@@ -27,13 +28,19 @@ namespace GruntzUnityverse.V2.Itemz {
     /// </summary>
     public GruntAnimationPack animationPack;
 
+    public override void Setup() {
+      base.Setup();
+
+      Animator = GetComponent<Animator>();
+      Animancer = GetComponent<AnimancerComponent>();
+    }
+
     // --------------------------------------------------
     // IAnimatable
     // --------------------------------------------------
 
     #region IAnimatable
     [field: SerializeField] public Animator Animator { get; set; }
-
     [field: SerializeField] public AnimancerComponent Animancer { get; set; }
     #endregion
 

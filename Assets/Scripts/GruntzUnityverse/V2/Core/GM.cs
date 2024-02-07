@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.MapObjectz;
 using GruntzUnityverse.V2.Grunt;
 using GruntzUnityverse.V2.Itemz;
 using GruntzUnityverse.V2.Itemz.Collectiblez;
+using GruntzUnityverse.V2.Objectz;
 using GruntzUnityverse.V2.Objectz.Switchez;
 using UnityEditor;
 using UnityEngine;
@@ -82,23 +84,40 @@ namespace GruntzUnityverse.V2.Core {
       LevelV2 level = FindFirstObjectByType<LevelV2>();
 
       if (GUILayout.Button("Initialize")) {
+        DateTime start = DateTime.Now;
+
         level.Initialize();
 
         gm.allGruntz = FindObjectsByType<GruntV2>(FindObjectsSortMode.None).ToList();
-        // selectedGruntz = new HashSet<GruntV2>(allGruntz.Where(grunt => grunt.flagz.selected));
 
         // Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
         FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
           .ToList()
           .ForEach(go => go.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(go.transform.position.y) * -1);
 
+        List<CheckpointV2> checkpointz = FindObjectsByType<CheckpointV2>(FindObjectsSortMode.None).ToList();
+
+        foreach (CheckpointV2 cp in checkpointz) {
+          cp.Setup();
+          EditorUtility.SetDirty(cp);
+        }
+
+        List<GridObject> gridObjects = FindObjectsByType<GridObject>(FindObjectsSortMode.None).ToList();
+
+        foreach (GridObject go in gridObjects) {
+          go.Setup();
+          EditorUtility.SetDirty(go);
+        }
+
         gm.levelStatz.maxToolz = FindObjectsByType<Tool>(FindObjectsSortMode.None).Length;
         gm.levelStatz.maxToyz = FindObjectsByType<Toy>(FindObjectsSortMode.None).Length;
         gm.levelStatz.maxPowerupz = FindObjectsByType<Powerup>(FindObjectsSortMode.None).Length;
-        gm.levelStatz.maxCoinz = FindObjectsByType<CoinV2>(FindObjectsSortMode.None).Length;
+        gm.levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
         gm.levelStatz.maxSecretz = FindObjectsByType<SecretSwitchV2>(FindObjectsSortMode.None).Length;
 
         EditorUtility.SetDirty(gm);
+
+        Debug.Log($"Initialization took {DateTime.Now - start}");
       }
     }
   }

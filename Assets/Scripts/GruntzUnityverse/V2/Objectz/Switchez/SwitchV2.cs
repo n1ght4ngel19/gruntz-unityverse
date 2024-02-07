@@ -3,24 +3,17 @@ using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz.Switchez {
   public abstract class SwitchV2 : GridObject, IBinaryToggleable {
-    protected override void Start() {
-      base.Start();
-
-      Setup();
-    }
-
-    protected virtual void Setup() { }
 
     #region IBinaryToggleable
     // --------------------------------------------------
     // IBinaryToggleable
     // --------------------------------------------------
-    [field: SerializeField] public bool IsOn { get; set; }
-    [field: SerializeField] public Sprite OnSprite { get; set; }
-    [field: SerializeField] public Sprite OffSprite { get; set; }
+    [field: SerializeField] public bool IsPressed { get; set; }
+    [field: SerializeField] public Sprite PressedSprite { get; set; }
+    [field: SerializeField] public Sprite ReleasedSprite { get; set; }
 
     public virtual void Toggle() {
-      if (IsOn) {
+      if (IsPressed) {
         ToggleOff();
       } else {
         ToggleOn();
@@ -28,13 +21,13 @@ namespace GruntzUnityverse.V2.Objectz.Switchez {
     }
 
     public virtual void ToggleOn() {
-      IsOn = true;
-      spriteRenderer.sprite = OnSprite;
+      IsPressed = true;
+      spriteRenderer.sprite = PressedSprite;
     }
 
     public virtual void ToggleOff() {
-      IsOn = false;
-      spriteRenderer.sprite = OffSprite;
+      IsPressed = false;
+      spriteRenderer.sprite = ReleasedSprite;
     }
     #endregion
 

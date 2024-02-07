@@ -54,11 +54,8 @@ namespace GruntzUnityverse.V2.Core {
 
       foreach (GameObject go in GameObject.FindGameObjectsWithTag("Blocker")) {
         Vector2Int position = Vector2Int.RoundToInt(go.transform.position);
-        Debug.Log(position);
-
         levelNodes.FirstOrDefault(n => n.location2D.Equals(position))!.isBlocked = true;
       }
     }
-
   }
 }

@@ -7,13 +7,24 @@ using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz {
   public class CheckpointV2 : MonoBehaviour {
-    public List<CheckpointSwitchV2> switchez;
+    public List<CheckpointSwitch> switchez;
     public List<CheckpointPyramidV2> pyramidz;
     public List<CheckpointFlag> flagz;
 
-    // ? OnEnable / Setup
-    private void Start() {
-      switchez = GetComponentsInChildren<CheckpointSwitchV2>().ToList();
+    private void Update() {
+      if (switchez.TrueForAll(sw => sw.IsPressed)) {
+        Debug.Log("Checkpoint cleared!");
+
+        switchez.ForEach(sw => sw.DisableTrigger());
+        pyramidz.ForEach(pyramid => pyramid.Toggle());
+        flagz.ForEach(flag => flag.PlayAnim());
+
+        enabled = false;
+      }
+    }
+
+    public void Setup() {
+      switchez = GetComponentsInChildren<CheckpointSwitch>().ToList();
 
       if (switchez == null || switchez.Count == 0) {
         Debug.LogError($"No Switchez found for checkpoint {gameObject.name}!");
@@ -28,18 +39,6 @@ namespace GruntzUnityverse.V2.Objectz {
       }
 
       flagz = GetComponentsInChildren<CheckpointFlag>().ToList();
-    }
-
-    private void Update() {
-      if (switchez.TrueForAll(sw => sw.IsOn)) {
-        Debug.Log("Checkpoint cleared!");
-
-        switchez.ForEach(sw => sw.DisableTrigger());
-        pyramidz.ForEach(pyramid => pyramid.Toggle());
-        flagz.ForEach(flag => flag.PlayAnim());
-
-        enabled = false;
-      }
     }
   }
 }

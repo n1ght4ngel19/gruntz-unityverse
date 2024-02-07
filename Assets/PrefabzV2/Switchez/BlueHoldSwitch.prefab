@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1650484674513923455}
   - component: {fileID: 6109165329942239614}
+  - component: {fileID: 3898944614350111335}
   - component: {fileID: 6260734195924743711}
   - component: {fileID: 6911840383049941242}
   - component: {fileID: 8797812452410695623}
@@ -90,6 +91,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3898944614350111335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008980603784178169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6626c8b435b4c33a1c87adcdc5b6b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actAsObstacle: 0
+  actAsWater: 0
+  actAsFire: 0
+  actAsVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  <IsPressed>k__BackingField: 0
+  <PressedSprite>k__BackingField: {fileID: 46345338, guid: 1bf3be5192c9006468e7cccdd0f144a1, type: 3}
+  <ReleasedSprite>k__BackingField: {fileID: 1755569071, guid: 1bf3be5192c9006468e7cccdd0f144a1, type: 3}
+  bridgez: []
 --- !u!95 &6260734195924743711
 Animator:
   serializedVersion: 7

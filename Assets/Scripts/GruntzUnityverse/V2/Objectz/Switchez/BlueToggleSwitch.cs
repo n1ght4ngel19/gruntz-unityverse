@@ -5,7 +5,7 @@ using GruntzUnityverse.V2.Objectz.Bridgez;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz.Switchez {
-  public class BlueToggleSwitchV2 : SwitchV2 {
+  public class BlueToggleSwitch : SwitchV2 {
     /// <summary>
     /// The Bridgez that this BlueSwitch controls.
     /// </summary>

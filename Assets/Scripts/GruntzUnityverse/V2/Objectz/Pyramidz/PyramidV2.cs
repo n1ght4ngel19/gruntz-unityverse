@@ -19,6 +19,8 @@ namespace GruntzUnityverse.V2.Objectz.Pyramidz {
       } else {
         ToggleOn();
       }
+
+      node.isBlocked = actAsObstacle;
     }
 
     public virtual void ToggleOn() {

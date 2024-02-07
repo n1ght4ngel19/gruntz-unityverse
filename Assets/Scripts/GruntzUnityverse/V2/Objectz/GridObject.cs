@@ -57,6 +57,8 @@ namespace GruntzUnityverse.V2.Objectz {
       node.isVoid = actAsVoid;
     }
 
+    public virtual void Setup() { }
+
     /// <summary>
     /// Checks whether this GridObject is diagonal to the given GridObject.
     /// </summary>
