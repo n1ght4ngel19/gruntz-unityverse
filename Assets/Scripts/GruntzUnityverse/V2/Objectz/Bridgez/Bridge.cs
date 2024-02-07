@@ -2,7 +2,8 @@
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz.Bridgez {
-  public class BridgeV2 : GridObject, IToggleable {
+  public class Bridge : GridObject, IToggleable {
+    public bool isDeathBridge;
 
     #region IToggleable
     // --------------------------------------------------
