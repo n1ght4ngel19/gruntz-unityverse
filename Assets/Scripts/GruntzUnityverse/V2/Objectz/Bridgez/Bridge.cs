@@ -8,8 +8,8 @@ namespace GruntzUnityverse.V2.Objectz.Bridgez {
     // --------------------------------------------------
     // IToggleable
     // --------------------------------------------------
-    [field: SerializeField] public Animator Animator { get; set; }
-    [field: SerializeField] public AnimancerComponent Animancer { get; set; }
+    public Animator Animator { get; set; }
+    public AnimancerComponent Animancer { get; set; }
     [field: SerializeField] public AnimationClip ToggleOnAnim { get; set; }
     [field: SerializeField] public AnimationClip ToggleOffAnim { get; set; }
 
@@ -19,17 +19,17 @@ namespace GruntzUnityverse.V2.Objectz.Bridgez {
       } else {
         ToggleOff();
       }
+
+      node.isWater = actAsWater;
     }
 
     public void ToggleOn() {
-      node.isWater = false;
-
+      actAsWater = false;
       Animancer.Play(ToggleOnAnim);
     }
 
     public void ToggleOff() {
-      node.isWater = true;
-
+      actAsWater = true;
       Animancer.Play(ToggleOffAnim);
     }
     #endregion

@@ -10,6 +10,35 @@ namespace GruntzUnityverse.V2.Objectz {
     protected override void Start() {
       base.Start();
 
+      SetDirection();
+      SetTargetNode();
+    }
+
+    private void SetDirection() {
+      string spriteName = spriteRenderer.sprite.name;
+
+      if (spriteName.Contains("UpRight")) {
+        direction = DirectionV2.UpRight;
+      } else if (spriteName.Contains("UpLeft")) {
+        direction = DirectionV2.UpLeft;
+      } else if (spriteName.Contains("DownRight")) {
+        direction = DirectionV2.DownRight;
+      } else if (spriteName.Contains("DownLeft")) {
+        direction = DirectionV2.DownLeft;
+      } else if (spriteName.Contains("Right")) {
+        direction = DirectionV2.Right;
+      } else if (spriteName.Contains("Left")) {
+        direction = DirectionV2.Left;
+      } else if (spriteName.Contains("Down")) {
+        direction = DirectionV2.Down;
+      } else if (spriteName.Contains("Up")) {
+        direction = DirectionV2.Up;
+      } else {
+        Debug.LogError("Arrow sprite name does not contain a valid direction.");
+      }
+    }
+
+    protected void SetTargetNode() {
       targetNode = direction switch {
         DirectionV2.Up => node.neighbourSet.up,
         DirectionV2.UpRight => node.neighbourSet.upRight,

@@ -9,26 +9,21 @@ namespace GruntzUnityverse.V2.Objectz.Switchez {
     /// <summary>
     /// The Bridgez that this BlueSwitch controls.
     /// </summary>
-    public List<BridgeV2> bridgez;
+    public List<Bridge> bridgez;
 
-    protected override void Setup() {
+    public override void Setup() {
       base.Setup();
-
-      bridgez = transform.parent.GetComponentsInChildren<BridgeV2>().ToList();
+      bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
     }
 
     protected override IEnumerator OnTriggerEnter2D(Collider2D other) {
-      ToggleOn();
+      yield return base.OnTriggerEnter2D(other);
 
       bridgez.ForEach(bridge => bridge.Toggle());
-
-      yield break;
     }
 
     protected override IEnumerator OnTriggerExit2D(Collider2D other) {
-      ToggleOff();
-
-      yield break;
+      yield return base.OnTriggerExit2D(other);
     }
   }
 }
