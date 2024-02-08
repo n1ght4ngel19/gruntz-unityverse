@@ -1,5 +1,9 @@
-﻿namespace GruntzUnityverse.V2.Objectz {
+﻿using System.Collections.Generic;
+
+namespace GruntzUnityverse.V2.Objectz {
   public interface IInteractable {
-    void Interact();
+    public List<string> CompatibleItemz { get; }
+
+    public void Interact();
   }
 }

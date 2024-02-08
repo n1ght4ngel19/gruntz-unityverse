@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using GruntzUnityverse.V2.Core;
 using GruntzUnityverse.V2.Grunt;
+using GruntzUnityverse.V2.Itemz.Toolz;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Itemz {
@@ -8,6 +9,8 @@ namespace GruntzUnityverse.V2.Itemz {
   /// The base class for all Toolz.
   /// </summary>
   public abstract class Tool : ItemV2 {
+    public EquippedTool equippedTool;
+
     /// <summary>
     /// The base damage this Tool applies, without any modifiers.
     /// </summary>
@@ -38,8 +41,9 @@ namespace GruntzUnityverse.V2.Itemz {
       yield return base.Pickup(target);
 
       target.tool = target.gameObject.AddComponent(GetType()) as Tool;
+      target.equippedTool = equippedTool;
+      target.animationPack = equippedTool.animationPack;
       GM.Instance.levelStatz.toolz++;
-      // Todo: Set target's animation pack to this Tool's animation pack
     }
 
     /// <summary>

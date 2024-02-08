@@ -61,7 +61,7 @@ namespace GruntzUnityverse.V2.Objectz {
         Debug.Log("Colliding with Gruntz");
         // StopCoroutine(grunt.Move());
         // grunt.flagz.interrupted = true;
-        StartCoroutine(grunt.MoveTo(targetNode));
+        StartCoroutine(grunt.MoveToNode(targetNode));
       }
     }
   }

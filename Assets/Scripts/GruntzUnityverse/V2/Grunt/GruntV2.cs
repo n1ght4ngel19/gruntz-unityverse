@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Animancer;
+using Cysharp.Threading.Tasks;
 using GruntzUnityverse.V2.Core;
 using GruntzUnityverse.V2.DataPersistence;
 using GruntzUnityverse.V2.Itemz;
+using GruntzUnityverse.V2.Itemz.Toolz;
 using GruntzUnityverse.V2.Objectz;
 using GruntzUnityverse.V2.Pathfinding;
 using GruntzUnityverse.V2.Utils;
@@ -58,6 +59,8 @@ namespace GruntzUnityverse.V2.Grunt {
     [Header("Equipment")]
     public Tool tool;
 
+    public EquippedTool equippedTool;
+
     /// <summary>
     /// The toy currently equipped by this Grunt.
     /// </summary>
@@ -69,20 +72,14 @@ namespace GruntzUnityverse.V2.Grunt {
     public Powerup powerup;
     #endregion
 
+    public AnimationPackV2 animationPack;
+
     // --------------------------------------------------
     // Componentz
     // --------------------------------------------------
 
     #region Componentz
     public GameObject selectionMarker;
-    #endregion
-
-    // --------------------------------------------------
-    // Animation
-    // --------------------------------------------------
-
-    #region Animation
-    public AnimationClip idle;
     #endregion
 
     public List<NodeV2> path;
@@ -94,25 +91,14 @@ namespace GruntzUnityverse.V2.Grunt {
     // --------------------------------------------------
 
     #region Events
-    protected override void Awake() {
-      base.Awake();
-
-      Animator = GetComponent<Animator>();
-      Animancer = GetComponent<AnimancerComponent>();
-    }
-
     protected override void Start() {
       base.Start();
 
-      Animancer.Play(idle);
+      Animancer.Play(animationPack.idle.down[0]);
     }
 
     private void Update() {
-      if (flagz.moving) {
-        Vector3 moveVector = (next.transform.position - transform.position).normalized;
-        gameObject.transform.position += moveVector * (Time.deltaTime / .6f);
-        location2D = node.location2D;
-      }
+      ChangePosition();
     }
     #endregion
 
@@ -139,7 +125,7 @@ namespace GruntzUnityverse.V2.Grunt {
     // --------------------------------------------------
 
     #region Input Actions
-    // Left click
+    // Left click & Ctrl
     private void OnSelect() {
       if (GM.Instance.selector.location2D == location2D) {
         Debug.Log($"Selected {gruntName}");
@@ -151,7 +137,7 @@ namespace GruntzUnityverse.V2.Grunt {
       }
     }
 
-    // Left click & Shift
+    // -----
     private void OnAdditionalSelect() {
       if (GM.Instance.selector.location2D != location2D) {
         return;
@@ -161,34 +147,42 @@ namespace GruntzUnityverse.V2.Grunt {
       GM.Instance.selectedGruntz.UniqueAdd(this);
     }
 
-    // Left click & Ctrl
-    private void OnAction() {
+    // Left click & Shift
+    private async void OnAction() {
       if (!flagz.selected || IsInterrupted) {
         return;
       }
 
       Debug.Log("OnAction");
 
-      GameObject interactable =
-        GameObject.FindGameObjectsWithTag("Interactable")
-          .FirstOrDefault(i => i.GetComponent<GridObject>().location2D == GM.Instance.selector.location2D);
+      GridObject interactable =
+        FindObjectsByType<GridObject>(FindObjectsSortMode.None)
+          .FirstOrDefault(go => go.location2D == GM.Instance.selector.location2D && go is IInteractable);
 
       GruntV2 grunt = GM.Instance.allGruntz
         .FirstOrDefault(g => g.location2D == GM.Instance.selector.location2D);
 
       if (interactable == null && grunt == null) {
-        // Todo: Play voice line for not being able to interact with nothing
+        // Todo: Play voice line for being unable to interact with nothing
 
         return;
       }
 
       if (interactable != null) {
-        // if (!interactable.GetComponent<IInteractable>().IsCompatibleWith(tool)) {
-        //   // Todo: Play voice line for having an incompatible tool
-        //   return;
-        // }
+        if (!((IInteractable)interactable).CompatibleItemz.Contains(equippedTool.toolName)) {
+          Debug.Log("Cannot interact with this! It's not compatible!");
 
-        StartCoroutine(tool.Use(interactable));
+          // Todo: Play voice line for having an incompatible tool
+          return;
+        }
+
+        Debug.Log("Alright, we're doing this!");
+
+        Animancer.Play(animationPack.interact.down[0]);
+
+        await UniTask.WaitForSeconds(0.5f);
+
+        equippedTool.Use(interactable);
       } else if (grunt != null) {
         /*
          * Todo: Take into account the following:
@@ -237,31 +231,39 @@ namespace GruntzUnityverse.V2.Grunt {
       targetNode = LevelV2.Instance.levelNodes
         .First(n => n.location2D == GM.Instance.selector.location2D);
 
-      StartCoroutine(Move());
+      MoveNode();
     }
     #endregion
+
+    private void ChangePosition() {
+      if (!flagz.moving) {
+        return;
+      }
+
+      Vector3 moveVector = (next.transform.position - transform.position).normalized;
+      gameObject.transform.position += moveVector * (Time.deltaTime / .6f);
+    }
 
     /// <summary>
     /// Moves the Grunt to the current target node.
     /// </summary>
-    public IEnumerator Move() {
+    public async void MoveNode() {
       if (flagz.moving) {
-        yield break;
+        return;
       }
 
       // Clicking on Grunt's own node or Grunt has reached his target
       if (node == targetNode) {
         Debug.Log("I'm there!");
 
-        yield break;
+        return;
       }
 
       // Grunt cannot move
       if (IsInterrupted) {
         Debug.Log("I'm interrupted!");
 
-        // return;
-        yield break;
+        return;
       }
 
       List<NodeV2> newPath = Pathfinder.AstarSearch(node, targetNode, LevelV2.Instance.levelNodes.ToHashSet());
@@ -269,7 +271,7 @@ namespace GruntzUnityverse.V2.Grunt {
       if (newPath.Count <= 0) {
         Debug.Log("New path is zero");
 
-        yield break;
+        return;
       }
 
       next = newPath[0];
@@ -279,24 +281,23 @@ namespace GruntzUnityverse.V2.Grunt {
 
       flagz.moving = true;
 
-      DateTime startTime = DateTime.Now;
+      // DateTime startTime = DateTime.Now;
 
-      // It takes 0.6 seconds to move to the next node
-      yield return new WaitWhile(() => node != next);
+      await UniTask.WaitWhile(() => node != next);
 
-      DateTime endTime = DateTime.Now;
-
-      Debug.Log(endTime - startTime);
+      // DateTime endTime = DateTime.Now;
+      // Debug.Log(endTime - startTime);
 
       flagz.moving = false;
+      location2D = node.location2D;
 
-      StartCoroutine(Move());
+      MoveNode();
     }
 
     /// <summary>
     /// Moves the Grunt to the current target node.
     /// </summary>
-    public IEnumerator MoveTo(NodeV2 otherNode) {
+    public IEnumerator MoveToNode(NodeV2 otherNode) {
       flagz.interrupted = true;
 
       yield return new WaitUntil(() => !flagz.moving);
@@ -312,6 +313,7 @@ namespace GruntzUnityverse.V2.Grunt {
       yield return new WaitWhile(() => node != otherNode);
 
       flagz.moving = false;
+      location2D = node.location2D;
       flagz.interrupted = false;
     }
 

@@ -401,12 +401,6 @@ MonoBehaviour:
   actAsVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
-  state: 
-  moveCommand: 0
-  newMoveCommand: 0
-  next: {fileID: 0}
-  testStartNode: {fileID: 0}
-  testEndNode: {fileID: 0}
   gruntName: Grumley
   statz:
     health: 20
@@ -428,15 +422,16 @@ MonoBehaviour:
     toyTimeBar: {fileID: 669920470423989890}
     wingzTimeBar: {fileID: 4053850924163349047}
   tool: {fileID: 0}
+  equippedTool: {fileID: 0}
   toy: {fileID: 0}
   powerup: {fileID: 0}
+  animationPack: {fileID: 11400000, guid: e8f2c945d4f9ca145a45e0c18d042c05, type: 2}
   selectionMarker: {fileID: 818739118923963330}
-  idle: {fileID: 7400000, guid: 1cb6673f83ac4b940b70f4587f3e293c, type: 2}
   path: []
   targetNode: {fileID: 0}
-  moveStartTime: 0
-  moveDuration: 0
-  speed: 0
+  next: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 5953476298560794903}
+  <Animancer>k__BackingField: {fileID: -4227858990208798214}
 --- !u!114 &7870216830220584668
 MonoBehaviour:
   m_ObjectHideFlags: 0
