@@ -5,6 +5,8 @@
     public bool idle;
     public bool hostileIdle;
     public bool moving;
+    public bool movingToAct;
+    public bool movingToGive;
     public bool interrupted;
   }
 }

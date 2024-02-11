@@ -28,15 +28,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             ""id"": ""964ec7c5-3953-494d-9a5a-37e7339bab0e"",
             ""actions"": [
                 {
-                    ""name"": ""Action"",
-                    ""type"": ""Button"",
-                    ""id"": ""ef9ea3b1-3197-4165-ae0f-9506499649b9"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Select"",
                     ""type"": ""Button"",
                     ""id"": ""938e4eb9-b43e-431d-b5b1-17d3dd2e6cf7"",
@@ -46,9 +37,18 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Give"",
+                    ""name"": ""AdditionalSelect"",
                     ""type"": ""Button"",
-                    ""id"": ""219e16dc-18c1-4175-8859-dc5d04e44403"",
+                    ""id"": ""af7c99b8-9b86-45ca-bb01-5dc0774151ba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectAll"",
+                    ""type"": ""Button"",
+                    ""id"": ""5ca4c0ee-4de5-4645-8606-56150e570575"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -58,6 +58,24 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""name"": ""Move"",
                     ""type"": ""Button"",
                     ""id"": ""3bc64928-1cd8-4aa5-ab40-980fb6bfa2fc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef9ea3b1-3197-4165-ae0f-9506499649b9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Give"",
+                    ""type"": ""Button"",
+                    ""id"": ""219e16dc-18c1-4175-8859-dc5d04e44403"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -93,6 +111,149 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
+                    ""name"": """",
+                    ""id"": ""5e1de9bc-afd6-4c5d-9b44-e1b5f936a919"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Left Button [Mouse] + Alt [Keyboard]"",
+                    ""id"": ""a0115eee-7405-4226-bebe-b85af6c4e29e"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Give"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""04fffa24-9765-4553-8a4e-3038b178c7d8"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Give"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""37e693c1-0fae-482b-86d3-bfbc3da52c49"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Give"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""444ba4d2-02bf-45aa-b8a5-4ef6a9091427"",
+                    ""path"": ""<Keyboard>/f5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SaveGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7cd334ab-6f04-4848-ae34-70a7254bbf51"",
+                    ""path"": ""<Keyboard>/f9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LoadGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e46c7d6a-aea9-419d-b7d5-0a9eecb0d893"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Left Button [Mouse] + Control [Keyboard]"",
+                    ""id"": ""c29d4e00-e32a-4dd9-9a90-90c794346332"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AdditionalSelect"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""272a946a-7df4-401c-af57-9d8d2111eca7"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AdditionalSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""9173cbba-0d7d-474b-b2f9-4a72486906a7"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AdditionalSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Control [Keyboard] + A [Keyboard]"",
+                    ""id"": ""625a9cc0-5d11-41f0-b5c7-199d1946dbc7"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""ffe8f7e9-b377-42b4-8e96-c7afdc7a0416"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""23279bf6-3cc4-440d-8aa3-dd6cbfb57f3d"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""Left Button [Mouse] + Shift [Keyboard]"",
                     ""id"": ""09266187-8b79-46b0-877e-b5c5a2ab6a0c"",
                     ""path"": ""OneModifier"",
@@ -127,89 +288,12 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5e1de9bc-afd6-4c5d-9b44-e1b5f936a919"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Select"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Left Button [Mouse] + Control [Keyboard]"",
-                    ""id"": ""a0115eee-7405-4226-bebe-b85af6c4e29e"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Give"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""04fffa24-9765-4553-8a4e-3038b178c7d8"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Give"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""37e693c1-0fae-482b-86d3-bfbc3da52c49"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Give"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f0b392bb-060d-4c95-8ec8-5acacf6cfb81"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""444ba4d2-02bf-45aa-b8a5-4ef6a9091427"",
-                    ""path"": ""<Keyboard>/f5"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SaveGame"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7cd334ab-6f04-4848-ae34-70a7254bbf51"",
-                    ""path"": ""<Keyboard>/f9"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LoadGame"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e46c7d6a-aea9-419d-b7d5-0a9eecb0d893"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -220,10 +304,12 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
 }");
         // InGame
         m_InGame = asset.FindActionMap("InGame", throwIfNotFound: true);
-        m_InGame_Action = m_InGame.FindAction("Action", throwIfNotFound: true);
         m_InGame_Select = m_InGame.FindAction("Select", throwIfNotFound: true);
-        m_InGame_Give = m_InGame.FindAction("Give", throwIfNotFound: true);
+        m_InGame_AdditionalSelect = m_InGame.FindAction("AdditionalSelect", throwIfNotFound: true);
+        m_InGame_SelectAll = m_InGame.FindAction("SelectAll", throwIfNotFound: true);
         m_InGame_Move = m_InGame.FindAction("Move", throwIfNotFound: true);
+        m_InGame_Action = m_InGame.FindAction("Action", throwIfNotFound: true);
+        m_InGame_Give = m_InGame.FindAction("Give", throwIfNotFound: true);
         m_InGame_SaveGame = m_InGame.FindAction("SaveGame", throwIfNotFound: true);
         m_InGame_LoadGame = m_InGame.FindAction("LoadGame", throwIfNotFound: true);
         m_InGame_Escape = m_InGame.FindAction("Escape", throwIfNotFound: true);
@@ -288,10 +374,12 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     // InGame
     private readonly InputActionMap m_InGame;
     private List<IInGameActions> m_InGameActionsCallbackInterfaces = new List<IInGameActions>();
-    private readonly InputAction m_InGame_Action;
     private readonly InputAction m_InGame_Select;
-    private readonly InputAction m_InGame_Give;
+    private readonly InputAction m_InGame_AdditionalSelect;
+    private readonly InputAction m_InGame_SelectAll;
     private readonly InputAction m_InGame_Move;
+    private readonly InputAction m_InGame_Action;
+    private readonly InputAction m_InGame_Give;
     private readonly InputAction m_InGame_SaveGame;
     private readonly InputAction m_InGame_LoadGame;
     private readonly InputAction m_InGame_Escape;
@@ -299,10 +387,12 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     {
         private @GameActions m_Wrapper;
         public InGameActions(@GameActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Action => m_Wrapper.m_InGame_Action;
         public InputAction @Select => m_Wrapper.m_InGame_Select;
-        public InputAction @Give => m_Wrapper.m_InGame_Give;
+        public InputAction @AdditionalSelect => m_Wrapper.m_InGame_AdditionalSelect;
+        public InputAction @SelectAll => m_Wrapper.m_InGame_SelectAll;
         public InputAction @Move => m_Wrapper.m_InGame_Move;
+        public InputAction @Action => m_Wrapper.m_InGame_Action;
+        public InputAction @Give => m_Wrapper.m_InGame_Give;
         public InputAction @SaveGame => m_Wrapper.m_InGame_SaveGame;
         public InputAction @LoadGame => m_Wrapper.m_InGame_LoadGame;
         public InputAction @Escape => m_Wrapper.m_InGame_Escape;
@@ -315,18 +405,24 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_InGameActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_InGameActionsCallbackInterfaces.Add(instance);
-            @Action.started += instance.OnAction;
-            @Action.performed += instance.OnAction;
-            @Action.canceled += instance.OnAction;
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
-            @Give.started += instance.OnGive;
-            @Give.performed += instance.OnGive;
-            @Give.canceled += instance.OnGive;
+            @AdditionalSelect.started += instance.OnAdditionalSelect;
+            @AdditionalSelect.performed += instance.OnAdditionalSelect;
+            @AdditionalSelect.canceled += instance.OnAdditionalSelect;
+            @SelectAll.started += instance.OnSelectAll;
+            @SelectAll.performed += instance.OnSelectAll;
+            @SelectAll.canceled += instance.OnSelectAll;
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Action.started += instance.OnAction;
+            @Action.performed += instance.OnAction;
+            @Action.canceled += instance.OnAction;
+            @Give.started += instance.OnGive;
+            @Give.performed += instance.OnGive;
+            @Give.canceled += instance.OnGive;
             @SaveGame.started += instance.OnSaveGame;
             @SaveGame.performed += instance.OnSaveGame;
             @SaveGame.canceled += instance.OnSaveGame;
@@ -340,18 +436,24 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IInGameActions instance)
         {
-            @Action.started -= instance.OnAction;
-            @Action.performed -= instance.OnAction;
-            @Action.canceled -= instance.OnAction;
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
-            @Give.started -= instance.OnGive;
-            @Give.performed -= instance.OnGive;
-            @Give.canceled -= instance.OnGive;
+            @AdditionalSelect.started -= instance.OnAdditionalSelect;
+            @AdditionalSelect.performed -= instance.OnAdditionalSelect;
+            @AdditionalSelect.canceled -= instance.OnAdditionalSelect;
+            @SelectAll.started -= instance.OnSelectAll;
+            @SelectAll.performed -= instance.OnSelectAll;
+            @SelectAll.canceled -= instance.OnSelectAll;
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Action.started -= instance.OnAction;
+            @Action.performed -= instance.OnAction;
+            @Action.canceled -= instance.OnAction;
+            @Give.started -= instance.OnGive;
+            @Give.performed -= instance.OnGive;
+            @Give.canceled -= instance.OnGive;
             @SaveGame.started -= instance.OnSaveGame;
             @SaveGame.performed -= instance.OnSaveGame;
             @SaveGame.canceled -= instance.OnSaveGame;
@@ -380,10 +482,12 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     public InGameActions @InGame => new InGameActions(this);
     public interface IInGameActions
     {
-        void OnAction(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
-        void OnGive(InputAction.CallbackContext context);
+        void OnAdditionalSelect(InputAction.CallbackContext context);
+        void OnSelectAll(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
+        void OnGive(InputAction.CallbackContext context);
         void OnSaveGame(InputAction.CallbackContext context);
         void OnLoadGame(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);

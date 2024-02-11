@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.V2.Core;
@@ -99,6 +100,8 @@ namespace GruntzUnityverse.V2.Grunt {
 
     private void Update() {
       ChangePosition();
+
+      // if ()
     }
     #endregion
 
@@ -111,40 +114,64 @@ namespace GruntzUnityverse.V2.Grunt {
       }
     }
 
-    /// <summary>
-    /// Sets the selected state of the Grunt.
-    /// </summary>
-    /// <param name="value">The state to set.</param>
-    public void SetSelected(bool value) {
-      // Debug.Log($"You selected me, {gruntName}!");
-      flagz.selected = value;
-    }
-
     // --------------------------------------------------
     // Input Actions
     // --------------------------------------------------
 
     #region Input Actions
-    // Left click & Ctrl
+    // Left click
     private void OnSelect() {
       if (GM.Instance.selector.location2D == location2D) {
-        Debug.Log($"Selected {gruntName}");
         flagz.selected = true;
+        selectionMarker.SetActive(true);
+
         GM.Instance.selectedGruntz.UniqueAdd(this);
       } else {
         flagz.selected = false;
+        selectionMarker.SetActive(false);
+
         GM.Instance.selectedGruntz.Remove(this);
       }
     }
 
-    // -----
+    // Left click & Ctrl
     private void OnAdditionalSelect() {
       if (GM.Instance.selector.location2D != location2D) {
         return;
       }
 
+      flagz.selected = !flagz.selected;
+      selectionMarker.SetActive(!selectionMarker.activeSelf);
+
+      if (flagz.selected) {
+        GM.Instance.selectedGruntz.UniqueAdd(this);
+      } else {
+        GM.Instance.selectedGruntz.Remove(this);
+      }
+    }
+
+    // Ctrl & A
+    private void OnSelectAll() {
       flagz.selected = true;
+      selectionMarker.SetActive(true);
+
       GM.Instance.selectedGruntz.UniqueAdd(this);
+    }
+
+    // Right click
+    private void OnMove() {
+      // No need to check for IsInterrupted(),
+      // since we need to be able to set another target while the Grunt is moving
+      if (!flagz.selected) {
+        return;
+      }
+
+      flagz.movingToAct = false;
+
+      targetNode = LevelV2.Instance.levelNodes
+        .First(n => n.location2D == GM.Instance.selector.location2D);
+
+      MoveNode();
     }
 
     // Left click & Shift
@@ -162,13 +189,16 @@ namespace GruntzUnityverse.V2.Grunt {
       GruntV2 grunt = GM.Instance.allGruntz
         .FirstOrDefault(g => g.location2D == GM.Instance.selector.location2D);
 
+      // There was nothing found to interact with
       if (interactable == null && grunt == null) {
         // Todo: Play voice line for being unable to interact with nothing
 
         return;
       }
 
+      // There was an interactable object found
       if (interactable != null) {
+        // Check whether the Grunt has an appropriate tool equipped
         if (!((IInteractable)interactable).CompatibleItemz.Contains(equippedTool.toolName)) {
           Debug.Log("Cannot interact with this! It's not compatible!");
 
@@ -176,14 +206,27 @@ namespace GruntzUnityverse.V2.Grunt {
           return;
         }
 
-        Debug.Log("Alright, we're doing this!");
+        flagz.movingToAct = true;
+        targetNode = interactable.node;
 
-        Animancer.Play(animationPack.interact.down[0]);
+        MoveNode();
 
-        await UniTask.WaitForSeconds(0.5f);
 
-        equippedTool.Use(interactable);
-      } else if (grunt != null) {
+        // await UniTask.WaitForSeconds(3f);
+        await UniTask.WaitWhile(() => !node.neighbours.Contains(interactable.node), PlayerLoopTiming.Update, new CancellationToken());
+
+        if (flagz.movingToAct) {
+          Debug.Log("Alright, we're doing this!");
+
+          Animancer.Play(animationPack.interact.down[0]);
+
+          await UniTask.WaitForSeconds(0.5f);
+
+          equippedTool.Use(interactable);
+        }
+      }
+      // There was a Grunt found
+      else if (grunt != null) {
         /*
          * Todo: Take into account the following:
          * - whether the target is friendly or not
@@ -219,20 +262,6 @@ namespace GruntzUnityverse.V2.Grunt {
       // Todo: Give toy to target
       Debug.Log($"Giving with {gruntName}");
     }
-
-    // Right click
-    private void OnMove() {
-      // No need to check for IsInterrupted(),
-      // since we need to be able to set another target while the Grunt is moving
-      if (!flagz.selected) {
-        return;
-      }
-
-      targetNode = LevelV2.Instance.levelNodes
-        .First(n => n.location2D == GM.Instance.selector.location2D);
-
-      MoveNode();
-    }
     #endregion
 
     private void ChangePosition() {
@@ -248,6 +277,7 @@ namespace GruntzUnityverse.V2.Grunt {
     /// Moves the Grunt to the current target node.
     /// </summary>
     public async void MoveNode() {
+      // Only start when setting flag to false, as in, when the Grunt reaches another node
       if (flagz.moving) {
         return;
       }

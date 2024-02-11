@@ -9,8 +9,8 @@ namespace GruntzUnityverse.V2.Objectz.Bridgez {
     // --------------------------------------------------
     // IToggleable
     // --------------------------------------------------
-    public Animator Animator { get; set; }
-    public AnimancerComponent Animancer { get; set; }
+    [field: SerializeField] public Animator Animator { get; set; }
+    [field: SerializeField] public AnimancerComponent Animancer { get; set; }
     [field: SerializeField] public AnimationClip ToggleOnAnim { get; set; }
     [field: SerializeField] public AnimationClip ToggleOffAnim { get; set; }
 
