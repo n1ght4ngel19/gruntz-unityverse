@@ -439,6 +439,33 @@ MonoBehaviour:
   actAsVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
+  onNodeChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2879499836149728836}
+        m_TargetAssemblyTypeName: GruntzUnityverse.V2.Grunt.GruntV2, GruntzUnityverse
+        m_MethodName: Move
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2879499836149728836}
+        m_TargetAssemblyTypeName: GruntzUnityverse.V2.Grunt.GruntV2, GruntzUnityverse
+        m_MethodName: MoveToNode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   isEnemy: 0
   gruntName: Grumley
   statz:
@@ -448,7 +475,6 @@ MonoBehaviour:
     powerupTime: 0
     toyTime: 0
     wingzTime: 0
-    moveDuration: 6
   flagz:
     selected: 0
     idle: 0
@@ -457,22 +483,22 @@ MonoBehaviour:
     movingToAct: 0
     movingToGive: 0
     interrupted: 0
+    moveForced: 0
   barz:
     healthBar: {fileID: 6422972775293359511}
     staminaBar: {fileID: 4401293049510515629}
     toyTimeBar: {fileID: 669920470423989890}
     wingzTimeBar: {fileID: 4053850924163349047}
-  tool: {fileID: 0}
   equippedTool: {fileID: 11400000, guid: f25c05611e59b654394f8128d0ce5f63, type: 2}
   toy: {fileID: 0}
   powerup: {fileID: 0}
   animationPack: {fileID: 11400000, guid: e8f2c945d4f9ca145a45e0c18d042c05, type: 2}
   selectionMarker: {fileID: 818739118923963330}
+  <Animator>k__BackingField: {fileID: 5953476298560794903}
+  <Animancer>k__BackingField: {fileID: -4227858990208798214}
   path: []
   targetNode: {fileID: 0}
   next: {fileID: 0}
-  <Animator>k__BackingField: {fileID: 5953476298560794903}
-  <Animancer>k__BackingField: {fileID: -4227858990208798214}
 --- !u!114 &7870216830220584668
 MonoBehaviour:
   m_ObjectHideFlags: 0

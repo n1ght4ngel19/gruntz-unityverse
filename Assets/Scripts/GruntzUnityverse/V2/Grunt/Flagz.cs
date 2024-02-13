@@ -8,5 +8,6 @@ public struct Flagz {
 	public bool movingToAct;
 	public bool movingToGive;
 	public bool interrupted;
+	public bool moveForced;
 }
 }
