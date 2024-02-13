@@ -13,113 +13,113 @@ using UnityEngine.SceneManagement;
 using Tool = GruntzUnityverse.V2.Itemz.Tool;
 
 namespace GruntzUnityverse.V2.Core {
-  public class GM : MonoBehaviour {
-    /// <summary>
-    /// The singleton accessor of the GM.
-    /// </summary>
-    public static GM Instance { get; private set; }
+public class GM : MonoBehaviour {
+	/// <summary>
+	/// The singleton accessor of the GM.
+	/// </summary>
+	public static GM Instance { get; private set; }
 
-    /// <summary>
-    /// The name of the current Level (not the scene name/address).
-    /// </summary>
-    public string levelName;
+	/// <summary>
+	/// The name of the current Level (not the scene name/address).
+	/// </summary>
+	public string levelName;
 
-    /// <summary>
-    /// The statz of the current level (completion).
-    /// </summary>
-    public LevelStatz levelStatz;
+	/// <summary>
+	/// The statz of the current level (completion).
+	/// </summary>
+	public LevelStatz levelStatz;
 
-    /// <summary>
-    /// The selector responsible for selecting and highlighting objects.
-    /// </summary>
-    public Selector selector;
+	/// <summary>
+	/// The selector responsible for selecting and highlighting objects.
+	/// </summary>
+	public Selector selector;
 
-    /// <summary>
-    /// All the Gruntz in the current level.
-    /// </summary>
-    [Header("Gruntz")]
-    public List<GruntV2> allGruntz;
+	/// <summary>
+	/// All the Gruntz in the current level.
+	/// </summary>
+	[Header("Gruntz")]
+	public List<GruntV2> allGruntz;
 
 
-    /// <summary>
-    /// The Gruntz currently selected by the player.
-    /// </summary>
-    public List<GruntV2> selectedGruntz;
+	/// <summary>
+	/// The Gruntz currently selected by the player.
+	/// </summary>
+	public List<GruntV2> selectedGruntz;
 
-    private void Awake() {
-      if (Instance != null && Instance != this) {
-        Debug.Log("Destroying self, GM already exists.");
-        Destroy(gameObject);
-      } else {
-        Instance = this;
-      }
+	private void Awake() {
+		if (Instance != null && Instance != this) {
+			Debug.Log("Destroying self, GM already exists.");
+			Destroy(gameObject);
+		} else {
+			Instance = this;
+		}
 
-      SceneManager.sceneLoaded += OnSceneLoaded;
-      Application.targetFrameRate = 60;
-    }
+		SceneManager.sceneLoaded += OnSceneLoaded;
+		Application.targetFrameRate = 60;
+	}
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-      if (scene.name is "MainMenu" or "StatzMenu") {
-        return;
-      }
+	private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		if (scene.name is "MainMenu" or "StatzMenu") {
+			return;
+		}
 
-      Debug.Log($"Loaded {scene.name}");
+		Debug.Log($"Loaded {scene.name}");
 
-      allGruntz = FindObjectsByType<GruntV2>(FindObjectsSortMode.None).ToList();
+		allGruntz = FindObjectsByType<GruntV2>(FindObjectsSortMode.None).ToList();
 
-      // Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
-      FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
-        .ToList()
-        .ForEach(go => go.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(go.transform.position.y) * -1);
-    }
-  }
+		// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
+		FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
+			.ToList()
+			.ForEach(go => go.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(go.transform.position.y) * -1);
+	}
+}
 
-  #if UNITY_EDITOR
-  [CustomEditor(typeof(GM))]
-  public class GMEditor : UnityEditor.Editor {
-    public override void OnInspectorGUI() {
-      base.OnInspectorGUI();
+#if UNITY_EDITOR
+[CustomEditor(typeof(GM))]
+public class GMEditor : UnityEditor.Editor {
+	public override void OnInspectorGUI() {
+		base.OnInspectorGUI();
 
-      GM gm = (GM)target;
-      LevelV2 level = FindFirstObjectByType<LevelV2>();
+		GM gm = (GM)target;
+		LevelV2 level = FindFirstObjectByType<LevelV2>();
 
-      if (GUILayout.Button("Initialize")) {
-        DateTime start = DateTime.Now;
+		if (GUILayout.Button("Initialize")) {
+			DateTime start = DateTime.Now;
 
-        level.Initialize();
+			level.Initialize();
 
-        gm.allGruntz = FindObjectsByType<GruntV2>(FindObjectsSortMode.None).ToList();
+			gm.allGruntz = FindObjectsByType<GruntV2>(FindObjectsSortMode.None).ToList();
 
-        // Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
-        FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
-          .ToList()
-          .ForEach(go => go.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(go.transform.position.y) * -1);
+			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
+			FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
+				.ToList()
+				.ForEach(go => go.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(go.transform.position.y) * -1);
 
-        List<CheckpointV2> checkpointz = FindObjectsByType<CheckpointV2>(FindObjectsSortMode.None).ToList();
+			List<CheckpointV2> checkpointz = FindObjectsByType<CheckpointV2>(FindObjectsSortMode.None).ToList();
 
-        foreach (CheckpointV2 cp in checkpointz) {
-          cp.Setup();
-          EditorUtility.SetDirty(cp);
-        }
+			foreach (CheckpointV2 cp in checkpointz) {
+				cp.Setup();
+				EditorUtility.SetDirty(cp);
+			}
 
-        List<GridObject> gridObjects = FindObjectsByType<GridObject>(FindObjectsSortMode.None).ToList();
+			List<GridObject> gridObjects = FindObjectsByType<GridObject>(FindObjectsSortMode.None).ToList();
 
-        foreach (GridObject go in gridObjects) {
-          go.Setup();
-          EditorUtility.SetDirty(go);
-        }
+			foreach (GridObject go in gridObjects) {
+				go.Setup();
+				EditorUtility.SetDirty(go);
+			}
 
-        gm.levelStatz.maxToolz = FindObjectsByType<Tool>(FindObjectsSortMode.None).Length;
-        gm.levelStatz.maxToyz = FindObjectsByType<Toy>(FindObjectsSortMode.None).Length;
-        gm.levelStatz.maxPowerupz = FindObjectsByType<Powerup>(FindObjectsSortMode.None).Length;
-        gm.levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
-        gm.levelStatz.maxSecretz = FindObjectsByType<SecretSwitchV2>(FindObjectsSortMode.None).Length;
+			gm.levelStatz.maxToolz = FindObjectsByType<Tool>(FindObjectsSortMode.None).Length;
+			gm.levelStatz.maxToyz = FindObjectsByType<Toy>(FindObjectsSortMode.None).Length;
+			gm.levelStatz.maxPowerupz = FindObjectsByType<Powerup>(FindObjectsSortMode.None).Length;
+			gm.levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
+			gm.levelStatz.maxSecretz = FindObjectsByType<SecretSwitchV2>(FindObjectsSortMode.None).Length;
 
-        EditorUtility.SetDirty(gm);
+			EditorUtility.SetDirty(gm);
 
-        Debug.Log($"Initialization took {DateTime.Now - start}");
-      }
-    }
-  }
-  #endif
+			Debug.Log($"Initialization took {DateTime.Now - start}");
+		}
+	}
+}
+#endif
 }

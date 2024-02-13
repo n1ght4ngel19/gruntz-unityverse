@@ -3,26 +3,29 @@ using GruntzUnityverse.V2.Core;
 using GruntzUnityverse.V2.Grunt;
 
 namespace GruntzUnityverse.V2.Itemz {
-  public abstract class Toy : ItemV2 {
-    /// <summary>
-    /// The duration of this Toy's effect.
-    /// </summary>
-    public float duration;
+public abstract class Toy : ItemV2 {
+	// public EquippedToy equippedToy;
 
-    protected override IEnumerator Pickup(GruntV2 target) {
-      yield return base.Pickup(target);
+	/// <summary>
+	/// The duration of this Toy's effect.
+	/// </summary>
+	public float duration;
 
-      target.toy = target.gameObject.AddComponent(GetType()) as Toy;
-      GM.Instance.levelStatz.toyz++;
-    }
+	protected override IEnumerator Pickup(GruntV2 target) {
+		yield return base.Pickup(target);
 
-    /// <summary>
-    /// Called when the <see cref="GruntV2"/> uses this Toy.
-    /// The target can be either another Grunt himself.
-    /// <para/>
-    /// Provides no implementation since each child class has a different effect.
-    /// </summary>
-    /// <returns>An IEnumerator since this is a coroutine.</returns>
-    public abstract IEnumerator Use();
-  }
+		// target.equippedToy = target.gameObject.AddComponent(GetType()) as Toy;
+		// target.equippedToy = equippedToy;
+		GM.Instance.levelStatz.toyz++;
+	}
+
+	/// <summary>
+	/// Called when the <see cref="GruntV2"/> uses this Toy.
+	/// The target can be either another Grunt himself.
+	/// <para/>
+	/// Provides no implementation since each child class has a different effect.
+	/// </summary>
+	/// <returns>An IEnumerator since this is a coroutine.</returns>
+	public abstract IEnumerator Use();
+}
 }

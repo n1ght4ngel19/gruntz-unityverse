@@ -439,6 +439,7 @@ MonoBehaviour:
   actAsVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
+  isEnemy: 0
   gruntName: Grumley
   statz:
     health: 20
@@ -453,6 +454,8 @@ MonoBehaviour:
     idle: 0
     hostileIdle: 0
     moving: 0
+    movingToAct: 0
+    movingToGive: 0
     interrupted: 0
   barz:
     healthBar: {fileID: 6422972775293359511}
@@ -460,7 +463,7 @@ MonoBehaviour:
     toyTimeBar: {fileID: 669920470423989890}
     wingzTimeBar: {fileID: 4053850924163349047}
   tool: {fileID: 0}
-  equippedTool: {fileID: 0}
+  equippedTool: {fileID: 11400000, guid: f25c05611e59b654394f8128d0ce5f63, type: 2}
   toy: {fileID: 0}
   powerup: {fileID: 0}
   animationPack: {fileID: 11400000, guid: e8f2c945d4f9ca145a45e0c18d042c05, type: 2}

@@ -24,24 +24,20 @@ namespace GruntzUnityverse.V2.Itemz.Toolz {
     // public float attackTime;
     // public float rechargeTime;
 
-    public async void Use(GruntV2 target) {
+    public async void Attack(GruntV2 target) {
       Debug.Log($"Attacking {target.name}");
 
       await UniTask.WaitForSeconds(0.5f);
-      // yield return new WaitForSeconds(0.5f);
 
       target.TakeDamage(damage);
     }
 
-    public async void Use(GridObject target) {
+    public void Use(GridObject target) {
       Debug.Log($"Interacting with {target.name}");
 
       IInteractable interactable = target as IInteractable;
 
-      await UniTask.WaitForSeconds(0.5f);
-      // yield return new WaitForSeconds(0.5f);
-
-      // target.StartCoroutine(interactable.Interact());
+      // E.g. a rock explodes
       interactable?.Interact();
     }
   }
