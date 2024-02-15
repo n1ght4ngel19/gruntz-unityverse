@@ -413,6 +413,7 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		}
 
 		next = newPath[0];
+		next.isReserved = true;
 		flagz.moving = true;
 
 		onNodeChanged.RemoveAllListeners();

@@ -80,9 +80,13 @@ public class NodeV2 : MonoBehaviour {
 	/// <summary>
 	/// If true, this NodeV2 is occupied by an actor.
 	/// </summary>
-	[Header("Flags")]
+	[Header("Flagz")]
 	public bool IsOccupied => GM.Instance.allGruntz.Any(gr => gr.node == this);
 
+	/// <summary>
+	/// If true, this NodeV2 is reserved by an actor for its next move.
+	/// </summary>
+	public bool isReserved;
 
 	/// <summary>
 	/// If true, this NodeV2 is blocked by a wall or other obstacle.
@@ -97,21 +101,21 @@ public class NodeV2 : MonoBehaviour {
 	/// If true, this NodeV2 is walkable. This combines the 'occupied' and 'blocked' flags.
 	/// </summary>
 	public bool IsWalkable {
-		get => !IsOccupied && !isBlocked && !isWater && !isFire && !isVoid;
+		get => !IsOccupied && !isBlocked && !isWater && !isFire && !isVoid && !isReserved;
 	}
 
 	/// <summary>
 	/// If true, this NodeV2 is walkable with a Toob equipped.
 	/// </summary>
 	public bool IsWalkableWithToob {
-		get => !IsOccupied && !isBlocked && !isFire && !isVoid;
+		get => !IsOccupied && !isBlocked && !isFire && !isVoid && !isReserved;
 	}
 
 	/// <summary>
 	/// If true, this NodeV2 is walkable with Wingz equipped.
 	/// </summary>
 	public bool IsWalkableWithWingz {
-		get => !IsOccupied;
+		get => !IsOccupied && !isReserved;
 	}
 
 	/// <summary>
@@ -216,7 +220,9 @@ public class NodeV2 : MonoBehaviour {
 		grunt.flagz.interrupted = false;
 		grunt.flagz.moveForced = false;
 
- 		grunt.onNodeChanged.Invoke();
+		isReserved = false;
+
+		grunt.onNodeChanged.Invoke();
 	}
 
 	/// <summary>
