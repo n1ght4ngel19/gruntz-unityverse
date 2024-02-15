@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using GruntzUnityverse.V2.Grunt;
+﻿using GruntzUnityverse.V2.Grunt;
 using GruntzUnityverse.V2.Objectz;
 using UnityEngine;
 
@@ -24,15 +23,13 @@ namespace GruntzUnityverse.V2.Itemz.Toolz {
     // public float attackTime;
     // public float rechargeTime;
 
-    public async void Attack(GruntV2 target) {
+    public void Attack(GruntV2 target) {
       Debug.Log($"Attacking {target.name}");
-
-      await UniTask.WaitForSeconds(0.5f);
 
       target.TakeDamage(damage);
     }
 
-    public void Use(GridObject target) {
+    public void InteractWith(GridObject target) {
       Debug.Log($"Interacting with {target.name}");
 
       IInteractable interactable = target as IInteractable;

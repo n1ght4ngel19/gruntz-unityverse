@@ -13,5 +13,9 @@ public static class NumberX {
 	public static int SnappedToIncrement(this int value, int increment) {
 		return Mathf.RoundToInt(value / increment) * increment;
 	}
+
+	public static bool Between(this int value, int min, int max) {
+		return value >= min && value <= max;
+	}
 }
 }

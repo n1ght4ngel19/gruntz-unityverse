@@ -1,75 +1,74 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.V2.Itemz;
-using GruntzUnityverse.V2.Itemz.Toolz;
 using UnityEditor;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz {
-  /// <summary>
-  /// A Grunt-sized piece of rock that blocks the path and possibly holds an <see cref="ItemV2"/>.
-  /// </summary>
-  public class RockV2 : GridObject, IObjectHolder, IInteractable, IAnimatable {
-    [field: SerializeField] public ItemV2 HeldItem { get; set; }
-    [field: SerializeField] public Animator Animator { get; set; }
-    [field: SerializeField] public AnimancerComponent Animancer { get; set; }
-    public AnimationClip breakAnimation;
+/// <summary>
+/// A Grunt-sized piece of rock that blocks the path and possibly holds an <see cref="ItemV2"/>.
+/// </summary>
+public class RockV2 : GridObject, IObjectHolder, IInteractable, IAnimatable {
+	[field: SerializeField] public ItemV2 HeldItem { get; set; }
+	[field: SerializeField] public Animator Animator { get; set; }
+	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
+	public AnimationClip breakAnimation;
 
-    public void DropItem(bool isSceneLoaded) {
-      if (!isSceneLoaded || HeldItem == null) {
-        return;
-      }
+	public void DropItem(bool isSceneLoaded) {
+		if (!isSceneLoaded || HeldItem == null) {
+			return;
+		}
 
-      Instantiate(HeldItem, transform.position, Quaternion.identity, GameObject.Find("Itemz").transform);
-    }
+		Instantiate(HeldItem, transform.position, Quaternion.identity, GameObject.Find("Itemz").transform);
+	}
 
-    protected override void OnDestroy() {
-      base.OnDestroy();
+	protected override void OnDestroy() {
+		base.OnDestroy();
 
-      DropItem(gameObject.scene.isLoaded);
-    }
+		DropItem(gameObject.scene.isLoaded);
+	}
 
-    // --------------------------------------------------
-    // IInteractable
-    // --------------------------------------------------
+	// --------------------------------------------------
+	// IInteractable
+	// --------------------------------------------------
 
-    #region IInteractable
-    public List<string> CompatibleItemz {
-      get => new List<string> {
-        "Gauntletz",
-      };
-    }
+	#region IInteractable
+	public List<string> CompatibleItemz {
+		get => new List<string> {
+			"Gauntletz",
+		};
+	}
 
-    public async void Interact() {
-      transform.localScale *= 0.8f;
-      transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+	public async void Interact() {
+		transform.localScale *= 0.75f;
+		transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+		spriteRenderer.sortingLayerName = "AlwaysBottom";
 
-      Animancer.Play(breakAnimation);
+		Animancer.Play(breakAnimation);
 
-      await UniTask.WaitForSeconds(0.5f);
+		await UniTask.WaitForSeconds(0.5f);
 
-      enabled = false;
-      // Destroy(gameObject);
-    }
-    #endregion
+		enabled = false;
+		// Destroy(gameObject);
+	}
+	#endregion
 
-  }
+}
 
-  #if UNITY_EDITOR
-  [CustomEditor(typeof(RockV2))]
-  [CanEditMultipleObjects]
-  public class RockV2Editor : UnityEditor.Editor {
-    public override void OnInspectorGUI() {
-      base.OnInspectorGUI();
+#if UNITY_EDITOR
+[CustomEditor(typeof(RockV2))]
+[CanEditMultipleObjects]
+public class RockV2Editor : UnityEditor.Editor {
+	public override void OnInspectorGUI() {
+		base.OnInspectorGUI();
 
-      MonoBehaviour objectHolder = (RockV2)target;
+		MonoBehaviour objectHolder = (RockV2)target;
 
-      if (GUILayout.Button("Destroy Rock")) {
-        Destroy(objectHolder.gameObject);
-      }
-    }
-  }
-  #endif
+		if (GUILayout.Button("Destroy Rock")) {
+			Destroy(objectHolder.gameObject);
+		}
+	}
+}
+#endif
 }

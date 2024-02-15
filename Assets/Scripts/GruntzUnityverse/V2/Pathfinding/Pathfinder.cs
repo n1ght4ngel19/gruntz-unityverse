@@ -15,9 +15,8 @@ namespace GruntzUnityverse.V2.Pathfinding {
     /// <param name="start">The NodeV2 to start the search from.</param>
     /// <param name="end">The NodeV2 to end the search at.</param>
     /// <param name="nodes">All nodes in the given context.</param>
-    /// <param name="colorDebug">Whether to color the nodes in the grid to show the pathfinding process.</param>
     /// <returns>A list of nodes representing the path from start to end.</returns>
-    public static List<NodeV2> AstarSearch(NodeV2 start, NodeV2 end, HashSet<NodeV2> nodes, bool colorDebug = false) {
+    public static List<NodeV2> AstarSearch(NodeV2 start, NodeV2 end, HashSet<NodeV2> nodes) {
       if (end == start) {
         return new List<NodeV2>();
       }
@@ -58,17 +57,8 @@ namespace GruntzUnityverse.V2.Pathfinding {
       start.g = 0;
       start.h = CalculateHeuristic(start, end);
 
-      // if (colorDebug) {
-      //   start.SetColor(Color.blue);
-      //   end.SetColor(Color.green);
-      // }
-
       while (openSet.Count > 0) {
         NodeV2 current = openSet.Dequeue();
-
-        // if (colorDebug) {
-        //   current.SetColor(Color.red);
-        // }
 
         counter++;
 

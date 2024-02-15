@@ -18,7 +18,19 @@ namespace GruntzUnityverse.V2.Grunt {
 /// The class representing a Grunt in the game.
 /// </summary>
 public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
+	// --------------------------------------------------
+	// Eventz
+	// --------------------------------------------------
+
+
+	#region Eventz
+	[Header("Eventz")]
 	public UnityEvent onNodeChanged;
+
+	public UnityEvent onStaminaDrained;
+	public UnityEvent onTargetReached;
+	public UnityEvent onHit;
+	#endregion
 
 	// --------------------------------------------------
 	// Statz
@@ -82,10 +94,11 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 
 	public GameObject selectionMarker;
 
-	#region IAnimatable
 	// --------------------------------------------------
 	// IAnimatable
 	// --------------------------------------------------
+
+	#region IAnimatable
 	[field: SerializeField] public Animator Animator { get; set; }
 	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
 	#endregion
@@ -100,11 +113,22 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 	public NodeV2 targetNode;
 	public NodeV2 next;
 
+	/// <summary>
+	/// The target the Grunt will try to interact with.
+	/// </summary>
+	[Header("Interaction")]
+	public GridObject interactionTarget;
+
+	/// <summary>
+	/// The target the Grunt will try to attack.
+	/// </summary>
+	public GruntV2 attackTarget;
+
 	// --------------------------------------------------
-	// Events
+	// Lifecycle Eventz
 	// --------------------------------------------------
 
-	#region Events
+	#region Lifecycle Eventz
 	protected override void Start() {
 		base.Start();
 
@@ -113,13 +137,36 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 
 	private void Update() {
 		if (flagz.moving) {
-			ChangePosition();
+			HandleMovement();
+		} else {
+			Animancer.Play(animationPack.idle.down[0]);
 		}
 	}
 	#endregion
 
-	private void RegenerateStamina() {
-		statz.stamina += statz.staminaRegenRate;
+	public async void RegenerateStamina() {
+		while (statz.stamina < Statz.MaxValue) {
+			statz.stamina += statz.staminaRegenRate;
+			barz.staminaBar.Adjust(statz.stamina);
+
+			await UniTask.Delay(1000);
+		}
+
+		statz.stamina = Statz.MaxValue;
+	}
+
+	private void Select() {
+		flagz.selected = true;
+		selectionMarker.SetActive(true);
+
+		GM.Instance.selectedGruntz.UniqueAdd(this);
+	}
+
+	private void Deselect() {
+		flagz.selected = false;
+		selectionMarker.SetActive(false);
+
+		GM.Instance.selectedGruntz.Remove(this);
 	}
 
 	// --------------------------------------------------
@@ -129,16 +176,10 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 	#region Input Actions
 	// Left click
 	private void OnSelect() {
-		if (GM.Instance.selector.location2D == location2D) {
-			flagz.selected = true;
-			selectionMarker.SetActive(true);
-
-			GM.Instance.selectedGruntz.UniqueAdd(this);
+		if (GM.Instance.selector.location2D == node.location2D) {
+			Select();
 		} else {
-			flagz.selected = false;
-			selectionMarker.SetActive(false);
-
-			GM.Instance.selectedGruntz.Remove(this);
+			Deselect();
 		}
 	}
 
@@ -147,6 +188,9 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		if (GM.Instance.selector.location2D != location2D) {
 			return;
 		}
+
+		// When the Grunt is already selected, we want to deselect it if it's clicked again
+		// Otherwise, we want to select it, adding it to the selected Gruntz
 
 		flagz.selected = !flagz.selected;
 		selectionMarker.SetActive(!selectionMarker.activeSelf);
@@ -160,21 +204,27 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 
 	// Ctrl & A
 	private void OnSelectAll() {
-		flagz.selected = true;
-		selectionMarker.SetActive(true);
-
-		GM.Instance.selectedGruntz.UniqueAdd(this);
+		// Select Grunt no matter what
+		Select();
 	}
 
 	// Right click
 	private void OnMove() {
-		// No need to check for IsInterrupted(),
-		// since we need to be able to set another target while the Grunt is moving
 		if (!flagz.selected) {
 			return;
 		}
 
-		flagz.movingToAct = false;
+		#region Reset
+		onNodeChanged.RemoveAllListeners();
+		onTargetReached.RemoveAllListeners();
+
+		interactionTarget = null;
+		attackTarget = null;
+
+		flagz.setToInteract = false;
+		flagz.setToAttack = false;
+		flagz.setToGive = false;
+		#endregion
 
 		targetNode = LevelV2.Instance.levelNodes
 			.First(n => n.location2D == GM.Instance.selector.location2D);
@@ -183,70 +233,90 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 	}
 
 	// Left click & Shift
-	private async void OnAction() {
-		if (!flagz.selected || IsInterrupted) {
+	private void OnAction() {
+		if (!flagz.selected) {
 			return;
 		}
 
-		Debug.Log("OnAction");
+		#region Reset
+		onNodeChanged.RemoveAllListeners();
+		onTargetReached.RemoveAllListeners();
 
-		GridObject interactable =
+		interactionTarget = null;
+		attackTarget = null;
+
+		flagz.setToInteract = false;
+		flagz.setToAttack = false;
+		flagz.setToGive = false;
+		#endregion
+
+		// Find new interaction target
+		interactionTarget =
 			FindObjectsByType<GridObject>(FindObjectsSortMode.None)
 				.FirstOrDefault(go => go.location2D == GM.Instance.selector.location2D && go is IInteractable);
 
-		GruntV2 grunt = GM.Instance.allGruntz
+		// Find new attack target
+		attackTarget = GM.Instance.allGruntz
 			.FirstOrDefault(g => g.location2D == GM.Instance.selector.location2D);
 
 		// There was nothing found to interact with
-		if (interactable == null && grunt == null) {
+		if (interactionTarget == null && attackTarget == null) {
 			// Todo: Play voice line for being unable to interact with nothing
-			flagz.movingToAct = false;
-
 			return;
 		}
 
 		// There was an interactable object found
-		if (interactable != null) {
+		if (interactionTarget != null) {
 			// Check whether the Grunt has an appropriate tool equipped
-			if (!((IInteractable)interactable).CompatibleItemz.Contains(equippedTool.toolName)) {
+			if (!((IInteractable)interactionTarget).CompatibleItemz.Contains(equippedTool.toolName)) {
 				Debug.Log("Cannot interact with this! It's not compatible!");
-				flagz.movingToAct = false;
-
 				// Todo: Play voice line for having an incompatible tool
+
 				return;
 			}
 
-			flagz.movingToAct = true;
-			targetNode = interactable.node;
+			if (InRange(interactionTarget.node)) {
+				Debug.Log("I'm in range!");
+				targetNode = node;
+				Interact();
+
+				return;
+			}
+
+			Debug.Log("Adding listener to onTargetReached");
+			onTargetReached.AddListener(Interact);
+			flagz.setToInteract = true;
+			targetNode = interactionTarget.node;
 
 			Move();
 
-			// await UniTask.WaitWhile(
-			//   () => !node.neighbours.Contains(interactable.node),
-			//   cancellationToken: waitCancellationToken.Token,
-			//   cancelImmediately: true
-			// );
-
-			// Grunt is ready to act
-			if (flagz.movingToAct) {
-				Animancer.Play(animationPack.interact.down[0]);
-
-				// Wait the duration of the interaction animation
-				await UniTask.WaitForSeconds(0.5f);
-
-				equippedTool.Use(interactable);
-			}
+			return;
 		}
-		// There was a Grunt found
-		else if (grunt != null) {
-			/*
-			 * Todo: Take into account the following:
-			 * - whether the target is friendly or not
-			 * - the tool's reach
-			 * - the Grunt's ability to reach the target
-			 */
 
-			// StartCoroutine(tool.Use(grunt));
+		// There was a Grunt found
+		if (attackTarget != null) {
+			// Check team (friend or enemy)
+			// if (attackTarget.team == team) {
+			// 	attackTarget = null;
+			//  targetNode = node;
+			//
+			// 	return;
+			// }
+
+			if (InRange(attackTarget.node)) {
+				Debug.Log("I'm in range!");
+				targetNode = node;
+				Attack();
+
+				return;
+			}
+
+			Debug.Log("Adding listener to onTargetReached");
+			onTargetReached.AddListener(Attack);
+			flagz.setToAttack = true;
+			targetNode = attackTarget.node;
+
+			Move();
 		}
 	}
 
@@ -256,6 +326,9 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		if (!flagz.selected || IsInterrupted) {
 			return;
 		}
+
+		interactionTarget = null;
+		attackTarget = null;
 
 		if (toy == null) {
 			// Todo: Play voice line for not having a toy
@@ -280,36 +353,49 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 	// --------------------------------------------------
 
 	#region Movement
-	private void ChangePosition() {
+	/// <summary>
+	/// Continually moves the Grunt's physical position while it is set to move.
+	/// </summary>
+	private void HandleMovement() {
 		Vector3 moveVector = (next.transform.position - transform.position).normalized;
 		gameObject.transform.position += moveVector * (Time.deltaTime / .6f);
+
+		Animancer.Play(animationPack.walk.down[0]);
+		// FaceTowards(moveVector);
 	}
 
 	/// <summary>
 	/// Moves the Grunt to the current target node.
 	/// </summary>
 	public void Move() {
-		#region Validate move
+		#region Validation
+		// Prevent starting new movement while moving (e.g. from consecutive OnMove() calls)
 		if (flagz.moving) {
-			return;
-		}
-
-		// Grunt's move is forced (e.g. by an Arrow)
-		if (flagz.moveForced) {
-			Debug.Log("Move is forced!");
-
 			return;
 		}
 
 		// Grunt cannot move
 		if (flagz.interrupted) {
+			onNodeChanged.RemoveAllListeners();
 			Debug.Log("I'm interrupted!");
+
+			return;
+		}
+
+		// Grunt's move is forced (e.g. by an Arrow)
+		if (flagz.moveForced) {
+			onNodeChanged.RemoveAllListeners();
+			Debug.Log("Move is forced!");
 
 			return;
 		}
 
 		// Grunt has reached his target (or is already there)
 		if (targetNode == node || targetNode == null) {
+			onNodeChanged.RemoveAllListeners();
+			onTargetReached.Invoke();
+			Debug.Log("Target reached!");
+
 			return;
 		}
 		#endregion
@@ -317,7 +403,11 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		List<NodeV2> newPath = Pathfinder.AstarSearch(node, targetNode, LevelV2.Instance.levelNodes.ToHashSet());
 
 		if (newPath.Count <= 0) {
-			Debug.Log("New path is zero");
+			Debug.Log("No further path found!");
+			targetNode = node;
+			onNodeChanged.RemoveAllListeners();
+			onTargetReached.Invoke(); // Attack/Interact/Give
+			Debug.Log("Target reached!");
 
 			return;
 		}
@@ -325,8 +415,8 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		next = newPath[0];
 		flagz.moving = true;
 
-		Vector2Int moveVector = (next.location2D - node.location2D);
-		// FaceTowards(moveVector);
+		onNodeChanged.RemoveAllListeners();
+		onNodeChanged.AddListener(Move);
 	}
 
 	/// <summary>
@@ -352,74 +442,131 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		#endregion
 
 		flagz.moving = true;
-
-		Vector2Int moveVector = (targetNode.location2D - node.location2D);
-		// FaceTowards(moveVector);
 	}
 	#endregion
 
-	public async void Act() {
-		if (IsInterrupted) {
-			flagz.movingToAct = false;
-
-			return;
-		}
-
-		GruntV2 grunt = GM.Instance.allGruntz
-			.FirstOrDefault(g => g.location2D == GM.Instance.selector.location2D);
-
-		// There was nothing found to interact with
-		if (grunt == null) {
-			// Todo: Play voice line for being unable to interact with nothing
-			flagz.movingToAct = false;
-
-			return;
-		}
-
-		// There was a Grunt found
-
-		flagz.movingToAct = true;
-		targetNode = grunt.node;
-
-		Move();
-
-		// await UniTask.WaitWhile(
-		//   () => !node.neighbours.Contains(grunt.node),
-		//   cancellationToken: waitCancellationToken.Token,
-		//   cancelImmediately: true
-		// );
-
-		Debug.Log("Acting");
-
-		// if (!flagz.movingToAct) {
-		//   return;
-		// }
-
-		if (statz.stamina == Statz.MaxValue) {
-			Attack(grunt);
-		}
-
-		/*
-		 * Todo: Take into account the following:
-		 * - whether the target is friendly or not
-		 * - the tool's reach
-		 * - the Grunt's ability to reach the target
-		 */
+	public bool InRange(NodeV2 otherNode) {
+		return Mathf.Abs(node.location2D.x - otherNode.location2D.x) <= equippedTool.range
+			&& Mathf.Abs(node.location2D.y - otherNode.location2D.y) <= equippedTool.range;
 	}
 
-	public async void Attack(GruntV2 target) {
-		Debug.Log("Alright, we're doing this!");
+	public async void Interact() {
+		#region Validation
+		// Prevent starting new movement while moving (e.g. from consecutive OnMove() calls)
+		if (flagz.moving) {
+			Debug.Log("Don't interact because I'm moving!");
+
+			return;
+		}
+
+		if (flagz.interrupted) {
+			Debug.Log("Don't interact because I'm interrupted!");
+			onNodeChanged.RemoveAllListeners();
+			flagz.setToInteract = false;
+
+			return;
+		}
+
+		if (flagz.moveForced) {
+			Debug.Log("Don't interact because move is forced!");
+			onNodeChanged.RemoveAllListeners();
+
+			return;
+		}
+
+		// There was no interaction target found
+		if (interactionTarget == null) {
+			Debug.Log("Don't interact because there's nothing to interact with!");
+			// Todo: Play voice line for being unable to interact with nothing
+			onTargetReached.RemoveAllListeners();
+			onNodeChanged.RemoveAllListeners();
+			flagz.setToInteract = false;
+
+			return;
+		}
+		#endregion
+
+		flagz.hostileIdle = true;
+
+		await UniTask.WaitUntil(() => statz.stamina == Statz.MaxValue);
+
+		flagz.hostileIdle = false;
+
+		Animancer.Play(animationPack.interact.down[0]);
+
+		// Wait the duration of the interaction animation
+		await UniTask.WaitForSeconds(0.5f);
+
+		equippedTool.InteractWith(interactionTarget);
+
 		statz.stamina = 0;
+		onStaminaDrained.Invoke();
+
+		onTargetReached.RemoveAllListeners();
+		onNodeChanged.RemoveAllListeners();
+		flagz.setToInteract = false;
+	}
+
+	public async void Attack() {
+		#region Validation
+		if (flagz.moving) {
+			Debug.Log("Don't attack because I'm moving!");
+
+			return;
+		}
+
+		if (flagz.interrupted || flagz.moveForced) {
+			Debug.Log("Can't attack because I'm interrupted or move is forced!");
+			flagz.setToAttack = false;
+
+			return;
+		}
+
+		// There is no attack target
+		if (attackTarget == null) {
+			Debug.Log("Don't attack because there's nothing to attack!");
+			// Todo: Play voice line for being unable to attack nothing
+			onTargetReached.RemoveAllListeners();
+			onNodeChanged.RemoveAllListeners();
+			flagz.setToAttack = false;
+
+			return;
+		}
+		#endregion
+
+		flagz.hostileIdle = true;
+
+		Debug.Log("Waiting until stamina is full");
+		await UniTask.WaitUntil(() => statz.stamina == Statz.MaxValue);
+
+		flagz.hostileIdle = false;
 
 		Animancer.Play(animationPack.attack.down[0]);
 
+		// Wait the duration of the interaction animation
 		await UniTask.WaitForSeconds(0.5f);
 
-		equippedTool.Attack(target);
+		equippedTool.Attack(attackTarget);
+
+		statz.stamina = 0;
+		onStaminaDrained.Invoke();
+
+		onTargetReached.RemoveAllListeners();
+		onNodeChanged.RemoveAllListeners();
+
+		if (attackTarget.statz.health <= 0) {
+			attackTarget = null;
+		}
+
+		// Try to attack again until commanded otherwise, cannot attack, or target doesn't exist anymore
+		if (attackTarget != null) {
+			Attack();
+		}
 	}
 
 	public void TakeDamage(int damage) {
 		statz.health -= damage;
+		barz.healthBar.Adjust(statz.health);
 
 		if (statz.health <= 0) {
 			// Die();
@@ -431,9 +578,9 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		// Todo: Go beside placeNode and place the Toy on it (if there is one equipped)
 	}
 
-	// --------------------------------------------------
-	// IDataPersistence
-	// --------------------------------------------------
+// --------------------------------------------------
+// IDataPersistence
+// --------------------------------------------------
 
 	#region IDataPersistence
 	public string Guid { get; set; }
@@ -454,7 +601,7 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		Debug.Log($"Saving {gruntName} at {transform.position} with GUID {Guid}");
 	}
 
-	// ?Unnecessary
+// ?Unnecessary
 	public void Load(GameData data) {
 		// GruntDataV2 loadData = data.gruntData.First(); // Remove the data from the list so it doesn't get loaded again
 		//

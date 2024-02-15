@@ -216,7 +216,6 @@ public class NodeV2 : MonoBehaviour {
 		grunt.flagz.interrupted = false;
 		grunt.flagz.moveForced = false;
 
-		Debug.Log("onNodeChanged");
  		grunt.onNodeChanged.Invoke();
 	}
 
