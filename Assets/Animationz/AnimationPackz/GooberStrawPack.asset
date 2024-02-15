@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75bafe8cdacf47c6915c1b3c2702eb78, type: 3}
+  m_Name: GooberStrawPack
+  m_EditorClassIdentifier: 
+  tool: GooberStraw
+  deathAnimation: {fileID: 7400000, guid: 72bd5302759e64c45a41da66708eb585, type: 2}
+  idle:
+    up:
+    - {fileID: 7400000, guid: c4402a691f141c2418d947fe652b71ca, type: 2}
+    - {fileID: 7400000, guid: 9a06de8984f185d46adef2dc036543cb, type: 2}
+    upRight:
+    - {fileID: 0}
+    - {fileID: 7400000, guid: 74be576d4a512184bbef7742eae1257b, type: 2}
+    right:
+    - {fileID: 7400000, guid: 319812dae885274439b8712b28890518, type: 2}
+    - {fileID: 7400000, guid: 007cdcf634c95254babdf4146644cfca, type: 2}
+    downRight:
+    - {fileID: 0}
+    - {fileID: 7400000, guid: bf8b38d43447c85408115a8cb403d13e, type: 2}
+    down:
+    - {fileID: 7400000, guid: 819adb5cb7120ee468d7dcf8a0559acf, type: 2}
+    - {fileID: 7400000, guid: 5fb3929b0e3159b4aba2d06823db6b90, type: 2}
+    downLeft:
+    - {fileID: 0}
+    - {fileID: 7400000, guid: 31ae3b4074616ee4284ee543babc586b, type: 2}
+    left:
+    - {fileID: 7400000, guid: 976d7aa9a67abdd4d91be62321bb9af8, type: 2}
+    - {fileID: 7400000, guid: add6632df0a63164ca3b6d8343ae9ad0, type: 2}
+    upLeft:
+    - {fileID: 0}
+    - {fileID: 7400000, guid: b4d03729828681a49ae2f28690c0ae6c, type: 2}
+  walk:
+    up:
+    - {fileID: 0}
+    - {fileID: 0}
+    upRight:
+    - {fileID: 0}
+    - {fileID: 0}
+    right:
+    - {fileID: 0}
+    - {fileID: 0}
+    downRight:
+    - {fileID: 0}
+    - {fileID: 0}
+    down:
+    - {fileID: 0}
+    - {fileID: 0}
+    downLeft:
+    - {fileID: 0}
+    - {fileID: 0}
+    left:
+    - {fileID: 0}
+    - {fileID: 0}
+    upLeft:
+    - {fileID: 0}
+    - {fileID: 0}
+  attack:
+    up:
+    - {fileID: 7400000, guid: d3c6a471264a6bb489448635d10f8719, type: 2}
+    - {fileID: 7400000, guid: 3a6225571c349aa4585466778dbf367b, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: d8ebfadc55f11b94ba9c8c081efd5a20, type: 2}
+    - {fileID: 7400000, guid: 40c77b5eaf6645f4e84d23b474fa9b01, type: 2}
+    right:
+    - {fileID: 7400000, guid: 4cd693d6be780b949a32fa469c51bc9f, type: 2}
+    - {fileID: 7400000, guid: d1a6c5035bac7154d8eba991bbd34a56, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: 7734ddef86b3d7944ac654e913c56ef7, type: 2}
+    - {fileID: 7400000, guid: afaf559ebb5076b428d54dc838169344, type: 2}
+    down:
+    - {fileID: 7400000, guid: 6c0d249917b6439429847a007cb32a90, type: 2}
+    - {fileID: 7400000, guid: adf6ce2098d3702458235113152a8de0, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: 38f4a738b5f9c0048a231ae60842e28c, type: 2}
+    - {fileID: 7400000, guid: f90037942dba40240b2f7cc9c2a4d408, type: 2}
+    left:
+    - {fileID: 7400000, guid: 1492e88c9b54ae947b31c1e24a6d2bda, type: 2}
+    - {fileID: 7400000, guid: f4fee68b447481b4ea5ddaedd95319ab, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: e1437159acd8c3f4cb48ccfe1a596944, type: 2}
+    - {fileID: 7400000, guid: c2c4dbbdeace5be44862936ddb9e69f1, type: 2}
+  interact:
+    up:
+    - {fileID: 7400000, guid: 62d13bf4dd845d044951db70dcfab458, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: 425caf56ec9971b4280d89be9ee64149, type: 2}
+    right:
+    - {fileID: 7400000, guid: 557d3df27c0e0d44f8cd0d6e7ea73b07, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: 7137a22c1dec84648895444b40603241, type: 2}
+    down:
+    - {fileID: 7400000, guid: aab0be8011ff19743be16365d69158af, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: 5a77777683ed3784a8ed4bf00819916e, type: 2}
+    left:
+    - {fileID: 7400000, guid: 2d923f0d86a0ef341a3df68b1672e4f2, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: cbfa63c1a01d3504f824403586421cc2, type: 2}

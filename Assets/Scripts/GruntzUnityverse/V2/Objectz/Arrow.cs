@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GruntzUnityverse.V2.Objectz {
 public class Arrow : GridObject {
 	public DirectionV2 direction;
-	public NodeV2 targetNode;
+	public NodeV2 pointedNode;
 
 	protected override void Start() {
 		base.Start();
@@ -43,7 +43,7 @@ public class Arrow : GridObject {
 	}
 
 	protected void SetTargetNode() {
-		targetNode = direction switch {
+		pointedNode = direction switch {
 			DirectionV2.Up => node.neighbourSet.up,
 			DirectionV2.UpRight => node.neighbourSet.upRight,
 			DirectionV2.Right => node.neighbourSet.right,
@@ -67,12 +67,26 @@ public class Arrow : GridObject {
 		grunt.location2D = node.location2D;
 		grunt.flagz.moving = false;
 		grunt.flagz.interrupted = false;
-
 		grunt.flagz.moveForced = true;
-		grunt.targetNode = targetNode;
-		grunt.next = targetNode;
 
-		Debug.Log("onNodeChanged");
+		node.isReserved = false;
+
+		grunt.targetNode = pointedNode;
+		grunt.next = pointedNode;
+
+		#region Reset
+		grunt.onNodeChanged.RemoveAllListeners();
+		grunt.onTargetReached.RemoveAllListeners();
+
+		grunt.interactionTarget = null;
+		grunt.attackTarget = null;
+
+		grunt.flagz.setToInteract = false;
+		grunt.flagz.setToAttack = false;
+		grunt.flagz.setToGive = false;
+		#endregion
+
+		grunt.onNodeChanged.AddListener(grunt.MoveToNode);
 		grunt.onNodeChanged.Invoke();
 	}
 }

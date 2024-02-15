@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75bafe8cdacf47c6915c1b3c2702eb78, type: 3}
+  m_Name: ShovelPack
+  m_EditorClassIdentifier: 
+  tool: Shovel
+  deathAnimation: {fileID: 7400000, guid: 19339f3768f2ade4cb69322d0c8b232e, type: 2}
+  idle:
+    up:
+    - {fileID: 7400000, guid: 9dc22e34479c9dd48b33d6882adc2674, type: 2}
+    - {fileID: 7400000, guid: 97e9261aaaf60df45980715f1a91d81c, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: a6a5464c19bd1364c9a96c5fb8c53e4f, type: 2}
+    right:
+    - {fileID: 7400000, guid: 4df3b8a931d1ec14ab8f6b7b70647b7a, type: 2}
+    - {fileID: 7400000, guid: c8ea70ed9a7496340acdf7fe3b6848b0, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: c944ce403f0a1ed43baaafad97e8f5f3, type: 2}
+    down:
+    - {fileID: 7400000, guid: fc4982b6d6b2a7248bf5f220bdcfa372, type: 2}
+    - {fileID: 7400000, guid: 59308cb927156b4488aa9a7fc3324b01, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: 3dd289d2ca0b4b84a9bccba9cc341eb8, type: 2}
+    left:
+    - {fileID: 7400000, guid: 214e18df4c2bbbb4a8882129be3aabc4, type: 2}
+    - {fileID: 7400000, guid: b27e39d721b66134bad9531661432dd8, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: c32de7efb18b3f841b7c677644b335a6, type: 2}
+  walk:
+    up:
+    - {fileID: 7400000, guid: cda8f1b6a91041b46a380b5508a91471, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: 79dd8f81ab3390e4bb83471cdd68d296, type: 2}
+    right:
+    - {fileID: 7400000, guid: 115931ae502f5014185b426cc1eead5a, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: e5eb297b098b97b46b6615ab16d4c4c2, type: 2}
+    down:
+    - {fileID: 7400000, guid: 09698804a5f69f64da09f868c9fc1403, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: c9957c9587ff81d4fb5e5e48ee68971b, type: 2}
+    left:
+    - {fileID: 7400000, guid: 7ebe678164e691b468d1f33f262c98b0, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: b85b04758db42f849905df3c347d163e, type: 2}
+  attack:
+    up:
+    - {fileID: 7400000, guid: b3ab1b093e7a7494f92cc20575fd8897, type: 2}
+    - {fileID: 7400000, guid: 63669ea00adc2e04bb066d6172eb44c5, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: 12b0d7179bdc09144a14bddfff26b0be, type: 2}
+    - {fileID: 7400000, guid: 18ea7fc09706dba43b4812daa4a3a515, type: 2}
+    right:
+    - {fileID: 7400000, guid: 9e2d628dcba573d45b81f70ff9ffa9a2, type: 2}
+    - {fileID: 7400000, guid: aa9ba44993c1c5047b73c833852bb7f7, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: b4fc74b6c90097c49a1dae68c991d71b, type: 2}
+    - {fileID: 7400000, guid: 9ab63814165c4ca4fa078c557d8f8e4e, type: 2}
+    down:
+    - {fileID: 7400000, guid: 0ae536e2bbd2d404d94caf7b5856ab43, type: 2}
+    - {fileID: 7400000, guid: 9339477de61c3464db37959fa2a7103a, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: b154bc3e6d1315a4dba595cb54603f04, type: 2}
+    - {fileID: 7400000, guid: 9207be9eff3ff4640a5b664fb11326b5, type: 2}
+    left:
+    - {fileID: 7400000, guid: f2754de4275c45443bf4f4fbf273b854, type: 2}
+    - {fileID: 7400000, guid: 28ff4ed3f10b62a479bc0986c5de130b, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: 49ba8d679244eff4c93bbee6b2e30e72, type: 2}
+    - {fileID: 7400000, guid: b5e4c79d55ec9984ba8e4138c9d9aff9, type: 2}
+  interact:
+    up:
+    - {fileID: 7400000, guid: d49cd906ace2c3e4fa45874a8489b0a4, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: 86d3296c878db1e48b2b2f9aeb0d2027, type: 2}
+    right:
+    - {fileID: 7400000, guid: b5bae9b6476067443a9323ced1ff0894, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: aeabe5cd336d30b40bf22b690f2b5eaf, type: 2}
+    down:
+    - {fileID: 7400000, guid: d2eacfbf19e5888489ee988b435adf45, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: ff72fb9d47e23df46ae9a72b61ade51b, type: 2}
+    left:
+    - {fileID: 7400000, guid: f2ad39dbb1c7ed24cb1982ecfbfe5e17, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: 0f502224472acad48895528d634c8b80, type: 2}

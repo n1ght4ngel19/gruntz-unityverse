@@ -9,14 +9,10 @@ public struct Flagz {
 
 	public bool idle;
 	public bool hostileIdle;
+	public bool SetToAct => setToInteract || setToAttack;
 
 	public bool setToInteract;
-	public bool interacting;
-
 	public bool setToAttack;
-	public bool attacking;
-
 	public bool setToGive;
-	public bool giving;
 }
 }

@@ -50,6 +50,8 @@ public class RockV2 : GridObject, IObjectHolder, IInteractable, IAnimatable {
 		await UniTask.WaitForSeconds(0.5f);
 
 		enabled = false;
+		// This also prevents removing the effect of other possible blocking objects at the same location
+		node.isBlocked = actAsObstacle ? false : node.isBlocked;
 		// Destroy(gameObject);
 	}
 	#endregion

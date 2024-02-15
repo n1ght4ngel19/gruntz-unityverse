@@ -26,11 +26,11 @@ public class NodeV2 : MonoBehaviour {
 	/// </summary>
 	public CircleCollider2D circleCollider2D;
 
-
-	#region Pathfinding
 	// --------------------------------------------------
 	// Pathfinding
 	// --------------------------------------------------
+
+	#region Pathfinding
 	/// <summary>
 	/// The parent NodeV2 of this NodeV2, used for retracing paths.
 	/// </summary>
@@ -73,10 +73,11 @@ public class NodeV2 : MonoBehaviour {
 	public NeighbourSet neighbourSet;
 	#endregion
 
-	#region Flags
 	// --------------------------------------------------
-	// Flags
+	// Flagz
 	// --------------------------------------------------
+
+	#region Flagz
 	/// <summary>
 	/// If true, this NodeV2 is occupied by an actor.
 	/// </summary>

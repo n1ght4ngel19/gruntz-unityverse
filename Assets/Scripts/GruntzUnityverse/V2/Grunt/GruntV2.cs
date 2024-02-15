@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Animancer;
 using Cysharp.Threading.Tasks;
@@ -22,7 +23,6 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 	// Eventz
 	// --------------------------------------------------
 
-
 	#region Eventz
 	[Header("Eventz")]
 	public UnityEvent onNodeChanged;
@@ -30,6 +30,7 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 	public UnityEvent onStaminaDrained;
 	public UnityEvent onTargetReached;
 	public UnityEvent onHit;
+	public UnityEvent onDeath;
 	#endregion
 
 	// --------------------------------------------------
@@ -52,6 +53,8 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 	/// The flagz representing the current state of this Grunt.
 	/// </summary>
 	public Flagz flagz;
+
+	public DirectionV2 facingDirection;
 
 	public bool IsInterrupted => flagz.interrupted;
 
@@ -132,24 +135,37 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 	protected override void Start() {
 		base.Start();
 
-		Animancer.Play(animationPack.idle.down[0]);
+		Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.idle));
 	}
 
 	private void Update() {
+		if (attackTarget == null) {
+			flagz.setToAttack = false;
+		}
+
+		if (interactionTarget == null) {
+			flagz.setToInteract = false;
+		}
+
 		if (flagz.moving) {
+			// Change position and play walk animation
 			HandleMovement();
-		} else {
-			Animancer.Play(animationPack.idle.down[0]);
+		} else if (flagz.hostileIdle) {
+			// Play hostile idle animation
+			Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.hostileIdle));
+		} else if (!flagz.SetToAct) {
+			// Play normal idle animation
+			Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.idle));
 		}
 	}
 	#endregion
 
 	public async void RegenerateStamina() {
 		while (statz.stamina < Statz.MaxValue) {
-			statz.stamina += statz.staminaRegenRate;
+			statz.stamina++;
 			barz.staminaBar.Adjust(statz.stamina);
 
-			await UniTask.Delay(1000);
+			await UniTask.Delay(100);
 		}
 
 		statz.stamina = Statz.MaxValue;
@@ -257,7 +273,7 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 
 		// Find new attack target
 		attackTarget = GM.Instance.allGruntz
-			.FirstOrDefault(g => g.location2D == GM.Instance.selector.location2D);
+			.FirstOrDefault(g => g.location2D == GM.Instance.selector.location2D && g.enabled);
 
 		// There was nothing found to interact with
 		if (interactionTarget == null && attackTarget == null) {
@@ -278,6 +294,9 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 			if (InRange(interactionTarget.node)) {
 				Debug.Log("I'm in range!");
 				targetNode = node;
+
+				FaceTowards(interactionTarget.node);
+
 				Interact();
 
 				return;
@@ -294,7 +313,7 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		}
 
 		// There was a Grunt found
-		if (attackTarget != null) {
+		if (attackTarget != null && attackTarget.enabled) {
 			// Check team (friend or enemy)
 			// if (attackTarget.team == team) {
 			// 	attackTarget = null;
@@ -306,6 +325,9 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 			if (InRange(attackTarget.node)) {
 				Debug.Log("I'm in range!");
 				targetNode = node;
+
+				FaceTowards(attackTarget.node);
+
 				Attack();
 
 				return;
@@ -360,8 +382,23 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		Vector3 moveVector = (next.transform.position - transform.position).normalized;
 		gameObject.transform.position += moveVector * (Time.deltaTime / .6f);
 
-		Animancer.Play(animationPack.walk.down[0]);
-		// FaceTowards(moveVector);
+		Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.walk));
+	}
+
+	public void FaceTowards(NodeV2 toFace) {
+		Vector2 direction = (toFace.location2D - node.location2D);
+
+		facingDirection = direction switch {
+			_ when direction == Vector2.up => facingDirection = DirectionV2.Up,
+			_ when direction == Vector2.down => facingDirection = DirectionV2.Down,
+			_ when direction == Vector2.left => facingDirection = DirectionV2.Left,
+			_ when direction == Vector2.right => facingDirection = DirectionV2.Right,
+			_ when direction == (Vector2.up + Vector2.right) => facingDirection = DirectionV2.UpRight,
+			_ when direction == (Vector2.up + Vector2.left) => facingDirection = DirectionV2.UpLeft,
+			_ when direction == (Vector2.down + Vector2.right) => facingDirection = DirectionV2.DownRight,
+			_ when direction == (Vector2.down + Vector2.left) => facingDirection = DirectionV2.DownLeft,
+			_ => facingDirection,
+		};
 	}
 
 	/// <summary>
@@ -392,6 +429,10 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 
 		// Grunt has reached his target (or is already there)
 		if (targetNode == node || targetNode == null) {
+			if (flagz.moveForced) {
+				return;
+			}
+
 			onNodeChanged.RemoveAllListeners();
 			onTargetReached.Invoke();
 			Debug.Log("Target reached!");
@@ -415,6 +456,8 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		next = newPath[0];
 		next.isReserved = true;
 		flagz.moving = true;
+
+		FaceTowards(next);
 
 		onNodeChanged.RemoveAllListeners();
 		onNodeChanged.AddListener(Move);
@@ -493,10 +536,10 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 
 		flagz.hostileIdle = false;
 
-		Animancer.Play(animationPack.interact.down[0]);
+		Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.interact));
 
 		// Wait the duration of the interaction animation
-		await UniTask.WaitForSeconds(0.5f);
+		await UniTask.WaitForSeconds(0.75f);
 
 		equippedTool.InteractWith(interactionTarget);
 
@@ -527,8 +570,8 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		if (attackTarget == null) {
 			Debug.Log("Don't attack because there's nothing to attack!");
 			// Todo: Play voice line for being unable to attack nothing
-			onTargetReached.RemoveAllListeners();
-			onNodeChanged.RemoveAllListeners();
+			// onTargetReached.RemoveAllListeners();
+			// onNodeChanged.RemoveAllListeners();
 			flagz.setToAttack = false;
 
 			return;
@@ -537,15 +580,22 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 
 		flagz.hostileIdle = true;
 
-		Debug.Log("Waiting until stamina is full");
 		await UniTask.WaitUntil(() => statz.stamina == Statz.MaxValue);
+
+		if (attackTarget == null) {
+			return;
+		}
 
 		flagz.hostileIdle = false;
 
-		Animancer.Play(animationPack.attack.down[0]);
+		Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.attack));
 
-		// Wait the duration of the interaction animation
+		// Wait the duration of the attack animation
 		await UniTask.WaitForSeconds(0.5f);
+
+		if (attackTarget == null || !attackTarget.enabled) {
+			return;
+		}
 
 		equippedTool.Attack(attackTarget);
 
@@ -560,19 +610,33 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		}
 
 		// Try to attack again until commanded otherwise, cannot attack, or target doesn't exist anymore
-		if (attackTarget != null) {
+		if (attackTarget != null && attackTarget.enabled) {
 			Attack();
 		}
 	}
 
 	public void TakeDamage(int damage) {
-		statz.health -= damage;
+		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MaxValue);
 		barz.healthBar.Adjust(statz.health);
+		onHit.Invoke();
 
 		if (statz.health <= 0) {
-			// Die();
-			Debug.Log("Im dead!");
+			onDeath.Invoke();
 		}
+	}
+
+	public async void Die() {
+		enabled = false;
+		spriteRenderer.sortingLayerName = "AlwaysBottom";
+		Animancer.Play(animationPack.deathAnimation);
+
+		// await UniTask.WaitForSeconds(1.5f);
+		await UniTask.WaitForSeconds(animationPack.deathAnimation.length);
+
+		Debug.Log("Im dead!");
+		GM.Instance.allGruntz.Remove(this);
+		Destroy(gameObject);
+		// Instantiate(gruntPuddle, transform.position, Quaternion.identity, GameObject.Find("Puddlez").transform);
 	}
 
 	public void PlaceOnGround(NodeV2 placeNode) {

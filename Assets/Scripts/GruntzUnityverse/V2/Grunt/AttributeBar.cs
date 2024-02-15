@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.V2.Utils;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -15,10 +15,9 @@ public class AttributeBar : MonoBehaviour {
 	}
 
 	public void Adjust(int newValue) {
-		_spriteRenderer.enabled = newValue.Between(0, Statz.MaxValue);
-
-		_value = newValue;
+		_value = Math.Clamp(newValue, 0, Statz.MaxValue);
 		_spriteRenderer.sprite = _frames[_value];
+		_spriteRenderer.enabled = _value != Statz.MaxValue;
 	}
 
 	private void Awake() {

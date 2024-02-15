@@ -10,6 +10,7 @@ public class AnimationPackV2 : ScriptableObject {
 
 	public AnimationClip deathAnimation;
 	public Animationz8Way idle;
+	public Animationz8Way hostileIdle;
 	public Animationz8Way walk;
 	public Animationz8Way attack;
 	public Animationz8Way interact;
@@ -20,11 +21,11 @@ public class AnimationPackV2 : ScriptableObject {
 			deathAnimation = handle.Result;
 		};
 
-		LoadSingularAnimationz(walk, "Walk");
-		LoadSingularAnimationz(interact, "Item");
-
 		LoadAnimationz8Way(idle, "Idle");
+		LoadHostileIdleAnimationz(hostileIdle);
+		LoadSingularAnimationz(walk, "Walk");
 		LoadAnimationz8Way(attack, "Attack");
+		LoadSingularAnimationz(interact, "Item");
 	}
 
 	private void LoadSingularAnimationz(Animationz8Way pack, string type) {
@@ -36,6 +37,17 @@ public class AnimationPackV2 : ScriptableObject {
 		LoadClipInto(pack.downLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_Southwest.anim");
 		LoadClipInto(pack.left, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_West.anim");
 		LoadClipInto(pack.upLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_Northwest.anim");
+	}
+
+	private void LoadHostileIdleAnimationz(Animationz8Way pack) {
+		LoadClipInto(pack.up, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_North_Idle.anim");
+		LoadClipInto(pack.upRight, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_Northeast_Idle.anim");
+		LoadClipInto(pack.right, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_East_Idle.anim");
+		LoadClipInto(pack.downRight, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_Southeast_Idle.anim");
+		LoadClipInto(pack.down, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_South_Idle.anim");
+		LoadClipInto(pack.downLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_Southwest_Idle.anim");
+		LoadClipInto(pack.left, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_West_Idle.anim");
+		LoadClipInto(pack.upLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_Northwest_Idle.anim");
 	}
 
 	private void LoadAnimationz8Way(Animationz8Way pack, string packName) {
@@ -58,6 +70,21 @@ public class AnimationPackV2 : ScriptableObject {
 			LoadClipInto(pack.downLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Southwest_02.anim");
 			LoadClipInto(pack.upLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Northwest_02.anim");
 		}
+	}
+
+	public static AnimationClip GetRandomClip(DirectionV2 direction, Animationz8Way animz) {
+		return direction switch {
+			// Temporary solution until random idle animations are implemented
+			DirectionV2.Up => animz.up[Random.Range(0, 1)],
+			DirectionV2.UpRight => animz.upRight[Random.Range(0, 1)],
+			DirectionV2.Right => animz.right[Random.Range(0, 1)],
+			DirectionV2.DownRight => animz.downRight[Random.Range(0, 1)],
+			DirectionV2.Down => animz.down[Random.Range(0, 1)],
+			DirectionV2.DownLeft => animz.downLeft[Random.Range(0, 1)],
+			DirectionV2.Left => animz.left[Random.Range(0, 1)],
+			DirectionV2.UpLeft => animz.upLeft[Random.Range(0, 1)],
+			_ => null,
+		};
 	}
 
 	private static void LoadClipInto(List<AnimationClip> list, string address) {
@@ -92,6 +119,15 @@ public class AnimationPackV2Editor : UnityEditor.Editor {
 			animationPack.idle.downLeft.Clear();
 			animationPack.idle.left.Clear();
 			animationPack.idle.upLeft.Clear();
+
+			animationPack.hostileIdle.up.Clear();
+			animationPack.hostileIdle.upRight.Clear();
+			animationPack.hostileIdle.right.Clear();
+			animationPack.hostileIdle.downRight.Clear();
+			animationPack.hostileIdle.down.Clear();
+			animationPack.hostileIdle.downLeft.Clear();
+			animationPack.hostileIdle.left.Clear();
+			animationPack.hostileIdle.upLeft.Clear();
 
 			animationPack.walk.up.Clear();
 			animationPack.walk.upRight.Clear();
