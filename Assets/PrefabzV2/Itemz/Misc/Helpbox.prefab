@@ -63,6 +63,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7856108286464215537, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
       insertIndex: 2
       addedObject: {fileID: 3980278598619253929}
+    - targetCorrespondingSourceObject: {fileID: 7856108286464215537, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8886931915417691554}
   m_SourcePrefab: {fileID: 100100000, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
 --- !u!95 &3065960172523616459 stripped
 Animator:
@@ -106,6 +109,47 @@ MonoBehaviour:
   itemName: Helpbox
   rotatingAnim: {fileID: 7400000, guid: b939da36098b15e408bd07daf79c65a1, type: 2}
   pickupAnim: {fileID: 7400000, guid: fad22746528bb8542b099aaf351fadf2, type: 2}
+  animationPack: {fileID: 0}
   <Animator>k__BackingField: {fileID: 3065960172523616459}
   <Animancer>k__BackingField: {fileID: 7179023716521344881}
-  helpboxText: {fileID: 0}
+  helpboxText: 
+--- !u!114 &8886931915417691554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585630454565242578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3980278598619253929}
+        m_TargetAssemblyTypeName: GruntzUnityverse.V2.Itemz.Helpbox, GruntzUnityverse
+        m_MethodName: SetText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []

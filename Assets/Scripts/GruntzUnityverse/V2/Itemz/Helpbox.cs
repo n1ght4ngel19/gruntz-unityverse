@@ -4,14 +4,18 @@ using UnityEngine;
 
 namespace GruntzUnityverse.V2.Itemz {
 public class Helpbox : ItemV2 {
-	public HelpboxText helpboxText;
+	public string helpboxText;
+
+	public void SetText(string text) {
+		helpboxText = text;
+	}
 
 	protected override IEnumerator Pickup(GruntV2 target) {
 		yield return base.Pickup(target);
 
 		Time.timeScale = 0f;
 		// Todo: Show helpbox UI
-		Debug.Log(helpboxText.text);
+		Debug.Log(helpboxText);
 	}
 
 	protected override IEnumerator OnTriggerEnter2D(Collider2D other) {
