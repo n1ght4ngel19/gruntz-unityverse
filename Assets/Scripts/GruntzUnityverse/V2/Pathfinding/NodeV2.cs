@@ -223,6 +223,7 @@ public class NodeV2 : MonoBehaviour {
 
 		isReserved = false;
 
+		grunt.transform.position = transform.position;
 		grunt.onNodeChanged.Invoke();
 	}
 

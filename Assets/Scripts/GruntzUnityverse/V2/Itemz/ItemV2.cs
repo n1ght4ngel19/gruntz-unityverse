@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Animancer;
-using GruntzUnityverse.AnimationPackz;
 using GruntzUnityverse.V2.Grunt;
 using GruntzUnityverse.V2.Objectz;
 using UnityEngine;
@@ -25,7 +24,7 @@ public abstract class ItemV2 : GridObject, IAnimatable {
 	/// <summary>
 	/// The animation pack this item uses on the Grunt that picks it up.
 	/// </summary>
-	public GruntAnimationPack animationPack;
+	public AnimationPackV2 animationPack;
 
 	public override void Setup() {
 		base.Setup();
@@ -59,17 +58,7 @@ public abstract class ItemV2 : GridObject, IAnimatable {
 	/// different properties of the Grunt picking up the item.)
 	/// </summary>
 	protected virtual IEnumerator Pickup(GruntV2 target) {
-		#region Reset
-		target.onNodeChanged.RemoveAllListeners();
-		target.onTargetReached.RemoveAllListeners();
-
-		target.interactionTarget = null;
-		target.attackTarget = null;
-
-		target.flagz.setToInteract = false;
-		target.flagz.setToAttack = false;
-		target.flagz.setToGive = false;
-		#endregion
+		target.ResetAction();
 
 		target.flagz.interrupted = true;
 		target.flagz.moving = false;
@@ -80,6 +69,7 @@ public abstract class ItemV2 : GridObject, IAnimatable {
 		// All pickup animationz are 1 second long
 		yield return new WaitForSeconds(1f);
 
+		target.animationPack = animationPack;
 		target.flagz.interrupted = false;
 	}
 

@@ -14,10 +14,22 @@ public static class ListX {
 		}
 	}
 
-	public static void CheckNotExistsAdd<T>(this List<T> list, T item) {
-		list = new List<T>();
+	public static void InitializeListAdd<T>(this List<T> list, T item) {
+		list = new List<T> {
+			item,
+		};
+	}
 
-		list.Add(item);
+	public static void NotContainsAdd<T>(this List<T> list, T item) {
+		if (!list.Contains(item)) {
+			list.Add(item);
+		}
+	}
+
+	public static void ContainsRemove<T>(this List<T> list, T item) {
+		if (list.Contains(item)) {
+			list.Remove(item);
+		}
 	}
 
 	public static T GetRandom<T>(this List<T> list) {

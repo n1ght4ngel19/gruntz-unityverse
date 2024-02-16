@@ -86,6 +86,7 @@ public class Arrow : GridObject {
 		grunt.flagz.setToGive = false;
 		#endregion
 
+		grunt.transform.position = transform.position;
 		grunt.onNodeChanged.AddListener(grunt.MoveToNode);
 		grunt.onNodeChanged.Invoke();
 	}

@@ -165,7 +165,7 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 			statz.stamina++;
 			barz.staminaBar.Adjust(statz.stamina);
 
-			await UniTask.Delay(100);
+			await UniTask.Delay(200);
 		}
 
 		statz.stamina = Statz.MaxValue;
@@ -230,17 +230,7 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		#region Reset
-		onNodeChanged.RemoveAllListeners();
-		onTargetReached.RemoveAllListeners();
-
-		interactionTarget = null;
-		attackTarget = null;
-
-		flagz.setToInteract = false;
-		flagz.setToAttack = false;
-		flagz.setToGive = false;
-		#endregion
+		ResetAction();
 
 		targetNode = LevelV2.Instance.levelNodes
 			.First(n => n.location2D == GM.Instance.selector.location2D);
@@ -254,17 +244,7 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		#region Reset
-		onNodeChanged.RemoveAllListeners();
-		onTargetReached.RemoveAllListeners();
-
-		interactionTarget = null;
-		attackTarget = null;
-
-		flagz.setToInteract = false;
-		flagz.setToAttack = false;
-		flagz.setToGive = false;
-		#endregion
+		ResetAction();
 
 		// Find new interaction target
 		interactionTarget =
@@ -534,6 +514,10 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 
 		await UniTask.WaitUntil(() => statz.stamina == Statz.MaxValue);
 
+		if (interactionTarget == null) {
+			return;
+		}
+
 		flagz.hostileIdle = false;
 
 		Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.interact));
@@ -626,6 +610,8 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 	}
 
 	public async void Die() {
+		ResetAction();
+
 		enabled = false;
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
 		Animancer.Play(animationPack.deathAnimation);
@@ -637,6 +623,55 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 		GM.Instance.allGruntz.Remove(this);
 		Destroy(gameObject);
 		// Instantiate(gruntPuddle, transform.position, Quaternion.identity, GameObject.Find("Puddlez").transform);
+	}
+
+	/// <summary>
+	/// Action with predefined target, used by AI.
+	/// </summary>
+	public void Action() {
+		if (attackTarget == null || !attackTarget.enabled) {
+			return;
+		}
+
+		// Check team (friend or enemy)
+		// if (attackTarget.team == team) {
+		// 	attackTarget = null;
+		//  targetNode = node;
+		//
+		// 	return;
+		// }
+
+		if (InRange(attackTarget.node)) {
+			Debug.Log("I'm in range!");
+			targetNode = node;
+
+			FaceTowards(attackTarget.node);
+
+			Attack();
+
+			return;
+		}
+
+		onTargetReached.AddListener(Attack);
+		flagz.setToAttack = true;
+		targetNode = attackTarget.node;
+
+		Move();
+	}
+
+	/// <summary>
+	/// Resets the Grunt's action statez.
+	/// </summary>
+	public void ResetAction() {
+		onNodeChanged.RemoveAllListeners();
+		onTargetReached.RemoveAllListeners();
+
+		interactionTarget = null;
+		attackTarget = null;
+
+		flagz.setToInteract = false;
+		flagz.setToAttack = false;
+		flagz.setToGive = false;
 	}
 
 	public void PlaceOnGround(NodeV2 placeNode) {
@@ -661,7 +696,7 @@ public class GruntV2 : GridObject, IDataPersistence, IAnimatable {
 			position = transform.position,
 		};
 
-		data.gruntData.CheckNotExistsAdd(saveData);
+		data.gruntData.InitializeListAdd(saveData);
 
 		Debug.Log($"Saving {gruntName} at {transform.position} with GUID {Guid}");
 	}
