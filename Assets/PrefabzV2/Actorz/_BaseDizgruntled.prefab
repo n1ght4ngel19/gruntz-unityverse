@@ -333,16 +333,14 @@ GameObject:
   - component: {fileID: 2382834934221608555}
   - component: {fileID: 7890690913535624833}
   - component: {fileID: 2879499836149728836}
-  - component: {fileID: 7870216830220584668}
-  - component: {fileID: 8986531425140854438}
   - component: {fileID: 5953476298560794903}
   - component: {fileID: -4227858990208798214}
   - component: {fileID: -5957345447757632023}
   - component: {fileID: -8774166172813497283}
   - component: {fileID: 1106312198770032925}
   m_Layer: 0
-  m_Name: BarehandzGrunt
-  m_TagString: Untagged
+  m_Name: _BaseDizgruntled
+  m_TagString: Dizgruntled
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -410,7 +408,7 @@ SpriteRenderer:
   m_SortingLayerID: -503846341
   m_SortingLayer: -1
   m_SortingOrder: 10
-  m_Sprite: {fileID: 586451370, guid: 5647b43d4d924f1469851bde47b37ecc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72fea91e963397549be417b734285257, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -502,10 +500,10 @@ MonoBehaviour:
     staminaBar: {fileID: 4401293049510515629}
     toyTimeBar: {fileID: 669920470423989890}
     wingzTimeBar: {fileID: 4053850924163349047}
-  equippedTool: {fileID: 11400000, guid: f25c05611e59b654394f8128d0ce5f63, type: 2}
+  equippedTool: {fileID: 0}
   toy: {fileID: 0}
   powerup: {fileID: 0}
-  animationPack: {fileID: 11400000, guid: e8f2c945d4f9ca145a45e0c18d042c05, type: 2}
+  animationPack: {fileID: 0}
   selectionMarker: {fileID: 818739118923963330}
   <Animator>k__BackingField: {fileID: 5953476298560794903}
   <Animancer>k__BackingField: {fileID: -4227858990208798214}
@@ -514,52 +512,6 @@ MonoBehaviour:
   next: {fileID: 0}
   interactionTarget: {fileID: 0}
   attackTarget: {fileID: 0}
---- !u!114 &7870216830220584668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5310684839589108344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: dacdceb490c394d48aa04de3a73fc45c, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: InGame
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &8986531425140854438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5310684839589108344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e4e75b4555e4e9095ae423b1937d57b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  node: {fileID: 0}
-  targetNode: {fileID: 0}
-  previousNode: {fileID: 0}
-  nextNode: {fileID: 0}
 --- !u!95 &5953476298560794903
 Animator:
   serializedVersion: 7
