@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -44,7 +44,6 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 12
-  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -1867,35 +1863,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 652634577458206182, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 249562584}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7217529900487144959, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 132533538}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
 --- !u!4 &132533536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 652634577458206182, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
   m_PrefabInstance: {fileID: 132533535}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &132533537 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7217529900487144959, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
-  m_PrefabInstance: {fileID: 132533535}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &132533538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 132533537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0.6698113, g: 0, b: 0, a: 1}
 --- !u!1001 &134094734
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2961,7 +2935,6 @@ GameObject:
   m_Component:
   - component: {fileID: 190045314}
   - component: {fileID: 190045316}
-  - component: {fileID: 190045315}
   m_Layer: 0
   m_Name: Brickz
   m_TagString: Immovable
@@ -2986,20 +2959,6 @@ Transform:
   - {fileID: 176534237}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &190045315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190045313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0.6509434, g: 0.2924057, b: 0, a: 1}
 --- !u!114 &190045316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6162,7 +6121,6 @@ GameObject:
   m_Component:
   - component: {fileID: 426952339}
   - component: {fileID: 426952341}
-  - component: {fileID: 426952340}
   m_Layer: 0
   m_Name: Other
   m_TagString: Immovable
@@ -6188,20 +6146,6 @@ Transform:
   - {fileID: 50032007}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &426952340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 426952338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0.50788987, g: 0.23921567, b: 1, a: 1}
 --- !u!114 &426952341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7157,7 +7101,6 @@ GameObject:
   m_Component:
   - component: {fileID: 464053635}
   - component: {fileID: 464053637}
-  - component: {fileID: 464053636}
   m_Layer: 0
   m_Name: ExtraGruntz (Testing)
   m_TagString: Immovable
@@ -7180,20 +7123,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1710357780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &464053636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 464053634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0, g: 0.4666667, b: 1, a: 1}
 --- !u!114 &464053637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7526,7 +7455,6 @@ GameObject:
   m_Component:
   - component: {fileID: 480233674}
   - component: {fileID: 480233676}
-  - component: {fileID: 480233675}
   m_Layer: 0
   m_Name: Rockz
   m_TagString: Immovable
@@ -7590,20 +7518,6 @@ Transform:
   - {fileID: 970004694}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &480233675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480233673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
 --- !u!114 &480233676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7940,7 +7854,6 @@ GameObject:
   m_Component:
   - component: {fileID: 499697701}
   - component: {fileID: 499697703}
-  - component: {fileID: 499697702}
   m_Layer: 0
   m_Name: Arrowz
   m_TagString: Immovable
@@ -7984,20 +7897,6 @@ Transform:
   - {fileID: 1705569886}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &499697702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499697700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 0.9245283, g: 0.8503333, b: 0.44045925, a: 1}
 --- !u!114 &499697703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8702,7 +8601,6 @@ GameObject:
   m_Component:
   - component: {fileID: 555964565}
   - component: {fileID: 555964567}
-  - component: {fileID: 555964566}
   m_Layer: 0
   m_Name: Dizgruntled
   m_TagString: Immovable
@@ -8738,20 +8636,6 @@ Transform:
   - {fileID: 1387315089}
   m_Father: {fileID: 1710357780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &555964566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 555964564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0, g: 0.6705441, b: 0.7264151, a: 1}
 --- !u!114 &555964567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9030,7 +8914,6 @@ GameObject:
   m_Component:
   - component: {fileID: 583068165}
   - component: {fileID: 583068167}
-  - component: {fileID: 583068166}
   m_Layer: 0
   m_Name: Holez
   m_TagString: Immovable
@@ -9066,20 +8949,6 @@ Transform:
   - {fileID: 1866171727}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &583068166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 583068164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0.8396226, g: 0.30495724, b: 0.49617103, a: 1}
 --- !u!114 &583068167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12154,7 +12023,6 @@ GameObject:
   m_Component:
   - component: {fileID: 788933723}
   - component: {fileID: 788933725}
-  - component: {fileID: 788933724}
   m_Layer: 0
   m_Name: EyeCandy
   m_TagString: Immovable
@@ -12254,20 +12122,6 @@ Transform:
   - {fileID: 998693290}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &788933724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 788933722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0.05044719, g: 0.5471698, b: 0, a: 1}
 --- !u!114 &788933725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14694,35 +14548,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7217529900487144959, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 940144115}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
 --- !u!4 &940144113 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 652634577458206182, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
   m_PrefabInstance: {fileID: 940144112}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &940144114 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7217529900487144959, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
-  m_PrefabInstance: {fileID: 940144112}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &940144115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940144114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0.97124815, g: 0, b: 1, a: 1}
 --- !u!1001 &941315896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16095,7 +15927,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1001330001}
   - component: {fileID: 1001330003}
-  - component: {fileID: 1001330002}
   m_Layer: 0
   m_Name: Player Gruntz
   m_TagString: Immovable
@@ -16121,20 +15952,6 @@ Transform:
   - {fileID: 74084266}
   m_Father: {fileID: 1710357780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1001330002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1001330000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 1, g: 0.6551275, b: 0, a: 1}
 --- !u!114 &1001330003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17050,35 +16867,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 652634577458206182, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1272167668}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7217529900487144959, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1057190062}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
 --- !u!4 &1057190060 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 652634577458206182, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
   m_PrefabInstance: {fileID: 1057190059}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1057190061 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7217529900487144959, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
-  m_PrefabInstance: {fileID: 1057190059}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1057190062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1057190061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 0, g: 1, b: 0.65036964, a: 1}
 --- !u!1001 &1061206449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19146,35 +18941,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 652634577458206182, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 620750017}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7217529900487144959, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1174846318}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
 --- !u!4 &1174846316 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 652634577458206182, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
   m_PrefabInstance: {fileID: 1174846315}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1174846317 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7217529900487144959, guid: 3f81d28ade999854d942bc1db5d70eea, type: 3}
-  m_PrefabInstance: {fileID: 1174846315}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1174846318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1174846317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 1, g: 0.99106956, b: 0, a: 1}
 --- !u!1001 &1180005467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23790,7 +23563,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1423079458}
   - component: {fileID: 1423079460}
-  - component: {fileID: 1423079459}
   m_Layer: 0
   m_Name: Hazardz
   m_TagString: Immovable
@@ -23815,20 +23587,6 @@ Transform:
   - {fileID: 1382019776}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1423079459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1423079457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 0.28057137, g: 0.9150943, b: 0.8484116, a: 1}
 --- !u!114 &1423079460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24930,7 +24688,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1532583882}
   - component: {fileID: 1532583884}
-  - component: {fileID: 1532583883}
   m_Layer: 0
   m_Name: GruntPuddlez
   m_TagString: Immovable
@@ -24953,20 +24710,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1710357780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1532583883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1532583881}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 0, g: 1, b: 0.6853483, a: 1}
 --- !u!114 &1532583884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25276,7 +25019,6 @@ GameObject:
   - component: {fileID: 1547750394}
   - component: {fileID: 1547750400}
   - component: {fileID: 1547750401}
-  - component: {fileID: 1547750399}
   m_Layer: 0
   m_Name: Level
   m_TagString: Immovable
@@ -25313,20 +25055,6 @@ Transform:
   - {fileID: 2015575912}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1547750399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547750393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 0.3977599, g: 1, b: 0, a: 1}
 --- !u!114 &1547750400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25366,13 +25094,7 @@ MonoBehaviour:
   <BrickContainerz>k__BackingField: []
   <BrickFoundationz>k__BackingField: []
   <BrickColumnz>k__BackingField: []
-  <BlackPyramidz>k__BackingField: []
-  <CheckpointPyramidz>k__BackingField: []
-  <GreenPyramidz>k__BackingField: []
-  <OrangePyramidz>k__BackingField: []
-  <PurplePyramidz>k__BackingField: []
   <RedPyramidz>k__BackingField: []
-  <SilverPyramidz>k__BackingField: []
   <OrangeSwitchez>k__BackingField: []
   <Rockz>k__BackingField: []
   holez: []
@@ -26486,6 +26208,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1732135040}
     m_Modifications:
+    - target: {fileID: 6057601565982675655, guid: 051ee104125c4244b9d7be8d94c6d4c0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6614523138704185893, guid: 051ee104125c4244b9d7be8d94c6d4c0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 13.5
@@ -26930,7 +26656,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1692697016}
-  - component: {fileID: 1692697017}
   m_Layer: 0
   m_Name: Blocked
   m_TagString: Untagged
@@ -27033,20 +26758,6 @@ Transform:
   - {fileID: 1376997268}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1692697017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692697015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 0.7169812, g: 0, b: 0, a: 1}
 --- !u!1 &1695271210
 GameObject:
   m_ObjectHideFlags: 0
@@ -27057,7 +26768,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1695271211}
   - component: {fileID: 1695271213}
-  - component: {fileID: 1695271212}
   m_Layer: 0
   m_Name: Checkpointz
   m_TagString: Immovable
@@ -27082,20 +26792,6 @@ Transform:
   - {fileID: 1326084609}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1695271212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1695271210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &1695271213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27662,7 +27358,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1722927452}
   - component: {fileID: 1722927454}
-  - component: {fileID: 1722927453}
   m_Layer: 0
   m_Name: Secretz
   m_TagString: Immovable
@@ -27686,20 +27381,6 @@ Transform:
   - {fileID: 462680280}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1722927453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722927451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 1, g: 0.9326619, b: 0, a: 1}
 --- !u!114 &1722927454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27914,7 +27595,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1737485376}
   - component: {fileID: 1737485378}
-  - component: {fileID: 1737485377}
   m_Layer: 0
   m_Name: Puzzlez
   m_TagString: Immovable
@@ -27943,20 +27623,6 @@ Transform:
   - {fileID: 1536760647}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1737485377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1737485375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 0.9132043, g: 0.2216981, b: 1, a: 1}
 --- !u!114 &1737485378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28785,7 +28451,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1782481738}
   - component: {fileID: 1782481740}
-  - component: {fileID: 1782481739}
   m_Layer: 0
   m_Name: Bridgez
   m_TagString: Immovable
@@ -28809,20 +28474,6 @@ Transform:
   - {fileID: 931025163}
   m_Father: {fileID: 989795775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1782481739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1782481737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80f9f154c1d0b2942b47a59acef6a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fontColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 0.4575472, g: 0.50377893, b: 1, a: 1}
 --- !u!114 &1782481740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30064,6 +29715,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -30086,7 +29739,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1680862015
-  m_SortingLayer: -2
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -32614,6 +32267,8 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -32636,7 +32291,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1680862015
-  m_SortingLayer: -2
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -55250,6 +54905,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1654425594}
     m_Modifications:
+    - target: {fileID: 6057601565982675655, guid: 051ee104125c4244b9d7be8d94c6d4c0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6614523138704185893, guid: 051ee104125c4244b9d7be8d94c6d4c0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.5
