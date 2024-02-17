@@ -1,31 +1,26 @@
 ﻿using System.Linq;
 using GruntzUnityverse.V2.Grunt;
-using UnityEngine;
 
 namespace GruntzUnityverse.V2.Ai {
-public class DumbChaser : MonoBehaviour {
-	private GruntV2 _self;
-	public GruntV2 target;
-	public Post post;
-
+public class DumbChaser : BaseAi {
 	private void Start() {
-		_self = GetComponent<GruntV2>();
+		Self = GetComponent<GruntV2>();
 		post.managedGruntz.Add(this);
 	}
 
-	public void ActOnTarget() {
+	public override void ActOnTarget() {
 		target = post.targetedGruntz.First();
-		_self.attackTarget = target;
+		Self.attackTarget = target;
 
-		_self.Action();
+		Action();
 	}
 
-	public void ReturnToPost() {
+	public override void ReturnToPost() {
 		target = null;
-		_self.attackTarget = null;
+		Self.attackTarget = null;
 
-		_self.targetNode = post.node;
-		_self.Move();
+		Self.targetNode = post.node;
+		Self.Move();
 	}
 }
 }

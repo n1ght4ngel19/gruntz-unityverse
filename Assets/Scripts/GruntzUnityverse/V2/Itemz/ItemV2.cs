@@ -42,6 +42,14 @@ public abstract class ItemV2 : GridObject, IAnimatable {
 	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
 	#endregion
 
+	/// <summary>
+	/// Localizes the name of this item.
+	/// </summary>
+	/// <param name="newName">The new name of the item.</param>
+	public void LocalizeName(string newName) {
+		itemName = newName;
+	}
+
 	protected override void Start() {
 		if (GetComponent<GruntV2>() != null) {
 			return;
