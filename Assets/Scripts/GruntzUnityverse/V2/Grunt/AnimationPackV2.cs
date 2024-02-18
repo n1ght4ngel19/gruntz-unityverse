@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Random = UnityEngine.Random;
 
 namespace GruntzUnityverse.V2.Grunt {
 [CreateAssetMenu(fileName = "New Animation Pack", menuName = "Gruntz Unityverse/Animation Pack")]
@@ -15,7 +16,13 @@ public class AnimationPackV2 : ScriptableObject {
 	public Animationz8Way attack;
 	public Animationz8Way interact;
 
+	private void OnValidate() {
+		LoadAnimationz();
+	}
+
 	public void LoadAnimationz() {
+		Clear();
+
 		Addressables.LoadAssetAsync<AnimationClip>($"Assets/Animationz/Gruntz/{tool}Grunt/Death/Clipz/{tool}Grunt_Death.anim")
 			.Completed += handle => {
 			deathAnimation = handle.Result;
@@ -26,6 +33,55 @@ public class AnimationPackV2 : ScriptableObject {
 		LoadSingularAnimationz(walk, "Walk");
 		LoadAnimationz8Way(attack, "Attack");
 		LoadSingularAnimationz(interact, "Item");
+	}
+
+	public void Clear() {
+		deathAnimation = null;
+
+		idle.up.Clear();
+		idle.upRight.Clear();
+		idle.right.Clear();
+		idle.downRight.Clear();
+		idle.down.Clear();
+		idle.downLeft.Clear();
+		idle.left.Clear();
+		idle.upLeft.Clear();
+
+		hostileIdle.up.Clear();
+		hostileIdle.upRight.Clear();
+		hostileIdle.right.Clear();
+		hostileIdle.downRight.Clear();
+		hostileIdle.down.Clear();
+		hostileIdle.downLeft.Clear();
+		hostileIdle.left.Clear();
+		hostileIdle.upLeft.Clear();
+
+		walk.up.Clear();
+		walk.upRight.Clear();
+		walk.right.Clear();
+		walk.downRight.Clear();
+		walk.down.Clear();
+		walk.downLeft.Clear();
+		walk.left.Clear();
+		walk.upLeft.Clear();
+
+		attack.up.Clear();
+		attack.upRight.Clear();
+		attack.right.Clear();
+		attack.downRight.Clear();
+		attack.down.Clear();
+		attack.downLeft.Clear();
+		attack.left.Clear();
+		attack.upLeft.Clear();
+
+		interact.up.Clear();
+		interact.upRight.Clear();
+		interact.right.Clear();
+		interact.downRight.Clear();
+		interact.down.Clear();
+		interact.downLeft.Clear();
+		interact.left.Clear();
+		interact.upLeft.Clear();
 	}
 
 	private void LoadSingularAnimationz(Animationz8Way pack, string type) {
@@ -100,64 +156,9 @@ public class AnimationPackV2Editor : UnityEditor.Editor {
 	public override void OnInspectorGUI() {
 		AnimationPackV2 animationPack = (AnimationPackV2)target;
 
-		GUILayout.BeginHorizontal();
-
 		if (GUILayout.Button("Load Animationz")) {
 			animationPack.LoadAnimationz();
 		}
-
-		GUILayout.Space(10);
-
-		if (GUILayout.Button("Clear")) {
-			animationPack.deathAnimation = null;
-
-			animationPack.idle.up.Clear();
-			animationPack.idle.upRight.Clear();
-			animationPack.idle.right.Clear();
-			animationPack.idle.downRight.Clear();
-			animationPack.idle.down.Clear();
-			animationPack.idle.downLeft.Clear();
-			animationPack.idle.left.Clear();
-			animationPack.idle.upLeft.Clear();
-
-			animationPack.hostileIdle.up.Clear();
-			animationPack.hostileIdle.upRight.Clear();
-			animationPack.hostileIdle.right.Clear();
-			animationPack.hostileIdle.downRight.Clear();
-			animationPack.hostileIdle.down.Clear();
-			animationPack.hostileIdle.downLeft.Clear();
-			animationPack.hostileIdle.left.Clear();
-			animationPack.hostileIdle.upLeft.Clear();
-
-			animationPack.walk.up.Clear();
-			animationPack.walk.upRight.Clear();
-			animationPack.walk.right.Clear();
-			animationPack.walk.downRight.Clear();
-			animationPack.walk.down.Clear();
-			animationPack.walk.downLeft.Clear();
-			animationPack.walk.left.Clear();
-			animationPack.walk.upLeft.Clear();
-
-			animationPack.attack.up.Clear();
-			animationPack.attack.upRight.Clear();
-			animationPack.attack.right.Clear();
-			animationPack.attack.downRight.Clear();
-			animationPack.attack.down.Clear();
-			animationPack.attack.downLeft.Clear();
-			animationPack.attack.left.Clear();
-			animationPack.attack.upLeft.Clear();
-
-			animationPack.interact.up.Clear();
-			animationPack.interact.upRight.Clear();
-			animationPack.interact.right.Clear();
-			animationPack.interact.downRight.Clear();
-			animationPack.interact.down.Clear();
-			animationPack.interact.downLeft.Clear();
-			animationPack.interact.left.Clear();
-			animationPack.interact.upLeft.Clear();
-		}
-
-		GUILayout.EndHorizontal();
 
 		GUILayout.Space(10);
 

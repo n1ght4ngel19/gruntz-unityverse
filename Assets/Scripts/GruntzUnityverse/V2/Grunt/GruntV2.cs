@@ -74,6 +74,7 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 	#endregion
 
 	public SpriteRenderer spriteRenderer;
+	public CircleCollider2D circleCollider2D;
 	public GameObject selectionMarker;
 
 	// --------------------------------------------------
@@ -171,6 +172,12 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 	// --------------------------------------------------
 
 	#region Lifecycle Eventz
+	protected virtual void Awake() {
+		location2D = Vector2Int.RoundToInt(transform.position);
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		circleCollider2D = GetComponent<CircleCollider2D>();
+	}
+
 	protected virtual void Start() {
 		node = LevelV2.Instance.levelNodes.First(n => n.location2D == location2D);
 
@@ -433,6 +440,13 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 		if (newPath.Count <= 0) {
 			Debug.Log("No further path found!");
 			targetNode = node;
+
+			if (attackTarget != null) {
+				FaceTowards(attackTarget.node);
+			} else if (interactionTarget != null) {
+				FaceTowards(interactionTarget.node);
+			}
+
 			onNodeChanged.RemoveAllListeners();
 			onTargetReached.Invoke(); // Attack/Interact/Give
 			Debug.Log("Target reached!");
@@ -471,6 +485,8 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 			return;
 		}
 		#endregion
+
+		FaceTowards(next);
 
 		flagz.moving = true;
 	}
@@ -512,19 +528,50 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 	}
 
 	public async void Attack() {
-		if (!ValidateAttack()) {
+		#region Validation
+		if (flagz.moving) {
+			Debug.Log("Don't attack because I'm moving!");
+
 			return;
 		}
+
+		if (flagz.interrupted || flagz.moveForced) {
+			Debug.Log("Can't attack because I'm interrupted or move is forced!");
+			flagz.setToAttack = false;
+
+			return;
+		}
+
+		// There is no attack target
+		if (attackTarget == null) {
+			Debug.Log("Don't attack because there's nothing to attack!");
+			// Todo: Play voice line for being unable to attack nothing
+			flagz.setToAttack = false;
+
+			return;
+		}
+		#endregion
+
 
 		flagz.hostileIdle = true;
 
 		await UniTask.WaitUntil(() => statz.stamina == Statz.MaxValue);
 
-		if (attackTarget == null) {
+		flagz.hostileIdle = false;
+
+		if (attackTarget == null || !attackTarget.enabled) {
 			return;
 		}
 
-		flagz.hostileIdle = false;
+		if (!InRange(attackTarget.node)) {
+			onTargetReached.AddListener(Attack);
+			flagz.setToAttack = true;
+			targetNode = attackTarget.node;
+
+			Move();
+
+			return;
+		}
 
 		Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.attack));
 

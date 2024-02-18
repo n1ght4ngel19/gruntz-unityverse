@@ -19,10 +19,6 @@ namespace GruntzUnityverse.V2.Itemz.Toolz {
 
     public AnimationPackV2 animationPack;
 
-    // public float useTime;
-    // public float attackTime;
-    // public float rechargeTime;
-
     public void Attack(GruntV2 target) {
       Debug.Log($"Attacking {target.name}");
 
