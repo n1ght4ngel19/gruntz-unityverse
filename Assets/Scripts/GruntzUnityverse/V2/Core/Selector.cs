@@ -14,7 +14,7 @@ public class Selector : MonoBehaviour {
 	}
 
 	private void Update() {
-		transform.position = Input.mousePosition.FromCameraView(mainCamera).RoundedToInt(15f);
+		transform.position = Input.mousePosition.FromCameraView(mainCamera).RoundedToInt(z: 15f);
 		location2D = Vector2Int.RoundToInt(transform.position);
 		node = LevelV2.Instance.levelNodes.FirstOrDefault(n => n.location2D == location2D);
 	}
