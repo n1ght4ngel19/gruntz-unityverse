@@ -298,8 +298,8 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 				.FirstOrDefault(go => go.location2D == GM.Instance.selector.location2D && go is IInteractable);
 
 		// Find new attack target
-		attackTarget = GM.Instance.allGruntz
-			.FirstOrDefault(g => g.location2D == GM.Instance.selector.location2D && g.enabled);
+		// attackTarget = GM.Instance.allGruntz
+		// 	.FirstOrDefault(g => g.location2D == GM.Instance.selector.location2D && g.enabled);
 
 		// There was nothing found to interact with
 		if (interactionTarget == null && attackTarget == null) {
@@ -386,8 +386,8 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		Debug.Log("OnGive");
 
-		GruntV2 target = GM.Instance.allGruntz
-			.FirstOrDefault(grunt => grunt.location2D == GM.Instance.selector.location2D);
+		// GruntV2 target = GM.Instance.allGruntz
+		// 	.FirstOrDefault(grunt => grunt.location2D == GM.Instance.selector.location2D);
 
 		// Todo: Move beside target
 
@@ -517,7 +517,7 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 		// Wait the duration of the interaction animation
 		await UniTask.WaitForSeconds(0.75f);
 
-		equippedTool.InteractWith(interactionTarget);
+		// equippedTool.InteractWith(interactionTarget);
 
 		statz.stamina = 0;
 		onStaminaDrained.Invoke();
@@ -582,7 +582,7 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		equippedTool.Attack(attackTarget);
+		// equippedTool.Attack(attackTarget);
 
 		statz.stamina = 0;
 		onStaminaDrained.Invoke();
@@ -621,7 +621,7 @@ public class GruntV2 : MonoBehaviour, IDataPersistence, IAnimatable {
 		await UniTask.WaitForSeconds(animationPack.deathAnimation.length);
 
 		Debug.Log("Im dead!");
-		GM.Instance.allGruntz.Remove(this);
+		// GM.Instance.allGruntz.Remove(this);
 		Destroy(gameObject);
 		// Instantiate(gruntPuddle, transform.position, Quaternion.identity, GameObject.Find("Puddlez").transform);
 	}

@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ForceIdle",
+                    "type": "Button",
+                    "id": "01ecc06a-ef1f-433b-8c45-b6c43bb14896",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "SaveGame",
                     "type": "Button",
                     "id": "1bd05a8e-ef76-41c2-89b3-5a80a4480a63",
@@ -272,6 +281,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b32af88f-7016-4b09-87f6-afc14693bbc4",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ForceIdle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

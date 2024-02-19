@@ -82,6 +82,15 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ForceIdle"",
+                    ""type"": ""Button"",
+                    ""id"": ""01ecc06a-ef1f-433b-8c45-b6c43bb14896"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""SaveGame"",
                     ""type"": ""Button"",
                     ""id"": ""1bd05a8e-ef76-41c2-89b3-5a80a4480a63"",
@@ -296,6 +305,17 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b32af88f-7016-4b09-87f6-afc14693bbc4"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ForceIdle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -310,6 +330,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_InGame_Move = m_InGame.FindAction("Move", throwIfNotFound: true);
         m_InGame_Action = m_InGame.FindAction("Action", throwIfNotFound: true);
         m_InGame_Give = m_InGame.FindAction("Give", throwIfNotFound: true);
+        m_InGame_ForceIdle = m_InGame.FindAction("ForceIdle", throwIfNotFound: true);
         m_InGame_SaveGame = m_InGame.FindAction("SaveGame", throwIfNotFound: true);
         m_InGame_LoadGame = m_InGame.FindAction("LoadGame", throwIfNotFound: true);
         m_InGame_Escape = m_InGame.FindAction("Escape", throwIfNotFound: true);
@@ -380,6 +401,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_Move;
     private readonly InputAction m_InGame_Action;
     private readonly InputAction m_InGame_Give;
+    private readonly InputAction m_InGame_ForceIdle;
     private readonly InputAction m_InGame_SaveGame;
     private readonly InputAction m_InGame_LoadGame;
     private readonly InputAction m_InGame_Escape;
@@ -393,6 +415,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_InGame_Move;
         public InputAction @Action => m_Wrapper.m_InGame_Action;
         public InputAction @Give => m_Wrapper.m_InGame_Give;
+        public InputAction @ForceIdle => m_Wrapper.m_InGame_ForceIdle;
         public InputAction @SaveGame => m_Wrapper.m_InGame_SaveGame;
         public InputAction @LoadGame => m_Wrapper.m_InGame_LoadGame;
         public InputAction @Escape => m_Wrapper.m_InGame_Escape;
@@ -423,6 +446,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @Give.started += instance.OnGive;
             @Give.performed += instance.OnGive;
             @Give.canceled += instance.OnGive;
+            @ForceIdle.started += instance.OnForceIdle;
+            @ForceIdle.performed += instance.OnForceIdle;
+            @ForceIdle.canceled += instance.OnForceIdle;
             @SaveGame.started += instance.OnSaveGame;
             @SaveGame.performed += instance.OnSaveGame;
             @SaveGame.canceled += instance.OnSaveGame;
@@ -454,6 +480,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @Give.started -= instance.OnGive;
             @Give.performed -= instance.OnGive;
             @Give.canceled -= instance.OnGive;
+            @ForceIdle.started -= instance.OnForceIdle;
+            @ForceIdle.performed -= instance.OnForceIdle;
+            @ForceIdle.canceled -= instance.OnForceIdle;
             @SaveGame.started -= instance.OnSaveGame;
             @SaveGame.performed -= instance.OnSaveGame;
             @SaveGame.canceled -= instance.OnSaveGame;
@@ -488,6 +517,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnGive(InputAction.CallbackContext context);
+        void OnForceIdle(InputAction.CallbackContext context);
         void OnSaveGame(InputAction.CallbackContext context);
         void OnLoadGame(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
