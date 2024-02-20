@@ -38,8 +38,7 @@ public class GM : MonoBehaviour {
 	/// All the Gruntz in the current level.
 	/// </summary>
 	[Header("Gruntz")]
-	public List<GruntV2> allGruntz;
-
+	public List<GruntFSM> allGruntz;
 
 	/// <summary>
 	/// The Gruntz currently selected by the player.
@@ -65,7 +64,7 @@ public class GM : MonoBehaviour {
 
 		Debug.Log($"Loaded {scene.name}");
 
-		allGruntz = FindObjectsByType<GruntV2>(FindObjectsSortMode.None).ToList();
+		allGruntz = FindObjectsByType<GruntFSM>(FindObjectsSortMode.None).ToList();
 
 		// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 		FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
@@ -88,7 +87,7 @@ public class GMEditor : UnityEditor.Editor {
 
 			level.Initialize();
 
-			gm.allGruntz = FindObjectsByType<GruntV2>(FindObjectsSortMode.None).ToList();
+			gm.allGruntz = FindObjectsByType<GruntFSM>(FindObjectsSortMode.None).ToList();
 
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 			FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
