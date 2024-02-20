@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4276066817981512663}
   - component: {fileID: 2370631032454505541}
-  - component: {fileID: -4362988745763061198}
   m_Layer: 0
   m_Name: GruntPuddle
   m_TagString: Untagged
@@ -50,6 +49,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -370743279
-  m_SortingLayer: -1
+  m_SortingLayer: -3
   m_SortingOrder: 30
   m_Sprite: {fileID: 1937430785, guid: 1c573e8c3599abc4d8cf18628c9c6a44, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -85,26 +86,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4362988745763061198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 154651464123102031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef627a03b68340d8ae06c7ae5a5e3ca1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectId: 0
-  spriteRenderer: {fileID: 2370631032454505541}
-  parent: {fileID: 0}
-  location: {x: 0, y: 0}
-  ownNode: {fileID: 0}
-  area: 0
-  abbreviatedArea: 
-  isTargetable: 1
-  appearAnim: {fileID: 7400000, guid: dc2fa5c5a27abee43b892a0080afe9ad, type: 2}
-  disappearAnim: {fileID: 7400000, guid: 93f5bcb40db780741a830d04dbd90bbd, type: 2}
-  idleAnim: {fileID: 7400000, guid: c634c7155ff76a44a811925877be8ec6, type: 2}
