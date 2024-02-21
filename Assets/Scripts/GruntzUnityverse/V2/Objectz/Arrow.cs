@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz {
 public class Arrow : GridObject {
-	public DirectionV2 direction;
+	public Direction direction;
 	public Node pointedNode;
 
 	protected override void Start() {
@@ -22,21 +22,21 @@ public class Arrow : GridObject {
 		string spriteName = spriteRenderer.sprite.name;
 
 		if (spriteName.Contains("UpRight")) {
-			direction = DirectionV2.UpRight;
+			direction = Direction.UpRight;
 		} else if (spriteName.Contains("UpLeft")) {
-			direction = DirectionV2.UpLeft;
+			direction = Direction.UpLeft;
 		} else if (spriteName.Contains("DownRight")) {
-			direction = DirectionV2.DownRight;
+			direction = Direction.DownRight;
 		} else if (spriteName.Contains("DownLeft")) {
-			direction = DirectionV2.DownLeft;
+			direction = Direction.DownLeft;
 		} else if (spriteName.Contains("Right")) {
-			direction = DirectionV2.Right;
+			direction = Direction.Right;
 		} else if (spriteName.Contains("Left")) {
-			direction = DirectionV2.Left;
+			direction = Direction.Left;
 		} else if (spriteName.Contains("Down")) {
-			direction = DirectionV2.Down;
+			direction = Direction.Down;
 		} else if (spriteName.Contains("Up")) {
-			direction = DirectionV2.Up;
+			direction = Direction.Up;
 		} else {
 			Debug.LogError("Arrow sprite name does not contain a valid direction.");
 		}
@@ -44,14 +44,14 @@ public class Arrow : GridObject {
 
 	protected void SetTargetNode() {
 		pointedNode = direction switch {
-			DirectionV2.Up => node.neighbourSet.up,
-			DirectionV2.UpRight => node.neighbourSet.upRight,
-			DirectionV2.Right => node.neighbourSet.right,
-			DirectionV2.DownRight => node.neighbourSet.downRight,
-			DirectionV2.Down => node.neighbourSet.down,
-			DirectionV2.DownLeft => node.neighbourSet.downLeft,
-			DirectionV2.Left => node.neighbourSet.left,
-			DirectionV2.UpLeft => node.neighbourSet.upLeft,
+			Direction.Up => node.neighbourSet.up,
+			Direction.UpRight => node.neighbourSet.upRight,
+			Direction.Right => node.neighbourSet.right,
+			Direction.DownRight => node.neighbourSet.downRight,
+			Direction.Down => node.neighbourSet.down,
+			Direction.DownLeft => node.neighbourSet.downLeft,
+			Direction.Left => node.neighbourSet.left,
+			Direction.UpLeft => node.neighbourSet.upLeft,
 			_ => null,
 		};
 	}

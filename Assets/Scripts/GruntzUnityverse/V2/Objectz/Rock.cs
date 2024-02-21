@@ -9,7 +9,7 @@ namespace GruntzUnityverse.V2.Objectz {
 /// <summary>
 /// A Grunt-sized piece of rock that blocks the path and possibly holds an <see cref="LevelItem"/>.
 /// </summary>
-public class RockV2 : GridObject, IObjectHolder, IInteractable, IAnimatable {
+public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	[field: SerializeField] public LevelItem HeldItem { get; set; }
 	[field: SerializeField] public Animator Animator { get; set; }
 	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
@@ -59,13 +59,13 @@ public class RockV2 : GridObject, IObjectHolder, IInteractable, IAnimatable {
 }
 
 #if UNITY_EDITOR
-[CustomEditor(typeof(RockV2))]
+[CustomEditor(typeof(Rock))]
 [CanEditMultipleObjects]
 public class RockV2Editor : UnityEditor.Editor {
 	public override void OnInspectorGUI() {
 		base.OnInspectorGUI();
 
-		MonoBehaviour objectHolder = (RockV2)target;
+		MonoBehaviour objectHolder = (Rock)target;
 
 		if (GUILayout.Button("Destroy Rock")) {
 			Destroy(objectHolder.gameObject);

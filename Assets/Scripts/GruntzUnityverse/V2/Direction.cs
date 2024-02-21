@@ -1,5 +1,5 @@
 ﻿namespace GruntzUnityverse.V2 {
-public enum DirectionV2 {
+public enum Direction {
 	None = 0,
 	Up = 1,
 	UpRight = 2,

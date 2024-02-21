@@ -128,17 +128,17 @@ public class AnimationPack : ScriptableObject {
 		}
 	}
 
-	public static AnimationClip GetRandomClip(DirectionV2 direction, Animationz8Way animz) {
+	public static AnimationClip GetRandomClip(Direction direction, Animationz8Way animz) {
 		return direction switch {
 			// Temporary solution until random idle animations are implemented
-			DirectionV2.Up => animz.up[Random.Range(0, 1)],
-			DirectionV2.UpRight => animz.upRight[Random.Range(0, 1)],
-			DirectionV2.Right => animz.right[Random.Range(0, 1)],
-			DirectionV2.DownRight => animz.downRight[Random.Range(0, 1)],
-			DirectionV2.Down => animz.down[Random.Range(0, 1)],
-			DirectionV2.DownLeft => animz.downLeft[Random.Range(0, 1)],
-			DirectionV2.Left => animz.left[Random.Range(0, 1)],
-			DirectionV2.UpLeft => animz.upLeft[Random.Range(0, 1)],
+			Direction.Up => animz.up[Random.Range(0, 1)],
+			Direction.UpRight => animz.upRight[Random.Range(0, 1)],
+			Direction.Right => animz.right[Random.Range(0, 1)],
+			Direction.DownRight => animz.downRight[Random.Range(0, 1)],
+			Direction.Down => animz.down[Random.Range(0, 1)],
+			Direction.DownLeft => animz.downLeft[Random.Range(0, 1)],
+			Direction.Left => animz.left[Random.Range(0, 1)],
+			Direction.UpLeft => animz.upLeft[Random.Range(0, 1)],
 			_ => null,
 		};
 	}

@@ -92,9 +92,9 @@ public class GameManagerEditor : UnityEditor.Editor {
 				.ToList()
 				.ForEach(go => go.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(go.transform.position.y) * -1);
 
-			List<CheckpointV2> checkpointz = FindObjectsByType<CheckpointV2>(FindObjectsSortMode.None).ToList();
+			List<Checkpoint> checkpointz = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None).ToList();
 
-			foreach (CheckpointV2 cp in checkpointz) {
+			foreach (Checkpoint cp in checkpointz) {
 				cp.Setup();
 				EditorUtility.SetDirty(cp);
 			}
@@ -110,7 +110,7 @@ public class GameManagerEditor : UnityEditor.Editor {
 			gameManager.levelStatz.maxToyz = FindObjectsByType<LevelToy>(FindObjectsSortMode.None).Length;
 			gameManager.levelStatz.maxPowerupz = FindObjectsByType<LevelPowerup>(FindObjectsSortMode.None).Length;
 			gameManager.levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
-			gameManager.levelStatz.maxSecretz = FindObjectsByType<SecretSwitchV2>(FindObjectsSortMode.None).Length;
+			gameManager.levelStatz.maxSecretz = FindObjectsByType<SecretSwitch>(FindObjectsSortMode.None).Length;
 			gameManager.levelStatz.maxWarpletterz = FindObjectsByType<Warpletter>(FindObjectsSortMode.None).Length;
 
 			EditorUtility.SetDirty(gameManager);

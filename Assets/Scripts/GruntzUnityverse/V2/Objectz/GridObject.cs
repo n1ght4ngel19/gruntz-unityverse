@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using GruntzUnityverse.V2.Core;
-using GruntzUnityverse.V2.Editor;
 using GruntzUnityverse.V2.Editor.PropertyDrawers;
 using GruntzUnityverse.V2.Pathfinding;
 using UnityEngine;

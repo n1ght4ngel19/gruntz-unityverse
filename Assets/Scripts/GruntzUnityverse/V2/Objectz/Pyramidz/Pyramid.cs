@@ -1,9 +1,8 @@
 ﻿using Animancer;
 using UnityEngine;
 
-namespace GruntzUnityverse.V2.Objectz.Bridgez {
-public class Bridge : GridObject, IToggleable {
-	public bool isDeathBridge;
+namespace GruntzUnityverse.V2.Objectz.Pyramidz {
+public abstract class Pyramid : GridObject, IToggleable {
 
 	#region IToggleable
 	// --------------------------------------------------
@@ -14,23 +13,23 @@ public class Bridge : GridObject, IToggleable {
 	[field: SerializeField] public AnimationClip ToggleOnAnim { get; set; }
 	[field: SerializeField] public AnimationClip ToggleOffAnim { get; set; }
 
-	public void Toggle() {
-		if (node.isWater) {
-			ToggleOn();
-		} else {
+	public virtual void Toggle() {
+		if (actAsObstacle) {
 			ToggleOff();
+		} else {
+			ToggleOn();
 		}
 
-		node.isWater = actAsWater;
+		node.isBlocked = actAsObstacle;
 	}
 
-	public void ToggleOn() {
-		actAsWater = false;
+	public virtual void ToggleOn() {
+		actAsObstacle = true;
 		Animancer.Play(ToggleOnAnim);
 	}
 
-	public void ToggleOff() {
-		actAsWater = true;
+	public virtual void ToggleOff() {
+		actAsObstacle = false;
 		Animancer.Play(ToggleOffAnim);
 	}
 	#endregion

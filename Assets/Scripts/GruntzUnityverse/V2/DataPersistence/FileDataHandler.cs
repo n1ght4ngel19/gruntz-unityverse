@@ -3,46 +3,46 @@ using System.IO;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.DataPersistence {
-  public class FileDataHandler {
-    private string directoryPath;
+public class FileDataHandler {
+	private string directoryPath;
 
-    private string dataFileName;
+	private string dataFileName;
 
-    public FileDataHandler(string directoryPath, string dataFileName) {
-      this.directoryPath = directoryPath;
-      this.dataFileName = dataFileName;
-    }
+	public FileDataHandler(string directoryPath, string dataFileName) {
+		this.directoryPath = directoryPath;
+		this.dataFileName = dataFileName;
+	}
 
-    public GameData LoadGameData() {
-      string filePath = Path.Combine(directoryPath, dataFileName);
+	public GameData LoadGameData() {
+		string filePath = Path.Combine(directoryPath, dataFileName);
 
-      if (!File.Exists(filePath)) {
-        return new GameData();
-      }
+		if (!File.Exists(filePath)) {
+			return new GameData();
+		}
 
-      try {
-        string dataAsJson = File.ReadAllText(filePath);
+		try {
+			string dataAsJson = File.ReadAllText(filePath);
 
-        return JsonUtility.FromJson<GameData>(dataAsJson);
-      } catch (Exception exception) {
-        Debug.LogError(exception);
+			return JsonUtility.FromJson<GameData>(dataAsJson);
+		} catch (Exception exception) {
+			Debug.LogError(exception);
 
-        throw;
-      }
-    }
+			throw;
+		}
+	}
 
-    public void SaveGameData(GameData gameData) {
-      string dataAsJson = JsonUtility.ToJson(gameData, true);
-      string filePath = Path.Combine(directoryPath, dataFileName);
+	public void SaveGameData(GameData gameData) {
+		string dataAsJson = JsonUtility.ToJson(gameData, true);
+		string filePath = Path.Combine(directoryPath, dataFileName);
 
-      try {
-        File.WriteAllText(filePath, dataAsJson);
-      } catch (Exception exception) {
-        Debug.LogError("Error saving game data to file: " + filePath);
-        Debug.LogError(exception);
+		try {
+			File.WriteAllText(filePath, dataAsJson);
+		} catch (Exception exception) {
+			Debug.LogError("Error saving game data to file: " + filePath);
+			Debug.LogError(exception);
 
-        throw;
-      }
-    }
-  }
+			throw;
+		}
+	}
+}
 }

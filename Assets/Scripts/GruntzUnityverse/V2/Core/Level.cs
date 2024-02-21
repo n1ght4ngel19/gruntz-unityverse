@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 namespace GruntzUnityverse.V2.Core {
 public class Level : MonoBehaviour {
 	/// <summary>
-	/// The singleton accessor of the LevelV2.
+	/// The singleton accessor of the Level.
 	/// </summary>
 	public static Level Instance { get; private set; }
 

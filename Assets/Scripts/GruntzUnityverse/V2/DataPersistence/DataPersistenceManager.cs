@@ -5,142 +5,142 @@ using GruntzUnityverse.V2.Actorz;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.DataPersistence {
-  public class DataPersistenceManager : MonoBehaviour {
-    public static DataPersistenceManager Instance { get; private set; }
+public class DataPersistenceManager : MonoBehaviour {
+	public static DataPersistenceManager Instance { get; private set; }
 
-    [Header("Transforms")]
-    public Transform gruntzTransform;
+	[Header("Transforms")]
+	public Transform gruntzTransform;
 
-    [Header("Prefabs")]
-    public Grunt baseGrunt;
+	[Header("Prefabs")]
+	public Grunt baseGrunt;
 
-    [Header("Game Data")]
-    [SerializeField]
-    private GameData currentGameData;
+	[Header("Game Data")]
+	[SerializeField]
+	private GameData currentGameData;
 
-    public List<IDataPersistence> dataPersistenceObjects;
+	public List<IDataPersistence> dataPersistenceObjects;
 
-    [Header("File Storage Settings")]
-    [SerializeField]
-    private string dataFileName;
+	[Header("File Storage Settings")]
+	[SerializeField]
+	private string dataFileName;
 
-    private FileDataHandler _fileDataHandler;
+	private FileDataHandler _fileDataHandler;
 
-    private void Awake() {
-      if (Instance == null) {
-        Instance = this;
-      } else {
-        Destroy(gameObject);
-      }
-    }
+	private void Awake() {
+		if (Instance == null) {
+			Instance = this;
+		} else {
+			Destroy(gameObject);
+		}
+	}
 
-    private void Start() {
-      currentGameData = new GameData();
-      _fileDataHandler = new FileDataHandler(Application.persistentDataPath, dataFileName);
-      gruntzTransform = GameObject.Find("Gruntz").transform;
+	private void Start() {
+		currentGameData = new GameData();
+		_fileDataHandler = new FileDataHandler(Application.persistentDataPath, dataFileName);
+		gruntzTransform = GameObject.Find("Gruntz").transform;
 
-      // Todo: Find out why this doesn't work
-      // Addressables.LoadAssetAsync<GruntV2>("BaseGrunt.prefab").Completed += handle => {
-      //   baseGrunt = handle.Result;
-      // };
-    }
+		// Todo: Find out why this doesn't work
+		// Addressables.LoadAssetAsync<GruntV2>("BaseGrunt.prefab").Completed += handle => {
+		//   baseGrunt = handle.Result;
+		// };
+	}
 
-    /// <summary>
-    /// Todo
-    /// </summary>
-    public void NewGame() {
-      // _gameData = new GameData();
-      Debug.Log("New Game");
-    }
+	/// <summary>
+	/// Todo
+	/// </summary>
+	public void NewGame() {
+		// _gameData = new GameData();
+		Debug.Log("New Game");
+	}
 
-    /// <summary>
-    /// Saves the game data to a file.
-    /// </summary>
-    public void SaveGame() {
-      dataPersistenceObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
-        .OfType<IDataPersistence>()
-        .ToList();
+	/// <summary>
+	/// Saves the game data to a file.
+	/// </summary>
+	public void SaveGame() {
+		dataPersistenceObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+			.OfType<IDataPersistence>()
+			.ToList();
 
-      // currentGameData.gruntData = new List<GruntDataV2>();
+		// currentGameData.gruntData = new List<GruntDataV2>();
 
-      // Iterate through all the data persistence objects (dynamic objects) and make them save their data
-      foreach (IDataPersistence dataPersistenceObject in dataPersistenceObjects) {
-        dataPersistenceObject.Save(ref currentGameData);
-      }
+		// Iterate through all the data persistence objects (dynamic objects) and make them save their data
+		foreach (IDataPersistence dataPersistenceObject in dataPersistenceObjects) {
+			dataPersistenceObject.Save(ref currentGameData);
+		}
 
-      // Save the game data to disk
-      _fileDataHandler.SaveGameData(currentGameData);
-    }
+		// Save the game data to disk
+		_fileDataHandler.SaveGameData(currentGameData);
+	}
 
-    /// <summary>
-    /// Loads the game data from a file.
-    /// </summary>
-    public void LoadGame() {
-      // Todo: See if this is necessary
-      if (currentGameData == null) {
-        NewGame();
+	/// <summary>
+	/// Loads the game data from a file.
+	/// </summary>
+	public void LoadGame() {
+		// Todo: See if this is necessary
+		if (currentGameData == null) {
+			NewGame();
 
-        return;
-      }
+			return;
+		}
 
-      try {
-        DestroyEverything();
-      } catch (Exception e) {
-        Debug.LogException(e);
+		try {
+			DestroyEverything();
+		} catch (Exception e) {
+			Debug.LogException(e);
 
-        throw;
-      } finally {
-        // Load the game data from disk
-        currentGameData = _fileDataHandler.LoadGameData();
+			throw;
+		} finally {
+			// Load the game data from disk
+			currentGameData = _fileDataHandler.LoadGameData();
 
-        Debug.Log(currentGameData.gruntData.Count);
+			Debug.Log(currentGameData.gruntData.Count);
 
-        // Instantiate Gruntz from the loaded data
-        for (int i = 0; i < currentGameData.gruntData.Count; i++) {
-          Instantiate(baseGrunt, currentGameData.gruntData[i].position, Quaternion.identity, gruntzTransform)
-            .Load(currentGameData.gruntData[i]);
-        }
-      }
+			// Instantiate Gruntz from the loaded data
+			for (int i = 0; i < currentGameData.gruntData.Count; i++) {
+				Instantiate(baseGrunt, currentGameData.gruntData[i].position, Quaternion.identity, gruntzTransform)
+					.Load(currentGameData.gruntData[i]);
+			}
+		}
 
-      // Reset game data after finishing loading
-      currentGameData = new GameData();
-    }
+		// Reset game data after finishing loading
+		currentGameData = new GameData();
+	}
 
-    /// <summary>
-    /// Destroys all the dynamic objects in the scene. Used for cleaning up the scene before loading.
-    /// </summary>
-    private static void DestroyEverything() {
-      List<MonoBehaviour> toDestroy = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
-        .OfType<IDataPersistence>()
-        .Select(dpo => dpo as MonoBehaviour)
-        .ToList();
+	/// <summary>
+	/// Destroys all the dynamic objects in the scene. Used for cleaning up the scene before loading.
+	/// </summary>
+	private static void DestroyEverything() {
+		List<MonoBehaviour> toDestroy = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+			.OfType<IDataPersistence>()
+			.Select(dpo => dpo as MonoBehaviour)
+			.ToList();
 
-      toDestroy.ForEach(mb => Destroy(mb.gameObject));
-    }
+		toDestroy.ForEach(mb => Destroy(mb.gameObject));
+	}
 
-    [ContextMenu("Generate GUIDs")]
-    public void GenerateGuids() {
-      List<IDataPersistence> list = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
-        .OfType<IDataPersistence>()
-        .ToList();
+	[ContextMenu("Generate GUIDs")]
+	public void GenerateGuids() {
+		List<IDataPersistence> list = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+			.OfType<IDataPersistence>()
+			.ToList();
 
-      list.ForEach(
-        dpo => {
-          dpo.Guid = Guid.NewGuid().ToString();
-          Debug.Log($"Generated GUID {dpo.Guid} for {dpo}");
-        }
-      );
-    }
+		list.ForEach(
+			dpo => {
+				dpo.Guid = Guid.NewGuid().ToString();
+				Debug.Log($"Generated GUID {dpo.Guid} for {dpo}");
+			}
+		);
+	}
 
-    // --------------------------------------------------
-    // Input Actions
-    // --------------------------------------------------
-    private void OnSaveGame() {
-      Instance.SaveGame();
-    }
+	// --------------------------------------------------
+	// Input Actions
+	// --------------------------------------------------
+	private void OnSaveGame() {
+		Instance.SaveGame();
+	}
 
-    private void OnLoadGame() {
-      Instance.LoadGame();
-    }
-  }
+	private void OnLoadGame() {
+		Instance.LoadGame();
+	}
+}
 }

@@ -72,7 +72,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// The direction this Grunt is facing.
 	/// </summary>
 	[Header("Animation")]
-	public DirectionV2 facingDirection;
+	public Direction facingDirection;
 
 	/// <summary>
 	/// The animation pack this Grunt uses.
@@ -592,14 +592,14 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		Vector2 direction = (toFace.location2D - node.location2D);
 
 		facingDirection = direction switch {
-			_ when direction == Vector2.up => facingDirection = DirectionV2.Up,
-			_ when direction == Vector2.down => facingDirection = DirectionV2.Down,
-			_ when direction == Vector2.left => facingDirection = DirectionV2.Left,
-			_ when direction == Vector2.right => facingDirection = DirectionV2.Right,
-			_ when direction == (Vector2.up + Vector2.right) => facingDirection = DirectionV2.UpRight,
-			_ when direction == (Vector2.up + Vector2.left) => facingDirection = DirectionV2.UpLeft,
-			_ when direction == (Vector2.down + Vector2.right) => facingDirection = DirectionV2.DownRight,
-			_ when direction == (Vector2.down + Vector2.left) => facingDirection = DirectionV2.DownLeft,
+			_ when direction == Vector2.up => facingDirection = Direction.Up,
+			_ when direction == Vector2.down => facingDirection = Direction.Down,
+			_ when direction == Vector2.left => facingDirection = Direction.Left,
+			_ when direction == Vector2.right => facingDirection = Direction.Right,
+			_ when direction == (Vector2.up + Vector2.right) => facingDirection = Direction.UpRight,
+			_ when direction == (Vector2.up + Vector2.left) => facingDirection = Direction.UpLeft,
+			_ when direction == (Vector2.down + Vector2.right) => facingDirection = Direction.DownRight,
+			_ when direction == (Vector2.down + Vector2.left) => facingDirection = Direction.DownLeft,
 			_ => facingDirection,
 		};
 	}

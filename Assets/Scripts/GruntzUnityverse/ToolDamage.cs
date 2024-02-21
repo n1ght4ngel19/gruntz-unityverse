@@ -1,7 +1,4 @@
 ﻿namespace GruntzUnityverse {
-/// <summary>
-/// Container for storing constant values needed in-game.
-/// </summary>
 public struct ToolDamage {
 	public static int BarehandzDamage = 1;
 	public static int BombDamage = 40;
