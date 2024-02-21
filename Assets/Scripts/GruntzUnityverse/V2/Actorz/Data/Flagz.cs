@@ -1,4 +1,4 @@
-﻿namespace GruntzUnityverse.V2.Grunt {
+﻿namespace GruntzUnityverse.V2.Actorz.Data {
 [System.Serializable]
 public struct Flagz {
 	public bool selected;

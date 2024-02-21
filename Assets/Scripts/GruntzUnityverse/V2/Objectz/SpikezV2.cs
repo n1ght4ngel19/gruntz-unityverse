@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using GruntzUnityverse.V2.Grunt;
+using GruntzUnityverse.V2.Actorz;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz {
@@ -15,13 +15,13 @@ namespace GruntzUnityverse.V2.Objectz {
     // }
 
     private IEnumerator OnTriggerStay2D(Collider2D other) {
-      GruntV2 target = other.gameObject.GetComponent<GruntV2>();
+      Grunt target = other.gameObject.GetComponent<Grunt>();
 
       if (target == null) {
         yield break;
       }
 
-      target.TakeDamage(damage);
+      // target.TakeDamage(damage);
 
       yield return new WaitForSeconds(2f);
     }

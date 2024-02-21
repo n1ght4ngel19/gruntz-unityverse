@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.V2.Grunt;
+using GruntzUnityverse.V2.Actorz;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.V2.DataPersistence {
   public class DataPersistenceManager : MonoBehaviour {
@@ -13,7 +12,7 @@ namespace GruntzUnityverse.V2.DataPersistence {
     public Transform gruntzTransform;
 
     [Header("Prefabs")]
-    public GruntV2 baseGrunt;
+    public Grunt baseGrunt;
 
     [Header("Game Data")]
     [SerializeField]

@@ -1,4 +1,4 @@
-﻿namespace GruntzUnityverse.V2.Grunt {
+﻿namespace GruntzUnityverse.V2.Actorz.BehaviourManagement {
 public enum Intent {
 	ToIdle = 0,
 	ToWait = 1,

@@ -1,4 +1,4 @@
-﻿namespace GruntzUnityverse.V2.Grunt {
+﻿namespace GruntzUnityverse.V2.Actorz.UI {
 [System.Serializable]
 public struct Barz {
 	public AttributeBar healthBar;

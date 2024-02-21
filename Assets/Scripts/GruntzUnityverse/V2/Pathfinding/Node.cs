@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.V2.Core;
-using GruntzUnityverse.V2.Grunt;
 using GruntzUnityverse.V2.Utils;
 using UnityEngine;
 
@@ -10,7 +8,7 @@ namespace GruntzUnityverse.V2.Pathfinding {
 /// <summary>
 /// Custom representation of a node used for pathfinding.
 /// </summary>
-public class NodeV2 : MonoBehaviour {
+public class Node : MonoBehaviour {
 	/// <summary>
 	/// The location of this NodeV2 in 2D space.
 	/// </summary>
@@ -35,7 +33,7 @@ public class NodeV2 : MonoBehaviour {
 	/// The parent NodeV2 of this NodeV2, used for retracing paths.
 	/// </summary>
 	[Header("Pathfinding")]
-	public NodeV2 parent;
+	public Node parent;
 
 	/// <summary>
 	/// Cost from start to this node.
@@ -55,17 +53,17 @@ public class NodeV2 : MonoBehaviour {
 	/// <summary>
 	/// The neighbours of this NodeV2.
 	/// </summary>  
-	public List<NodeV2> neighbours;
+	public List<Node> neighbours;
 
 	/// <summary>
 	/// The diagonal neighbours of this NodeV2.
 	/// </summary>
-	public List<NodeV2> diagonalNeighbours;
+	public List<Node> diagonalNeighbours;
 
 	/// <summary>
 	/// The orthogonal neighbours of this NodeV2.
 	/// </summary>
-	public List<NodeV2> orthogonalNeighbours;
+	public List<Node> orthogonalNeighbours;
 
 	/// <summary>
 	/// Serializable representation of the neighbours of this NodeV2.
@@ -82,7 +80,7 @@ public class NodeV2 : MonoBehaviour {
 	/// If true, this NodeV2 is occupied by an actor.
 	/// </summary>
 	[Header("Flagz")]
-	public bool IsOccupied => GM.Instance.allGruntz.Any(gr => gr.node == this);
+	public bool IsOccupied => GameManager.Instance.allGruntz.Any(gr => gr.node == this);
 
 	/// <summary>
 	/// If true, this NodeV2 is reserved by an actor for its next move.
@@ -134,7 +132,7 @@ public class NodeV2 : MonoBehaviour {
 	/// <param name="position">The position of this NodeV2 in the grid. </param>
 	/// <param name="tileName">The name of the tile this NodeV2 is based on.</param>
 	/// <param name="nodes">The list of all nodes in the grid.</param>
-	public void SetupNode(Vector3Int position, string tileName, List<NodeV2> nodes) {
+	public void SetupNode(Vector3Int position, string tileName, List<Node> nodes) {
 		transform.position = position - Vector3Int.one / 2;
 		location2D = new Vector2Int(position.x, position.y);
 		AssignTileType(tileName);
@@ -170,7 +168,7 @@ public class NodeV2 : MonoBehaviour {
 	/// </summary>
 	/// <param name="toCheck"></param>
 	/// <returns></returns>
-	public bool CanReachDiagonally(NodeV2 toCheck) {
+	public bool CanReachDiagonally(Node toCheck) {
 		return !diagonalNeighbours.Contains(toCheck)
 			|| !neighbours.Any(n => n.hardCorner && toCheck.neighbours.Contains(n));
 	}
@@ -179,7 +177,7 @@ public class NodeV2 : MonoBehaviour {
 	/// Assigns the neighbours of this NodeV2 based from the given list of nodes.
 	/// </summary>
 	/// <param name="nodes"></param>
-	public void AssignNeighbours(List<NodeV2> nodes) {
+	public void AssignNeighbours(List<Node> nodes) {
 		neighbourSet = new NeighbourSet {
 			up = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.Up())),
 			upRight = nodes.FirstOrDefault(n => n.location2D.Equals(location2D.UpRight())),
@@ -193,52 +191,19 @@ public class NodeV2 : MonoBehaviour {
 
 		neighbours = neighbourSet.AsList();
 
-		diagonalNeighbours = new List<NodeV2> {
+		diagonalNeighbours = new List<Node> {
 			neighbourSet.upRight,
 			neighbourSet.downRight,
 			neighbourSet.downLeft,
 			neighbourSet.upLeft,
 		};
 
-		orthogonalNeighbours = new List<NodeV2> {
+		orthogonalNeighbours = new List<Node> {
 			neighbourSet.up,
 			neighbourSet.right,
 			neighbourSet.down,
 			neighbourSet.left,
 		};
-	}
-
-	private void OnTriggerEnter2D(Collider2D other) {
-		GruntV2 grunt = other.gameObject.GetComponent<GruntV2>();
-
-		if (grunt == null) {
-			return;
-		}
-
-		grunt.node = this;
-		grunt.location2D = location2D;
-		grunt.flagz.moving = false;
-		grunt.flagz.interrupted = false;
-		grunt.flagz.moveForced = false;
-
-		isReserved = false;
-
-		grunt.transform.position = transform.position;
-		grunt.onNodeChanged.Invoke();
-	}
-
-	/// <summary>
-	/// Returns whether this NodeV2 is diagonal to the other given NodeV2.
-	/// </summary>
-	/// <param name="toCheck">The NodeV2 to check.</param>
-	/// <returns>A boolean indicating whether this NodeV2 is diagonal to the other given NodeV2.</returns>
-	private bool IsDiagonalTo(NodeV2 toCheck) {
-		return Math.Abs(toCheck.location2D.x - location2D.x) != 0
-			&& Math.Abs(toCheck.location2D.y - location2D.y) != 0;
-	}
-
-	public void SetColor(Color color) {
-		GetComponent<SpriteRenderer>().material.color = color;
 	}
 }
 }

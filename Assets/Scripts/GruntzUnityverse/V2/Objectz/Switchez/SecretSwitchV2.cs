@@ -15,7 +15,7 @@ namespace GruntzUnityverse.V2.Objectz.Switchez {
 
       DisableTrigger();
 
-      GM.Instance.levelStatz.secretz++;
+      GameManager.Instance.levelStatz.discoveredSecretz++;
       secretObjectz.ForEach(so => StartCoroutine(so.ToggleOn()));
     }
   }

@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace GruntzUnityverse.V2.Editor {
+namespace GruntzUnityverse.V2.Editor.PropertyDrawers {
   public class HideInNormalInspector : PropertyAttribute { }
 
   #if UNITY_EDITOR

@@ -2,6 +2,7 @@
 using System.Linq;
 using GruntzUnityverse.V2.Core;
 using GruntzUnityverse.V2.Editor;
+using GruntzUnityverse.V2.Editor.PropertyDrawers;
 using GruntzUnityverse.V2.Pathfinding;
 using UnityEngine;
 
@@ -26,10 +27,10 @@ public abstract class GridObject : MonoBehaviour {
 	public Vector2Int location2D;
 
 	/// <summary>
-	/// The <see cref="NodeV2"/> that this GridObject currently occupies.
+	/// The <see cref="Node"/> that this GridObject currently occupies.
 	/// </summary>
 	[HideInNormalInspector]
-	public NodeV2 node;
+	public Node node;
 
 	/// <summary>
 	/// The SpriteRenderer of this GridObject.
@@ -50,7 +51,7 @@ public abstract class GridObject : MonoBehaviour {
 	}
 
 	protected virtual void Start() {
-		node = LevelV2.Instance.levelNodes.First(n => n.location2D == location2D);
+		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
 		node.isBlocked = actAsObstacle;
 		node.isWater = actAsWater;
 		node.isFire = actAsFire;

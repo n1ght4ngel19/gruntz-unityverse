@@ -4,17 +4,17 @@ using GruntzUnityverse.V2.Utils;
 namespace GruntzUnityverse.V2.Pathfinding {
   [System.Serializable]
   public struct NeighbourSet {
-    public NodeV2 up;
-    public NodeV2 upRight;
-    public NodeV2 right;
-    public NodeV2 downRight;
-    public NodeV2 down;
-    public NodeV2 downLeft;
-    public NodeV2 left;
-    public NodeV2 upLeft;
+    public Node up;
+    public Node upRight;
+    public Node right;
+    public Node downRight;
+    public Node down;
+    public Node downLeft;
+    public Node left;
+    public Node upLeft;
 
-    public List<NodeV2> AsList() {
-      List<NodeV2> list = new List<NodeV2>();
+    public List<Node> AsList() {
+      List<Node> list = new List<Node>();
 
       list.CheckNullAdd(up);
       list.CheckNullAdd(upRight);

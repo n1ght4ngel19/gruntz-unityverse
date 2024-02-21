@@ -16,40 +16,40 @@ public static class Pathfinder {
 	/// <param name="end">The NodeV2 to end the search at.</param>
 	/// <param name="nodes">All nodes in the given context.</param>
 	/// <returns>A list of nodes representing the path from start to end.</returns>
-	public static List<NodeV2> AstarSearch(NodeV2 start, NodeV2 end, HashSet<NodeV2> nodes) {
+	public static List<Node> AstarSearch(Node start, Node end, HashSet<Node> nodes) {
 		if (end == start) {
-			return new List<NodeV2>();
+			return new List<Node>();
 		}
 
 		// When the selected end node is not walkable, find a new end node if possible
 		if (!end.IsWalkable) {
 			// When the target is right beside the start, return an empty list
 			if (start.neighbours.Contains(end)) {
-				return new List<NodeV2>();
+				return new List<Node>();
 			}
 
-			List<NodeV2> freeNeighbours = end.neighbours.Where(n => n.IsWalkable).ToList();
+			List<Node> freeNeighbours = end.neighbours.Where(n => n.IsWalkable).ToList();
 
 			if (freeNeighbours.Count == 0) {
-				return new List<NodeV2>();
+				return new List<Node>();
 			}
 
 			end = freeNeighbours.OrderBy(n => CalculateHeuristic(start, n)).First();
 		}
 
-		HashSet<NodeV2> grid = new HashSet<NodeV2>(nodes);
+		HashSet<Node> grid = new HashSet<Node>(nodes);
 
 		// Use a PriorityQueue to keep track of the nodes to check, since we need to sort Nodes in it anyway by their F cost,
 		// and a PriorityQueue does this automatically
-		PriorityQueue<NodeV2, int> openSet = new PriorityQueue<NodeV2, int>();
+		PriorityQueue<Node, int> openSet = new PriorityQueue<Node, int>();
 		// Use a HashSet to keep track of the nodes that have already been checked,
 		// since we don't need to sort them, and but need to check for duplicates
-		HashSet<NodeV2> closedSet = new HashSet<NodeV2>();
+		HashSet<Node> closedSet = new HashSet<Node>();
 		int counter = 0;
 
 		openSet.Enqueue(start, start.F);
 
-		foreach (NodeV2 node in grid) {
+		foreach (Node node in grid) {
 			node.g = int.MaxValue;
 			node.parent = null;
 		}
@@ -58,7 +58,7 @@ public static class Pathfinder {
 		start.h = CalculateHeuristic(start, end);
 
 		while (openSet.Count > 0) {
-			NodeV2 current = openSet.Dequeue();
+			Node current = openSet.Dequeue();
 
 			counter++;
 
@@ -69,7 +69,7 @@ public static class Pathfinder {
 
 			closedSet.Add(current);
 
-			foreach (NodeV2 neighbour in current.neighbours.Where(n => n != current.parent)) {
+			foreach (Node neighbour in current.neighbours.Where(n => n != current.parent)) {
 				if (closedSet.Contains(neighbour) || !neighbour.IsWalkable) {
 					continue;
 				}
@@ -99,7 +99,7 @@ public static class Pathfinder {
 		Debug.Log($"No path found, checked {counter} nodes");
 
 		// If no path was found, return an empty list 
-		return new List<NodeV2>();
+		return new List<Node>();
 	}
 
 	public enum Heuristic {
@@ -109,7 +109,7 @@ public static class Pathfinder {
 		Octile,
 	}
 
-	public static int CalculateHeuristic(NodeV2 start, NodeV2 end, Heuristic heuristic = Heuristic.Manhattan) {
+	public static int CalculateHeuristic(Node start, Node end, Heuristic heuristic = Heuristic.Manhattan) {
 		return heuristic switch {
 			Heuristic.Euclidean => Euclidean(start, end),
 			Heuristic.Chebyshev => Chebyshev(start, end),
@@ -118,18 +118,18 @@ public static class Pathfinder {
 		};
 	}
 
-	private static int Manhattan(NodeV2 start, NodeV2 end) {
+	private static int Manhattan(Node start, Node end) {
 		return Math.Abs(start.location2D.x - end.location2D.x) + Math.Abs(start.location2D.y - end.location2D.y);
 	}
 
-	private static int Chebyshev(NodeV2 start, NodeV2 end) {
+	private static int Chebyshev(Node start, Node end) {
 		return Math.Max(
 			Math.Abs(start.location2D.x - end.location2D.x),
 			Math.Abs(start.location2D.y - end.location2D.y)
 		);
 	}
 
-	private static int Euclidean(NodeV2 start, NodeV2 end) {
+	private static int Euclidean(Node start, Node end) {
 		int dxE = Math.Abs(start.location2D.x - end.location2D.x);
 		int dyE = Math.Abs(start.location2D.y - end.location2D.y);
 
@@ -139,7 +139,7 @@ public static class Pathfinder {
 		return euclideanDistance;
 	}
 
-	private static int Octile(NodeV2 start, NodeV2 end) {
+	private static int Octile(Node start, Node end) {
 		int dX = Math.Abs(start.location2D.x - end.location2D.x);
 		int dY = Math.Abs(start.location2D.y - end.location2D.y);
 
@@ -152,9 +152,9 @@ public static class Pathfinder {
 	/// <param name="start">The start of the path.</param>
 	/// <param name="end">The end of the path.</param>
 	/// <returns>A list of nodes representing the path from start to end.</returns>
-	private static List<NodeV2> RetracePath(NodeV2 start, NodeV2 end) {
-		List<NodeV2> path = new List<NodeV2>();
-		NodeV2 current = end;
+	private static List<Node> RetracePath(Node start, Node end) {
+		List<Node> path = new List<Node>();
+		Node current = end;
 
 		while (current != start) {
 			path.Add(current);

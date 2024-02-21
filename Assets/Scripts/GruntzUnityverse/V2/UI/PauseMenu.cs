@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GruntzUnityverse.V2.Core {
+namespace GruntzUnityverse.V2.UI {
   public class PauseMenu : MonoBehaviour {
 
     private void OnSaveGame() {

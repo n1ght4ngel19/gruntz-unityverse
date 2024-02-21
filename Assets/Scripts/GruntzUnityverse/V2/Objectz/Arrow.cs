@@ -1,11 +1,11 @@
-﻿using GruntzUnityverse.V2.Grunt;
+﻿using GruntzUnityverse.V2.Actorz;
 using GruntzUnityverse.V2.Pathfinding;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz {
 public class Arrow : GridObject {
 	public DirectionV2 direction;
-	public NodeV2 pointedNode;
+	public Node pointedNode;
 
 	protected override void Start() {
 		base.Start();
@@ -57,7 +57,7 @@ public class Arrow : GridObject {
 	}
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		GruntV2 grunt = other.GetComponent<GruntV2>();
+		Grunt grunt = other.GetComponent<Grunt>();
 
 		if (grunt == null) {
 			return;
@@ -65,30 +65,30 @@ public class Arrow : GridObject {
 
 		grunt.node = node;
 		grunt.location2D = node.location2D;
-		grunt.flagz.moving = false;
-		grunt.flagz.interrupted = false;
-		grunt.flagz.moveForced = true;
+		// grunt.flagz.moving = false;
+		// grunt.flagz.interrupted = false;
+		// grunt.flagz.moveForced = true;
 
 		node.isReserved = false;
 
-		grunt.targetNode = pointedNode;
+		// grunt.targetNode = pointedNode;
 		grunt.next = pointedNode;
 
 		#region Reset
-		grunt.onNodeChanged.RemoveAllListeners();
-		grunt.onTargetReached.RemoveAllListeners();
+		// grunt.onNodeChanged.RemoveAllListeners();
+		// grunt.onTargetReached.RemoveAllListeners();
 
 		grunt.interactionTarget = null;
 		grunt.attackTarget = null;
 
-		grunt.flagz.setToInteract = false;
-		grunt.flagz.setToAttack = false;
-		grunt.flagz.setToGive = false;
+		// grunt.flagz.setToInteract = false;
+		// grunt.flagz.setToAttack = false;
+		// grunt.flagz.setToGive = false;
 		#endregion
 
 		grunt.transform.position = transform.position;
-		grunt.onNodeChanged.AddListener(grunt.MoveToNode);
-		grunt.onNodeChanged.Invoke();
+		// grunt.onNodeChanged.AddListener(grunt.MoveToNode);
+		// grunt.onNodeChanged.Invoke();
 	}
 }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GruntzUnityverse.V2.Core {
 public class Selector : MonoBehaviour {
 	public Vector2Int location2D;
-	public NodeV2 node;
+	public Node node;
 	public Camera mainCamera;
 
 	private void Start() {
@@ -16,7 +16,7 @@ public class Selector : MonoBehaviour {
 	private void Update() {
 		transform.position = Input.mousePosition.FromCameraView(mainCamera).RoundedToInt(z: 15f);
 		location2D = Vector2Int.RoundToInt(transform.position);
-		node = LevelV2.Instance.levelNodes.FirstOrDefault(n => n.location2D == location2D);
+		node = Level.Instance.levelNodes.FirstOrDefault(n => n.location2D == location2D);
 	}
 }
 }

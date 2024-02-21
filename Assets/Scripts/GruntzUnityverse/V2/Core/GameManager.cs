@@ -1,22 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GruntzUnityverse.V2.Grunt;
+using GruntzUnityverse.V2.Actorz;
 using GruntzUnityverse.V2.Itemz;
-using GruntzUnityverse.V2.Itemz.Collectiblez;
+using GruntzUnityverse.V2.Itemz.Misc;
 using GruntzUnityverse.V2.Objectz;
 using GruntzUnityverse.V2.Objectz.Switchez;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Tool = GruntzUnityverse.V2.Itemz.Tool;
 
 namespace GruntzUnityverse.V2.Core {
-public class GM : MonoBehaviour {
+public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// The singleton accessor of the GM.
 	/// </summary>
-	public static GM Instance { get; private set; }
+	public static GameManager Instance { get; private set; }
 
 	/// <summary>
 	/// The name of the current Level (not the scene name/address).
@@ -37,12 +36,12 @@ public class GM : MonoBehaviour {
 	/// All the Gruntz in the current level.
 	/// </summary>
 	[Header("Gruntz")]
-	public List<GruntFSM> allGruntz;
+	public List<Grunt> allGruntz;
 
 	/// <summary>
 	/// The Gruntz currently selected by the player.
 	/// </summary>
-	public List<GruntV2> selectedGruntz;
+	public List<Grunt> selectedGruntz;
 
 	private void Awake() {
 		if (Instance != null && Instance != this) {
@@ -63,7 +62,7 @@ public class GM : MonoBehaviour {
 
 		Debug.Log($"Loaded {scene.name}");
 
-		allGruntz = FindObjectsByType<GruntFSM>(FindObjectsSortMode.None).ToList();
+		allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
 
 		// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 		FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
@@ -73,20 +72,20 @@ public class GM : MonoBehaviour {
 }
 
 #if UNITY_EDITOR
-[CustomEditor(typeof(GM))]
-public class GMEditor : UnityEditor.Editor {
+[CustomEditor(typeof(GameManager))]
+public class GameManagerEditor : UnityEditor.Editor {
 	public override void OnInspectorGUI() {
 		base.OnInspectorGUI();
 
-		GM gm = (GM)target;
-		LevelV2 level = FindFirstObjectByType<LevelV2>();
+		GameManager gameManager = (GameManager)target;
+		Level level = FindFirstObjectByType<Level>();
 
 		if (GUILayout.Button("Initialize")) {
 			DateTime start = DateTime.Now;
 
 			level.Initialize();
 
-			gm.allGruntz = FindObjectsByType<GruntFSM>(FindObjectsSortMode.None).ToList();
+			gameManager.allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
 
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 			FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
@@ -107,13 +106,14 @@ public class GMEditor : UnityEditor.Editor {
 				EditorUtility.SetDirty(go);
 			}
 
-			gm.levelStatz.maxToolz = FindObjectsByType<Tool>(FindObjectsSortMode.None).Length;
-			gm.levelStatz.maxToyz = FindObjectsByType<Toy>(FindObjectsSortMode.None).Length;
-			gm.levelStatz.maxPowerupz = FindObjectsByType<Powerup>(FindObjectsSortMode.None).Length;
-			gm.levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
-			gm.levelStatz.maxSecretz = FindObjectsByType<SecretSwitchV2>(FindObjectsSortMode.None).Length;
+			gameManager.levelStatz.maxToolz = FindObjectsByType<LevelTool>(FindObjectsSortMode.None).Length;
+			gameManager.levelStatz.maxToyz = FindObjectsByType<LevelToy>(FindObjectsSortMode.None).Length;
+			gameManager.levelStatz.maxPowerupz = FindObjectsByType<LevelPowerup>(FindObjectsSortMode.None).Length;
+			gameManager.levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
+			gameManager.levelStatz.maxSecretz = FindObjectsByType<SecretSwitchV2>(FindObjectsSortMode.None).Length;
+			gameManager.levelStatz.maxWarpletterz = FindObjectsByType<Warpletter>(FindObjectsSortMode.None).Length;
 
-			EditorUtility.SetDirty(gm);
+			EditorUtility.SetDirty(gameManager);
 
 			Debug.Log($"Initialization took {DateTime.Now - start}");
 		}

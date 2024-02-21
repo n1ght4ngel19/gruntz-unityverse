@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using Animancer;
 using Cysharp.Threading.Tasks;
+using GruntzUnityverse.V2.Actorz.BehaviourManagement;
+using GruntzUnityverse.V2.Actorz.Data;
+using GruntzUnityverse.V2.Actorz.UI;
+using GruntzUnityverse.V2.Animation;
 using GruntzUnityverse.V2.Core;
 using GruntzUnityverse.V2.DataPersistence;
 using GruntzUnityverse.V2.Editor;
+using GruntzUnityverse.V2.Editor.PropertyDrawers;
 using GruntzUnityverse.V2.Itemz.Toolz;
+using GruntzUnityverse.V2.Itemz.Toyz;
 using GruntzUnityverse.V2.Objectz;
 using GruntzUnityverse.V2.Pathfinding;
 using GruntzUnityverse.V2.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GruntzUnityverse.V2.Grunt {
+namespace GruntzUnityverse.V2.Actorz {
 /// <summary>
 /// The class representing a Grunt in the game.
 /// </summary>
-public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
+public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// <summary>
 	/// The name of this Grunt.
 	/// </summary>
@@ -51,7 +57,10 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	[Header("Equipment")]
 	public EquippedTool equippedTool;
 
-	// public EquippedToy equippedToy;
+	/// <summary>
+	/// The toy currently equipped by this Grunt.
+	/// </summary>
+	public EquippedToy equippedToy;
 	#endregion
 
 	// --------------------------------------------------
@@ -68,7 +77,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// <summary>
 	/// The animation pack this Grunt uses.
 	/// </summary>
-	public AnimationPackV2 animationPack;
+	public AnimationPack animationPack;
 
 	// -------------------------
 	// IAnimatable
@@ -92,17 +101,17 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// <summary>
 	/// The node this Grunt is currently on.
 	/// </summary>
-	public NodeV2 node;
+	public Node node;
 
 	/// <summary>
 	/// The node the Grunt is moving towards.
 	/// </summary>
-	public NodeV2 travelGoal;
+	public Node travelGoal;
 
 	/// <summary>
 	/// The next node the Grunt will move to.
 	/// </summary>
-	public NodeV2 next;
+	public Node next;
 	#endregion
 
 	// --------------------------------------------------
@@ -119,7 +128,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// <summary>
 	/// The target the Grunt will try to attack.
 	/// </summary>
-	public GruntFSM attackTarget;
+	public Grunt attackTarget;
 	#endregion
 
 	// --------------------------------------------------
@@ -167,25 +176,25 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	}
 
 	private void Start() {
-		node = LevelV2.Instance.levelNodes.First(n => n.location2D == location2D);
+		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
 
-		Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.idle));
+		Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
 	}
 
 	private void Update() {
 		if (state == State.Idle) {
-			Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.idle));
+			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
 		} else if (state == State.Moving) {
 			ChangePosition();
 		} else if (waiting) {
-			Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.hostileIdle));
+			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.hostileIdle));
 		}
 	}
 	#endregion
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.GetComponent<NodeV2>()) {
-			node = other.GetComponent<NodeV2>();
+		if (other.GetComponent<Node>()) {
+			node = other.GetComponent<Node>();
 			node.isReserved = false;
 			transform.position = node.transform.position;
 
@@ -204,7 +213,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// Try to select the Grunt if he is under the selector.
 	/// </summary>
 	private void OnSelect() {
-		if (GM.Instance.selector.location2D == node.location2D) {
+		if (GameManager.Instance.selector.location2D == node.location2D) {
 			Select();
 		} else {
 			Deselect();
@@ -216,7 +225,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// If he is already selected, deselect him.
 	/// </summary>
 	private void OnAdditionalSelect() {
-		if (GM.Instance.selector.location2D != location2D) {
+		if (GameManager.Instance.selector.location2D != location2D) {
 			return;
 		}
 
@@ -240,8 +249,8 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		travelGoal = LevelV2.Instance.levelNodes
-			.First(n => n.location2D == GM.Instance.selector.location2D);
+		travelGoal = Level.Instance.levelNodes
+			.First(n => n == GameManager.Instance.selector.node);
 
 		intent = Intent.ToMove;
 		EvaluateState(whenFalse: (betweenNodes || committed));
@@ -257,7 +266,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		interactionTarget =
 			FindObjectsByType<GridObject>(FindObjectsSortMode.None)
-				.FirstOrDefault(go => go.location2D == GM.Instance.selector.location2D && go is IInteractable);
+				.FirstOrDefault(go => go.location2D == GameManager.Instance.selector.location2D && go is IInteractable);
 
 		if (interactionTarget != null) {
 			HandleActionCommand(interactionTarget.node, Intent.ToInteract);
@@ -265,8 +274,8 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		attackTarget = GM.Instance.allGruntz
-			.FirstOrDefault(g => g.node == GM.Instance.selector.node && g.enabled);
+		attackTarget = GameManager.Instance.allGruntz
+			.FirstOrDefault(g => g.node == GameManager.Instance.selector.node && g.enabled);
 
 		if (attackTarget != null) {
 			HandleActionCommand(attackTarget.node, Intent.ToAttack);
@@ -278,7 +287,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// </summary>
 	/// <param name="targetNode">The node of the target. </param>
 	/// <param name="newIntent">The intent against the target.</param>
-	private void HandleActionCommand(NodeV2 targetNode, Intent newIntent) {
+	private void HandleActionCommand(Node targetNode, Intent newIntent) {
 		travelGoal = InRange(targetNode) ? node : targetNode;
 
 		if (travelGoal == null) {
@@ -317,7 +326,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// Evaluate the Grunt's current state, then take appropriate action.
 	/// </summary>
 	/// <param name="whenFalse">A condition potentially blocking evaluation.</param>
-	private async void EvaluateState(bool whenFalse = false) {
+	public async void EvaluateState(bool whenFalse = false) {
 		if (whenFalse) {
 			return;
 		}
@@ -373,7 +382,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 		selectionMarker.SetActive(false);
 	}
 
-	private void Move(NodeV2 target) {
+	private void Move(Node target) {
 		if (target == node) {
 			GoToIdleIfNotActing();
 
@@ -394,7 +403,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 				return;
 			}
 
-			List<NodeV2> freeNeighbours = target.neighbours.Where(n => n.IsWalkable).ToList();
+			List<Node> freeNeighbours = target.neighbours.Where(n => n.IsWalkable).ToList();
 
 			if (freeNeighbours.Count == 0) {
 				travelGoal = node;
@@ -408,7 +417,8 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 		}
 
 		// Search for path to target
-		List<NodeV2> newPath = Pathfinder.AstarSearch(node, target, LevelV2.Instance.levelNodes.ToHashSet());
+		// List<NodeV2> newPath = Pathfinder.AstarSearch(node, target, Level.Instance.levelNodes.ToHashSet());
+		List<Node> newPath = Pathfinder.AstarSearch(node, target, Level.Instance.levelNodes.ToHashSet());
 
 		// When no path found, evaluate state
 		if (newPath.Count <= 0) {
@@ -475,7 +485,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		FaceTowardsNode(target.node);
 
-		AnimationClip toPlay = AnimationPackV2.GetRandomClip(facingDirection, animationPack.interact);
+		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
 		Animancer.Play(toPlay);
 
 		committed = true;
@@ -492,7 +502,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 		EvaluateState(whenFalse: betweenNodes);
 	}
 
-	private async void Attack(GruntFSM target) {
+	private async void Attack(Grunt target) {
 		if (!target.enabled) {
 			// Todo: Play voice line for being unable to interact
 
@@ -521,7 +531,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		FaceTowardsNode(target.node);
 
-		AnimationClip toPlay = AnimationPackV2.GetRandomClip(facingDirection, animationPack.attack);
+		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.attack);
 		Animancer.Play(toPlay);
 
 		committed = true;
@@ -571,14 +581,14 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 		Vector3 moveVector = (next.transform.position - transform.position).normalized;
 		gameObject.transform.position += moveVector * (Time.deltaTime / .6f);
 
-		Animancer.Play(AnimationPackV2.GetRandomClip(facingDirection, animationPack.walk));
+		Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.walk));
 	}
 
 	/// <summary>
 	/// Faces the Grunt towards the given node.
 	/// </summary>
 	/// <param name="toFace">The node to face towards.</param>
-	private void FaceTowardsNode(NodeV2 toFace) {
+	private void FaceTowardsNode(Node toFace) {
 		Vector2 direction = (toFace.location2D - node.location2D);
 
 		facingDirection = direction switch {
@@ -599,7 +609,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// </summary>
 	/// <param name="otherNode">The node to check.</param>
 	/// <returns>True when the node is in range, false otherwise.</returns>
-	private bool InRange(NodeV2 otherNode) {
+	private bool InRange(Node otherNode) {
 		return Mathf.Abs(node.location2D.x - otherNode.location2D.x) <= equippedTool.range
 			&& Mathf.Abs(node.location2D.y - otherNode.location2D.y) <= equippedTool.range;
 	}
@@ -632,7 +642,7 @@ public class GruntFSM : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		await UniTask.WaitForSeconds(toPlay.length);
 
-		GM.Instance.allGruntz.Remove(this);
+		GameManager.Instance.allGruntz.Remove(this);
 		// Destroy(gameObject);
 		// Instantiate(gruntPuddle, transform.position, Quaternion.identity, GameObject.Find("Puddlez").transform);
 	}

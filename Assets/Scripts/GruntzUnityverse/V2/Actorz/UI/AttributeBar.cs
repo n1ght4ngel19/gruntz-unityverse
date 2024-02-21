@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.V2.Actorz.Data;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace GruntzUnityverse.V2.Grunt {
+namespace GruntzUnityverse.V2.Actorz.UI {
 public class AttributeBar : MonoBehaviour {
 	private SpriteRenderer _spriteRenderer;
 	private List<Sprite> _frames;

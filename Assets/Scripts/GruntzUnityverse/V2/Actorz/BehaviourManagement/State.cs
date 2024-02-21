@@ -1,4 +1,4 @@
-﻿namespace GruntzUnityverse.V2.Grunt {
+﻿namespace GruntzUnityverse.V2.Actorz.BehaviourManagement {
 public enum State {
 	Idle = 0,
 	Waiting = 1,

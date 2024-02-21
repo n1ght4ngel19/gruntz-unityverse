@@ -1,19 +1,21 @@
 ﻿namespace GruntzUnityverse.V2.Core {
   [System.Serializable]
   public struct LevelStatz {
-    public int secondz;
+    public int secondzTaken;
     public int survivorz;
     public int deathz;
     public int maxToolz;
-    public int toolz;
+    public int toolzCollected;
     public int maxToyz;
-    public int toyz;
+    public int toyzCollected;
     public int maxPowerupz;
-    public int powerupz;
+    public int powerupzCollected;
     public int maxCoinz;
-    public int coinz;
+    public int coinzCollected;
     public int maxSecretz;
-    public int secretz;
+    public int discoveredSecretz;
+    public int maxWarpletterz;
+    public int warpletterzCollected;
 
     public bool warpstoneRecovered;
   }

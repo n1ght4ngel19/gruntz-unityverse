@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
 
-namespace GruntzUnityverse.V2.Grunt {
+namespace GruntzUnityverse.V2.Animation {
 [CreateAssetMenu(fileName = "New Animation Pack", menuName = "Gruntz Unityverse/Animation Pack")]
-public class AnimationPackV2 : ScriptableObject {
+public class AnimationPack : ScriptableObject {
 	public string tool;
 
 	public AnimationClip deathAnimation;
@@ -151,10 +151,10 @@ public class AnimationPackV2 : ScriptableObject {
 }
 
 #if UNITY_EDITOR
-[CustomEditor(typeof(AnimationPackV2))]
+[CustomEditor(typeof(AnimationPack))]
 public class AnimationPackV2Editor : UnityEditor.Editor {
 	public override void OnInspectorGUI() {
-		AnimationPackV2 animationPack = (AnimationPackV2)target;
+		AnimationPack animationPack = (AnimationPack)target;
 
 		if (GUILayout.Button("Load Animationz")) {
 			animationPack.LoadAnimationz();

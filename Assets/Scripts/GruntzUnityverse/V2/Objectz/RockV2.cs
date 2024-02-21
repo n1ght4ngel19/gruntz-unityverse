@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace GruntzUnityverse.V2.Objectz {
 /// <summary>
-/// A Grunt-sized piece of rock that blocks the path and possibly holds an <see cref="ItemV2"/>.
+/// A Grunt-sized piece of rock that blocks the path and possibly holds an <see cref="LevelItem"/>.
 /// </summary>
 public class RockV2 : GridObject, IObjectHolder, IInteractable, IAnimatable {
-	[field: SerializeField] public ItemV2 HeldItem { get; set; }
+	[field: SerializeField] public LevelItem HeldItem { get; set; }
 	[field: SerializeField] public Animator Animator { get; set; }
 	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
 	public AnimationClip breakAnimation;

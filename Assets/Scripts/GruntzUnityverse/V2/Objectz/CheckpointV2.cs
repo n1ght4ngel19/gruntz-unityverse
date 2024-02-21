@@ -27,14 +27,14 @@ namespace GruntzUnityverse.V2.Objectz {
       switchez = GetComponentsInChildren<CheckpointSwitch>().ToList();
 
       if (switchez == null || switchez.Count == 0) {
-        Debug.LogError($"No Switchez found for checkpoint {gameObject.name}!");
+        Debug.LogWarning($"No Switchez found for checkpoint {gameObject.name}!");
         enabled = false;
       }
 
       pyramidz = GetComponentsInChildren<CheckpointPyramidV2>().ToList();
 
       if (pyramidz == null || pyramidz.Count == 0) {
-        Debug.LogError($"No Pyramidz found for checkpoint {gameObject.name}!");
+        Debug.LogWarning($"No Pyramidz found for checkpoint {gameObject.name}!");
         enabled = false;
       }
 
