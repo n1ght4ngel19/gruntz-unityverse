@@ -1,9 +1,10 @@
-﻿using GruntzUnityverse.V2.Grunt;
+﻿using GruntzUnityverse.V2.Actorz;
+using GruntzUnityverse.V2.Animation;
+using GruntzUnityverse.V2.Objectz;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Itemz.Toolz {
-[CreateAssetMenu(fileName = "New Equipped Tool", menuName = "Gruntz Unityverse/Equipped Tool")]
-public class EquippedTool : ScriptableObject {
+public abstract class EquippedTool : ScriptableObject {
 	public string toolName;
 	public string description;
 
@@ -16,6 +17,19 @@ public class EquippedTool : ScriptableObject {
 	[Range(0, 5)]
 	public float moveSpeed;
 
-	public AnimationPackV2 animationPack;
+	public AnimationPack animationPack;
+
+	/// <summary>
+	/// Implemented when "extra" effects are needed.
+	/// </summary>
+	/// <param name="targetObject"></param>
+	protected virtual void InteractEffect(GridObject targetObject) { }
+
+	/// <summary>
+	/// Implemented when "extra" effects are needed, e.g. when shooting a Nerfgun,
+	/// the bullet needs to be instantiated and sent to travel towards the target.
+	/// </summary>
+	/// <param name="targetGrunt"></param>
+	protected virtual void AttackEffect(Grunt targetGrunt) { }
 }
 }

@@ -1,22 +1,20 @@
-﻿using System.Collections;
-using GruntzUnityverse.V2.Grunt;
-using UnityEngine;
+﻿using GruntzUnityverse.V2.Actorz;
 
 namespace GruntzUnityverse.V2.Itemz.Powerupz {
-  public class SuperSpeed : Powerup {
-    /// <summary>
-    /// The multiplier to apply to the grunt's base move speed.
-    /// </summary>
-    public float speedMultiplier;
+public class SuperSpeed : LevelPowerup {
+	/// <summary>
+	/// The multiplier to apply to the grunt's base move speed.
+	/// </summary>
+	public float speedMultiplier;
 
-    protected override IEnumerator Pickup(GruntV2 target) {
-      yield return base.Pickup(target);
+	protected override void Activate(Grunt targetGrunt) {
+		// float originalGruntSpeed = targetGrunt.statz.moveSpeed;
 
-      // target.statz.moveDuration *= speedMultiplier;
+		// targetGrunt.statz.moveSpeed *= speedMultiplier;
+	}
 
-      yield return new WaitForSeconds(duration);
-
-      // target.statz.moveDuration /= speedMultiplier;
-    }
-  }
+	protected override void DeActivate(Grunt targetGrunt) {
+		// targetGrunt.statz.moveSpeed originalGruntSpeed;
+	}
+}
 }

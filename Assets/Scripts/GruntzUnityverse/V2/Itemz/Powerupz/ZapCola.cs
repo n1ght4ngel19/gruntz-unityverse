@@ -1,19 +1,18 @@
-﻿using System.Collections;
-using GruntzUnityverse.V2.Grunt;
+﻿using GruntzUnityverse.V2.Actorz;
 using UnityEngine;
 
 namespace GruntzUnityverse.V2.Itemz.Powerupz {
-public class ZapCola : Powerup {
+public class ZapCola : LevelPowerup {
 	[Range(5, 20)]
 	public int healAmount;
 
-	protected override IEnumerator Pickup(GruntV2 target) {
-		yield return base.Pickup(target);
+	protected override void Activate(Grunt targetGrunt) {
+		targetGrunt.statz.health += healAmount;
+		targetGrunt.barz.healthBar.Adjust(targetGrunt.statz.health);
+	}
 
-		target.statz.health += healAmount;
-		target.barz.healthBar.Adjust(target.statz.health);
-
-		yield return null;
+	protected override void DeActivate(Grunt targetGrunt) {
+		// Nothing to do here.
 	}
 }
 }
