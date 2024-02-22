@@ -537,6 +537,7 @@ GameObject:
   - component: {fileID: 81445333691137100}
   - component: {fileID: 3937740793457299847}
   - component: {fileID: 8100917441788577955}
+  - component: {fileID: 5609973054886799455}
   m_Layer: 0
   m_Name: G_Barehandz
   m_TagString: Untagged
@@ -553,7 +554,7 @@ Transform:
   m_GameObject: {fileID: 7259968830233436379}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: -27, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -590,7 +591,8 @@ MonoBehaviour:
   waiting: 0
   committed: 0
   betweenNodes: 0
-  equippedTool: {fileID: 11400000, guid: f25c05611e59b654394f8128d0ce5f63, type: 2}
+  equippedTool: {fileID: 0}
+  equippedToy: {fileID: 0}
   facingDirection: 5
   animationPack: {fileID: 11400000, guid: e8f2c945d4f9ca145a45e0c18d042c05, type: 2}
   <Animator>k__BackingField: {fileID: 675440660885839045}
@@ -601,14 +603,6 @@ MonoBehaviour:
   next: {fileID: 0}
   interactionTarget: {fileID: 0}
   attackTarget: {fileID: 0}
-  spriteRenderer: {fileID: 1529925364509368341}
-  circleCollider2D: {fileID: 81445333691137100}
-  selectionMarker: {fileID: 2257197734988318674}
-  barz:
-    healthBar: {fileID: 4121651248314088870}
-    staminaBar: {fileID: 4621769765284134294}
-    toyTimeBar: {fileID: 6893690592967075688}
-    wingzTimeBar: {fileID: 6178903707362023874}
   onStaminaDrained:
     m_PersistentCalls:
       m_Calls: []
@@ -633,6 +627,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  spriteRenderer: {fileID: 1529925364509368341}
+  circleCollider2D: {fileID: 81445333691137100}
+  selectionMarker: {fileID: 2257197734988318674}
+  barz:
+    healthBar: {fileID: 4121651248314088870}
+    staminaBar: {fileID: 4621769765284134294}
+    toyTimeBar: {fileID: 6893690592967075688}
+    wingzTimeBar: {fileID: 6178903707362023874}
 --- !u!212 &1529925364509368341
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -832,3 +834,15 @@ MonoBehaviour:
   position: 0
   direction: 1
   tooltip: 
+--- !u!114 &5609973054886799455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7259968830233436379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd3bafa600e4b3c9799644b17f946b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
