@@ -21,6 +21,16 @@ public class Level : MonoBehaviour {
 	public string levelName;
 	public LevelStatz levelStatz;
 
+	private void OnDrawGizmosSelected() {
+		transform.position = new Vector3(-0.5f, -0.5f, 0);
+		transform.localRotation = Quaternion.identity;
+		transform.localScale = Vector3.one;
+	}
+
+	private void OnValidate() {
+		transform.hideFlags = HideFlags.HideInInspector;
+	}
+
 	private void Awake() {
 		if (Instance != null && Instance != this) {
 			Destroy(gameObject);

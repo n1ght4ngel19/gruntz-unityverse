@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2020761427980506407}
   - component: {fileID: -111952681055987419}
   - component: {fileID: 2710453740047537483}
+  - component: {fileID: -2775168482448056450}
   m_Layer: 0
   m_Name: _BaseArrow_1W
   m_TagString: Untagged
@@ -108,7 +109,7 @@ MonoBehaviour:
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
   direction: 0
-  targetNode: {fileID: 0}
+  pointedNode: {fileID: 0}
 --- !u!58 &-111952681055987419
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -161,3 +162,15 @@ MonoBehaviour:
   position: 0
   direction: 1
   tooltip: 
+--- !u!114 &-2775168482448056450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4540806815386139791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd3bafa600e4b3c9799644b17f946b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
