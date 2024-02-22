@@ -8,6 +8,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6060591633135223939, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+      propertyPath: itemName
+      value: Gauntletz
+      objectReference: {fileID: 0}
+    - target: {fileID: -6060591633135223939, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+      propertyPath: pickupAnim
+      value: 
+      objectReference: {fileID: 7400000, guid: 3028b08015de86641939041b24d9d73d, type: 2}
+    - target: {fileID: -6060591633135223939, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+      propertyPath: rotatingAnim
+      value: 
+      objectReference: {fileID: 7400000, guid: 9c405701a5d0d0a4e9c198cca803727f, type: 2}
+    - target: {fileID: -6060591633135223939, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+      propertyPath: animationPack
+      value: 
+      objectReference: {fileID: 11400000, guid: bc47d8021953ce340975a6b4e7979b09, type: 2}
+    - target: {fileID: -6060591633135223939, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+      propertyPath: <Animator>k__BackingField
+      value: 
+      objectReference: {fileID: 3065960172523616459}
+    - target: {fileID: -6060591633135223939, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
+      propertyPath: <Animancer>k__BackingField
+      value: 
+      objectReference: {fileID: 7179023716521344881}
     - target: {fileID: 2737916579984190390, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -59,10 +83,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7856108286464215537, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: -5203815412063299019}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
 --- !u!95 &3065960172523616459 stripped
 Animator:
@@ -74,45 +95,9 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7485570136701087826, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
   m_PrefabInstance: {fileID: 307109444759375651}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7585630454565242578}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7585630454565242578 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7856108286464215537, guid: 73521220e7ed6c24e95188bea279586c, type: 3}
-  m_PrefabInstance: {fileID: 307109444759375651}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &-5203815412063299019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7585630454565242578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eef23ab72314901aa7995bb08311939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actAsObstacle: 0
-  actAsWater: 0
-  actAsFire: 0
-  actAsVoid: 0
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  itemName: Gauntletz
-  rotatingAnim: {fileID: 7400000, guid: 9c405701a5d0d0a4e9c198cca803727f, type: 2}
-  pickupAnim: {fileID: 7400000, guid: 3028b08015de86641939041b24d9d73d, type: 2}
-  animationPack: {fileID: 0}
-  <Animator>k__BackingField: {fileID: 3065960172523616459}
-  <Animancer>k__BackingField: {fileID: 7179023716521344881}
-  equippedTool: {fileID: 0}
-  damage: 5
-  range: 0
-  moveSpeed: 0
-  rechargeTime: 0
-  useTime: 0
-  attackTime: 0
