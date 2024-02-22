@@ -1,9 +1,0 @@
-﻿namespace GruntzUnityverse.V2.Actorz.UI {
-[System.Serializable]
-public struct Barz {
-	public AttributeBar healthBar;
-	public AttributeBar staminaBar;
-	public AttributeBar toyTimeBar;
-	public AttributeBar wingzTimeBar;
-}
-}
