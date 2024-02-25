@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5173987623111021443}
   - component: {fileID: 3619936631406877757}
+  - component: {fileID: 2189731961216436290}
   - component: {fileID: -3676451336825996335}
   - component: {fileID: -8106760000374903310}
   - component: {fileID: 2077894514787195061}
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -370743279
-  m_SortingLayer: -3
+  m_SortingLayer: -4
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 72fea91e963397549be417b734285257, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -89,6 +90,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2189731961216436290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4620458777246233366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d13aaab62eda4dde8c0221f68337dd3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actAsObstacle: 0
+  actAsWater: 0
+  actAsFire: 0
+  actAsVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  circleCollider2D: {fileID: 0}
+  damage: 2
 --- !u!58 &-3676451336825996335
 CircleCollider2D:
   m_ObjectHideFlags: 0

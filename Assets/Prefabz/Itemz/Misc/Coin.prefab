@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 8487385849171467816}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.387026, y: -16.830383, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79,9 +79,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -370743279
+  m_SortingLayerID: -36146005
   m_SortingLayer: -3
-  m_SortingOrder: 12
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1417346397, guid: dde8e8378a6340249a7fe759532dc27f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -105,7 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c926a1f7f7634b8383a1a8dc829ec3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Coin
+  displayName: Coin
+  codeName: Coin
   rotatingAnim: {fileID: 7400000, guid: 7f7565abcf542724eb9d83afa47b59b9, type: 2}
   pickupAnim: {fileID: 7400000, guid: 063cba9d2da5147459e3274344f8b9c9, type: 2}
   animationPack: {fileID: 0}
