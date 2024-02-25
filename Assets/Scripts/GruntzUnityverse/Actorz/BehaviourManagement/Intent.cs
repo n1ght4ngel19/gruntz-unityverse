@@ -5,5 +5,6 @@ public enum Intent {
 	ToMove = 2,
 	ToAttack = 3,
 	ToInteract = 4,
+	ToStop = 5,
 }
 }

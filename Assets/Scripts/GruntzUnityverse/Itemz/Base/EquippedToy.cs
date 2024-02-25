@@ -17,7 +17,7 @@ public class EquippedToy : ScriptableObject {
 	public virtual void ForcePlay(Grunt targetGrunt) {
 		targetGrunt.intent = Intent.ToIdle;
 
-		targetGrunt.EvaluateState(whenFalse: targetGrunt.betweenNodes);
+		targetGrunt.EvaluateState(whenFalse: targetGrunt.BetweenNodes);
 
 		targetGrunt.equippedToy = null;
 	}

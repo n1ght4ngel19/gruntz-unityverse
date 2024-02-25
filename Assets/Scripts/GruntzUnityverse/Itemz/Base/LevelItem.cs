@@ -5,16 +5,23 @@ using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Animation;
 using GruntzUnityverse.Core;
+using GruntzUnityverse.Itemz.Misc;
 using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Itemz.Base {
 public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	/// <summary>
-	/// The name of the item.
+	/// The display name of the item.
 	/// </summary>
-	public string itemName;
+	public string displayName;
+
+	/// <summary>
+	/// The code-name of the item.
+	/// </summary>
+	public string codeName;
 
 	/// <summary>
 	/// The animation clip used to display the item on the level.
@@ -44,11 +51,17 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	#endregion
 
 	protected virtual void Start() {
+		location2D = Vector2Int.RoundToInt(transform.position);
 		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
 		Animator = GetComponent<Animator>();
 		Animancer = GetComponent<AnimancerComponent>();
 
-		Animancer.Play(rotatingAnim);
+		Addressables.LoadAssetAsync<AnimationClip>($"{codeName}_Rotating").Completed += handle => {
+			rotatingAnim = handle.Result;
+			Animancer.Play(handle.Result);
+		};
+
+		Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{codeName}").Completed += handle => pickupAnim = handle.Result;
 	}
 
 	/// <summary>
@@ -57,14 +70,15 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	/// different properties of the Grunt picking up the item.)
 	/// </summary>
 	protected virtual IEnumerator Pickup(Grunt targetGrunt) {
-		targetGrunt.intent = Intent.ToIdle;
-		targetGrunt.EvaluateState(whenFalse: targetGrunt.betweenNodes);
-
-		yield return new WaitUntil(() => !targetGrunt.betweenNodes);
-
+		GetComponent<SpriteRenderer>().enabled = this is not Helpbox;
 		targetGrunt.Animancer.Play(pickupAnim);
+		targetGrunt.enabled = false;
 
 		yield return new WaitForSeconds(pickupAnim.length);
+
+		targetGrunt.enabled = true;
+		targetGrunt.intent = Intent.ToIdle;
+		targetGrunt.EvaluateState(whenFalse: targetGrunt.BetweenNodes);
 	}
 
 	/// <summary>
@@ -79,6 +93,11 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 		if (grunt == null) {
 			return;
 		}
+
+		grunt.intent = Intent.ToStop;
+		grunt.state = State.Stopped;
+
+		grunt.EvaluateState(whenFalse: grunt.BetweenNodes);
 
 		StartCoroutine(Pickup(grunt));
 	}

@@ -14,7 +14,7 @@ public class SuperSpeed : LevelPowerup {
 		// targetGrunt.statz.moveSpeed *= speedMultiplier;
 	}
 
-	protected override void DeActivate(Grunt targetGrunt) {
+	protected override void Deactivate(Grunt targetGrunt) {
 		// targetGrunt.statz.moveSpeed originalGruntSpeed;
 	}
 }

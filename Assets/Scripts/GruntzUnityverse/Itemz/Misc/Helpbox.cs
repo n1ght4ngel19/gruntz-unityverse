@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Itemz.Base;
 using UnityEngine;
 
@@ -12,12 +13,19 @@ public class Helpbox : LevelItem {
 	}
 
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
-		yield return base.Pickup(targetGrunt);
+		targetGrunt.Animancer.Play(pickupAnim);
+		targetGrunt.enabled = false;
+
+		yield return new WaitForSeconds(pickupAnim.length);
 
 		Time.timeScale = 0f;
+		Debug.Log(helpboxText); // Todo: Show helpbox UI
 
-		// Todo: Show helpbox UI
-		Debug.Log(helpboxText);
+		yield return new WaitUntil(() => Time.timeScale != 0f);
+
+		targetGrunt.enabled = true;
+		targetGrunt.intent = Intent.ToIdle;
+		targetGrunt.EvaluateState(whenFalse: targetGrunt.BetweenNodes);
 	}
 }
 }

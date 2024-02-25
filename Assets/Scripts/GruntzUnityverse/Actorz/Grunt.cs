@@ -16,6 +16,7 @@ using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utils.Extensionz;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 
 namespace GruntzUnityverse.Actorz {
@@ -28,6 +29,8 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// </summary>
 	[Header("Statz")]
 	public string gruntName;
+
+	public GruntColor gruntColor;
 
 	public Statz statz;
 
@@ -43,7 +46,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 	public bool committed;
 
-	public bool betweenNodes;
+	public bool BetweenNodes => transform.position != node.transform.position;
 
 	// --------------------------------------------------
 	// Equipment
@@ -183,7 +186,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	private void Update() {
 		if (state == State.Idle) {
 			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
-		} else if (state == State.Moving) {
+		} else if (state == State.Moving || BetweenNodes) {
 			ChangePosition();
 		} else if (waiting) {
 			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.hostileIdle));
@@ -197,7 +200,12 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			node.isReserved = false;
 			transform.position = node.transform.position;
 
-			betweenNodes = false;
+			if (attackTarget != null) {
+				HandleActionCommand(attackTarget.node, Intent.ToAttack);
+
+				return;
+			}
+
 			EvaluateState();
 		}
 	}
@@ -252,7 +260,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			.First(n => n == GameManager.Instance.selector.node);
 
 		intent = Intent.ToMove;
-		EvaluateState(whenFalse: (betweenNodes || committed));
+		EvaluateState(whenFalse: (BetweenNodes || committed));
 	}
 
 	/// <summary>
@@ -265,7 +273,16 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		interactionTarget =
 			FindObjectsByType<GridObject>(FindObjectsSortMode.None)
-				.FirstOrDefault(go => go.location2D == GameManager.Instance.selector.location2D && go is IInteractable);
+				.FirstOrDefault(
+					go => {
+						IInteractable interactable = go as IInteractable;
+
+						return go.enabled
+							&& go.node == GameManager.Instance.selector.node
+							&& interactable != null
+							&& interactable.CompatibleItemz.Contains(equippedTool.toolName);
+					}
+				);
 
 		if (interactionTarget != null) {
 			HandleActionCommand(interactionTarget.node, Intent.ToInteract);
@@ -274,11 +291,18 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		}
 
 		attackTarget = GameManager.Instance.allGruntz
-			.FirstOrDefault(g => g.node == GameManager.Instance.selector.node && g.enabled);
+			.FirstOrDefault(g => g.node == GameManager.Instance.selector.node && g.enabled && g != this);
 
 		if (attackTarget != null) {
 			HandleActionCommand(attackTarget.node, Intent.ToAttack);
+
+			return;
 		}
+
+		// Todo: Play voice line for having an incompatible tool
+
+		intent = Intent.ToIdle;
+		EvaluateState(whenFalse: BetweenNodes);
 	}
 
 	/// <summary>
@@ -286,17 +310,17 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// </summary>
 	/// <param name="targetNode">The node of the target. </param>
 	/// <param name="newIntent">The intent against the target.</param>
-	private void HandleActionCommand(Node targetNode, Intent newIntent) {
+	public void HandleActionCommand(Node targetNode, Intent newIntent) {
 		travelGoal = InRange(targetNode) ? node : targetNode;
 
 		if (travelGoal == null) {
 			travelGoal = node;
 			intent = Intent.ToIdle;
-			EvaluateState(whenFalse: betweenNodes);
+			EvaluateState(whenFalse: BetweenNodes);
 		}
 
 		intent = newIntent;
-		EvaluateState(whenFalse: betweenNodes || committed);
+		EvaluateState(whenFalse: BetweenNodes || committed);
 	}
 
 	/// <summary>
@@ -431,7 +455,6 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		state = State.Moving;
 		next = newPath[0];
 		next.isReserved = true;
-		betweenNodes = true;
 
 		FaceTowardsNode(next);
 	}
@@ -441,33 +464,13 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			intent = Intent.ToIdle;
 		}
 
-		EvaluateState(whenFalse: betweenNodes);
+		EvaluateState(whenFalse: BetweenNodes);
 	}
 
 	private async void Interact(GridObject target) {
-		if (!target.enabled) {
-			// Todo: Play voice line for being unable to interact
-
-			intent = Intent.ToIdle;
-			EvaluateState(whenFalse: betweenNodes);
-
-			return;
-		}
-
-		// Check that the Grunt has a compatible item equipped
-		if (!((IInteractable)target).CompatibleItemz.Contains(equippedTool.toolName)) {
-			Debug.Log("Cannot interact with this! It's not compatible!");
-			// Todo: Play voice line for having an incompatible tool
-
-			intent = Intent.ToIdle;
-			EvaluateState(whenFalse: betweenNodes);
-
-			return;
-		}
-
 		if (!InRange(target.node)) {
 			travelGoal = target.node;
-			EvaluateState(whenFalse: betweenNodes);
+			EvaluateState(whenFalse: BetweenNodes);
 
 			return;
 		}
@@ -477,7 +480,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 			waiting = true;
 			intent = Intent.ToInteract;
-			EvaluateState(whenFalse: betweenNodes);
+			EvaluateState(whenFalse: BetweenNodes);
 
 			return;
 		}
@@ -498,7 +501,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		DrainStamina();
 
 		intent = Intent.ToIdle;
-		EvaluateState(whenFalse: betweenNodes);
+		EvaluateState(whenFalse: BetweenNodes);
 	}
 
 	private async void Attack(Grunt target) {
@@ -513,7 +516,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		if (!InRange(target.node)) {
 			travelGoal = target.node;
-			EvaluateState(whenFalse: betweenNodes);
+			EvaluateState(whenFalse: BetweenNodes);
 
 			return;
 		}
@@ -523,7 +526,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 			waiting = true;
 			intent = Intent.ToAttack;
-			EvaluateState(whenFalse: betweenNodes);
+			EvaluateState(whenFalse: BetweenNodes);
 
 			return;
 		}
@@ -550,7 +553,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			intent = Intent.ToIdle;
 		}
 
-		EvaluateState(whenFalse: betweenNodes);
+		EvaluateState(whenFalse: BetweenNodes);
 	}
 
 	public void RegenerateStamina() {
@@ -632,18 +635,19 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	public async void Die() {
 		enabled = false;
 
+		CancelInvoke(nameof(RegenerateStamina));
 		DeactivateBarz();
-		SetSortingData("AlwaysBottom", 0);
 
-		AnimationClip toPlay = animationPack.deathAnimation;
+		Addressables.InstantiateAsync($"GruntPuddle_{gruntColor.ToString()}.prefab", GameObject.Find("Puddlez").transform).Completed += handle => {
+			GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
+			puddle.transform.position = transform.position;
+		};
 
-		Animancer.Play(toPlay);
+		await Animancer.Play(animationPack.deathAnimation);
 
-		await UniTask.WaitForSeconds(toPlay.length);
-
+		spriteRenderer.enabled = false;
 		GameManager.Instance.allGruntz.Remove(this);
-		// Destroy(gameObject);
-		// Instantiate(gruntPuddle, transform.position, Quaternion.identity, GameObject.Find("Puddlez").transform);
+		Destroy(gameObject);
 	}
 
 	/// <summary>

@@ -5,5 +5,6 @@ public enum State {
 	Moving = 2,
 	Attacking = 3,
 	Interacting = 4,
+	Stopped = 5,
 }
 }
