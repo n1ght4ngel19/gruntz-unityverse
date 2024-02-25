@@ -20,13 +20,13 @@ public static class ListX {
 		};
 	}
 
-	public static void NotContainsAdd<T>(this List<T> list, T item) {
+	public static void IfNotContainsAdd<T>(this List<T> list, T item) {
 		if (!list.Contains(item)) {
 			list.Add(item);
 		}
 	}
 
-	public static void ContainsRemove<T>(this List<T> list, T item) {
+	public static void RemoveIfContains<T>(this List<T> list, T item) {
 		if (list.Contains(item)) {
 			list.Remove(item);
 		}

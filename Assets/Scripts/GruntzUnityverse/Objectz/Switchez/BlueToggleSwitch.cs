@@ -12,7 +12,6 @@ public class BlueToggleSwitch : Switch {
 	public List<Bridge> bridgez;
 
 	public override void Setup() {
-		base.Setup();
 		bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
 	}
 
@@ -20,10 +19,6 @@ public class BlueToggleSwitch : Switch {
 		yield return base.OnTriggerEnter2D(other);
 
 		bridgez.ForEach(bridge => bridge.Toggle());
-	}
-
-	protected override IEnumerator OnTriggerExit2D(Collider2D other) {
-		yield return base.OnTriggerExit2D(other);
 	}
 }
 }

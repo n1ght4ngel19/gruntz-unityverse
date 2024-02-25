@@ -60,15 +60,6 @@ public class GameManager : MonoBehaviour {
 		if (scene.name is "MainMenu" or "StatzMenu") {
 			return;
 		}
-
-		Debug.Log($"Loaded {scene.name}");
-
-		allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
-
-		// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
-		FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
-			.ToList()
-			.ForEach(go => go.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(go.transform.position.y) * -1);
 	}
 }
 
@@ -90,8 +81,9 @@ public class GameManagerEditor : UnityEditor.Editor {
 
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 			FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
+				.Where(ec => ec.gameObject.CompareTag("HighEyeCandy"))
 				.ToList()
-				.ForEach(go => go.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(go.transform.position.y) * -1);
+				.ForEach(ec1 => ec1.gameObject.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(ec1.transform.position.y) * -1);
 
 			List<Checkpoint> checkpointz = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None).ToList();
 

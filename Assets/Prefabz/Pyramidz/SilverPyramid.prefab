@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1650484674513923455}
   - component: {fileID: 6109165329942239614}
+  - component: {fileID: 8518787425636265329}
   - component: {fileID: 6260734195924743711}
   - component: {fileID: 6911840383049941242}
   - component: {fileID: 4370046870515765057}
@@ -91,6 +92,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8518787425636265329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008980603784178169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69a836ba92b640659eaf1eb9075693c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actAsObstacle: 1
+  actAsWater: 0
+  actAsFire: 0
+  actAsVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 6109165329942239614}
+  circleCollider2D: {fileID: 4370046870515765057}
+  <Animator>k__BackingField: {fileID: 6260734195924743711}
+  <Animancer>k__BackingField: {fileID: 6911840383049941242}
+  <ToggleOnAnim>k__BackingField: {fileID: 7400000, guid: 7f670bc3fb339b44baa65ed84be7936f, type: 2}
+  <ToggleOffAnim>k__BackingField: {fileID: 7400000, guid: 2eeb7deb961e3594bab324d5c2087704, type: 2}
+  delay: 0
+  duration: 0
 --- !u!95 &6260734195924743711
 Animator:
   serializedVersion: 7

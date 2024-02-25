@@ -51,10 +51,12 @@ MonoBehaviour:
   actAsVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  circleCollider2D: {fileID: 0}
   managedGruntz: []
   targetedGruntz: []
   boxCollider2D: {fileID: 1624292574579031379}
-  range: 0
+  range: 1
 --- !u!61 &1624292574579031379
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -99,5 +101,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0

@@ -16,10 +16,6 @@ public class AnimationPack : ScriptableObject {
 	public Animationz8Way attack;
 	public Animationz8Way interact;
 
-	private void OnValidate() {
-		LoadAnimationz();
-	}
-
 	public void LoadAnimationz() {
 		Clear();
 

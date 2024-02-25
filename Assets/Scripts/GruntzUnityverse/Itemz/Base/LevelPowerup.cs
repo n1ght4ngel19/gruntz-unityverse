@@ -20,16 +20,14 @@ public abstract class LevelPowerup : LevelItem {
 
 		Level.Instance.levelStatz.powerupzCollected++;
 
-		enabled = false;
-
 		yield return new WaitForSeconds(duration);
 
-		DeActivate(targetGrunt);
+		Deactivate(targetGrunt);
 		Destroy(gameObject);
 	}
 
 	protected abstract void Activate(Grunt targetGrunt);
 
-	protected abstract void DeActivate(Grunt targetGrunt);
+	protected abstract void Deactivate(Grunt targetGrunt);
 }
 }

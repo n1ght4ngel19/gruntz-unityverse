@@ -12,7 +12,7 @@ public class ZapCola : LevelPowerup {
 		targetGrunt.barz.healthBar.Adjust(targetGrunt.statz.health);
 	}
 
-	protected override void DeActivate(Grunt targetGrunt) {
+	protected override void Deactivate(Grunt targetGrunt) {
 		// Nothing to do here.
 	}
 }

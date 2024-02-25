@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
 public abstract class Pyramid : GridObject, IToggleable {
-
-	#region IToggleable
 	// --------------------------------------------------
 	// IToggleable
 	// --------------------------------------------------
+
+	#region IToggleable
 	[field: SerializeField] public Animator Animator { get; set; }
 	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
 	[field: SerializeField] public AnimationClip ToggleOnAnim { get; set; }

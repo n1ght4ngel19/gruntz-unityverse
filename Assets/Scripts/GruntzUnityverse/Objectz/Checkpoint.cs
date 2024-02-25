@@ -12,15 +12,17 @@ public class Checkpoint : MonoBehaviour {
 	public List<CheckpointFlag> flagz;
 
 	private void Update() {
-		if (switchez.TrueForAll(sw => sw.IsPressed)) {
-			Debug.Log("Checkpoint cleared!");
-
-			switchez.ForEach(sw => sw.DisableTrigger());
-			pyramidz.ForEach(pyramid => pyramid.Toggle());
-			flagz.ForEach(flag => flag.PlayAnim());
-
-			enabled = false;
+		if (!switchez.TrueForAll(sw => sw.IsPressed)) {
+			return;
 		}
+
+		Debug.Log("Checkpoint cleared!");
+
+		switchez.ForEach(sw => sw.DisableTrigger());
+		pyramidz.ForEach(pyramid => pyramid.Toggle());
+		flagz.ForEach(flag => flag.PlayAnim());
+
+		enabled = false;
 	}
 
 	public void Setup() {

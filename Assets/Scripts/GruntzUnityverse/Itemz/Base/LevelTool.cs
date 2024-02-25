@@ -10,7 +10,6 @@ public class LevelTool : LevelItem {
 		yield return base.Pickup(targetGrunt);
 
 		targetGrunt.equippedTool = tool;
-
 		Level.Instance.levelStatz.toolzCollected++;
 
 		Destroy(gameObject);

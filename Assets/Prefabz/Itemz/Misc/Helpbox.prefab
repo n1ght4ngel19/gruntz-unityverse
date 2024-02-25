@@ -33,8 +33,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7858689345019746892}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15, y: -13, z: -0.9880458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -80,9 +80,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -370743279
+  m_SortingLayerID: -36146005
   m_SortingLayer: -3
-  m_SortingOrder: 12
+  m_SortingOrder: 0
   m_Sprite: {fileID: 247565503, guid: 84e6779d527feca41a0f0fd479dcb14f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -106,7 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94218d794e53415785fcd192edc19230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Helpbox
+  displayName: Helpbox
+  codeName: Helpbox
   rotatingAnim: {fileID: 7400000, guid: b939da36098b15e408bd07daf79c65a1, type: 2}
   pickupAnim: {fileID: 7400000, guid: fad22746528bb8542b099aaf351fadf2, type: 2}
   animationPack: {fileID: 0}
