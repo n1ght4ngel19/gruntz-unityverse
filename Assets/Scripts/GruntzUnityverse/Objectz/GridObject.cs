@@ -7,8 +7,6 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
 public abstract class GridObject : MonoBehaviour {
-	// Flags for granular control over the object's node
-
 	/// <summary>
 	/// Represents whether this GridObject behaves like an obstacle.
 	/// </summary>
@@ -34,14 +32,12 @@ public abstract class GridObject : MonoBehaviour {
 	/// <summary>
 	/// The SpriteRenderer of this GridObject.
 	/// </summary>
-	[HideInNormalInspector]
-	protected SpriteRenderer spriteRenderer;
+	public SpriteRenderer spriteRenderer;
 
 	/// <summary>
 	/// The collider used for checking interactions with this GridObject.
 	/// </summary>
-	[HideInNormalInspector]
-	protected CircleCollider2D circleCollider2D;
+	public CircleCollider2D circleCollider2D;
 
 	protected virtual void Awake() {
 		location2D = Vector2Int.RoundToInt(transform.position);

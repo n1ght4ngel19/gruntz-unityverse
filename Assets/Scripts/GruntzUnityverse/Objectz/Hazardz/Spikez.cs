@@ -3,9 +3,7 @@ using GruntzUnityverse.Actorz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Hazardz {
-public class Spikez : GridObject {
-	public int damage = 2;
-
+public class Spikez : Hazard {
 	// private void OnTriggerEnter2D(Collider2D other) {
 	//   GruntV2 target = other.gameObject.GetComponent<GruntV2>();
 	//

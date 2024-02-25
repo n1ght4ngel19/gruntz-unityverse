@@ -2,33 +2,49 @@
 using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Itemz.Base;
+using GruntzUnityverse.Itemz.Misc;
+using GruntzUnityverse.Objectz.Hazardz;
 using GruntzUnityverse.Objectz.Interfacez;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
 /// <summary>
-/// A Grunt-sized piece of rock that blocks the path and possibly holds an <see cref="LevelItem"/>.
+/// A Grunt-sized piece of rock that blocks the path, possibly hiding something under it.
 /// </summary>
 public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
-	[field: SerializeField] public LevelItem HeldItem { get; set; }
-	[field: SerializeField] public Animator Animator { get; set; }
-	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
-	public AnimationClip breakAnimation;
+	// --------------------------------------------------
+	// IObjectHolder
+	// --------------------------------------------------
 
-	public void DropItem(bool isSceneLoaded) {
-		if (!isSceneLoaded || HeldItem == null) {
-			return;
+	#region IObjectHolder
+	[Header("IObjectHolder")]
+	[field: SerializeField] public LevelItem HeldItem { get; set; }
+	[field: SerializeField] public Hazard HiddenHazard { get; set; }
+
+	public void RevealHidden(bool isSceneLoaded) {
+		if (HeldItem != null) {
+			string parentName = HeldItem switch {
+				LevelTool => "Toolz",
+				LevelToy => "Toyz",
+				LevelPowerup => "Powerupz",
+				Coin => "Coinz",
+				Helpbox => "Helpboxez",
+				_ => "Misc",
+			};
+
+			Addressables.InstantiateAsync(HeldItem, GameObject.Find(parentName).transform).Completed += _ => {
+				HeldItem.transform.position = transform.position;
+			};
 		}
 
-		Instantiate(HeldItem, transform.position, Quaternion.identity, GameObject.Find("Itemz").transform);
+		if (HiddenHazard != null) {
+			Addressables.InstantiateAsync(HiddenHazard, GameObject.Find("Hazardz").transform).Completed += _ => {
+				HiddenHazard.transform.position = transform.position;
+			};
+		}
 	}
-
-	protected override void OnDestroy() {
-		base.OnDestroy();
-
-		DropItem(gameObject.scene.isLoaded);
-	}
+	#endregion
 
 	// --------------------------------------------------
 	// IInteractable
@@ -45,7 +61,9 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 		transform.localScale *= 0.75f;
 		transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
+		spriteRenderer.sortingOrder = 4;
 
+		
 		Animancer.Play(breakAnimation);
 
 		await UniTask.WaitForSeconds(0.5f);
@@ -53,25 +71,20 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 		enabled = false;
 		// This also prevents removing the effect of other possible blocking objects at the same location
 		node.isBlocked = actAsObstacle ? false : node.isBlocked;
-		// Destroy(gameObject);
+		RevealHidden(gameObject.scene.isLoaded);
 	}
 	#endregion
 
+	// --------------------------------------------------
+	// IAnimatable
+	// --------------------------------------------------
+
+	#region IAnimatable
+	[Header("IAnimatable")]
+	[field: SerializeField] public Animator Animator { get; set; }
+	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
+	#endregion
+
+	public AnimationClip breakAnimation;
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(Rock))]
-[CanEditMultipleObjects]
-public class RockV2Editor : UnityEditor.Editor {
-	public override void OnInspectorGUI() {
-		base.OnInspectorGUI();
-
-		MonoBehaviour objectHolder = (Rock)target;
-
-		if (GUILayout.Button("Destroy Rock")) {
-			Destroy(objectHolder.gameObject);
-		}
-	}
-}
-#endif
 }

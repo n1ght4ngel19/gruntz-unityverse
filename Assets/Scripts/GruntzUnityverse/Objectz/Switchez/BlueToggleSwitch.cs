@@ -21,9 +21,5 @@ public class BlueToggleSwitch : Switch {
 
 		bridgez.ForEach(bridge => bridge.Toggle());
 	}
-
-	protected override IEnumerator OnTriggerExit2D(Collider2D other) {
-		yield return base.OnTriggerExit2D(other);
-	}
 }
 }
