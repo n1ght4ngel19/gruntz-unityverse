@@ -41,8 +41,8 @@ public abstract class GridObject : MonoBehaviour {
 
 	protected virtual void Awake() {
 		location2D = Vector2Int.RoundToInt(transform.position);
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		circleCollider2D = GetComponent<CircleCollider2D>();
+		spriteRenderer ??= GetComponent<SpriteRenderer>();
+		circleCollider2D ??= GetComponent<CircleCollider2D>();
 	}
 
 	protected virtual void Start() {

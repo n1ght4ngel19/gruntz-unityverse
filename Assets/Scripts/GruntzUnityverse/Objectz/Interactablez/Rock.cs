@@ -33,14 +33,14 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 				_ => "Misc",
 			};
 
-			Addressables.InstantiateAsync(HeldItem, GameObject.Find(parentName).transform).Completed += _ => {
-				HeldItem.transform.position = transform.position;
+			Addressables.InstantiateAsync(HeldItem, GameObject.Find(parentName).transform).Completed += handle => {
+				handle.Result.transform.position = transform.position;
 			};
 		}
 
 		if (HiddenHazard != null) {
-			Addressables.InstantiateAsync(HiddenHazard, GameObject.Find("Hazardz").transform).Completed += _ => {
-				HiddenHazard.transform.position = transform.position;
+			Addressables.InstantiateAsync(HiddenHazard, GameObject.Find("Hazardz").transform).Completed += handle => {
+				handle.Result.transform.position = transform.position;
 			};
 		}
 	}
@@ -63,7 +63,6 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
 		spriteRenderer.sortingOrder = 4;
 
-		
 		Animancer.Play(breakAnimation);
 
 		await UniTask.WaitForSeconds(0.5f);
