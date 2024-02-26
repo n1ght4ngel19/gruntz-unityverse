@@ -53,15 +53,8 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	protected virtual void Start() {
 		location2D = Vector2Int.RoundToInt(transform.position);
 		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
-		Animator = GetComponent<Animator>();
-		Animancer = GetComponent<AnimancerComponent>();
 
-		Addressables.LoadAssetAsync<AnimationClip>($"{codeName}_Rotating").Completed += handle => {
-			rotatingAnim = handle.Result;
-			Animancer.Play(handle.Result);
-		};
-
-		Addressables.LoadAssetAsync<AnimationClip>($"Pickup_{codeName}").Completed += handle => pickupAnim = handle.Result;
+		Animancer.Play(rotatingAnim);
 	}
 
 	/// <summary>
@@ -70,7 +63,6 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	/// different properties of the Grunt picking up the item.)
 	/// </summary>
 	protected virtual IEnumerator Pickup(Grunt targetGrunt) {
-		GetComponent<SpriteRenderer>().enabled = this is not Helpbox;
 		targetGrunt.Animancer.Play(pickupAnim);
 		targetGrunt.enabled = false;
 
@@ -94,6 +86,8 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 			return;
 		}
 
+		GetComponent<SpriteRenderer>().enabled = false;
+		GetComponent<CircleCollider2D>().isTrigger = false;
 		grunt.intent = Intent.ToStop;
 		grunt.state = State.Stopped;
 

@@ -647,6 +647,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		spriteRenderer.enabled = false;
 		GameManager.Instance.allGruntz.Remove(this);
+		Level.Instance.levelStatz.deathz++;
 		Destroy(gameObject);
 	}
 

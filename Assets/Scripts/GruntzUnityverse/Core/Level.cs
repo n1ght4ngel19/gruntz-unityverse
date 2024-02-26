@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.Itemz.Base;
+using GruntzUnityverse.Itemz.Misc;
+using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -69,6 +72,13 @@ public class Level : MonoBehaviour {
 			Vector2Int position = Vector2Int.RoundToInt(go.transform.position);
 			levelNodes.FirstOrDefault(n => n.location2D.Equals(position))!.isBlocked = true;
 		}
+
+		levelStatz.maxToolz = FindObjectsByType<LevelTool>(FindObjectsSortMode.None).Length;
+		levelStatz.maxToyz = FindObjectsByType<LevelToy>(FindObjectsSortMode.None).Length;
+		levelStatz.maxPowerupz = FindObjectsByType<LevelPowerup>(FindObjectsSortMode.None).Length;
+		levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
+		levelStatz.maxSecretz = FindObjectsByType<SecretSwitch>(FindObjectsSortMode.None).Length;
+		levelStatz.maxWarpletterz = FindObjectsByType<Warpletter>(FindObjectsSortMode.None).Length;
 	}
 }
 }

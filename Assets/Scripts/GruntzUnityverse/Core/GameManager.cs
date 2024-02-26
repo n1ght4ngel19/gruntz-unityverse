@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Itemz.Base;
-using GruntzUnityverse.Itemz.Misc;
 using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Misc;
-using GruntzUnityverse.Objectz.Switchez;
+using GruntzUnityverse.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,11 +20,6 @@ public class GameManager : MonoBehaviour {
 	/// The name of the current Level (not the scene name/address).
 	/// </summary>
 	public string levelName;
-
-	/// <summary>
-	/// The statz of the current level (completion).
-	/// </summary>
-	public LevelStatz levelStatz;
 
 	/// <summary>
 	/// The selector responsible for selecting and highlighting objects.
@@ -60,6 +53,18 @@ public class GameManager : MonoBehaviour {
 		if (scene.name is "MainMenu" or "StatzMenu") {
 			return;
 		}
+	}
+
+	private void OnLoadStatzMenu() {
+		Time.timeScale = 0f;
+
+		Level.Instance.gameObject.GetComponent<Grid>().enabled = false;
+		GameObject.Find("Actorz").SetActive(false);
+		GameObject.Find("Postz").SetActive(false);
+		GameObject.Find("Itemz").SetActive(false);
+		GameObject.Find("Objectz").SetActive(false);
+
+		StatzMenu.Instance.Activate();
 	}
 }
 
@@ -98,13 +103,6 @@ public class GameManagerEditor : UnityEditor.Editor {
 				go.Setup();
 				EditorUtility.SetDirty(go);
 			}
-
-			gameManager.levelStatz.maxToolz = FindObjectsByType<LevelTool>(FindObjectsSortMode.None).Length;
-			gameManager.levelStatz.maxToyz = FindObjectsByType<LevelToy>(FindObjectsSortMode.None).Length;
-			gameManager.levelStatz.maxPowerupz = FindObjectsByType<LevelPowerup>(FindObjectsSortMode.None).Length;
-			gameManager.levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
-			gameManager.levelStatz.maxSecretz = FindObjectsByType<SecretSwitch>(FindObjectsSortMode.None).Length;
-			gameManager.levelStatz.maxWarpletterz = FindObjectsByType<Warpletter>(FindObjectsSortMode.None).Length;
 
 			EditorUtility.SetDirty(gameManager);
 

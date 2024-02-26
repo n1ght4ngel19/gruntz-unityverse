@@ -8,7 +8,7 @@ public class Coin : LevelItem {
 	protected override IEnumerator Pickup(Grunt target) {
 		yield return base.Pickup(target);
 
-		GameManager.Instance.levelStatz.coinzCollected++;
+		Level.Instance.levelStatz.coinzCollected++;
 	}
 }
 }

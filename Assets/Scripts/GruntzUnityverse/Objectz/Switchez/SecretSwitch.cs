@@ -16,7 +16,7 @@ public class SecretSwitch : Switch {
 
 		DisableTrigger();
 
-		GameManager.Instance.levelStatz.discoveredSecretz++;
+		Level.Instance.levelStatz.discoveredSecretz++;
 		secretObjectz.ForEach(so => StartCoroutine(so.ToggleOn()));
 	}
 }

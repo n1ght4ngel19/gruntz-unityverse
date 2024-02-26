@@ -318,6 +318,34 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""GameManager"",
+            ""id"": ""10bf3e63-b94b-4e21-9472-bb408a3b4a5b"",
+            ""actions"": [
+                {
+                    ""name"": ""LoadStatzMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""f154a9b6-6f09-491a-b51f-6f86d282c4be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ecc47aa6-cd0c-44c6-9908-aaa4c154e8ca"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LoadStatzMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -334,6 +362,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_InGame_SaveGame = m_InGame.FindAction("SaveGame", throwIfNotFound: true);
         m_InGame_LoadGame = m_InGame.FindAction("LoadGame", throwIfNotFound: true);
         m_InGame_Escape = m_InGame.FindAction("Escape", throwIfNotFound: true);
+        // GameManager
+        m_GameManager = asset.FindActionMap("GameManager", throwIfNotFound: true);
+        m_GameManager_LoadStatzMenu = m_GameManager.FindAction("LoadStatzMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -509,6 +540,52 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         }
     }
     public InGameActions @InGame => new InGameActions(this);
+
+    // GameManager
+    private readonly InputActionMap m_GameManager;
+    private List<IGameManagerActions> m_GameManagerActionsCallbackInterfaces = new List<IGameManagerActions>();
+    private readonly InputAction m_GameManager_LoadStatzMenu;
+    public struct GameManagerActions
+    {
+        private @GameActions m_Wrapper;
+        public GameManagerActions(@GameActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @LoadStatzMenu => m_Wrapper.m_GameManager_LoadStatzMenu;
+        public InputActionMap Get() { return m_Wrapper.m_GameManager; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GameManagerActions set) { return set.Get(); }
+        public void AddCallbacks(IGameManagerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GameManagerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GameManagerActionsCallbackInterfaces.Add(instance);
+            @LoadStatzMenu.started += instance.OnLoadStatzMenu;
+            @LoadStatzMenu.performed += instance.OnLoadStatzMenu;
+            @LoadStatzMenu.canceled += instance.OnLoadStatzMenu;
+        }
+
+        private void UnregisterCallbacks(IGameManagerActions instance)
+        {
+            @LoadStatzMenu.started -= instance.OnLoadStatzMenu;
+            @LoadStatzMenu.performed -= instance.OnLoadStatzMenu;
+            @LoadStatzMenu.canceled -= instance.OnLoadStatzMenu;
+        }
+
+        public void RemoveCallbacks(IGameManagerActions instance)
+        {
+            if (m_Wrapper.m_GameManagerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IGameManagerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GameManagerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GameManagerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public GameManagerActions @GameManager => new GameManagerActions(this);
     public interface IInGameActions
     {
         void OnSelect(InputAction.CallbackContext context);
@@ -521,5 +598,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         void OnSaveGame(InputAction.CallbackContext context);
         void OnLoadGame(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
+    }
+    public interface IGameManagerActions
+    {
+        void OnLoadStatzMenu(InputAction.CallbackContext context);
     }
 }

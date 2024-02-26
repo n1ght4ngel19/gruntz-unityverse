@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 568542564107618629}
   - component: {fileID: 348981896787965690}
   - component: {fileID: 4476565028802911114}
+  - component: {fileID: 7428102330645021550}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -20,7 +21,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &568542564107618629
 Transform:
-  m_ObjectHideFlags: 8
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -46,21 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Template Level
-  levelStatz:
-    secondz: 0
-    survivorz: 0
-    deathz: 0
-    maxToolz: 0
-    toolz: 0
-    maxToyz: 0
-    toyz: 0
-    maxPowerupz: 0
-    powerupz: 0
-    maxCoinz: 0
-    coinz: 0
-    maxSecretz: 0
-    secretz: 0
-    warpstoneRecovered: 0
   selector: {fileID: 0}
   allGruntz: []
   selectedGruntz: []
@@ -76,3 +62,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c809d4017b74d62b78c04be9c0cefec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7428102330645021550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4723173462031229406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: dacdceb490c394d48aa04de3a73fc45c, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 10bf3e63-b94b-4e21-9472-bb408a3b4a5b
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

@@ -17,7 +17,6 @@ public abstract class LevelPowerup : LevelItem {
 		yield return base.Pickup(targetGrunt);
 
 		Activate(targetGrunt);
-
 		Level.Instance.levelStatz.powerupzCollected++;
 
 		yield return new WaitForSeconds(duration);
