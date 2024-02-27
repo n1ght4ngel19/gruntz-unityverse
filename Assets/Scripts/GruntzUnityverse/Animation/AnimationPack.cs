@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -15,6 +16,10 @@ public class AnimationPack : ScriptableObject {
 	public Animationz8Way walk;
 	public Animationz8Way attack;
 	public Animationz8Way interact;
+
+	private void OnEnable() {
+		LoadAnimationz();
+	}
 
 	public void LoadAnimationz() {
 		Clear();

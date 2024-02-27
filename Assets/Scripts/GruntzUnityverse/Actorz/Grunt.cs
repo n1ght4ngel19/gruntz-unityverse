@@ -82,8 +82,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// </summary>
 	public AnimationPack animationPack;
 
-	public AnimationClip rotateDownAnim;
-	public AnimationClip rotateUpAnim;
+	public AnimationClip warpAnim;
 
 	// -------------------------
 	// IAnimatable
@@ -198,14 +197,14 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	#endregion
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.TryGetComponent(out Warp warp)) {
+		if (other.isTrigger && other.TryGetComponent(out Warp warp)) {
 			Teleport(warp.warpDestination.transform, warp);
 			node = Level.Instance.levelNodes.First(n => n.location2D == Location2D);
 
 			return;
 		}
 
-		if (other.TryGetComponent(out Node outNode)) {
+		if (other.isTrigger && other.TryGetComponent(out Node outNode)) {
 			outNode.isReserved = false;
 			transform.position = outNode.transform.position;
 			node = outNode;
@@ -664,14 +663,16 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	public async void Teleport(Transform destination, Warp fromWarp) {
 		enabled = false;
 
-		Animancer.Play(rotateDownAnim);
-		await UniTask.WaitForSeconds(rotateDownAnim.length);
+		Animancer.Play(warpAnim);
+
+		// The first part of the animation plays where the Grunt is sucked into the warp
+		await UniTask.WaitForSeconds(warpAnim.length / 2);
 
 		Camera.main.transform.position = new Vector3(destination.position.x, destination.position.y, -10);
 		transform.position = destination.position;
 
-		Animancer.Play(rotateUpAnim);
-		await UniTask.WaitForSeconds(rotateUpAnim.length);
+		// The second part of the animation plays where the Grunt is spat out of the warp
+		await UniTask.WaitForSeconds(warpAnim.length / 2);
 
 		enabled = true;
 		intent = Intent.ToIdle;

@@ -35,7 +35,8 @@ public class Warp : GridObject, IAnimatable {
 		Animancer.Play(disappearAnim);
 		await UniTask.WaitForSeconds(disappearAnim.length);
 
-		Destroy(gameObject);
+		spriteRenderer.enabled = false;
+		// Destroy(gameObject);
 	}
 
 	[field: SerializeField] public Animator Animator { get; set; }
