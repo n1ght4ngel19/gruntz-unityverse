@@ -65,12 +65,13 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	protected virtual IEnumerator Pickup(Grunt targetGrunt) {
 		targetGrunt.Animancer.Play(pickupAnim);
 		targetGrunt.enabled = false;
+		targetGrunt.next.isReserved = false;
 
 		yield return new WaitForSeconds(pickupAnim.length);
 
 		targetGrunt.enabled = true;
 		targetGrunt.intent = Intent.ToIdle;
-		targetGrunt.EvaluateState(whenFalse: targetGrunt.BetweenNodes);
+		targetGrunt.EvaluateState();
 	}
 
 	/// <summary>
@@ -80,14 +81,14 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	/// </summary>
 	/// <param name="other">The collider of the colliding object.</param>
 	private void OnTriggerEnter2D(Collider2D other) {
-		Grunt grunt = other.gameObject.GetComponent<Grunt>();
-
-		if (grunt == null) {
+		if (!other.TryGetComponent(out Grunt grunt)) {
 			return;
 		}
 
 		GetComponent<SpriteRenderer>().enabled = false;
 		GetComponent<CircleCollider2D>().isTrigger = false;
+
+		grunt.travelGoal = grunt.node;
 		grunt.intent = Intent.ToStop;
 		grunt.state = State.Stopped;
 

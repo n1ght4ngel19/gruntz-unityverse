@@ -579,7 +579,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gruntName: FSM Grumley
   gruntColor: 3
-  material: {fileID: 0}
   statz:
     health: 20
     stamina: 20
@@ -592,14 +591,14 @@ MonoBehaviour:
   selected: 0
   waiting: 0
   committed: 0
-  betweenNodes: 0
-  equippedTool: {fileID: 0}
+  equippedTool: {fileID: 11400000, guid: a97f7d42a31985746975d8608699bf5e, type: 2}
   equippedToy: {fileID: 0}
   facingDirection: 5
   animationPack: {fileID: 11400000, guid: e8f2c945d4f9ca145a45e0c18d042c05, type: 2}
+  rotateDownAnim: {fileID: 7400000, guid: bb13c198ee2545546855c8a99d889a94, type: 2}
+  rotateUpAnim: {fileID: 7400000, guid: ea11348ee1bdb984e920742be8896dd6, type: 2}
   <Animator>k__BackingField: {fileID: 675440660885839045}
   <Animancer>k__BackingField: {fileID: 2696681730146241315}
-  location2D: {x: 0, y: 0}
   node: {fileID: 0}
   travelGoal: {fileID: 0}
   next: {fileID: 0}

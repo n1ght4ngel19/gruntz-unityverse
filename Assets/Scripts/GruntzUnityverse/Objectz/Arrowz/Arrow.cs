@@ -65,13 +65,7 @@ public class Arrow : GridObject {
 		}
 
 		grunt.node = node;
-		grunt.location2D = node.location2D;
-		// grunt.flagz.moving = false;
-		// grunt.flagz.interrupted = false;
-		// grunt.flagz.moveForced = true;
-
 		node.isReserved = false;
-
 		// grunt.targetNode = pointedNode;
 		grunt.next = pointedNode;
 
@@ -88,8 +82,6 @@ public class Arrow : GridObject {
 		#endregion
 
 		grunt.transform.position = transform.position;
-		// grunt.onNodeChanged.AddListener(grunt.MoveToNode);
-		// grunt.onNodeChanged.Invoke();
 	}
 }
 }

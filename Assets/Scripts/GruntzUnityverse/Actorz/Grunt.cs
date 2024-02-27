@@ -13,6 +13,7 @@ using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Interfacez;
+using GruntzUnityverse.Objectz.Secretz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utils.Extensionz;
 using UnityEngine;
@@ -81,6 +82,9 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// </summary>
 	public AnimationPack animationPack;
 
+	public AnimationClip rotateDownAnim;
+	public AnimationClip rotateUpAnim;
+
 	// -------------------------
 	// IAnimatable
 	// -------------------------
@@ -98,7 +102,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// The location of this Grunt in 2D space.
 	/// </summary>
 	[Header("Pathfinding")]
-	public Vector2 location2D;
+	public Vector2 Location2D => node.location2D;
 
 	/// <summary>
 	/// The node this Grunt is currently on.
@@ -172,13 +176,12 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 	#region Lifecycle
 	private void Awake() {
-		location2D = Vector2Int.RoundToInt(transform.position);
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		circleCollider2D = GetComponent<CircleCollider2D>();
 	}
 
 	private void Start() {
-		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
+		node = Level.Instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
 
 		Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
 	}
@@ -195,10 +198,17 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	#endregion
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.GetComponent<Node>()) {
-			node = other.GetComponent<Node>();
-			node.isReserved = false;
-			transform.position = node.transform.position;
+		if (other.TryGetComponent(out Warp warp)) {
+			Teleport(warp.warpDestination.transform, warp);
+			node = Level.Instance.levelNodes.First(n => n.location2D == Location2D);
+
+			return;
+		}
+
+		if (other.TryGetComponent(out Node outNode)) {
+			outNode.isReserved = false;
+			transform.position = outNode.transform.position;
+			node = outNode;
 
 			if (attackTarget != null) {
 				HandleActionCommand(attackTarget.node, Intent.ToAttack);
@@ -232,7 +242,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// If he is already selected, deselect him.
 	/// </summary>
 	private void OnAdditionalSelect() {
-		if (GameManager.Instance.selector.location2D != location2D) {
+		if (GameManager.Instance.selector.location2D != Location2D) {
 			return;
 		}
 
@@ -651,14 +661,23 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		Destroy(gameObject);
 	}
 
-	/// <summary>
-	/// Set the sorting layer and order of the sprite renderer.
-	/// </summary>
-	/// <param name="layer">The sorting layer to set.</param>
-	/// <param name="order">The sorting order to set.</param>
-	private void SetSortingData(string layer, int order) {
-		spriteRenderer.sortingLayerName = layer;
-		spriteRenderer.sortingOrder = order;
+	public async void Teleport(Transform destination, Warp fromWarp) {
+		enabled = false;
+
+		Animancer.Play(rotateDownAnim);
+		await UniTask.WaitForSeconds(rotateDownAnim.length);
+
+		Camera.main.transform.position = new Vector3(destination.position.x, destination.position.y, -10);
+		transform.position = destination.position;
+
+		Animancer.Play(rotateUpAnim);
+		await UniTask.WaitForSeconds(rotateUpAnim.length);
+
+		enabled = true;
+		intent = Intent.ToIdle;
+		EvaluateState();
+
+		fromWarp.Deactivate();
 	}
 
 	private void DeactivateBarz() {
