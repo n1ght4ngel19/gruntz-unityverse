@@ -537,7 +537,6 @@ GameObject:
   - component: {fileID: 3937740793457299847}
   - component: {fileID: 8100917441788577955}
   - component: {fileID: 5609973054886799455}
-  - component: {fileID: -3510660168933501468}
   m_Layer: 0
   m_Name: DG_Barehandz
   m_TagString: Dizgruntled
@@ -579,7 +578,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gruntName: FSM Grumley
   gruntColor: 8
-  material: {fileID: 0}
   statz:
     health: 20
     stamina: 20
@@ -596,9 +594,9 @@ MonoBehaviour:
   equippedToy: {fileID: 0}
   facingDirection: 5
   animationPack: {fileID: 11400000, guid: e8f2c945d4f9ca145a45e0c18d042c05, type: 2}
+  warpAnim: {fileID: 0}
   <Animator>k__BackingField: {fileID: 675440660885839045}
   <Animancer>k__BackingField: {fileID: 2696681730146241315}
-  location2D: {x: 0, y: 0}
   node: {fileID: 0}
   travelGoal: {fileID: 0}
   next: {fileID: 0}
@@ -817,18 +815,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd3bafa600e4b3c9799644b17f946b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-3510660168933501468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7259968830233436379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb6c44b6a25c4f72b007f69b82bc6ed2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  self: {fileID: 0}
-  post: {fileID: 0}
-  target: {fileID: 0}
