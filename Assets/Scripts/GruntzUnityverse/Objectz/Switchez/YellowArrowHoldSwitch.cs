@@ -8,6 +8,7 @@ public class YellowArrowHoldSwitch : Switch {
 
 	public override void Setup() {
 		base.Setup();
+
 		arrow = GetComponentInChildren<TwoWayArrow>();
 	}
 

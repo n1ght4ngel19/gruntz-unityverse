@@ -9,6 +9,8 @@ public class SecretSwitch : Switch {
 	public List<SecretTile> secretTilez;
 
 	public override void Setup() {
+		base.Setup();
+
 		secretObjectz = transform.parent.GetComponentsInChildren<SecretObject>(true).ToList();
 		secretTilez = transform.parent.GetComponentsInChildren<SecretTile>(true).ToList();
 	}

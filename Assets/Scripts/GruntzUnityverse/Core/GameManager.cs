@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Misc;
 using GruntzUnityverse.UI;
@@ -102,6 +103,13 @@ public class GameManagerEditor : UnityEditor.Editor {
 			foreach (GridObject go in gridObjects) {
 				go.Setup();
 				EditorUtility.SetDirty(go);
+			}
+
+			List<LevelItem> levelItems = FindObjectsByType<LevelItem>(FindObjectsSortMode.None).ToList();
+
+			foreach (LevelItem li in levelItems) {
+				li.Setup();
+				EditorUtility.SetDirty(li);
 			}
 
 			EditorUtility.SetDirty(gameManager);

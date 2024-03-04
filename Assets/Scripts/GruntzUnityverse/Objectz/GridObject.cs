@@ -39,12 +39,6 @@ public abstract class GridObject : MonoBehaviour {
 	/// </summary>
 	public CircleCollider2D circleCollider2D;
 
-	protected virtual void Awake() {
-		location2D = Vector2Int.RoundToInt(transform.position);
-		spriteRenderer ??= GetComponent<SpriteRenderer>();
-		circleCollider2D ??= GetComponent<CircleCollider2D>();
-	}
-
 	protected virtual void Start() {
 		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
 		node.isBlocked = actAsObstacle;
@@ -53,7 +47,12 @@ public abstract class GridObject : MonoBehaviour {
 		node.isVoid = actAsVoid;
 	}
 
-	public virtual void Setup() { }
+	public virtual void Setup() {
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		circleCollider2D = GetComponent<CircleCollider2D>();
+		location2D = Vector2Int.RoundToInt(transform.position);
+		node = FindObjectsByType<Node>(FindObjectsSortMode.None).First(n => n.location2D == location2D);
+	}
 
 	/// <summary>
 	/// Checks whether this GridObject is diagonal to the given GridObject.

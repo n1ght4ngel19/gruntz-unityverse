@@ -9,6 +9,8 @@ public class GreenHoldSwitch : Switch {
 	public List<GreenPyramid> pyramidz = new List<GreenPyramid>();
 
 	public override void Setup() {
+		base.Setup();
+
 		pyramidz = transform.parent.GetComponentsInChildren<GreenPyramid>().ToList();
 	}
 

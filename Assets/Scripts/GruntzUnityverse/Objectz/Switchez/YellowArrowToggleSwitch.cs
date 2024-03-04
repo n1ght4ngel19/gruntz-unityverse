@@ -8,6 +8,7 @@ public class YellowArrowToggleSwitch : Switch {
 
 	public override void Setup() {
 		base.Setup();
+
 		arrow = transform.parent.GetComponentInChildren<TwoWayArrow>();
 	}
 

@@ -8,6 +8,8 @@ public class PurpleSwitch : Switch {
 	public List<PurpleSwitch> otherSwitchez;
 
 	public override void Setup() {
+		base.Setup();
+
 		pyramidz = transform.parent.GetComponentsInChildren<PurplePyramid>()
 			.ToList();
 

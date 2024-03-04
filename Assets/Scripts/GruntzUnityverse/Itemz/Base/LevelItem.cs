@@ -5,11 +5,10 @@ using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Animation;
 using GruntzUnityverse.Core;
-using GruntzUnityverse.Itemz.Misc;
+using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Itemz.Base {
 public abstract class LevelItem : MonoBehaviour, IAnimatable {
@@ -49,6 +48,33 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	[field: SerializeField] public Animator Animator { get; set; }
 	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
 	#endregion
+
+	public void Setup() {
+		location2D = Vector2Int.RoundToInt(transform.position);
+		node = FindObjectsByType<Node>(FindObjectsSortMode.None).First(n => n.location2D == location2D);
+
+		Rock rock = FindObjectsByType<Rock>(FindObjectsSortMode.None)
+			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
+
+		if (rock != null) {
+			rock.HeldItem = this;
+			GetComponent<SpriteRenderer>().enabled = false;
+			GetComponent<CircleCollider2D>().isTrigger = false;
+
+			return;
+		}
+
+		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
+			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
+
+		if (hole != null) {
+			hole.HeldItem = this;
+			GetComponent<SpriteRenderer>().enabled = false;
+			GetComponent<CircleCollider2D>().isTrigger = false;
+
+			return;
+		}
+	}
 
 	protected virtual void Start() {
 		location2D = Vector2Int.RoundToInt(transform.position);

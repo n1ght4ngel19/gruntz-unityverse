@@ -9,6 +9,8 @@ public class SilverTimerSwitch : Switch {
 	public List<SilverPyramid> pyramidz;
 
 	public override void Setup() {
+		base.Setup();
+
 		pyramidz = transform.parent.GetComponentsInChildren<SilverPyramid>().ToList();
 	}
 

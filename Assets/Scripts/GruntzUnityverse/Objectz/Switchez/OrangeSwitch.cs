@@ -10,6 +10,8 @@ public class OrangeSwitch : Switch {
 	public List<OrangeSwitch> otherSwitchez;
 
 	public override void Setup() {
+		base.Setup();
+
 		pyramidz = transform.parent.GetComponentsInChildren<OrangePyramid>()
 			.ToList();
 
