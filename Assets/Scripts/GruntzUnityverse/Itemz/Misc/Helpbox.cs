@@ -15,6 +15,7 @@ public class Helpbox : LevelItem {
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
 		targetGrunt.Animancer.Play(pickupAnim);
 		targetGrunt.enabled = false;
+		targetGrunt.next.isReserved = false;
 
 		yield return new WaitForSeconds(pickupAnim.length);
 
@@ -26,6 +27,14 @@ public class Helpbox : LevelItem {
 		targetGrunt.enabled = true;
 		targetGrunt.intent = Intent.ToIdle;
 		targetGrunt.EvaluateState(whenFalse: targetGrunt.BetweenNodes);
+	}
+
+	private void OnTriggerExit2D(Collider2D other) {
+		if (!other.TryGetComponent(out Grunt grunt)) {
+			return;
+		}
+
+		GetComponent<SpriteRenderer>().enabled = true;
 	}
 }
 }

@@ -1,5 +1,7 @@
 ﻿using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Animation;
+using GruntzUnityverse.Core;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
@@ -8,14 +10,14 @@ public class Arrow : GridObject {
 	public Direction direction;
 	public Node pointedNode;
 
-	protected override void Start() {
-		base.Start();
+
+	public override void Setup() {
+		base.Setup();
 
 		SetDirection();
 		SetTargetNode();
 
-		// Disable node's trigger so that the Arrow's behaviour/effect doesn't clash with the node's effect
-		// Essentially, disable the node's effect to safely overwrite its effect
+		// Disable node's trigger so that the object's behaviour/effect doesn't clash with the node's effect
 		node.circleCollider2D.isTrigger = false;
 	}
 
@@ -58,30 +60,33 @@ public class Arrow : GridObject {
 	}
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		Grunt grunt = other.GetComponent<Grunt>();
+		if (other.TryGetComponent(out Grunt grunt)) {
+			grunt.node.isReserved = false;
+			grunt.node = node;
+			node.isReserved = false;
+			grunt.transform.position = transform.position;
 
-		if (grunt == null) {
-			return;
+			grunt.interactionTarget = null;
+			grunt.attackTarget = null;
+
+			grunt.next.isReserved = false;
+			grunt.travelGoal = pointedNode;
+			grunt.intent = Intent.ToMove;
+			grunt.EvaluateState();
+
+			if (node.gruntOnNode != null && node.gruntOnNode != grunt) {
+				node.gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			}
+
+			node.gruntOnNode = grunt;
+			grunt.spriteRenderer.sortingOrder = 10;
 		}
+	}
 
-		grunt.node = node;
-		node.isReserved = false;
-		// grunt.targetNode = pointedNode;
-		grunt.next = pointedNode;
-
-		#region Reset
-		// grunt.onNodeChanged.RemoveAllListeners();
-		// grunt.onTargetReached.RemoveAllListeners();
-
-		grunt.interactionTarget = null;
-		grunt.attackTarget = null;
-
-		// grunt.flagz.setToInteract = false;
-		// grunt.flagz.setToAttack = false;
-		// grunt.flagz.setToGive = false;
-		#endregion
-
-		grunt.transform.position = transform.position;
+	private void OnTriggerExit2D(Collider2D other) {
+		if (other.TryGetComponent(out Grunt grunt)) {
+			grunt.spriteRenderer.sortingOrder = 12;
+		}
 	}
 }
 }

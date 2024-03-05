@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Animancer;
@@ -81,8 +82,6 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// The animation pack this Grunt uses.
 	/// </summary>
 	public AnimationPack animationPack;
-
-	public AnimationClip warpAnim;
 
 	// -------------------------
 	// IAnimatable
@@ -195,29 +194,6 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		}
 	}
 	#endregion
-
-	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.isTrigger && other.TryGetComponent(out Warp warp)) {
-			Teleport(warp.warpDestination.transform, warp);
-			node = Level.Instance.levelNodes.First(n => n.location2D == Location2D);
-
-			return;
-		}
-
-		if (other.isTrigger && other.TryGetComponent(out Node outNode)) {
-			outNode.isReserved = false;
-			transform.position = outNode.transform.position;
-			node = outNode;
-
-			if (attackTarget != null) {
-				HandleActionCommand(attackTarget.node, Intent.ToAttack);
-
-				return;
-			}
-
-			EvaluateState();
-		}
-	}
 
 	// --------------------------------------------------
 	// Input Actions
@@ -660,19 +636,53 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		Destroy(gameObject);
 	}
 
-	public async void Teleport(Transform destination, Warp fromWarp) {
+	/// <summary>
+	/// Kills the Grunt. (duh)
+	/// </summary>
+	public async void Die(AnimationClip toPlay, bool leavePuddle = true, bool playBelow = true) {
 		enabled = false;
 
-		Animancer.Play(warpAnim);
+		CancelInvoke(nameof(RegenerateStamina));
+		DeactivateBarz();
+
+		switch (toPlay) { }
+
+		if (leavePuddle) {
+			Addressables.InstantiateAsync($"GruntPuddle_{gruntColor.ToString()}.prefab", GameObject.Find("Puddlez").transform).Completed += handle => {
+				GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
+				puddle.transform.position = transform.position;
+			};
+		}
+
+		if (playBelow) {
+			spriteRenderer.sortingLayerName = "AlwaysBottom";
+			spriteRenderer.sortingOrder = 0;
+		}
+
+		await Animancer.Play(toPlay);
+
+		spriteRenderer.enabled = false;
+		GameManager.Instance.allGruntz.Remove(this);
+		Level.Instance.levelStatz.deathz++;
+		Destroy(gameObject);
+	}
+
+	public IEnumerator Teleport(Transform destination, Warp fromWarp) {
+		enabled = false;
 
 		// The first part of the animation plays where the Grunt is sucked into the warp
-		await UniTask.WaitForSeconds(warpAnim.length / 2);
+		Animancer.Play(AnimationManager.Instance.gruntWarpOutEndAnimation);
+
+		yield return new WaitForSeconds(AnimationManager.Instance.gruntWarpOutEndAnimation.length);
 
 		Camera.main.transform.position = new Vector3(destination.position.x, destination.position.y, -10);
 		transform.position = destination.position;
+		node = Level.Instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
 
 		// The second part of the animation plays where the Grunt is spat out of the warp
-		await UniTask.WaitForSeconds(warpAnim.length / 2);
+		Animancer.Play(AnimationManager.Instance.gruntWarpEnterAnimation);
+
+		yield return new WaitForSeconds(AnimationManager.Instance.gruntWarpEnterAnimation.length);
 
 		enabled = true;
 		intent = Intent.ToIdle;
@@ -688,9 +698,9 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		barz.wingzTimeBar.gameObject.SetActive(false);
 	}
 
-	// --------------------------------------------------
-	// IDataPersistence
-	// --------------------------------------------------
+// --------------------------------------------------
+// IDataPersistence
+// --------------------------------------------------
 
 	#region IDataPersistence
 	public string Guid { get; set; }
@@ -735,4 +745,5 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	#endregion
 
 }
+
 }

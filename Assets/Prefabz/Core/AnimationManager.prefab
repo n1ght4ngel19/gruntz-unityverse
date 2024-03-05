@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4723173462031229406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 568542564107618629}
+  - component: {fileID: -7836977343508704800}
+  - component: {fileID: 4476565028802911114}
+  m_Layer: 0
+  m_Name: AnimationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &568542564107618629
+Transform:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4723173462031229406}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-7836977343508704800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4723173462031229406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640631ce7d9e41928c81bbc9f07f15c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  burnDeathAnimation: {fileID: 7400000, guid: 0860c20cce22424428d82354f7975995, type: 2}
+  electrocuteDeathAnimation: {fileID: 7400000, guid: 58d7d4b9e90097744a6437aef518c1ee, type: 2}
+  explodeDeathAnimation: {fileID: 7400000, guid: dbd7d747544035044b7677ca089b2571, type: 2}
+  fallDeathAnimation: {fileID: 7400000, guid: 089a1b84cabd70b499d7faa29e15c935, type: 2}
+  freezeDeathAnimation: {fileID: 7400000, guid: b87dc97cbe057324f839bf914b2fca77, type: 2}
+  holeDeathAnimation: {fileID: 7400000, guid: 3a29069551edd324a81aa6b959109ae7, type: 2}
+  karaokeDeathAnimation: {fileID: 7400000, guid: 580c20a03cad96b43802e7a910b428e4, type: 2}
+  meltDeathAnimation: {fileID: 7400000, guid: ddaf82672ca711a4a973cbf94f859e0e, type: 2}
+  sinkDeathAnimation: {fileID: 7400000, guid: 24b6f72fd4f6b05499e071f19a859c46, type: 2}
+  squashDeathAnimation: {fileID: 7400000, guid: 3df31f8967203e443bea2b9c06527272, type: 2}
+  gruntWarpEnterAnimation: {fileID: 7400000, guid: 35a25cba55c11564aa9b1ece816a2051, type: 2}
+  gruntWarpOutAnimationz:
+  - {fileID: 7400000, guid: 682c48f01f6e6e947b71f57b034f90dc, type: 2}
+  - {fileID: 7400000, guid: 202e8267e5b1c6d4798f1f2c35fa4734, type: 2}
+  - {fileID: 7400000, guid: 7c3c3a576f0b43e448d0b5d299a9be98, type: 2}
+  gruntWarpOutEndAnimation: {fileID: 7400000, guid: bb13c198ee2545546855c8a99d889a94, type: 2}
+  warpAppearAnim: {fileID: 0}
+  warpDisappearAnim: {fileID: 0}
+  warpSwirlingAnim: {fileID: 0}
+--- !u!114 &4476565028802911114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4723173462031229406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c809d4017b74d62b78c04be9c0cefec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

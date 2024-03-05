@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Utils.Extensionz;
 using UnityEngine;
@@ -23,6 +25,8 @@ public class Node : MonoBehaviour {
 	/// The collider used for checking interactions with this NodeV2.
 	/// </summary>
 	public CircleCollider2D circleCollider2D;
+
+	public Grunt gruntOnNode;
 
 	// --------------------------------------------------
 	// Pathfinding
@@ -204,6 +208,40 @@ public class Node : MonoBehaviour {
 			neighbourSet.down,
 			neighbourSet.left,
 		};
+	}
+
+	private void OnTriggerEnter2D(Collider2D other) {
+		if (other.TryGetComponent(out Grunt grunt)) {
+			grunt.node.isReserved = false;
+			grunt.node = this;
+			this.isReserved = false;
+			grunt.transform.position = this.transform.position;
+
+			if (grunt.attackTarget != null) {
+				grunt.HandleActionCommand(grunt.attackTarget.node, Intent.ToAttack);
+
+				return;
+			}
+
+			grunt.EvaluateState();
+
+			if (gruntOnNode != null && gruntOnNode != grunt) {
+				gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			}
+
+			gruntOnNode = grunt;
+			grunt.spriteRenderer.sortingOrder = 10;
+		}
+
+		// if (other.TryGetComponent(out RollingBall ball)) {
+		// 	
+		// }
+	}
+
+	private void OnTriggerExit2D(Collider2D other) {
+		if (other.TryGetComponent(out Grunt grunt)) {
+			grunt.spriteRenderer.sortingOrder = 12;
+		}
 	}
 }
 }

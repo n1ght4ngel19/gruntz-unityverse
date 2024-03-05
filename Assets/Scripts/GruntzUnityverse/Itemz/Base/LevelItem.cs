@@ -4,7 +4,6 @@ using Animancer;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Animation;
-using GruntzUnityverse.Core;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Pathfinding;
@@ -52,6 +51,8 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	public void Setup() {
 		location2D = Vector2Int.RoundToInt(transform.position);
 		node = FindObjectsByType<Node>(FindObjectsSortMode.None).First(n => n.location2D == location2D);
+		// Disable node's trigger so that the object's behaviour/effect doesn't clash with the node's effect
+		node.circleCollider2D.isTrigger = false;
 
 		Rock rock = FindObjectsByType<Rock>(FindObjectsSortMode.None)
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
@@ -77,9 +78,6 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	}
 
 	protected virtual void Start() {
-		location2D = Vector2Int.RoundToInt(transform.position);
-		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
-
 		Animancer.Play(rotatingAnim);
 	}
 
@@ -89,9 +87,10 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	/// different properties of the Grunt picking up the item.)
 	/// </summary>
 	protected virtual IEnumerator Pickup(Grunt targetGrunt) {
-		targetGrunt.Animancer.Play(pickupAnim);
 		targetGrunt.enabled = false;
 		targetGrunt.next.isReserved = false;
+
+		targetGrunt.Animancer.Play(pickupAnim);
 
 		yield return new WaitForSeconds(pickupAnim.length);
 
@@ -107,20 +106,17 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	/// </summary>
 	/// <param name="other">The collider of the colliding object.</param>
 	private void OnTriggerEnter2D(Collider2D other) {
-		if (!other.TryGetComponent(out Grunt grunt)) {
-			return;
+		if (other.TryGetComponent(out Grunt grunt)) {
+			GetComponent<SpriteRenderer>().enabled = false;
+			GetComponent<CircleCollider2D>().isTrigger = false;
+
+			grunt.travelGoal = grunt.node;
+			grunt.intent = Intent.ToStop;
+			grunt.state = State.Stopped;
+			grunt.EvaluateState(whenFalse: grunt.BetweenNodes);
+
+			StartCoroutine(Pickup(grunt));
 		}
-
-		GetComponent<SpriteRenderer>().enabled = false;
-		GetComponent<CircleCollider2D>().isTrigger = false;
-
-		grunt.travelGoal = grunt.node;
-		grunt.intent = Intent.ToStop;
-		grunt.state = State.Stopped;
-
-		grunt.EvaluateState(whenFalse: grunt.BetweenNodes);
-
-		StartCoroutine(Pickup(grunt));
 	}
 }
 }

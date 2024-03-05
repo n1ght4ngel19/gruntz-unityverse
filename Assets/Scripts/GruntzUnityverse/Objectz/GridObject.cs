@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using GruntzUnityverse.Core;
 using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
@@ -39,19 +38,27 @@ public abstract class GridObject : MonoBehaviour {
 	/// </summary>
 	public CircleCollider2D circleCollider2D;
 
-	protected virtual void Start() {
-		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
+	protected virtual void Start() { }
+
+	public virtual void Setup() {
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		circleCollider2D = GetComponent<CircleCollider2D>();
+		location2D = Vector2Int.RoundToInt(transform.position);
+
+		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
+			.First(n => Vector2Int.RoundToInt(n.transform.position) == Vector2Int.RoundToInt(transform.position));
+
 		node.isBlocked = actAsObstacle;
 		node.isWater = actAsWater;
 		node.isFire = actAsFire;
 		node.isVoid = actAsVoid;
 	}
 
-	public virtual void Setup() {
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		circleCollider2D = GetComponent<CircleCollider2D>();
-		location2D = Vector2Int.RoundToInt(transform.position);
-		node = FindObjectsByType<Node>(FindObjectsSortMode.None).First(n => n.location2D == location2D);
+	public virtual void Dismantle() {
+		node.isBlocked = actAsObstacle;
+		node.isWater = actAsWater;
+		node.isFire = actAsFire;
+		node.isVoid = actAsVoid;
 	}
 
 	/// <summary>

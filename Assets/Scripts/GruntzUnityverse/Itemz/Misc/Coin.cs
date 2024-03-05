@@ -9,6 +9,8 @@ public class Coin : LevelItem {
 		yield return base.Pickup(target);
 
 		Level.Instance.levelStatz.coinzCollected++;
+
+		Destroy(gameObject);
 	}
 }
 }

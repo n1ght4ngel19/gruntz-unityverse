@@ -1,5 +1,6 @@
 ﻿using Animancer;
 using Cysharp.Threading.Tasks;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Objectz.Interfacez;
 using UnityEngine;
 
@@ -13,6 +14,11 @@ public class Warp : GridObject, IAnimatable {
 	public AnimationClip swirlingAnim;
 
 	public async void Activate() {
+		node.circleCollider2D.isTrigger = false;
+
+		circleCollider2D.isTrigger = true;
+		spriteRenderer.enabled = true;
+
 		await Animancer.Play(appearAnim);
 
 		circleCollider2D.isTrigger = true;
@@ -30,6 +36,8 @@ public class Warp : GridObject, IAnimatable {
 	}
 
 	public async void Deactivate() {
+		node.circleCollider2D.isTrigger = true;
+
 		circleCollider2D.isTrigger = false;
 
 		Animancer.Play(disappearAnim);
@@ -41,5 +49,11 @@ public class Warp : GridObject, IAnimatable {
 
 	[field: SerializeField] public Animator Animator { get; set; }
 	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
+
+	private void OnTriggerEnter2D(Collider2D other) {
+		if (circleCollider2D.isTrigger && other.TryGetComponent(out Grunt grunt)) {
+			StartCoroutine(grunt.Teleport(warpDestination.transform, this));
+		}
+	}
 }
 }

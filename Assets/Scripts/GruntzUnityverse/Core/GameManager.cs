@@ -38,9 +38,14 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	public List<Grunt> selectedGruntz;
 
+	[Header("Level Transformz")]
+	public GameObject actorz;
+
+	public GameObject itemz;
+	public GameObject objectz;
+
 	private void Awake() {
 		if (Instance != null && Instance != this) {
-			Debug.Log("Destroying self, GM already exists.");
 			Destroy(gameObject);
 		} else {
 			Instance = this;
@@ -59,11 +64,10 @@ public class GameManager : MonoBehaviour {
 	private void OnLoadStatzMenu() {
 		Time.timeScale = 0f;
 
-		Level.Instance.gameObject.GetComponent<Grid>().enabled = false;
-		GameObject.Find("Actorz").SetActive(false);
-		GameObject.Find("Postz").SetActive(false);
-		GameObject.Find("Itemz").SetActive(false);
-		GameObject.Find("Objectz").SetActive(false);
+		Level.Instance.gameObject.SetActive(false);
+		actorz.SetActive(false);
+		itemz.SetActive(false);
+		objectz.SetActive(false);
 
 		StatzMenu.Instance.Activate();
 	}
@@ -78,7 +82,7 @@ public class GameManagerEditor : UnityEditor.Editor {
 		GameManager gameManager = (GameManager)target;
 		Level level = FindFirstObjectByType<Level>();
 
-		if (GUILayout.Button("Initialize")) {
+		if (GUILayout.Button("Initialize Level")) {
 			DateTime start = DateTime.Now;
 
 			level.Initialize();

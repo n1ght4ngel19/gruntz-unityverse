@@ -10,7 +10,6 @@ public class LevelToy : LevelItem {
 		yield return base.Pickup(targetGrunt);
 
 		targetGrunt.equippedToy = toy;
-
 		Level.Instance.levelStatz.toyzCollected++;
 
 		Destroy(gameObject);
