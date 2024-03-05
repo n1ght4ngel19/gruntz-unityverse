@@ -331,6 +331,15 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchLocale"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e8c03fc-d679-46b3-a665-9aa960387f1c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -342,6 +351,17 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LoadStatzMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1eac66c6-6eb0-467a-9d6d-62f6d9b9efc8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchLocale"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -365,6 +385,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         // GameManager
         m_GameManager = asset.FindActionMap("GameManager", throwIfNotFound: true);
         m_GameManager_LoadStatzMenu = m_GameManager.FindAction("LoadStatzMenu", throwIfNotFound: true);
+        m_GameManager_SwitchLocale = m_GameManager.FindAction("SwitchLocale", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -545,11 +566,13 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_GameManager;
     private List<IGameManagerActions> m_GameManagerActionsCallbackInterfaces = new List<IGameManagerActions>();
     private readonly InputAction m_GameManager_LoadStatzMenu;
+    private readonly InputAction m_GameManager_SwitchLocale;
     public struct GameManagerActions
     {
         private @GameActions m_Wrapper;
         public GameManagerActions(@GameActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @LoadStatzMenu => m_Wrapper.m_GameManager_LoadStatzMenu;
+        public InputAction @SwitchLocale => m_Wrapper.m_GameManager_SwitchLocale;
         public InputActionMap Get() { return m_Wrapper.m_GameManager; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -562,6 +585,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @LoadStatzMenu.started += instance.OnLoadStatzMenu;
             @LoadStatzMenu.performed += instance.OnLoadStatzMenu;
             @LoadStatzMenu.canceled += instance.OnLoadStatzMenu;
+            @SwitchLocale.started += instance.OnSwitchLocale;
+            @SwitchLocale.performed += instance.OnSwitchLocale;
+            @SwitchLocale.canceled += instance.OnSwitchLocale;
         }
 
         private void UnregisterCallbacks(IGameManagerActions instance)
@@ -569,6 +595,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @LoadStatzMenu.started -= instance.OnLoadStatzMenu;
             @LoadStatzMenu.performed -= instance.OnLoadStatzMenu;
             @LoadStatzMenu.canceled -= instance.OnLoadStatzMenu;
+            @SwitchLocale.started -= instance.OnSwitchLocale;
+            @SwitchLocale.performed -= instance.OnSwitchLocale;
+            @SwitchLocale.canceled -= instance.OnSwitchLocale;
         }
 
         public void RemoveCallbacks(IGameManagerActions instance)
@@ -602,5 +631,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     public interface IGameManagerActions
     {
         void OnLoadStatzMenu(InputAction.CallbackContext context);
+        void OnSwitchLocale(InputAction.CallbackContext context);
     }
 }

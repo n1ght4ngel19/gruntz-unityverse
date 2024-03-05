@@ -16,14 +16,16 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 13c795cce8db5724098486e40920a773, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 1976571287238344841
   m_TableData:
   - m_Id: 410335383552
     m_Localized: THERE'S NO TELLING WHAT WILL HAPPEN WHEN YOU STEP ON A SECRET SWITCH,
       BUT YOU'LL HAVE TO HURRY BECAUSE YOU ONLY HAVE A CERTAIN AMOUNT OF TIME BEFORE
       THE EFFECTZ WEAR OFF!
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 1976571287238344841
   - m_Id: 507265748992
     m_Localized: REMEMBER, IF YOU HAVE A TOY, YOU CAN USE IT TO GET PAST AN ENEMY
       GRUNT WITHOUT FIGHTING HIM! YOU CAN EITHER FIGHT THE ENEMY GRUNT BELOW, OR
@@ -73,4 +75,8 @@ MonoBehaviour:
       m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 1976571287238344841
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0010e5895f000000

@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Actorz.BehaviourManagement;
+using GruntzUnityverse.Core;
 using GruntzUnityverse.Itemz.Base;
+using TMPro;
 using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Misc {
@@ -20,9 +22,15 @@ public class Helpbox : LevelItem {
 		yield return new WaitForSeconds(pickupAnim.length);
 
 		Time.timeScale = 0f;
+
+		GameManager.Instance.helpboxUI.GetComponentInChildren<TMP_Text>().SetText(helpboxText);
+		GameManager.Instance.helpboxUI.SetActive(true);
+
 		Debug.Log(helpboxText); // Todo: Show helpbox UI
 
 		yield return new WaitUntil(() => Time.timeScale != 0f);
+
+		GameManager.Instance.helpboxUI.SetActive(false);
 
 		targetGrunt.enabled = true;
 		targetGrunt.intent = Intent.ToIdle;

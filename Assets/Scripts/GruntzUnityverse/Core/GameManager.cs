@@ -8,6 +8,7 @@ using GruntzUnityverse.Objectz.Misc;
 using GruntzUnityverse.UI;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 
 namespace GruntzUnityverse.Core {
@@ -44,6 +45,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject itemz;
 	public GameObject objectz;
 
+	public GameObject helpboxUI;
+
 	private void Awake() {
 		if (Instance != null && Instance != this) {
 			Destroy(gameObject);
@@ -70,6 +73,14 @@ public class GameManager : MonoBehaviour {
 		objectz.SetActive(false);
 
 		StatzMenu.Instance.Activate();
+	}
+
+	private void OnSwitchLocale() {
+		if (LocalizationSettings.SelectedLocale == LocalizationSettings.AvailableLocales.Locales[1]) {
+			LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
+		} else {
+			LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[1];
+		}
 	}
 }
 

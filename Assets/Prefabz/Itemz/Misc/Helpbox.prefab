@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 3413833982615174554}
   - component: {fileID: 8039597177016830541}
   - component: {fileID: 6692591537356093792}
+  - component: {fileID: 304189941644232124}
   - component: {fileID: 2779727153241040291}
   - component: {fileID: 2246782752537131454}
   - component: {fileID: 6215631924038186651}
   - component: {fileID: 8716681340583196438}
-  - component: {fileID: 5285012474403761670}
   - component: {fileID: 7210827145444986502}
-  - component: {fileID: 304189941644232124}
   m_Layer: 0
   m_Name: Helpbox
   m_TagString: Untagged
@@ -116,6 +115,46 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 2779727153241040291}
   <Animancer>k__BackingField: {fileID: 2246782752537131454}
   helpboxText: 
+--- !u!114 &304189941644232124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7858689345019746892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:13c795cce8db5724098486e40920a773
+    m_TableEntryReference:
+      m_KeyId: 410335383552
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6692591537356093792}
+        m_TargetAssemblyTypeName: GruntzUnityverse.V2.Itemz.Helpbox, GruntzUnityverse
+        m_MethodName: SetText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!95 &2779727153241040291
 Animator:
   serializedVersion: 7
@@ -204,34 +243,6 @@ MonoBehaviour:
   position: 0
   direction: 1
   tooltip: 
---- !u!114 &5285012474403761670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7858689345019746892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &7210827145444986502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,43 +255,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd3bafa600e4b3c9799644b17f946b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &304189941644232124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7858689345019746892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:13c795cce8db5724098486e40920a773
-    m_TableEntryReference:
-      m_KeyId: 410335383552
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6692591537356093792}
-        m_TargetAssemblyTypeName: GruntzUnityverse.V2.Itemz.Helpbox, GruntzUnityverse
-        m_MethodName: SetText
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  references:
-    version: 2
-    RefIds: []
