@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 3373029965003962344}
   - component: {fileID: 7485570136701087826}
   - component: {fileID: -1104639947942641169}
-  - component: {fileID: -3707789536163036583}
   - component: {fileID: 1352911591195265201}
+  - component: {fileID: -3707789536163036583}
   - component: {fileID: 5514687302341194583}
   m_Layer: 0
   m_Name: _LevelTool
@@ -187,22 +187,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.05
---- !u!114 &-3707789536163036583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7856108286464215537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fc219dcbba90e84b86e2ecf840e0266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  position: 0
-  direction: 1
-  tooltip: 
 --- !u!114 &1352911591195265201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +215,22 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &-3707789536163036583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7856108286464215537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc219dcbba90e84b86e2ecf840e0266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  position: 0
+  direction: 1
+  tooltip: 
 --- !u!114 &5514687302341194583
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -230,7 +230,6 @@ public class Node : MonoBehaviour {
 			}
 
 			gruntOnNode = grunt;
-			grunt.spriteRenderer.sortingOrder = 10;
 		}
 
 		// if (other.TryGetComponent(out RollingBall ball)) {
@@ -238,10 +237,5 @@ public class Node : MonoBehaviour {
 		// }
 	}
 
-	private void OnTriggerExit2D(Collider2D other) {
-		if (other.TryGetComponent(out Grunt grunt)) {
-			grunt.spriteRenderer.sortingOrder = 12;
-		}
-	}
 }
 }

@@ -66,6 +66,11 @@ public class Arrow : GridObject {
 			node.isReserved = false;
 			grunt.transform.position = transform.position;
 
+			if (node.gruntOnNode != null && node.gruntOnNode != grunt) {
+		Debug.Log("Collide");
+				node.gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			}
+
 			grunt.interactionTarget = null;
 			grunt.attackTarget = null;
 
@@ -73,10 +78,6 @@ public class Arrow : GridObject {
 			grunt.travelGoal = pointedNode;
 			grunt.intent = Intent.ToMove;
 			grunt.EvaluateState();
-
-			if (node.gruntOnNode != null && node.gruntOnNode != grunt) {
-				node.gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
-			}
 
 			node.gruntOnNode = grunt;
 			grunt.spriteRenderer.sortingOrder = 10;
