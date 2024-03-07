@@ -15,6 +15,7 @@ public class Hazard : GridObject {
 		if (rock != null) {
 			rock.HiddenHazard = this;
 			spriteRenderer.enabled = false;
+			enabled = false;
 			circleCollider2D.isTrigger = false;
 
 			return;
@@ -27,9 +28,12 @@ public class Hazard : GridObject {
 			hole.HiddenHazard = this;
 			spriteRenderer.enabled = false;
 			circleCollider2D.isTrigger = false;
+			enabled = false;
 
 			return;
 		}
 	}
+
+	public virtual async void OnRevealed() { }
 }
 }

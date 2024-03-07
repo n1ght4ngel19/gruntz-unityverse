@@ -39,5 +39,7 @@ public class AnimationManager : MonoBehaviour {
 	public AnimationClip warpDisappearAnim;
 
 	public AnimationClip warpSwirlingAnim;
+
+	public AnimationClip timeBombExplodeAnim;
 }
 }

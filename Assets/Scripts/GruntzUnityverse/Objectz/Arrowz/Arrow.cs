@@ -67,7 +67,6 @@ public class Arrow : GridObject {
 			grunt.transform.position = transform.position;
 
 			if (node.gruntOnNode != null && node.gruntOnNode != grunt) {
-		Debug.Log("Collide");
 				node.gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
 			}
 

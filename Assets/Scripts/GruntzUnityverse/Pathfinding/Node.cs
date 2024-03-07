@@ -225,10 +225,6 @@ public class Node : MonoBehaviour {
 
 			grunt.EvaluateState();
 
-			if (gruntOnNode != null && gruntOnNode != grunt) {
-				gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
-			}
-
 			gruntOnNode = grunt;
 		}
 

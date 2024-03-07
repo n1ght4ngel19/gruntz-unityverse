@@ -2,11 +2,9 @@
 using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Itemz.Base;
-using GruntzUnityverse.Itemz.Misc;
 using GruntzUnityverse.Objectz.Hazardz;
 using GruntzUnityverse.Objectz.Interfacez;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
 /// <summary>
@@ -24,24 +22,16 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 
 	public void RevealHidden(bool isSceneLoaded) {
 		if (HeldItem != null) {
-			string parentName = HeldItem switch {
-				LevelTool => "Toolz",
-				LevelToy => "Toyz",
-				LevelPowerup => "Powerupz",
-				Coin => "Coinz",
-				Helpbox => "Helpboxez",
-				_ => "Misc",
-			};
-
-			Addressables.InstantiateAsync(HeldItem, GameObject.Find(parentName).transform).Completed += handle => {
-				handle.Result.transform.position = transform.position;
-			};
+			HeldItem.GetComponent<SpriteRenderer>().enabled = false;
+			HeldItem.GetComponent<CircleCollider2D>().isTrigger = false;
 		}
 
 		if (HiddenHazard != null) {
-			Addressables.InstantiateAsync(HiddenHazard, GameObject.Find("Hazardz").transform).Completed += handle => {
-				handle.Result.transform.position = transform.position;
-			};
+			HiddenHazard.spriteRenderer.enabled = true;
+			HiddenHazard.circleCollider2D.isTrigger = true;
+			HiddenHazard.enabled = true;
+
+			HiddenHazard.OnRevealed();
 		}
 	}
 	#endregion
@@ -58,7 +48,7 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	}
 
 	public async void Interact() {
-		transform.localScale *= 0.75f;
+		transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 		transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
 		spriteRenderer.sortingOrder = 4;

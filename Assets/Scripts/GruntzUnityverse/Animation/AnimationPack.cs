@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -24,10 +23,7 @@ public class AnimationPack : ScriptableObject {
 	public void LoadAnimationz() {
 		Clear();
 
-		Addressables.LoadAssetAsync<AnimationClip>($"Assets/Animationz/Gruntz/{tool}Grunt/Death/Clipz/{tool}Grunt_Death.anim")
-			.Completed += handle => {
-			deathAnimation = handle.Result;
-		};
+		Addressables.LoadAssetAsync<AnimationClip>($"{tool}Grunt_Death").Completed += handle => deathAnimation = handle.Result;
 
 		LoadAnimationz8Way(idle, "Idle");
 		LoadHostileIdleAnimationz(hostileIdle);
@@ -86,46 +82,46 @@ public class AnimationPack : ScriptableObject {
 	}
 
 	private void LoadSingularAnimationz(Animationz8Way pack, string type) {
-		LoadClipInto(pack.up, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_North.anim");
-		LoadClipInto(pack.upRight, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_Northeast.anim");
-		LoadClipInto(pack.right, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_East.anim");
-		LoadClipInto(pack.downRight, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_Southeast.anim");
-		LoadClipInto(pack.down, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_South.anim");
-		LoadClipInto(pack.downLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_Southwest.anim");
-		LoadClipInto(pack.left, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_West.anim");
-		LoadClipInto(pack.upLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{type}/Clipz/{tool}Grunt_{type}_Northwest.anim");
+		LoadClipInto(pack.up, $"{tool}Grunt_{type}_North");
+		LoadClipInto(pack.upRight, $"{tool}Grunt_{type}_Northeast");
+		LoadClipInto(pack.right, $"{tool}Grunt_{type}_East");
+		LoadClipInto(pack.downRight, $"{tool}Grunt_{type}_Southeast");
+		LoadClipInto(pack.down, $"{tool}Grunt_{type}_South");
+		LoadClipInto(pack.downLeft, $"{tool}Grunt_{type}_Southwest");
+		LoadClipInto(pack.left, $"{tool}Grunt_{type}_West");
+		LoadClipInto(pack.upLeft, $"{tool}Grunt_{type}_Northwest");
 	}
 
 	private void LoadHostileIdleAnimationz(Animationz8Way pack) {
-		LoadClipInto(pack.up, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_North_Idle.anim");
-		LoadClipInto(pack.upRight, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_Northeast_Idle.anim");
-		LoadClipInto(pack.right, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_East_Idle.anim");
-		LoadClipInto(pack.downRight, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_Southeast_Idle.anim");
-		LoadClipInto(pack.down, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_South_Idle.anim");
-		LoadClipInto(pack.downLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_Southwest_Idle.anim");
-		LoadClipInto(pack.left, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_West_Idle.anim");
-		LoadClipInto(pack.upLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/Attack/Clipz/{tool}Grunt_Attack_Northwest_Idle.anim");
+		LoadClipInto(pack.up, $"{tool}Grunt_Attack_North_Idle");
+		LoadClipInto(pack.upRight, $"{tool}Grunt_Attack_Northeast_Idle");
+		LoadClipInto(pack.right, $"{tool}Grunt_Attack_East_Idle");
+		LoadClipInto(pack.downRight, $"{tool}Grunt_Attack_Southeast_Idle");
+		LoadClipInto(pack.down, $"{tool}Grunt_Attack_South_Idle");
+		LoadClipInto(pack.downLeft, $"{tool}Grunt_Attack_Southwest_Idle");
+		LoadClipInto(pack.left, $"{tool}Grunt_Attack_West_Idle");
+		LoadClipInto(pack.upLeft, $"{tool}Grunt_Attack_Northwest_Idle");
 	}
 
 	private void LoadAnimationz8Way(Animationz8Way pack, string packName) {
-		LoadClipInto(pack.up, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_North_01.anim");
-		LoadClipInto(pack.up, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_North_02.anim");
-		LoadClipInto(pack.upRight, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Northeast_01.anim");
-		LoadClipInto(pack.right, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_East_01.anim");
-		LoadClipInto(pack.right, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_East_02.anim");
-		LoadClipInto(pack.downRight, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Southeast_01.anim");
-		LoadClipInto(pack.down, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_South_01.anim");
-		LoadClipInto(pack.down, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_South_02.anim");
-		LoadClipInto(pack.downLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Southwest_01.anim");
-		LoadClipInto(pack.left, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_West_01.anim");
-		LoadClipInto(pack.left, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_West_02.anim");
-		LoadClipInto(pack.upLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Northwest_01.anim");
+		LoadClipInto(pack.up, $"{tool}Grunt_{packName}_North_01");
+		LoadClipInto(pack.up, $"{tool}Grunt_{packName}_North_02");
+		LoadClipInto(pack.upRight, $"{tool}Grunt_{packName}_Northeast_01");
+		LoadClipInto(pack.right, $"{tool}Grunt_{packName}_East_01");
+		LoadClipInto(pack.right, $"{tool}Grunt_{packName}_East_02");
+		LoadClipInto(pack.downRight, $"{tool}Grunt_{packName}_Southeast_01");
+		LoadClipInto(pack.down, $"{tool}Grunt_{packName}_South_01");
+		LoadClipInto(pack.down, $"{tool}Grunt_{packName}_South_02");
+		LoadClipInto(pack.downLeft, $"{tool}Grunt_{packName}_Southwest_01");
+		LoadClipInto(pack.left, $"{tool}Grunt_{packName}_West_01");
+		LoadClipInto(pack.left, $"{tool}Grunt_{packName}_West_02");
+		LoadClipInto(pack.upLeft, $"{tool}Grunt_{packName}_Northwest_01");
 
 		if (!packName.Equals("Idle")) {
-			LoadClipInto(pack.upRight, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Northeast_02.anim");
-			LoadClipInto(pack.downRight, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Southeast_02.anim");
-			LoadClipInto(pack.downLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Southwest_02.anim");
-			LoadClipInto(pack.upLeft, $"Assets/Animationz/Gruntz/{tool}Grunt/{packName}/Clipz/{tool}Grunt_{packName}_Northwest_02.anim");
+			LoadClipInto(pack.upRight, $"{tool}Grunt_{packName}_Northeast_02");
+			LoadClipInto(pack.downRight, $"{tool}Grunt_{packName}_Southeast_02");
+			LoadClipInto(pack.downLeft, $"{tool}Grunt_{packName}_Southwest_02");
+			LoadClipInto(pack.upLeft, $"{tool}Grunt_{packName}_Northwest_02");
 		}
 	}
 
