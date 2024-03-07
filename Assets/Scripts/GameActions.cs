@@ -340,6 +340,15 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeGameSpeed"",
+                    ""type"": ""Button"",
+                    ""id"": ""e55cb03b-b58a-49c7-9e45-4c55cd95dbab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -364,6 +373,17 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchLocale"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22c57062-2a5e-4897-af1b-973687658e9f"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeGameSpeed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -386,6 +406,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_GameManager = asset.FindActionMap("GameManager", throwIfNotFound: true);
         m_GameManager_LoadStatzMenu = m_GameManager.FindAction("LoadStatzMenu", throwIfNotFound: true);
         m_GameManager_SwitchLocale = m_GameManager.FindAction("SwitchLocale", throwIfNotFound: true);
+        m_GameManager_ChangeGameSpeed = m_GameManager.FindAction("ChangeGameSpeed", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -567,12 +588,14 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     private List<IGameManagerActions> m_GameManagerActionsCallbackInterfaces = new List<IGameManagerActions>();
     private readonly InputAction m_GameManager_LoadStatzMenu;
     private readonly InputAction m_GameManager_SwitchLocale;
+    private readonly InputAction m_GameManager_ChangeGameSpeed;
     public struct GameManagerActions
     {
         private @GameActions m_Wrapper;
         public GameManagerActions(@GameActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @LoadStatzMenu => m_Wrapper.m_GameManager_LoadStatzMenu;
         public InputAction @SwitchLocale => m_Wrapper.m_GameManager_SwitchLocale;
+        public InputAction @ChangeGameSpeed => m_Wrapper.m_GameManager_ChangeGameSpeed;
         public InputActionMap Get() { return m_Wrapper.m_GameManager; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -588,6 +611,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @SwitchLocale.started += instance.OnSwitchLocale;
             @SwitchLocale.performed += instance.OnSwitchLocale;
             @SwitchLocale.canceled += instance.OnSwitchLocale;
+            @ChangeGameSpeed.started += instance.OnChangeGameSpeed;
+            @ChangeGameSpeed.performed += instance.OnChangeGameSpeed;
+            @ChangeGameSpeed.canceled += instance.OnChangeGameSpeed;
         }
 
         private void UnregisterCallbacks(IGameManagerActions instance)
@@ -598,6 +624,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @SwitchLocale.started -= instance.OnSwitchLocale;
             @SwitchLocale.performed -= instance.OnSwitchLocale;
             @SwitchLocale.canceled -= instance.OnSwitchLocale;
+            @ChangeGameSpeed.started -= instance.OnChangeGameSpeed;
+            @ChangeGameSpeed.performed -= instance.OnChangeGameSpeed;
+            @ChangeGameSpeed.canceled -= instance.OnChangeGameSpeed;
         }
 
         public void RemoveCallbacks(IGameManagerActions instance)
@@ -632,5 +661,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     {
         void OnLoadStatzMenu(InputAction.CallbackContext context);
         void OnSwitchLocale(InputAction.CallbackContext context);
+        void OnChangeGameSpeed(InputAction.CallbackContext context);
     }
 }

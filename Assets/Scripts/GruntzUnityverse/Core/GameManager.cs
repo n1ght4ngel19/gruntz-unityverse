@@ -82,6 +82,19 @@ public class GameManager : MonoBehaviour {
 			LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[1];
 		}
 	}
+
+	private void OnChangeGameSpeed() {
+		// ReSharper disable once CompareOfFloatsByEqualityOperator
+		Time.timeScale = Time.timeScale switch {
+			0 => 0,
+			2f => 1f,
+			_ => 2f,
+		};
+	}
+
+	public void LocalizeLevelName(string newLevelName) {
+		levelName = newLevelName;
+	}
 }
 
 #if UNITY_EDITOR

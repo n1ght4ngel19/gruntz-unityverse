@@ -318,6 +318,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeGameSpeed",
+                    "type": "Button",
+                    "id": "e55cb03b-b58a-49c7-9e45-4c55cd95dbab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -340,6 +349,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SwitchLocale",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22c57062-2a5e-4897-af1b-973687658e9f",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeGameSpeed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
