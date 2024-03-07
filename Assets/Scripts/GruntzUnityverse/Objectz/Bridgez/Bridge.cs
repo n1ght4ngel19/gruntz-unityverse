@@ -1,10 +1,17 @@
 ﻿using Animancer;
+using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Objectz.Interfacez;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Bridgez {
 public class Bridge : GridObject, IToggleable {
 	public bool isDeathBridge;
+
+	public override void Setup() {
+		base.Setup();
+
+		node.isWater = false;
+	}
 
 	#region IToggleable
 	// --------------------------------------------------
@@ -21,18 +28,18 @@ public class Bridge : GridObject, IToggleable {
 		} else {
 			ToggleOff();
 		}
-
-		node.isWater = actAsWater;
 	}
 
-	public void ToggleOn() {
-		actAsWater = false;
-		Animancer.Play(ToggleOnAnim);
+	public async void ToggleOn() {
+		await Animancer.Play(ToggleOnAnim);
+
+		node.isWater = false;
 	}
 
-	public void ToggleOff() {
-		actAsWater = true;
-		Animancer.Play(ToggleOffAnim);
+	public async void ToggleOff() {
+		await Animancer.Play(ToggleOffAnim);
+
+		node.isWater = true;
 	}
 	#endregion
 

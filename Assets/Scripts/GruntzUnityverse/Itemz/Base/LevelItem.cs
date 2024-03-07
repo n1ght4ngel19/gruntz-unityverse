@@ -118,5 +118,9 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 			StartCoroutine(Pickup(grunt));
 		}
 	}
+
+	public void LocalizeName(string newDisplayName) {
+		displayName = newDisplayName;
+	}
 }
 }

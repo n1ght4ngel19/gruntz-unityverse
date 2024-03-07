@@ -16,7 +16,7 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 	public override async void OnRevealed() {
 		Debug.Log("OnRevealed");
 
-		Animancer.Play(AnimationManager.Instance.timeBombExplodeAnim);
+		Animancer.Play(AnimationManager.Instance.timeBombTickingAnim);
 
 		await UniTask.WaitForSeconds(delay);
 
@@ -29,6 +29,11 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 			.Where(r => node.neighbours.Contains(r.node))
 			.ToList()
 			.ForEach(r1 => r1.Interact());
+
+		spriteRenderer.sortingLayerName = "Default";
+		spriteRenderer.sortingOrder = 6;
+		
+		await Animancer.Play(AnimationManager.Instance.explosionAnim1);
 
 		Destroy(gameObject);
 	}

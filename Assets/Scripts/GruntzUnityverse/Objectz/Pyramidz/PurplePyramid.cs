@@ -6,20 +6,21 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
 public class PurplePyramid : Pyramid {
 	public List<PurpleSwitch> switchez;
 
-	public override void Setup() {
-		base.Setup();
-
-		switchez = transform.parent.GetComponentsInChildren<PurpleSwitch>()
-			.ToList();
-	}
-
 	private void FixedUpdate() {
-		if (!switchez.All(sw => sw.IsPressed)) {
+		if (!switchez.TrueForAll(sw => sw.IsPressed)) {
 			return;
 		}
 
-		enabled = false;
+		switchez.ForEach(sw => sw.DisableTrigger());
 		Toggle();
+
+		enabled = false;
+	}
+
+	public override void Setup() {
+		base.Setup();
+
+		switchez = transform.parent.GetComponentsInChildren<PurpleSwitch>().ToList();
 	}
 }
 }

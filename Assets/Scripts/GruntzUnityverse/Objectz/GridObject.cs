@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
@@ -25,7 +24,6 @@ public abstract class GridObject : MonoBehaviour {
 	/// <summary>
 	/// The <see cref="Node"/> that this GridObject currently occupies.
 	/// </summary>
-	[HideInNormalInspector]
 	public Node node;
 
 	/// <summary>
@@ -48,10 +46,10 @@ public abstract class GridObject : MonoBehaviour {
 		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
 			.First(n => Vector2Int.RoundToInt(n.transform.position) == Vector2Int.RoundToInt(transform.position));
 
-		node.isBlocked = actAsObstacle;
-		node.isWater = actAsWater;
-		node.isFire = actAsFire;
-		node.isVoid = actAsVoid;
+		node.isBlocked = actAsObstacle || node.isBlocked;
+		node.isWater = actAsWater || node.isWater;
+		node.isFire = actAsFire || node.isFire;
+		node.isVoid = actAsVoid || node.isVoid;
 	}
 
 	public virtual void Dismantle() {

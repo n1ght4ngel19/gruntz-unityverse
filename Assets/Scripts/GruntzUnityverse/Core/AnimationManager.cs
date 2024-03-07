@@ -40,6 +40,9 @@ public class AnimationManager : MonoBehaviour {
 
 	public AnimationClip warpSwirlingAnim;
 
-	public AnimationClip timeBombExplodeAnim;
+	public AnimationClip timeBombTickingAnim;
+	public AnimationClip explosionAnim1;
+	public AnimationClip explosionAnim2;
+	public AnimationClip explosionAnim3;
 }
 }

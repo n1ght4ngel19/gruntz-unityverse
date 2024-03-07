@@ -11,7 +11,7 @@ public class Checkpoint : MonoBehaviour {
 	public List<CheckpointPyramid> pyramidz;
 	public List<CheckpointFlag> flagz;
 
-	private void Update() {
+	private void FixedUpdate() {
 		if (!switchez.TrueForAll(sw => sw.IsPressed)) {
 			return;
 		}
