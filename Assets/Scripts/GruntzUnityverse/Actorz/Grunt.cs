@@ -36,6 +36,9 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 	public Statz statz;
 
+	[Range(0, 5)]
+	public float moveSpeed;
+
 	[Header("State Handling")]
 	public State state;
 
@@ -65,6 +68,11 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// The toy currently equipped by this Grunt.
 	/// </summary>
 	public EquippedToy equippedToy;
+
+	/// <summary>
+	/// The powerup currently active on this Grunt.
+	/// </summary>
+	public List<EquippedPowerup> equippedPowerupz;
 	#endregion
 
 	// --------------------------------------------------
@@ -566,7 +574,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// </summary>
 	private void ChangePosition() {
 		Vector3 moveVector = (next.transform.position - transform.position).normalized;
-		gameObject.transform.position += moveVector * (Time.deltaTime / .6f);
+		gameObject.transform.position += moveVector * (Time.deltaTime / moveSpeed);
 
 		Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.walk));
 	}

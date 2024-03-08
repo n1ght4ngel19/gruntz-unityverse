@@ -7,26 +7,27 @@ namespace GruntzUnityverse.Itemz.Base {
 /// <summary>
 /// The base class for Powerupz.
 /// </summary>
-public abstract class LevelPowerup : LevelItem {
+public class LevelPowerup : LevelItem {
 	/// <summary>
 	/// The duration of the Powerup. A duration of 0 means the Powerup has an instantaneous effect.
 	/// </summary>
 	public float duration;
 
+	public EquippedPowerup equippedPowerup;
+
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
 		yield return base.Pickup(targetGrunt);
 
-		Activate(targetGrunt);
 		Level.Instance.levelStatz.powerupzCollected++;
+		GetComponent<SpriteRenderer>().enabled = false;
+		GetComponent<CircleCollider2D>().enabled = false;
 
-		yield return new WaitForSeconds(duration);
+		targetGrunt.equippedPowerupz.Add(equippedPowerup);
+		equippedPowerup.Equip(targetGrunt);
 
-		Deactivate(targetGrunt);
+		yield return new WaitForSeconds(0.5f);
+
 		Destroy(gameObject);
 	}
-
-	protected abstract void Activate(Grunt targetGrunt);
-
-	protected abstract void Deactivate(Grunt targetGrunt);
 }
 }

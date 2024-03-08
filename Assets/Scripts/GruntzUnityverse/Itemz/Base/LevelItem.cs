@@ -39,6 +39,8 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	public Node node;
 	public Vector2Int location2D;
 
+	public bool hideUnderMound;
+
 	// --------------------------------------------------
 	// IAnimatable
 	// --------------------------------------------------
@@ -68,7 +70,7 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
 
-		if (hole != null) {
+		if (hole != null && hideUnderMound) {
 			hole.HeldItem = this;
 			GetComponent<SpriteRenderer>().enabled = false;
 			GetComponent<CircleCollider2D>().isTrigger = false;
@@ -95,7 +97,7 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 		yield return new WaitForSeconds(pickupAnim.length);
 
 		targetGrunt.enabled = true;
-		targetGrunt.intent = Intent.ToIdle;
+		targetGrunt.intent = Intent.ToIdle; // --> ToMove
 		targetGrunt.EvaluateState();
 	}
 

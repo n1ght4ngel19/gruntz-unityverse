@@ -9,6 +9,7 @@ public class LevelTool : LevelItem {
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
 		yield return base.Pickup(targetGrunt);
 
+		targetGrunt.animationPack = animationPack;
 		targetGrunt.equippedTool = tool;
 		Level.Instance.levelStatz.toolzCollected++;
 

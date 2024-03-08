@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5726753848013130225, guid: 21697bf286c50d44b9d7b08ab704dd90, type: 3}
+      propertyPath: openSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ea7dc935c6165664e8d6e05391a6db6b, type: 3}
+    - target: {fileID: -5726753848013130225, guid: 21697bf286c50d44b9d7b08ab704dd90, type: 3}
+      propertyPath: filledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0142d8c884d031246a11f951f7e4d465, type: 3}
     - target: {fileID: -1987086842362241305, guid: 21697bf286c50d44b9d7b08ab704dd90, type: 3}
       propertyPath: icon
       value: 
@@ -59,7 +67,11 @@ PrefabInstance:
     - target: {fileID: 7645925870725461127, guid: 21697bf286c50d44b9d7b08ab704dd90, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1910174139, guid: 83e48bd1eb8165d44a978d53c19fb40d, type: 3}
+      objectReference: {fileID: 21300000, guid: 0142d8c884d031246a11f951f7e4d465, type: 3}
+    - target: {fileID: 7645925870725461127, guid: 21697bf286c50d44b9d7b08ab704dd90, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -4,13 +4,15 @@ using GruntzUnityverse.Animation;
 using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Base {
-[CreateAssetMenu(fileName = "New Equipped Toy", menuName = "Gruntz Unityverse/Equipped Toy")]
 public class EquippedToy : ScriptableObject {
 	public string toyName;
 	public string description;
 
 	[Range(0, 100)]
 	public int duration;
+
+	[Range(0, 5)]
+	public float toyMoveSpeed;
 
 	public AnimationPack animationPack;
 

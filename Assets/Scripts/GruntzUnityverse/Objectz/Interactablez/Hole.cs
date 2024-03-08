@@ -4,12 +4,15 @@ using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz.Hazardz;
 using GruntzUnityverse.Objectz.Interfacez;
+using GruntzUnityverse.Objectz.Switchez;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
 public class Hole : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	public bool open;
+	public Sprite openSprite;
+	public Sprite filledSprite;
 
 	// --------------------------------------------------
 	// IObjectHolder
@@ -19,18 +22,26 @@ public class Hole : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	[Header("IObjectHolder")]
 	[field: SerializeField] public LevelItem HeldItem { get; set; }
 	[field: SerializeField] public Hazard HiddenHazard { get; set; }
+	[field: SerializeField] public Switch HiddenSwitch { get; set; }
 
 	public void RevealHidden(bool isSceneLoaded) {
 		if (HeldItem != null) {
-			Addressables.InstantiateAsync(HeldItem, GameObject.Find("Itemz").transform).Completed += _ => {
-				HeldItem.transform.position = transform.position;
-			};
+			HeldItem.GetComponent<SpriteRenderer>().enabled = true;
+			HeldItem.GetComponent<CircleCollider2D>().isTrigger = true;
 		}
 
 		if (HiddenHazard != null) {
-			Addressables.InstantiateAsync(HiddenHazard, GameObject.Find("Hazardz").transform).Completed += _ => {
-				HiddenHazard.transform.position = transform.position;
-			};
+			HiddenHazard.spriteRenderer.enabled = true;
+			HiddenHazard.circleCollider2D.isTrigger = true;
+			HiddenHazard.enabled = true;
+
+			HiddenHazard.OnRevealed();
+		}
+
+		if (HiddenSwitch != null) {
+			HiddenSwitch.spriteRenderer.enabled = true;
+			HiddenSwitch.circleCollider2D.isTrigger = true;
+			HiddenSwitch.enabled = true;
 		}
 	}
 	#endregion
@@ -47,12 +58,13 @@ public class Hole : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	}
 
 	public async void Interact() {
-		Animancer.Play(dirtAnimation);
+		// Animancer.Play(dirtAnimation);
 
-		await UniTask.WaitForSeconds(0.25f);
+		await UniTask.WaitForSeconds(0.5f);
 
 		open = !open;
-		node.isBlocked = open;
+		spriteRenderer.sprite = open ? openSprite : filledSprite;
+
 		RevealHidden(gameObject.scene.isLoaded);
 	}
 	#endregion
@@ -67,6 +79,5 @@ public class Hole : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
 	#endregion
 
-	public AnimationClip dirtAnimation;
 }
 }

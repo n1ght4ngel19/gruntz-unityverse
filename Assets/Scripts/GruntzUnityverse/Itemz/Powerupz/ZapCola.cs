@@ -3,16 +3,17 @@ using GruntzUnityverse.Itemz.Base;
 using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Powerupz {
-public class ZapCola : LevelPowerup {
+[CreateAssetMenu(fileName = "ZapCola", menuName = "Gruntz Unityverse/Powerupz/ZapCola")]
+public class ZapCola : EquippedPowerup {
 	[Range(5, 20)]
 	public int healAmount;
 
-	protected override void Activate(Grunt targetGrunt) {
-		targetGrunt.statz.health += healAmount;
-		targetGrunt.barz.healthBar.Adjust(targetGrunt.statz.health);
+	protected override void ActivateEffect(Grunt affectedGrunt) {
+		affectedGrunt.statz.health += healAmount;
+		affectedGrunt.barz.healthBar.Adjust(affectedGrunt.statz.health);
 	}
 
-	protected override void Deactivate(Grunt targetGrunt) {
+	protected override void DeactivateEffect(Grunt affectedGrunt) {
 		// Nothing to do here.
 	}
 }

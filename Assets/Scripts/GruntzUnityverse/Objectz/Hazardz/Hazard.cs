@@ -5,6 +5,7 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Hazardz {
 public class Hazard : GridObject {
 	public int damage;
+	public bool hideUnderMound;
 
 	public override void Setup() {
 		base.Setup();
@@ -24,7 +25,7 @@ public class Hazard : GridObject {
 		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
 
-		if (hole != null) {
+		if (hole != null && hideUnderMound) {
 			hole.HiddenHazard = this;
 			spriteRenderer.enabled = false;
 			circleCollider2D.isTrigger = false;

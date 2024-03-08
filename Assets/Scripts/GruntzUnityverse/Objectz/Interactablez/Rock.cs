@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz.Hazardz;
 using GruntzUnityverse.Objectz.Interfacez;
+using GruntzUnityverse.Objectz.Switchez;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
@@ -19,11 +20,12 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	[Header("IObjectHolder")]
 	[field: SerializeField] public LevelItem HeldItem { get; set; }
 	[field: SerializeField] public Hazard HiddenHazard { get; set; }
+	[field: SerializeField] public Switch HiddenSwitch { get; set; }
 
 	public void RevealHidden(bool isSceneLoaded) {
 		if (HeldItem != null) {
-			HeldItem.GetComponent<SpriteRenderer>().enabled = false;
-			HeldItem.GetComponent<CircleCollider2D>().isTrigger = false;
+			HeldItem.GetComponent<SpriteRenderer>().enabled = true;
+			HeldItem.GetComponent<CircleCollider2D>().isTrigger = true;
 		}
 
 		if (HiddenHazard != null) {
@@ -32,6 +34,12 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 			HiddenHazard.enabled = true;
 
 			HiddenHazard.OnRevealed();
+		}
+
+		if (HiddenSwitch != null) {
+			HiddenSwitch.spriteRenderer.enabled = true;
+			HiddenSwitch.circleCollider2D.isTrigger = true;
+			HiddenSwitch.enabled = true;
 		}
 	}
 	#endregion

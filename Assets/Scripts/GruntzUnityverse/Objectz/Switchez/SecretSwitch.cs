@@ -11,7 +11,7 @@ public class SecretSwitch : Switch {
 	public override void Setup() {
 		base.Setup();
 
-		secretObjectz = transform.parent.GetComponentsInChildren<SecretObject>(true).ToList();
+ 		secretObjectz = transform.parent.GetComponentsInChildren<SecretObject>(true).ToList();
 		secretTilez = transform.parent.GetComponentsInChildren<SecretTile>(true).ToList();
 	}
 
@@ -21,7 +21,7 @@ public class SecretSwitch : Switch {
 		DisableTrigger();
 
 		Level.Instance.levelStatz.discoveredSecretz++;
-		secretObjectz.ForEach(so => StartCoroutine(so.ToggleOn()));
+		secretObjectz.ForEach(so => StartCoroutine(so.Toggle()));
 		secretTilez.ForEach(st => StartCoroutine(st.Reveal()));
 	}
 }

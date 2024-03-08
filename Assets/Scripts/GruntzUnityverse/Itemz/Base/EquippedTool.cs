@@ -15,7 +15,7 @@ public abstract class EquippedTool : ScriptableObject {
 	public int range;
 
 	[Range(0, 5)]
-	public float moveSpeed;
+	public float toolMoveSpeed;
 
 	public AnimationPack animationPack;
 
