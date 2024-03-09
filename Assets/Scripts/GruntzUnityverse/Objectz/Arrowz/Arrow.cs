@@ -10,7 +10,6 @@ public class Arrow : GridObject {
 	public Direction direction;
 	public Node pointedNode;
 
-
 	public override void Setup() {
 		base.Setup();
 
