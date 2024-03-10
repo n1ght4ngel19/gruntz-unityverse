@@ -21,13 +21,13 @@ public static class Pathfinder {
 		}
 
 		// When the selected end node is not walkable, find a new end node if possible
-		if (!end.IsWalkable) {
+		if (!end.IsWalkable()) {
 			// When the target is right beside the start, return an empty list
 			if (start.neighbours.Contains(end)) {
 				return new List<Node>();
 			}
 
-			List<Node> freeNeighbours = end.neighbours.Where(n => n.IsWalkable).ToList();
+			List<Node> freeNeighbours = end.neighbours.Where(n => n.IsWalkable()).ToList();
 
 			if (freeNeighbours.Count == 0) {
 				return new List<Node>();
@@ -69,7 +69,7 @@ public static class Pathfinder {
 			closedSet.Add(current);
 
 			foreach (Node neighbour in current.neighbours.Where(n => n != current.parent)) {
-				if (closedSet.Contains(neighbour) || !neighbour.IsWalkable) {
+				if (closedSet.Contains(neighbour) || !neighbour.IsWalkable()) {
 					continue;
 				}
 

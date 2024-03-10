@@ -20,9 +20,7 @@ public class WarpSwitch : GridObject {
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
-			grunt.node.isReserved = false;
 			grunt.node = node;
-			node.isReserved = false;
 			grunt.transform.position = transform.position;
 
 			circleCollider2D.isTrigger = false;

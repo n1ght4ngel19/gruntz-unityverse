@@ -386,6 +386,34 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""StatzMenu"",
+            ""id"": ""615e8911-a7b7-4413-8f66-4f142e242266"",
+            ""actions"": [
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""25d1d973-535f-4da8-bec9-f1d323a84d0c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2780e3a1-a6cd-442c-b31e-74694ad5a36a"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -407,6 +435,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_GameManager_LoadStatzMenu = m_GameManager.FindAction("LoadStatzMenu", throwIfNotFound: true);
         m_GameManager_SwitchLocale = m_GameManager.FindAction("SwitchLocale", throwIfNotFound: true);
         m_GameManager_ChangeGameSpeed = m_GameManager.FindAction("ChangeGameSpeed", throwIfNotFound: true);
+        // StatzMenu
+        m_StatzMenu = asset.FindActionMap("StatzMenu", throwIfNotFound: true);
+        m_StatzMenu_Escape = m_StatzMenu.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -644,6 +675,52 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         }
     }
     public GameManagerActions @GameManager => new GameManagerActions(this);
+
+    // StatzMenu
+    private readonly InputActionMap m_StatzMenu;
+    private List<IStatzMenuActions> m_StatzMenuActionsCallbackInterfaces = new List<IStatzMenuActions>();
+    private readonly InputAction m_StatzMenu_Escape;
+    public struct StatzMenuActions
+    {
+        private @GameActions m_Wrapper;
+        public StatzMenuActions(@GameActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Escape => m_Wrapper.m_StatzMenu_Escape;
+        public InputActionMap Get() { return m_Wrapper.m_StatzMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(StatzMenuActions set) { return set.Get(); }
+        public void AddCallbacks(IStatzMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_StatzMenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StatzMenuActionsCallbackInterfaces.Add(instance);
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
+        }
+
+        private void UnregisterCallbacks(IStatzMenuActions instance)
+        {
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
+        }
+
+        public void RemoveCallbacks(IStatzMenuActions instance)
+        {
+            if (m_Wrapper.m_StatzMenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IStatzMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_StatzMenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_StatzMenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public StatzMenuActions @StatzMenu => new StatzMenuActions(this);
     public interface IInGameActions
     {
         void OnSelect(InputAction.CallbackContext context);
@@ -662,5 +739,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         void OnLoadStatzMenu(InputAction.CallbackContext context);
         void OnSwitchLocale(InputAction.CallbackContext context);
         void OnChangeGameSpeed(InputAction.CallbackContext context);
+    }
+    public interface IStatzMenuActions
+    {
+        void OnEscape(InputAction.CallbackContext context);
     }
 }

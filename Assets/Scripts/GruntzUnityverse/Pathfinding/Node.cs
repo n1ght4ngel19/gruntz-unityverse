@@ -89,7 +89,7 @@ public class Node : MonoBehaviour {
 	/// <summary>
 	/// If true, this NodeV2 is reserved by an actor for its next move.
 	/// </summary>
-	public bool isReserved;
+	public Grunt ReservedBy => GameManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.node == this || grunt.next == this);
 
 	/// <summary>
 	/// If true, this NodeV2 is blocked by a wall or other obstacle.
@@ -103,22 +103,22 @@ public class Node : MonoBehaviour {
 	/// <summary>
 	/// If true, this NodeV2 is walkable. This combines the 'occupied' and 'blocked' flags.
 	/// </summary>
-	public bool IsWalkable {
-		get => !IsOccupied && !isBlocked && !isWater && !isFire && !isVoid && !isReserved;
-	}
+	// public bool IsWalkable {
+	// 	get => !IsOccupied && !isBlocked && !isWater && !isFire && !isVoid && !reservedBy;
+	// }
 
 	/// <summary>
 	/// If true, this NodeV2 is walkable with a Toob equipped.
 	/// </summary>
 	public bool IsWalkableWithToob {
-		get => !IsOccupied && !isBlocked && !isFire && !isVoid && !isReserved;
+		get => !IsOccupied && !isBlocked && !isFire && !isVoid && !ReservedBy;
 	}
 
 	/// <summary>
 	/// If true, this NodeV2 is walkable with Wingz equipped.
 	/// </summary>
 	public bool IsWalkableWithWingz {
-		get => !IsOccupied && !isReserved;
+		get => !IsOccupied && !ReservedBy;
 	}
 
 	/// <summary>
@@ -129,6 +129,10 @@ public class Node : MonoBehaviour {
 	#endregion
 
 	public TileType tileType;
+
+	public bool IsWalkable() {
+		return !IsOccupied && !isBlocked && !isWater && !isFire && !isVoid && (ReservedBy == null);
+	}
 
 	/// <summary>
 	/// Sets up this NodeV2 with the given parameters.
@@ -212,10 +216,8 @@ public class Node : MonoBehaviour {
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
-			grunt.node.isReserved = false;
 			grunt.node = this;
-			this.isReserved = false;
-			grunt.transform.position = this.transform.position;
+			grunt.transform.position = transform.position;
 
 			if (grunt.attackTarget != null) {
 				grunt.HandleActionCommand(grunt.attackTarget.node, Intent.ToAttack);

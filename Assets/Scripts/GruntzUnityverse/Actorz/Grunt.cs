@@ -30,6 +30,8 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// The name of this Grunt.
 	/// </summary>
 	[Header("Statz")]
+	public int gruntId;
+
 	public string gruntName;
 
 	public GruntColor gruntColor;
@@ -410,7 +412,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		}
 
 		// When target is unreachable, search for a new target adjacent to it
-		if (!target.IsWalkable) {
+		if (!target.IsWalkable()) {
 			if (node.neighbours.Contains(target)) {
 				travelGoal = node;
 
@@ -419,7 +421,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 				return;
 			}
 
-			List<Node> freeNeighbours = target.neighbours.Where(n => n.IsWalkable).ToList();
+			List<Node> freeNeighbours = target.neighbours.Where(n => n.IsWalkable()).ToList();
 
 			if (freeNeighbours.Count == 0) {
 				travelGoal = node;
@@ -445,11 +447,11 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		state = State.Moving;
-		next = newPath[0];
-		next.isReserved = true;
-
-		FaceTowardsNode(next);
+		if (newPath[0].ReservedBy == null) {
+			state = State.Moving;
+			next = newPath[0];
+			FaceTowardsNode(next);
+		}
 	}
 
 	private void GoToIdleIfNotActing() {

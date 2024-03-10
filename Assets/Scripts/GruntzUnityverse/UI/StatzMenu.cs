@@ -1,6 +1,7 @@
 ﻿using GruntzUnityverse.Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 namespace GruntzUnityverse.UI {
@@ -43,6 +44,12 @@ public class StatzMenu : MonoBehaviour {
 		powerupzValue.text = $"{Level.Instance.levelStatz.powerupzCollected.ToString()} OF {Level.Instance.levelStatz.maxPowerupz.ToString()}";
 		coinzValue.text = $"{Level.Instance.levelStatz.coinzCollected.ToString()} OF {Level.Instance.levelStatz.maxCoinz.ToString()}";
 		secretzValue.text = $"{Level.Instance.levelStatz.discoveredSecretz.ToString()} OF {Level.Instance.levelStatz.maxSecretz.ToString()}";
+	}
+
+	private void OnEscape() {
+		if (GetComponent<Canvas>().enabled) {
+			Addressables.LoadSceneAsync("MainMenu");
+		}
 	}
 }
 }

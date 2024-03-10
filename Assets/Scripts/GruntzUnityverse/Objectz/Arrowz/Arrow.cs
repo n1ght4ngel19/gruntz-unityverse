@@ -60,9 +60,7 @@ public class Arrow : GridObject {
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
-			grunt.node.isReserved = false;
 			grunt.node = node;
-			node.isReserved = false;
 			grunt.transform.position = transform.position;
 
 			if (node.gruntOnNode != null && node.gruntOnNode != grunt) {
@@ -72,7 +70,6 @@ public class Arrow : GridObject {
 			grunt.interactionTarget = null;
 			grunt.attackTarget = null;
 
-			grunt.next.isReserved = false;
 			grunt.travelGoal = pointedNode;
 			grunt.intent = Intent.ToMove;
 			grunt.EvaluateState();

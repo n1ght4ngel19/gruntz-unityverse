@@ -1,15 +1,14 @@
 ﻿using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.UI {
 public class LevelLoader : MonoBehaviour {
-	public SceneAsset sceneToLoad;
+	public string sceneToLoad;
 	public TMP_Text levelNameText;
 
 	public void LoadLevel() {
-		Addressables.LoadSceneAsync(sceneToLoad.name);
+		Addressables.LoadSceneAsync(sceneToLoad);
 	}
 
 	public void SetText(string toSet) {

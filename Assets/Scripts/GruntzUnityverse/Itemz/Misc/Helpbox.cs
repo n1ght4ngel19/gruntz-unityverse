@@ -15,9 +15,9 @@ public class Helpbox : LevelItem {
 	}
 
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
-		targetGrunt.Animancer.Play(pickupAnim);
 		targetGrunt.enabled = false;
-		targetGrunt.next.isReserved = false;
+
+		targetGrunt.Animancer.Play(pickupAnim);
 
 		yield return new WaitForSeconds(pickupAnim.length);
 

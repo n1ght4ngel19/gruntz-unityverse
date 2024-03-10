@@ -90,7 +90,6 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	/// </summary>
 	protected virtual IEnumerator Pickup(Grunt targetGrunt) {
 		targetGrunt.enabled = false;
-		targetGrunt.next.isReserved = false;
 
 		targetGrunt.Animancer.Play(pickupAnim);
 
