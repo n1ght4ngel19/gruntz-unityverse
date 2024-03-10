@@ -24,13 +24,11 @@ public class Helpbox : LevelItem {
 		Time.timeScale = 0f;
 
 		GameManager.Instance.helpboxUI.GetComponentInChildren<TMP_Text>().SetText(helpboxText);
-		GameManager.Instance.helpboxUI.SetActive(true);
-
-		Debug.Log(helpboxText); // Todo: Show helpbox UI
+		GameManager.Instance.helpboxUI.GetComponent<Canvas>().enabled = true;
 
 		yield return new WaitUntil(() => Time.timeScale != 0f);
 
-		GameManager.Instance.helpboxUI.SetActive(false);
+		GameManager.Instance.helpboxUI.GetComponent<Canvas>().enabled = false;
 
 		targetGrunt.enabled = true;
 		targetGrunt.intent = Intent.ToIdle;

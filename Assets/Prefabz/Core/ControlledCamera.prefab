@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2935548971612805549}
   - component: {fileID: 4214053513111726561}
+  - component: {fileID: 5574586491276305000}
+  - component: {fileID: -3279532026273284867}
   - component: {fileID: 1778873643508520302}
   m_Layer: 0
   m_Name: ControlledCamera
@@ -84,6 +86,141 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &5574586491276305000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8834142585261148110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0732f6cb4f9bf944081ce87e8fef49e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minZoom: 6
+  maxZoom: 20
+  zoomFactor: 3
+  zoomLerpSpeed: 10
+  moveRate: 2
+--- !u!114 &-3279532026273284867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8834142585261148110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: dacdceb490c394d48aa04de3a73fc45c, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 938e4eb9-b43e-431d-b5b1-17d3dd2e6cf7
+    m_ActionName: 'InGame/Select[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: af7c99b8-9b86-45ca-bb01-5dc0774151ba
+    m_ActionName: 'InGame/AdditionalSelect[/Keyboard/ctrl,/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5ca4c0ee-4de5-4645-8606-56150e570575
+    m_ActionName: 'InGame/SelectAll[/Keyboard/ctrl,/Keyboard/a]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3bc64928-1cd8-4aa5-ab40-980fb6bfa2fc
+    m_ActionName: 'InGame/Move[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ef9ea3b1-3197-4165-ae0f-9506499649b9
+    m_ActionName: 'InGame/Action[/Keyboard/shift,/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 219e16dc-18c1-4175-8859-dc5d04e44403
+    m_ActionName: 'InGame/Give[/Keyboard/alt,/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 01ecc06a-ef1f-433b-8c45-b6c43bb14896
+    m_ActionName: 'InGame/ForceIdle[/Keyboard/x]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1bd05a8e-ef76-41c2-89b3-5a80a4480a63
+    m_ActionName: 'InGame/SaveGame[/Keyboard/f5]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fb69b610-44ff-439e-af18-f6be369e3572
+    m_ActionName: 'InGame/LoadGame[/Keyboard/f9]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 217a9013-9a2f-4343-ae2a-50e9720d4543
+    m_ActionName: 'InGame/Escape[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f154a9b6-6f09-491a-b51f-6f86d282c4be
+    m_ActionName: 'GameManager/LoadStatzMenu[/Keyboard/l]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6e8c03fc-d679-46b3-a665-9aa960387f1c
+    m_ActionName: 'GameManager/SwitchLocale[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e55cb03b-b58a-49c7-9e45-4c55cd95dbab
+    m_ActionName: 'GameManager/ChangeGameSpeed[/Keyboard/g]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 25d1d973-535f-4da8-bec9-f1d323a84d0c
+    m_ActionName: 'StatzMenu/Escape[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5574586491276305000}
+        m_TargetAssemblyTypeName: GruntzUnityverse.UI.CameraMovement, GruntzUnityverse
+        m_MethodName: OnZoom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5853ef35-f2ad-47b1-a23a-2e7c8d8ca9e3
+    m_ActionName: 'Camera/Zoom[/Mouse/scroll/down,/Mouse/scroll/up]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5574586491276305000}
+        m_TargetAssemblyTypeName: GruntzUnityverse.UI.CameraMovement, GruntzUnityverse
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 430abcee-791c-4b11-b1ec-c2c0c753b774
+    m_ActionName: 'Camera/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Camera
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!114 &1778873643508520302
 MonoBehaviour:
   m_ObjectHideFlags: 0

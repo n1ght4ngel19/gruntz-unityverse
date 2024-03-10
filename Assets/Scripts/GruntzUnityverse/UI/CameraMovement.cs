@@ -1,36 +1,53 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace GruntzUnityverse.UI {
 /// <summary>
 /// Camera movement controller.
 /// </summary>
 public class CameraMovement : MonoBehaviour {
-	/// <summary>
-	/// Exposed field for being able to observe from outside if the camera's controls are disabled.
-	/// </summary>
-	public bool areControlsDisabled;
+	public GameActions gameActions;
 
 	private Camera _cameraComponent;
 	private Transform _ownTransform;
-	private const int ScrollRate = 4; // The smaller the ScrollRate, the faster the camera moves
 	private float _targetZoom;
-	private const float ZoomFactor = 3f;
-	private const float ZoomLerpSpeed = 10;
+
+	public float minZoom;
+	public float maxZoom;
+	public float zoomFactor;
+	public float zoomLerpSpeed;
+	public int moveRate;
 
 	private void Start() {
 		_cameraComponent = gameObject.GetComponent<Camera>();
 		_ownTransform = gameObject.GetComponent<Transform>();
 	}
 
-	private void Update() {
-		if (areControlsDisabled) {
-			return;
-		}
-
+	private void FixedUpdate() {
 		ScrollWithKeys();
-		ZoomWithMouse();
 	}
+
+	public void OnZoom(InputValue value) {
+		float zoom = value.Get<float>();
+
+		_targetZoom -= zoom * zoomFactor;
+		_targetZoom = Math.Clamp(_targetZoom, minZoom, maxZoom);
+
+		GetComponent<Camera>().orthographicSize = Mathf.Lerp(
+			GetComponent<Camera>().orthographicSize,
+			_targetZoom,
+			Time.deltaTime * zoomLerpSpeed
+		);
+	}
+
+	// public void OnMove(InputAction.CallbackContext ctx) {
+	// 	while (!ctx.canceled) {
+	// 		Vector2 move = ctx.ReadValue<Vector2>();
+	//
+	// 		transform.position += new Vector3(move.x, move.y, 0) / moveRate;
+	// 	}
+	// }
 
 	/// <summary>
 	/// Zooming by scrolling the mouse.
@@ -40,13 +57,13 @@ public class CameraMovement : MonoBehaviour {
 			return;
 		}
 
-		_targetZoom -= Input.GetAxis("Mouse ScrollWheel") * ZoomFactor;
+		_targetZoom -= Input.GetAxis("Mouse ScrollWheel") * zoomFactor;
 		_targetZoom = Math.Clamp(_targetZoom, 4f, 11f);
 
 		_cameraComponent.orthographicSize = Mathf.Lerp(
 			_cameraComponent.orthographicSize,
 			_targetZoom,
-			Time.deltaTime * ZoomLerpSpeed
+			Time.deltaTime * zoomLerpSpeed
 		);
 	}
 
@@ -65,7 +82,7 @@ public class CameraMovement : MonoBehaviour {
 		float camHalfWidth = orthographicSize * _cameraComponent.aspect;
 
 		// bool reachedBottom = currentPosition.y - orthographicSize / 2
-		//   <= GameManager.Instance.currentLevelManager.MinMapPoint.y + 0.25;
+		//   <= Level.Instance.MinMapPoint.y + 0.25;
 		//
 		// bool reachedTop = currentPosition.y + orthographicSize / 2
 		//   >= GameManager.Instance.currentLevelManager.MaxMapPoint.y - 0.25;
@@ -76,21 +93,23 @@ public class CameraMovement : MonoBehaviour {
 		// bool reachedRightSide = currentPosition.x + camHalfWidth
 		//   >= GameManager.Instance.currentLevelManager.MaxMapPoint.x - 0.25;
 
+		transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) / moveRate;
+
 
 		// if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reachedTop) {
-		//   _cameraComponent.transform.position += Vector3.up / ScrollRate;
+		// 	_cameraComponent.transform.position += Vector3.up / ScrollRate;
 		// }
 		//
 		// if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reachedBottom) {
-		//   _cameraComponent.transform.position += Vector3.down / ScrollRate;
+		// 	_cameraComponent.transform.position += Vector3.down / ScrollRate;
 		// }
 		//
 		// if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reachedLeftSide) {
-		//   _cameraComponent.transform.position += Vector3.left / ScrollRate;
+		// 	_cameraComponent.transform.position += Vector3.left / ScrollRate;
 		// }
 		//
 		// if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reachedRightSide) {
-		//   _cameraComponent.transform.position += Vector3.right / ScrollRate;
+		// 	_cameraComponent.transform.position += Vector3.right / ScrollRate;
 		// }
 	}
 }

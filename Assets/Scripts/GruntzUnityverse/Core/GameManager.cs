@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour {
 	[Header("Gruntz")]
 	public List<Grunt> allGruntz;
 
+	public Grunt[] playerGruntz;
+
 	/// <summary>
 	/// The Gruntz currently selected by the player.
 	/// </summary>
@@ -58,7 +60,9 @@ public class GameManager : MonoBehaviour {
 		Application.targetFrameRate = 60;
 		UnityEngine.Cursor.visible = false;
 		FindFirstObjectByType<Cursor>().enabled = true;
+		Debug.Log(playerGruntz.Length);
 	}
+	
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		if (scene.name is "MainMenu" or "StatzMenu") {
@@ -114,6 +118,10 @@ public class GameManagerEditor : UnityEditor.Editor {
 			level.Initialize();
 
 			gameManager.allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
+
+			gameManager.playerGruntz = gameManager.allGruntz
+				.Where(grunt => !grunt.CompareTag("Dizgruntled"))
+				.ToArray();
 
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 			FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)

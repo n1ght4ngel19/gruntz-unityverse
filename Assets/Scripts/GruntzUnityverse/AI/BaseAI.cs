@@ -1,15 +1,15 @@
-﻿using System.Linq;
-using GruntzUnityverse.Actorz;
+﻿using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Editor.PropertyDrawers;
 using UnityEngine;
 
 namespace GruntzUnityverse.AI {
-public class BaseAI : MonoBehaviour {
+public abstract class BaseAI : MonoBehaviour {
 	[HideInNormalInspector]
 	public Grunt self;
 
 	public Post post;
+
 	public Grunt target;
 
 	private void Start() {
@@ -22,21 +22,7 @@ public class BaseAI : MonoBehaviour {
 	/// <para/>
 	/// <b>To be overridden by subclasses.</b>
 	/// </summary>
-	public void DecideAttack() {
-		if (target != null) {
-			return;
-		}
-
-		if (post.spottedEnemiez.Count == 0) {
-			ReturnToPost();
-
-			return;
-		}
-
-		target = post.spottedEnemiez.First(); // Todo: Make this smarter (e.g. closest, weakest, etc.)
-		self.attackTarget = target;
-		self.HandleActionCommand(target.node, Intent.ToAttack);
-	}
+	public abstract void DecideAttack();
 
 	public void ReturnToPost() {
 		target = null;

@@ -11,6 +11,7 @@ public class ZapCola : EquippedPowerup {
 	protected override void ActivateEffect(Grunt affectedGrunt) {
 		affectedGrunt.statz.health += healAmount;
 		affectedGrunt.barz.healthBar.Adjust(affectedGrunt.statz.health);
+		affectedGrunt.gruntEntry.SetHealth(affectedGrunt.statz.health);
 	}
 
 	protected override void DeactivateEffect(Grunt affectedGrunt) {

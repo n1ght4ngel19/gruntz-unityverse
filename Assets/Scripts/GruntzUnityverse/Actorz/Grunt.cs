@@ -17,6 +17,7 @@ using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Objectz.Secretz;
 using GruntzUnityverse.Pathfinding;
+using GruntzUnityverse.UI;
 using GruntzUnityverse.Utils.Extensionz;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -147,6 +148,15 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	#endregion
 
 	// --------------------------------------------------
+	// UI
+	// --------------------------------------------------
+
+	#region UI
+	[Header("UI")]
+	public GruntEntry gruntEntry;
+	#endregion
+
+	// --------------------------------------------------
 	// Eventz
 	// --------------------------------------------------
 
@@ -190,6 +200,26 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	}
 
 	private void Start() {
+		if (!gameObject.CompareTag("Dizgruntled")) {
+			gruntId = GameManager.Instance.playerGruntz.ToList().IndexOf(this) + 1;
+
+			gruntEntry = FindObjectsByType<GruntEntry>(FindObjectsSortMode.None)
+				.First(entry => entry.EntryId == gruntId);
+
+			gruntEntry.SetHealth(statz.health);
+			gruntEntry.SetStamina(statz.stamina);
+
+			Debug.Log(gruntEntry.name);
+
+			if (equippedTool != null) {
+				gruntEntry.SetTool(equippedTool.toolName.Replace(" ", ""));
+			}
+
+			if (equippedToy != null) {
+				gruntEntry.SetToy(equippedToy.toyName.Replace(" ", ""));
+			}
+		}
+
 		node = Level.Instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
 
 		Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
@@ -592,6 +622,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		statz.stamina++;
 		barz.staminaBar.Adjust(statz.stamina);
+		gruntEntry.SetStamina(statz.stamina);
 	}
 
 	public void DrainStamina() {
@@ -647,6 +678,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	private void TakeDamage(int damage) {
 		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MaxValue);
 		barz.healthBar.Adjust(statz.health);
+		gruntEntry.SetHealth(statz.health);
 
 		if (statz.health <= 0) {
 			onDeath.Invoke();
@@ -656,7 +688,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// <summary>
 	/// Kills the Grunt. (duh)
 	/// </summary>
-	public async void Die(bool leavePuddle = true, bool playBelow = true) {
+	public async void Die() {
 		enabled = false;
 
 		CancelInvoke(nameof(RegenerateStamina));
@@ -671,6 +703,14 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		spriteRenderer.sortingOrder = 0;
 
 		await Animancer.Play(animationPack.deathAnimation);
+
+		gruntEntry.SetHealth(0);
+		gruntEntry.SetStamina(0);
+		gruntEntry.headSlot.sprite = gruntEntry.blankSlotIcon;
+		gruntEntry.toolSlot.sprite = gruntEntry.blankSlotIcon;
+		gruntEntry.toySlot.sprite = gruntEntry.blankSlotIcon;
+		gruntEntry.powerupSlot.sprite = gruntEntry.blankSlotIcon;
+		gruntEntry.healSlot.sprite = gruntEntry.blankSlotIcon;
 
 		spriteRenderer.enabled = false;
 		GameManager.Instance.allGruntz.Remove(this);
