@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour {
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
 		Application.targetFrameRate = 60;
+		UnityEngine.Cursor.visible = false;
+		FindFirstObjectByType<Cursor>().enabled = true;
 	}
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
