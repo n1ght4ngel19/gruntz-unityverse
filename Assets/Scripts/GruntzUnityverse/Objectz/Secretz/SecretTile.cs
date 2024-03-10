@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
-using GruntzUnityverse.Core;
+using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Secretz {
@@ -13,8 +13,14 @@ public class SecretTile : GridObject {
 	private bool _initiallyFire;
 	private bool _initiallyVoid;
 
-	protected override void Start() {
-		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
+	public override void Setup() {
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		circleCollider2D = GetComponent<CircleCollider2D>();
+		location2D = Vector2Int.RoundToInt(transform.position);
+
+		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
+			.First(n => Vector2Int.RoundToInt(n.transform.position) == Vector2Int.RoundToInt(transform.position));
+
 		_initiallyBlocked = node.isBlocked;
 		_initiallyWater = node.isWater;
 		_initiallyFire = node.isFire;
@@ -22,6 +28,8 @@ public class SecretTile : GridObject {
 	}
 
 	public IEnumerator Reveal() {
+		Setup();
+
 		yield return new WaitForSeconds(delay);
 
 		gameObject.SetActive(true);

@@ -16,7 +16,6 @@ public class SecretObject : MonoBehaviour {
 			yield break;
 		}
 
-
 		if (!gameObject.activeSelf) {
 			Node node = Level.Instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
 			bool initiallyBlocked = node.isBlocked;

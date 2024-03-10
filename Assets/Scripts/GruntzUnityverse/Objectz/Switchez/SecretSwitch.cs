@@ -11,8 +11,9 @@ public class SecretSwitch : Switch {
 	public override void Setup() {
 		base.Setup();
 
- 		secretObjectz = transform.parent.GetComponentsInChildren<SecretObject>(true).ToList();
+		secretObjectz = transform.parent.GetComponentsInChildren<SecretObject>(true).ToList();
 		secretTilez = transform.parent.GetComponentsInChildren<SecretTile>(true).ToList();
+		// secretTilez.ForEach(st => st.Setup());
 	}
 
 	public override void ToggleOn() {

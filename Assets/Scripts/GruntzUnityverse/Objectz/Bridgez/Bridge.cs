@@ -10,7 +10,7 @@ public class Bridge : GridObject, IToggleable {
 	public override void Setup() {
 		base.Setup();
 
-		node.isWater = false;
+		node.isWater = actAsWater;
 	}
 
 	#region IToggleable

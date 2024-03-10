@@ -13,6 +13,7 @@ using GruntzUnityverse.DataPersistence;
 using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Objectz.Secretz;
 using GruntzUnityverse.Pathfinding;
@@ -357,7 +358,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 				switch (intent) {
 					case Intent.ToInteract:
 						state = State.Interacting;
-						Interact(interactionTarget);
+						StartCoroutine(Interact(interactionTarget));
 
 						return;
 					case Intent.ToAttack:
@@ -376,7 +377,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 					return;
 				case Intent.ToInteract:
 					state = State.Interacting;
-					Interact(interactionTarget);
+					StartCoroutine(Interact(interactionTarget));
 
 					return;
 				case Intent.ToAttack:
@@ -412,7 +413,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		}
 
 		// When target is unreachable, search for a new target adjacent to it
-		if (!target.IsWalkable()) {
+		if (!target.IsWalkable() || (interactionTarget != null && interactionTarget.node == target)) {
 			if (node.neighbours.Contains(target)) {
 				travelGoal = node;
 
@@ -462,12 +463,12 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		EvaluateState(whenFalse: BetweenNodes);
 	}
 
-	private async void Interact(GridObject target) {
+	private IEnumerator Interact(GridObject target) {
 		if (!InRange(target.node)) {
 			travelGoal = target.node;
 			EvaluateState(whenFalse: BetweenNodes);
 
-			return;
+			yield break;
 		}
 
 		if (statz.stamina < Statz.MaxValue) {
@@ -477,26 +478,54 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			intent = Intent.ToInteract;
 			EvaluateState(whenFalse: BetweenNodes);
 
-			return;
+			yield break;
 		}
 
 		FaceTowardsNode(target.node);
 
-		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
-		Animancer.Play(toPlay);
-
 		committed = true;
-		await UniTask.WaitForSeconds(toPlay.length / 2);
 
-		((IInteractable)interactionTarget).Interact();
+		if (target is Rock rock) {
+			yield return BreakRock(rock);
+		} else if (target is Hole hole) {
+			yield return Dig(hole);
+		}
 
-		await UniTask.WaitForSeconds(toPlay.length / 2);
 		committed = false;
 
 		DrainStamina();
 
 		intent = Intent.ToIdle;
 		EvaluateState(whenFalse: BetweenNodes);
+	}
+
+	private IEnumerator Dig(Hole toDig) {
+		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
+
+		toDig.dirt.GetComponent<AnimancerComponent>().Play(AnimationManager.Instance.dirtEffect);
+		Animancer.Play(toPlay);
+
+		yield return new WaitForSeconds(toPlay.length * 1.5f);
+
+		toDig.Interact();
+
+		yield return new WaitForSeconds(toPlay.length * 0.5f);
+
+		interactionTarget = null;
+	}
+
+	private IEnumerator BreakRock(Rock toBreak) {
+		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
+
+		Animancer.Play(toPlay);
+
+		yield return new WaitForSeconds(toPlay.length / 2);
+
+		toBreak.Interact();
+
+		yield return new WaitForSeconds(toPlay.length / 2);
+
+		interactionTarget = null;
 	}
 
 	private async void Attack(Grunt target) {
@@ -627,7 +656,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// <summary>
 	/// Kills the Grunt. (duh)
 	/// </summary>
-	public async void Die() {
+	public async void Die(bool leavePuddle = true, bool playBelow = true) {
 		enabled = false;
 
 		CancelInvoke(nameof(RegenerateStamina));
@@ -637,6 +666,9 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
 			puddle.transform.position = transform.position;
 		};
+
+		spriteRenderer.sortingLayerName = "AlwaysBottom";
+		spriteRenderer.sortingOrder = 0;
 
 		await Animancer.Play(animationPack.deathAnimation);
 
@@ -654,8 +686,6 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		CancelInvoke(nameof(RegenerateStamina));
 		DeactivateBarz();
-
-		switch (toPlay) { }
 
 		if (leavePuddle) {
 			Addressables.InstantiateAsync($"GruntPuddle_{gruntColor.ToString()}.prefab", GameObject.Find("Puddlez").transform).Completed += handle => {

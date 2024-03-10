@@ -1,18 +1,21 @@
 ﻿using System.Collections.Generic;
 using Animancer;
 using Cysharp.Threading.Tasks;
+using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Core;
 using GruntzUnityverse.Itemz.Base;
+using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.Objectz.Hazardz;
 using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Objectz.Switchez;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
 public class Hole : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	public bool open;
 	public Sprite openSprite;
 	public Sprite filledSprite;
+	public GameObject dirt;
 
 	// --------------------------------------------------
 	// IObjectHolder
@@ -58,12 +61,11 @@ public class Hole : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	}
 
 	public async void Interact() {
-		// Animancer.Play(dirtAnimation);
-
 		await UniTask.WaitForSeconds(0.5f);
 
 		open = !open;
-		spriteRenderer.sprite = open ? openSprite : filledSprite;
+		spriteRenderer.sprite = spriteRenderer.sprite == openSprite ? filledSprite : openSprite;
+		dirt.GetComponent<AnimancerComponent>().Stop();
 
 		RevealHidden(gameObject.scene.isLoaded);
 	}
@@ -79,5 +81,14 @@ public class Hole : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
 	#endregion
 
+	private void OnTriggerEnter2D(Collider2D other) {
+		if (other.TryGetComponent(out Grunt grunt)) {
+			Debug.Log("Grunt collision");
+			
+			if (open && grunt.equippedTool is not Wingz) {
+				grunt.Die(AnimationManager.Instance.holeDeathAnimation, leavePuddle: false, playBelow: false);
+			}
+		}
+	}
 }
 }
