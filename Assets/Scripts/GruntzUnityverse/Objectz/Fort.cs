@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
+using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.UI;
 using UnityEngine;
 
@@ -13,11 +14,7 @@ public class Fort : MonoBehaviour {
 			return;
 		}
 
-		Debug.Log("Colliding with Grunt");
-
-		if (grunt.equippedTool.toolName == "Warpstone") {
-			Debug.Log("Colliding with Warpstone Grunt");
-
+		if (grunt.equippedTool is Warpstone) {
 			FindObjectsByType<Grunt>(FindObjectsSortMode.None)
 				.Where(g => g.CompareTag("Dizgruntled"))
 				.ToList()

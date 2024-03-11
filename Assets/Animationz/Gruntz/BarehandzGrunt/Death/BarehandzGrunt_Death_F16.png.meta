@@ -3,7 +3,7 @@ guid: d2614646e8956894aba656affb6cd159
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -450,25 +469,24 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BarehandzGrunt_Death_F16_8: -1444542018
-      BarehandzGrunt_Death_F16_2: 2112038974
-      BarehandzGrunt_Death_F16_14: -746356993
-      BarehandzGrunt_Death_F16_9: 1676545396
-      BarehandzGrunt_Death_F16_4: -1912894967
-      BarehandzGrunt_Death_F16_1: -1723027651
-      BarehandzGrunt_Death_F16_13: 1257185426
-      BarehandzGrunt_Death_F16_3: 1434330081
-      BarehandzGrunt_Death_F16_6: 2075919108
-      BarehandzGrunt_Death_F16_5: -1238142786
-      BarehandzGrunt_Death_F16_10: 1521839330
-      BarehandzGrunt_Death_F16_12: -1301207021
-      BarehandzGrunt_Death_F16_15: 1544903436
-      BarehandzGrunt_Death_F16_11: -150852034
-      BarehandzGrunt_Death_F16_7: -1892702203
       BarehandzGrunt_Death_F16_0: -325688254
-  spritePackingTag: 
+      BarehandzGrunt_Death_F16_1: -1723027651
+      BarehandzGrunt_Death_F16_10: 1521839330
+      BarehandzGrunt_Death_F16_11: -150852034
+      BarehandzGrunt_Death_F16_12: -1301207021
+      BarehandzGrunt_Death_F16_13: 1257185426
+      BarehandzGrunt_Death_F16_14: -746356993
+      BarehandzGrunt_Death_F16_15: 1544903436
+      BarehandzGrunt_Death_F16_2: 2112038974
+      BarehandzGrunt_Death_F16_3: 1434330081
+      BarehandzGrunt_Death_F16_4: -1912894967
+      BarehandzGrunt_Death_F16_5: -1238142786
+      BarehandzGrunt_Death_F16_6: 2075919108
+      BarehandzGrunt_Death_F16_7: -1892702203
+      BarehandzGrunt_Death_F16_8: -1444542018
+      BarehandzGrunt_Death_F16_9: 1676545396
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

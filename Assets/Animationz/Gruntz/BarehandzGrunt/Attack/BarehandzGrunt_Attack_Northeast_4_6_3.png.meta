@@ -3,7 +3,7 @@ guid: 79bb90398e9c17541b5b1bdfdffb9b11
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -387,22 +406,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BarehandzGrunt_Attack_Northeast_4_6_3_2: -620455182
+      BarehandzGrunt_Attack_Northeast_4_6_3_0: -983142769
       BarehandzGrunt_Attack_Northeast_4_6_3_1: 615349063
       BarehandzGrunt_Attack_Northeast_4_6_3_10: 581163882
-      BarehandzGrunt_Attack_Northeast_4_6_3_12: -455500757
-      BarehandzGrunt_Attack_Northeast_4_6_3_6: 1656598683
-      BarehandzGrunt_Attack_Northeast_4_6_3_5: -1043312823
-      BarehandzGrunt_Attack_Northeast_4_6_3_4: -987278839
-      BarehandzGrunt_Attack_Northeast_4_6_3_9: 596505489
-      BarehandzGrunt_Attack_Northeast_4_6_3_0: -983142769
       BarehandzGrunt_Attack_Northeast_4_6_3_11: 225595198
+      BarehandzGrunt_Attack_Northeast_4_6_3_12: -455500757
+      BarehandzGrunt_Attack_Northeast_4_6_3_2: -620455182
+      BarehandzGrunt_Attack_Northeast_4_6_3_3: -790915447
+      BarehandzGrunt_Attack_Northeast_4_6_3_4: -987278839
+      BarehandzGrunt_Attack_Northeast_4_6_3_5: -1043312823
+      BarehandzGrunt_Attack_Northeast_4_6_3_6: 1656598683
       BarehandzGrunt_Attack_Northeast_4_6_3_7: 1070433822
       BarehandzGrunt_Attack_Northeast_4_6_3_8: -29049827
-      BarehandzGrunt_Attack_Northeast_4_6_3_3: -790915447
-  spritePackingTag: 
+      BarehandzGrunt_Attack_Northeast_4_6_3_9: 596505489
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

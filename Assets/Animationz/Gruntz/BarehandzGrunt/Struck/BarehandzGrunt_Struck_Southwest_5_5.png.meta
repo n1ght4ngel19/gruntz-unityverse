@@ -3,7 +3,7 @@ guid: 3a5aec99f372bfd4bacd87cd48857593
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -324,19 +343,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BarehandzGrunt_Struck_Southwest_5_5_8: 809595241
-      BarehandzGrunt_Struck_Southwest_5_5_4: 1798130020
-      BarehandzGrunt_Struck_Southwest_5_5_2: -1542055175
-      BarehandzGrunt_Struck_Southwest_5_5_1: 740817738
-      BarehandzGrunt_Struck_Southwest_5_5_3: -952197454
-      BarehandzGrunt_Struck_Southwest_5_5_6: -1354903740
       BarehandzGrunt_Struck_Southwest_5_5_0: 770957064
-      BarehandzGrunt_Struck_Southwest_5_5_7: 289316164
-      BarehandzGrunt_Struck_Southwest_5_5_9: -101172089
+      BarehandzGrunt_Struck_Southwest_5_5_1: 740817738
+      BarehandzGrunt_Struck_Southwest_5_5_2: -1542055175
+      BarehandzGrunt_Struck_Southwest_5_5_3: -952197454
+      BarehandzGrunt_Struck_Southwest_5_5_4: 1798130020
       BarehandzGrunt_Struck_Southwest_5_5_5: 102625366
-  spritePackingTag: 
+      BarehandzGrunt_Struck_Southwest_5_5_6: -1354903740
+      BarehandzGrunt_Struck_Southwest_5_5_7: 289316164
+      BarehandzGrunt_Struck_Southwest_5_5_8: 809595241
+      BarehandzGrunt_Struck_Southwest_5_5_9: -101172089
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

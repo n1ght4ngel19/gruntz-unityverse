@@ -18,7 +18,7 @@ namespace KevinCastejon.AnimationGenerator
             _length = 1;
             _loop = true;
             _autoFramerate = true;
-            _frameRate = 60;
+            _frameRate = 16;
         }
 
         internal string Name { get => _name; }
