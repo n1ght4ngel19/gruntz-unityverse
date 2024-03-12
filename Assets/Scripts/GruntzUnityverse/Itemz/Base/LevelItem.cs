@@ -31,14 +31,6 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	/// </summary>
 	public AnimationClip pickupAnim;
 
-	/// <summary>
-	/// The animation pack set for the Grunt picking up the item.
-	/// </summary>
-	public AnimationPack animationPack;
-
-	public Node node;
-	public Vector2Int location2D;
-
 	public bool hideUnderMound;
 
 	// --------------------------------------------------
@@ -51,11 +43,6 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 	#endregion
 
 	public void Setup() {
-		location2D = Vector2Int.RoundToInt(transform.position);
-		node = FindObjectsByType<Node>(FindObjectsSortMode.None).First(n => n.location2D == location2D);
-		// Disable node's trigger so that the object's behaviour/effect doesn't clash with the node's effect
-		node.circleCollider2D.isTrigger = false;
-
 		Rock rock = FindObjectsByType<Rock>(FindObjectsSortMode.None)
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
 

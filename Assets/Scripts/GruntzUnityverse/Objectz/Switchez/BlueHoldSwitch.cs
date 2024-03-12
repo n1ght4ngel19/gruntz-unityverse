@@ -17,8 +17,8 @@ public class BlueHoldSwitch : Switch {
 		bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
 	}
 
-	protected override IEnumerator OnTriggerEnter2D(Collider2D other) {
-		yield return base.OnTriggerEnter2D(other);
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		base.OnTriggerEnter2D(other);
 
 		bridgez.ForEach(bridge => bridge.Toggle());
 	}

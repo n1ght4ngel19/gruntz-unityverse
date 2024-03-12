@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
@@ -9,11 +10,13 @@ public abstract class GridObject : MonoBehaviour {
 	/// Represents whether this GridObject behaves like an obstacle.
 	/// </summary>
 	[Header("Flags")]
-	public bool actAsObstacle;
+	public bool isObstacle;
 
-	public bool actAsWater;
-	public bool actAsFire;
-	public bool actAsVoid;
+	public bool isWater;
+
+	public bool isFire;
+
+	public bool isVoid;
 
 	/// <summary>
 	/// The location of this GridObject in 2D space.
@@ -29,14 +32,14 @@ public abstract class GridObject : MonoBehaviour {
 	/// <summary>
 	/// The SpriteRenderer of this GridObject.
 	/// </summary>
+	[HideInNormalInspector]
 	public SpriteRenderer spriteRenderer;
 
 	/// <summary>
 	/// The collider used for checking interactions with this GridObject.
 	/// </summary>
+	[HideInNormalInspector]
 	public CircleCollider2D circleCollider2D;
-
-	protected virtual void Start() { }
 
 	public virtual void Setup() {
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -46,17 +49,17 @@ public abstract class GridObject : MonoBehaviour {
 		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
 			.First(n => Vector2Int.RoundToInt(n.transform.position) == Vector2Int.RoundToInt(transform.position));
 
-		node.isBlocked = actAsObstacle || node.isBlocked;
-		node.isWater = actAsWater || node.isWater;
-		node.isFire = actAsFire || node.isFire;
-		node.isVoid = actAsVoid || node.isVoid;
+		node.isBlocked = isObstacle || node.isBlocked;
+		node.isWater = isWater || node.isWater;
+		node.isFire = isFire || node.isFire;
+		node.isVoid = isVoid || node.isVoid;
 	}
 
 	public virtual void Dismantle() {
-		node.isBlocked = actAsObstacle;
-		node.isWater = actAsWater;
-		node.isFire = actAsFire;
-		node.isVoid = actAsVoid;
+		node.isBlocked = isObstacle;
+		node.isWater = isWater;
+		node.isFire = isFire;
+		node.isVoid = isVoid;
 	}
 
 	/// <summary>
@@ -92,7 +95,7 @@ public abstract class GridObject : MonoBehaviour {
 			return;
 		}
 
-		node.isBlocked = actAsObstacle ? false : node.isBlocked;
+		node.isBlocked = isObstacle ? false : node.isBlocked;
 	}
 }
 

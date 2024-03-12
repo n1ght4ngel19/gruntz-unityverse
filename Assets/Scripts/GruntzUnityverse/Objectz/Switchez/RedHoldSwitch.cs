@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
 public class RedHoldSwitch : Switch {
-	protected override IEnumerator OnTriggerEnter2D(Collider2D other) {
-		yield return base.OnTriggerEnter2D(other);
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		base.OnTriggerEnter2D(other);
 
 		FindObjectsByType<RedPyramid>(FindObjectsSortMode.None)
 			.ToList()

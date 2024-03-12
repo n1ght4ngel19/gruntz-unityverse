@@ -1,15 +1,17 @@
-﻿using System.Security.Cryptography;
-using Animancer;
+﻿using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Objectz.Interfacez;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Bridgez {
-public class CrumbleBridge : GridObject, IAnimatable {
+public class CrumbleBridge : GridObject {
 	public bool isDeathBridge;
+
 	public int crumbleDelay;
-	[field: SerializeField] public AnimationClip CrumbleAnim { get; set; }
+
+	public AnimationClip crumbleAnim;
+	public AnimancerComponent animancer;
+
 
 	public override void Setup() {
 		base.Setup();
@@ -17,24 +19,22 @@ public class CrumbleBridge : GridObject, IAnimatable {
 		node.isWater = false;
 	}
 
-	// --------------------------------------------------
-	// IAnimatable
-	// --------------------------------------------------
-	[field: SerializeField] public Animator Animator { get; set; }
-	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
+
+
 
 	private async void OnTriggerEnter2D(Collider2D other) {
-		if (!other.TryGetComponent(out Grunt grunt)) {
+		if (!other.TryGetComponent(out Grunt _) && !other.TryGetComponent(out RollingBall _)) {
 			return;
 		}
 
 		await UniTask.WaitForSeconds(crumbleDelay);
 
-		await Animancer.Play(CrumbleAnim);
+		animancer.Play(crumbleAnim);
+		await UniTask.WaitForSeconds(crumbleAnim.length);
 
 		node.isWater = true;
 
-		// Allow some time for node to change state  
+		// ? Allow some time for node to change state  
 		await UniTask.WaitForSeconds(0.5f);
 
 		Destroy(gameObject);

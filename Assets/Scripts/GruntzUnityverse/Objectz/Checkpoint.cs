@@ -16,12 +16,7 @@ public class Checkpoint : MonoBehaviour {
 			return;
 		}
 
-		Debug.Log("Checkpoint cleared!");
-
-		switchez.ForEach(sw => sw.DisableTrigger());
-		pyramidz.ForEach(pyramid => pyramid.Toggle());
 		flagz.ForEach(flag => flag.PlayAnim());
-
 		enabled = false;
 	}
 

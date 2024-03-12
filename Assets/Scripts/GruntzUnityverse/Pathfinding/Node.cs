@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Core;
@@ -99,13 +101,6 @@ public class Node : MonoBehaviour {
 	public bool isWater;
 	public bool isFire;
 	public bool isVoid;
-
-	/// <summary>
-	/// If true, this NodeV2 is walkable. This combines the 'occupied' and 'blocked' flags.
-	/// </summary>
-	// public bool IsWalkable {
-	// 	get => !IsOccupied && !isBlocked && !isWater && !isFire && !isVoid && !reservedBy;
-	// }
 
 	/// <summary>
 	/// If true, this NodeV2 is walkable with a Toob equipped.
@@ -214,10 +209,15 @@ public class Node : MonoBehaviour {
 		};
 	}
 
-	private void OnTriggerEnter2D(Collider2D other) {
+	private async void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
+			if (gruntOnNode != null && gruntOnNode != grunt) {
+				gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			}
+
 			grunt.node = this;
 			grunt.transform.position = transform.position;
+			gruntOnNode = grunt;
 
 			if (grunt.attackTarget != null) {
 				grunt.HandleActionCommand(grunt.attackTarget.node, Intent.ToAttack);
@@ -226,14 +226,24 @@ public class Node : MonoBehaviour {
 			}
 
 			grunt.EvaluateState();
-
-			gruntOnNode = grunt;
 		}
 
-		// if (other.TryGetComponent(out RollingBall ball)) {
-		// 	
-		// }
-	}
+		if (other.TryGetComponent(out RollingBall ball)) {
+			ball.node = this;
+			ball.transform.position = transform.position;
+			ball.next = neighbourSet.NeighbourInDirection(ball.direction);
 
+			if (isWater) {
+				ball.enabled = false;
+				await ball.Animancer.Play(ball.sinkAnim);
+
+				Destroy(ball.gameObject);
+			}
+
+			if (gruntOnNode != null) {
+				gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			}
+		}
+	}
 }
 }

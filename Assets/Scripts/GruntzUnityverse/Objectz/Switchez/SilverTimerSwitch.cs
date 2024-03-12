@@ -14,8 +14,8 @@ public class SilverTimerSwitch : Switch {
 		pyramidz = transform.parent.GetComponentsInChildren<SilverPyramid>().ToList();
 	}
 
-	protected override IEnumerator OnTriggerEnter2D(Collider2D other) {
-		yield return base.OnTriggerEnter2D(other);
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		base.OnTriggerEnter2D(other);
 
 		pyramidz.ForEach(pyramid => pyramid.Toggle());
 	}

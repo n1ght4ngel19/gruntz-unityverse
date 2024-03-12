@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GruntzUnityverse.Animation;
 using GruntzUnityverse.Utils.Extensionz;
 
 namespace GruntzUnityverse.Pathfinding {
@@ -26,6 +27,20 @@ public struct NeighbourSet {
 		list.CheckNullAdd(upLeft);
 
 		return list;
+	}
+
+	public Node NeighbourInDirection(Direction direction) {
+		return direction switch {
+			Direction.Up => up,
+			Direction.UpRight => upRight,
+			Direction.Right => right,
+			Direction.DownRight => downRight,
+			Direction.Down => down,
+			Direction.DownLeft => downLeft,
+			Direction.Left => left,
+			Direction.UpLeft => upLeft,
+			_ => null,
+		};
 	}
 }
 }

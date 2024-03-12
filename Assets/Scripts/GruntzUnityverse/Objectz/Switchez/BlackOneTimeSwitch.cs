@@ -14,8 +14,8 @@ public class BlackOneTimeSwitch : Switch {
 		pyramidz = transform.parent.GetComponentsInChildren<BlackPyramid>().ToList();
 	}
 
-	protected override IEnumerator OnTriggerEnter2D(Collider2D other) {
-		yield return base.OnTriggerEnter2D(other);
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		base.OnTriggerEnter2D(other);
 
 		DisableTrigger();
 		pyramidz.ForEach(pyramid => pyramid.Toggle());

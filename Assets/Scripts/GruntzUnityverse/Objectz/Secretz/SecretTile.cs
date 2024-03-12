@@ -33,10 +33,10 @@ public class SecretTile : GridObject {
 		yield return new WaitForSeconds(delay);
 
 		gameObject.SetActive(true);
-		node.isBlocked = actAsObstacle;
-		node.isWater = actAsWater;
-		node.isFire = actAsFire;
-		node.isVoid = actAsVoid;
+		node.isBlocked = isObstacle;
+		node.isWater = isWater;
+		node.isFire = isFire;
+		node.isVoid = isVoid;
 
 		yield return new WaitForSeconds(duration);
 

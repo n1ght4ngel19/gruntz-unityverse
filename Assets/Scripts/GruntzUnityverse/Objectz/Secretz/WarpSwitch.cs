@@ -7,7 +7,7 @@ namespace GruntzUnityverse.Objectz.Secretz {
 public class WarpSwitch : GridObject {
 	public List<Warp> warpz;
 
-	protected override void Start() {
+	private void Start() {
 		spriteRenderer.enabled = false;
 	}
 

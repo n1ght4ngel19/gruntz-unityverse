@@ -131,9 +131,10 @@ internal class AnimationGeneratorWindow : EditorWindow {
 		}
 
 		rect.y += rect.height;
-		frameRate.intValue = EditorGUI.IntField(rect, new GUIContent("Frame Rate"), 12);
-		frameRate.intValue = Mathf.Max(frameRate.intValue, 12);
+		frameRate.intValue = EditorGUI.IntField(rect, new GUIContent("Frame Rate"), frameRate.intValue);
+		frameRate.intValue = Mathf.Max(frameRate.intValue, 0);
 
+		
 		if (autoFramerate.boolValue) {
 			EditorGUI.EndDisabledGroup();
 		}

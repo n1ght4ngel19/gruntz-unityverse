@@ -28,6 +28,9 @@ namespace GruntzUnityverse.Actorz {
 /// The class representing a Grunt in the game.
 /// </summary>
 public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
+	public DateTime moveStartTime;
+	public bool setStartTime;
+
 	/// <summary>
 	/// The name of this Grunt.
 	/// </summary>
@@ -42,6 +45,8 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 	[Range(0, 5)]
 	public float moveSpeed;
+
+	public bool debugMoveTime;
 
 	[Header("State Handling")]
 	public State state;
@@ -225,10 +230,15 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
 	}
 
-	private void Update() {
+	private void FixedUpdate() {
 		if (state == State.Idle) {
-			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
+			// Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
 		} else if (state == State.Moving || BetweenNodes) {
+			if (!setStartTime && debugMoveTime) {
+				moveStartTime = DateTime.Now;
+				setStartTime = true;
+			}
+
 			ChangePosition();
 		} else if (waiting) {
 			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.hostileIdle));
@@ -381,6 +391,11 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		}
 
 		if (node == travelGoal) {
+			if (debugMoveTime) {
+				Debug.Log(DateTime.Now - moveStartTime);
+				setStartTime = false;
+			}
+
 			if (waiting) {
 				await UniTask.WaitWhile(() => statz.stamina < Statz.MaxValue);
 				waiting = false;
@@ -635,8 +650,8 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// Continually moves the Grunt's physical position between the current and next node.
 	/// </summary>
 	private void ChangePosition() {
-		Vector3 moveVector = (next.transform.position - transform.position).normalized;
-		gameObject.transform.position += moveVector * (Time.deltaTime / moveSpeed);
+		Vector3 moveVector = (next.transform.position - node.transform.position);
+		gameObject.transform.position += moveVector * (Time.fixedDeltaTime / moveSpeed);
 
 		Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.walk));
 	}
@@ -770,6 +785,8 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		fromWarp.Deactivate();
 	}
+
+	private void OnTriggerEnter2D(Collider2D other) { }
 
 	private void DeactivateBarz() {
 		barz.healthBar.gameObject.SetActive(false);

@@ -15,9 +15,6 @@ public class Arrow : GridObject {
 
 		SetDirection();
 		SetTargetNode();
-
-		// Disable node's trigger so that the object's behaviour/effect doesn't clash with the node's effect
-		node.circleCollider2D.isTrigger = false;
 	}
 
 	private void SetDirection() {
@@ -76,6 +73,11 @@ public class Arrow : GridObject {
 
 			node.gruntOnNode = grunt;
 			grunt.spriteRenderer.sortingOrder = 10;
+		}
+
+		if (other.TryGetComponent(out RollingBall ball)) {
+			ball.direction = direction;
+			ball.next = pointedNode;
 		}
 	}
 

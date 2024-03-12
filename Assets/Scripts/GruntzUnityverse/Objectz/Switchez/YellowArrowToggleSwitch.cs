@@ -12,8 +12,8 @@ public class YellowArrowToggleSwitch : Switch {
 		arrow = transform.parent.GetComponentInChildren<TwoWayArrow>();
 	}
 
-	protected override IEnumerator OnTriggerEnter2D(Collider2D other) {
-		yield return base.OnTriggerEnter2D(other);
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		base.OnTriggerEnter2D(other);
 
 		arrow.Toggle();
 	}

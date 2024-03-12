@@ -43,11 +43,8 @@ public abstract class Switch : GridObject, IBinaryToggleable {
 	[field: SerializeField] public Sprite ReleasedSprite { get; set; }
 
 	public virtual void Toggle() {
-		if (IsPressed) {
-			ToggleOff();
-		} else {
-			ToggleOn();
-		}
+		IsPressed = !IsPressed;
+		spriteRenderer.sprite = IsPressed ? PressedSprite : ReleasedSprite;
 	}
 
 	public virtual void ToggleOn() {
@@ -61,12 +58,12 @@ public abstract class Switch : GridObject, IBinaryToggleable {
 	}
 	#endregion
 
-	protected virtual IEnumerator OnTriggerEnter2D(Collider2D other) {
+	protected virtual void OnTriggerEnter2D(Collider2D other) {
 		if (!circleCollider2D.isTrigger) {
-			yield break;
+			return;
 		}
 
-		ToggleOn();
+		Toggle();
 	}
 
 	protected virtual IEnumerator OnTriggerExit2D(Collider2D other) {

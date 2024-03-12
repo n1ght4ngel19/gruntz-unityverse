@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using Animancer;
 using Cysharp.Threading.Tasks;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz.Hazardz;
 using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Objectz.Switchez;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
 /// <summary>
@@ -70,7 +72,7 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 		enabled = false;
 
 		// This also prevents removing the effect of other possible blocking objects at the same location
-		node.isBlocked = actAsObstacle ? false : node.isBlocked;
+		node.isBlocked = isObstacle ? false : node.isBlocked;
 
 		RevealHidden(gameObject.scene.isLoaded);
 	}
@@ -87,5 +89,14 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	#endregion
 
 	public AnimationClip breakAnimation;
+
+	private async void OnTriggerEnter2D(Collider2D other) {
+		if (other.TryGetComponent(out RollingBall ball)) {
+			ball.enabled = false;
+			await ball.Animancer.Play(ball.breakAnim);
+
+			Destroy(ball.gameObject);
+		}
+	}
 }
 }
