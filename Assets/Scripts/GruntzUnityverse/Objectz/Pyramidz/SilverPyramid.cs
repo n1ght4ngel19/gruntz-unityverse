@@ -17,21 +17,21 @@ public class SilverPyramid : Pyramid {
 	private IEnumerator WaitingToggle() {
 		yield return new WaitForSeconds(delay);
 
-		if (isObstacle) {
-			ToggleOff();
-		} else {
-			ToggleOn();
-		}
+		// if (isObstacle) {
+		// 	ToggleOff();
+		// } else {
+		// 	ToggleOn();
+		// }
 
 		node.isBlocked = isObstacle;
 
 		yield return new WaitForSeconds(duration);
 
-		if (isObstacle) {
-			ToggleOff();
-		} else {
-			ToggleOn();
-		}
+		// if (isObstacle) {
+		// 	ToggleOff();
+		// } else {
+		// 	ToggleOn();
+		// }
 
 		node.isBlocked = isObstacle;
 	}

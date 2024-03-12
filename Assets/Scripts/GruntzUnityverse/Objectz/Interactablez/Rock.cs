@@ -58,18 +58,19 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	}
 
 	public async void Interact() {
+		enabled = false;
+
 		transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
 		spriteRenderer.sortingLayerName = "Default";
 		spriteRenderer.sortingOrder = 4;
 
-		await Animancer.Play(breakAnimation);
+		Animancer.Play(breakAnimation);
 
-		// await UniTask.WaitForSeconds(0.5f);
+		await UniTask.WaitForSeconds(breakAnimation.length);
 
 		transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
 		spriteRenderer.sortingOrder = 4;
-		enabled = false;
 
 		// This also prevents removing the effect of other possible blocking objects at the same location
 		node.isBlocked = isObstacle ? false : node.isBlocked;

@@ -1,12 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using Animancer;
 using GruntzUnityverse.Animation;
-using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
-public class RollingBall : MonoBehaviour, IAnimatable {
+public class RollingBall : MonoBehaviour {
 	[Header("Pathfinding")]
 	public Vector2 Location2D => node.location2D;
 
@@ -19,18 +19,22 @@ public class RollingBall : MonoBehaviour, IAnimatable {
 
 	public Direction direction;
 
-	public AnimationClip rollAnim;
+	public AnimationClip rollAnimUp;
+	public AnimationClip rollAnimDown;
+	public AnimationClip rollAnimLeft;
+	public AnimationClip rollAnimRight;
 	public AnimationClip breakAnim;
 	public AnimationClip sinkAnim;
 
-	[field: SerializeField] public Animator Animator { get; set; }
-	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
+	public AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
 
-	private void Start() {
+	public void Setup() {
 		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
 			.First(n => n.location2D == new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y)));
+	}
 
-		Animancer.Play(rollAnim);
+	private void Start() {
+		Animancer.Play(rollAnimUp);
 	}
 
 	private void FixedUpdate() {
@@ -38,16 +42,25 @@ public class RollingBall : MonoBehaviour, IAnimatable {
 	}
 
 	private void ChangePosition() {
-		Vector3 moveVector = (next.transform.position - transform.position).normalized;
-		gameObject.transform.position += moveVector * (Time.deltaTime / moveSpeed);
+		Vector3 moveVector = (next.transform.position - node.transform.position);
+		gameObject.transform.position += moveVector * (Time.fixedDeltaTime / moveSpeed);
 	}
 
-	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.TryGetComponent(out RollingBall otherBall)) {
+	private IEnumerator OnTriggerEnter2D(Collider2D other) {
+		if (other.TryGetComponent(out RollingBall _)) {
 			enabled = false;
+
+			transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+			GetComponent<SpriteRenderer>().sortingLayerName = "Default";
+			GetComponent<SpriteRenderer>().sortingOrder = 4;
+
 			Animancer.Play(breakAnim);
 
-			return;
+			yield return new WaitForSeconds(breakAnim.length);
+
+			transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+			GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
+			GetComponent<SpriteRenderer>().sortingOrder = 4;
 		}
 	}
 }

@@ -1,16 +1,19 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
 public class RedToggleSwitch : Switch {
-	protected override void OnTriggerEnter2D(Collider2D other) {
-		base.OnTriggerEnter2D(other);
+	public override void Toggle() {
+		base.Toggle();
 
 		FindObjectsByType<RedPyramid>(FindObjectsSortMode.None)
 			.ToList()
 			.ForEach(pyramid => pyramid.Toggle());
+	}
+
+	protected override void OnTriggerExit2D(Collider2D other) {
+		base.Toggle();
 	}
 }
 }

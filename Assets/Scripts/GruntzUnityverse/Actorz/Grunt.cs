@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,14 @@ using GruntzUnityverse.DataPersistence;
 using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Objectz.Arrowz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Objectz.Secretz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.UI;
 using GruntzUnityverse.Utils.Extensionz;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
@@ -214,8 +217,6 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			gruntEntry.SetHealth(statz.health);
 			gruntEntry.SetStamina(statz.stamina);
 
-			Debug.Log(gruntEntry.name);
-
 			if (equippedTool != null) {
 				gruntEntry.SetTool(equippedTool.toolName.Replace(" ", ""));
 			}
@@ -232,7 +233,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 	private void FixedUpdate() {
 		if (state == State.Idle) {
-			// Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
+			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
 		} else if (state == State.Moving || BetweenNodes) {
 			if (!setStartTime && debugMoveTime) {
 				moveStartTime = DateTime.Now;
@@ -498,6 +499,14 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			next = newPath[0];
 			FaceTowardsNode(next);
 		}
+	}
+
+	public void MoveTo(Node toNode) {
+		travelGoal = toNode;
+		intent = Intent.ToMove;
+		state = State.Moving;
+		next = toNode;
+		FaceTowardsNode(next);
 	}
 
 	private void GoToIdleIfNotActing() {

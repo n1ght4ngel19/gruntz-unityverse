@@ -104,18 +104,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663f2894e606417db490fbecdb56e828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actAsObstacle: 1
-  actAsWater: 0
-  actAsFire: 0
-  actAsVoid: 0
+  isObstacle: 1
+  isWater: 0
+  isFire: 0
+  isVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
   spriteRenderer: {fileID: 6109165329942239614}
   circleCollider2D: {fileID: 6057212470448930173}
-  <Animator>k__BackingField: {fileID: 6260734195924743711}
-  <Animancer>k__BackingField: {fileID: 7911234983759819221}
-  <ToggleOnAnim>k__BackingField: {fileID: 7400000, guid: 2a90d83e67a57a246af8d6de7c270a66, type: 2}
-  <ToggleOffAnim>k__BackingField: {fileID: 7400000, guid: e28f72b4527e1c14c8f28b41ada5e1b1, type: 2}
+  raiseAnim: {fileID: 7400000, guid: 2a90d83e67a57a246af8d6de7c270a66, type: 2}
+  lowerAnim: {fileID: 7400000, guid: e28f72b4527e1c14c8f28b41ada5e1b1, type: 2}
   switchez: []
 --- !u!95 &6260734195924743711
 Animator:

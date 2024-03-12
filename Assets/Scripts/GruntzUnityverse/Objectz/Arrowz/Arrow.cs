@@ -15,6 +15,8 @@ public class Arrow : GridObject {
 
 		SetDirection();
 		SetTargetNode();
+
+		node.circleCollider2D.isTrigger = false;
 	}
 
 	private void SetDirection() {
@@ -57,27 +59,29 @@ public class Arrow : GridObject {
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
+			if (node.GruntOnNode != null && node.GruntOnNode != grunt) {
+				node.GruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			}
+
 			grunt.node = node;
 			grunt.transform.position = transform.position;
-
-			if (node.gruntOnNode != null && node.gruntOnNode != grunt) {
-				node.gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
-			}
+			grunt.spriteRenderer.sortingOrder = 10;
 
 			grunt.interactionTarget = null;
 			grunt.attackTarget = null;
 
-			grunt.travelGoal = pointedNode;
-			grunt.intent = Intent.ToMove;
-			grunt.EvaluateState();
-
-			node.gruntOnNode = grunt;
-			grunt.spriteRenderer.sortingOrder = 10;
+			grunt.MoveTo(pointedNode);
 		}
 
 		if (other.TryGetComponent(out RollingBall ball)) {
-			ball.direction = direction;
+			ball.node = node;
+			ball.transform.position = node.transform.position;
 			ball.next = pointedNode;
+			ball.direction = direction;
+
+			if (node.GruntOnNode != null) {
+				node.GruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			}
 		}
 	}
 

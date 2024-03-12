@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
 
@@ -13,8 +12,8 @@ public class RedHoldSwitch : Switch {
 			.ForEach(pyramid => pyramid.Toggle());
 	}
 
-	protected override IEnumerator OnTriggerExit2D(Collider2D other) {
-		yield return base.OnTriggerExit2D(other);
+	protected override void OnTriggerExit2D(Collider2D other) {
+		base.OnTriggerExit2D(other);
 
 		FindObjectsByType<RedPyramid>(FindObjectsSortMode.None)
 			.ToList()

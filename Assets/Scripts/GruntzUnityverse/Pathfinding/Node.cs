@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
@@ -19,16 +18,11 @@ public class Node : MonoBehaviour {
 	public Vector2Int location2D;
 
 	/// <summary>
-	/// The SpriteRenderer of this NodeV2.
-	/// </summary>
-	protected SpriteRenderer spriteRenderer;
-
-	/// <summary>
 	/// The collider used for checking interactions with this NodeV2.
 	/// </summary>
 	public CircleCollider2D circleCollider2D;
 
-	public Grunt gruntOnNode;
+	public Grunt GruntOnNode => GameManager.Instance.allGruntz.FirstOrDefault(gr => gr.node == this);
 
 	// --------------------------------------------------
 	// Pathfinding
@@ -211,13 +205,13 @@ public class Node : MonoBehaviour {
 
 	private async void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
-			if (gruntOnNode != null && gruntOnNode != grunt) {
-				gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			if (GruntOnNode != null && GruntOnNode != grunt) {
+				GruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
 			}
 
 			grunt.node = this;
 			grunt.transform.position = transform.position;
-			gruntOnNode = grunt;
+			grunt.spriteRenderer.sortingOrder = 10;
 
 			if (grunt.attackTarget != null) {
 				grunt.HandleActionCommand(grunt.attackTarget.node, Intent.ToAttack);
@@ -240,8 +234,8 @@ public class Node : MonoBehaviour {
 				Destroy(ball.gameObject);
 			}
 
-			if (gruntOnNode != null) {
-				gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			if (GruntOnNode != null) {
+				GruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
 			}
 		}
 	}

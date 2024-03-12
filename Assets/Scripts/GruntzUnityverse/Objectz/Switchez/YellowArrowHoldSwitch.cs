@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Objectz.Arrowz;
 using UnityEngine;
@@ -20,8 +19,8 @@ public class YellowArrowHoldSwitch : Switch {
 		arrowz.ForEach(ar => ar.Toggle());
 	}
 
-	protected override IEnumerator OnTriggerExit2D(Collider2D other) {
-		yield return base.OnTriggerExit2D(other);
+	protected override void OnTriggerExit2D(Collider2D other) {
+		base.OnTriggerExit2D(other);
 
 		arrowz.ForEach(ar => ar.Toggle());
 	}

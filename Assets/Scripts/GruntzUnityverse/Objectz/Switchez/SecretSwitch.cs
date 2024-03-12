@@ -2,6 +2,7 @@
 using System.Linq;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Objectz.Secretz;
+using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
 public class SecretSwitch : Switch {
@@ -13,17 +14,19 @@ public class SecretSwitch : Switch {
 
 		secretObjectz = transform.parent.GetComponentsInChildren<SecretObject>(true).ToList();
 		secretTilez = transform.parent.GetComponentsInChildren<SecretTile>(true).ToList();
-		// secretTilez.ForEach(st => st.Setup());
 	}
 
-	public override void ToggleOn() {
-		base.ToggleOn();
+	public override void Toggle() {
+		base.Toggle();
+
+		Debug.Log("Secret");
 
 		DisableTrigger();
-
 		Level.Instance.levelStatz.discoveredSecretz++;
 		secretObjectz.ForEach(so => StartCoroutine(so.Toggle()));
 		secretTilez.ForEach(st => StartCoroutine(st.Reveal()));
 	}
+
+	protected override void OnTriggerExit2D(Collider2D other) { }
 }
 }

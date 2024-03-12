@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
 
@@ -14,17 +14,30 @@ public class OrangeSwitch : Switch {
 
 		pyramidz = transform.parent.GetComponentsInChildren<OrangePyramid>()
 			.ToList();
-
-		otherSwitchez = transform.parent.GetComponentsInChildren<OrangeSwitch>()
-			.Where(sw => sw != this)
-			.ToList();
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D other) {
-		base.OnTriggerEnter2D(other);
+		if (!other.TryGetComponent(out Grunt _) && !other.TryGetComponent(out RollingBall _)) {
+			return;
+		}
 
-		pyramidz.ForEach(pyramid => pyramid.Toggle());
-		otherSwitchez.ForEach(sw => sw.Toggle());
+		if (!IsPressed) {
+			Toggle();
+
+			pyramidz.ForEach(pyramid => pyramid.Toggle());
+
+			otherSwitchez
+				.Where(sw => sw.IsPressed)
+				.ToList()
+				.ForEach(
+					sw1 => {
+						sw1.Toggle();
+						sw1.pyramidz.ForEach(py => py.Toggle());
+					}
+				);
+		}
 	}
+
+	protected override void OnTriggerExit2D(Collider2D other) { }
 }
 }

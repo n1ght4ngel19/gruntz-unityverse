@@ -60,9 +60,8 @@ public class GameManager : MonoBehaviour {
 		Application.targetFrameRate = 60;
 		UnityEngine.Cursor.visible = false;
 		FindFirstObjectByType<Cursor>().enabled = true;
-		Debug.Log(playerGruntz.Length);
 	}
-	
+
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		if (scene.name is "MainMenu" or "StatzMenu") {
@@ -128,6 +127,10 @@ public class GameManagerEditor : UnityEditor.Editor {
 				.Where(ec => ec.gameObject.CompareTag("HighEyeCandy"))
 				.ToList()
 				.ForEach(ec1 => ec1.gameObject.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(ec1.transform.position.y) * -1);
+
+			FindObjectsByType<RollingBall>(FindObjectsSortMode.None)
+				.ToList()
+				.ForEach(rb => rb.Setup());
 
 			List<Checkpoint> checkpointz = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None).ToList();
 

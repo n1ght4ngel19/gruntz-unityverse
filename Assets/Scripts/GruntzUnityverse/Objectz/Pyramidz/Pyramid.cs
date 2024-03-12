@@ -1,29 +1,16 @@
 ﻿using Animancer;
 using Cysharp.Threading.Tasks;
-using GruntzUnityverse.Objectz.Interfacez;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
-public abstract class Pyramid : GridObject, IToggleable {
-	public override void Setup() {
-		base.Setup();
+public abstract class Pyramid : GridObject {
+	public AnimationClip raiseAnim;
+	public AnimationClip lowerAnim;
 
-		Animator = GetComponent<Animator>();
-		Animancer = GetComponent<AnimancerComponent>();
-	}
-
-	// --------------------------------------------------
-	// IToggleable
-	// --------------------------------------------------
-
-	#region IToggleable
-	[field: SerializeField] public AnimationClip ToggleOnAnim { get; set; }
-	[field: SerializeField] public AnimationClip ToggleOffAnim { get; set; }
-	public Animator Animator { get; set; }
-	public AnimancerComponent Animancer { get; set; }
+	private AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
 
 	public virtual async void Toggle() {
-		AnimationClip toPlay = isObstacle ? ToggleOffAnim : ToggleOnAnim;
+		AnimationClip toPlay = isObstacle ? lowerAnim : raiseAnim;
 
 		Animancer.Play(toPlay);
 		await UniTask.WaitForSeconds(toPlay.length);
@@ -31,11 +18,5 @@ public abstract class Pyramid : GridObject, IToggleable {
 		isObstacle = !isObstacle;
 		node.isBlocked = isObstacle;
 	}
-
-	public virtual void ToggleOn() { }
-
-	public virtual void ToggleOff() { }
-	#endregion
-
 }
 }

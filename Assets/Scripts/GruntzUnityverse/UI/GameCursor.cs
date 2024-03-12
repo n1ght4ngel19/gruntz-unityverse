@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.UI {
 public class GameCursor : MonoBehaviour {
-	private void Awake() {
+	private void Start() {
 		Cursor.visible = false;
 	}
 

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
@@ -21,8 +20,6 @@ public class BlackOneTimeSwitch : Switch {
 		pyramidz.ForEach(pyramid => pyramid.Toggle());
 	}
 
-	protected override IEnumerator OnTriggerExit2D(Collider2D other) {
-		yield break;
-	}
+	protected override void OnTriggerExit2D(Collider2D other) { }
 }
 }

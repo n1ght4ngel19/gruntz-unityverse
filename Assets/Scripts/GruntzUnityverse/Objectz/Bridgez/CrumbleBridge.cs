@@ -10,17 +10,14 @@ public class CrumbleBridge : GridObject {
 	public int crumbleDelay;
 
 	public AnimationClip crumbleAnim;
-	public AnimancerComponent animancer;
 
+	private AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
 
 	public override void Setup() {
 		base.Setup();
 
 		node.isWater = false;
 	}
-
-
-
 
 	private async void OnTriggerEnter2D(Collider2D other) {
 		if (!other.TryGetComponent(out Grunt _) && !other.TryGetComponent(out RollingBall _)) {
@@ -29,7 +26,7 @@ public class CrumbleBridge : GridObject {
 
 		await UniTask.WaitForSeconds(crumbleDelay);
 
-		animancer.Play(crumbleAnim);
+		Animancer.Play(crumbleAnim);
 		await UniTask.WaitForSeconds(crumbleAnim.length);
 
 		node.isWater = true;
