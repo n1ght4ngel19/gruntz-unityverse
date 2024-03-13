@@ -1,4 +1,5 @@
 ﻿using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Animation;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Pathfinding;
@@ -69,18 +70,23 @@ public class Arrow : GridObject {
 			grunt.interactionTarget = null;
 			grunt.attackTarget = null;
 
-			grunt.MoveTo(pointedNode);
+			grunt.travelGoal = pointedNode;
+
+			grunt.intent = Intent.ToMove;
+			grunt.forced = true;
+
+			grunt.EvaluateState();
 		}
 
 		if (other.TryGetComponent(out RollingBall ball)) {
+			if (node.GruntOnNode != null) {
+				node.GruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			}
+
 			ball.node = node;
 			ball.transform.position = node.transform.position;
 			ball.next = pointedNode;
 			ball.direction = direction;
-
-			if (node.GruntOnNode != null) {
-				node.GruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
-			}
 		}
 	}
 

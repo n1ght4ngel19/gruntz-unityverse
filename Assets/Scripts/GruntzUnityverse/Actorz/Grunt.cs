@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +20,6 @@ using GruntzUnityverse.Objectz.Secretz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.UI;
 using GruntzUnityverse.Utils.Extensionz;
-using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
@@ -62,6 +60,8 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	public bool waiting;
 
 	public bool committed;
+
+	public bool forced;
 
 	public bool BetweenNodes => transform.position != node.transform.position;
 
@@ -433,7 +433,11 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 					return;
 			}
 		} else {
-			Move(travelGoal);
+			if (forced) {
+				ArrowMove();
+			} else {
+				Move();
+			}
 		}
 	}
 
@@ -447,20 +451,20 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		selectionMarker.SetActive(false);
 	}
 
-	private void Move(Node target) {
-		if (target == node) {
+	private void Move() {
+		if (travelGoal == node) {
 			GoToIdleIfNotActing();
 
 			return;
 		}
 
-		if (target == null) {
+		if (travelGoal == null) {
 			return;
 		}
 
 		// When target is unreachable, search for a new target adjacent to it
-		if (!target.IsWalkable() || (interactionTarget != null && interactionTarget.node == target)) {
-			if (node.neighbours.Contains(target)) {
+		if (!travelGoal.IsWalkable() || (interactionTarget != null && interactionTarget.node == travelGoal)) {
+			if (node.neighbours.Contains(travelGoal)) {
 				travelGoal = node;
 
 				GoToIdleIfNotActing();
@@ -468,7 +472,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 				return;
 			}
 
-			List<Node> freeNeighbours = target.neighbours.Where(n => n.IsWalkable()).ToList();
+			List<Node> freeNeighbours = travelGoal.neighbours.Where(n => n.IsWalkable()).ToList();
 
 			if (freeNeighbours.Count == 0) {
 				travelGoal = node;
@@ -478,12 +482,11 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 				return;
 			}
 
-			target = freeNeighbours.OrderBy(n => Pathfinder.CalculateHeuristic(node, n)).First();
+			travelGoal = freeNeighbours.OrderBy(n => Pathfinder.CalculateHeuristic(node, n)).First();
 		}
 
 		// Search for path to target
-		// List<NodeV2> newPath = Pathfinder.AstarSearch(node, target, Level.Instance.levelNodes.ToHashSet());
-		List<Node> newPath = Pathfinder.AstarSearch(node, target, Level.Instance.levelNodes.ToHashSet());
+		List<Node> newPath = Pathfinder.AstarSearch(node, travelGoal, Level.Instance.levelNodes.ToHashSet());
 
 		// When no path found, evaluate state
 		if (newPath.Count <= 0) {
@@ -494,19 +497,18 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		if (newPath[0].ReservedBy == null) {
+		if (newPath[0].ReservedBy == null || newPath[0].ReservedBy == this) {
 			state = State.Moving;
 			next = newPath[0];
 			FaceTowardsNode(next);
 		}
 	}
 
-	public void MoveTo(Node toNode) {
-		travelGoal = toNode;
-		intent = Intent.ToMove;
+	public void ArrowMove() {
 		state = State.Moving;
-		next = toNode;
+		next = travelGoal;
 		FaceTowardsNode(next);
+		forced = false;
 	}
 
 	private void GoToIdleIfNotActing() {
@@ -718,7 +720,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		CancelInvoke(nameof(RegenerateStamina));
 		DeactivateBarz();
 
-		Addressables.InstantiateAsync($"GruntPuddle_{gruntColor.ToString()}.prefab", GameObject.Find("Puddlez").transform).Completed += handle => {
+		Addressables.InstantiateAsync($"GruntPuddle_{gruntColor.ToString()}", GameObject.Find("Puddlez").transform).Completed += handle => {
 			GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
 			puddle.transform.position = transform.position;
 		};
@@ -752,7 +754,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		DeactivateBarz();
 
 		if (leavePuddle) {
-			Addressables.InstantiateAsync($"GruntPuddle_{gruntColor.ToString()}.prefab", GameObject.Find("Puddlez").transform).Completed += handle => {
+			Addressables.InstantiateAsync($"GruntPuddle_{gruntColor.ToString()}", GameObject.Find("Puddlez").transform).Completed += handle => {
 				GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
 				puddle.transform.position = transform.position;
 			};

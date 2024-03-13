@@ -85,7 +85,7 @@ public class Node : MonoBehaviour {
 	/// <summary>
 	/// If true, this NodeV2 is reserved by an actor for its next move.
 	/// </summary>
-	public Grunt ReservedBy => GameManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.node == this || grunt.next == this);
+	public Grunt ReservedBy => GameManager.Instance.allGruntz.FirstOrDefault(grunt => grunt.next == this);
 
 	/// <summary>
 	/// If true, this NodeV2 is blocked by a wall or other obstacle.
@@ -204,6 +204,10 @@ public class Node : MonoBehaviour {
 	}
 
 	private async void OnTriggerEnter2D(Collider2D other) {
+		if (!circleCollider2D.isTrigger) {
+			return;
+		}
+
 		if (other.TryGetComponent(out Grunt grunt)) {
 			if (GruntOnNode != null && GruntOnNode != grunt) {
 				GruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
@@ -213,12 +217,23 @@ public class Node : MonoBehaviour {
 			grunt.transform.position = transform.position;
 			grunt.spriteRenderer.sortingOrder = 10;
 
+			if (grunt.forced) {
+				grunt.forced = false;
+				grunt.travelGoal = this;
+				grunt.next = this;
+
+				grunt.EvaluateState();
+
+				return;
+			}
+
 			if (grunt.attackTarget != null) {
 				grunt.HandleActionCommand(grunt.attackTarget.node, Intent.ToAttack);
 
 				return;
 			}
 
+			Debug.Log(location2D);
 			grunt.EvaluateState();
 		}
 

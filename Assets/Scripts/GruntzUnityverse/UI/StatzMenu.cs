@@ -1,4 +1,5 @@
-﻿using GruntzUnityverse.Core;
+﻿using Animancer;
+using GruntzUnityverse.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -34,15 +35,51 @@ public class StatzMenu : MonoBehaviour {
 	}
 
 	public void Activate() {
+		canvas.worldCamera = FindFirstObjectByType<CameraMovement>().gameObject.GetComponent<Camera>();
 		canvas.enabled = true;
 
 		timeValue.text = Level.Instance.levelStatz.secondzTaken.ToString();
+
+		Addressables.LoadAssetAsync<AnimationClip>("Helpbox_Rotating").Completed += handle => {
+			GameObject.Find("TimeIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
+		};
+
 		survivorzValue.text = GameManager.Instance.allGruntz.Count.ToString();
+
+		Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_01_Loop").Completed += handle => {
+			GameObject.Find("SurvivorzIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
+		};
+
 		deathzValue.text = Level.Instance.levelStatz.deathz.ToString();
+
+		Addressables.LoadAssetAsync<AnimationClip>("GruntPuddle_Bubbling").Completed += handle => {
+			GameObject.Find("DeathzIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
+		};
+
 		toolzValue.text = $"{Level.Instance.levelStatz.toolzCollected.ToString()} OF {Level.Instance.levelStatz.maxToolz.ToString()}";
+
+		Addressables.LoadAssetAsync<AnimationClip>("Gauntletz_Rotating").Completed += handle => {
+			GameObject.Find("ToolzIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
+		};
+
 		toyzValue.text = $"{Level.Instance.levelStatz.toyzCollected.ToString()} OF {Level.Instance.levelStatz.maxToyz.ToString()}";
+
+		Addressables.LoadAssetAsync<AnimationClip>("SqueakToy_Rotating").Completed += handle => {
+			GameObject.Find("ToyzIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
+		};
+
 		powerupzValue.text = $"{Level.Instance.levelStatz.powerupzCollected.ToString()} OF {Level.Instance.levelStatz.maxPowerupz.ToString()}";
+
+		Addressables.LoadAssetAsync<AnimationClip>("Roidz_Rotating").Completed += handle => {
+			GameObject.Find("PowerupzIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
+		};
+
 		coinzValue.text = $"{Level.Instance.levelStatz.coinzCollected.ToString()} OF {Level.Instance.levelStatz.maxCoinz.ToString()}";
+
+		Addressables.LoadAssetAsync<AnimationClip>("Coin_Rotating").Completed += handle => {
+			GameObject.Find("CoinzIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
+		};
+
 		secretzValue.text = $"{Level.Instance.levelStatz.discoveredSecretz.ToString()} OF {Level.Instance.levelStatz.maxSecretz.ToString()}";
 	}
 

@@ -69,9 +69,6 @@ public class GameManager : MonoBehaviour {
 
 		FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.worldCamera =
 			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
-
-		GameObject.Find("SidebarUI").GetComponent<Canvas>().worldCamera =
-			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
 	}
 
 	public void InitStuff() {
@@ -81,10 +78,15 @@ public class GameManager : MonoBehaviour {
 		Cursor.visible = false;
 
 		FindFirstObjectByType<GameCursor>().enabled = true;
+		
+		GameObject.Find("SidebarUI").GetComponent<Canvas>().worldCamera =
+			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
+
+		GameObject.Find("SidebarUI").GetComponent<Canvas>().enabled = true;
 	}
 
 	private void OnLoadStatzMenu() {
-		Time.timeScale = 0f;
+		// Time.timeScale = 0f;
 
 		Level.Instance.gameObject.SetActive(false);
 		actorz.SetActive(false);

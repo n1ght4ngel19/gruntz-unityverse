@@ -26,7 +26,7 @@ public class Fort : MonoBehaviour {
 			// 	.ToList()
 			// 	.ForEach(g1 => g1.Animancer.Play(g1.exitAnimation));
 
-			Time.timeScale = 0f;
+			// Time.timeScale = 0f;
 
 			Level.Instance.gameObject.SetActive(false);
 			GameManager.Instance.actorz.SetActive(false);

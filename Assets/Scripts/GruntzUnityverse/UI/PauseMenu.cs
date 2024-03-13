@@ -38,8 +38,8 @@ public class PauseMenu : MonoBehaviour {
 		if (!GameManager.Instance.helpboxUI.GetComponent<Canvas>().enabled) {
 			Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
 			canvas.enabled = Time.timeScale == 0f;
-
-			Debug.Log(Time.timeScale == 0f ? "Show pause menu" : "Resume the game (do nothing)");
+		} else {
+			Time.timeScale = 1f;
 		}
 	}
 }

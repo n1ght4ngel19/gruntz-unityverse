@@ -3,14 +3,11 @@ using System.Linq;
 using Animancer;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Actorz.BehaviourManagement;
-using GruntzUnityverse.Animation;
 using GruntzUnityverse.Objectz.Interactablez;
-using GruntzUnityverse.Objectz.Interfacez;
-using GruntzUnityverse.Pathfinding;
 using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Base {
-public abstract class LevelItem : MonoBehaviour, IAnimatable {
+public abstract class LevelItem : MonoBehaviour {
 	/// <summary>
 	/// The display name of the item.
 	/// </summary>
@@ -33,14 +30,7 @@ public abstract class LevelItem : MonoBehaviour, IAnimatable {
 
 	public bool hideUnderMound;
 
-	// --------------------------------------------------
-	// IAnimatable
-	// --------------------------------------------------
-
-	#region IAnimatable
-	[field: SerializeField] public Animator Animator { get; set; }
-	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
-	#endregion
+	private AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
 
 	public void Setup() {
 		Rock rock = FindObjectsByType<Rock>(FindObjectsSortMode.None)

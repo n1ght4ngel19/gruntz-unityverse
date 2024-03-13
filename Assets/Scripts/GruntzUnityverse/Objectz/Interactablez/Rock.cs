@@ -14,6 +14,12 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 /// A Grunt-sized piece of rock that blocks the path, possibly hiding something under it.
 /// </summary>
 public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
+	public override void Setup() {
+		base.Setup();
+
+		node.isBlocked = isObstacle;
+	}
+
 	// --------------------------------------------------
 	// IObjectHolder
 	// --------------------------------------------------
