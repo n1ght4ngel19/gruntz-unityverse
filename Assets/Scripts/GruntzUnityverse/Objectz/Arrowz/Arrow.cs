@@ -1,5 +1,4 @@
 ﻿using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Animation;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Pathfinding;
@@ -14,7 +13,7 @@ public class Arrow : GridObject {
 		base.Setup();
 
 		SetDirection();
-		SetTargetNode();
+		SetTargetNode(direction);
 
 		node.circleCollider2D.isTrigger = false;
 	}
@@ -43,8 +42,8 @@ public class Arrow : GridObject {
 		}
 	}
 
-	protected void SetTargetNode() {
-		pointedNode = direction switch {
+	protected void SetTargetNode(Direction towards) {
+		pointedNode = towards switch {
 			Direction.Up => node.neighbourSet.up,
 			Direction.UpRight => node.neighbourSet.upRight,
 			Direction.Right => node.neighbourSet.right,

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3589213392465663605}
   - component: {fileID: -6931288479538129702}
+  - component: {fileID: 8297697365165037965}
   - component: {fileID: -6378293646426855420}
   - component: {fileID: 744256651088824828}
   - component: {fileID: -4520872213484394346}
@@ -90,6 +91,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8297697365165037965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3338190730484562782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38a2413a96c4cc1ade2976f21ace5ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isObstacle: 1
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  circleCollider2D: {fileID: 0}
 --- !u!95 &-6378293646426855420
 Animator:
   serializedVersion: 7

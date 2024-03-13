@@ -12,7 +12,7 @@ public class TwoWayArrow : Arrow {
 			: state1Sprite;
 
 		direction = direction.Opposite();
-		SetTargetNode();
+		SetTargetNode(direction);
 	}
 }
 }

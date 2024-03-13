@@ -273,9 +273,25 @@ PrefabInstance:
       value: 62484975616
       objectReference: {fileID: 0}
     - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: areaName
+      value: ROCKY ROADZ
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: levelKey
+      value: 1RR-Level2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: levelName
+      value: HOLY SHOVELZ!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: sceneToLoad
       value: 1RR-Level2
       objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: loadMenuBackground
+      value: 
+      objectReference: {fileID: 21300000, guid: 3a1968c394feec247bb4361af8d7d84e, type: 3}
     - target: {fileID: 7534660987012632055, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -367,6 +383,10 @@ PrefabInstance:
     - target: {fileID: 8305482179548570086, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128157581176196061, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 53576273920
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4106,7 +4126,7 @@ Camera:
   m_GameObject: {fileID: 432380655}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -7573,6 +7593,50 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5991563227049524806, guid: b9aaaa68f9b2b7945967732b6db25978, type: 3}
   m_PrefabInstance: {fileID: 931820479}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &951504718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 951504719}
+  - component: {fileID: 951504720}
+  m_Layer: 0
+  m_Name: MainMenuInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &951504719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951504718}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &951504720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951504718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5f79f05742a46a2a990711fea12cf3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &967497695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8860,10 +8924,46 @@ PrefabInstance:
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 87420112896
       objectReference: {fileID: 0}
+    - target: {fileID: 5772793147808579642, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: m_UpdateString.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772793147808579642, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: m_UpdateString.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772793147808579642, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: m_UpdateString.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1166422396}
+    - target: {fileID: 5772793147808579642, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: m_UpdateString.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772793147808579642, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: m_UpdateString.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GruntzUnityverse.UI.LevelLoader, GruntzUnityverse
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: areaName
+      value: ROCKY ROADZ
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: levelKey
+      value: 1RR-Level4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: levelName
+      value: I GET BY WITH A LITTLE HELP FROM MY FRIENDZ
+      objectReference: {fileID: 0}
     - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: sceneToLoad
       value: 1RR-Level4
       objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: loadMenuBackground
+      value: 
+      objectReference: {fileID: 21300000, guid: 3a1968c394feec247bb4361af8d7d84e, type: 3}
     - target: {fileID: 7534660987012632055, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -8960,6 +9060,10 @@ PrefabInstance:
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
       objectReference: {fileID: 0}
+    - target: {fileID: 9128157581176196061, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 53576273920
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8970,6 +9074,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7534660987012632055, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
   m_PrefabInstance: {fileID: 1166422394}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1166422396 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+  m_PrefabInstance: {fileID: 1166422394}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db467450d04f4fbd963464953a90d595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1207006157
 GameObject:
   m_ObjectHideFlags: 0
@@ -15161,9 +15276,25 @@ PrefabInstance:
       value: 73553743872
       objectReference: {fileID: 0}
     - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: areaName
+      value: ROCKY ROADZ
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: levelKey
+      value: 1RR-Level3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: levelName
+      value: GRUNTZ, START YOUR ENGINEZ!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: sceneToLoad
       value: 1RR-Level3
       objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: loadMenuBackground
+      value: 
+      objectReference: {fileID: 21300000, guid: 3a1968c394feec247bb4361af8d7d84e, type: 3}
     - target: {fileID: 7534660987012632055, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -15255,6 +15386,10 @@ PrefabInstance:
     - target: {fileID: 8305482179548570086, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128157581176196061, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 53576273920
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16027,9 +16162,25 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: areaName
+      value: ROCKY ROADZ
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: levelKey
+      value: 1RR-Level1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: levelName
+      value: THE GIANT ROCK
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: sceneToLoad
       value: 1RR-Level1
       objectReference: {fileID: 0}
+    - target: {fileID: 6563027646167977873, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: loadMenuBackground
+      value: 
+      objectReference: {fileID: 21300000, guid: 3a1968c394feec247bb4361af8d7d84e, type: 3}
     - target: {fileID: 7534660987012632055, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -16117,6 +16268,10 @@ PrefabInstance:
     - target: {fileID: 8305482179548570086, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128157581176196061, guid: c9013dabdf644fc499c540db9ed1746e, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 53576273920
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16366,3 +16521,4 @@ SceneRoots:
   - {fileID: 61529671}
   - {fileID: 1478082544}
   - {fileID: 972120448}
+  - {fileID: 951504719}

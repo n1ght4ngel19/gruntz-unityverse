@@ -21,6 +21,10 @@ public class CheckpointPyramid : Pyramid {
 		base.Setup();
 
 		switchez = transform.parent.GetComponentsInChildren<CheckpointSwitch>().ToList();
+
+		if (switchez.Count == 0) {
+			enabled = false;
+		}
 	}
 }
 }

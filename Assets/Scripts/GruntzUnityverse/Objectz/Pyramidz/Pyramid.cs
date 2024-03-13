@@ -17,6 +17,7 @@ public abstract class Pyramid : GridObject {
 
 		isObstacle = !isObstacle;
 		node.isBlocked = isObstacle;
+		spriteRenderer.sortingLayerName = isObstacle ? "HighObjectz" : "AlwaysBottom";
 	}
 }
 }

@@ -107,15 +107,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Escape"",
-                    ""type"": ""Button"",
-                    ""id"": ""217a9013-9a2f-4343-ae2a-50e9720d4543"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -182,17 +173,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LoadGame"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e46c7d6a-aea9-419d-b7d5-0a9eecb0d893"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -528,6 +508,62 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""ContinueInput"",
+            ""id"": ""17424613-45ca-492c-bc32-3ed6a99624be"",
+            ""actions"": [
+                {
+                    ""name"": ""ContinueToLevel"",
+                    ""type"": ""Button"",
+                    ""id"": ""0ea4e8d7-8a49-4304-b875-11c7a8b48d07"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e6a89ebb-fb83-4fd3-963e-bb78214002ec"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ContinueToLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""PauseMenu"",
+            ""id"": ""2fb97bb6-a3a2-4c34-923f-6cc87951738e"",
+            ""actions"": [
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb2cab97-4b9b-438f-904c-f5ca28ed72ff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""dc9d739d-4d97-4375-8aad-7cf2673668da"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -543,7 +579,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_InGame_ForceIdle = m_InGame.FindAction("ForceIdle", throwIfNotFound: true);
         m_InGame_SaveGame = m_InGame.FindAction("SaveGame", throwIfNotFound: true);
         m_InGame_LoadGame = m_InGame.FindAction("LoadGame", throwIfNotFound: true);
-        m_InGame_Escape = m_InGame.FindAction("Escape", throwIfNotFound: true);
         // GameManager
         m_GameManager = asset.FindActionMap("GameManager", throwIfNotFound: true);
         m_GameManager_LoadStatzMenu = m_GameManager.FindAction("LoadStatzMenu", throwIfNotFound: true);
@@ -556,6 +591,12 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
         m_Camera_Move = m_Camera.FindAction("Move", throwIfNotFound: true);
+        // ContinueInput
+        m_ContinueInput = asset.FindActionMap("ContinueInput", throwIfNotFound: true);
+        m_ContinueInput_ContinueToLevel = m_ContinueInput.FindAction("ContinueToLevel", throwIfNotFound: true);
+        // PauseMenu
+        m_PauseMenu = asset.FindActionMap("PauseMenu", throwIfNotFound: true);
+        m_PauseMenu_Escape = m_PauseMenu.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -626,7 +667,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_ForceIdle;
     private readonly InputAction m_InGame_SaveGame;
     private readonly InputAction m_InGame_LoadGame;
-    private readonly InputAction m_InGame_Escape;
     public struct InGameActions
     {
         private @GameActions m_Wrapper;
@@ -640,7 +680,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         public InputAction @ForceIdle => m_Wrapper.m_InGame_ForceIdle;
         public InputAction @SaveGame => m_Wrapper.m_InGame_SaveGame;
         public InputAction @LoadGame => m_Wrapper.m_InGame_LoadGame;
-        public InputAction @Escape => m_Wrapper.m_InGame_Escape;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -677,9 +716,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @LoadGame.started += instance.OnLoadGame;
             @LoadGame.performed += instance.OnLoadGame;
             @LoadGame.canceled += instance.OnLoadGame;
-            @Escape.started += instance.OnEscape;
-            @Escape.performed += instance.OnEscape;
-            @Escape.canceled += instance.OnEscape;
         }
 
         private void UnregisterCallbacks(IInGameActions instance)
@@ -711,9 +747,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @LoadGame.started -= instance.OnLoadGame;
             @LoadGame.performed -= instance.OnLoadGame;
             @LoadGame.canceled -= instance.OnLoadGame;
-            @Escape.started -= instance.OnEscape;
-            @Escape.performed -= instance.OnEscape;
-            @Escape.canceled -= instance.OnEscape;
         }
 
         public void RemoveCallbacks(IInGameActions instance)
@@ -893,6 +926,98 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         }
     }
     public CameraActions @Camera => new CameraActions(this);
+
+    // ContinueInput
+    private readonly InputActionMap m_ContinueInput;
+    private List<IContinueInputActions> m_ContinueInputActionsCallbackInterfaces = new List<IContinueInputActions>();
+    private readonly InputAction m_ContinueInput_ContinueToLevel;
+    public struct ContinueInputActions
+    {
+        private @GameActions m_Wrapper;
+        public ContinueInputActions(@GameActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ContinueToLevel => m_Wrapper.m_ContinueInput_ContinueToLevel;
+        public InputActionMap Get() { return m_Wrapper.m_ContinueInput; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ContinueInputActions set) { return set.Get(); }
+        public void AddCallbacks(IContinueInputActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ContinueInputActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ContinueInputActionsCallbackInterfaces.Add(instance);
+            @ContinueToLevel.started += instance.OnContinueToLevel;
+            @ContinueToLevel.performed += instance.OnContinueToLevel;
+            @ContinueToLevel.canceled += instance.OnContinueToLevel;
+        }
+
+        private void UnregisterCallbacks(IContinueInputActions instance)
+        {
+            @ContinueToLevel.started -= instance.OnContinueToLevel;
+            @ContinueToLevel.performed -= instance.OnContinueToLevel;
+            @ContinueToLevel.canceled -= instance.OnContinueToLevel;
+        }
+
+        public void RemoveCallbacks(IContinueInputActions instance)
+        {
+            if (m_Wrapper.m_ContinueInputActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IContinueInputActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ContinueInputActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ContinueInputActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ContinueInputActions @ContinueInput => new ContinueInputActions(this);
+
+    // PauseMenu
+    private readonly InputActionMap m_PauseMenu;
+    private List<IPauseMenuActions> m_PauseMenuActionsCallbackInterfaces = new List<IPauseMenuActions>();
+    private readonly InputAction m_PauseMenu_Escape;
+    public struct PauseMenuActions
+    {
+        private @GameActions m_Wrapper;
+        public PauseMenuActions(@GameActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Escape => m_Wrapper.m_PauseMenu_Escape;
+        public InputActionMap Get() { return m_Wrapper.m_PauseMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PauseMenuActions set) { return set.Get(); }
+        public void AddCallbacks(IPauseMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PauseMenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PauseMenuActionsCallbackInterfaces.Add(instance);
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
+        }
+
+        private void UnregisterCallbacks(IPauseMenuActions instance)
+        {
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
+        }
+
+        public void RemoveCallbacks(IPauseMenuActions instance)
+        {
+            if (m_Wrapper.m_PauseMenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPauseMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PauseMenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PauseMenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PauseMenuActions @PauseMenu => new PauseMenuActions(this);
     public interface IInGameActions
     {
         void OnSelect(InputAction.CallbackContext context);
@@ -904,7 +1029,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         void OnForceIdle(InputAction.CallbackContext context);
         void OnSaveGame(InputAction.CallbackContext context);
         void OnLoadGame(InputAction.CallbackContext context);
-        void OnEscape(InputAction.CallbackContext context);
     }
     public interface IGameManagerActions
     {
@@ -920,5 +1044,13 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     {
         void OnZoom(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IContinueInputActions
+    {
+        void OnContinueToLevel(InputAction.CallbackContext context);
+    }
+    public interface IPauseMenuActions
+    {
+        void OnEscape(InputAction.CallbackContext context);
     }
 }

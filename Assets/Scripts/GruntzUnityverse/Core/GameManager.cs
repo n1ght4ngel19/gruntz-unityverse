@@ -57,16 +57,30 @@ public class GameManager : MonoBehaviour {
 		}
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
-		Application.targetFrameRate = 60;
-		UnityEngine.Cursor.visible = false;
-		FindFirstObjectByType<Cursor>().enabled = true;
 	}
 
+	public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		Debug.Log("Set time to 0");
+		Time.timeScale = 0f;
 
-	private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		if (scene.name is "MainMenu" or "StatzMenu") {
-			return;
-		}
+		Cursor.visible = false;
+
+		FindFirstObjectByType<GameCursor>().enabled = true;
+
+		FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.worldCamera =
+			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
+
+		GameObject.Find("SidebarUI").GetComponent<Canvas>().worldCamera =
+			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
+	}
+
+	public void InitStuff() {
+		Debug.Log("Set time to 0");
+		Time.timeScale = 0f;
+
+		Cursor.visible = false;
+
+		FindFirstObjectByType<GameCursor>().enabled = true;
 	}
 
 	private void OnLoadStatzMenu() {
@@ -115,6 +129,9 @@ public class GameManagerEditor : UnityEditor.Editor {
 			DateTime start = DateTime.Now;
 
 			level.Initialize();
+
+			FindFirstObjectByType<PauseMenu>().canvas.worldCamera =
+				FindFirstObjectByType<CameraMovement>().gameObject.GetComponent<Camera>();
 
 			gameManager.allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
 

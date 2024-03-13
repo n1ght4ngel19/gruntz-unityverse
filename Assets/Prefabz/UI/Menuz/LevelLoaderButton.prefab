@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6007398749575278780}
   - component: {fileID: 6563027646167977873}
   - component: {fileID: 5772793147808579642}
+  - component: {fileID: 9128157581176196061}
   m_Layer: 5
   m_Name: LevelLoaderButton
   m_TagString: Untagged
@@ -207,8 +208,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db467450d04f4fbd963464953a90d595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: {fileID: 0}
-  levelNameText: {fileID: 8305482179548570086}
+  buttonText: {fileID: 8305482179548570086}
+  levelKey: _TemplateLevel
+  levelName: TEMPLATE LEVEL
+  areaName: 
+  loadMenuBackground: {fileID: 0}
 --- !u!114 &5772793147808579642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +240,47 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6563027646167977873}
         m_TargetAssemblyTypeName: GruntzUnityverse.UI.LevelLoader, GruntzUnityverse
-        m_MethodName: SetText
+        m_MethodName: LocalizeLevelName
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &9128157581176196061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4754797927430689588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:d4cdc10ed263015438543f31b277cb6a
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6563027646167977873}
+        m_TargetAssemblyTypeName: GruntzUnityverse.UI.LevelLoader, GruntzUnityverse
+        m_MethodName: LocalizeAreaName
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
