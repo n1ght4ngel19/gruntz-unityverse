@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Core;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -8,9 +9,13 @@ using UnityEngine.UI;
 namespace GruntzUnityverse.UI {
 public class GruntEntry : MonoBehaviour {
 	public int EntryId => int.Parse(gameObject.name.Split("_").Last());
+	public Grunt ConnectedGrunt => GameManager.Instance.allGruntz.First(gr => gr.gruntId == EntryId);
 
 	[Header("Slotz")]
 	public GameObject slotz;
+
+	public Sprite simpleSlotzSprite;
+	public Sprite highlightedSlotzSprite;
 
 	public Image headSlot;
 	public Sprite greenHead;
@@ -33,6 +38,20 @@ public class GruntEntry : MonoBehaviour {
 	public Image staminaBar;
 
 	public List<Sprite> staminaFrames;
+
+	public void SelectConnected() {
+		Camera.main.transform.position = new Vector3(
+			ConnectedGrunt.transform.position.x,
+			ConnectedGrunt.transform.position.y,
+			Camera.main.transform.position.z
+		);
+
+		ConnectedGrunt.Select();
+	}
+
+	public void HighLight(bool highlight = true) {
+		slotz.GetComponent<Image>().sprite = highlight ? highlightedSlotzSprite : simpleSlotzSprite;
+	}
 
 	public void Initialize(Grunt grunt) {
 		SetHealth(grunt.statz.health);

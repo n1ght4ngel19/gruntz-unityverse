@@ -273,8 +273,11 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		selected = !selected;
-		selectionMarker.SetActive(!selectionMarker.activeSelf);
+		if (selected) {
+			Deselect();
+		} else {
+			Select();
+		}
 	}
 
 	/// <summary>
@@ -441,14 +444,16 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		}
 	}
 
-	private void Select() {
+	public void Select() {
 		selected = true;
 		selectionMarker.SetActive(true);
+		gruntEntry.HighLight();
 	}
 
-	private void Deselect() {
+	public void Deselect() {
 		selected = false;
 		selectionMarker.SetActive(false);
+		gruntEntry.HighLight(false);
 	}
 
 	private void Move() {
@@ -701,7 +706,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// Damage the grunt, adjusting its health bar as well.
 	/// </summary>
 	/// <param name="damage">The amount of damage to be dealt.</param>
-	private void TakeDamage(int damage) {
+	public void TakeDamage(int damage) {
 		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MaxValue);
 		barz.healthBar.Adjust(statz.health);
 		gruntEntry.SetHealth(statz.health);

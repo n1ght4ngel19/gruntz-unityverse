@@ -102,15 +102,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13aaab62eda4dde8c0221f68337dd3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actAsObstacle: 0
-  actAsWater: 0
-  actAsFire: 0
-  actAsVoid: 0
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
   spriteRenderer: {fileID: 3619936631406877757}
   circleCollider2D: {fileID: -3676451336825996335}
   damage: 2
+  hideUnderMound: 0
+  damageRate: 1
 --- !u!58 &-3676451336825996335
 CircleCollider2D:
   m_ObjectHideFlags: 0

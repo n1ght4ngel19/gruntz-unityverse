@@ -4,32 +4,20 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Hazardz {
 public class Spikez : Hazard {
-	// private void OnTriggerEnter2D(Collider2D other) {
-	//   GruntV2 target = other.gameObject.GetComponent<GruntV2>();
-	//
-	//   if (target == null) {
-	//     return;
-	//   }
-	// }
+	public float damageRate;
 
-	private IEnumerator OnTriggerStay2D(Collider2D other) {
-		Grunt target = other.gameObject.GetComponent<Grunt>();
+	protected override IEnumerator Damage() {
+		while (enabled) {
+			yield return new WaitUntil(() => GruntOnTop != null);
 
-		if (target == null) {
-			yield break;
+			// If GruntOnTop becomes null while waiting, we won't damage anything, even though we should
+			// That's why we need to store the GruntOnTop in a variable before waiting
+			Grunt toDamage = GruntOnTop;
+
+			yield return new WaitForSeconds(damageRate);
+
+			toDamage.TakeDamage(damage);
 		}
-
-		// target.TakeDamage(damage);
-
-		yield return new WaitForSeconds(2f);
 	}
-
-	// private void OnTriggerExit2D(Collider2D other) {
-	//   GruntV2 target = other.gameObject.GetComponent<GruntV2>();
-	//
-	//   if (target == null) {
-	//     return;
-	//   }
-	// }
 }
 }
