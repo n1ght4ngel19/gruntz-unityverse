@@ -4,9 +4,9 @@ using GruntzUnityverse.Actorz.BehaviourManagement;
 namespace GruntzUnityverse.AI {
 public class Defender : BaseAI {
 	public override void DecideAttack() {
-		if (target != null) {
-			return;
-		}
+		// if (target != null) {
+		// 	return;
+		// }
 
 		if (post.spottedEnemiez.Count == 0) {
 			ReturnToPost();

@@ -41,14 +41,6 @@ public class CameraMovement : MonoBehaviour {
 		);
 	}
 
-	// public void OnMove(InputAction.CallbackContext ctx) {
-	// 	while (!ctx.canceled) {
-	// 		Vector2 move = ctx.ReadValue<Vector2>();
-	//
-	// 		transform.position += new Vector3(move.x, move.y, 0) / moveRate;
-	// 	}
-	// }
-
 	/// <summary>
 	/// Zooming by scrolling the mouse.
 	/// </summary>

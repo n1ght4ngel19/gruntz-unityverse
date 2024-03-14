@@ -577,6 +577,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ba11ced0fd745cfb6c42d075f37322f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setStartTime: 0
+  gruntId: 0
   gruntName: FSM Grumley
   gruntColor: 3
   statz:
@@ -587,11 +589,16 @@ MonoBehaviour:
     toyTime: 0
     wingzTime: 0
   moveSpeed: 0.6
+  debugMoveTime: 0
   state: 0
   intent: 0
+  onIntentChanged:
+    m_PersistentCalls:
+      m_Calls: []
   selected: 0
   waiting: 0
   committed: 0
+  forced: 0
   equippedTool: {fileID: 11400000, guid: a97f7d42a31985746975d8608699bf5e, type: 2}
   equippedToy: {fileID: 0}
   equippedPowerupz: []
@@ -604,6 +611,7 @@ MonoBehaviour:
   next: {fileID: 0}
   interactionTarget: {fileID: 0}
   attackTarget: {fileID: 0}
+  gruntEntry: {fileID: 0}
   onStaminaDrained:
     m_PersistentCalls:
       m_Calls: []

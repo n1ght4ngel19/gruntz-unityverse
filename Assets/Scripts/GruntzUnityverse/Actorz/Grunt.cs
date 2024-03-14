@@ -13,7 +13,6 @@ using GruntzUnityverse.DataPersistence;
 using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz;
-using GruntzUnityverse.Objectz.Arrowz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Objectz.Secretz;
@@ -29,6 +28,8 @@ namespace GruntzUnityverse.Actorz {
 /// The class representing a Grunt in the game.
 /// </summary>
 public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
+
+	#region Fieldz
 	public DateTime moveStartTime;
 	public bool setStartTime;
 
@@ -63,7 +64,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 	public bool forced;
 
-	public bool BetweenNodes => transform.position != node.transform.position;
+	public bool BetweenNodes => Level.Instance.levelNodes.TrueForAll(n => n.transform.position != transform.position);
 
 	// --------------------------------------------------
 	// Equipment
@@ -196,6 +197,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	#endregion
 
 	public Barz barz;
+	#endregion
 
 	// --------------------------------------------------
 	// Lifecycle
@@ -232,7 +234,9 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	}
 
 	private void FixedUpdate() {
-		if (state == State.Idle) {
+		if (waiting) {
+			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.hostileIdle));
+		} else if (state == State.Idle) {
 			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
 		} else if (state == State.Moving || BetweenNodes) {
 			if (!setStartTime && debugMoveTime) {
@@ -241,8 +245,6 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			}
 
 			ChangePosition();
-		} else if (waiting) {
-			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.hostileIdle));
 		}
 	}
 	#endregion
@@ -298,6 +300,10 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		travelGoal = Level.Instance.levelNodes
 			.First(n => n == GameManager.Instance.selector.node);
+
+		interactionTarget = null;
+		attackTarget = null;
+		waiting = false;
 
 		intent = Intent.ToMove;
 		EvaluateState(whenFalse: (BetweenNodes || committed));
@@ -536,7 +542,6 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			FaceTowardsNode(target.node);
 
 			waiting = true;
-			intent = Intent.ToInteract;
 			EvaluateState(whenFalse: BetweenNodes);
 
 			yield break;
@@ -653,7 +658,10 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		statz.stamina++;
 		barz.staminaBar.Adjust(statz.stamina);
-		gruntEntry.SetStamina(statz.stamina);
+
+		if (!CompareTag("Dizgruntled")) {
+			gruntEntry.SetStamina(statz.stamina);
+		}
 	}
 
 	public void DrainStamina() {
@@ -709,7 +717,10 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	public void TakeDamage(int damage) {
 		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MaxValue);
 		barz.healthBar.Adjust(statz.health);
-		gruntEntry.SetHealth(statz.health);
+
+		if (!CompareTag("Dizgruntled")) {
+			gruntEntry.SetHealth(statz.health);
+		}
 
 		if (statz.health <= 0) {
 			onDeath.Invoke();

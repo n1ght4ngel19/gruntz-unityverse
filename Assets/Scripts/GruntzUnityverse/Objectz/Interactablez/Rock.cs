@@ -102,7 +102,7 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 			ball.enabled = false;
 			await ball.Animancer.Play(ball.breakAnim);
 
-			Destroy(ball.gameObject);
+			// Destroy(ball.gameObject);
 		}
 	}
 }

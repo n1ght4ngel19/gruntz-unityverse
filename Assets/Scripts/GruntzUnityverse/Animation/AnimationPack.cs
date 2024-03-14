@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GruntzUnityverse.Utils.Extensionz;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -16,10 +17,6 @@ public class AnimationPack : ScriptableObject {
 	public Animationz8Way attack;
 	public Animationz8Way interact;
 
-	private void OnEnable() {
-		LoadAnimationz();
-	}
-
 	public void LoadAnimationz() {
 		Clear();
 
@@ -30,55 +27,57 @@ public class AnimationPack : ScriptableObject {
 		LoadSingularAnimationz(walk, "Walk");
 		LoadAnimationz8Way(attack, "Attack");
 		LoadSingularAnimationz(interact, "Item");
+
+		EditorUtility.SetDirty(this);
 	}
 
 	public void Clear() {
 		deathAnimation = null;
 
-		idle.up.Clear();
-		idle.upRight.Clear();
-		idle.right.Clear();
-		idle.downRight.Clear();
-		idle.down.Clear();
-		idle.downLeft.Clear();
-		idle.left.Clear();
-		idle.upLeft.Clear();
+		idle.up.SafeClear();
+		idle.upRight.SafeClear();
+		idle.right.SafeClear();
+		idle.downRight.SafeClear();
+		idle.down.SafeClear();
+		idle.downLeft.SafeClear();
+		idle.left.SafeClear();
+		idle.upLeft.SafeClear();
 
-		hostileIdle.up.Clear();
-		hostileIdle.upRight.Clear();
-		hostileIdle.right.Clear();
-		hostileIdle.downRight.Clear();
-		hostileIdle.down.Clear();
-		hostileIdle.downLeft.Clear();
-		hostileIdle.left.Clear();
-		hostileIdle.upLeft.Clear();
+		hostileIdle.up.SafeClear();
+		hostileIdle.upRight.SafeClear();
+		hostileIdle.right.SafeClear();
+		hostileIdle.downRight.SafeClear();
+		hostileIdle.down.SafeClear();
+		hostileIdle.downLeft.SafeClear();
+		hostileIdle.left.SafeClear();
+		hostileIdle.upLeft.SafeClear();
 
-		walk.up.Clear();
-		walk.upRight.Clear();
-		walk.right.Clear();
-		walk.downRight.Clear();
-		walk.down.Clear();
-		walk.downLeft.Clear();
-		walk.left.Clear();
-		walk.upLeft.Clear();
+		walk.up.SafeClear();
+		walk.upRight.SafeClear();
+		walk.right.SafeClear();
+		walk.downRight.SafeClear();
+		walk.down.SafeClear();
+		walk.downLeft.SafeClear();
+		walk.left.SafeClear();
+		walk.upLeft.SafeClear();
 
-		attack.up.Clear();
-		attack.upRight.Clear();
-		attack.right.Clear();
-		attack.downRight.Clear();
-		attack.down.Clear();
-		attack.downLeft.Clear();
-		attack.left.Clear();
-		attack.upLeft.Clear();
+		attack.up.SafeClear();
+		attack.upRight.SafeClear();
+		attack.right.SafeClear();
+		attack.downRight.SafeClear();
+		attack.down.SafeClear();
+		attack.downLeft.SafeClear();
+		attack.left.SafeClear();
+		attack.upLeft.SafeClear();
 
-		interact.up.Clear();
-		interact.upRight.Clear();
-		interact.right.Clear();
-		interact.downRight.Clear();
-		interact.down.Clear();
-		interact.downLeft.Clear();
-		interact.left.Clear();
-		interact.upLeft.Clear();
+		interact.up.SafeClear();
+		interact.upRight.SafeClear();
+		interact.right.SafeClear();
+		interact.downRight.SafeClear();
+		interact.down.SafeClear();
+		interact.downLeft.SafeClear();
+		interact.left.SafeClear();
+		interact.upLeft.SafeClear();
 	}
 
 	private void LoadSingularAnimationz(Animationz8Way pack, string type) {
@@ -122,6 +121,11 @@ public class AnimationPack : ScriptableObject {
 			LoadClipInto(pack.downRight, $"{tool}Grunt_{packName}_Southeast_02");
 			LoadClipInto(pack.downLeft, $"{tool}Grunt_{packName}_Southwest_02");
 			LoadClipInto(pack.upLeft, $"{tool}Grunt_{packName}_Northwest_02");
+		} else {
+			LoadClipInto(pack.up, $"{tool}Grunt_{packName}_North_03");
+			LoadClipInto(pack.right, $"{tool}Grunt_{packName}_East_03");
+			LoadClipInto(pack.down, $"{tool}Grunt_{packName}_South_03");
+			LoadClipInto(pack.left, $"{tool}Grunt_{packName}_West_03");
 		}
 	}
 

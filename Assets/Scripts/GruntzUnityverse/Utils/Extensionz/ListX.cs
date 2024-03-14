@@ -2,6 +2,14 @@
 
 namespace GruntzUnityverse.Utils.Extensionz {
 public static class ListX {
+	public static void SafeClear<T>(this List<T> list) {
+		if (list != null) {
+			list.Clear();
+		} else {
+			list = new List<T>();
+		}
+	}
+
 	public static void UniqueAdd<T>(this List<T> list, T item) {
 		if (!list.Contains(item)) {
 			list.Add(item);

@@ -18,9 +18,9 @@ public abstract class BaseAI : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Default implementation of deciding whether to take action, and what kind.
+	/// Deciding whether to take action, and what kind.
 	/// <para/>
-	/// <b>To be overridden by subclasses.</b>
+	/// <b>To be implemented by subclasses.</b>
 	/// </summary>
 	public abstract void DecideAttack();
 

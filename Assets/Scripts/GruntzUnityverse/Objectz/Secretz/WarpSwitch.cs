@@ -25,6 +25,8 @@ public class WarpSwitch : GridObject {
 
 			circleCollider2D.isTrigger = false;
 			warpz.ForEach(warp => warp.Activate());
+			
+			Destroy(gameObject, 1f);
 		}
 	}
 }
