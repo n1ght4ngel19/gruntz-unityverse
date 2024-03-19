@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2737916579984190390}
-  - component: {fileID: 8755766392133860014}
   - component: {fileID: -6060591633135223939}
+  - component: {fileID: 8755766392133860014}
   - component: {fileID: 3373029965003962344}
   - component: {fileID: 7485570136701087826}
   - component: {fileID: -1104639947942641169}
@@ -39,6 +39,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6060591633135223939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7856108286464215537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c635683900468a8746a4026dd85e4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: 
+  codeName: 
+  rotatingAnim: {fileID: 0}
+  pickupAnim: {fileID: 0}
+  hideUnderMound: 0
+  animancer: {fileID: 7485570136701087826}
+  tool: {fileID: 0}
+  animationPack: {fileID: 0}
 --- !u!212 &8755766392133860014
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -93,32 +113,10 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-6060591633135223939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7856108286464215537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6c635683900468a8746a4026dd85e4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displayName: 
-  codeName: 
-  rotatingAnim: {fileID: 0}
-  pickupAnim: {fileID: 0}
-  animationPack: {fileID: 0}
-  node: {fileID: 0}
-  location2D: {x: 0, y: 0}
-  <Animator>k__BackingField: {fileID: 3373029965003962344}
-  <Animancer>k__BackingField: {fileID: 7485570136701087826}
-  tool: {fileID: 0}
 --- !u!95 &3373029965003962344
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -139,7 +137,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7485570136701087826
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -245,7 +243,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &5514687302341194583
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

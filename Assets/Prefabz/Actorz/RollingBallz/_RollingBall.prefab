@@ -430,8 +430,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1676707312607253262}
-  - component: {fileID: 2610784273270893467}
   - component: {fileID: 8713015375897902178}
+  - component: {fileID: 2610784273270893467}
   - component: {fileID: 6656072478803166852}
   - component: {fileID: 6692175141834480640}
   - component: {fileID: 1418852096642353058}
@@ -465,6 +465,29 @@ Transform:
   - {fileID: 737582919857774396}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8713015375897902178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6810939526122669025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813e3764d3a942b2a5711b634c39be59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  node: {fileID: 0}
+  next: {fileID: 0}
+  moveSpeed: 0.6
+  direction: 5
+  rollAnimUp: {fileID: 0}
+  rollAnimDown: {fileID: 0}
+  rollAnimLeft: {fileID: 0}
+  rollAnimRight: {fileID: 0}
+  breakAnim: {fileID: 7400000, guid: ca2fd8acdd98a90438fcfd246a8c1a8f, type: 2}
+  sinkAnim: {fileID: 7400000, guid: 972142d8fdc9a924ba3776c75eb19748, type: 2}
+  animancer: {fileID: 6692175141834480640}
 --- !u!212 &2610784273270893467
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -519,27 +542,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8713015375897902178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6810939526122669025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 813e3764d3a942b2a5711b634c39be59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  node: {fileID: 0}
-  next: {fileID: 0}
-  moveSpeed: 0.6
-  direction: 5
-  rollAnim: {fileID: 7400000, guid: 7f1613142b449504f8c373496eb3ef77, type: 2}
-  breakAnim: {fileID: 7400000, guid: ca2fd8acdd98a90438fcfd246a8c1a8f, type: 2}
-  sinkAnim: {fileID: 7400000, guid: 972142d8fdc9a924ba3776c75eb19748, type: 2}
-  <Animator>k__BackingField: {fileID: 6656072478803166852}
-  <Animancer>k__BackingField: {fileID: 6692175141834480640}
 --- !u!95 &6656072478803166852
 Animator:
   serializedVersion: 7
