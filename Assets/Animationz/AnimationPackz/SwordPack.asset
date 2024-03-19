@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75bafe8cdacf47c6915c1b3c2702eb78, type: 3}
+  m_Name: SwordPack
+  m_EditorClassIdentifier: 
+  tool: Sword
+  deathAnimation: {fileID: 7400000, guid: a0583ec75bfaf0440b17acf8ed9d3574, type: 2}
+  idle:
+    up:
+    - {fileID: 7400000, guid: fb76a0d441f893846930de799d4282cc, type: 2}
+    - {fileID: 7400000, guid: 794f46018e06a304f880be8d151d4443, type: 2}
+    - {fileID: 7400000, guid: 3e7ec4f0304b51246a333fb0640ed20e, type: 2}
+    upRight:
+    - {fileID: 0}
+    right:
+    - {fileID: 7400000, guid: a9f8f255fa3887a4b8e59b26a8a5922f, type: 2}
+    - {fileID: 7400000, guid: 65f635636dc893a4db67cf83e4190ebf, type: 2}
+    - {fileID: 7400000, guid: fc734146b94f3e94689cf3ff90706ed6, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: 936faa84301352447a33e6e94125337d, type: 2}
+    down:
+    - {fileID: 7400000, guid: feb1fdc15169d2c449c3841401210b25, type: 2}
+    - {fileID: 7400000, guid: 7765114e66feaf544904537600427d85, type: 2}
+    - {fileID: 7400000, guid: 82af64ce8720e2a478e49a8c19e01221, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: c51879b62de869c49ad8e247663fabbd, type: 2}
+    left:
+    - {fileID: 7400000, guid: 35e47ef35fc84494c84d3d3ae13a13cb, type: 2}
+    - {fileID: 7400000, guid: 002e503a145721a4ba71604696aea8a0, type: 2}
+    - {fileID: 7400000, guid: a70133a8f080ff649a262e2d95f6f358, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: dbaa5410337df8c4d9620d979a6ae9a4, type: 2}
+  hostileIdle:
+    up:
+    - {fileID: 7400000, guid: f1eae16554cbb2147a53de8db772e45b, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: 6567104dc8e613c46b43aa2a6e733f25, type: 2}
+    right:
+    - {fileID: 7400000, guid: 6970d248ab2e0ac42ba2cbf178aa1cff, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: 61cff4ebae2f72043b578f45690126be, type: 2}
+    down:
+    - {fileID: 7400000, guid: 2ee1b1953070b2441916038e306adc64, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: 9afa0b257a9f92c469218c70b75e61df, type: 2}
+    left:
+    - {fileID: 7400000, guid: 2667e71ec70fb4d4f8973987eb423775, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: 4c722280a495c5e4182baba59bf0b8cb, type: 2}
+  walk:
+    up:
+    - {fileID: 7400000, guid: 2fa8b9626243eed4d9583621377f6c75, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: 05a41d96543da6d44b007dd2c380efa1, type: 2}
+    right:
+    - {fileID: 7400000, guid: 597e1d8eb089b864486e42c835b3155e, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: b5411eb04b3b20f429683c5da8cf874e, type: 2}
+    down:
+    - {fileID: 7400000, guid: 623adebc1b0c9cd41a8e5263f522c443, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: 980515f790ce2804e868242d11d76335, type: 2}
+    left:
+    - {fileID: 7400000, guid: 343cdf732cb37a64d9399c4ab3edd30b, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: 3dfc8275947b9dc4c8a830a20798a54b, type: 2}
+  attack:
+    up:
+    - {fileID: 7400000, guid: 925019abb116c2c4d8272b021ea068c4, type: 2}
+    - {fileID: 7400000, guid: 5abf9cf5388c5594191a707b6cbb30fb, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: 2ad26cb578f14b24bba46079d039269c, type: 2}
+    - {fileID: 7400000, guid: 614592ec765d2c247b00a6ea8e91c63e, type: 2}
+    right:
+    - {fileID: 7400000, guid: fda753c82d27e1546975558996713076, type: 2}
+    - {fileID: 7400000, guid: 84daf648f141e724a97f278cbd66e98f, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: f4d0d47311b37b7478619c24f912983e, type: 2}
+    - {fileID: 7400000, guid: a73428187222dac4d913e5c1fe930c5c, type: 2}
+    down:
+    - {fileID: 7400000, guid: d38ea32771d186b409d35b2ee992af6c, type: 2}
+    - {fileID: 7400000, guid: bd2e915dc39443d4eb10cb3fe6e34c68, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: c2a2be38c1a8563448031dde98220752, type: 2}
+    - {fileID: 7400000, guid: de6964207201d3d419e788e4185c8dff, type: 2}
+    left:
+    - {fileID: 7400000, guid: 98322fa3e360af0418c144c5c7fa7c16, type: 2}
+    - {fileID: 7400000, guid: 017ce84c6e4810845ac6d5c561dc49be, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: 84b3c1d9aec2656498aa3dc8958da5ea, type: 2}
+    - {fileID: 7400000, guid: 62cfba3f25d52144b8560ada5f3b149b, type: 2}
+  interact:
+    up:
+    - {fileID: 7400000, guid: 0538577b174cef849ae8b3167387de26, type: 2}
+    upRight:
+    - {fileID: 7400000, guid: 4717300cfe2f186478bc059a15d59ca7, type: 2}
+    right:
+    - {fileID: 7400000, guid: b096c3b7698fb7748811c4a2b45138bd, type: 2}
+    downRight:
+    - {fileID: 7400000, guid: 3a859012df0deaf4baeaad4017f6770e, type: 2}
+    down:
+    - {fileID: 7400000, guid: 3cabf857e39cdbd43bab1bb1de278f5e, type: 2}
+    downLeft:
+    - {fileID: 7400000, guid: 5ce8288f15863404192dbb39d8b3d7b7, type: 2}
+    left:
+    - {fileID: 7400000, guid: e22045bf82ad296448e117390dc0899b, type: 2}
+    upLeft:
+    - {fileID: 7400000, guid: 611396ca46ea6d3459821fff7e0d4b6d, type: 2}
