@@ -59,38 +59,46 @@ PrefabInstance:
     - target: {fileID: 6109165329942239614, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -829871755, guid: f2794723aefa1164a8c117601cdb0e20, type: 3}
+      objectReference: {fileID: 1755948288, guid: deefb5f77b9c8634bab48cf0480cc1eb, type: 3}
     - target: {fileID: 6109165329942239614, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7090318269099183502, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
-      propertyPath: isRaised
+      propertyPath: isWater
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7090318269099183502, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
       propertyPath: lowerAnim
       value: 
-      objectReference: {fileID: 7400000, guid: 97a0734863d2c0d46acf60f6e1e919bb, type: 2}
+      objectReference: {fileID: 7400000, guid: 7713aa4422b34904c8b599a980a124a4, type: 2}
     - target: {fileID: 7090318269099183502, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
       propertyPath: raiseAnim
       value: 
-      objectReference: {fileID: 7400000, guid: 41802cee0f4364440964d7dba4e6416f, type: 2}
+      objectReference: {fileID: 7400000, guid: 565b09f2aed469b4a9843a42a416a50d, type: 2}
+    - target: {fileID: 7090318269099183502, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
+      propertyPath: actAsWater
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7090318269099183502, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
+      propertyPath: isDeathBridge
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7090318269099183502, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
       propertyPath: <ToggleOnAnim>k__BackingField
       value: 
-      objectReference: {fileID: 7400000, guid: 41802cee0f4364440964d7dba4e6416f, type: 2}
+      objectReference: {fileID: 7400000, guid: b2bf00afb40938c4c843327b2f95590c, type: 2}
     - target: {fileID: 7090318269099183502, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
       propertyPath: <ToggleOffAnim>k__BackingField
       value: 
-      objectReference: {fileID: 7400000, guid: 97a0734863d2c0d46acf60f6e1e919bb, type: 2}
+      objectReference: {fileID: 7400000, guid: 921f1a533864afb449a3e917af269245, type: 2}
     - target: {fileID: 8109136703050694922, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
       propertyPath: icon
       value: 
       objectReference: {fileID: 2800000, guid: 5eba6da1e33c0de41a46f022add6bb30, type: 3}
     - target: {fileID: 9008980603784178169, guid: 2ef7a6513e189fe4fab4cfb09fb522ab, type: 3}
       propertyPath: m_Name
-      value: 2GR-ToggleBridge
+      value: 2GR-ToggleDeathBridge_Down
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

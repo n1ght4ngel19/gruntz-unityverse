@@ -11,7 +11,11 @@ PrefabInstance:
     - target: {fileID: -6060911153766276986, guid: ac10ebaa74747604e8985713a33c8765, type: 3}
       propertyPath: crumbleAnim
       value: 
-      objectReference: {fileID: 7400000, guid: 7d909f6795690dd4f8b0e4f2fc1c4bd4, type: 2}
+      objectReference: {fileID: 7400000, guid: c73a3d20af715f24b944ff32c6c6eee2, type: 2}
+    - target: {fileID: -6060911153766276986, guid: ac10ebaa74747604e8985713a33c8765, type: 3}
+      propertyPath: isDeathBridge
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -6060911153766276986, guid: ac10ebaa74747604e8985713a33c8765, type: 3}
       propertyPath: <CrumbleAnim>k__BackingField
       value: 
@@ -63,14 +67,14 @@ PrefabInstance:
     - target: {fileID: 6109165329942239614, guid: ac10ebaa74747604e8985713a33c8765, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 162323015, guid: 0833225e10fde1749bf099995cefd51c, type: 3}
+      objectReference: {fileID: 1133014451, guid: fa387fba0096118409644b2ad2707d05, type: 3}
     - target: {fileID: 6109165329942239614, guid: ac10ebaa74747604e8985713a33c8765, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9008980603784178169, guid: ac10ebaa74747604e8985713a33c8765, type: 3}
       propertyPath: m_Name
-      value: 2GR-CrumbleBridge
+      value: 2GR-CrumbleDeathBridge
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
