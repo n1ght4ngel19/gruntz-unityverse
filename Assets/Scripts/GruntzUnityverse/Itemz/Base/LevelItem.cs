@@ -72,7 +72,9 @@ public abstract class LevelItem : MonoBehaviour {
 
 		yield return new WaitForSeconds(pickupAnim.length);
 
-		targetGrunt.enabled = true;
+		targetGrunt.enabled = true; 
+
+		targetGrunt.GoToState(StateHandler.State.Walking);
 	}
 
 	/// <summary>
@@ -84,11 +86,14 @@ public abstract class LevelItem : MonoBehaviour {
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
 			GetComponent<SpriteRenderer>().enabled = false;
-			GetComponent<CircleCollider2D>().isTrigger = false;
-
-			grunt.travelGoal = grunt.node;
 
 			StartCoroutine(Pickup(grunt));
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D other) {
+		if (other.TryGetComponent(out Grunt _)) {
+			GetComponent<SpriteRenderer>().enabled = true;
 		}
 	}
 

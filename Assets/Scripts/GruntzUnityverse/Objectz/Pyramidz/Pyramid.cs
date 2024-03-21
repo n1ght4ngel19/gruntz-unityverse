@@ -31,7 +31,7 @@ public abstract class Pyramid : GridObject {
 		Grunt grunt = FindObjectsByType<Grunt>(FindObjectsSortMode.None).FirstOrDefault(gr => gr.node == node);
 
 		if (grunt != null && node.isBlocked) {
-			grunt.Die(AnimationManager.Instance.explodeDeathAnimation, false, false);
+			grunt.Die(AnimationManager.instance.explodeDeathAnimation, false, false);
 		}
 	}
 }

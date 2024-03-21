@@ -91,8 +91,9 @@ public class Rock : GridObject, IObjectHolder, IAnimatable {
 
 	private async void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out RollingBall ball)) {
-			ball.enabled = false;
+			ball.moveSpeed *= 5;
 			await ball.animancer.Play(ball.breakAnim);
+			ball.enabled = false;
 
 			ball.GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
 			ball.GetComponent<SpriteRenderer>().sortingOrder = 6;

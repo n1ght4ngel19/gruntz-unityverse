@@ -40,13 +40,13 @@ public class StaticHazard : Hazard {
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt) && active) {
-			grunt.Die(AnimationManager.Instance.burnDeathAnimation, false, false);
+			grunt.Die(AnimationManager.instance.burnDeathAnimation, false, false);
 		}
 	}
 
 	private void OnTriggerStay2D(Collider2D other) {
 		if (gruntOnTop != null && active) {
-			gruntOnTop.Die(AnimationManager.Instance.burnDeathAnimation, false, false);
+			gruntOnTop.Die(AnimationManager.instance.burnDeathAnimation, false, false);
 		}
 	}
 }

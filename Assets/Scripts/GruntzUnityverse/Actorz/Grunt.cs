@@ -496,7 +496,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		yield return new WaitForSeconds(toPlay.length * 0.5f);
 
-		hole.dirt.GetComponent<AnimancerComponent>().Play(AnimationManager.Instance.dirtEffect);
+		hole.dirt.GetComponent<AnimancerComponent>().Play(AnimationManager.instance.dirtEffect);
 
 		yield return new WaitForSeconds(toPlay.length * 1f);
 
@@ -532,7 +532,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		yield return new WaitForSeconds(toPlay.length - 0.5f);
 
-		// Level.Instance.accumulatedGoo += puddle.amount;
+		GameManager.instance.gooWell.Fill(puddle.gooAmount);
+
 		interactionTarget = null;
 	}
 
@@ -741,18 +742,18 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		enabled = false;
 
 		// The first part of the animation plays where the Grunt is sucked into the warp
-		animancer.Play(AnimationManager.Instance.gruntWarpOutEndAnimation);
+		animancer.Play(AnimationManager.instance.gruntWarpOutEndAnimation);
 
-		yield return new WaitForSeconds(AnimationManager.Instance.gruntWarpOutEndAnimation.length);
+		yield return new WaitForSeconds(AnimationManager.instance.gruntWarpOutEndAnimation.length);
 
 		Camera.main.transform.position = new Vector3(destination.position.x, destination.position.y, -10);
 		transform.position = destination.position;
 		node = Level.instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
 
 		// The second part of the animation plays where the Grunt is spat out of the warp
-		animancer.Play(AnimationManager.Instance.gruntWarpEnterAnimation);
+		animancer.Play(AnimationManager.instance.gruntWarpEnterAnimation);
 
-		yield return new WaitForSeconds(AnimationManager.Instance.gruntWarpEnterAnimation.length);
+		yield return new WaitForSeconds(AnimationManager.instance.gruntWarpEnterAnimation.length);
 
 		enabled = true;
 

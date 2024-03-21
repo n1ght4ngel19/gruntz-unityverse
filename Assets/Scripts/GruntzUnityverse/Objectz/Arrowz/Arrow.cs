@@ -59,7 +59,7 @@ public class Arrow : GridObject {
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
 			if (node.gruntOnNode != null && node.gruntOnNode != grunt) {
-				node.gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+				node.gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 
 			grunt.node = node;
@@ -75,7 +75,7 @@ public class Arrow : GridObject {
 
 		if (other.TryGetComponent(out RollingBall ball)) {
 			if (node.gruntOnNode != null) {
-				node.gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+				node.gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 
 			ball.node = node;

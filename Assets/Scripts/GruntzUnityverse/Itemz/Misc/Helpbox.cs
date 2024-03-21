@@ -30,6 +30,8 @@ public class Helpbox : LevelItem {
 		GameManager.instance.helpboxUI.GetComponent<Canvas>().enabled = false;
 
 		targetGrunt.enabled = true;
+		
+		targetGrunt.GoToState(StateHandler.State.Walking);
 	}
 
 	private void OnTriggerExit2D(Collider2D other) {

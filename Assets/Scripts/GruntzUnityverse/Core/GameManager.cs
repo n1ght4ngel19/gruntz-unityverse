@@ -34,8 +34,10 @@ public class GameManager : MonoBehaviour {
 	[Header("Gruntz")]
 	public List<Grunt> allGruntz;
 
-	public Grunt[] playerGruntz;
-	public Grunt[] dizgruntled;
+	public List<Grunt> playerGruntz;
+	public List<Grunt> dizgruntled;
+
+	public GooWell gooWell;
 
 	/// <summary>
 	/// The Gruntz currently selected by the player.
@@ -129,6 +131,8 @@ public class GameManagerEditor : UnityEditor.Editor {
 
 			level.Initialize();
 
+			gameManager.gooWell = FindFirstObjectByType<GooWell>();
+
 			FindFirstObjectByType<PauseMenu>().canvas.worldCamera =
 				FindFirstObjectByType<CameraMovement>().gameObject.GetComponent<Camera>();
 
@@ -136,11 +140,11 @@ public class GameManagerEditor : UnityEditor.Editor {
 
 			gameManager.playerGruntz = gameManager.allGruntz
 				.Where(grunt => grunt.CompareTag("PlayerGrunt"))
-				.ToArray();
+				.ToList();
 
 			gameManager.dizgruntled = gameManager.allGruntz
 				.Where(grunt => grunt.CompareTag("Dizgruntled"))
-				.ToArray();
+				.ToList();
 
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 			FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)

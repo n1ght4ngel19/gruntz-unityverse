@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
 public class GruntPuddle : GridObject {
+	public int gooAmount;
+
 	public AnimancerComponent animancer;
 	public AnimationClip appearAnim;
 	public AnimationClip bubblingAnim;

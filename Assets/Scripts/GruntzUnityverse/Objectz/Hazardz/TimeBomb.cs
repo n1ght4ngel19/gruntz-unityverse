@@ -16,14 +16,14 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 	public override async void OnRevealed() {
 		Debug.Log("OnRevealed");
 
-		Animancer.Play(AnimationManager.Instance.timeBombTickingAnim);
+		Animancer.Play(AnimationManager.instance.timeBombTickingAnim);
 
 		await UniTask.WaitForSeconds(delay);
 
 		GameManager.instance.allGruntz
 			.Where(gr => node.neighbours.Contains(gr.node))
 			.ToList()
-			.ForEach(gr1 => gr1.Die(AnimationManager.Instance.explodeDeathAnimation, false, false));
+			.ForEach(gr1 => gr1.Die(AnimationManager.instance.explodeDeathAnimation, false, false));
 
 		FindObjectsByType<Rock>(FindObjectsSortMode.None)
 			.Where(r => node.neighbours.Contains(r.node))
@@ -33,7 +33,7 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 		spriteRenderer.sortingLayerName = "Default";
 		spriteRenderer.sortingOrder = 6;
 		
-		await Animancer.Play(AnimationManager.Instance.explosionAnim1);
+		await Animancer.Play(AnimationManager.instance.explosionAnim1);
 
 		Destroy(gameObject);
 	}

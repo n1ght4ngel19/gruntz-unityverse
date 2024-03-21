@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4276066817981512663}
-  - component: {fileID: 2370631032454505541}
   - component: {fileID: -4678422730058095440}
+  - component: {fileID: 2370631032454505541}
   - component: {fileID: -7228001487219068154}
   - component: {fileID: -3034496724958681285}
   - component: {fileID: -7565159396473258776}
@@ -37,6 +37,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4678422730058095440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154651464123102031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78d5fda21fc34d64b205888f3fcb9779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  circleCollider2D: {fileID: 0}
+  gooAmount: 1
+  animancer: {fileID: -3034496724958681285}
+  appearAnim: {fileID: 7400000, guid: dc2fa5c5a27abee43b892a0080afe9ad, type: 2}
+  bubblingAnim: {fileID: 7400000, guid: c634c7155ff76a44a811925877be8ec6, type: 2}
+  disappearAnim: {fileID: 7400000, guid: 93f5bcb40db780741a830d04dbd90bbd, type: 2}
 --- !u!212 &2370631032454505541
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -91,24 +116,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4678422730058095440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 154651464123102031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78d5fda21fc34d64b205888f3fcb9779, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  animancer: {fileID: -3034496724958681285}
-  appearAnim: {fileID: 7400000, guid: dc2fa5c5a27abee43b892a0080afe9ad, type: 2}
-  bubblingAnim: {fileID: 7400000, guid: c634c7155ff76a44a811925877be8ec6, type: 2}
-  disappearAnim: {fileID: 7400000, guid: 93f5bcb40db780741a830d04dbd90bbd, type: 2}
 --- !u!95 &-7228001487219068154
 Animator:
   serializedVersion: 7
@@ -163,7 +170,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &4238708448035536302
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

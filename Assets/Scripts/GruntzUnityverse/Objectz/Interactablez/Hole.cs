@@ -68,7 +68,7 @@ public class Hole : GridObject, IObjectHolder {
 			Debug.Log("Grunt collision");
 
 			if (open && grunt.equippedTool is not Wingz) {
-				grunt.Die(AnimationManager.Instance.holeDeathAnimation, leavePuddle: false, playBelow: false);
+				grunt.Die(AnimationManager.instance.holeDeathAnimation, leavePuddle: false, playBelow: false);
 			}
 		}
 	}

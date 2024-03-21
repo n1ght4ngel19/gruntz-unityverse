@@ -6,9 +6,17 @@ public class GameCursor : MonoBehaviour {
 	public SpriteRenderer spriteRenderer;
 	public AnimationClip toPlay;
 
+	public Material brownSkinColor;
+	public Material defaultMaterial;
+
 	public AnimancerComponent animancer;
 
+	public static GameCursor instance;
+
 	private void Awake() {
+		instance = this;
+
+		defaultMaterial = spriteRenderer.material;
 		animancer = GetComponent<AnimancerComponent>();
 	}
 

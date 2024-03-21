@@ -584,6 +584,34 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""CreatorPad"",
+            ""id"": ""64d98f1d-b97e-4550-8f0d-26c670322992"",
+            ""actions"": [
+                {
+                    ""name"": ""TryPlaceGrunt"",
+                    ""type"": ""Button"",
+                    ""id"": ""0371cfd4-1989-4595-a2b0-47315fd0ba3a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0cf459d4-d3a1-47b6-a305-48ea02bbd36d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TryPlaceGrunt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -618,6 +646,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         // PauseMenu
         m_PauseMenu = asset.FindActionMap("PauseMenu", throwIfNotFound: true);
         m_PauseMenu_Escape = m_PauseMenu.FindAction("Escape", throwIfNotFound: true);
+        // CreatorPad
+        m_CreatorPad = asset.FindActionMap("CreatorPad", throwIfNotFound: true);
+        m_CreatorPad_TryPlaceGrunt = m_CreatorPad.FindAction("TryPlaceGrunt", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1047,6 +1078,52 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         }
     }
     public PauseMenuActions @PauseMenu => new PauseMenuActions(this);
+
+    // CreatorPad
+    private readonly InputActionMap m_CreatorPad;
+    private List<ICreatorPadActions> m_CreatorPadActionsCallbackInterfaces = new List<ICreatorPadActions>();
+    private readonly InputAction m_CreatorPad_TryPlaceGrunt;
+    public struct CreatorPadActions
+    {
+        private @GameActions m_Wrapper;
+        public CreatorPadActions(@GameActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @TryPlaceGrunt => m_Wrapper.m_CreatorPad_TryPlaceGrunt;
+        public InputActionMap Get() { return m_Wrapper.m_CreatorPad; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CreatorPadActions set) { return set.Get(); }
+        public void AddCallbacks(ICreatorPadActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CreatorPadActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CreatorPadActionsCallbackInterfaces.Add(instance);
+            @TryPlaceGrunt.started += instance.OnTryPlaceGrunt;
+            @TryPlaceGrunt.performed += instance.OnTryPlaceGrunt;
+            @TryPlaceGrunt.canceled += instance.OnTryPlaceGrunt;
+        }
+
+        private void UnregisterCallbacks(ICreatorPadActions instance)
+        {
+            @TryPlaceGrunt.started -= instance.OnTryPlaceGrunt;
+            @TryPlaceGrunt.performed -= instance.OnTryPlaceGrunt;
+            @TryPlaceGrunt.canceled -= instance.OnTryPlaceGrunt;
+        }
+
+        public void RemoveCallbacks(ICreatorPadActions instance)
+        {
+            if (m_Wrapper.m_CreatorPadActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICreatorPadActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CreatorPadActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CreatorPadActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CreatorPadActions @CreatorPad => new CreatorPadActions(this);
     public interface IInGameActions
     {
         void OnSelect(InputAction.CallbackContext context);
@@ -1082,5 +1159,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     public interface IPauseMenuActions
     {
         void OnEscape(InputAction.CallbackContext context);
+    }
+    public interface ICreatorPadActions
+    {
+        void OnTryPlaceGrunt(InputAction.CallbackContext context);
     }
 }

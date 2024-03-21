@@ -203,7 +203,7 @@ public class Node : MonoBehaviour {
 
 		if (other.TryGetComponent(out Grunt grunt)) {
 			if (gruntOnNode != null && gruntOnNode != grunt) {
-				gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+				gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 
 			grunt.node = this;
@@ -212,25 +212,25 @@ public class Node : MonoBehaviour {
 			grunt.spriteRenderer.sortingOrder = 10;
 
 			if (this.isBlocked && !grunt.canFly) {
-				grunt.Die(AnimationManager.Instance.explodeDeathAnimation, false, false);
+				grunt.Die(AnimationManager.instance.explodeDeathAnimation, false, false);
 
 				return;
 			}
 
 			if (this.isFire) {
-				grunt.Die(AnimationManager.Instance.burnDeathAnimation, false, false);
+				grunt.Die(AnimationManager.instance.burnDeathAnimation, false, false);
 
 				return;
 			}
 
 			if (this.isWater && !grunt.canFly) {
-				grunt.Die(AnimationManager.Instance.sinkDeathAnimation, false, false);
+				grunt.Die(AnimationManager.instance.sinkDeathAnimation, false, false);
 
 				return;
 			}
 
 			if (this.isVoid && !grunt.canFly) {
-				grunt.Die(AnimationManager.Instance.fallDeathAnimation, false, false);
+				grunt.Die(AnimationManager.instance.fallDeathAnimation, false, false);
 
 				return;
 			}
@@ -256,21 +256,24 @@ public class Node : MonoBehaviour {
 
 			switch (tileType) {
 				case TileType.Water:
-					ball.moveSpeed /= 2;
+					ball.enabled = false;
 					await ball.animancer.Play(ball.sinkAnim);
 
 					Destroy(ball.gameObject);
 
 					return;
 				case TileType.Collision:
-					ball.moveSpeed /= 2;
+					ball.moveSpeed *= 5;
 					await ball.animancer.Play(ball.breakAnim);
 
-					Destroy(ball.gameObject);
+					ball.enabled = false;
+
+					ball.GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
+					ball.GetComponent<SpriteRenderer>().sortingOrder = 6;
 
 					return;
 				case TileType.Void:
-					ball.moveSpeed /= 2;
+					ball.enabled = false;
 					await ball.animancer.Play(ball.sinkAnim);
 
 					Destroy(ball.gameObject);
@@ -279,7 +282,7 @@ public class Node : MonoBehaviour {
 			}
 
 			if (gruntOnNode != null) {
-				gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+				gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 		}
 	}
