@@ -2,13 +2,11 @@
 using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Core;
-using GruntzUnityverse.Pathfinding;
+using GruntzUnityverse.Objectz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
-public class GruntPuddle : MonoBehaviour {
-	public Vector2Int location2D;
-	public Node node;
+public class GruntPuddle : GridObject {
 	public AnimancerComponent animancer;
 	public AnimationClip appearAnim;
 	public AnimationClip bubblingAnim;
@@ -16,9 +14,9 @@ public class GruntPuddle : MonoBehaviour {
 
 	private void Start() {
 		location2D = Vector2Int.RoundToInt(transform.position);
-		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
-		
-		Appear();
+		node = Level.instance.levelNodes.First(n => n.location2D == location2D);
+
+		animancer.Play(bubblingAnim);
 	}
 
 	public async void Appear() {
@@ -29,7 +27,8 @@ public class GruntPuddle : MonoBehaviour {
 
 	public async void Disappear() {
 		await animancer.Play(disappearAnim);
-		Destroy(gameObject);
+
+		Destroy(gameObject, 0.1f);
 	}
 }
 }

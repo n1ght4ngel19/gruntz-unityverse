@@ -1,5 +1,4 @@
 ﻿using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Animation;
 using UnityEngine;
 
@@ -17,10 +16,6 @@ public class EquippedToy : ScriptableObject {
 	public AnimationPack animationPack;
 
 	public virtual void ForcePlay(Grunt targetGrunt) {
-		targetGrunt.intent = Intent.ToIdle;
-
-		targetGrunt.EvaluateState(whenFalse: targetGrunt.BetweenNodes);
-
 		targetGrunt.equippedToy = null;
 	}
 }

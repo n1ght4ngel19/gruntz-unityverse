@@ -12,13 +12,13 @@ public class Level : MonoBehaviour {
 	/// <summary>
 	/// The singleton accessor of the Level.
 	/// </summary>
-	public static Level Instance { get; private set; }
+	public static Level instance { get; private set; }
 
 	public Tilemap mainMap;
 	public Tilemap background;
 
 	public GameObject nodeGrid;
-	public List<Node> levelNodes;
+	public HashSet<Node> levelNodes;
 	public Node nodePrefab;
 
 	public string levelName;
@@ -35,17 +35,14 @@ public class Level : MonoBehaviour {
 	}
 
 	private void Awake() {
-		if (Instance != null && Instance != this) {
-			Destroy(gameObject);
-		} else {
-			Instance = this;
-		}
+		instance = this;
+		levelNodes = FindObjectsByType<Node>(FindObjectsSortMode.None).ToHashSet();
 	}
 
 	public void Initialize() {
 		// Clear existing nodes
 		nodeGrid.GetComponentsInChildren<Node>().ToList().ForEach(n => DestroyImmediate(n.gameObject));
-		levelNodes.Clear();
+		levelNodes = new HashSet<Node>();
 
 		// Compress bounds to avoid iterating through empty tiles
 		mainMap.CompressBounds();
@@ -62,15 +59,14 @@ public class Level : MonoBehaviour {
 
 			// Create new node and set it up
 			Instantiate(nodePrefab, mainMap.GetCellCenterLocal(position), Quaternion.identity, nodeGrid.transform)
-				.SetupNode(position, tile.name, levelNodes);
+				.SetupNode(position, tile.name);
 		}
 
-		// Assign neighbours to all nodes AFTER all nodes have been created
-		levelNodes.ForEach(n => n.AssignNeighbours(levelNodes));
+		HashSet<Node> allNodes = FindObjectsByType<Node>(FindObjectsSortMode.None).ToHashSet();
 
-		foreach (GameObject go in GameObject.FindGameObjectsWithTag("Blocker")) {
-			Vector2Int position = Vector2Int.RoundToInt(go.transform.position);
-			levelNodes.FirstOrDefault(n => n.location2D.Equals(position))!.isBlocked = true;
+		// Assign neighbours to all nodes after all nodes have been created
+		foreach (Node node in allNodes) {
+			node.AssignNeighbours(allNodes);
 		}
 
 		levelStatz.maxToolz = FindObjectsByType<LevelTool>(FindObjectsSortMode.None).Length;
@@ -79,6 +75,9 @@ public class Level : MonoBehaviour {
 		levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
 		levelStatz.maxSecretz = FindObjectsByType<SecretSwitch>(FindObjectsSortMode.None).Length;
 		levelStatz.maxWarpletterz = FindObjectsByType<Warpletter>(FindObjectsSortMode.None).Length;
+
+		Debug.Log(levelNodes.Count);
+		Debug.Log(levelName is null);
 	}
 }
 }

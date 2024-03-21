@@ -329,6 +329,15 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FreezeGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""9429b246-2efa-4a8d-8fe4-cf7c400a23ab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -362,6 +371,17 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ChangeGameSpeed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ae2976c-d97f-4317-b747-1eb104d1dcaa"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FreezeGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -410,9 +430,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""430abcee-791c-4b11-b1ec-c2c0c753b774"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -455,7 +475,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""MoveVector"",
                     ""id"": ""0956f398-acee-4b52-8492-568dc5464477"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -584,6 +604,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_GameManager_LoadStatzMenu = m_GameManager.FindAction("LoadStatzMenu", throwIfNotFound: true);
         m_GameManager_SwitchLocale = m_GameManager.FindAction("SwitchLocale", throwIfNotFound: true);
         m_GameManager_ChangeGameSpeed = m_GameManager.FindAction("ChangeGameSpeed", throwIfNotFound: true);
+        m_GameManager_FreezeGame = m_GameManager.FindAction("FreezeGame", throwIfNotFound: true);
         // StatzMenu
         m_StatzMenu = asset.FindActionMap("StatzMenu", throwIfNotFound: true);
         m_StatzMenu_Escape = m_StatzMenu.FindAction("Escape", throwIfNotFound: true);
@@ -771,6 +792,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_GameManager_LoadStatzMenu;
     private readonly InputAction m_GameManager_SwitchLocale;
     private readonly InputAction m_GameManager_ChangeGameSpeed;
+    private readonly InputAction m_GameManager_FreezeGame;
     public struct GameManagerActions
     {
         private @GameActions m_Wrapper;
@@ -778,6 +800,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         public InputAction @LoadStatzMenu => m_Wrapper.m_GameManager_LoadStatzMenu;
         public InputAction @SwitchLocale => m_Wrapper.m_GameManager_SwitchLocale;
         public InputAction @ChangeGameSpeed => m_Wrapper.m_GameManager_ChangeGameSpeed;
+        public InputAction @FreezeGame => m_Wrapper.m_GameManager_FreezeGame;
         public InputActionMap Get() { return m_Wrapper.m_GameManager; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -796,6 +819,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @ChangeGameSpeed.started += instance.OnChangeGameSpeed;
             @ChangeGameSpeed.performed += instance.OnChangeGameSpeed;
             @ChangeGameSpeed.canceled += instance.OnChangeGameSpeed;
+            @FreezeGame.started += instance.OnFreezeGame;
+            @FreezeGame.performed += instance.OnFreezeGame;
+            @FreezeGame.canceled += instance.OnFreezeGame;
         }
 
         private void UnregisterCallbacks(IGameManagerActions instance)
@@ -809,6 +835,9 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             @ChangeGameSpeed.started -= instance.OnChangeGameSpeed;
             @ChangeGameSpeed.performed -= instance.OnChangeGameSpeed;
             @ChangeGameSpeed.canceled -= instance.OnChangeGameSpeed;
+            @FreezeGame.started -= instance.OnFreezeGame;
+            @FreezeGame.performed -= instance.OnFreezeGame;
+            @FreezeGame.canceled -= instance.OnFreezeGame;
         }
 
         public void RemoveCallbacks(IGameManagerActions instance)
@@ -1035,6 +1064,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         void OnLoadStatzMenu(InputAction.CallbackContext context);
         void OnSwitchLocale(InputAction.CallbackContext context);
         void OnChangeGameSpeed(InputAction.CallbackContext context);
+        void OnFreezeGame(InputAction.CallbackContext context);
     }
     public interface IStatzMenuActions
     {

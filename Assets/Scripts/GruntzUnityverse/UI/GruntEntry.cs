@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 namespace GruntzUnityverse.UI {
 public class GruntEntry : MonoBehaviour {
-	public int EntryId => int.Parse(gameObject.name.Split("_").Last());
-	public Grunt ConnectedGrunt => GameManager.Instance.allGruntz.First(gr => gr.gruntId == EntryId);
+	public int entryId => int.Parse(gameObject.name.Split("_").Last());
+	private Grunt connectedGrunt => GameManager.instance.allGruntz.First(gr => gr.gruntId == entryId);
 
 	[Header("Slotz")]
 	public GameObject slotz;
@@ -41,12 +41,12 @@ public class GruntEntry : MonoBehaviour {
 
 	public void SelectConnected() {
 		Camera.main.transform.position = new Vector3(
-			ConnectedGrunt.transform.position.x,
-			ConnectedGrunt.transform.position.y,
+			connectedGrunt.transform.position.x,
+			connectedGrunt.transform.position.y,
 			Camera.main.transform.position.z
 		);
 
-		ConnectedGrunt.Select();
+		connectedGrunt.Select();
 	}
 
 	public void HighLight(bool highlight = true) {

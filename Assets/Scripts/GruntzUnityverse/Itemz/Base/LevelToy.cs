@@ -11,7 +11,7 @@ public class LevelToy : LevelItem {
 
 		targetGrunt.equippedToy = toy;
 		targetGrunt.gruntEntry.SetToy(codeName);
-		Level.Instance.levelStatz.toyzCollected++;
+		Level.instance.levelStatz.toyzCollected++;
 
 		Destroy(gameObject);
 	}

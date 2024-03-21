@@ -18,7 +18,7 @@ public class Post : MonoBehaviour {
 
 	private void Start() {
 		location2D = Vector2Int.RoundToInt(transform.position);
-		node = Level.Instance.levelNodes.First(n => n.location2D == location2D);
+		node = Level.instance.levelNodes.First(n => n.location2D == location2D);
 
 		float wh = range * 2 + 0.1f;
 		boxCollider2D.size = new Vector2(wh, wh);

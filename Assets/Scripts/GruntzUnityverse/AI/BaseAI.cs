@@ -1,5 +1,4 @@
 ﻿using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Editor.PropertyDrawers;
 using UnityEngine;
 
@@ -29,8 +28,6 @@ public abstract class BaseAI : MonoBehaviour {
 		self.attackTarget = null;
 
 		self.travelGoal = post.node;
-		self.intent = Intent.ToMove;
-		self.EvaluateState(whenFalse: self.BetweenNodes || self.committed);
 	}
 
 	private void OnDestroy() {

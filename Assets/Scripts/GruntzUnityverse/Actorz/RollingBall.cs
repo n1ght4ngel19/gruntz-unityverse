@@ -8,8 +8,6 @@ using UnityEngine;
 namespace GruntzUnityverse.Actorz {
 public class RollingBall : MonoBehaviour {
 	[Header("Pathfinding")]
-	public Vector2 Location2D => node.location2D;
-
 	public Node node;
 
 	public Node next;
@@ -26,15 +24,17 @@ public class RollingBall : MonoBehaviour {
 	public AnimationClip breakAnim;
 	public AnimationClip sinkAnim;
 
-	public AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
+	public AnimancerComponent animancer;
 
 	public void Setup() {
 		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
 			.First(n => n.location2D == new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y)));
+
+		animancer ??= GetComponent<AnimancerComponent>();
 	}
 
 	private void Start() {
-		Animancer.Play(rollAnimUp);
+		animancer.Play(rollAnimUp);
 	}
 
 	private void FixedUpdate() {
@@ -54,7 +54,7 @@ public class RollingBall : MonoBehaviour {
 			GetComponent<SpriteRenderer>().sortingLayerName = "Default";
 			GetComponent<SpriteRenderer>().sortingOrder = 4;
 
-			Animancer.Play(breakAnim);
+			animancer.Play(breakAnim);
 
 			yield return new WaitForSeconds(breakAnim.length);
 

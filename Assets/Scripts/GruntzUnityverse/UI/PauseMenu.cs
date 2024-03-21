@@ -35,12 +35,21 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	private void OnEscape() {
-		if (!GameManager.Instance.helpboxUI.GetComponent<Canvas>().enabled) {
+		if (!GameManager.instance.helpboxUI.GetComponent<Canvas>().enabled) {
 			Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
 			canvas.enabled = Time.timeScale == 0f;
 		} else {
 			Time.timeScale = 1f;
 		}
+
+		GameManager.instance.selector.enabled = Time.timeScale is not 0;
+		FindFirstObjectByType<CameraMovement>().enabled = Time.timeScale is not 0;
 	}
+
+	// private void OnApplicationFocus(bool hasFocus) {
+	// 	if (!hasFocus) {
+	// 		OnEscape();
+	// 	}
+	// }
 }
 }

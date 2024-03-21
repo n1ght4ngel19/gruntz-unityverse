@@ -122,6 +122,7 @@ public class AnimationManager : MonoBehaviour {
 	}
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(AnimationManager))]
 public class AnimationManagerEditor : UnityEditor.Editor {
 	public override void OnInspectorGUI() {
@@ -132,5 +133,5 @@ public class AnimationManagerEditor : UnityEditor.Editor {
 		}
 	}
 }
-
+#endif
 }

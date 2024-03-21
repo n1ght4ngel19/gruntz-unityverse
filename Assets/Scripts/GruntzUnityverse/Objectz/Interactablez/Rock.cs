@@ -13,12 +13,14 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 /// <summary>
 /// A Grunt-sized piece of rock that blocks the path, possibly hiding something under it.
 /// </summary>
-public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
+public class Rock : GridObject, IObjectHolder, IAnimatable {
 	public override void Setup() {
 		base.Setup();
 
 		node.isBlocked = isObstacle;
 	}
+
+	public List<EquippedTool> compatibleToolz;
 
 	// --------------------------------------------------
 	// IObjectHolder
@@ -26,44 +28,33 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 
 	#region IObjectHolder
 	[Header("IObjectHolder")]
-	[field: SerializeField] public LevelItem HeldItem { get; set; }
-	[field: SerializeField] public Hazard HiddenHazard { get; set; }
-	[field: SerializeField] public Switch HiddenSwitch { get; set; }
+	[field: SerializeField] public LevelItem heldItem { get; set; }
+	[field: SerializeField] public Hazard hiddenHazard { get; set; }
+	[field: SerializeField] public Switch hiddenSwitch { get; set; }
 
 	public void RevealHidden(bool isSceneLoaded) {
-		if (HeldItem != null) {
-			HeldItem.GetComponent<SpriteRenderer>().enabled = true;
-			HeldItem.GetComponent<CircleCollider2D>().isTrigger = true;
+		if (heldItem != null) {
+			heldItem.GetComponent<SpriteRenderer>().enabled = true;
+			heldItem.GetComponent<CircleCollider2D>().isTrigger = true;
 		}
 
-		if (HiddenHazard != null) {
-			HiddenHazard.spriteRenderer.enabled = true;
-			HiddenHazard.circleCollider2D.isTrigger = true;
-			HiddenHazard.enabled = true;
+		if (hiddenHazard != null) {
+			hiddenHazard.spriteRenderer.enabled = true;
+			hiddenHazard.circleCollider2D.isTrigger = true;
+			hiddenHazard.enabled = true;
 
-			HiddenHazard.OnRevealed();
+			hiddenHazard.OnRevealed();
 		}
 
-		if (HiddenSwitch != null) {
-			HiddenSwitch.spriteRenderer.enabled = true;
-			HiddenSwitch.circleCollider2D.isTrigger = true;
-			HiddenSwitch.enabled = true;
+		if (hiddenSwitch != null) {
+			hiddenSwitch.spriteRenderer.enabled = true;
+			hiddenSwitch.circleCollider2D.isTrigger = true;
+			hiddenSwitch.enabled = true;
 		}
 	}
 	#endregion
 
-	// --------------------------------------------------
-	// IInteractable
-	// --------------------------------------------------
-
-	#region IInteractable
-	public List<string> CompatibleItemz {
-		get => new List<string> {
-			"Gauntletz",
-		};
-	}
-
-	public async void Interact() {
+	public async void Break() {
 		enabled = false;
 
 		transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
@@ -72,18 +63,19 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 
 		Animancer.Play(breakAnimation);
 
-		await UniTask.WaitForSeconds(breakAnimation.length);
+		await UniTask.WaitForSeconds(breakAnimation.length * 0.25f);
 
 		transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
 		spriteRenderer.sortingOrder = 4;
 
+		RevealHidden(gameObject.scene.isLoaded);
+
+		// await UniTask.WaitForSeconds(breakAnimation.length * 0.25f);
+
 		// This also prevents removing the effect of other possible blocking objects at the same location
 		node.isBlocked = isObstacle ? false : node.isBlocked;
-
-		RevealHidden(gameObject.scene.isLoaded);
 	}
-	#endregion
 
 	// --------------------------------------------------
 	// IAnimatable
@@ -100,9 +92,10 @@ public class Rock : GridObject, IObjectHolder, IInteractable, IAnimatable {
 	private async void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out RollingBall ball)) {
 			ball.enabled = false;
-			await ball.Animancer.Play(ball.breakAnim);
+			await ball.animancer.Play(ball.breakAnim);
 
-			// Destroy(ball.gameObject);
+			ball.GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
+			ball.GetComponent<SpriteRenderer>().sortingOrder = 6;
 		}
 	}
 }

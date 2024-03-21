@@ -18,7 +18,7 @@ public class LevelPowerup : LevelItem {
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
 		yield return base.Pickup(targetGrunt);
 
-		Level.Instance.levelStatz.powerupzCollected++;
+		Level.instance.levelStatz.powerupzCollected++;
 		GetComponent<SpriteRenderer>().enabled = false;
 		GetComponent<CircleCollider2D>().enabled = false;
 

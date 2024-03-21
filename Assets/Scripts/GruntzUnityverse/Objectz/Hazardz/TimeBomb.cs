@@ -20,7 +20,7 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 
 		await UniTask.WaitForSeconds(delay);
 
-		GameManager.Instance.allGruntz
+		GameManager.instance.allGruntz
 			.Where(gr => node.neighbours.Contains(gr.node))
 			.ToList()
 			.ForEach(gr1 => gr1.Die(AnimationManager.Instance.explodeDeathAnimation, false, false));
@@ -28,7 +28,7 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 		FindObjectsByType<Rock>(FindObjectsSortMode.None)
 			.Where(r => node.neighbours.Contains(r.node))
 			.ToList()
-			.ForEach(r1 => r1.Interact());
+			.ForEach(r1 => r1.Break());
 
 		spriteRenderer.sortingLayerName = "Default";
 		spriteRenderer.sortingOrder = 6;

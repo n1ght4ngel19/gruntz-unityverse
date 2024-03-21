@@ -1,5 +1,4 @@
 ﻿using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Animation;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Pathfinding;
@@ -59,28 +58,24 @@ public class Arrow : GridObject {
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
-			if (node.GruntOnNode != null && node.GruntOnNode != grunt) {
-				node.GruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			if (node.gruntOnNode != null && node.gruntOnNode != grunt) {
+				node.gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
 			}
 
 			grunt.node = node;
 			grunt.transform.position = transform.position;
+			grunt.travelGoal = pointedNode;
+
 			grunt.spriteRenderer.sortingOrder = 10;
+			grunt.forced = true;
 
 			grunt.interactionTarget = null;
 			grunt.attackTarget = null;
-
-			grunt.travelGoal = pointedNode;
-
-			grunt.intent = Intent.ToMove;
-			grunt.forced = true;
-
-			grunt.EvaluateState();
 		}
 
 		if (other.TryGetComponent(out RollingBall ball)) {
-			if (node.GruntOnNode != null) {
-				node.GruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
+			if (node.gruntOnNode != null) {
+				node.gruntOnNode.Die(AnimationManager.Instance.squashDeathAnimation);
 			}
 
 			ball.node = node;

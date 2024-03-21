@@ -16,25 +16,35 @@ public class SecretObject : MonoBehaviour {
 			yield break;
 		}
 
-		Node node = Level.Instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
-		bool initiallyBlocked = node.isBlocked;
-		bool initiallyWater = node.isWater;
-		bool initiallyFire = node.isFire;
-		bool initiallyVoid = node.isVoid;
+		if (!gameObject.activeSelf) {
+			Node node = Level.instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
+			bool initiallyBlocked = node.isBlocked;
+			bool initiallyWater = node.isWater;
+			bool initiallyFire = node.isFire;
+			bool initiallyVoid = node.isVoid;
 
-		yield return new WaitForSeconds(delay);
+			yield return new WaitForSeconds(delay);
 
-		gameObject.SetActive(true);
-		gridObject.Setup();
+			gameObject.SetActive(true);
+			gridObject.Setup();
 
-		yield return new WaitForSeconds(duration);
+			yield return new WaitForSeconds(duration);
 
-		gridObject.node.isBlocked = initiallyBlocked;
-		gridObject.node.isWater = initiallyWater;
-		gridObject.node.isFire = initiallyFire;
-		gridObject.node.isVoid = initiallyVoid;
+			gridObject.node.isBlocked = initiallyBlocked;
+			gridObject.node.isWater = initiallyWater;
+			gridObject.node.isFire = initiallyFire;
+			gridObject.node.isVoid = initiallyVoid;
 
-		gameObject.SetActive(false);
+			gameObject.SetActive(false);
+		} else {
+			yield return new WaitForSeconds(delay);
+			
+			gameObject.SetActive(false);
+			
+			yield return new WaitForSeconds(duration);
+			
+			gameObject.SetActive(true);
+		}
 
 		// bool initiallyBlocked = gridObject.node.isBlocked;
 		// bool initiallyWater = gridObject.node.isWater;
