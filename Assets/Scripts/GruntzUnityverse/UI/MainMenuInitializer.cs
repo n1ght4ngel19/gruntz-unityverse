@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GruntzUnityverse.UI {
 public class MainMenuInitializer : MonoBehaviour {
 	private void Awake() {
-		Application.targetFrameRate = 60;
+		Application.targetFrameRate = 120;
 
 		Cursor.visible = false;
 

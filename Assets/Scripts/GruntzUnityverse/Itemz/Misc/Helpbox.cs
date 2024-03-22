@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Itemz.Base;
 using TMPro;
@@ -17,26 +16,26 @@ public class Helpbox : LevelItem {
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
 		targetGrunt.enabled = false;
 
-		targetGrunt.Animancer.Play(pickupAnim);
+		targetGrunt.animancer.Play(pickupAnim);
 
 		yield return new WaitForSeconds(pickupAnim.length);
 
 		Time.timeScale = 0f;
 
-		GameManager.Instance.helpboxUI.GetComponentInChildren<TMP_Text>().SetText(helpboxText);
-		GameManager.Instance.helpboxUI.GetComponent<Canvas>().enabled = true;
+		GameManager.instance.helpboxUI.GetComponentInChildren<TMP_Text>().SetText(helpboxText);
+		GameManager.instance.helpboxUI.GetComponent<Canvas>().enabled = true;
 
 		yield return new WaitUntil(() => Time.timeScale != 0f);
 
-		GameManager.Instance.helpboxUI.GetComponent<Canvas>().enabled = false;
+		GameManager.instance.helpboxUI.GetComponent<Canvas>().enabled = false;
 
 		targetGrunt.enabled = true;
-		targetGrunt.intent = Intent.ToIdle;
-		targetGrunt.EvaluateState(whenFalse: targetGrunt.BetweenNodes);
+		
+		targetGrunt.GoToState(StateHandler.State.Walking);
 	}
 
 	private void OnTriggerExit2D(Collider2D other) {
-		if (!other.TryGetComponent(out Grunt grunt)) {
+		if (!other.TryGetComponent(out Grunt _)) {
 			return;
 		}
 

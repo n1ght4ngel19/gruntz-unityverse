@@ -10,18 +10,19 @@ public class Bridge : GridObject {
 	public AnimationClip raiseAnim;
 	public AnimationClip lowerAnim;
 
-	private AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
+	public AnimancerComponent animancer;
 
 	public override void Setup() {
 		base.Setup();
 
+		animancer ??= GetComponent<AnimancerComponent>();
 		node.isWater = isWater;
 	}
 
 	public async void Toggle() {
 		AnimationClip toPlay = raised ? lowerAnim : raiseAnim;
 
-		Animancer.Play(toPlay);
+		animancer.Play(toPlay);
 		await UniTask.WaitForSeconds(toPlay.length);
 
 		raised = !raised;

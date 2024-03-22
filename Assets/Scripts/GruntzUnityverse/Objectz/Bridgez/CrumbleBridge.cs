@@ -11,11 +11,12 @@ public class CrumbleBridge : GridObject {
 
 	public AnimationClip crumbleAnim;
 
-	private AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
+	public AnimancerComponent animancer;
 
 	public override void Setup() {
 		base.Setup();
 
+		animancer ??= GetComponent<AnimancerComponent>();
 		node.isWater = false;
 	}
 
@@ -26,15 +27,12 @@ public class CrumbleBridge : GridObject {
 
 		await UniTask.WaitForSeconds(crumbleDelay);
 
-		Animancer.Play(crumbleAnim);
+		animancer.Play(crumbleAnim);
 		await UniTask.WaitForSeconds(crumbleAnim.length);
 
 		node.isWater = true;
 
-		// ? Allow some time for node to change state  
-		await UniTask.WaitForSeconds(0.5f);
-
-		Destroy(gameObject);
+		Destroy(gameObject, 0.5f);
 	}
 }
 }

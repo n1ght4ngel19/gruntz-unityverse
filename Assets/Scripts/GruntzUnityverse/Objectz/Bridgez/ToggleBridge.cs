@@ -12,11 +12,12 @@ public class ToggleBridge : GridObject {
 
 	public AnimationClip raiseAnim;
 	public AnimationClip lowerAnim;
-	private AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
+	public AnimancerComponent animancer;
 
 	public override void Setup() {
 		base.Setup();
 
+		animancer ??= GetComponent<AnimancerComponent>();
 		node.isWater = isWater;
 	}
 
@@ -29,7 +30,7 @@ public class ToggleBridge : GridObject {
 	public IEnumerator Toggle() {
 		AnimationClip toPlay = isRaised ? lowerAnim : raiseAnim;
 
-		Animancer.Play(toPlay);
+		animancer.Play(toPlay);
 
 		yield return new WaitForSeconds(toPlay.length);
 

@@ -307,6 +307,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "FreezeGame",
+                    "type": "Button",
+                    "id": "9429b246-2efa-4a8d-8fe4-cf7c400a23ab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -340,6 +349,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChangeGameSpeed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1ae2976c-d97f-4317-b747-1eb104d1dcaa",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FreezeGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -388,9 +408,9 @@
                 },
                 {
                     "name": "Move",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "430abcee-791c-4b11-b1ec-c2c0c753b774",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -433,7 +453,7 @@
                 {
                     "name": "MoveVector",
                     "id": "0956f398-acee-4b52-8492-568dc5464477",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -538,6 +558,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "CreatorPad",
+            "id": "64d98f1d-b97e-4550-8f0d-26c670322992",
+            "actions": [
+                {
+                    "name": "TryPlaceGrunt",
+                    "type": "Button",
+                    "id": "0371cfd4-1989-4595-a2b0-47315fd0ba3a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0cf459d4-d3a1-47b6-a305-48ea02bbd36d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TryPlaceGrunt",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

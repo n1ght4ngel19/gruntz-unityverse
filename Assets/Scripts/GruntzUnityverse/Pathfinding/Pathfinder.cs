@@ -11,44 +11,42 @@ public static class Pathfinder {
 	/// <summary>
 	/// A* search algorithm.
 	/// </summary>
-	/// <param name="start">The NodeV2 to start the search from.</param>
-	/// <param name="end">The NodeV2 to end the search at.</param>
+	/// <param name="start">The Node to start the search from.</param>
+	/// <param name="end">The Node to end the search at.</param>
 	/// <param name="nodes">All nodes in the given context.</param>
+	/// <param name="fly">Whether the search is for flying actors.</param>
 	/// <returns>A list of nodes representing the path from start to end.</returns>
-	public static List<Node> AstarSearch(Node start, Node end, HashSet<Node> nodes) {
+	public static List<Node> AstarSearch(Node start, Node end, HashSet<Node> nodes, bool fly) {
 		if (end == start) {
 			return new List<Node>();
 		}
 
 		// When the selected end node is not walkable, find a new end node if possible
-		if (!end.IsWalkable()) {
+		if (!end.walkable) {
 			// When the target is right beside the start, return an empty list
 			if (start.neighbours.Contains(end)) {
 				return new List<Node>();
 			}
 
-			List<Node> freeNeighbours = end.neighbours.Where(n => n.IsWalkable()).ToList();
-
-			if (freeNeighbours.Count == 0) {
+			if (end.freeNeighbours.Count == 0) {
 				return new List<Node>();
 			}
 
-			end = freeNeighbours.OrderBy(n => CalculateHeuristic(start, n)).First();
+			end = end.freeNeighbours.OrderBy(n => CalculateHeuristic(start, n)).First();
 		}
-
-		HashSet<Node> grid = new HashSet<Node>(nodes);
 
 		// Use a PriorityQueue to keep track of the nodes to check, since we need to sort Nodes in it anyway by their F cost,
 		// and a PriorityQueue does this automatically
 		PriorityQueue<Node, int> openSet = new PriorityQueue<Node, int>();
+
 		// Use a HashSet to keep track of the nodes that have already been checked,
-		// since we don't need to sort them, and but need to check for duplicates
-		HashSet<Node> closedSet = new HashSet<Node>();
+		// since we don't need to sort them, but need to check for duplicates
+		HashSet<Vector2> closedSet = new HashSet<Vector2>();
 		int counter = 0;
 
-		openSet.Enqueue(start, start.F);
+		openSet.Enqueue(start, start.f);
 
-		foreach (Node node in grid) {
+		foreach (Node node in nodes) {
 			node.g = int.MaxValue;
 			node.parent = null;
 		}
@@ -58,25 +56,24 @@ public static class Pathfinder {
 
 		while (openSet.Count > 0) {
 			Node current = openSet.Dequeue();
-
 			counter++;
 
-			// If goal is reached, retrace the path
 			if (current == end) {
+				Debug.Log($"Checked {counter} nodes");
+
 				return RetracePath(start, end);
 			}
 
-			closedSet.Add(current);
+			closedSet.Add(current.location2D);
 
-			foreach (Node neighbour in current.neighbours.Where(n => n != current.parent)) {
-				if (closedSet.Contains(neighbour) || !neighbour.IsWalkable()) {
+			foreach (Node neighbour in current.neighbours) {
+				if (closedSet.Contains(neighbour.location2D)) {
 					continue;
 				}
 
-				// Todo: Check if NodeV2 is another actor's next node, and skip it if so
+				if ((!neighbour.walkable && !fly)) {
+					closedSet.Add(neighbour.location2D);
 
-				// Check if neighbour can be reached diagonally directly, and skip it if not
-				if (!current.CanReachDiagonally(neighbour)) {
 					continue;
 				}
 
@@ -89,15 +86,16 @@ public static class Pathfinder {
 				}
 
 				// See if PriorityQueue contains neighbour, and only enqueue it if it doesn't
-				if (!openSet.UnorderedItems.ToList().Select(tuple => tuple.Item1).Contains(neighbour)) {
-					openSet.Enqueue(neighbour, neighbour.F);
+				if (openSet.UnorderedItems.ToList().Select(tuple => tuple.Item1).Contains(neighbour)) {
+					continue;
 				}
+
+				openSet.Enqueue(neighbour, neighbour.f);
 			}
 		}
 
 		Debug.Log($"No path found, checked {counter} nodes");
 
-		// If no path was found, return an empty list 
 		return new List<Node>();
 	}
 
@@ -108,7 +106,7 @@ public static class Pathfinder {
 		Octile,
 	}
 
-	public static int CalculateHeuristic(Node start, Node end, Heuristic heuristic = Heuristic.Manhattan) {
+	private static int CalculateHeuristic(Node start, Node end, Heuristic heuristic = Heuristic.Manhattan) {
 		return heuristic switch {
 			Heuristic.Euclidean => Euclidean(start, end),
 			Heuristic.Chebyshev => Chebyshev(start, end),
@@ -118,7 +116,9 @@ public static class Pathfinder {
 	}
 
 	private static int Manhattan(Node start, Node end) {
-		return Math.Abs(start.location2D.x - end.location2D.x) + Math.Abs(start.location2D.y - end.location2D.y);
+		return
+			Math.Abs(start.location2D.x - end.location2D.x)
+			+ Math.Abs(start.location2D.y - end.location2D.y);
 	}
 
 	private static int Chebyshev(Node start, Node end) {
@@ -132,7 +132,6 @@ public static class Pathfinder {
 		int dxE = Math.Abs(start.location2D.x - end.location2D.x);
 		int dyE = Math.Abs(start.location2D.y - end.location2D.y);
 
-		// Euclidean distance
 		int euclideanDistance = (int)Math.Sqrt(dxE * dxE + dyE * dyE);
 
 		return euclideanDistance;

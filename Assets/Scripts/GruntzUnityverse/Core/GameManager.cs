@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// The singleton accessor of the GM.
 	/// </summary>
-	public static GameManager Instance { get; private set; }
+	public static GameManager instance { get; private set; }
 
 	/// <summary>
 	/// The name of the current Level (not the scene name/address).
@@ -34,7 +34,10 @@ public class GameManager : MonoBehaviour {
 	[Header("Gruntz")]
 	public List<Grunt> allGruntz;
 
-	public Grunt[] playerGruntz;
+	public List<Grunt> playerGruntz;
+	public List<Grunt> dizgruntled;
+
+	public GooWell gooWell;
 
 	/// <summary>
 	/// The Gruntz currently selected by the player.
@@ -50,17 +53,13 @@ public class GameManager : MonoBehaviour {
 	public GameObject helpboxUI;
 
 	private void Awake() {
-		if (Instance != null && Instance != this) {
-			Destroy(gameObject);
-		} else {
-			Instance = this;
-		}
+		instance = this;
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
 	public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		Debug.Log("Set time to 0");
+		Application.targetFrameRate = 120;
 		Time.timeScale = 0f;
 
 		Cursor.visible = false;
@@ -71,14 +70,12 @@ public class GameManager : MonoBehaviour {
 			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
 	}
 
-	public void InitStuff() {
-		Debug.Log("Set time to 0");
+	public void InitUI() {
 		Time.timeScale = 0f;
-
 		Cursor.visible = false;
 
 		FindFirstObjectByType<GameCursor>().enabled = true;
-		
+
 		GameObject.Find("SidebarUI").GetComponent<Canvas>().worldCamera =
 			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
 
@@ -86,9 +83,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void OnLoadStatzMenu() {
-		// Time.timeScale = 0f;
-
-		Level.Instance.gameObject.SetActive(false);
+		Level.instance.gameObject.SetActive(false);
 		actorz.SetActive(false);
 		itemz.SetActive(false);
 		objectz.SetActive(false);
@@ -113,6 +108,10 @@ public class GameManager : MonoBehaviour {
 		};
 	}
 
+	private void OnFreezeGame() {
+		Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
+	}
+
 	public void LocalizeLevelName(string newLevelName) {
 		levelName = newLevelName;
 	}
@@ -132,14 +131,20 @@ public class GameManagerEditor : UnityEditor.Editor {
 
 			level.Initialize();
 
+			gameManager.gooWell = FindFirstObjectByType<GooWell>();
+
 			FindFirstObjectByType<PauseMenu>().canvas.worldCamera =
 				FindFirstObjectByType<CameraMovement>().gameObject.GetComponent<Camera>();
 
 			gameManager.allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
 
 			gameManager.playerGruntz = gameManager.allGruntz
-				.Where(grunt => !grunt.CompareTag("Dizgruntled"))
-				.ToArray();
+				.Where(grunt => grunt.CompareTag("PlayerGrunt"))
+				.ToList();
+
+			gameManager.dizgruntled = gameManager.allGruntz
+				.Where(grunt => grunt.CompareTag("Dizgruntled"))
+				.ToList();
 
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 			FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)

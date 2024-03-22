@@ -500,10 +500,6 @@ PrefabInstance:
       value: 540
       objectReference: {fileID: 0}
     - target: {fileID: 3315266298481400482, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3315266298481400482, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -551,6 +547,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7269882220966532901, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1889815290464788143}
     - target: {fileID: 7662261342187471059, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
       propertyPath: m_Name
       value: GooWellTab
@@ -565,6 +565,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3315266298481400482, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
   m_PrefabInstance: {fileID: 1943177640902873072}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8116154881136758563 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7662261342187471059, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
+  m_PrefabInstance: {fileID: 1943177640902873072}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9025646225957245191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -573,6 +578,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6948450829330351333}
     m_Modifications:
+    - target: {fileID: 1580181449594644911, guid: 54bdf72267a21e042936dbe629ddc951, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8116154881136758563}
     - target: {fileID: 4103443448251493038, guid: 54bdf72267a21e042936dbe629ddc951, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -657,11 +666,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: ResourcezTab
       objectReference: {fileID: 0}
+    - target: {fileID: 7455834056497270696, guid: 54bdf72267a21e042936dbe629ddc951, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54bdf72267a21e042936dbe629ddc951, type: 3}
+--- !u!1 &1889815290464788143 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7455834056497270696, guid: 54bdf72267a21e042936dbe629ddc951, type: 3}
+  m_PrefabInstance: {fileID: 9025646225957245191}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5022592752738237353 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4103443448251493038, guid: 54bdf72267a21e042936dbe629ddc951, type: 3}

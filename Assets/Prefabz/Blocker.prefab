@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -4031019417235520662}
   m_Layer: 0
   m_Name: Blocker
-  m_TagString: Blocker
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,6 +101,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af486800383643ca9edde4e9f5df8857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  circleCollider2D: {fileID: 0}
 --- !u!114 &-4506457058543405750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +127,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &-4031019417235520662
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

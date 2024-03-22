@@ -8,11 +8,11 @@ public class Spikez : Hazard {
 
 	protected override IEnumerator Damage() {
 		while (enabled) {
-			yield return new WaitUntil(() => GruntOnTop != null);
+			yield return new WaitUntil(() => gruntOnTop != null);
 
 			// If GruntOnTop becomes null while waiting, we won't damage anything, even though we should
 			// That's why we need to store the GruntOnTop in a variable before waiting
-			Grunt toDamage = GruntOnTop;
+			Grunt toDamage = gruntOnTop;
 
 			yield return new WaitForSeconds(damageRate);
 

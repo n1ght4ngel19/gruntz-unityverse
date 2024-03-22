@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1650484674513923455}
-  - component: {fileID: 6109165329942239614}
   - component: {fileID: -1129746060717531846}
+  - component: {fileID: 6109165329942239614}
   - component: {fileID: 6260734195924743711}
   - component: {fileID: 6911840383049941242}
   - component: {fileID: -1133532738482388959}
@@ -38,6 +38,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1129746060717531846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008980603784178169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a036f6248054be08a008f6e3cf3ffd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 6109165329942239614}
+  circleCollider2D: {fileID: -1133532738482388959}
+  isDeathBridge: 0
+  raised: 0
+  raiseAnim: {fileID: 0}
+  lowerAnim: {fileID: 0}
+  animancer: {fileID: 0}
 --- !u!212 &6109165329942239614
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -92,31 +117,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-1129746060717531846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9008980603784178169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a036f6248054be08a008f6e3cf3ffd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actAsObstacle: 0
-  actAsWater: 0
-  actAsFire: 0
-  actAsVoid: 0
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  spriteRenderer: {fileID: 6109165329942239614}
-  circleCollider2D: {fileID: -1133532738482388959}
-  isDeathBridge: 0
-  <Animator>k__BackingField: {fileID: 6260734195924743711}
-  <Animancer>k__BackingField: {fileID: 6911840383049941242}
-  <ToggleOnAnim>k__BackingField: {fileID: 0}
-  <ToggleOffAnim>k__BackingField: {fileID: 0}
 --- !u!95 &6260734195924743711
 Animator:
   serializedVersion: 7
@@ -207,7 +207,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &7698924702315210198
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

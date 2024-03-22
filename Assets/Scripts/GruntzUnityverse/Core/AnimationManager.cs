@@ -5,14 +5,10 @@ using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Core {
 public class AnimationManager : MonoBehaviour {
-	public static AnimationManager Instance { get; private set; }
+	public static AnimationManager instance { get; private set; }
 
 	private void Awake() {
-		if (Instance != null && Instance != this) {
-			Destroy(this);
-		} else {
-			Instance = this;
-		}
+		instance = this;
 	}
 
 	[Header("Cursor Animationz")]
@@ -24,6 +20,7 @@ public class AnimationManager : MonoBehaviour {
 	public AnimationClip cursorBrickLayer;
 	public AnimationClip cursorClub;
 	public AnimationClip cursorGauntletz;
+	public AnimationClip cursorFlailingGrunt;
 	public AnimationClip cursorGooberStraw;
 	public AnimationClip cursorGravityBootz;
 	public AnimationClip cursorNerfGun;
@@ -94,6 +91,7 @@ public class AnimationManager : MonoBehaviour {
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_Boomerang").Completed += handle => cursorBoomerang = handle.Result;
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_BrickLayer").Completed += handle => cursorBrickLayer = handle.Result;
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_Club").Completed += handle => cursorClub = handle.Result;
+		Addressables.LoadAssetAsync<AnimationClip>("Cursor_FlailingGrunt").Completed += handle => cursorFlailingGrunt = handle.Result;
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_Gauntletz").Completed += handle => cursorGauntletz = handle.Result;
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_GooberStraw").Completed += handle => cursorGooberStraw = handle.Result;
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_GravityBootz").Completed += handle => cursorGravityBootz = handle.Result;
@@ -122,6 +120,7 @@ public class AnimationManager : MonoBehaviour {
 	}
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(AnimationManager))]
 public class AnimationManagerEditor : UnityEditor.Editor {
 	public override void OnInspectorGUI() {
@@ -132,5 +131,5 @@ public class AnimationManagerEditor : UnityEditor.Editor {
 		}
 	}
 }
-
+#endif
 }

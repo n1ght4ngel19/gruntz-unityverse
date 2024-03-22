@@ -22,7 +22,7 @@ public class SecretSwitch : Switch {
 		Debug.Log("Secret");
 
 		DisableTrigger();
-		Level.Instance.levelStatz.discoveredSecretz++;
+		Level.instance.levelStatz.discoveredSecretz++;
 		secretObjectz.ForEach(so => StartCoroutine(so.Toggle()));
 		secretTilez.ForEach(st => StartCoroutine(st.Reveal()));
 	}

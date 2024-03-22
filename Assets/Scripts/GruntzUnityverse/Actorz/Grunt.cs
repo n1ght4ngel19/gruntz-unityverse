@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Animancer;
 using Cysharp.Threading.Tasks;
-using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Actorz.Data;
 using GruntzUnityverse.Actorz.UI;
 using GruntzUnityverse.Animation;
@@ -12,12 +11,13 @@ using GruntzUnityverse.Core;
 using GruntzUnityverse.DataPersistence;
 using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Itemz.Base;
+using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Interactablez;
-using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Objectz.Secretz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.UI;
+using GruntzUnityverse.Utils;
 using GruntzUnityverse.Utils.Extensionz;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -27,90 +27,73 @@ namespace GruntzUnityverse.Actorz {
 /// <summary>
 /// The class representing a Grunt in the game.
 /// </summary>
-public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
+public class Grunt : MonoBehaviour, IDataPersistence {
+	public UnityEvent onStateChanged;
 
 	#region Fieldz
-	public DateTime moveStartTime;
-	public bool setStartTime;
+	// --------------------------------------------------
+	// Statz
+	// --------------------------------------------------
 
-	/// <summary>
-	/// The name of this Grunt.
-	/// </summary>
 	[Header("Statz")]
 	public int gruntId;
 
-	public string gruntName;
+	public string displayName;
 
-	public GruntColor gruntColor;
+	public Material skinColor;
+
+	public string textSkinColor => skinColor.name.Split("_").Last();
 
 	public Statz statz;
 
 	[Range(0, 5)]
 	public float moveSpeed;
 
-	public bool debugMoveTime;
-
-	[Header("State Handling")]
-	public State state;
-
-	public Intent intent;
+	// --------------------------------------------------
+	// Flagz
+	// --------------------------------------------------
 
 	[Header("Flagz")]
 	public bool selected;
+
+	public bool between;
+
+	public bool forced;
+
+	public bool isTrigger;
 
 	public bool waiting;
 
 	public bool committed;
 
-	public bool forced;
+	public bool canFly => equippedTool is Wingz;
 
-	public bool BetweenNodes => Level.Instance.levelNodes.TrueForAll(n => n.transform.position != transform.position);
+	[SerializeField] private bool checkedForBlockedTravelGoal;
 
 	// --------------------------------------------------
 	// Equipment
 	// --------------------------------------------------
 
-	#region Equipment
-	/// <summary>
-	/// The tool currently equipped by this Grunt.
-	/// </summary>
 	[Header("Equipment")]
 	public EquippedTool equippedTool;
 
-	/// <summary>
-	/// The toy currently equipped by this Grunt.
-	/// </summary>
 	public EquippedToy equippedToy;
 
 	/// <summary>
-	/// The powerup currently active on this Grunt.
+	/// The powerup(z) currently active on this Grunt.
 	/// </summary>
 	public List<EquippedPowerup> equippedPowerupz;
-	#endregion
 
 	// --------------------------------------------------
 	// Animation
 	// --------------------------------------------------
 
-	#region Animation
-	/// <summary>
-	/// The direction this Grunt is facing.
-	/// </summary>
 	[Header("Animation")]
-	public Direction facingDirection;
+	public AnimancerComponent animancer;
 
-	/// <summary>
-	/// The animation pack this Grunt uses.
-	/// </summary>
 	public AnimationPack animationPack;
 
-	// -------------------------
-	// IAnimatable
-	// -------------------------
-
-	[field: SerializeField] public Animator Animator { get; set; }
-	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
-	#endregion
+	public Direction facingDirection;
 
 	// -------------------------------------------------- //
 	// Pathfinding
@@ -118,14 +101,9 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 	#region Pathfinding
 	/// <summary>
-	/// The location of this Grunt in 2D space.
-	/// </summary>
-	[Header("Pathfinding")]
-	public Vector2 Location2D => node.location2D;
-
-	/// <summary>
 	/// The node this Grunt is currently on.
 	/// </summary>
+	[Header("Pathfinding")]
 	public Node node;
 
 	/// <summary>
@@ -137,6 +115,11 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// The next node the Grunt will move to.
 	/// </summary>
 	public Node next;
+
+	/// <summary>
+	/// The location of this Grunt in 2D space.
+	/// </summary>
+	public Vector2 location2D => node.location2D;
 	#endregion
 
 	// --------------------------------------------------
@@ -147,7 +130,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// <summary>
 	/// The target the Grunt will try to interact with.
 	/// </summary>
-	[Header("Interaction")]
+	[Header("Action")]
 	public GridObject interactionTarget;
 
 	/// <summary>
@@ -171,13 +154,10 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 	#region Eventz
 	[Header("Eventz")]
-	[HideInNormalInspector]
 	public UnityEvent onStaminaDrained;
 
-	[HideInNormalInspector]
 	public UnityEvent onStaminaRegenerated;
 
-	[HideInNormalInspector]
 	public UnityEvent onHit;
 
 	public UnityEvent onDeath;
@@ -187,37 +167,89 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	// Componentz
 	// --------------------------------------------------
 
-	#region Componentz
 	[Header("Componentz")]
 	public SpriteRenderer spriteRenderer;
 
 	public CircleCollider2D circleCollider2D;
 
 	public GameObject selectionMarker;
-	#endregion
 
 	public Barz barz;
 	#endregion
+
+	public StateHandler stateHandler;
+
+	public void Idle(bool hostile = false) {
+		checkedForBlockedTravelGoal = false;
+		travelGoal = node;
+		next = node;
+
+		AnimationClip toPlay = hostile
+			? AnimationPack.GetRandomClip(facingDirection, animationPack.hostileIdle)
+			: AnimationPack.GetRandomClip(facingDirection, animationPack.idle);
+
+		animancer.Play(toPlay);
+	}
+
+	public void TryWalk() {
+		if (forced) {
+			forced = false;
+			between = true;
+			next = travelGoal;
+
+			FaceTowardsNode(next);
+			animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.walk));
+
+			GoToState(StateHandler.State.Walking);
+
+			return;
+		}
+
+		List<Node> path = Pathfinder.AstarSearch(node, travelGoal, Level.instance.levelNodes, canFly);
+
+		if (path.Count <= 0) {
+			travelGoal = node;
+			GoToState(StateHandler.State.Idle);
+
+			return;
+		}
+
+		// When first node of path is free or is reserved by this Grunt
+		if (path[0].reservedBy == null || path[0].reservedBy == this) {
+			// Manually to kick off movement
+			between = true;
+			next = path[0];
+
+			FaceTowardsNode(next);
+			animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.walk));
+
+			GoToState(StateHandler.State.Walking);
+		}
+	}
+
+	public void GoToState(StateHandler.State toState) {
+		stateHandler.goToState = toState;
+
+		if (!between) {
+			onStateChanged.Invoke();
+		}
+	}
 
 	// --------------------------------------------------
 	// Lifecycle
 	// --------------------------------------------------
 
 	#region Lifecycle
-	private void Awake() {
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		circleCollider2D = GetComponent<CircleCollider2D>();
-	}
-
 	private void Start() {
-		if (!gameObject.CompareTag("Dizgruntled")) {
-			gruntId = GameManager.Instance.playerGruntz.ToList().IndexOf(this) + 1;
+		if (gameObject.CompareTag("PlayerGrunt")) {
+			gruntId = GameManager.instance.playerGruntz.ToList().IndexOf(this) + 1;
+
+			selectionMarker = transform.Find("SelectionMarker").gameObject;
 
 			gruntEntry = FindObjectsByType<GruntEntry>(FindObjectsSortMode.None)
-				.First(entry => entry.EntryId == gruntId);
+				.First(entry => entry.entryId == gruntId);
 
-			gruntEntry.SetHealth(statz.health);
-			gruntEntry.SetStamina(statz.stamina);
+			Debug.Log(gruntEntry is null);
 
 			if (equippedTool != null) {
 				gruntEntry.SetTool(equippedTool.toolName.Replace(" ", ""));
@@ -226,24 +258,18 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			if (equippedToy != null) {
 				gruntEntry.SetToy(equippedToy.toyName.Replace(" ", ""));
 			}
+
+			gruntEntry.SetHealth(statz.health);
+			gruntEntry.SetStamina(statz.stamina);
 		}
 
-		node = Level.Instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
+		node = Level.instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
 
-		Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
+		animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
 	}
 
 	private void FixedUpdate() {
-		if (waiting) {
-			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.hostileIdle));
-		} else if (state == State.Idle) {
-			Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
-		} else if (state == State.Moving || BetweenNodes) {
-			if (!setStartTime && debugMoveTime) {
-				moveStartTime = DateTime.Now;
-				setStartTime = true;
-			}
-
+		if (between) {
 			ChangePosition();
 		}
 	}
@@ -259,7 +285,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// Try to select the Grunt if he is under the selector.
 	/// </summary>
 	private void OnSelect() {
-		if (GameManager.Instance.selector.location2D == node.location2D) {
+		if (GameManager.instance.selector.location2D == node.location2D) {
 			Select();
 		} else {
 			Deselect();
@@ -271,7 +297,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// If he is already selected, deselect him.
 	/// </summary>
 	private void OnAdditionalSelect() {
-		if (GameManager.Instance.selector.location2D != Location2D) {
+		if (GameManager.instance.selector.location2D != location2D) {
 			return;
 		}
 
@@ -298,15 +324,20 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		travelGoal = Level.Instance.levelNodes
-			.First(n => n == GameManager.Instance.selector.node);
-
 		interactionTarget = null;
 		attackTarget = null;
-		waiting = false;
 
-		intent = Intent.ToMove;
-		EvaluateState(whenFalse: (BetweenNodes || committed));
+		Node selectorNode = GameManager.instance.selector.node;
+
+		if (selectorNode == node || selectorNode == null) {
+			travelGoal = node;
+			GoToState(StateHandler.State.Idle);
+
+			return;
+		}
+
+		travelGoal = selectorNode;
+		GoToState(StateHandler.State.Walking);
 	}
 
 	/// <summary>
@@ -317,68 +348,84 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			return;
 		}
 
-		interactionTarget =
-			FindObjectsByType<GridObject>(FindObjectsSortMode.None)
-				.FirstOrDefault(
-					go => {
-						IInteractable interactable = go as IInteractable;
+		interactionTarget = FindObjectsByType<GridObject>(FindObjectsSortMode.None)
+			.FirstOrDefault(go => go.enabled && go.node == GameManager.instance.selector.node && equippedTool.CompatibleWith(go));
 
-						return go.enabled
-							&& go.node == GameManager.Instance.selector.node
-							&& interactable != null
-							&& interactable.CompatibleItemz.Contains(equippedTool.toolName);
-					}
-				);
 
 		if (interactionTarget != null) {
-			HandleActionCommand(interactionTarget.node, Intent.ToInteract);
+			// Debug.Log("Interaction target found");
+			TryTakeAction(interactionTarget.node, "Interact");
 
 			return;
 		}
 
-		attackTarget = GameManager.Instance.allGruntz
-			.FirstOrDefault(g => g.node == GameManager.Instance.selector.node && g.enabled && g != this);
+		attackTarget = GameManager.instance.allGruntz
+			.FirstOrDefault(g => g.node == GameManager.instance.selector.node && g.enabled && g != this);
 
 		if (attackTarget != null) {
-			HandleActionCommand(attackTarget.node, Intent.ToAttack);
+			// Debug.Log("Attack target found");
+			TryTakeAction(attackTarget.node, "Attack");
 
 			return;
 		}
 
 		// Todo: Play voice line for having an incompatible tool
 
-		intent = Intent.ToIdle;
-		EvaluateState(whenFalse: BetweenNodes);
+		// Debug.Log("No interaction or attack target found");
+		GoToState(StateHandler.State.Idle);
 	}
 
 	/// <summary>
-	/// Take appropriate action according to the interaction/attack target's node and intent.
+	/// Try to take action.
 	/// </summary>
-	/// <param name="targetNode">The node of the target. </param>
-	/// <param name="newIntent">The intent against the target.</param>
-	public void HandleActionCommand(Node targetNode, Intent newIntent) {
-		travelGoal = InRange(targetNode) ? node : targetNode;
+	/// <param name="targetNode">The node of the target.</param>
+	/// <param name="action">The action to take.</param>
+	public void TryTakeAction(Node targetNode, string action) {
+		switch (action) {
+			case "Interact": {
+				if (InRange((targetNode))) {
+					travelGoal = node;
 
-		if (travelGoal == null) {
-			travelGoal = node;
-			intent = Intent.ToIdle;
-			EvaluateState(whenFalse: BetweenNodes);
+					StartCoroutine(TryInteract());
+				} else {
+					travelGoal = targetNode;
+
+					GoToState(StateHandler.State.Walking);
+				}
+
+				break;
+			}
+			case "Attack": {
+				if (InRange((targetNode))) {
+					travelGoal = node;
+
+					StartCoroutine(TryAttack());
+				} else {
+					travelGoal = targetNode;
+
+					GoToState(StateHandler.State.Walking);
+				}
+
+				break;
+			}
+			default: {
+				GoToState(StateHandler.State.Walking);
+
+				break;
+			}
 		}
-
-		intent = newIntent;
-		EvaluateState(whenFalse: BetweenNodes || committed);
 	}
 
 	/// <summary>
-	/// Force the Grunt into an idle state.
+	/// Force the Grunt into idling.
 	/// </summary>
 	private void OnForceIdle() {
 		if (!selected) {
 			return;
 		}
 
-		intent = Intent.ToIdle;
-		state = State.Idle;
+		Debug.Log("Log6");
+		GoToState(StateHandler.State.Idle);
 	}
 
 	/// <summary>
@@ -391,64 +438,9 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	}
 	#endregion
 
-	/// <summary>
-	/// Evaluate the Grunt's current state, then take appropriate action.
-	/// </summary>
-	/// <param name="whenFalse">A condition potentially blocking evaluation.</param>
-	public async void EvaluateState(bool whenFalse = false) {
-		if (whenFalse) {
-			return;
-		}
-
-		if (node == travelGoal) {
-			if (debugMoveTime) {
-				Debug.Log(DateTime.Now - moveStartTime);
-				setStartTime = false;
-			}
-
-			if (waiting) {
-				await UniTask.WaitWhile(() => statz.stamina < Statz.MaxValue);
-				waiting = false;
-
-				switch (intent) {
-					case Intent.ToInteract:
-						state = State.Interacting;
-						StartCoroutine(Interact(interactionTarget));
-
-						return;
-					case Intent.ToAttack:
-						state = State.Attacking;
-						Attack(attackTarget);
-
-						return;
-				}
-			}
-
-			switch (intent) {
-				case Intent.ToMove or Intent.ToIdle:
-					intent = Intent.ToIdle;
-					state = State.Idle;
-
-					return;
-				case Intent.ToInteract:
-					state = State.Interacting;
-					StartCoroutine(Interact(interactionTarget));
-
-					return;
-				case Intent.ToAttack:
-					state = State.Attacking;
-					Attack(attackTarget);
-
-					return;
-			}
-		} else {
-			if (forced) {
-				ArrowMove();
-			} else {
-				Move();
-			}
-		}
-	}
+	// --------------------------------------------------
+	// Selection
+	// --------------------------------------------------
 
 	public void Select() {
 		selected = true;
@@ -462,177 +454,134 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		gruntEntry.HighLight(false);
 	}
 
-	private void Move() {
-		if (travelGoal == node) {
-			GoToIdleIfNotActing();
-
-			return;
-		}
-
-		if (travelGoal == null) {
-			return;
-		}
-
-		// When target is unreachable, search for a new target adjacent to it
-		if (!travelGoal.IsWalkable() || (interactionTarget != null && interactionTarget.node == travelGoal)) {
-			if (node.neighbours.Contains(travelGoal)) {
-				travelGoal = node;
-
-				GoToIdleIfNotActing();
-
-				return;
-			}
-
-			List<Node> freeNeighbours = travelGoal.neighbours.Where(n => n.IsWalkable()).ToList();
-
-			if (freeNeighbours.Count == 0) {
-				travelGoal = node;
-
-				GoToIdleIfNotActing();
-
-				return;
-			}
-
-			travelGoal = freeNeighbours.OrderBy(n => Pathfinder.CalculateHeuristic(node, n)).First();
-		}
-
-		// Search for path to target
-		List<Node> newPath = Pathfinder.AstarSearch(node, travelGoal, Level.Instance.levelNodes.ToHashSet());
-
-		// When no path found, evaluate state
-		if (newPath.Count <= 0) {
-			travelGoal = node;
-
-			GoToIdleIfNotActing();
-
-			return;
-		}
-
-		if (newPath[0].ReservedBy == null || newPath[0].ReservedBy == this) {
-			state = State.Moving;
-			next = newPath[0];
-			FaceTowardsNode(next);
-		}
-	}
-
 	public void ArrowMove() {
-		state = State.Moving;
 		next = travelGoal;
 		FaceTowardsNode(next);
 		forced = false;
 	}
 
-	private void GoToIdleIfNotActing() {
-		if (intent is Intent.ToMove or Intent.ToIdle) {
-			intent = Intent.ToIdle;
-		}
-
-		EvaluateState(whenFalse: BetweenNodes);
-	}
-
-	private IEnumerator Interact(GridObject target) {
-		if (!InRange(target.node)) {
-			travelGoal = target.node;
-			EvaluateState(whenFalse: BetweenNodes);
+	public IEnumerator TryInteract() {
+		if (!InRange(interactionTarget.node)) {
+			GoToState(StateHandler.State.Idle);
 
 			yield break;
 		}
 
-		if (statz.stamina < Statz.MaxValue) {
-			FaceTowardsNode(target.node);
+		// Out of stamina, waiting until it is regenerated
+		if (statz.stamina < Statz.MAX_VALUE) {
+			FaceTowardsNode(interactionTarget.node);
 
-			waiting = true;
-			EvaluateState(whenFalse: BetweenNodes);
+			GoToState(StateHandler.State.Idle);
 
 			yield break;
 		}
 
-		FaceTowardsNode(target.node);
+		FaceTowardsNode(interactionTarget.node);
 
 		committed = true;
 
-		if (target is Rock rock) {
+		if (interactionTarget is Rock rock) {
 			yield return BreakRock(rock);
-		} else if (target is Hole hole) {
+		}
+
+		if (interactionTarget is Hole hole) {
 			yield return Dig(hole);
+		}
+
+		if (interactionTarget is GruntPuddle puddle) {
+			yield return SuckPuddle(puddle);
 		}
 
 		committed = false;
 
 		DrainStamina();
 
-		intent = Intent.ToIdle;
-		EvaluateState(whenFalse: BetweenNodes);
+		GoToState(StateHandler.State.Idle);
 	}
 
-	private IEnumerator Dig(Hole toDig) {
+	private IEnumerator Dig(Hole hole) {
 		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
 
-		toDig.dirt.GetComponent<AnimancerComponent>().Play(AnimationManager.Instance.dirtEffect);
-		Animancer.Play(toPlay);
+		animancer.Play(toPlay);
 
-		yield return new WaitForSeconds(toPlay.length * 1.5f);
+		yield return new WaitForSeconds(toPlay.length * 0.5f);
 
-		toDig.Interact();
+		hole.dirt.GetComponent<AnimancerComponent>().Play(AnimationManager.instance.dirtEffect);
+
+		yield return new WaitForSeconds(toPlay.length * 1f);
+
+		hole.Dig();
 
 		yield return new WaitForSeconds(toPlay.length * 0.5f);
 
 		interactionTarget = null;
 	}
 
-	private IEnumerator BreakRock(Rock toBreak) {
+	private IEnumerator BreakRock(Rock rock) {
 		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
 
-		Animancer.Play(toPlay);
+		animancer.Play(toPlay);
 
-		yield return new WaitForSeconds(toPlay.length / 2);
+		yield return new WaitForSeconds(toPlay.length * 0.75f);
 
-		toBreak.Interact();
+		rock.Break();
 
-		yield return new WaitForSeconds(toPlay.length / 2);
+		yield return new WaitForSeconds(toPlay.length * 0.25f);
 
 		interactionTarget = null;
 	}
 
-	private async void Attack(Grunt target) {
-		if (!target.enabled) {
-			// Todo: Play voice line for being unable to interact
+	private IEnumerator SuckPuddle(GruntPuddle puddle) {
+		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
 
-			intent = Intent.ToIdle;
-			EvaluateState();
+		animancer.Play(toPlay);
 
-			return;
+		yield return new WaitForSeconds(0.5f);
+
+		puddle.Disappear();
+
+		yield return new WaitForSeconds(toPlay.length - 0.5f);
+
+		GameManager.instance.gooWell.Fill(puddle.gooAmount);
+
+		interactionTarget = null;
+	}
+
+	public IEnumerator TryAttack() {
+		if (!attackTarget.enabled) {
+			GoToState(StateHandler.State.Idle);
+
+			yield break;
 		}
 
-		if (!InRange(target.node)) {
-			travelGoal = target.node;
-			EvaluateState(whenFalse: BetweenNodes);
+		if (!InRange(attackTarget.node)) {
+			GoToState(StateHandler.State.Idle);
 
-			return;
+			yield break;
 		}
 
-		if (statz.stamina < Statz.MaxValue) {
-			FaceTowardsNode(target.node);
+		// Out of stamina, waiting until it is regenerated
+		if (statz.stamina < Statz.MAX_VALUE) {
+			FaceTowardsNode(interactionTarget.node);
 
-			waiting = true;
-			intent = Intent.ToAttack;
-			EvaluateState(whenFalse: BetweenNodes);
+			GoToState(StateHandler.State.HostileIdle);
 
-			return;
+			yield break;
 		}
 
-		FaceTowardsNode(target.node);
-
-		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.attack);
-		Animancer.Play(toPlay);
+		FaceTowardsNode(attackTarget.node);
 
 		committed = true;
-		await UniTask.WaitForSeconds(toPlay.length / 2);
+
+		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.attack);
+		animancer.Play(toPlay);
+
+		yield return new WaitForSeconds(toPlay.length / 2);
 
 		attackTarget.TakeDamage(equippedTool.damage);
-		attackTarget.onHit.Invoke();
 
-		await UniTask.WaitForSeconds(toPlay.length / 2);
+		yield return new WaitForSeconds(toPlay.length / 2);
+
 		committed = false;
 
 		DrainStamina();
@@ -640,18 +589,30 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		if (attackTarget.statz.health <= 0) {
 			attackTarget = null;
 
-			intent = Intent.ToIdle;
+			GoToState(StateHandler.State.Idle);
 		}
-
-		EvaluateState(whenFalse: BetweenNodes);
 	}
 
 	public void RegenerateStamina() {
-		if (statz.stamina >= Statz.MaxValue) {
+		if (statz.stamina >= Statz.MAX_VALUE) {
 			CancelInvoke(nameof(RegenerateStamina));
 
-			statz.stamina = Statz.MaxValue;
+			statz.stamina = Statz.MAX_VALUE;
+			barz.staminaBar.Adjust(statz.stamina);
+
 			onStaminaRegenerated.Invoke();
+
+			if (attackTarget != null) {
+				GoToState(StateHandler.State.Attacking);
+
+				return;
+			}
+
+			if (interactionTarget != null) {
+				GoToState(StateHandler.State.Interacting);
+
+				return;
+			}
 
 			return;
 		}
@@ -667,7 +628,11 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	public void DrainStamina() {
 		statz.stamina = 0;
 		onStaminaDrained.Invoke();
-		InvokeRepeating(nameof(RegenerateStamina), 0, 0.2f);
+		InvokeRepeating(nameof(RegenerateStamina), 0, statz.staminaRegenRate);
+
+		if (attackTarget != null || interactionTarget != null) {
+			GoToState(StateHandler.State.HostileIdle);
+		}
 	}
 
 	/// <summary>
@@ -676,8 +641,6 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	private void ChangePosition() {
 		Vector3 moveVector = (next.transform.position - node.transform.position);
 		gameObject.transform.position += moveVector * (Time.fixedDeltaTime / moveSpeed);
-
-		Animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.walk));
 	}
 
 	/// <summary>
@@ -715,7 +678,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// </summary>
 	/// <param name="damage">The amount of damage to be dealt.</param>
 	public void TakeDamage(int damage) {
-		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MaxValue);
+		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MAX_VALUE);
 		barz.healthBar.Adjust(statz.health);
 
 		if (!CompareTag("Dizgruntled")) {
@@ -724,6 +687,8 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 
 		if (statz.health <= 0) {
 			onDeath.Invoke();
+		} else {
+			onHit.Invoke();
 		}
 	}
 
@@ -736,7 +701,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		CancelInvoke(nameof(RegenerateStamina));
 		DeactivateBarz();
 
-		Addressables.InstantiateAsync($"GruntPuddle_{gruntColor.ToString()}", GameObject.Find("Puddlez").transform).Completed += handle => {
+		Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor}", GameObject.Find("Puddlez").transform).Completed += handle => {
 			GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
 			puddle.transform.position = transform.position;
 		};
@@ -744,20 +709,16 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
 		spriteRenderer.sortingOrder = 0;
 
-		await Animancer.Play(animationPack.deathAnimation);
+		animancer.Play(animationPack.deathAnimation);
+		await UniTask.WaitForSeconds(animationPack.deathAnimation.length);
 
-		gruntEntry.SetHealth(0);
-		gruntEntry.SetStamina(0);
-		gruntEntry.headSlot.sprite = gruntEntry.blankSlotIcon;
-		gruntEntry.toolSlot.sprite = gruntEntry.blankSlotIcon;
-		gruntEntry.toySlot.sprite = gruntEntry.blankSlotIcon;
-		gruntEntry.powerupSlot.sprite = gruntEntry.blankSlotIcon;
-		gruntEntry.healSlot.sprite = gruntEntry.blankSlotIcon;
+		if (CompareTag("PlayerGrunt")) {
+			gruntEntry.Clear();
+		}
 
-		spriteRenderer.enabled = false;
-		GameManager.Instance.allGruntz.Remove(this);
-		Level.Instance.levelStatz.deathz++;
-		Destroy(gameObject);
+		GameManager.instance.allGruntz.Remove(this);
+		Level.instance.levelStatz.deathz++;
+		Destroy(gameObject, 1f);
 	}
 
 	/// <summary>
@@ -770,7 +731,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		DeactivateBarz();
 
 		if (leavePuddle) {
-			Addressables.InstantiateAsync($"GruntPuddle_{gruntColor.ToString()}", GameObject.Find("Puddlez").transform).Completed += handle => {
+			Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor.ToString()}", GameObject.Find("Puddlez").transform).Completed += handle => {
 				GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
 				puddle.transform.position = transform.position;
 			};
@@ -781,11 +742,12 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 			spriteRenderer.sortingOrder = 0;
 		}
 
-		await Animancer.Play(toPlay);
+		animancer.Play(toPlay);
+		await UniTask.WaitForSeconds(toPlay.length);
 
 		spriteRenderer.enabled = false;
-		GameManager.Instance.allGruntz.Remove(this);
-		Level.Instance.levelStatz.deathz++;
+		GameManager.instance.allGruntz.Remove(this);
+		Level.instance.levelStatz.deathz++;
 		Destroy(gameObject);
 	}
 
@@ -793,27 +755,25 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 		enabled = false;
 
 		// The first part of the animation plays where the Grunt is sucked into the warp
-		Animancer.Play(AnimationManager.Instance.gruntWarpOutEndAnimation);
+		animancer.Play(AnimationManager.instance.gruntWarpOutEndAnimation);
 
-		yield return new WaitForSeconds(AnimationManager.Instance.gruntWarpOutEndAnimation.length);
+		yield return new WaitForSeconds(AnimationManager.instance.gruntWarpOutEndAnimation.length);
 
 		Camera.main.transform.position = new Vector3(destination.position.x, destination.position.y, -10);
 		transform.position = destination.position;
-		node = Level.Instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
+		node = Level.instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
 
 		// The second part of the animation plays where the Grunt is spat out of the warp
-		Animancer.Play(AnimationManager.Instance.gruntWarpEnterAnimation);
+		animancer.Play(AnimationManager.instance.gruntWarpEnterAnimation);
 
-		yield return new WaitForSeconds(AnimationManager.Instance.gruntWarpEnterAnimation.length);
+		yield return new WaitForSeconds(AnimationManager.instance.gruntWarpEnterAnimation.length);
 
 		enabled = true;
-		intent = Intent.ToIdle;
-		EvaluateState();
+
+		GoToState(StateHandler.State.Idle);
 
 		fromWarp.Deactivate();
 	}
-
-	private void OnTriggerEnter2D(Collider2D other) { }
 
 	private void DeactivateBarz() {
 		barz.healthBar.gameObject.SetActive(false);
@@ -836,13 +796,13 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	public void Save(ref GameData data) {
 		GruntDataV2 saveData = new GruntDataV2 {
 			guid = Guid,
-			gruntName = gruntName,
+			gruntName = displayName,
 			position = transform.position,
 		};
 
 		data.gruntData.InitializeListAdd(saveData);
 
-		Debug.Log($"Saving {gruntName} at {transform.position} with GUID {Guid}");
+		Debug.Log($"Saving {displayName} at {transform.position} with GUID {Guid}");
 	}
 
 	public void Load(GameData data) {
@@ -859,7 +819,7 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	/// <param name="data"></param>
 	public void Load(GruntDataV2 data) {
 		Guid = data.guid;
-		gruntName = data.gruntName;
+		displayName = data.gruntName;
 		// transform.position = data.position;
 	}
 
@@ -868,6 +828,26 @@ public class Grunt : MonoBehaviour, IDataPersistence, IAnimatable {
 	}
 	#endregion
 
-}
+	#if UNITY_EDITOR
+	/// <summary>
+	/// Hide components not meant to be edited or observed in the Inspector.
+	/// This also removes visual clutter in the Inspector for easier editing.
+	/// </summary>
+	private void OnValidate() {
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		spriteRenderer.material = skinColor;
+		spriteRenderer.hideFlags = HideFlags.HideInInspector;
 
+		circleCollider2D = GetComponent<CircleCollider2D>();
+		circleCollider2D.isTrigger = isTrigger;
+
+		GetComponent<Animator>().hideFlags = HideFlags.HideInInspector;
+
+		animancer = GetComponent<AnimancerComponent>();
+		animancer.hideFlags = HideFlags.HideInInspector;
+
+		GetComponent<TrimName>().hideFlags = HideFlags.HideInInspector;
+	}
+	#endif
+}
 }

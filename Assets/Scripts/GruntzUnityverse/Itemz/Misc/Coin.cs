@@ -8,7 +8,7 @@ public class Coin : LevelItem {
 	protected override IEnumerator Pickup(Grunt target) {
 		yield return base.Pickup(target);
 
-		Level.Instance.levelStatz.coinzCollected++;
+		Level.instance.levelStatz.coinzCollected++;
 
 		Destroy(gameObject);
 	}

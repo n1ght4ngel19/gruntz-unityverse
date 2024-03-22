@@ -31,5 +31,7 @@ public abstract class EquippedTool : ScriptableObject {
 	/// </summary>
 	/// <param name="targetGrunt"></param>
 	protected virtual void AttackEffect(Grunt targetGrunt) { }
+
+	public virtual bool CompatibleWith(GridObject target) => false;
 }
 }

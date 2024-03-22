@@ -28,10 +28,10 @@ public class Fort : MonoBehaviour {
 
 			// Time.timeScale = 0f;
 
-			Level.Instance.gameObject.SetActive(false);
-			GameManager.Instance.actorz.SetActive(false);
-			GameManager.Instance.itemz.SetActive(false);
-			GameManager.Instance.objectz.SetActive(false);
+			Level.instance.gameObject.SetActive(false);
+			GameManager.instance.actorz.SetActive(false);
+			GameManager.instance.itemz.SetActive(false);
+			GameManager.instance.objectz.SetActive(false);
 
 			StatzMenu.Instance.Activate();
 		}

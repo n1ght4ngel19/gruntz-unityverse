@@ -12,7 +12,7 @@ public abstract class Switch : GridObject {
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
 
 		if (rock != null) {
-			rock.HiddenSwitch = this;
+			rock.hiddenSwitch = this;
 			spriteRenderer.enabled = false;
 			circleCollider2D.isTrigger = false;
 			enabled = false;
@@ -24,7 +24,7 @@ public abstract class Switch : GridObject {
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
 
 		if (hole != null) {
-			hole.HiddenSwitch = this;
+			hole.hiddenSwitch = this;
 			spriteRenderer.enabled = false;
 			circleCollider2D.isTrigger = false;
 			enabled = false;

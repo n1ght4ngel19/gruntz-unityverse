@@ -63,46 +63,7 @@ public class CameraMovement : MonoBehaviour {
 	/// Moving the camera by certain keys.
 	/// </summary>
 	private void ScrollWithKeys() {
-		if (Time.timeScale == 0) {
-			return;
-		}
-
-		// Todo: Change KeyCode.XY constants to be changeable in Settings.
-
-		Vector3 currentPosition = _ownTransform.position;
-		float orthographicSize = _cameraComponent.orthographicSize;
-		float camHalfWidth = orthographicSize * _cameraComponent.aspect;
-
-		// bool reachedBottom = currentPosition.y - orthographicSize / 2
-		//   <= Level.Instance.MinMapPoint.y + 0.25;
-		//
-		// bool reachedTop = currentPosition.y + orthographicSize / 2
-		//   >= GameManager.Instance.currentLevelManager.MaxMapPoint.y - 0.25;
-		//
-		// bool reachedLeftSide = currentPosition.x - camHalfWidth
-		//   <= GameManager.Instance.currentLevelManager.MinMapPoint.x + 0.25;
-		//
-		// bool reachedRightSide = currentPosition.x + camHalfWidth
-		//   >= GameManager.Instance.currentLevelManager.MaxMapPoint.x - 0.25;
-
 		transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) / moveRate;
-
-
-		// if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reachedTop) {
-		// 	_cameraComponent.transform.position += Vector3.up / ScrollRate;
-		// }
-		//
-		// if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reachedBottom) {
-		// 	_cameraComponent.transform.position += Vector3.down / ScrollRate;
-		// }
-		//
-		// if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reachedLeftSide) {
-		// 	_cameraComponent.transform.position += Vector3.left / ScrollRate;
-		// }
-		//
-		// if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reachedRightSide) {
-		// 	_cameraComponent.transform.position += Vector3.right / ScrollRate;
-		// }
 	}
 }
 }

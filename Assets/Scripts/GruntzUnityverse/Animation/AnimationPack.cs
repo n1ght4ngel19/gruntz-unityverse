@@ -17,6 +17,7 @@ public class AnimationPack : ScriptableObject {
 	public Animationz8Way attack;
 	public Animationz8Way interact;
 
+	#if UNITY_EDITOR
 	public void LoadAnimationz() {
 		Clear();
 
@@ -30,6 +31,7 @@ public class AnimationPack : ScriptableObject {
 
 		EditorUtility.SetDirty(this);
 	}
+	#endif
 
 	public void Clear() {
 		deathAnimation = null;
@@ -92,14 +94,14 @@ public class AnimationPack : ScriptableObject {
 	}
 
 	private void LoadHostileIdleAnimationz(Animationz8Way pack) {
-		LoadClipInto(pack.up, $"{tool}Grunt_Attack_North_Idle");
-		LoadClipInto(pack.upRight, $"{tool}Grunt_Attack_Northeast_Idle");
-		LoadClipInto(pack.right, $"{tool}Grunt_Attack_East_Idle");
-		LoadClipInto(pack.downRight, $"{tool}Grunt_Attack_Southeast_Idle");
-		LoadClipInto(pack.down, $"{tool}Grunt_Attack_South_Idle");
-		LoadClipInto(pack.downLeft, $"{tool}Grunt_Attack_Southwest_Idle");
-		LoadClipInto(pack.left, $"{tool}Grunt_Attack_West_Idle");
-		LoadClipInto(pack.upLeft, $"{tool}Grunt_Attack_Northwest_Idle");
+		LoadClipInto(pack.up, $"{tool}Grunt_HostileIdle_North");
+		LoadClipInto(pack.upRight, $"{tool}Grunt_HostileIdle_Northeast");
+		LoadClipInto(pack.right, $"{tool}Grunt_HostileIdle_East");
+		LoadClipInto(pack.downRight, $"{tool}Grunt_HostileIdle_Southeast");
+		LoadClipInto(pack.down, $"{tool}Grunt_HostileIdle_South");
+		LoadClipInto(pack.downLeft, $"{tool}Grunt_HostileIdle_Southwest");
+		LoadClipInto(pack.left, $"{tool}Grunt_HostileIdle_West");
+		LoadClipInto(pack.upLeft, $"{tool}Grunt_HostileIdle_Northwest");
 	}
 
 	private void LoadAnimationz8Way(Animationz8Way pack, string packName) {

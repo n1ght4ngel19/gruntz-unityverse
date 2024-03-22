@@ -9,7 +9,7 @@ public class Column : GridObject {
 			return;
 		}
 
-		grunt.Die(AnimationManager.Instance.explodeDeathAnimation, leavePuddle: false, playBelow: false);
+		grunt.Die(AnimationManager.instance.explodeDeathAnimation, leavePuddle: false, playBelow: false);
 	}
 }
 }

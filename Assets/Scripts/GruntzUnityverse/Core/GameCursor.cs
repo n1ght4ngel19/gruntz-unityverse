@@ -6,10 +6,18 @@ public class GameCursor : MonoBehaviour {
 	public SpriteRenderer spriteRenderer;
 	public AnimationClip toPlay;
 
-	public AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
+	public Material brownSkinColor;
+	public Material defaultMaterial;
+
+	public AnimancerComponent animancer;
+
+	public static GameCursor instance;
 
 	private void Awake() {
-		Debug.Log(Time.timeScale);
+		instance = this;
+
+		defaultMaterial = spriteRenderer.material;
+		animancer = GetComponent<AnimancerComponent>();
 	}
 
 	private void Update() {
@@ -25,7 +33,7 @@ public class GameCursor : MonoBehaviour {
 			transform.position.z
 		);
 
-		Animancer.Play(toPlay);
+		animancer.Play(toPlay);
 	}
 
 	public void SwapCursor(AnimationClip newCursor) {

@@ -2,6 +2,7 @@
 using System.Linq;
 using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Pathfinding;
+using GruntzUnityverse.Utils;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
@@ -91,12 +92,15 @@ public abstract class GridObject : MonoBehaviour {
 	/// Can be overridden to add additional effects specific to child classes.
 	/// </summary>
 	protected virtual void OnDestroy() {
-		if (!SceneLoaded()) {
-			return;
-		}
-
 		node.isBlocked = isObstacle ? false : node.isBlocked;
 	}
-}
 
+	#if UNITY_EDITOR
+	private void OnValidate() {
+		if (gameObject.TryGetComponent(out TrimName tn)) {
+			tn.hideFlags = HideFlags.HideInInspector;
+		}
+	}
+	#endif
+}
 }

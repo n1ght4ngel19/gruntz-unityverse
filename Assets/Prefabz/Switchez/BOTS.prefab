@@ -104,10 +104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a2be169ffc641a08e80c5833d5a0a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actAsObstacle: 0
-  actAsWater: 0
-  actAsFire: 0
-  actAsVoid: 0
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
   spriteRenderer: {fileID: 6109165329942239614}
@@ -206,7 +206,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &4845747910187757398
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

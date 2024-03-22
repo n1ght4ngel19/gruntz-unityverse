@@ -18,7 +18,7 @@ public class LevelTool : LevelItem {
 		targetGrunt.animationPack = animationPack;
 		targetGrunt.equippedTool = tool;
 		targetGrunt.gruntEntry.SetTool(codeName);
-		Level.Instance.levelStatz.toolzCollected++;
+		Level.instance.levelStatz.toolzCollected++;
 
 		Destroy(gameObject);
 	}

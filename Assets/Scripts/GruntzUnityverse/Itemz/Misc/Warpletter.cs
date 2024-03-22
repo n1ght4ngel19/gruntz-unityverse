@@ -10,7 +10,7 @@ public class Warpletter : LevelItem {
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
 		yield return base.Pickup(targetGrunt);
 
-		Level.Instance.levelStatz.warpletterzCollected++;
+		Level.instance.levelStatz.warpletterzCollected++;
 	}
 }
 

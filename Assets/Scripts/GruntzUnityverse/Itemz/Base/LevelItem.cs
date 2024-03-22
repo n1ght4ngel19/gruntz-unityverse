@@ -2,8 +2,8 @@
 using System.Linq;
 using Animancer;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Actorz.BehaviourManagement;
 using GruntzUnityverse.Objectz.Interactablez;
+using GruntzUnityverse.Utils;
 using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Base {
@@ -30,14 +30,16 @@ public abstract class LevelItem : MonoBehaviour {
 
 	public bool hideUnderMound;
 
-	private AnimancerComponent Animancer => GetComponent<AnimancerComponent>();
+	public AnimancerComponent animancer;
 
 	public void Setup() {
+		animancer ??= GetComponent<AnimancerComponent>();
+
 		Rock rock = FindObjectsByType<Rock>(FindObjectsSortMode.None)
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
 
 		if (rock != null) {
-			rock.HeldItem = this;
+			rock.heldItem = this;
 			GetComponent<SpriteRenderer>().enabled = false;
 			GetComponent<CircleCollider2D>().isTrigger = false;
 
@@ -48,16 +50,14 @@ public abstract class LevelItem : MonoBehaviour {
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
 
 		if (hole != null && hideUnderMound) {
-			hole.HeldItem = this;
+			hole.heldItem = this;
 			GetComponent<SpriteRenderer>().enabled = false;
 			GetComponent<CircleCollider2D>().isTrigger = false;
-
-			return;
 		}
 	}
 
 	protected virtual void Start() {
-		Animancer.Play(rotatingAnim);
+		animancer.Play(rotatingAnim);
 	}
 
 	/// <summary>
@@ -68,13 +68,13 @@ public abstract class LevelItem : MonoBehaviour {
 	protected virtual IEnumerator Pickup(Grunt targetGrunt) {
 		targetGrunt.enabled = false;
 
-		targetGrunt.Animancer.Play(pickupAnim);
+		targetGrunt.animancer.Play(pickupAnim);
 
 		yield return new WaitForSeconds(pickupAnim.length);
 
-		targetGrunt.enabled = true;
-		targetGrunt.intent = Intent.ToIdle; // --> ToMove
-		targetGrunt.EvaluateState();
+		targetGrunt.enabled = true; 
+
+		targetGrunt.GoToState(StateHandler.State.Walking);
 	}
 
 	/// <summary>
@@ -86,19 +86,28 @@ public abstract class LevelItem : MonoBehaviour {
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
 			GetComponent<SpriteRenderer>().enabled = false;
-			GetComponent<CircleCollider2D>().isTrigger = false;
-
-			grunt.travelGoal = grunt.node;
-			grunt.intent = Intent.ToStop;
-			grunt.state = State.Stopped;
-			grunt.EvaluateState(whenFalse: grunt.BetweenNodes);
 
 			StartCoroutine(Pickup(grunt));
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D other) {
+		if (other.TryGetComponent(out Grunt _)) {
+			GetComponent<SpriteRenderer>().enabled = true;
 		}
 	}
 
 	public void LocalizeName(string newDisplayName) {
 		displayName = newDisplayName;
 	}
+
+	#if UNITY_EDITOR
+	private void OnValidate() {
+		GetComponent<Animator>().hideFlags = HideFlags.HideInInspector;
+		animancer.hideFlags = HideFlags.HideInInspector;
+
+		GetComponent<TrimName>().hideFlags = HideFlags.HideInInspector;
+	}
+	#endif
 }
 }
