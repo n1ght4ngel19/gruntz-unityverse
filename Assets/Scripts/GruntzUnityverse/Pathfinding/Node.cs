@@ -103,21 +103,17 @@ public class Node : MonoBehaviour {
 	/// <summary>
 	/// If true, this Node can be walked upon safely.
 	/// </summary>
-	public bool walkable => !occupied && !isBlocked && !isWater;
+	public bool walkable => !occupied && !isBlocked && !isWater && !isFire;
 
 	/// <summary>
 	/// If true, this Node can be swam on with a Toob equipped.
 	/// </summary>
-	public bool toobSwimmable {
-		get => !occupied && !isBlocked && !isFire && !isVoid && !reservedBy;
-	}
+	public bool toobSwimmable => !occupied && !isBlocked && !isFire && !isVoid && !reservedBy;
 
 	/// <summary>
 	/// If true, this Node can be flown over with Wingz equipped.
 	/// </summary>
-	public bool wingzFlyable {
-		get => !occupied && !reservedBy;
-	}
+	public bool wingzFlyable => !occupied && !reservedBy;
 
 	/// <summary>
 	/// If true, this Node is a hard corner, which means that this Node prevents diagonal movement to its neighbours.
@@ -207,7 +203,6 @@ public class Node : MonoBehaviour {
 			}
 
 			grunt.node = this;
-			// Todo: Snap?
 			grunt.transform.position = transform.position;
 			grunt.spriteRenderer.sortingOrder = 10;
 
@@ -217,7 +212,7 @@ public class Node : MonoBehaviour {
 				return;
 			}
 
-			if (this.isFire) {
+			if (this.isFire && !grunt.canFly) {
 				grunt.Die(AnimationManager.instance.burnDeathAnimation, false, false);
 
 				return;
@@ -256,7 +251,12 @@ public class Node : MonoBehaviour {
 
 			switch (tileType) {
 				case TileType.Water:
-					ball.enabled = false;
+					// Landingz
+					if (!isWater) {
+						break;
+					}
+
+					ball.moveSpeed *= 5;
 					await ball.animancer.Play(ball.sinkAnim);
 
 					Destroy(ball.gameObject);
@@ -291,6 +291,7 @@ public class Node : MonoBehaviour {
 		if (other.TryGetComponent(out Grunt grunt)) {
 			grunt.between = true;
 			occupied = false;
+			grunt.spriteRenderer.sortingOrder = 12;
 		}
 	}
 }

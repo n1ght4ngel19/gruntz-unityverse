@@ -42,7 +42,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 	public Material skinColor;
 
-	public GruntColor textSkinColor;
+	public string textSkinColor => skinColor.name.Split("_").Last();
 
 	public Statz statz;
 
@@ -154,13 +154,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 	#region Eventz
 	[Header("Eventz")]
-	[HideInNormalInspector]
 	public UnityEvent onStaminaDrained;
 
-	[HideInNormalInspector]
 	public UnityEvent onStaminaRegenerated;
 
-	[HideInNormalInspector]
 	public UnityEvent onHit;
 
 	public UnityEvent onDeath;
@@ -195,6 +192,19 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 
 	public void TryWalk() {
+		if (forced) {
+			forced = false;
+			between = true;
+			next = travelGoal;
+
+			FaceTowardsNode(next);
+			animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.walk));
+
+			GoToState(StateHandler.State.Walking);
+
+			return;
+		}
+
 		List<Node> path = Pathfinder.AstarSearch(node, travelGoal, Level.instance.levelNodes, canFly);
 
 		if (path.Count <= 0) {
@@ -588,20 +598,23 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			CancelInvoke(nameof(RegenerateStamina));
 
 			statz.stamina = Statz.MAX_VALUE;
+			barz.staminaBar.Adjust(statz.stamina);
+
 			onStaminaRegenerated.Invoke();
 
 			if (attackTarget != null) {
-				Debug.Log("stamina is full");
 				GoToState(StateHandler.State.Attacking);
 
 				return;
 			}
 
-			if (attackTarget != null) {
+			if (interactionTarget != null) {
 				GoToState(StateHandler.State.Interacting);
 
 				return;
 			}
+
+			return;
 		}
 
 		statz.stamina++;
@@ -688,7 +701,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		CancelInvoke(nameof(RegenerateStamina));
 		DeactivateBarz();
 
-		Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor.ToString()}", GameObject.Find("Puddlez").transform).Completed += handle => {
+		Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor}", GameObject.Find("Puddlez").transform).Completed += handle => {
 			GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
 			puddle.transform.position = transform.position;
 		};
@@ -824,8 +837,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		spriteRenderer.material = skinColor;
 		spriteRenderer.hideFlags = HideFlags.HideInInspector;
-
-		textSkinColor = (GruntColor)Enum.Parse(typeof(GruntColor), skinColor.name);
 
 		circleCollider2D = GetComponent<CircleCollider2D>();
 		circleCollider2D.isTrigger = isTrigger;

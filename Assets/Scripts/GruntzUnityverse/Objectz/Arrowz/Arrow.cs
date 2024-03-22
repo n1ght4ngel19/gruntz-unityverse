@@ -64,13 +64,17 @@ public class Arrow : GridObject {
 
 			grunt.node = node;
 			grunt.transform.position = transform.position;
-			grunt.travelGoal = pointedNode;
-
 			grunt.spriteRenderer.sortingOrder = 10;
+
 			grunt.forced = true;
+			grunt.between = false;
+			node.occupied = true;
 
 			grunt.interactionTarget = null;
 			grunt.attackTarget = null;
+
+			grunt.travelGoal = pointedNode;
+			grunt.GoToState(StateHandler.State.Walking);
 		}
 
 		if (other.TryGetComponent(out RollingBall ball)) {
@@ -87,6 +91,8 @@ public class Arrow : GridObject {
 
 	private void OnTriggerExit2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
+			grunt.between = true;
+			node.occupied = false;
 			grunt.spriteRenderer.sortingOrder = 12;
 		}
 	}

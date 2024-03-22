@@ -15,8 +15,10 @@ public class AttributeBar : MonoBehaviour {
 	}
 
 	public void Adjust(int newValue) {
-		_spriteRenderer.sprite = _frames[_value];
-		_spriteRenderer.enabled = _value != Statz.MAX_VALUE;
+		_spriteRenderer.sprite = _frames[newValue];
+		_spriteRenderer.enabled = newValue != Statz.MAX_VALUE;
+
+		_value = newValue;
 	}
 
 	private void Awake() {

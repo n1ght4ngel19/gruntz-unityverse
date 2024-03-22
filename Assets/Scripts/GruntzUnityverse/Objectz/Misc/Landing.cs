@@ -4,6 +4,7 @@ public class Landing : GridObject {
 		base.Setup();
 
 		node.isWater = false;
+		node.isFire = false;
 	}
 }
 }

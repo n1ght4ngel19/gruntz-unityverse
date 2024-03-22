@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 3305605672545067144}
   - component: {fileID: -855607859484382792}
   - component: {fileID: -5854892132159321822}
+  - component: {fileID: 3047489612626354918}
+  - component: {fileID: -874989365248244149}
   m_Layer: 0
   m_Name: CreatorPad
   m_TagString: Untagged
@@ -176,3 +178,31 @@ MonoBehaviour:
   m_DefaultActionMap: CreatorPad
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &3047489612626354918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226547508904839278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc219dcbba90e84b86e2ecf840e0266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  position: 0
+  direction: 1
+  tooltip: 
+--- !u!114 &-874989365248244149
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226547508904839278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd3bafa600e4b3c9799644b17f946b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
