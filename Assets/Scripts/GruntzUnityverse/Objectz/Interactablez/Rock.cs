@@ -71,8 +71,6 @@ public class Rock : GridObject, IObjectHolder, IAnimatable {
 
 		RevealHidden(gameObject.scene.isLoaded);
 
-		// await UniTask.WaitForSeconds(breakAnimation.length * 0.25f);
-
 		// This also prevents removing the effect of other possible blocking objects at the same location
 		node.isBlocked = isObstacle ? false : node.isBlocked;
 	}

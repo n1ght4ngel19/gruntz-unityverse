@@ -4,7 +4,8 @@ using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz;
-using GruntzUnityverse.Objectz.Misc;
+using GruntzUnityverse.Objectz.Interactablez;
+using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.UI;
 using UnityEditor;
 using UnityEngine;
@@ -38,6 +39,8 @@ public class GameManager : MonoBehaviour {
 	public List<Grunt> dizgruntled;
 
 	public GooWell gooWell;
+
+	public List<RedPyramid> redPyramidz;
 
 	/// <summary>
 	/// The Gruntz currently selected by the player.
@@ -80,15 +83,6 @@ public class GameManager : MonoBehaviour {
 			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
 
 		GameObject.Find("SidebarUI").GetComponent<Canvas>().enabled = true;
-	}
-
-	private void OnLoadStatzMenu() {
-		Level.instance.gameObject.SetActive(false);
-		actorz.SetActive(false);
-		itemz.SetActive(false);
-		objectz.SetActive(false);
-
-		StatzMenu.Instance.Activate();
 	}
 
 	private void OnSwitchLocale() {
@@ -146,11 +140,13 @@ public class GameManagerEditor : UnityEditor.Editor {
 				.Where(grunt => grunt.CompareTag("Dizgruntled"))
 				.ToList();
 
+			gameManager.redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();
+
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
-			FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
-				.Where(ec => ec.gameObject.CompareTag("HighEyeCandy"))
-				.ToList()
-				.ForEach(ec1 => ec1.gameObject.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(ec1.transform.position.y) * -1);
+			// FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
+			// 	.Where(ec => ec.gameObject.CompareTag("HighEyeCandy"))
+			// 	.ToList()
+			// 	.ForEach(ec1 => ec1.gameObject.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(ec1.transform.position.y) * -1);
 
 			FindObjectsByType<RollingBall>(FindObjectsSortMode.None)
 				.ToList()
@@ -163,18 +159,25 @@ public class GameManagerEditor : UnityEditor.Editor {
 				EditorUtility.SetDirty(cp);
 			}
 
-			List<GridObject> gridObjects = FindObjectsByType<GridObject>(FindObjectsSortMode.None).ToList();
+			List<GridObject> gridObjectz = FindObjectsByType<GridObject>(FindObjectsSortMode.None).ToList();
 
-			foreach (GridObject go in gridObjects) {
+			foreach (GridObject go in gridObjectz) {
 				go.Setup();
 				EditorUtility.SetDirty(go);
 			}
 
-			List<LevelItem> levelItems = FindObjectsByType<LevelItem>(FindObjectsSortMode.None).ToList();
+			List<LevelItem> levelItemz = FindObjectsByType<LevelItem>(FindObjectsSortMode.None).ToList();
 
-			foreach (LevelItem li in levelItems) {
+			foreach (LevelItem li in levelItemz) {
 				li.Setup();
 				EditorUtility.SetDirty(li);
+			}
+
+			List<BrickBlock> brickBlockz = FindObjectsByType<BrickBlock>(FindObjectsSortMode.None).ToList();
+
+			foreach (BrickBlock bb in brickBlockz) {
+				bb.Setup();
+				EditorUtility.SetDirty(bb);
 			}
 
 			EditorUtility.SetDirty(gameManager);

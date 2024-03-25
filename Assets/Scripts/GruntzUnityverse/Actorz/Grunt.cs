@@ -9,7 +9,6 @@ using GruntzUnityverse.Actorz.UI;
 using GruntzUnityverse.Animation;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.DataPersistence;
-using GruntzUnityverse.Editor.PropertyDrawers;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.Objectz;
@@ -484,6 +483,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			yield return BreakRock(rock);
 		}
 
+		if (interactionTarget is BrickBlock brickBlock) {
+			yield return BreakBlock(brickBlock);
+		}
+
 		if (interactionTarget is Hole hole) {
 			yield return Dig(hole);
 		}
@@ -525,6 +528,20 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		yield return new WaitForSeconds(toPlay.length * 0.75f);
 
 		rock.Break();
+
+		yield return new WaitForSeconds(toPlay.length * 0.25f);
+
+		interactionTarget = null;
+	}
+
+	private IEnumerator BreakBlock(BrickBlock brickBlock) {
+		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
+
+		animancer.Play(toPlay);
+
+		yield return new WaitForSeconds(toPlay.length * 0.75f);
+
+		brickBlock.Break();
 
 		yield return new WaitForSeconds(toPlay.length * 0.25f);
 
@@ -617,10 +634,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			return;
 		}
 
-		statz.stamina++;
-		barz.staminaBar.Adjust(statz.stamina);
+		barz.staminaBar.Adjust(++statz.stamina);
+		Debug.Log($"Adjust stamina bar {statz.stamina}");
 
-		if (!CompareTag("Dizgruntled")) {
+		if (CompareTag("PlayerGrunt")) {
 			gruntEntry.SetStamina(statz.stamina);
 		}
 	}
@@ -704,10 +721,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor}", GameObject.Find("Puddlez").transform).Completed += handle => {
 			GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
 			puddle.transform.position = transform.position;
+			puddle.GetComponent<SpriteRenderer>().sortingOrder = 7;
 		};
 
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
-		spriteRenderer.sortingOrder = 0;
+		spriteRenderer.sortingOrder = 8;
 
 		animancer.Play(animationPack.deathAnimation);
 		await UniTask.WaitForSeconds(animationPack.deathAnimation.length);
@@ -731,9 +749,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		DeactivateBarz();
 
 		if (leavePuddle) {
-			Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor.ToString()}", GameObject.Find("Puddlez").transform).Completed += handle => {
+			Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor}", GameObject.Find("Puddlez").transform).Completed += handle => {
 				GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
 				puddle.transform.position = transform.position;
+				puddle.Setup();
 			};
 		}
 

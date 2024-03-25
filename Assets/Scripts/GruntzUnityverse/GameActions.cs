@@ -304,15 +304,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
             ""id"": ""10bf3e63-b94b-4e21-9472-bb408a3b4a5b"",
             ""actions"": [
                 {
-                    ""name"": ""LoadStatzMenu"",
-                    ""type"": ""Button"",
-                    ""id"": ""f154a9b6-6f09-491a-b51f-6f86d282c4be"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""SwitchLocale"",
                     ""type"": ""Button"",
                     ""id"": ""6e8c03fc-d679-46b3-a665-9aa960387f1c"",
@@ -341,17 +332,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""ecc47aa6-cd0c-44c6-9908-aaa4c154e8ca"",
-                    ""path"": ""<Keyboard>/l"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LoadStatzMenu"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""1eac66c6-6eb0-467a-9d6d-62f6d9b9efc8"",
@@ -629,7 +609,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         m_InGame_LoadGame = m_InGame.FindAction("LoadGame", throwIfNotFound: true);
         // GameManager
         m_GameManager = asset.FindActionMap("GameManager", throwIfNotFound: true);
-        m_GameManager_LoadStatzMenu = m_GameManager.FindAction("LoadStatzMenu", throwIfNotFound: true);
         m_GameManager_SwitchLocale = m_GameManager.FindAction("SwitchLocale", throwIfNotFound: true);
         m_GameManager_ChangeGameSpeed = m_GameManager.FindAction("ChangeGameSpeed", throwIfNotFound: true);
         m_GameManager_FreezeGame = m_GameManager.FindAction("FreezeGame", throwIfNotFound: true);
@@ -820,7 +799,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     // GameManager
     private readonly InputActionMap m_GameManager;
     private List<IGameManagerActions> m_GameManagerActionsCallbackInterfaces = new List<IGameManagerActions>();
-    private readonly InputAction m_GameManager_LoadStatzMenu;
     private readonly InputAction m_GameManager_SwitchLocale;
     private readonly InputAction m_GameManager_ChangeGameSpeed;
     private readonly InputAction m_GameManager_FreezeGame;
@@ -828,7 +806,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     {
         private @GameActions m_Wrapper;
         public GameManagerActions(@GameActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LoadStatzMenu => m_Wrapper.m_GameManager_LoadStatzMenu;
         public InputAction @SwitchLocale => m_Wrapper.m_GameManager_SwitchLocale;
         public InputAction @ChangeGameSpeed => m_Wrapper.m_GameManager_ChangeGameSpeed;
         public InputAction @FreezeGame => m_Wrapper.m_GameManager_FreezeGame;
@@ -841,9 +818,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameManagerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameManagerActionsCallbackInterfaces.Add(instance);
-            @LoadStatzMenu.started += instance.OnLoadStatzMenu;
-            @LoadStatzMenu.performed += instance.OnLoadStatzMenu;
-            @LoadStatzMenu.canceled += instance.OnLoadStatzMenu;
             @SwitchLocale.started += instance.OnSwitchLocale;
             @SwitchLocale.performed += instance.OnSwitchLocale;
             @SwitchLocale.canceled += instance.OnSwitchLocale;
@@ -857,9 +831,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IGameManagerActions instance)
         {
-            @LoadStatzMenu.started -= instance.OnLoadStatzMenu;
-            @LoadStatzMenu.performed -= instance.OnLoadStatzMenu;
-            @LoadStatzMenu.canceled -= instance.OnLoadStatzMenu;
             @SwitchLocale.started -= instance.OnSwitchLocale;
             @SwitchLocale.performed -= instance.OnSwitchLocale;
             @SwitchLocale.canceled -= instance.OnSwitchLocale;
@@ -1138,7 +1109,6 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     }
     public interface IGameManagerActions
     {
-        void OnLoadStatzMenu(InputAction.CallbackContext context);
         void OnSwitchLocale(InputAction.CallbackContext context);
         void OnChangeGameSpeed(InputAction.CallbackContext context);
         void OnFreezeGame(InputAction.CallbackContext context);

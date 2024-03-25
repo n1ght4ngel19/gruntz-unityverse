@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using GruntzUnityverse.Core;
 using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
 
@@ -7,9 +7,9 @@ public class RedToggleSwitch : Switch {
 	public override void Toggle() {
 		base.Toggle();
 
-		FindObjectsByType<RedPyramid>(FindObjectsSortMode.None)
-			.ToList()
-			.ForEach(pyramid => pyramid.Toggle());
+		foreach (RedPyramid rp in GameManager.instance.redPyramidz) {
+			rp.Toggle();
+		}
 	}
 
 	protected override void OnTriggerExit2D(Collider2D other) {

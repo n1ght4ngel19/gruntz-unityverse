@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
+namespace GruntzUnityverse {
 public class LocaleSwapper : MonoBehaviour {
 	private void OnSwitchLocale() {
 		if (LocalizationSettings.SelectedLocale == LocalizationSettings.AvailableLocales.Locales[1]) {
@@ -9,4 +10,5 @@ public class LocaleSwapper : MonoBehaviour {
 			LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[1];
 		}
 	}
+}
 }

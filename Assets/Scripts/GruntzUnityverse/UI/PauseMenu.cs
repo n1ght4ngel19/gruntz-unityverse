@@ -34,7 +34,7 @@ public class PauseMenu : MonoBehaviour {
 		Debug.Log("Load game");
 	}
 
-	private void OnEscape() {
+	public void OnEscape() {
 		if (!GameManager.instance.helpboxUI.GetComponent<Canvas>().enabled) {
 			Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
 			canvas.enabled = Time.timeScale == 0f;
