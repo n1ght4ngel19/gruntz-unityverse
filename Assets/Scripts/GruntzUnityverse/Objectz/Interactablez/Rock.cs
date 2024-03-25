@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Animancer;
+﻿using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Itemz.Base;
@@ -13,7 +12,11 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 /// <summary>
 /// A Grunt-sized piece of rock that blocks the path, possibly hiding something under it.
 /// </summary>
-public class Rock : GridObject, IObjectHolder, IAnimatable {
+public class Rock : GridObject, IObjectHolder {
+	public AnimationClip breakAnimation;
+
+	private AnimancerComponent animancer => GetComponent<AnimancerComponent>();
+
 	public override void Setup() {
 		base.Setup();
 
@@ -57,14 +60,14 @@ public class Rock : GridObject, IObjectHolder, IAnimatable {
 
 		transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
 		spriteRenderer.sortingLayerName = "Default";
-		spriteRenderer.sortingOrder = 4;
+		spriteRenderer.sortingOrder = 5;
 
-		Animancer.Play(breakAnimation);
+		animancer.Play(breakAnimation);
 
 		await UniTask.WaitForSeconds(breakAnimation.length * 0.25f);
 
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
-		spriteRenderer.sortingOrder = 4;
+		spriteRenderer.sortingOrder = 5;
 
 		await UniTask.WaitForSeconds(breakAnimation.length * 0.5f);
 
@@ -75,18 +78,6 @@ public class Rock : GridObject, IObjectHolder, IAnimatable {
 		// This also prevents removing the effect of other possible blocking objects at the same location
 		node.isBlocked = isObstacle ? false : node.isBlocked;
 	}
-
-	// --------------------------------------------------
-	// IAnimatable
-	// --------------------------------------------------
-
-	#region IAnimatable
-	[Header("IAnimatable")]
-	[field: SerializeField] public Animator Animator { get; set; }
-	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
-	#endregion
-
-	public AnimationClip breakAnimation;
 
 	private async void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out RollingBall ball)) {

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4946637438497047888}
+  - component: {fileID: -364359885060761093}
   - component: {fileID: -5609448329868958161}
   - component: {fileID: -111952681055987419}
   - component: {fileID: 2710453740047537483}
@@ -35,6 +36,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-364359885060761093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4540806815386139791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354bd022f99642c6a232c025e9c0b98a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  circleCollider2D: {fileID: 0}
+  direction: 0
+  pointedNode: {fileID: 0}
 --- !u!212 &-5609448329868958161
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -143,7 +166,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &1040174862709237391
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

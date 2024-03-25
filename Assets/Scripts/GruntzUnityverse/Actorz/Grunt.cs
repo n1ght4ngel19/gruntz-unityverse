@@ -354,13 +354,13 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		interactionTarget = FindObjectsByType<GridObject>(FindObjectsSortMode.None)
 			.FirstOrDefault(go => go.enabled && go.node == GameManager.instance.selector.node && equippedTool.CompatibleWith(go));
 
+		// Foundation without Brick
 		if (interactionTarget is BrickBlock bb && bb.bottomBrick == null) {
 			interactionTarget = null;
 		}
 
-
 		if (interactionTarget != null) {
-			// Debug.Log("Interaction target found");
+			attackTarget = null;
 			TryTakeAction(interactionTarget.node, "Interact");
 
 			return;
@@ -370,7 +370,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			.FirstOrDefault(g => g.node == GameManager.instance.selector.node && g.enabled && g != this);
 
 		if (attackTarget != null) {
-			// Debug.Log("Attack target found");
+			interactionTarget = null;
 			TryTakeAction(attackTarget.node, "Attack");
 
 			return;
@@ -378,7 +378,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		// Todo: Play voice line for having an incompatible tool
 
-		// Debug.Log("No interaction or attack target found");
 		GoToState(StateHandler.State.Idle);
 	}
 
@@ -739,8 +738,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor}", GameObject.Find("Puddlez").transform).Completed += handle => {
 			GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
-			puddle.transform.position = transform.position;
 			puddle.GetComponent<SpriteRenderer>().sortingOrder = 7;
+			puddle.transform.position = transform.position;
+			puddle.Setup();
+			puddle.Appear();
 		};
 
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
@@ -770,8 +771,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		if (leavePuddle) {
 			Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor}", GameObject.Find("Puddlez").transform).Completed += handle => {
 				GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
+				puddle.GetComponent<SpriteRenderer>().sortingOrder = 7;
 				puddle.transform.position = transform.position;
 				puddle.Setup();
+				puddle.Appear();
 			};
 		}
 
