@@ -9,7 +9,7 @@ namespace GruntzUnityverse.Objectz {
 public class Checkpoint : MonoBehaviour {
 	public List<CheckpointSwitch> switchez;
 	public List<CheckpointPyramid> pyramidz;
-	public List<CheckpointFlag> flagz;
+	public List<Flag> flagz;
 
 	private void FixedUpdate() {
 		if (!switchez.TrueForAll(sw => sw.IsPressed)) {
@@ -35,7 +35,7 @@ public class Checkpoint : MonoBehaviour {
 			enabled = false;
 		}
 
-		flagz = GetComponentsInChildren<CheckpointFlag>().ToList();
+		flagz = GetComponentsInChildren<Flag>().ToList();
 	}
 }
 }

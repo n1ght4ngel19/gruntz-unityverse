@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5173987623111021443}
-  - component: {fileID: 3619936631406877757}
   - component: {fileID: 2189731961216436290}
+  - component: {fileID: 3619936631406877757}
   - component: {fileID: -3676451336825996335}
   - component: {fileID: -8106760000374903310}
   - component: {fileID: 2077894514787195061}
@@ -36,6 +36,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2189731961216436290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4620458777246233366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d13aaab62eda4dde8c0221f68337dd3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 3619936631406877757}
+  circleCollider2D: {fileID: -3676451336825996335}
+  damage: 2
+  hideUnderMound: 0
+  gruntOnTop: {fileID: 0}
+  damageRate: 1.2
 --- !u!212 &3619936631406877757
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -90,29 +114,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2189731961216436290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4620458777246233366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d13aaab62eda4dde8c0221f68337dd3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isObstacle: 0
-  isWater: 0
-  isFire: 0
-  isVoid: 0
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  spriteRenderer: {fileID: 3619936631406877757}
-  circleCollider2D: {fileID: -3676451336825996335}
-  damage: 2
-  hideUnderMound: 0
-  damageRate: 1
 --- !u!58 &-3676451336825996335
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -167,7 +168,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &2077894514787195061
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

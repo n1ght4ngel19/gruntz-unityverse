@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3589213392465663605}
-  - component: {fileID: -6931288479538129702}
   - component: {fileID: 2346204369173888737}
+  - component: {fileID: -6931288479538129702}
   - component: {fileID: -6378293646426855420}
   - component: {fileID: 744256651088824828}
   - component: {fileID: -4520872213484394346}
@@ -37,6 +37,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2346204369173888737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3338190730484562782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb88972a92364b3dbc22f1f224eff959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Animator>k__BackingField: {fileID: -6378293646426855420}
+  <Animancer>k__BackingField: {fileID: 744256651088824828}
+  wavingAnim: {fileID: 7400000, guid: 11fa81ffe7b96ba458425aa3767471f3, type: 2}
 --- !u!212 &-6931288479538129702
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -91,21 +106,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2346204369173888737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3338190730484562782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb88972a92364b3dbc22f1f224eff959, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Animator>k__BackingField: {fileID: -6378293646426855420}
-  <Animancer>k__BackingField: {fileID: 744256651088824828}
-  wavingAnim: {fileID: 7400000, guid: 11fa81ffe7b96ba458425aa3767471f3, type: 2}
 --- !u!95 &-6378293646426855420
 Animator:
   serializedVersion: 7

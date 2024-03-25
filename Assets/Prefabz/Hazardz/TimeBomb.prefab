@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5841431952564014013}
-  - component: {fileID: -64569934111272732}
   - component: {fileID: -135193514801134993}
+  - component: {fileID: -64569934111272732}
   - component: {fileID: -5503057545475255136}
   - component: {fileID: -1903749424239054312}
   - component: {fileID: -4931098961196326310}
@@ -38,6 +38,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-135193514801134993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6684145216504815915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2abd92c8c74ebeaa3886db1df69c27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: -64569934111272732}
+  circleCollider2D: {fileID: -5503057545475255136}
+  damage: 40
+  hideUnderMound: 0
+  gruntOnTop: {fileID: 0}
+  delay: 2
+  <Animator>k__BackingField: {fileID: 6434050401306643285}
+  <Animancer>k__BackingField: {fileID: 1213498051442215585}
 --- !u!212 &-64569934111272732
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -92,31 +118,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-135193514801134993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6684145216504815915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb2abd92c8c74ebeaa3886db1df69c27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actAsObstacle: 0
-  actAsWater: 0
-  actAsFire: 0
-  actAsVoid: 0
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  spriteRenderer: {fileID: -64569934111272732}
-  circleCollider2D: {fileID: -5503057545475255136}
-  damage: 40
-  hideUnderMound: 0
-  delay: 2
-  <Animator>k__BackingField: {fileID: 6434050401306643285}
-  <Animancer>k__BackingField: {fileID: 1213498051442215585}
 --- !u!58 &-5503057545475255136
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -171,7 +172,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &-4931098961196326310
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

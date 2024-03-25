@@ -22,6 +22,7 @@ public class Level : MonoBehaviour {
 	public Node nodePrefab;
 
 	public string levelName;
+	public string areaName;
 	public LevelStatz levelStatz;
 
 	private void OnDrawGizmosSelected() {

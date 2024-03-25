@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
 using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Core;
 using GruntzUnityverse.Objectz.Interactablez;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class Hazard : GridObject {
 	public int damage;
 	public bool hideUnderMound;
 
-	public Grunt gruntOnTop => GameManager.instance.allGruntz.FirstOrDefault(gr => gr.node == node);
+	public Grunt gruntOnTop;
 
 	public override void Setup() {
 		base.Setup();
@@ -58,6 +57,18 @@ public class Hazard : GridObject {
 
 	protected virtual IEnumerator Damage() {
 		yield return null;
+	}
+
+	private void OnTriggerEnter2D(Collider2D other) {
+		if (other.TryGetComponent(out Grunt grunt)) {
+			gruntOnTop = grunt;
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D other) {
+		if (other.TryGetComponent(out Grunt _)) {
+			gruntOnTop = null;
+		}
 	}
 }
 }

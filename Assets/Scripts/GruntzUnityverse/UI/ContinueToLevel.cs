@@ -1,5 +1,4 @@
-﻿using System;
-using GruntzUnityverse.Core;
+﻿using GruntzUnityverse.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -11,9 +10,7 @@ using UnityEngine.UI;
 namespace GruntzUnityverse.UI {
 public class ContinueToLevel : MonoBehaviour {
 	private SceneInstance _levelLoaded;
-	public TMP_Text levelNameText;
 	public TMP_Text sceneIsLoadedText;
-	public string localizedLoadedMessage;
 	private bool _completedLoad;
 	public Slider loadingBar;
 
@@ -26,7 +23,8 @@ public class ContinueToLevel : MonoBehaviour {
 	}
 
 	public void LoadLevel(string levelToLoad) {
-		SceneManager.UnloadSceneAsync("MainMenu");
+		SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+		// SceneManager.UnloadSceneAsync("MainMenu");
 
 		_loadHandle = Addressables.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive, false);
 
@@ -34,8 +32,9 @@ public class ContinueToLevel : MonoBehaviour {
 			_levelLoaded = handle.Result;
 			_completedLoad = true;
 
-			sceneIsLoadedText.SetText(localizedLoadedMessage);
-			InvokeRepeating(nameof(ToggleLoadedMessage), 0, 1f);
+			sceneIsLoadedText = GameObject.Find("SceneIsLoadedText").GetComponent<TMP_Text>();
+
+			InvokeRepeating(nameof(ToggleLoadedMessage), 0, 0.5f);
 		};
 	}
 
@@ -46,15 +45,11 @@ public class ContinueToLevel : MonoBehaviour {
 	private void OnContinueToLevel() {
 		if (_completedLoad) {
 			_levelLoaded.ActivateAsync().completed += _ => {
-				GameManager.instance.InitUI();
-
 				SceneManager.UnloadSceneAsync("LoadMenu");
+
+				GameManager.instance.InitUI();
 			};
 		}
-	}
-
-	public void LocalizeLoadedMessage(string message) {
-		localizedLoadedMessage = message;
 	}
 }
 }

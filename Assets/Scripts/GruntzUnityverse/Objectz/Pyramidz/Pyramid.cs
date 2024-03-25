@@ -9,8 +9,9 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
 public abstract class Pyramid : GridObject {
 	public AnimationClip raiseAnim;
 	public AnimationClip lowerAnim;
-
 	public AnimancerComponent animancer;
+
+	private Grunt gruntOnTop => GameManager.instance.allGruntz.FirstOrDefault(gr => gr.node == node);
 
 	public override void Setup() {
 		base.Setup();
@@ -28,10 +29,8 @@ public abstract class Pyramid : GridObject {
 		node.isBlocked = isObstacle;
 		spriteRenderer.sortingLayerName = isObstacle ? "HighObjectz" : "AlwaysBottom";
 
-		Grunt grunt = FindObjectsByType<Grunt>(FindObjectsSortMode.None).FirstOrDefault(gr => gr.node == node);
-
-		if (grunt != null && node.isBlocked) {
-			grunt.Die(AnimationManager.instance.explodeDeathAnimation, false, false);
+		if (gruntOnTop != null && node.isBlocked) {
+			gruntOnTop.Die(AnimationManager.instance.explodeDeathAnimation, false, false);
 		}
 	}
 }

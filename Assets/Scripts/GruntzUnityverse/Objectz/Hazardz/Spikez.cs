@@ -14,9 +14,9 @@ public class Spikez : Hazard {
 			// That's why we need to store the GruntOnTop in a variable before waiting
 			Grunt toDamage = gruntOnTop;
 
-			yield return new WaitForSeconds(damageRate);
-
 			toDamage.TakeDamage(damage);
+
+			yield return new WaitForSeconds(damageRate);
 		}
 	}
 }

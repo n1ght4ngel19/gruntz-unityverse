@@ -1,6 +1,11 @@
-﻿using GruntzUnityverse.Core;
+﻿using System;
+using System.Linq;
+using GruntzUnityverse.Core;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Localization.Tables;
 using UnityEngine.SceneManagement;
+using UnityEngine.TextCore.LowLevel;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
@@ -24,6 +29,33 @@ public class PauseMenu : MonoBehaviour {
 					Time.timeScale = 1f;
 				}
 			);
+	}
+
+	public void Restart() {
+		LevelLoader loader = GameObject.Find("RestartButton").GetComponent<LevelLoader>();
+
+		loader.levelKey = SceneManager.GetActiveScene().name;
+
+		loader.levelName = GameManager.instance.levelName;
+
+		loader.areaName = GameManager.instance.area switch {
+			Area.RockyRoadz => "ROCKY ROADZ",
+			Area.Gruntziclez => "GRUNTZICLEZ",
+			Area.TroubleInTheTropicz => "TROUBLE IN THE TROPICZ",
+			Area.HighOnSweetz => "HIGH ON SWEETZ",
+			Area.HighRollerz => "HIGH ROLLERZ",
+			Area.HoneyIShrunkTheGruntz => "HONEY, SHRUNK THE GRUNTZ!",
+			Area.TheMiniatureMasterz => "THE MINIATURE MASTERZ",
+			Area.GruntzInSpace => "GRUNTZ IN SPACE",
+			Area.VirtualReality => "VIRTUAL REALITY",
+			_ => throw new ArgumentOutOfRangeException(),
+		};
+
+		Addressables.LoadAssetAsync<Sprite>($"AreaBackground-{loader.levelKey.Split("-").First()}").Completed += handle => {
+			loader.loadMenuBackground = handle.Result;
+
+			loader.LoadLevel();
+		};
 	}
 
 	private void OnSaveGame() {

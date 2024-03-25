@@ -27,6 +27,8 @@ namespace GruntzUnityverse.Actorz {
 /// The class representing a Grunt in the game.
 /// </summary>
 public class Grunt : MonoBehaviour, IDataPersistence {
+	public int spriteSortingOrder;
+
 	public UnityEvent onStateChanged;
 
 	#region Fieldz
@@ -240,6 +242,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 	#region Lifecycle
 	private void Start() {
+		spriteSortingOrder = spriteRenderer.sortingOrder;
+
 		if (gameObject.CompareTag("PlayerGrunt")) {
 			gruntId = GameManager.instance.playerGruntz.ToList().IndexOf(this) + 1;
 
@@ -349,6 +353,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		interactionTarget = FindObjectsByType<GridObject>(FindObjectsSortMode.None)
 			.FirstOrDefault(go => go.enabled && go.node == GameManager.instance.selector.node && equippedTool.CompatibleWith(go));
+
+		if (interactionTarget is BrickBlock bb && bb.bottomBrick == null) {
+			interactionTarget = null;
+		}
 
 
 		if (interactionTarget != null) {
@@ -483,7 +491,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			yield return BreakRock(rock);
 		}
 
-		if (interactionTarget is BrickBlock brickBlock) {
+		if (interactionTarget is BrickBlock brickBlock && brickBlock.bottomBrick != null) {
 			yield return BreakBlock(brickBlock);
 		}
 
@@ -541,9 +549,21 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		yield return new WaitForSeconds(toPlay.length * 0.75f);
 
+		bool breakGauntletz = brickBlock.topMostBrick.type == BrickType.Red;
+
 		brickBlock.Break();
 
 		yield return new WaitForSeconds(toPlay.length * 0.25f);
+
+		if (breakGauntletz) {
+			Addressables.LoadAssetAsync<BareHandz>("BareHandz").Completed += handle => {
+				animationPack = handle.Result.animationPack;
+				equippedTool = handle.Result;
+				gruntEntry.SetTool("BareHandz");
+
+				animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
+			};
+		}
 
 		interactionTarget = null;
 	}
@@ -635,7 +655,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		}
 
 		barz.staminaBar.Adjust(++statz.stamina);
-		Debug.Log($"Adjust stamina bar {statz.stamina}");
 
 		if (CompareTag("PlayerGrunt")) {
 			gruntEntry.SetStamina(statz.stamina);
@@ -757,8 +776,9 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		}
 
 		if (playBelow) {
+			transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 			spriteRenderer.sortingLayerName = "AlwaysBottom";
-			spriteRenderer.sortingOrder = 0;
+			spriteRenderer.sortingOrder = 8;
 		}
 
 		animancer.Play(toPlay);

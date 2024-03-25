@@ -1,10 +1,18 @@
-﻿using GruntzUnityverse.Actorz;
+﻿using Animancer;
+using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz {
 public class CreatorPad : GridObject {
+	public AnimationClip padAnim;
+	private AnimancerComponent animancer => GetComponent<AnimancerComponent>();
+
+	private void Start() {
+		animancer.Play(padAnim);
+	}
+
 	private void OnTryPlaceGrunt() {
 		if (GameManager.instance.selector.placingGrunt && GameManager.instance.selector.node == node) {
 			GameCursor.instance.SwapCursor(AnimationManager.instance.cursorDefault);

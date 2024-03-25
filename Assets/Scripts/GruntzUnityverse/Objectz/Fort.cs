@@ -1,32 +1,36 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Itemz.Toolz;
+using GruntzUnityverse.Objectz.Misc;
 using GruntzUnityverse.UI;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
-public class Fort : MonoBehaviour {
-	public BoxCollider2D boxCollider2D;
+public class Fort : GridObject {
+	public List<Flag> fortFlagz;
 
-	private void OnTriggerEnter2D(Collider2D other) {
+	private void Start() {
+		fortFlagz = transform.parent.GetComponentsInChildren<Flag>().ToList();
+
+		fortFlagz.ForEach(fl => fl.PlayAnim());
+	}
+
+	private async void OnTriggerEnter2D(Collider2D other) {
 		if (!other.TryGetComponent(out Grunt grunt)) {
 			return;
 		}
 
 		if (grunt.equippedTool is Warpstone) {
-			FindObjectsByType<Grunt>(FindObjectsSortMode.None)
-				.Where(g => g.CompareTag("Dizgruntled"))
-				.ToList()
-				.ForEach(g1 => g1.enabled = false);
+			GameManager.instance.dizgruntled.ForEach(dg => dg.enabled = false);
 
+			GameManager.instance.playerGruntz.ForEach(pg => pg.animancer.Play(AnimationManager.instance.gruntWarpOutAnimationz.First()));
 
-			// FindObjectsByType<Grunt>(FindObjectsSortMode.None)
-			// 	.Where(g => !g.CompareTag("Dizgruntled"))
-			// 	.ToList()
-			// 	.ForEach(g1 => g1.Animancer.Play(g1.exitAnimation));
+			// GameManager.instance.playerGruntz.ForEach(pg => pg.animancer.Play(AnimationManager.instance.gruntWarpOutEndAnimation));
 
-			// Time.timeScale = 0f;
+			await UniTask.WaitForSeconds(4f);
 
 			Level.instance.gameObject.SetActive(false);
 			GameManager.instance.actorz.SetActive(false);

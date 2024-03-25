@@ -595,6 +595,7 @@ GameObject:
   - component: {fileID: 1415897153}
   - component: {fileID: 1415897155}
   - component: {fileID: 1415897154}
+  - component: {fileID: 1415897156}
   m_Layer: 5
   m_Name: SceneIsLoadedText
   m_TagString: Untagged
@@ -628,7 +629,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415897152}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -641,7 +642,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: LEVEL IS LOADED, PRESS ENTER TO CONTINUE!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 553b50210cf52ce42a49e5e45a6024a6, type: 2}
   m_sharedMaterial: {fileID: 985213414397775892, guid: 553b50210cf52ce42a49e5e45a6024a6, type: 2}
@@ -720,6 +721,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415897152}
   m_CullTransparentMesh: 1
+--- !u!114 &1415897156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415897152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:03a3ac20f5a82254a87090cb55c76fd3
+    m_TableEntryReference:
+      m_KeyId: 2759175090540544
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1415897154}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: SetText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1478082540
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,7 +878,6 @@ GameObject:
   - component: {fileID: 1639336228}
   - component: {fileID: 1639336227}
   - component: {fileID: 1639336229}
-  - component: {fileID: 1639336230}
   m_Layer: 0
   m_Name: ContinueInput
   m_TagString: Untagged
@@ -902,50 +942,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 779b93e2ac3c4889b8a3bf1991ac45a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelNameText: {fileID: 2065198302}
   sceneIsLoadedText: {fileID: 1415897154}
   localizedLoadedMessage: LEVEL IS LOADED, PRESS ENTER TO CONTINUE!
   loadingBar: {fileID: 1659063747}
---- !u!114 &1639336230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639336226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:03a3ac20f5a82254a87090cb55c76fd3
-    m_TableEntryReference:
-      m_KeyId: 2759175090540544
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  m_FormatArguments: []
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1639336229}
-        m_TargetAssemblyTypeName: GruntzUnityverse.UI.ContinueToLevel, GruntzUnityverse
-        m_MethodName: LocalizeLoadedMessage
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &1659063745
 GameObject:
   m_ObjectHideFlags: 0

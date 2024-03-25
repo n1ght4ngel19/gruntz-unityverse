@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	public string levelName;
 
+	public Area area;
+
 	/// <summary>
 	/// The selector responsible for selecting and highlighting objects.
 	/// </summary>
@@ -61,20 +63,24 @@ public class GameManager : MonoBehaviour {
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
+	private void Start() {
+		FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.worldCamera =
+			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
+	}
+
 	public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		Application.targetFrameRate = 120;
-		Time.timeScale = 0f;
+		// Time.timeScale = 0f;
 
 		Cursor.visible = false;
 
 		FindFirstObjectByType<GameCursor>().enabled = true;
 
-		FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.worldCamera =
-			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
+		Debug.Log("Disable Pause Menu Canvas");
+		FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.enabled = false;
 	}
 
 	public void InitUI() {
-		Time.timeScale = 0f;
 		Cursor.visible = false;
 
 		FindFirstObjectByType<GameCursor>().enabled = true;
@@ -83,6 +89,8 @@ public class GameManager : MonoBehaviour {
 			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
 
 		GameObject.Find("SidebarUI").GetComponent<Canvas>().enabled = true;
+
+		Time.timeScale = 0f;
 	}
 
 	private void OnSwitchLocale() {

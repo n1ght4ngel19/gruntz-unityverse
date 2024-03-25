@@ -20,8 +20,6 @@ public class Rock : GridObject, IObjectHolder, IAnimatable {
 		node.isBlocked = isObstacle;
 	}
 
-	public List<EquippedTool> compatibleToolz;
-
 	// --------------------------------------------------
 	// IObjectHolder
 	// --------------------------------------------------
@@ -65,9 +63,12 @@ public class Rock : GridObject, IObjectHolder, IAnimatable {
 
 		await UniTask.WaitForSeconds(breakAnimation.length * 0.25f);
 
-		transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
 		spriteRenderer.sortingOrder = 4;
+
+		await UniTask.WaitForSeconds(breakAnimation.length * 0.5f);
+
+		transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 
 		RevealHidden(gameObject.scene.isLoaded);
 

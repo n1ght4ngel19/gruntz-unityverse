@@ -2,6 +2,7 @@
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Animation;
 using GruntzUnityverse.Core;
+using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Base {
 public class LevelTool : LevelItem {
@@ -13,12 +14,19 @@ public class LevelTool : LevelItem {
 	public AnimationPack animationPack;
 
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
-		yield return base.Pickup(targetGrunt);
+		targetGrunt.enabled = false;
+		targetGrunt.animancer.Play(pickupAnim);
+
+		yield return new WaitForSeconds(pickupAnim.length);
+
+		Level.instance.levelStatz.toolzCollected++;
 
 		targetGrunt.animationPack = animationPack;
 		targetGrunt.equippedTool = tool;
 		targetGrunt.gruntEntry.SetTool(codeName);
-		Level.instance.levelStatz.toolzCollected++;
+		targetGrunt.enabled = true;
+
+		targetGrunt.GoToState(StateHandler.State.Walking);
 
 		Destroy(gameObject);
 	}

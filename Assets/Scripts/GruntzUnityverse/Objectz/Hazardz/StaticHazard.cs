@@ -24,6 +24,10 @@ public class StaticHazard : Hazard {
 		animTargetSpriteRenderer.enabled = true;
 		animTargetAnimancer.Play(hazardAnim);
 
+		if (gruntOnTop != null) {
+			gruntOnTop.Die(AnimationManager.instance.burnDeathAnimation, false, false);
+		}
+
 		active = true;
 
 		yield return new WaitForSeconds(hazardAnim.length);
@@ -39,14 +43,14 @@ public class StaticHazard : Hazard {
 	}
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.TryGetComponent(out Grunt grunt) && active) {
-			grunt.Die(AnimationManager.instance.burnDeathAnimation, false, false);
-		}
-	}
+		if (other.TryGetComponent(out Grunt grunt)) {
+			gruntOnTop = grunt;
 
-	private void OnTriggerStay2D(Collider2D other) {
-		if (gruntOnTop != null && active) {
-			gruntOnTop.Die(AnimationManager.instance.burnDeathAnimation, false, false);
+			if (active) {
+				gruntOnTop.Die(AnimationManager.instance.burnDeathAnimation, false, false);
+
+				gruntOnTop = null;
+			}
 		}
 	}
 }
