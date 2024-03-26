@@ -1,39 +1,46 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using GruntzUnityverse.Core;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
 public class SilverPyramid : Pyramid {
-	public int delay;
-	public int duration;
+	public float delay;
+	public float duration;
 
 	public override async void Toggle() {
 		if (duration <= 0) {
 			return;
 		}
 
-		StartCoroutine(WaitingToggle());
-	}
+		await UniTask.WaitForSeconds(delay);
 
-	private IEnumerator WaitingToggle() {
-		yield return new WaitForSeconds(delay);
+		AnimationClip toPlay1 = isObstacle ? lowerAnim : raiseAnim;
+		animancer.Play(toPlay1);
 
-		// if (isObstacle) {
-		// 	ToggleOff();
-		// } else {
-		// 	ToggleOn();
-		// }
+		await UniTask.WaitForSeconds(toPlay1.length);
 
-		node.isBlocked = isObstacle;
+		isObstacle = !isObstacle;
+		node.isBlocked = !node.isBlocked;
+		spriteRenderer.sortingLayerName = isObstacle ? "HighObjectz" : "AlwaysBottom";
 
-		yield return new WaitForSeconds(duration);
+		if (gruntOnTop != null && node.isBlocked) {
+			gruntOnTop.Die(AnimationManager.instance.explodeDeathAnimation, false, false);
+		}
 
-		// if (isObstacle) {
-		// 	ToggleOff();
-		// } else {
-		// 	ToggleOn();
-		// }
+		await UniTask.WaitForSeconds(duration);
 
-		node.isBlocked = isObstacle;
+		AnimationClip toPlay2 = isObstacle ? lowerAnim : raiseAnim;
+		animancer.Play(toPlay2);
+
+		await UniTask.WaitForSeconds(toPlay2.length);
+
+		isObstacle = !isObstacle;
+		node.isBlocked = !node.isBlocked;
+		spriteRenderer.sortingLayerName = isObstacle ? "HighObjectz" : "AlwaysBottom";
+
+		if (gruntOnTop != null && node.isBlocked) {
+			gruntOnTop.Die(AnimationManager.instance.explodeDeathAnimation, false, false);
+		}
 	}
 }
 }

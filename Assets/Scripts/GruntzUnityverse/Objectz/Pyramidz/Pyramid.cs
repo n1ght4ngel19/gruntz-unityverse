@@ -11,7 +11,7 @@ public abstract class Pyramid : GridObject {
 	public AnimationClip lowerAnim;
 	public AnimancerComponent animancer;
 
-	private Grunt gruntOnTop => GameManager.instance.allGruntz.FirstOrDefault(gr => gr.node == node);
+	protected Grunt gruntOnTop => GameManager.instance.allGruntz.FirstOrDefault(gr => gr.node == node);
 
 	public override void Setup() {
 		base.Setup();

@@ -1,22 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
+[Serializable]
+public struct PyramidData {
+	public SilverPyramid pyramid;
+	public float delay;
+	public float duration;
+}
+
 public class SilverTimerSwitch : Switch {
-	public List<SilverPyramid> pyramidz;
-
-	public override void Setup() {
-		base.Setup();
-
-		pyramidz = transform.parent.GetComponentsInChildren<SilverPyramid>().ToList();
-	}
+	public List<PyramidData> pyramidData;
 
 	protected override void OnTriggerEnter2D(Collider2D other) {
 		base.OnTriggerEnter2D(other);
 
-		pyramidz.ForEach(pyramid => pyramid.Toggle());
+		foreach (PyramidData pd in pyramidData) {
+			pd.pyramid.delay = pd.delay;
+			pd.pyramid.duration = pd.duration;
+			pd.pyramid.Toggle();
+		}
 	}
 }
 }
