@@ -9,7 +9,7 @@ namespace GruntzUnityverse.Itemz.Base {
 /// </summary>
 public class LevelPowerup : LevelItem {
 	/// <summary>
-	/// The duration of the Powerup. A duration of 0 means the Powerup has an instantaneous effect.
+	/// The duration of the Powerup.
 	/// </summary>
 	public float duration;
 
@@ -23,7 +23,7 @@ public class LevelPowerup : LevelItem {
 		GetComponent<CircleCollider2D>().enabled = false;
 
 		targetGrunt.equippedPowerupz.Add(equippedPowerup);
-		equippedPowerup.Equip(targetGrunt);
+		equippedPowerup.Equip(targetGrunt, duration);
 
 		yield return new WaitForSeconds(0.5f);
 

@@ -11,8 +11,8 @@ public class AttributeBar : MonoBehaviour {
 		spriteRenderer.enabled = !hidden;
 	}
 
-	public void Adjust(int newValue) {
-		spriteRenderer.sprite = frames[newValue];
+	public void Adjust(float newValue) {
+		spriteRenderer.sprite = frames[Mathf.RoundToInt(newValue)];
 		spriteRenderer.enabled = newValue != Statz.MAX_VALUE;
 	}
 }

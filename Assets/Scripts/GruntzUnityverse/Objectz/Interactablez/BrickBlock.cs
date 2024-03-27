@@ -7,9 +7,9 @@ using UnityEngine.AddressableAssets;
 namespace GruntzUnityverse.Objectz.Interactablez {
 public class BrickBlock : GridObject {
 	public bool cloaked;
-	public Brick bottomBrick => transform.GetComponentsInChildren<Brick>().FirstOrDefault(br => br.name.EndsWith("B"));
-	public Brick middleBrick => transform.GetComponentsInChildren<Brick>().FirstOrDefault(br => br.name.EndsWith("M"));
-	public Brick topBrick => transform.GetComponentsInChildren<Brick>().FirstOrDefault(br => br.name.EndsWith("T"));
+	public Brick bottomBrick => transform.GetComponentsInChildren<Brick>().FirstOrDefault(br => br.CompareTag("BottomBrick"));
+	public Brick middleBrick => transform.GetComponentsInChildren<Brick>().FirstOrDefault(br => br.CompareTag("MiddleBrick"));
+	public Brick topBrick => transform.GetComponentsInChildren<Brick>().FirstOrDefault(br => br.CompareTag("TopBrick"));
 
 	public Brick topMostBrick => topBrick != null ? topBrick : middleBrick != null ? middleBrick : bottomBrick != null ? bottomBrick : null;
 
@@ -50,7 +50,7 @@ public class BrickBlock : GridObject {
 			toBreak.spriteRenderer.sortingLayerName = "Default";
 			toBreak.spriteRenderer.sortingOrder = 4;
 		}
-		
+
 		await UniTask.WaitForSeconds(toBreak.breakAnim.length * 0.05f);
 
 		if (toBreak.type == BrickType.Black) {
@@ -82,12 +82,25 @@ public class BrickBlock : GridObject {
 		}
 
 		if (toBreak.type != BrickType.Gold || explode) {
-			Destroy(toBreak.gameObject, 0.25f);
+			Destroy(toBreak.gameObject, toBreak.breakAnim.length * 0.25f);
 		}
 	}
 
 	public void Reveal() {
 		GetComponent<SpriteRenderer>().enabled = false;
+	}
+
+	public void BuildBrick(BrickType typeToBuild) {
+		string layer = bottomBrick == null ? "B" : middleBrick == null ? "M" : "T";
+		string buildKey = $"Brick_{(int)typeToBuild}{layer}";
+
+		Addressables.LoadAssetAsync<GameObject>(buildKey).Completed += handle => {
+			Reveal();
+
+			GameObject brick = Instantiate(handle.Result, transform);
+			brick.name.Remove(brick.name.Length - 7);
+			brick.GetComponent<Brick>().Setup();
+		};
 	}
 }
 }

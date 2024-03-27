@@ -93,13 +93,13 @@ public class GruntEntry : MonoBehaviour {
 		}
 	}
 
-	public void SetHealth(int value) {
-		healthBar.sprite = healthFrames[value];
+	public void SetHealth(float value) {
+		healthBar.sprite = healthFrames[Mathf.RoundToInt(value)];
 		headSlot.sprite = value >= 11 ? greenHead : value >= 6 ? yellowHead : redHead;
 	}
 
-	public void SetStamina(int value) {
-		staminaBar.sprite = staminaFrames[value];
+	public void SetStamina(float value) {
+		staminaBar.sprite = staminaFrames[Mathf.RoundToInt(value)];
 	}
 
 	public void SetTool(string toolName) {

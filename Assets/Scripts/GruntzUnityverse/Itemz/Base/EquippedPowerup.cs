@@ -8,12 +8,9 @@ public class EquippedPowerup : ScriptableObject {
 	public string description;
 
 	[Range(0, 100)]
-	public int duration;
-
-	[Range(0, 100)]
 	public int delay;
 
-	public async void Equip(Grunt affectedGrunt) {
+	public async void Equip(Grunt affectedGrunt, float duration) {
 		await UniTask.WaitForSeconds(delay);
 
 		ActivateEffect(affectedGrunt);
@@ -21,6 +18,8 @@ public class EquippedPowerup : ScriptableObject {
 		await UniTask.WaitForSeconds(duration);
 
 		DeactivateEffect(affectedGrunt);
+
+		affectedGrunt.equippedPowerupz.Remove(this);
 	}
 
 	protected virtual void ActivateEffect(Grunt affectedGrunt) { }

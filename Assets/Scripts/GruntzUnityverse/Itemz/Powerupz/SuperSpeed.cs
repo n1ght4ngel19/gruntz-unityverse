@@ -11,6 +11,7 @@ public class SuperSpeed : EquippedPowerup {
 	public float speedMultiplier;
 
 	protected override void ActivateEffect(Grunt affectedGrunt) {
+		Debug.Log("SuperSpeed activated");
 		affectedGrunt.moveSpeed /= speedMultiplier;
 	}
 

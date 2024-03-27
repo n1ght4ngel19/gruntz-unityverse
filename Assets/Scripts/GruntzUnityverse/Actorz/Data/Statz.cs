@@ -3,19 +3,19 @@
 namespace GruntzUnityverse.Actorz.Data {
 [System.Serializable]
 public struct Statz {
-	public const int MAX_VALUE = 20;
+	public const float MAX_VALUE = 20;
 
 	[Range(0, MAX_VALUE)]
-	public int health;
+	public float health;
 
 	[Range(0, MAX_VALUE)]
-	public int stamina;
+	public float stamina;
 
 	[Range(0, 1f)]
 	public float staminaRegenRate;
 
-	public int powerupTime;
-	public int toyTime;
-	public int wingzTime; // Is this needed?
+	public float powerupTime;
+	public float toyTime;
+	public float wingzTime; // Is this needed?
 }
 }

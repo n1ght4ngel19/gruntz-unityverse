@@ -51,6 +51,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	[Range(0, 5)]
 	public float moveSpeed;
 
+	public float damageReductionPercentage;
+
+	public float damageReflectionPercentage;
+
 	// --------------------------------------------------
 	// Flagz
 	// --------------------------------------------------
@@ -69,8 +73,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public bool committed;
 
 	public bool canFly => equippedTool is Wingz;
-
-	[SerializeField] private bool checkedForBlockedTravelGoal;
 
 	// --------------------------------------------------
 	// Equipment
@@ -182,7 +184,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public StateHandler stateHandler;
 
 	public void Idle(bool hostile = false) {
-		checkedForBlockedTravelGoal = false;
 		travelGoal = node;
 		next = node;
 
@@ -360,15 +361,16 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			.FirstOrDefault(go => go.enabled && go.node == GameManager.instance.selector.node && equippedTool.CompatibleWith(go));
 
 		// Foundation without Brick
-		if (interactionTarget is BrickBlock bb && bb.bottomBrick == null) {
-			interactionTarget = null;
+		if (interactionTarget is BrickBlock) {
+			attackTarget = null;
+			TryTakeAction(interactionTarget.node, "Interact");
+
+			return;
 		}
 
 		if (interactionTarget != null) {
 			attackTarget = null;
 			TryTakeAction(interactionTarget.node, "Interact");
-
-			return;
 		}
 
 		attackTarget = GameManager.instance.allGruntz
@@ -495,11 +497,13 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			yield return BreakRock(rock);
 		}
 
-		if (interactionTarget is BrickBlock brickBlock && brickBlock.bottomBrick != null) {
+		if (interactionTarget is BrickBlock brickBlock) {
 			if (equippedTool is Gauntletz) {
 				yield return BreakBlock(brickBlock);
 			} else if (equippedTool is SpyGear) {
 				yield return IdentifyBlock(brickBlock);
+			} else if (equippedTool is BrickLayer) {
+				yield return BuildBlock(brickBlock);
 			}
 		}
 
@@ -588,6 +592,18 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		interactionTarget = null;
 	}
 
+	private IEnumerator BuildBlock(BrickBlock brickBlock, BrickType brickType = BrickType.Brown) {
+		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
+
+		animancer.Play(toPlay);
+
+		yield return new WaitForSeconds(toPlay.length);
+
+		brickBlock.BuildBrick(brickType);
+
+		interactionTarget = null;
+	}
+
 	private IEnumerator SuckPuddle(GruntPuddle puddle) {
 		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
 
@@ -636,6 +652,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		yield return new WaitForSeconds(toPlay.length / 2);
 
 		attackTarget.TakeDamage(equippedTool.damage);
+
+		if (attackTarget.damageReflectionPercentage > 0) {
+			TakeDamage(equippedTool.damage * attackTarget.damageReflectionPercentage);
+		}
 
 		yield return new WaitForSeconds(toPlay.length / 2);
 
@@ -733,8 +753,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// Damage the grunt, adjusting its health bar as well.
 	/// </summary>
 	/// <param name="damage">The amount of damage to be dealt.</param>
-	public void TakeDamage(int damage) {
-		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MAX_VALUE);
+	public void TakeDamage(float damage) {
+		statz.health = Math.Clamp(statz.health - damage * (1 - damageReductionPercentage), 0, Statz.MAX_VALUE);
 		barz.healthBar.Adjust(statz.health);
 
 		if (!CompareTag("Dizgruntled")) {
@@ -742,7 +762,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		}
 
 		if (statz.health <= 0) {
-			onDeath.Invoke();
+			Die();
 		} else {
 			onHit.Invoke();
 		}
