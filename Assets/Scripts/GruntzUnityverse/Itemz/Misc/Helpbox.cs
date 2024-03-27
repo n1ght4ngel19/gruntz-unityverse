@@ -9,6 +9,14 @@ namespace GruntzUnityverse.Itemz.Misc {
 public class Helpbox : LevelItem {
 	public string helpboxText;
 
+	protected override void Start() {
+		if (!Settings.instance.gameSettings.showHelpboxez) {
+			gameObject.SetActive(false);
+		} else {
+			base.Start();
+		}
+	}
+
 	public void SetText(string text) {
 		helpboxText = text;
 	}
@@ -30,7 +38,7 @@ public class Helpbox : LevelItem {
 		GameManager.instance.helpboxUI.GetComponent<Canvas>().enabled = false;
 
 		targetGrunt.enabled = true;
-		
+
 		targetGrunt.GoToState(StateHandler.State.Walking);
 	}
 

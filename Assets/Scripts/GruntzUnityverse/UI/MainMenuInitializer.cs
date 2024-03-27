@@ -1,5 +1,6 @@
 ﻿using GruntzUnityverse.Core;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GruntzUnityverse.UI {
 public class MainMenuInitializer : MonoBehaviour {
@@ -9,6 +10,8 @@ public class MainMenuInitializer : MonoBehaviour {
 		Cursor.visible = false;
 
 		FindFirstObjectByType<GameCursor>().enabled = true;
+
+		GameObject.Find("ShowHelp_Value").GetComponent<Toggle>().isOn = Settings.instance.gameSettings.showHelpboxez;
 	}
 }
 }

@@ -21,7 +21,7 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 		await UniTask.WaitForSeconds(delay);
 
 		GameManager.instance.allGruntz
-			.Where(gr => node.neighbours.Contains(gr.node))
+			.Where(gr => node.neighbours.Contains(gr.node) || node == gr.node)
 			.ToList()
 			.ForEach(gr1 => gr1.Die(AnimationManager.instance.explodeDeathAnimation, false, false));
 

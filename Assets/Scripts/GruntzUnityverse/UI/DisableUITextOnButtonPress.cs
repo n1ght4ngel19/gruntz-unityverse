@@ -19,10 +19,12 @@ public class DisableUITextOnButtonPress : MonoBehaviour {
 			() => {
 				foreach (GameObject target in enableTargetz) {
 					target.GetComponentsInChildren<TMP_Text>().ToList().ForEach(t => t.enabled = true);
+					target.GetComponentsInChildren<Image>().ToList().ForEach(i => i.enabled = true);
 				}
 
 				foreach (GameObject target in disableTargetz) {
 					target.GetComponentsInChildren<TMP_Text>().ToList().ForEach(t => t.enabled = false);
+					target.GetComponentsInChildren<Image>().ToList().ForEach(i => i.enabled = false);
 				}
 			}
 		);

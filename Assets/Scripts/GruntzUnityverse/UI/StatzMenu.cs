@@ -17,13 +17,13 @@ public class StatzMenu : MonoBehaviour {
 	public TMP_Text coinzValue;
 	public TMP_Text secretzValue;
 
-	public static StatzMenu Instance { get; private set; }
+	public static StatzMenu instance { get; private set; }
 
 	private void Awake() {
-		if (Instance != null && Instance != this) {
+		if (instance != null && instance != this) {
 			Destroy(gameObject);
 		} else {
-			Instance = this;
+			instance = this;
 		}
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
@@ -44,7 +44,7 @@ public class StatzMenu : MonoBehaviour {
 			GameObject.Find("TimeIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
 		};
 
-		survivorzValue.text = GameManager.instance.allGruntz.Count.ToString();
+		survivorzValue.text = GameManager.instance.playerGruntz.Count.ToString();
 
 		Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_01_Loop").Completed += handle => {
 			GameObject.Find("SurvivorzIcon").GetComponent<AnimancerComponent>().Play(handle.Result);

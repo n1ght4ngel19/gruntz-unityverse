@@ -41,7 +41,7 @@ public class Fort : GridObject {
 			GameManager.instance.itemz.SetActive(false);
 			GameManager.instance.objectz.SetActive(false);
 
-			StatzMenu.Instance.Activate();
+			StatzMenu.instance.Activate();
 		}
 	}
 }
