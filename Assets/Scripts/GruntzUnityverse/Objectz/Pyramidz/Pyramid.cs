@@ -17,6 +17,9 @@ public abstract class Pyramid : GridObject {
 		base.Setup();
 
 		animancer = GetComponent<AnimancerComponent>();
+
+		node.isBlocked = isObstacle;
+		node.hardCorner = isObstacle;
 	}
 
 	public virtual async void Toggle() {
@@ -27,6 +30,7 @@ public abstract class Pyramid : GridObject {
 
 		isObstacle = !isObstacle;
 		node.isBlocked = isObstacle;
+		node.hardCorner = isObstacle;
 		spriteRenderer.sortingLayerName = isObstacle ? "HighObjectz" : "AlwaysBottom";
 
 		if (gruntOnTop != null && node.isBlocked) {

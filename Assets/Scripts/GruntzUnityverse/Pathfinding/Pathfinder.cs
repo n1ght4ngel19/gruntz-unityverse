@@ -66,7 +66,7 @@ public static class Pathfinder {
 
 			closedSet.Add(current.location2D);
 
-			foreach (Node neighbour in current.neighbours) {
+			foreach (Node neighbour in current.neighbours.Where(n => n.CanReachDiagonally(current))) {
 				if (closedSet.Contains(neighbour.location2D)) {
 					continue;
 				}

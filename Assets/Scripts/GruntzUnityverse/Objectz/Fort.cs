@@ -24,13 +24,17 @@ public class Fort : GridObject {
 		}
 
 		if (grunt.equippedTool is Warpstone) {
-			GameManager.instance.dizgruntled.ForEach(dg => dg.enabled = false);
+			GameManager.instance.allGruntz.ForEach(g => g.enabled = false);
 
 			GameManager.instance.playerGruntz.ForEach(pg => pg.animancer.Play(AnimationManager.instance.gruntWarpOutAnimationz.First()));
+			await UniTask.WaitForSeconds(AnimationManager.instance.gruntWarpOutAnimationz.First().length);
 
-			// GameManager.instance.playerGruntz.ForEach(pg => pg.animancer.Play(AnimationManager.instance.gruntWarpOutEndAnimation));
+			GameManager.instance.playerGruntz.ForEach(pg => pg.animancer.Play(AnimationManager.instance.gruntWarpOutEndAnimation));
+			await UniTask.WaitForSeconds(AnimationManager.instance.gruntWarpOutEndAnimation.length);
 
-			await UniTask.WaitForSeconds(4f);
+			GameManager.instance.allGruntz.ForEach(g => g.spriteRenderer.enabled = false);
+			
+			await UniTask.WaitForSeconds(1f);
 
 			Level.instance.gameObject.SetActive(false);
 			GameManager.instance.actorz.SetActive(false);

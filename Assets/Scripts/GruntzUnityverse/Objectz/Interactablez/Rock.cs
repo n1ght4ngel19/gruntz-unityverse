@@ -21,6 +21,7 @@ public class Rock : GridObject, IObjectHolder {
 		base.Setup();
 
 		node.isBlocked = isObstacle;
+		node.hardCorner = isObstacle;
 	}
 
 	// --------------------------------------------------
@@ -75,8 +76,8 @@ public class Rock : GridObject, IObjectHolder {
 
 		RevealHidden(gameObject.scene.isLoaded);
 
-		// This also prevents removing the effect of other possible blocking objects at the same location
-		node.isBlocked = isObstacle ? false : node.isBlocked;
+		node.isBlocked = false;
+		node.hardCorner = false;
 	}
 
 	private async void OnTriggerEnter2D(Collider2D other) {

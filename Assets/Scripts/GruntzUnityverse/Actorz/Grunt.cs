@@ -360,17 +360,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		interactionTarget = FindObjectsByType<GridObject>(FindObjectsSortMode.None)
 			.FirstOrDefault(go => go.enabled && go.node == GameManager.instance.selector.node && equippedTool.CompatibleWith(go));
 
-		// Foundation without Brick
-		if (interactionTarget is BrickBlock) {
+		if (interactionTarget != null) {
 			attackTarget = null;
 			TryTakeAction(interactionTarget.node, "Interact");
 
 			return;
-		}
-
-		if (interactionTarget != null) {
-			attackTarget = null;
-			TryTakeAction(interactionTarget.node, "Interact");
 		}
 
 		attackTarget = GameManager.instance.allGruntz
@@ -774,6 +768,15 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public async void Die() {
 		enabled = false;
 
+		if (CompareTag("PlayerGrunt")) {
+			gruntEntry.Clear();
+			GameManager.instance.playerGruntz.Remove(this);
+		} else {
+			GameManager.instance.dizgruntled.Remove(this);
+		}
+
+		GoToState(StateHandler.State.Dying);
+
 		CancelInvoke(nameof(RegenerateStamina));
 		DeactivateBarz();
 
@@ -805,6 +808,14 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// </summary>
 	public async void Die(AnimationClip toPlay, bool leavePuddle = true, bool playBelow = true) {
 		enabled = false;
+		GameManager.instance.allGruntz.Remove(this);
+
+		if (CompareTag("PlayerGrunt")) {
+			gruntEntry.Clear();
+			GameManager.instance.playerGruntz.Remove(this);
+		} else {
+			GameManager.instance.dizgruntled.Remove(this);
+		}
 
 		GoToState(StateHandler.State.Dying);
 
