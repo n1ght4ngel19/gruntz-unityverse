@@ -35,6 +35,11 @@ public class BrickBlock : GridObject {
 			GetComponent<SpriteRenderer>().sprite = handle.Result;
 
 			GetComponent<SpriteRenderer>().enabled = cloaked;
+
+			if (cloaked) {
+				GetComponent<SpriteRenderer>().sortingLayerName = "HighObjectz";
+				GetComponent<SpriteRenderer>().sortingOrder = 3;
+			}
 		};
 	}
 
@@ -100,6 +105,7 @@ public class BrickBlock : GridObject {
 			GameObject brick = Instantiate(handle.Result, transform);
 			brick.name.Remove(brick.name.Length - 7);
 			brick.GetComponent<Brick>().Setup();
+			GameManager.instance.gridObjectz.Add(brick.GetComponent<Brick>());
 		};
 	}
 }

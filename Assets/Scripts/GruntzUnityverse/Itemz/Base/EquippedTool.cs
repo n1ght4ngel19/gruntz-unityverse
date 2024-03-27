@@ -1,5 +1,6 @@
 ﻿using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Animation;
+using GruntzUnityverse.Core;
 using GruntzUnityverse.Objectz;
 using UnityEngine;
 
@@ -33,5 +34,7 @@ public abstract class EquippedTool : ScriptableObject {
 	protected virtual void AttackEffect(Grunt targetGrunt) { }
 
 	public virtual bool CompatibleWith(GridObject target) => false;
+
+	public virtual AnimationClip cursor => AnimationManager.instance.cursorDefault;
 }
 }

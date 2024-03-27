@@ -47,7 +47,7 @@ public class ContinueToLevel : MonoBehaviour {
 			_levelLoaded.ActivateAsync().completed += _ => {
 				SceneManager.UnloadSceneAsync("LoadMenu");
 
-				GameManager.instance.InitUI();
+				GameManager.instance.Init();
 			};
 		}
 	}

@@ -357,7 +357,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			return;
 		}
 
-		interactionTarget = FindObjectsByType<GridObject>(FindObjectsSortMode.None)
+		interactionTarget = GameManager.instance.gridObjectz
 			.FirstOrDefault(go => go.enabled && go.node == GameManager.instance.selector.node && equippedTool.CompatibleWith(go));
 
 		if (interactionTarget != null) {
@@ -451,12 +451,14 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 	public void Select() {
 		selected = true;
+		GameManager.instance.selectedGruntz.Add(this);
 		selectionMarker.SetActive(true);
 		gruntEntry.HighLight();
 	}
 
 	public void Deselect() {
 		selected = false;
+		GameManager.instance.selectedGruntz.Remove(this);
 		selectionMarker.SetActive(false);
 		gruntEntry.HighLight(false);
 	}
@@ -767,6 +769,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// </summary>
 	public async void Die() {
 		enabled = false;
+		GameManager.instance.selectedGruntz.Remove(this);
+		GameManager.instance.allGruntz.Remove(this);
 
 		if (CompareTag("PlayerGrunt")) {
 			gruntEntry.Clear();
@@ -786,6 +790,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			puddle.transform.position = transform.position;
 			puddle.Setup();
 			puddle.Appear();
+			GameManager.instance.gridObjectz.Add(puddle);
 		};
 
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
@@ -808,6 +813,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// </summary>
 	public async void Die(AnimationClip toPlay, bool leavePuddle = true, bool playBelow = true) {
 		enabled = false;
+		GameManager.instance.selectedGruntz.Remove(this);
 		GameManager.instance.allGruntz.Remove(this);
 
 		if (CompareTag("PlayerGrunt")) {
@@ -829,6 +835,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 				puddle.transform.position = transform.position;
 				puddle.Setup();
 				puddle.Appear();
+				GameManager.instance.gridObjectz.Add(puddle);
 			};
 		}
 

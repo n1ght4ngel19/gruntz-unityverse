@@ -76,9 +76,6 @@ public class Level : MonoBehaviour {
 		levelStatz.maxCoinz = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
 		levelStatz.maxSecretz = FindObjectsByType<SecretSwitch>(FindObjectsSortMode.None).Length;
 		levelStatz.maxWarpletterz = FindObjectsByType<Warpletter>(FindObjectsSortMode.None).Length;
-
-		Debug.Log(levelNodes.Count);
-		Debug.Log(levelName is null);
 	}
 }
 }

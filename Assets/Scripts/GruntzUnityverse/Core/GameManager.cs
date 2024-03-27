@@ -22,14 +22,10 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// The name of the current Level (not the scene name/address).
 	/// </summary>
+	[Header("Level Data")]
 	public string levelName;
 
 	public Area area;
-
-	/// <summary>
-	/// The selector responsible for selecting and highlighting objects.
-	/// </summary>
-	public Selector selector;
 
 	/// <summary>
 	/// All the Gruntz in the current level.
@@ -38,16 +34,28 @@ public class GameManager : MonoBehaviour {
 	public List<Grunt> allGruntz;
 
 	public List<Grunt> playerGruntz;
+
 	public List<Grunt> dizgruntled;
-
-	public GooWell gooWell;
-
-	public List<RedPyramid> redPyramidz;
 
 	/// <summary>
 	/// The Gruntz currently selected by the player.
 	/// </summary>
 	public List<Grunt> selectedGruntz;
+
+	[Header("Cached Objectz")]
+	public List<RedPyramid> redPyramidz;
+
+	public List<GridObject> gridObjectz;
+
+	public Grunt firstSelected => selectedGruntz.FirstOrDefault();
+
+	[Header("User Interface")]
+	public GooWell gooWell;
+
+	/// <summary>
+	/// The selector responsible for selecting and highlighting objects.
+	/// </summary>
+	public Selector selector;
 
 	[Header("Level Transformz")]
 	public GameObject actorz;
@@ -80,7 +88,7 @@ public class GameManager : MonoBehaviour {
 		FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.enabled = false;
 	}
 
-	public void InitUI() {
+	public void Init() {
 		Cursor.visible = false;
 
 		FindFirstObjectByType<GameCursor>().enabled = true;
@@ -91,6 +99,26 @@ public class GameManager : MonoBehaviour {
 		GameObject.Find("SidebarUI").GetComponent<Canvas>().enabled = true;
 
 		Time.timeScale = 0f;
+
+		allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
+
+		playerGruntz = allGruntz
+			.Where(grunt => grunt.CompareTag("PlayerGrunt"))
+			.ToList();
+
+		dizgruntled = allGruntz
+			.Where(grunt => grunt.CompareTag("Dizgruntled"))
+			.ToList();
+
+		redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();
+
+		gridObjectz = FindObjectsByType<GridObject>(FindObjectsSortMode.None).Where(go => go is not Blocker).ToList();
+
+		gridObjectz = gridObjectz.Where(go => go is not Brick).ToList();
+
+		foreach (GridObject go in gridObjectz) {
+			go.Setup();
+		}
 	}
 
 	private void OnSwitchLocale() {
@@ -138,18 +166,6 @@ public class GameManagerEditor : UnityEditor.Editor {
 			FindFirstObjectByType<PauseMenu>().canvas.worldCamera =
 				FindFirstObjectByType<CameraMovement>().gameObject.GetComponent<Camera>();
 
-			gameManager.allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
-
-			gameManager.playerGruntz = gameManager.allGruntz
-				.Where(grunt => grunt.CompareTag("PlayerGrunt"))
-				.ToList();
-
-			gameManager.dizgruntled = gameManager.allGruntz
-				.Where(grunt => grunt.CompareTag("Dizgruntled"))
-				.ToList();
-
-			gameManager.redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();
-
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 			// FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
 			// 	.Where(ec => ec.gameObject.CompareTag("HighEyeCandy"))
@@ -167,25 +183,11 @@ public class GameManagerEditor : UnityEditor.Editor {
 				EditorUtility.SetDirty(cp);
 			}
 
-			List<GridObject> gridObjectz = FindObjectsByType<GridObject>(FindObjectsSortMode.None).ToList();
-
-			foreach (GridObject go in gridObjectz) {
-				go.Setup();
-				EditorUtility.SetDirty(go);
-			}
-
 			List<LevelItem> levelItemz = FindObjectsByType<LevelItem>(FindObjectsSortMode.None).ToList();
 
 			foreach (LevelItem li in levelItemz) {
 				li.Setup();
 				EditorUtility.SetDirty(li);
-			}
-
-			List<BrickBlock> brickBlockz = FindObjectsByType<BrickBlock>(FindObjectsSortMode.None).ToList();
-
-			foreach (BrickBlock bb in brickBlockz) {
-				bb.Setup();
-				EditorUtility.SetDirty(bb);
 			}
 
 			EditorUtility.SetDirty(gameManager);

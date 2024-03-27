@@ -25,12 +25,9 @@ public class GruntOven : MonoBehaviour {
 
 		// When not empty and can remove, remove
 		if ((filled && enabled) && !GameManager.instance.selector.placingGrunt) {
-			Debug.Log("Remove");
-
 			filled = false;
 			enabled = false;
 			GetComponent<SpriteRenderer>().sprite = emptySprite;
-			// GetComponent<SpriteRenderer>().enabled = false;
 
 			GameCursor.instance.SwapCursor(AnimationManager.instance.cursorFlailingGrunt);
 			GameManager.instance.selector.placingGrunt = true;
@@ -40,13 +37,10 @@ public class GruntOven : MonoBehaviour {
 
 		// When empty and can place back, place back
 		if ((!filled && !enabled) && GameManager.instance.selector.placingGrunt) {
-			Debug.Log("Put back");
-
 			filled = true;
 			enabled = true;
 
 			GetComponent<SpriteRenderer>().sprite = filledSprite;
-			// GetComponent<SpriteRenderer>().enabled = true;
 
 			GameCursor.instance.SwapCursor(AnimationManager.instance.cursorDefault);
 			GameManager.instance.selector.placingGrunt = false;

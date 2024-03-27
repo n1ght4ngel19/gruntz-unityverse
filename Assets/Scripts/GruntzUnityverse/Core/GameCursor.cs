@@ -20,7 +20,7 @@ public class GameCursor : MonoBehaviour {
 		animancer = GetComponent<AnimancerComponent>();
 	}
 
-	private void Update() {
+	private void FixedUpdate() {
 		transform.localScale = new Vector3(
 			Camera.main.orthographicSize / 10f,
 			Camera.main.orthographicSize / 10f,
@@ -34,6 +34,12 @@ public class GameCursor : MonoBehaviour {
 		);
 
 		animancer.Play(toPlay);
+
+		if (GameManager.instance.firstSelected is not null) {
+			bool doSwap = GameManager.instance.firstSelected.equippedTool.CompatibleWith(GameManager.instance.selector.hoveredObject);
+
+			SwapCursor(doSwap ? GameManager.instance.firstSelected.equippedTool.cursor : AnimationManager.instance.cursorDefault);
+		}
 	}
 
 	public void SwapCursor(AnimationClip newCursor) {
