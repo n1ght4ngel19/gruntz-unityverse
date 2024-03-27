@@ -1,9 +1,12 @@
 ﻿using System.Linq;
 using Cysharp.Threading.Tasks;
+using GruntzUnityverse.Core;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
 public class BrickBlock : GridObject {
+	public bool cloaked;
 	public Brick bottomBrick => transform.GetComponentsInChildren<Brick>().FirstOrDefault(br => br.name.EndsWith("B"));
 	public Brick middleBrick => transform.GetComponentsInChildren<Brick>().FirstOrDefault(br => br.name.EndsWith("M"));
 	public Brick topBrick => transform.GetComponentsInChildren<Brick>().FirstOrDefault(br => br.name.EndsWith("T"));
@@ -15,35 +18,76 @@ public class BrickBlock : GridObject {
 
 		node.isBlocked = bottomBrick != null;
 		node.hardCorner = bottomBrick != null;
+
+		string cloakKey;
+
+		if (topBrick != null) {
+			cloakKey = "Brick_111";
+		} else if (middleBrick != null) {
+			cloakKey = "Brick_110";
+		} else if (bottomBrick != null) {
+			cloakKey = "Brick_100";
+		} else {
+			cloakKey = "BrickFoundation";
+		}
+
+		Addressables.LoadAssetAsync<Sprite>(cloakKey).Completed += handle => {
+			GetComponent<SpriteRenderer>().sprite = handle.Result;
+
+			GetComponent<SpriteRenderer>().enabled = cloaked;
+		};
 	}
 
-	public async void Break() {
+	public async void Break(bool explode = false) {
 		Brick toBreak = topMostBrick;
 
-		if (toBreak.type != BrickType.Gold) {
+		Reveal();
+
+		if (toBreak.type != BrickType.Gold || explode) {
 			toBreak.animancer.Play(toBreak.breakAnim);
 
 			toBreak.transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
 			toBreak.spriteRenderer.sortingLayerName = "Default";
 			toBreak.spriteRenderer.sortingOrder = 4;
 		}
+		
+		await UniTask.WaitForSeconds(toBreak.breakAnim.length * 0.05f);
 
-		await UniTask.WaitForSeconds(toBreak.breakAnim.length * 0.75f);
+		if (toBreak.type == BrickType.Black) {
+			GameManager.instance.allGruntz
+				.Where(gr => node.neighbours.Contains(gr.node))
+				.ToList()
+				.ForEach(gr1 => gr1.Die(AnimationManager.instance.explodeDeathAnimation, false, false));
 
-		if (toBreak.type != BrickType.Gold) {
+			FindObjectsByType<Rock>(FindObjectsSortMode.None)
+				.Where(r => node.neighbours.Contains(r.node))
+				.ToList()
+				.ForEach(r1 => r1.Break());
+
+			FindObjectsByType<BrickBlock>(FindObjectsSortMode.None)
+				.Where(bb => node.neighbours.Contains(bb.node))
+				.ToList()
+				.ForEach(bb1 => bb1.Break(explode: true));
+		}
+
+		await UniTask.WaitForSeconds(toBreak.breakAnim.length * 0.7f);
+
+		if (toBreak.type != BrickType.Gold || explode) {
 			toBreak.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 			toBreak.spriteRenderer.sortingLayerName = "AlwaysBottom";
 			toBreak.spriteRenderer.sortingOrder = 4;
+
+			node.isBlocked = toBreak != bottomBrick;
+			node.hardCorner = toBreak != bottomBrick;
 		}
 
-		node.isBlocked = toBreak != bottomBrick;
-		node.hardCorner = toBreak != bottomBrick;
-
-		await UniTask.WaitForSeconds(toBreak.breakAnim.length * 0.25f);
-
-		if (toBreak.type != BrickType.Gold) {
-			Destroy(toBreak.gameObject);
+		if (toBreak.type != BrickType.Gold || explode) {
+			Destroy(toBreak.gameObject, 0.25f);
 		}
+	}
+
+	public void Reveal() {
+		GetComponent<SpriteRenderer>().enabled = false;
 	}
 }
 }

@@ -39,6 +39,8 @@ public class StateHandler : MonoBehaviour {
 				// grunt.Give();
 
 				break;
+			case State.Dying:
+				break;
 			default:
 				throw new ArgumentOutOfRangeException(nameof(goToState), goToState, "Invalid state");
 		}
@@ -51,6 +53,7 @@ public class StateHandler : MonoBehaviour {
 		Attacking = 3,
 		HostileIdle = 4,
 		Giving = 5,
+		Dying = 6,
 	}
 }
 }

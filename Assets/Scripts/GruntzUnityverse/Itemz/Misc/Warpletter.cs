@@ -11,6 +11,8 @@ public class Warpletter : LevelItem {
 		yield return base.Pickup(targetGrunt);
 
 		Level.instance.levelStatz.warpletterzCollected++;
+		
+		Destroy(gameObject);
 	}
 }
 

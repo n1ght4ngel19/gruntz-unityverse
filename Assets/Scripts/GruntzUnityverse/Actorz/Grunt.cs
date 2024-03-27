@@ -41,6 +41,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 	public string displayName;
 
+	public Sprite previewSprite;
 	public Material skinColor;
 
 	public string textSkinColor => skinColor.name.Split("_").Last();
@@ -229,6 +230,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 
 	public void GoToState(StateHandler.State toState) {
+		if (stateHandler.currentState == StateHandler.State.Dying) {
+			return;
+		}
+
 		stateHandler.goToState = toState;
 
 		if (!between) {
@@ -491,7 +496,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		}
 
 		if (interactionTarget is BrickBlock brickBlock && brickBlock.bottomBrick != null) {
-			yield return BreakBlock(brickBlock);
+			if (equippedTool is Gauntletz) {
+				yield return BreakBlock(brickBlock);
+			} else if (equippedTool is SpyGear) {
+				yield return IdentifyBlock(brickBlock);
+			}
 		}
 
 		if (interactionTarget is Hole hole) {
@@ -563,6 +572,18 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 				animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
 			};
 		}
+
+		interactionTarget = null;
+	}
+
+	private IEnumerator IdentifyBlock(BrickBlock brickBlock) {
+		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
+
+		animancer.Play(toPlay);
+
+		yield return new WaitForSeconds(toPlay.length);
+
+		brickBlock.Reveal();
 
 		interactionTarget = null;
 	}
@@ -765,6 +786,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public async void Die(AnimationClip toPlay, bool leavePuddle = true, bool playBelow = true) {
 		enabled = false;
 
+		GoToState(StateHandler.State.Dying);
+
 		CancelInvoke(nameof(RegenerateStamina));
 		DeactivateBarz();
 
@@ -879,6 +902,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		spriteRenderer.material = skinColor;
 		spriteRenderer.hideFlags = HideFlags.HideInInspector;
+		spriteRenderer.sprite = previewSprite;
 
 		circleCollider2D = GetComponent<CircleCollider2D>();
 		circleCollider2D.isTrigger = isTrigger;
