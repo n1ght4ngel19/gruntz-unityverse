@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Core;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Secretz {
@@ -26,6 +27,7 @@ public class WarpSwitch : GridObject {
 			circleCollider2D.isTrigger = false;
 			warpz.ForEach(warp => warp.Activate());
 			
+			GameManager.instance.gridObjectz.Remove(this);
 			Destroy(gameObject, 1f);
 		}
 	}

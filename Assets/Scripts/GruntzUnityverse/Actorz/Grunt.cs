@@ -123,7 +123,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <summary>
 	/// The location of this Grunt in 2D space.
 	/// </summary>
-	public Vector2 location2D => node.location2D;
+	public Vector2Int location2D => node.location2D;
 	#endregion
 
 	// --------------------------------------------------
@@ -357,22 +357,22 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			return;
 		}
 
-		interactionTarget = GameManager.instance.gridObjectz
-			.FirstOrDefault(go => go.enabled && go.node == GameManager.instance.selector.node && equippedTool.CompatibleWith(go));
-
-		if (interactionTarget != null) {
-			attackTarget = null;
-			TryTakeAction(interactionTarget.node, "Interact");
-
-			return;
-		}
-
 		attackTarget = GameManager.instance.allGruntz
 			.FirstOrDefault(g => g.node == GameManager.instance.selector.node && g.enabled && g != this);
 
 		if (attackTarget != null) {
 			interactionTarget = null;
 			TryTakeAction(attackTarget.node, "Attack");
+
+			return;
+		}
+
+		interactionTarget = GameManager.instance.gridObjectz
+			.FirstOrDefault(go => go.enabled && go.node == GameManager.instance.selector.node && equippedTool.CompatibleWith(go));
+
+		if (interactionTarget != null) {
+			attackTarget = null;
+			TryTakeAction(interactionTarget.node, "Interact");
 
 			return;
 		}
@@ -390,7 +390,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public void TryTakeAction(Node targetNode, string action) {
 		switch (action) {
 			case "Interact": {
-				if (InRange((targetNode))) {
+				if (InToolRange((targetNode))) {
 					travelGoal = node;
 
 					StartCoroutine(TryInteract());
@@ -403,7 +403,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 				break;
 			}
 			case "Attack": {
-				if (InRange((targetNode))) {
+				if (InToolRange((targetNode))) {
 					travelGoal = node;
 
 					StartCoroutine(TryAttack());
@@ -470,7 +470,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 
 	public IEnumerator TryInteract() {
-		if (!InRange(interactionTarget.node)) {
+		if (!InToolRange(interactionTarget.node)) {
 			GoToState(StateHandler.State.Idle);
 
 			yield break;
@@ -623,7 +623,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			yield break;
 		}
 
-		if (!InRange(attackTarget.node)) {
+		if (!InToolRange(attackTarget.node)) {
 			GoToState(StateHandler.State.Idle);
 
 			yield break;
@@ -674,6 +674,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			barz.staminaBar.Adjust(statz.stamina);
 
 			onStaminaRegenerated.Invoke();
+
+			if (GetComponent<AI.AI>()) {
+				GetComponent<AI.AI>().enabled = true;
+			}
 
 			if (attackTarget != null) {
 				GoToState(StateHandler.State.Attacking);
@@ -740,7 +744,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// </summary>
 	/// <param name="otherNode">The node to check.</param>
 	/// <returns>True when the node is in range, false otherwise.</returns>
-	private bool InRange(Node otherNode) {
+	public bool InToolRange(Node otherNode) {
 		return Mathf.Abs(node.location2D.x - otherNode.location2D.x) <= equippedTool.range
 			&& Mathf.Abs(node.location2D.y - otherNode.location2D.y) <= equippedTool.range;
 	}
@@ -791,6 +795,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			puddle.Setup();
 			puddle.Appear();
 			GameManager.instance.gridObjectz.Add(puddle);
+			Debug.Log("Added puddle");
 		};
 
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
@@ -803,9 +808,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			gruntEntry.Clear();
 		}
 
-		GameManager.instance.allGruntz.Remove(this);
 		Level.instance.levelStatz.deathz++;
-		Destroy(gameObject, 1f);
+		Destroy(gameObject, 0.5f);
 	}
 
 	/// <summary>
@@ -836,6 +840,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 				puddle.Setup();
 				puddle.Appear();
 				GameManager.instance.gridObjectz.Add(puddle);
+				Debug.Log("Added puddle");
 			};
 		}
 
@@ -851,7 +856,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		spriteRenderer.enabled = false;
 		GameManager.instance.allGruntz.Remove(this);
 		Level.instance.levelStatz.deathz++;
-		Destroy(gameObject);
+		Destroy(gameObject, 0.5f);
 	}
 
 	public IEnumerator Teleport(Transform destination, Warp fromWarp) {

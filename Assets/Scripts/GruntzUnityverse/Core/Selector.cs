@@ -14,7 +14,7 @@ public class Selector : MonoBehaviour {
 
 	public bool placingGrunt;
 
-	private void FixedUpdate() {
+	private void Update() {
 		transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition).RoundedToInt(z: 15f);
 		location2D = Vector2Int.RoundToInt(transform.position);
 	}

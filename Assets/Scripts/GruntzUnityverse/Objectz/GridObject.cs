@@ -92,7 +92,8 @@ public abstract class GridObject : MonoBehaviour {
 	/// Can be overridden to add additional effects specific to child classes.
 	/// </summary>
 	protected virtual void OnDestroy() {
-		node.isBlocked = isObstacle ? false : node.isBlocked;
+		Debug.Log("Called");
+		// node.isBlocked = isObstacle ? false : node.isBlocked;
 	}
 
 	#if UNITY_EDITOR

@@ -116,6 +116,8 @@ public class GameManager : MonoBehaviour {
 
 		gridObjectz = gridObjectz.Where(go => go is not Brick).ToList();
 
+		FindObjectsByType<Blocker>(FindObjectsSortMode.None).ToList().ForEach(bl => bl.Setup());
+
 		foreach (GridObject go in gridObjectz) {
 			go.Setup();
 		}

@@ -1,6 +1,7 @@
 ﻿using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Core;
 using GruntzUnityverse.Objectz.Interfacez;
 using UnityEngine;
 
@@ -45,6 +46,7 @@ public class Warp : GridObject, IAnimatable {
 
 		spriteRenderer.enabled = false;
 
+		GameManager.instance.gridObjectz.Remove(this);
 		Destroy(gameObject, 1f);
 	}
 

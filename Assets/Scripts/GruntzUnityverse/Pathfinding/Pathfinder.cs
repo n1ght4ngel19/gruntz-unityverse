@@ -59,7 +59,7 @@ public static class Pathfinder {
 			counter++;
 
 			if (current == end) {
-				Debug.Log($"Checked {counter} nodes");
+				// Debug.Log($"Checked {counter} nodes");
 
 				return RetracePath(start, end);
 			}

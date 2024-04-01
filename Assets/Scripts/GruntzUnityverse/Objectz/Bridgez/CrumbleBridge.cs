@@ -56,6 +56,7 @@ public class CrumbleBridge : GridObject {
 			}
 		}
 
+		GameManager.instance.gridObjectz.Remove(this);
 		Destroy(gameObject, 0.5f);
 	}
 }

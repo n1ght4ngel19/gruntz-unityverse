@@ -35,6 +35,7 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 		
 		await Animancer.Play(AnimationManager.instance.explosionAnim1);
 
+		GameManager.instance.gridObjectz.Remove(this);
 		Destroy(gameObject);
 	}
 }

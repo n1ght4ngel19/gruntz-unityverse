@@ -16,9 +16,6 @@ public class BrickBlock : GridObject {
 	public override void Setup() {
 		base.Setup();
 
-		node.isBlocked = bottomBrick != null;
-		node.hardCorner = bottomBrick != null;
-
 		string cloakKey;
 
 		if (topBrick != null) {
@@ -41,6 +38,8 @@ public class BrickBlock : GridObject {
 				GetComponent<SpriteRenderer>().sortingOrder = 3;
 			}
 		};
+
+		node.hardCorner = isObstacle;
 	}
 
 	public async void Break(bool explode = false) {
@@ -82,11 +81,22 @@ public class BrickBlock : GridObject {
 			toBreak.spriteRenderer.sortingLayerName = "AlwaysBottom";
 			toBreak.spriteRenderer.sortingOrder = 4;
 
-			node.isBlocked = toBreak != bottomBrick;
-			node.hardCorner = toBreak != bottomBrick;
-		}
+			Debug.Log(toBreak.name);
 
-		if (toBreak.type != BrickType.Gold || explode) {
+			if (topMostBrick.CompareTag("BottomBrick")) {
+				Debug.Log("BottomBrick broken");
+
+				node.isBlocked = false;
+				node.hardCorner = false;
+			} else {
+				node.isBlocked = true;
+				node.hardCorner = true;
+			}
+
+			// node.isBlocked = !toBreak.CompareTag("BottomBrick");
+			// node.hardCorner = !toBreak.CompareTag("BottomBrick");
+
+			GameManager.instance.gridObjectz.Remove(toBreak);
 			Destroy(toBreak.gameObject, toBreak.breakAnim.length * 0.25f);
 		}
 	}

@@ -50,6 +50,7 @@ public class Hole : GridObject, IObjectHolder {
 			node.isVoid = false;
 
 			circleCollider2D.isTrigger = false;
+			GameManager.instance.gridObjectz.Remove(this);
 			Destroy(gameObject);
 		}
 	}

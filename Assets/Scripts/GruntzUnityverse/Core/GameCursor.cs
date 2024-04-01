@@ -20,7 +20,7 @@ public class GameCursor : MonoBehaviour {
 		animancer = GetComponent<AnimancerComponent>();
 	}
 
-	private void FixedUpdate() {
+	private void Update() {
 		transform.localScale = new Vector3(
 			Camera.main.orthographicSize / 10f,
 			Camera.main.orthographicSize / 10f,

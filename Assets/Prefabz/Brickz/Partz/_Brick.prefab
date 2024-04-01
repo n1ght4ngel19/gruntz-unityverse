@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a85058f7524099a9ecd0545c2e0851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isObstacle: 0
+  isObstacle: 1
   isWater: 0
   isFire: 0
   isVoid: 0
@@ -57,6 +57,7 @@ MonoBehaviour:
   circleCollider2D: {fileID: 0}
   animancer: {fileID: 3054060385357070287}
   breakAnim: {fileID: 0}
+  type: 0
 --- !u!212 &6139874613863076091
 SpriteRenderer:
   m_ObjectHideFlags: 0

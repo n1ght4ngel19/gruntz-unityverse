@@ -31,7 +31,6 @@ public class GruntPuddle : GridObject {
 		await animancer.Play(disappearAnim);
 
 		GameManager.instance.gridObjectz.Remove(this);
-
 		Destroy(gameObject, 0.1f);
 	}
 }
