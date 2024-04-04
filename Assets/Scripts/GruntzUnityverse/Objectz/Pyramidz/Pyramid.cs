@@ -22,11 +22,8 @@ public abstract class Pyramid : GridObject {
 		node.hardCorner = isObstacle;
 	}
 
-	public virtual async void Toggle() {
-		AnimationClip toPlay = isObstacle ? lowerAnim : raiseAnim;
-
-		animancer.Play(toPlay);
-		await UniTask.WaitForSeconds(toPlay.length);
+	public virtual void Toggle() {
+		animancer.Play(isObstacle ? lowerAnim : raiseAnim);
 
 		isObstacle = !isObstacle;
 		node.isBlocked = isObstacle;

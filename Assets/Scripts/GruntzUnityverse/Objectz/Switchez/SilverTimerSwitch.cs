@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using GruntzUnityverse.Core;
 using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
 
@@ -29,6 +30,8 @@ public class SilverTimerSwitch : Switch {
 		float highestDuration = pyramidData.OrderBy(pd => pd.duration + pd.delay).Last().duration + pyramidData.OrderBy(pd => pd.duration + pd.delay).Last().delay;
 
 		await UniTask.WaitForSeconds(highestDuration);
+
+		await UniTask.WaitUntil(() => GameManager.instance.allGruntz.TrueForAll(gr => gr.node != node));
 
 		Toggle();
 		circleCollider2D.isTrigger = true;

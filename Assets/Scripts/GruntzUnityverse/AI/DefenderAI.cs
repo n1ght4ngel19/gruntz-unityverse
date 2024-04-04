@@ -20,8 +20,12 @@ public class DefenderAI : AI {
 		self.interactionTarget = null;
 		self.attackTarget = null;
 
-		self.travelGoal = originalNode;
-		self.GoToState(StateHandler.State.Walking);
+		if (self.node != originalNode) {
+			self.travelGoal = originalNode;
+			self.GoToState(StateHandler.State.Walking);
+		} else {
+			self.GoToState(StateHandler.State.Idle);
+		}
 	}
 }
 }

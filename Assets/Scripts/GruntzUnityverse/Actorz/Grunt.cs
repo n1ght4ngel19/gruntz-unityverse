@@ -577,6 +577,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 
 	private IEnumerator IdentifyBlock(BrickBlock brickBlock) {
+		List<BrickBlock> toReveal = FindObjectsByType<BrickBlock>(FindObjectsSortMode.None)
+			.Where(bb => node.neighbours.Contains(bb.node))
+			.ToList();
+
 		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
 
 		animancer.Play(toPlay);
@@ -584,6 +588,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		yield return new WaitForSeconds(toPlay.length);
 
 		brickBlock.Reveal();
+		toReveal.ForEach(bb => bb.Reveal());
 
 		interactionTarget = null;
 	}
@@ -753,8 +758,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// Damage the grunt, adjusting its health bar as well.
 	/// </summary>
 	/// <param name="damage">The amount of damage to be dealt.</param>
-	public void TakeDamage(float damage) {
-		statz.health = Math.Clamp(statz.health - damage * (1 - damageReductionPercentage), 0, Statz.MAX_VALUE);
+	/// <param name="hazardDamage">Whether the damage is inflicted by a hazard.</param>
+	public void TakeDamage(float damage, bool hazardDamage = false) {
+		damage = hazardDamage ? damage : damage * (1 - damageReductionPercentage);
+
+		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MAX_VALUE);
 		barz.healthBar.Adjust(statz.health);
 
 		if (!CompareTag("Dizgruntled")) {
@@ -769,7 +777,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 
 	/// <summary>
-	/// Kills the Grunt. (duh)
+	/// Kills the Grunt.
 	/// </summary>
 	public async void Die() {
 		enabled = false;
@@ -813,8 +821,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 
 	/// <summary>
-	/// Kills the Grunt. (duh)
+	/// Kills the Grunt.
 	/// </summary>
+	/// <param name="toPlay">The death animation to play, defined on a case-by-case basis.</param>
+	/// <param name="leavePuddle">Whether the Grunt should leave a puddle after death.</param>
+	/// <param name="playBelow">Whether to play the death animation closer to the ground level.</param>
 	public async void Die(AnimationClip toPlay, bool leavePuddle = true, bool playBelow = true) {
 		enabled = false;
 		GameManager.instance.selectedGruntz.Remove(this);
@@ -850,6 +861,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			spriteRenderer.sortingOrder = 8;
 		}
 
+		animancer.Stop();
 		animancer.Play(toPlay);
 		await UniTask.WaitForSeconds(toPlay.length);
 

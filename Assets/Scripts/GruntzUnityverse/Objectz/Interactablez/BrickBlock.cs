@@ -29,9 +29,8 @@ public class BrickBlock : GridObject {
 		}
 
 		Addressables.LoadAssetAsync<Sprite>(cloakKey).Completed += handle => {
-			GetComponent<SpriteRenderer>().sprite = handle.Result;
-
 			GetComponent<SpriteRenderer>().enabled = cloaked;
+			GetComponent<SpriteRenderer>().sprite = handle.Result;
 
 			if (cloaked) {
 				GetComponent<SpriteRenderer>().sortingLayerName = "HighObjectz";
@@ -39,20 +38,23 @@ public class BrickBlock : GridObject {
 			}
 		};
 
-		node.hardCorner = isObstacle;
+		node.isBlocked = bottomBrick != null;
+		node.hardCorner = bottomBrick != null;
 	}
 
-	public async void Break(bool explode = false) {
+	public async void Break(bool explode = false, bool immediate = false) {
 		Brick toBreak = topMostBrick;
 
-		Reveal();
+		if (toBreak == bottomBrick) {
+			Reveal();
+		}
 
 		if (toBreak.type != BrickType.Gold || explode) {
 			toBreak.animancer.Play(toBreak.breakAnim);
 
 			toBreak.transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-			toBreak.spriteRenderer.sortingLayerName = "Default";
-			toBreak.spriteRenderer.sortingOrder = 4;
+			toBreak.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
+			toBreak.GetComponent<SpriteRenderer>().sortingOrder = 4;
 		}
 
 		await UniTask.WaitForSeconds(toBreak.breakAnim.length * 0.05f);
@@ -74,27 +76,19 @@ public class BrickBlock : GridObject {
 				.ForEach(bb1 => bb1.Break(explode: true));
 		}
 
-		await UniTask.WaitForSeconds(toBreak.breakAnim.length * 0.7f);
+		await UniTask.WaitForSeconds(immediate ? 0 : toBreak.breakAnim.length * 0.7f);
+
+		if (toBreak.type == BrickType.Black) {
+			Break(explode: true, immediate: true);
+		}
 
 		if (toBreak.type != BrickType.Gold || explode) {
 			toBreak.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-			toBreak.spriteRenderer.sortingLayerName = "AlwaysBottom";
-			toBreak.spriteRenderer.sortingOrder = 4;
+			toBreak.GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
+			toBreak.GetComponent<SpriteRenderer>().sortingOrder = 4;
 
-			Debug.Log(toBreak.name);
-
-			if (topMostBrick.CompareTag("BottomBrick")) {
-				Debug.Log("BottomBrick broken");
-
-				node.isBlocked = false;
-				node.hardCorner = false;
-			} else {
-				node.isBlocked = true;
-				node.hardCorner = true;
-			}
-
-			// node.isBlocked = !toBreak.CompareTag("BottomBrick");
-			// node.hardCorner = !toBreak.CompareTag("BottomBrick");
+			node.isBlocked = !toBreak.CompareTag("BottomBrick");
+			node.hardCorner = !toBreak.CompareTag("BottomBrick");
 
 			GameManager.instance.gridObjectz.Remove(toBreak);
 			Destroy(toBreak.gameObject, toBreak.breakAnim.length * 0.25f);

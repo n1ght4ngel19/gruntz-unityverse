@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Hazardz {
 public class Hazard : GridObject {
-	public int damage;
+	public float damage;
 	public bool hideUnderMound;
 
 	public Grunt gruntOnTop;

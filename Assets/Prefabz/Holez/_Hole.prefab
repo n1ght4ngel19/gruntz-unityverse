@@ -19,7 +19,7 @@ GameObject:
   m_Layer: 0
   m_Name: _Hole
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: ce28cb00bcd210740a5175dbaad8e411, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -105,10 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88170c4934154a96973a02811a02c74c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actAsObstacle: 0
-  actAsWater: 0
-  actAsFire: 0
-  actAsVoid: 0
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
   spriteRenderer: {fileID: 7645925870725461127}
@@ -117,11 +117,9 @@ MonoBehaviour:
   openSprite: {fileID: 0}
   filledSprite: {fileID: 0}
   dirt: {fileID: 6869903058248389659}
-  <HeldItem>k__BackingField: {fileID: 0}
-  <HiddenHazard>k__BackingField: {fileID: 0}
-  <HiddenSwitch>k__BackingField: {fileID: 0}
-  <Animator>k__BackingField: {fileID: 4300557024391976298}
-  <Animancer>k__BackingField: {fileID: 8570923833956571361}
+  <heldItem>k__BackingField: {fileID: 0}
+  <hiddenHazard>k__BackingField: {fileID: 0}
+  <hiddenSwitch>k__BackingField: {fileID: 0}
 --- !u!95 &4300557024391976298
 Animator:
   serializedVersion: 7
@@ -212,7 +210,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &5929135158334311289
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

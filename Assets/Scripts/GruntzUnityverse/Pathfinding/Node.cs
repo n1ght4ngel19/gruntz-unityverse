@@ -281,6 +281,18 @@ public class Node : MonoBehaviour {
 					return;
 			}
 
+			if (isBlocked) {
+				ball.moveSpeed *= 5;
+				await ball.animancer.Play(ball.breakAnim);
+
+				ball.enabled = false;
+
+				ball.GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
+				ball.GetComponent<SpriteRenderer>().sortingOrder = 6;
+
+				return;
+			}
+
 			if (gruntOnNode != null) {
 				gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
 			}
