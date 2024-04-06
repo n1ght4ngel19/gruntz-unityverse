@@ -72,6 +72,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 	public bool committed;
 
+	private bool _onSpikez;
+
 	public bool canFly => equippedTool is Wingz;
 
 	// --------------------------------------------------
@@ -123,7 +125,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <summary>
 	/// The location of this Grunt in 2D space.
 	/// </summary>
-	public Vector2Int location2D => node.location2D;
+	private Vector2Int location2D => Vector2Int.RoundToInt(transform.position);
 	#endregion
 
 	// --------------------------------------------------
@@ -280,6 +282,23 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	private void FixedUpdate() {
 		if (between) {
 			ChangePosition();
+		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D other) {
+		if (GameManager.instance.spikez.Any(sp => sp.location2D == location2D)) {
+			if (_onSpikez) {
+				return;
+			}
+
+			Debug.Log("On Spikez");
+			_onSpikez = true;
+
+			InvokeRepeating(nameof(SpikezDamage), 0f, 1f);
+		} else if (_onSpikez) {
+			Debug.Log("Not On Spikez");
+			_onSpikez = false;
+			CancelInvoke(nameof(SpikezDamage));
 		}
 	}
 	#endregion
@@ -774,6 +793,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		} else {
 			onHit.Invoke();
 		}
+	}
+
+	public void SpikezDamage() {
+		TakeDamage(2f, hazardDamage: true);
 	}
 
 	/// <summary>

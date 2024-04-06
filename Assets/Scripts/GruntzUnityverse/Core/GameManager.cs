@@ -4,6 +4,7 @@ using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz;
+using GruntzUnityverse.Objectz.Hazardz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Objectz.Pyramidz;
 using GruntzUnityverse.UI;
@@ -46,6 +47,8 @@ public class GameManager : MonoBehaviour {
 	public List<RedPyramid> redPyramidz;
 
 	public List<GridObject> gridObjectz;
+
+	public List<Spikez> spikez;
 
 	public Grunt firstSelected => selectedGruntz.FirstOrDefault();
 
@@ -115,6 +118,8 @@ public class GameManager : MonoBehaviour {
 		gridObjectz = FindObjectsByType<GridObject>(FindObjectsSortMode.None).Where(go => go is not Blocker).ToList();
 
 		gridObjectz = gridObjectz.Where(go => go is not Brick).ToList();
+
+		spikez = FindObjectsByType<Spikez>(FindObjectsSortMode.None).ToList();
 
 		FindObjectsByType<Blocker>(FindObjectsSortMode.None).ToList().ForEach(bl => bl.Setup());
 
