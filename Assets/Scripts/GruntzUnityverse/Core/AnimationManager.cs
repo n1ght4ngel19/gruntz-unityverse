@@ -60,11 +60,11 @@ public class AnimationManager : MonoBehaviour {
 	public AnimationClip squashDeathAnimation;
 
 	[Header("Grunt Warp Animationz")]
-	public AnimationClip gruntWarpEnterAnimation;
+	public AnimationClip gruntWarpEnterAnim;
 
-	public List<AnimationClip> gruntWarpOutAnimationz;
+	public List<AnimationClip> gruntVictoryAnimz;
 
-	public AnimationClip gruntWarpOutEndAnimation;
+	public AnimationClip gruntFallingEntranceAnim;
 
 	[Header("Warp Animationz")]
 	public AnimationClip warpAppearAnim;

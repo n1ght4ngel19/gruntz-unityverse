@@ -19,7 +19,7 @@ public class Bridge : GridObject {
 		base.Setup();
 
 		animancer ??= GetComponent<AnimancerComponent>();
-		node.isWater = isWater;
+		node.isWater = !raised;
 	}
 
 	public async void Toggle() {
@@ -42,7 +42,7 @@ public class Bridge : GridObject {
 		}
 
 		// Check if a Grunt is standing no the Bridge when it's lowered
-		if (node.gruntOnNode != null) {
+		if (node.gruntOnNode != null && !node.gruntOnNode.between) {
 			// Kill the Grunt if it doesn't have a Toob or Wingz equipped
 			if (node.isWater && node.gruntOnNode.equippedTool is not Wingz or Toob) {
 				node.gruntOnNode.Die(AnimationManager.instance.sinkDeathAnimation, false, false);

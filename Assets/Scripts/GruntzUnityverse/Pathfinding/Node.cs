@@ -198,7 +198,7 @@ public class Node : MonoBehaviour {
 		}
 
 		if (other.TryGetComponent(out Grunt grunt)) {
-			if (gruntOnNode != null && gruntOnNode != grunt) {
+			if (gruntOnNode != null && gruntOnNode != grunt && !gruntOnNode.between) {
 				gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 
@@ -293,7 +293,7 @@ public class Node : MonoBehaviour {
 				return;
 			}
 
-			if (gruntOnNode != null) {
+			if (gruntOnNode != null && !gruntOnNode.between) {
 				gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 		}

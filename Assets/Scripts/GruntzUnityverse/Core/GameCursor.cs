@@ -1,5 +1,6 @@
 ﻿using Animancer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GruntzUnityverse.Core {
 public class GameCursor : MonoBehaviour {
@@ -34,6 +35,10 @@ public class GameCursor : MonoBehaviour {
 		);
 
 		animancer.Play(toPlay);
+
+		if (SceneManager.GetActiveScene().name == "MainMenu") {
+			return;
+		}
 
 		if (GameManager.instance.firstSelected is not null) {
 			bool doSwap = GameManager.instance.firstSelected.equippedTool.CompatibleWith(GameManager.instance.selector.hoveredObject);

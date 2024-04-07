@@ -23,12 +23,7 @@ public class CreatorPad : GridObject {
 				handle.Result.transform.position = new Vector3(location2D.x, location2D.y, 0);
 
 				GameManager.instance.allGruntz.Add(handle.Result.GetComponent<Grunt>());
-
-				if (handle.Result.CompareTag("PlayerGrunt")) {
-					GameManager.instance.playerGruntz.Add(handle.Result.GetComponent<Grunt>());
-				} else {
-					GameManager.instance.dizgruntled.Add(handle.Result.GetComponent<Grunt>());
-				}
+				GameManager.instance.playerGruntz.Add(handle.Result.GetComponent<Grunt>());
 			};
 		}
 	}

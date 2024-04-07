@@ -39,9 +39,14 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	[Header("Statz")]
 	public int gruntId;
 
+	[Range(0, 5)]
+	public int team;
+
 	public string displayName;
 
 	public Sprite previewSprite;
+
+	[Tooltip("The material to be applied to achieve the Grunt's final look.")]
 	public Material skinColor;
 
 	public string textSkinColor => skinColor.name.Split("_").Last();
@@ -49,10 +54,13 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public Statz statz;
 
 	[Range(0, 5)]
+	[Tooltip("The movement speed of the Grunt, in seconds/tile.")]
 	public float moveSpeed;
 
+	[Tooltip("Reduce damage dealt by non-hazard sourcez by this percentage.")]
 	public float damageReductionPercentage;
 
+	[Tooltip("Reflect damage dealt by other actorz by this percentage ")]
 	public float damageReflectionPercentage;
 
 	// --------------------------------------------------
@@ -62,8 +70,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	[Header("Flagz")]
 	public bool selected;
 
+	[Tooltip("Whether the Grunt is currently in between two nodes.")]
 	public bool between;
 
+	[Tooltip("Whether the Grunt is currently being forced to move.")]
 	public bool forced;
 
 	public bool isTrigger;
@@ -143,6 +153,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// The target the Grunt will try to attack.
 	/// </summary>
 	public Grunt attackTarget;
+
+	public List<Grunt> enemiez => GameManager.instance.allGruntz.Where(gr => gr.team != team).ToList();
 	#endregion
 
 	// --------------------------------------------------
@@ -252,7 +264,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	private void Start() {
 		spriteSortingOrder = spriteRenderer.sortingOrder;
 
-		if (gameObject.CompareTag("PlayerGrunt")) {
+		if (team == 0) {
 			gruntId = GameManager.instance.playerGruntz.ToList().IndexOf(this) + 1;
 
 			selectionMarker = transform.Find("SelectionMarker").gameObject;
@@ -291,13 +303,12 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 				return;
 			}
 
-			Debug.Log("On Spikez");
 			_onSpikez = true;
 
 			InvokeRepeating(nameof(SpikezDamage), 0f, 1f);
 		} else if (_onSpikez) {
-			Debug.Log("Not On Spikez");
 			_onSpikez = false;
+
 			CancelInvoke(nameof(SpikezDamage));
 		}
 	}
@@ -377,7 +388,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		}
 
 		attackTarget = GameManager.instance.allGruntz
-			.FirstOrDefault(g => g.node == GameManager.instance.selector.node && g.enabled && g != this);
+			.FirstOrDefault(g => g.enabled && g.node == GameManager.instance.selector.node && !g.between && g != this);
 
 		if (attackTarget != null) {
 			interactionTarget = null;
@@ -655,7 +666,15 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		// Out of stamina, waiting until it is regenerated
 		if (statz.stamina < Statz.MAX_VALUE) {
-			FaceTowardsNode(interactionTarget.node);
+			FaceTowardsNode(attackTarget.node);
+
+			GoToState(StateHandler.State.HostileIdle);
+
+			yield break;
+		}
+
+		if (attackTarget.between) {
+			FaceTowardsNode(attackTarget.node);
 
 			GoToState(StateHandler.State.HostileIdle);
 
@@ -671,8 +690,9 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		yield return new WaitForSeconds(toPlay.length / 2);
 
-		attackTarget.TakeDamage(equippedTool.damage);
+		attackTarget.TakeDamage(equippedTool.damage, attacker: this);
 
+		// Reflected damage dealt to self, when applicable
 		if (attackTarget.damageReflectionPercentage > 0) {
 			TakeDamage(equippedTool.damage * attackTarget.damageReflectionPercentage);
 		}
@@ -699,20 +719,18 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 			onStaminaRegenerated.Invoke();
 
-			if (GetComponent<AI.AI>()) {
-				GetComponent<AI.AI>().enabled = true;
-			}
-
 			if (attackTarget != null) {
 				GoToState(StateHandler.State.Attacking);
-
-				return;
+			} else if (interactionTarget != null)
+				GoToState(StateHandler.State.Interacting);
+			else {
+				GoToState(StateHandler.State.Idle);
 			}
 
-			if (interactionTarget != null) {
-				GoToState(StateHandler.State.Interacting);
+			Debug.Log("Regen completed");
 
-				return;
+			if (TryGetComponent(out AI.AI ai)) {
+				ai.enabled = true;
 			}
 
 			return;
@@ -720,7 +738,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		barz.staminaBar.Adjust(++statz.stamina);
 
-		if (CompareTag("PlayerGrunt")) {
+		if (team == 0) {
 			gruntEntry.SetStamina(statz.stamina);
 		}
 	}
@@ -728,6 +746,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public void DrainStamina() {
 		statz.stamina = 0;
 		onStaminaDrained.Invoke();
+
 		InvokeRepeating(nameof(RegenerateStamina), 0, statz.staminaRegenRate);
 
 		if (attackTarget != null || interactionTarget != null) {
@@ -778,19 +797,26 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// </summary>
 	/// <param name="damage">The amount of damage to be dealt.</param>
 	/// <param name="hazardDamage">Whether the damage is inflicted by a hazard.</param>
-	public void TakeDamage(float damage, bool hazardDamage = false) {
+	public void TakeDamage(float damage, bool hazardDamage = false, Grunt attacker = null) {
+		Debug.Log($"Damaging from {attacker?.displayName}");
 		damage = hazardDamage ? damage : damage * (1 - damageReductionPercentage);
 
 		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MAX_VALUE);
 		barz.healthBar.Adjust(statz.health);
 
-		if (!CompareTag("Dizgruntled")) {
+		if (team == 0) {
 			gruntEntry.SetHealth(statz.health);
 		}
 
 		if (statz.health <= 0) {
 			Die();
-		} else {
+		} else if (attacker != null) {
+			interactionTarget = null;
+			attackTarget = attacker;
+
+			GoToState(StateHandler.State.Attacking);
+
+			// Todo: Is this needed?
 			onHit.Invoke();
 		}
 	}
@@ -804,10 +830,12 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// </summary>
 	public async void Die() {
 		enabled = false;
+		transform.position = node.transform.position;
+
 		GameManager.instance.selectedGruntz.Remove(this);
 		GameManager.instance.allGruntz.Remove(this);
 
-		if (CompareTag("PlayerGrunt")) {
+		if (team == 0) {
 			gruntEntry.Clear();
 			GameManager.instance.playerGruntz.Remove(this);
 		} else {
@@ -835,7 +863,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		animancer.Play(animationPack.deathAnimation);
 		await UniTask.WaitForSeconds(animationPack.deathAnimation.length);
 
-		if (CompareTag("PlayerGrunt")) {
+		if (team == 0) {
 			gruntEntry.Clear();
 		}
 
@@ -851,10 +879,12 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <param name="playBelow">Whether to play the death animation closer to the ground level.</param>
 	public async void Die(AnimationClip toPlay, bool leavePuddle = true, bool playBelow = true) {
 		enabled = false;
+		transform.position = node.transform.position;
+
 		GameManager.instance.selectedGruntz.Remove(this);
 		GameManager.instance.allGruntz.Remove(this);
 
-		if (CompareTag("PlayerGrunt")) {
+		if (team == 0) {
 			gruntEntry.Clear();
 			GameManager.instance.playerGruntz.Remove(this);
 		} else {
@@ -884,7 +914,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			spriteRenderer.sortingOrder = 8;
 		}
 
-		animancer.Stop();
 		animancer.Play(toPlay);
 		await UniTask.WaitForSeconds(toPlay.length);
 
@@ -894,28 +923,31 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		Destroy(gameObject, 0.5f);
 	}
 
-	public IEnumerator Teleport(Transform destination, Warp fromWarp) {
+	public async void Teleport(Transform destination) {
 		enabled = false;
 
 		// The first part of the animation plays where the Grunt is sucked into the warp
-		animancer.Play(AnimationManager.instance.gruntWarpOutEndAnimation);
+		Debug.Log("Sucked in anim");
+		animancer.Play(AnimationManager.instance.gruntWarpEnterAnim);
 
-		yield return new WaitForSeconds(AnimationManager.instance.gruntWarpOutEndAnimation.length);
+		await UniTask.WaitForSeconds(AnimationManager.instance.gruntWarpEnterAnim.length);
 
 		Camera.main.transform.position = new Vector3(destination.position.x, destination.position.y, -10);
 		transform.position = destination.position;
-		node = Level.instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
 
 		// The second part of the animation plays where the Grunt is spat out of the warp
-		animancer.Play(AnimationManager.instance.gruntWarpEnterAnimation);
+		Debug.Log("Spat out anim");
+		Debug.Log(AnimationManager.instance.gruntFallingEntranceAnim);
+		animancer.Play(AnimationManager.instance.gruntFallingEntranceAnim);
 
-		yield return new WaitForSeconds(AnimationManager.instance.gruntWarpEnterAnimation.length);
+		await UniTask.WaitForSeconds(AnimationManager.instance.gruntFallingEntranceAnim.length);
+		// yield return new WaitForSeconds(AnimationManager.instance.gruntFallingEntranceAnim.length);
 
+		// node = Level.instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
 		enabled = true;
+		between = false;
 
 		GoToState(StateHandler.State.Idle);
-
-		fromWarp.Deactivate();
 	}
 
 	private void DeactivateBarz() {

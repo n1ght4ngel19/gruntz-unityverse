@@ -77,10 +77,10 @@ public class SecretObject : MonoBehaviour {
 
 	private void TryKillGruntOnTop() {
 		Grunt gruntOnTop = GameManager.instance.allGruntz.FirstOrDefault(
-			gr => gr.node == Level.instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position))
+			gr => gr.node == Level.instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position) && !gr.between)
 		);
 
-		if (gruntOnTop == null) {
+		if (gruntOnTop == null || gruntOnTop.between) {
 			return;
 		}
 

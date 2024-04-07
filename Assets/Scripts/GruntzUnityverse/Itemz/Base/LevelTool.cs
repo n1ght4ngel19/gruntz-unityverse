@@ -15,6 +15,8 @@ public class LevelTool : LevelItem {
 
 	protected override IEnumerator Pickup(Grunt targetGrunt) {
 		targetGrunt.enabled = false;
+
+		targetGrunt.animancer.Stop();
 		targetGrunt.animancer.Play(pickupAnim);
 
 		yield return new WaitForSeconds(pickupAnim.length);

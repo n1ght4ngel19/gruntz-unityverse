@@ -15,7 +15,7 @@ public class Warp : GridObject, IAnimatable {
 	public AnimationClip swirlingAnim;
 
 	public async void Activate() {
-		node.circleCollider2D.isTrigger = false;
+		// node.circleCollider2D.isTrigger = false;
 
 		circleCollider2D.isTrigger = true;
 		spriteRenderer.enabled = true;
@@ -32,12 +32,11 @@ public class Warp : GridObject, IAnimatable {
 		}
 
 		await UniTask.WaitForSeconds(duration);
-
 		Deactivate();
 	}
 
 	public async void Deactivate() {
-		node.circleCollider2D.isTrigger = true;
+		// node.circleCollider2D.isTrigger = true;
 
 		circleCollider2D.isTrigger = false;
 
@@ -55,7 +54,8 @@ public class Warp : GridObject, IAnimatable {
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (circleCollider2D.isTrigger && other.TryGetComponent(out Grunt grunt)) {
-			StartCoroutine(grunt.Teleport(warpDestination.transform, this));
+			grunt.Teleport(warpDestination.transform);
+			Deactivate();
 		}
 	}
 }

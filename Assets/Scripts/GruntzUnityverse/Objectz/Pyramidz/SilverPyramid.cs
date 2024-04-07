@@ -23,7 +23,7 @@ public class SilverPyramid : Pyramid {
 		node.isBlocked = !node.isBlocked;
 		spriteRenderer.sortingLayerName = isObstacle ? "HighObjectz" : "AlwaysBottom";
 
-		if (gruntOnTop != null && node.isBlocked) {
+		if (gruntOnTop != null && node.isBlocked && !gruntOnTop.between) {
 			gruntOnTop.Die(AnimationManager.instance.explodeDeathAnimation, false, false);
 		}
 
@@ -38,7 +38,7 @@ public class SilverPyramid : Pyramid {
 		node.isBlocked = !node.isBlocked;
 		spriteRenderer.sortingLayerName = isObstacle ? "HighObjectz" : "AlwaysBottom";
 
-		if (gruntOnTop != null && node.isBlocked) {
+		if (gruntOnTop != null && node.isBlocked && !gruntOnTop.between) {
 			gruntOnTop.Die(AnimationManager.instance.explodeDeathAnimation, false, false);
 		}
 	}

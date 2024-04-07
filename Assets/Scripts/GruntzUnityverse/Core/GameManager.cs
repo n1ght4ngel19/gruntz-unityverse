@@ -106,11 +106,11 @@ public class GameManager : MonoBehaviour {
 		allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
 
 		playerGruntz = allGruntz
-			.Where(grunt => grunt.CompareTag("PlayerGrunt"))
+			.Where(grunt => grunt.team == 0)
 			.ToList();
 
 		dizgruntled = allGruntz
-			.Where(grunt => grunt.CompareTag("Dizgruntled"))
+			.Where(grunt => grunt.team != 0)
 			.ToList();
 
 		redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();

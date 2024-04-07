@@ -12,11 +12,9 @@ public class Column : GridObject {
 	}
 
 	private void OnTriggerEnter2D(Collider2D other) {
-		if (!other.TryGetComponent(out Grunt grunt)) {
-			return;
+		if (other.TryGetComponent(out Grunt grunt)) {
+			grunt.Die(AnimationManager.instance.explodeDeathAnimation, leavePuddle: false, playBelow: false);
 		}
-
-		grunt.Die(AnimationManager.instance.explodeDeathAnimation, leavePuddle: false, playBelow: false);
 	}
 }
 }

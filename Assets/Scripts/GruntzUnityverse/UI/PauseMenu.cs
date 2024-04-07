@@ -3,9 +3,7 @@ using System.Linq;
 using GruntzUnityverse.Core;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Localization.Tables;
 using UnityEngine.SceneManagement;
-using UnityEngine.TextCore.LowLevel;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
@@ -70,6 +68,10 @@ public class PauseMenu : MonoBehaviour {
 		if (!GameManager.instance.helpboxUI.GetComponent<Canvas>().enabled) {
 			Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
 			canvas.enabled = Time.timeScale == 0f;
+
+			transform.GetComponentsInChildren<RectTransform>(true).First(rt => rt.name == "Main").gameObject.SetActive(true);
+			transform.GetComponentsInChildren<RectTransform>(true).First(rt => rt.name == "OptionzMenu").gameObject.SetActive(false);
+			transform.GetComponentsInChildren<RectTransform>(true).First(rt => rt.name == "Help").gameObject.SetActive(false);
 		} else {
 			Time.timeScale = 1f;
 		}

@@ -24,7 +24,7 @@ public class StaticHazard : Hazard {
 		animTargetSpriteRenderer.enabled = true;
 		animTargetAnimancer.Play(hazardAnim);
 
-		if (gruntOnTop != null) {
+		if (gruntOnTop != null && !gruntOnTop.between) {
 			gruntOnTop.Die(AnimationManager.instance.burnDeathAnimation, false, false);
 		}
 
