@@ -40,7 +40,7 @@ public class GameCursor : MonoBehaviour {
 			return;
 		}
 
-		if (GameManager.instance.firstSelected is not null) {
+		if (GameManager.instance.firstSelected != null) {
 			bool doSwap = GameManager.instance.firstSelected.equippedTool.CompatibleWith(GameManager.instance.selector.hoveredObject);
 
 			SwapCursor(doSwap ? GameManager.instance.firstSelected.equippedTool.cursor : AnimationManager.instance.cursorDefault);

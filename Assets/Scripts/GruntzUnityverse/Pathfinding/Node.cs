@@ -103,7 +103,7 @@ public class Node : MonoBehaviour {
 	/// <summary>
 	/// If true, this Node can be walked upon safely.
 	/// </summary>
-	public bool walkable => !occupied && !isBlocked && !isWater && !isFire;
+	public bool walkable => !occupied && !isBlocked && !isWater && !isFire && !isVoid;
 
 	/// <summary>
 	/// If true, this Node can be swam on with a Toob equipped.
@@ -237,6 +237,8 @@ public class Node : MonoBehaviour {
 				grunt.GoToState(StateHandler.State.Interacting);
 			} else if (grunt.attackTarget != null) {
 				grunt.GoToState(StateHandler.State.Attacking);
+			} else if (grunt.giveTarget != null) {
+				grunt.GoToState(StateHandler.State.Giving);
 			} else if (grunt.travelGoal != null) {
 				grunt.GoToState(StateHandler.State.Walking);
 			} else {

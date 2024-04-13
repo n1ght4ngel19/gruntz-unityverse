@@ -31,7 +31,9 @@ public class StatzMenu : MonoBehaviour {
 	}
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		canvas.enabled = false;
+		if (canvas != null) {
+			canvas.enabled = false;
+		}
 	}
 
 	public void Activate() {

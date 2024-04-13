@@ -36,7 +36,7 @@ public class StateHandler : MonoBehaviour {
 
 				break;
 			case State.Giving:
-				// grunt.Give();
+				grunt.TryGiveToy();
 
 				break;
 			case State.Dying:

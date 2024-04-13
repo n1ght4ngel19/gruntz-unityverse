@@ -22,7 +22,7 @@ public class Level : MonoBehaviour {
 	public Node nodePrefab;
 
 	public string levelName;
-	public string areaName;
+	public Area areaName;
 	public LevelStatz levelStatz;
 
 	private void OnDrawGizmosSelected() {
@@ -54,13 +54,8 @@ public class Level : MonoBehaviour {
 		foreach (Vector3Int position in bounds.allPositionsWithin) {
 			TileBase tile = mainMap.GetTile(position);
 
-			if (tile == null) {
-				continue;
-			}
-
-			// Create new node and set it up
 			Instantiate(nodePrefab, mainMap.GetCellCenterLocal(position), Quaternion.identity, nodeGrid.transform)
-				.SetupNode(position, tile.name);
+				.SetupNode(position, tile == null ? "Void" : tile.name);
 		}
 
 		HashSet<Node> allNodes = FindObjectsByType<Node>(FindObjectsSortMode.None).ToHashSet();

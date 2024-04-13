@@ -16,11 +16,13 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		canvas.enabled = false;
-		canvas.worldCamera = Camera.main;
+		if (canvas != null) {
+			canvas.enabled = false;
+			canvas.worldCamera = Camera.main;
+		}
 
 		GameObject.Find("ResumeButton")
-			.GetComponent<Button>()
+			?.GetComponent<Button>()
 			.onClick.AddListener(
 				() => {
 					canvas.enabled = false;

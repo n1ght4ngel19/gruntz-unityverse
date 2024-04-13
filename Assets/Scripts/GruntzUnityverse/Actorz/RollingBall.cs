@@ -31,6 +31,8 @@ public class RollingBall : MonoBehaviour {
 			.First(n => n.location2D == new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y)));
 
 		animancer ??= GetComponent<AnimancerComponent>();
+
+		direction = direction;
 	}
 
 	private void Start() {
@@ -47,7 +49,7 @@ public class RollingBall : MonoBehaviour {
 	}
 
 	private IEnumerator OnTriggerEnter2D(Collider2D other) {
-		if (other.TryGetComponent(out RollingBall _)) {
+		if (other.TryGetComponent(out RollingBall ball) && ball.enabled) {
 			enabled = false;
 
 			transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));

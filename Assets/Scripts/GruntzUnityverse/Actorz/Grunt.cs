@@ -11,9 +11,9 @@ using GruntzUnityverse.Core;
 using GruntzUnityverse.DataPersistence;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Itemz.Toolz;
+using GruntzUnityverse.Itemz.Toyz;
 using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Interactablez;
-using GruntzUnityverse.Objectz.Secretz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.UI;
 using GruntzUnityverse.Utils;
@@ -154,6 +154,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// </summary>
 	public Grunt attackTarget;
 
+	/// <summary>
+	/// The target the Grunt will try to give a toy to.
+	/// </summary>
+	public Grunt giveTarget;
+
 	public List<Grunt> enemiez => GameManager.instance.allGruntz.Where(gr => gr.team != team).ToList();
 	#endregion
 
@@ -271,8 +276,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 			gruntEntry = FindObjectsByType<GruntEntry>(FindObjectsSortMode.None)
 				.First(entry => entry.entryId == gruntId);
-
-			Debug.Log(gruntEntry is null);
 
 			if (equippedTool != null) {
 				gruntEntry.SetTool(equippedTool.toolName.Replace(" ", ""));
@@ -472,8 +475,61 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		if (!selected) {
 			return;
 		}
+
+		attackTarget = null;
+		interactionTarget = null;
+
+		giveTarget = GameManager.instance.allGruntz
+			.FirstOrDefault(g => g.enabled && g.node == GameManager.instance.selector.node && !g.between && g != this);
+
+		GoToState(StateHandler.State.Giving);
 	}
 	#endregion
+
+	public void TryGiveToy() {
+		if (giveTarget == null) {
+			GoToState(StateHandler.State.Idle);
+
+			return;
+		}
+
+		if (!node.neighbours.Contains(giveTarget.node)) {
+			travelGoal = giveTarget.node;
+
+			GoToState(StateHandler.State.Walking);
+		} else {
+			travelGoal = node;
+
+			StartCoroutine(giveTarget.PlayWithToy(equippedToy));
+
+			giveTarget = null;
+			equippedToy = null;
+			gruntEntry.SetToy("");
+
+			GoToState(StateHandler.State.Idle);
+		}
+	}
+
+	public IEnumerator PlayWithToy(EquippedToy toy) {
+		if (TryGetComponent(out AI.AI ai)) {
+			ai.enabled = false;
+		}
+
+		attackTarget = null;
+		interactionTarget = null;
+		giveTarget = null;
+
+		if (toy is Beachball ball) {
+			animancer.Play(ball.beachballPlayAnim);
+
+			yield return new WaitForSeconds(ball.duration);
+		}
+		// else if (toy is )
+
+		if (ai != null) {
+			ai.enabled = true;
+		}
+	}
 
 	// --------------------------------------------------
 	// Selection
@@ -557,7 +613,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		hole.dirt.GetComponent<AnimancerComponent>().Play(AnimationManager.instance.dirtEffect);
 
-		yield return new WaitForSeconds(toPlay.length * 1f);
+		yield return new WaitForSeconds(toPlay.length * 2f);
 
 		hole.Dig();
 
@@ -727,8 +783,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 				GoToState(StateHandler.State.Idle);
 			}
 
-			Debug.Log("Regen completed");
-
 			if (TryGetComponent(out AI.AI ai)) {
 				ai.enabled = true;
 			}
@@ -798,7 +852,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <param name="damage">The amount of damage to be dealt.</param>
 	/// <param name="hazardDamage">Whether the damage is inflicted by a hazard.</param>
 	public void TakeDamage(float damage, bool hazardDamage = false, Grunt attacker = null) {
-		Debug.Log($"Damaging from {attacker?.displayName}");
 		damage = hazardDamage ? damage : damage * (1 - damageReductionPercentage);
 
 		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MAX_VALUE);

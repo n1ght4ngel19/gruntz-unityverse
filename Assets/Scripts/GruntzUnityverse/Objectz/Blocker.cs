@@ -6,7 +6,7 @@ namespace GruntzUnityverse.Objectz {
 public class Blocker : GridObject {
 	public override void Setup() {
 		FindObjectsByType<Node>(FindObjectsSortMode.None)
-			.First(n => n.location2D.Equals(Vector2Int.RoundToInt(transform.position)))
+			.First(n => Vector2Int.RoundToInt(n.transform.position) == (Vector2Int.RoundToInt(transform.position)))
 			.isBlocked = true;
 	}
 

@@ -19,8 +19,6 @@ public class SecretSwitch : Switch {
 	public override void Toggle() {
 		base.Toggle();
 
-		Debug.Log("Secret");
-
 		DisableTrigger();
 		Level.instance.levelStatz.discoveredSecretz++;
 		secretObjectz.ForEach(so => StartCoroutine(so.Toggle()));

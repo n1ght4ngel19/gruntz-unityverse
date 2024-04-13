@@ -82,18 +82,17 @@ public class GameManager : MonoBehaviour {
 	public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		Application.targetFrameRate = 120;
 		// Time.timeScale = 0f;
-
 		Cursor.visible = false;
 
 		FindFirstObjectByType<GameCursor>().enabled = true;
-
-		Debug.Log("Disable Pause Menu Canvas");
 		FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.enabled = false;
 	}
 
 	public void Init() {
+		// --------------------------------------------------
+		// UI setup
+		// --------------------------------------------------
 		Cursor.visible = false;
-
 		FindFirstObjectByType<GameCursor>().enabled = true;
 
 		GameObject.Find("SidebarUI").GetComponent<Canvas>().worldCamera =
@@ -101,8 +100,16 @@ public class GameManager : MonoBehaviour {
 
 		GameObject.Find("SidebarUI").GetComponent<Canvas>().enabled = true;
 
+		gooWell = FindFirstObjectByType<GooWell>();
+
+		FindFirstObjectByType<PauseMenu>().canvas.worldCamera =
+			FindFirstObjectByType<CameraMovement>().gameObject.GetComponent<Camera>();
+
 		Time.timeScale = 0f;
 
+		// --------------------------------------------------
+		// Actorz setup
+		// --------------------------------------------------
 		allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
 
 		playerGruntz = allGruntz
@@ -113,6 +120,13 @@ public class GameManager : MonoBehaviour {
 			.Where(grunt => grunt.team != 0)
 			.ToList();
 
+		FindObjectsByType<RollingBall>(FindObjectsSortMode.None)
+			.ToList()
+			.ForEach(rb => rb.Setup());
+
+		// --------------------------------------------------
+		// Objectz setup
+		// --------------------------------------------------
 		redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();
 
 		gridObjectz = FindObjectsByType<GridObject>(FindObjectsSortMode.None).Where(go => go is not Blocker).ToList();
@@ -168,20 +182,14 @@ public class GameManagerEditor : UnityEditor.Editor {
 
 			level.Initialize();
 
-			gameManager.gooWell = FindFirstObjectByType<GooWell>();
+			gameManager.Init();
 
-			FindFirstObjectByType<PauseMenu>().canvas.worldCamera =
-				FindFirstObjectByType<CameraMovement>().gameObject.GetComponent<Camera>();
 
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
 			// FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
 			// 	.Where(ec => ec.gameObject.CompareTag("HighEyeCandy"))
 			// 	.ToList()
 			// 	.ForEach(ec1 => ec1.gameObject.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(ec1.transform.position.y) * -1);
-
-			FindObjectsByType<RollingBall>(FindObjectsSortMode.None)
-				.ToList()
-				.ForEach(rb => rb.Setup());
 
 			List<Checkpoint> checkpointz = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None).ToList();
 

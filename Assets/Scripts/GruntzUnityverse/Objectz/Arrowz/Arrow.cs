@@ -78,8 +78,10 @@ public class Arrow : GridObject {
 		}
 
 		if (other.TryGetComponent(out RollingBall ball)) {
-			if (node.gruntOnNode != null && !node.gruntOnNode.between) {
-				node.gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
+			if (node.gruntOnNode != null) {
+				if (!node.gruntOnNode.between) {
+					node.gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
+				}
 			}
 
 			ball.node = node;

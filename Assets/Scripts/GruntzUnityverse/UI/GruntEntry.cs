@@ -103,7 +103,7 @@ public class GruntEntry : MonoBehaviour {
 	}
 
 	public void SetTool(string toolName) {
-		if (toolName is "BareHandz" or "") {
+		if (toolName == "BareHandz" || toolName == "") {
 			toolSlot.sprite = blankSlotIcon;
 
 			return;
@@ -115,7 +115,7 @@ public class GruntEntry : MonoBehaviour {
 	}
 
 	public void SetToy(string toyName) {
-		if (toyName is "") {
+		if (toyName == "") {
 			toolSlot.sprite = blankSlotIcon;
 
 			return;
@@ -127,7 +127,7 @@ public class GruntEntry : MonoBehaviour {
 	}
 
 	public void SetPowerup(string powerupName) {
-		if (powerupName is "") {
+		if (powerupName == "") {
 			toolSlot.sprite = blankSlotIcon;
 
 			return;
@@ -139,7 +139,7 @@ public class GruntEntry : MonoBehaviour {
 	}
 
 	public void SetHeal(string healName) {
-		if (healName is "") {
+		if (healName == "") {
 			toolSlot.sprite = blankSlotIcon;
 
 			return;
