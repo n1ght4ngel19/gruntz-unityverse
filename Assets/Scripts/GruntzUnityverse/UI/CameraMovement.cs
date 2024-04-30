@@ -60,7 +60,7 @@ public class CameraMovement : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Moving the camera by certain keys.
+	/// Move the camera with certain keys.
 	/// </summary>
 	private void ScrollWithKeys() {
 		transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) / moveRate;

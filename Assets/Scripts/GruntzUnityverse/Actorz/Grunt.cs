@@ -21,6 +21,7 @@ using GruntzUnityverse.Utils.Extensionz;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace GruntzUnityverse.Actorz {
 /// <summary>
@@ -504,7 +505,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 			giveTarget = null;
 			equippedToy = null;
-			gruntEntry.SetToy("");
+			gruntEntry.ClearSlot("Toy");
 
 			GoToState(StateHandler.State.Idle);
 		}
@@ -519,16 +520,57 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		interactionTarget = null;
 		giveTarget = null;
 
+		GoToState(StateHandler.State.Playing);
+
 		if (toy is Beachball ball) {
-			animancer.Play(ball.beachballPlayAnim);
+			animancer.Play(ball.playAnim);
 
 			yield return new WaitForSeconds(ball.duration);
+		} else if (toy is JackInTheBox box) {
+			animancer.Play(box.playAnim);
+
+			yield return new WaitForSeconds(box.duration);
+		} else if (toy is MonsterWheelz wheelz) {
+			float duration = wheelz.duration;
+
+			while (duration > 0) {
+				if (stateHandler.currentState == StateHandler.State.Dying) {
+					yield break;
+				}
+
+				Node toNode = node.freeNeighbours.ToArray()[Random.Range(0, node.freeNeighbours.Count - 1)];
+
+				AnimationClip toAnim = node.neighbourSet.right == toNode ? wheelz.rightAnim
+					: node.neighbourSet.left == toNode ? wheelz.leftAnim
+					: node.neighbourSet.up == toNode ? wheelz.upAnim
+					: node.neighbourSet.down == toNode ? wheelz.downAnim
+					: node.neighbourSet.upLeft == toNode ? wheelz.upLeftAnim
+					: node.neighbourSet.upRight == toNode ? wheelz.upRightAnim
+					: node.neighbourSet.downLeft == toNode ? wheelz.downLeftAnim
+					: wheelz.downRightAnim;
+
+				RandomMove(toNode, toAnim);
+
+				yield return new WaitForSeconds(0.6f);
+
+				duration -= 0.6f;
+			}
 		}
-		// else if (toy is )
 
 		if (ai != null) {
 			ai.enabled = true;
 		}
+	}
+
+	private void RandomMove(Node toNode, AnimationClip anim) {
+		travelGoal = toNode;
+
+		// Manually to kick off movement
+		between = true;
+		next = travelGoal;
+
+		FaceTowardsNode(next);
+		animancer.Play(anim);
 	}
 
 	// --------------------------------------------------
@@ -882,8 +924,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// Kills the Grunt.
 	/// </summary>
 	public async void Die() {
+		StopAllCoroutines();
+
 		enabled = false;
 		transform.position = node.transform.position;
+		animancer.Stop();
 
 		GameManager.instance.selectedGruntz.Remove(this);
 		GameManager.instance.allGruntz.Remove(this);
@@ -931,8 +976,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <param name="leavePuddle">Whether the Grunt should leave a puddle after death.</param>
 	/// <param name="playBelow">Whether to play the death animation closer to the ground level.</param>
 	public async void Die(AnimationClip toPlay, bool leavePuddle = true, bool playBelow = true) {
+		StopAllCoroutines();
+
 		enabled = false;
 		transform.position = node.transform.position;
+		animancer.Stop();
 
 		GameManager.instance.selectedGruntz.Remove(this);
 		GameManager.instance.allGruntz.Remove(this);
@@ -967,6 +1015,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			spriteRenderer.sortingOrder = 8;
 		}
 
+		animancer.Stop();
 		animancer.Play(toPlay);
 		await UniTask.WaitForSeconds(toPlay.length);
 

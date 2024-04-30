@@ -31,15 +31,21 @@ public class StateHandler : MonoBehaviour {
 
 				break;
 			}
-			case State.HostileIdle:
+			case State.HostileIdle: {
 				grunt.Idle(true);
 
 				break;
-			case State.Giving:
+			}
+			case State.Giving: {
 				grunt.TryGiveToy();
 
 				break;
+			}
 			case State.Dying:
+				break;
+			case State.Playing:
+				break;
+			case State.Committed:
 				break;
 			default:
 				throw new ArgumentOutOfRangeException(nameof(goToState), goToState, "Invalid state");
@@ -54,6 +60,8 @@ public class StateHandler : MonoBehaviour {
 		HostileIdle = 4,
 		Giving = 5,
 		Dying = 6,
+		Playing = 7,
+		Committed = 8,
 	}
 }
 }

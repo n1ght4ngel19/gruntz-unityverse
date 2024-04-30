@@ -1,5 +1,66 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &486573848643412191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2681536001861137813}
+  - component: {fileID: 5213803533122863932}
+  - component: {fileID: 1190921764879726737}
+  m_Layer: 0
+  m_Name: Misc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2681536001861137813
+Transform:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486573848643412191}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2778965721224733494}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5213803533122863932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486573848643412191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c809d4017b74d62b78c04be9c0cefec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1190921764879726737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486573848643412191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc219dcbba90e84b86e2ecf840e0266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: d9e199e1d047bff4cba44bc982f0e6a6, type: 3}
+  position: 0
+  direction: 1
+  tooltip: 
 --- !u!1 &7656969975892767599
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +70,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 196562955717164562}
+  - component: {fileID: 6666599616253362531}
+  - component: {fileID: 4894551002724753712}
   m_Layer: 0
   m_Name: Warpz
   m_TagString: Untagged
@@ -18,7 +81,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &196562955717164562
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -31,6 +94,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2778965721224733494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6666599616253362531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656969975892767599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c809d4017b74d62b78c04be9c0cefec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4894551002724753712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656969975892767599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc219dcbba90e84b86e2ecf840e0266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: e96e5c49fe092e745893e86e4413f6ea, type: 3}
+  position: 0
+  direction: 1
+  tooltip: 
 --- !u!1 &9133907552679335787
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,6 +167,7 @@ Transform:
   - {fileID: 4723159172988637547}
   - {fileID: 5330999529876209051}
   - {fileID: 196562955717164562}
+  - {fileID: 2681536001861137813}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9223354145158537697
@@ -489,7 +581,7 @@ PrefabInstance:
     - target: {fileID: 53659738209655849, guid: 2d75831e1700fb74dbc5a865ae3de2f2, type: 3}
       propertyPath: icon
       value: 
-      objectReference: {fileID: 2800000, guid: c5254e204aa2ea248802a3e326bfe932, type: 3}
+      objectReference: {fileID: 2800000, guid: 82f07384402580149a7aaea150429963, type: 3}
     - target: {fileID: 842972301724239842, guid: 2d75831e1700fb74dbc5a865ae3de2f2, type: 3}
       propertyPath: m_Name
       value: EyeCandy

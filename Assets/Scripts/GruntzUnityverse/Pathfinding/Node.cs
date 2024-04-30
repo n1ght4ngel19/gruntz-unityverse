@@ -233,6 +233,10 @@ public class Node : MonoBehaviour {
 			grunt.between = false;
 			occupied = true;
 
+			if (grunt.stateHandler.goToState == StateHandler.State.Playing) {
+				return;
+			}
+
 			if (grunt.interactionTarget != null) {
 				grunt.GoToState(StateHandler.State.Interacting);
 			} else if (grunt.attackTarget != null) {
