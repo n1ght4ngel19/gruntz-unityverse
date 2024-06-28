@@ -1,0 +1,183 @@
+| Version 1.1.1.2p
+• (New): Added a new feature, 'Gradient Background', to Separators.
+• (New): Added a new feature, 'Hierarchy Designer Location', in the Advanced Settings window.
+• (New): Added a new 'Advanced Settings' option: 'Include Background Image for Gradient Background'.
+• (New): Created the following new presets: 'Prismatic' and 'Wildcats'.
+• (Improvement): The 'Tag and Layer' window now displays the selected GameObject.
+• (Others): Made other small changes.
+• (Others): Applied major and minor changes to some classes.
+• (Others): Updated the Demo Scene and Asset Store page.
+
+| Version 1.1.1.1p
+- (New Feature): You can now re-organize your folders and separators in their manager windows.
+- (New Feature): Added the following new advanced settings values: 'Exclude Folders from Count-Select Tool' and 'Exclude Separators from Count-Select Tool'.
+- (New Feature): Created a new value field, 'Starting Index' (int), for the Rename Tool window.
+- (New Feature): 'Open Rename Tool Window' was added to the Minor Shortcuts list.
+- (Improvement): There is now a numerical display to show the order of your folders and separators in their manager windows.
+- (Improvement): Removing folders and separators from their manager windows will now prompt for modified changes instead of saving instantly.
+- (Improvement): Added the 'Unsaved Modified Changes' check to the following settings windows: General Settings, Design Settings, Shortcuts Settings, and Advanced Settings.
+- (Improvement): Sort Tool operations now work on multiple GameObject parents at once.
+- (Improvement): Small modifications to the following windows' GUI: Folder Manager, Separator Manager, Advanced Settings, Shortcut Settings, and Rename Tool.
+- (Improvement): Inactive Folders Icon Color now reflects the folder color.
+- (Improvement): Minor performance improvements.
+- (Bug Fix): Create Folders and Separators' Minor Shortcuts are now working.
+- (Bug Fix): 'Unsaved Modified Changes' are no longer flagged when creating a folder or separators without modifying their values.
+- (Others): Major and/or minor changes in some classes.
+
+| Version 1.1.1 (Hierarchy Designer Remake)
+
+- (New Feature): Created two new types of settings (Design and Advanced Settings) which allow you to customize your Hierarchy even further.
+- (New Feature): Disabled Components for each gameObject can now be easily identified in the Hierarchy if enabled by the settings.
+- (New Feature): GameObject Properties (Main Icon, Component Icons, Tag-Layer, Tree, and Buttons) now update their visuals based on the gameObject's active state (Active, Inactive).
+- (New Feature): You can now customize the style of the Lock label (color, text anchor, font style, and font size).
+- (New Feature): There are extra customization options for the tag and layer feature (text anchor, tag-layer offset, and space between tag and layer offset).
+- (New Feature): You can now customize the style of component icons (size, spacing, and offset).
+- (New Feature): Created Hierarchy Rows.
+- (New Feature): Created the option to exclude the 'Canvas Renderer' component from the component icons.
+- (New Feature): Created the option to dynamically check for gameObject main icon changes in Advanced Settings. If you have this option disabled, the main icon will only check after a major operation such as scene-script reload or editor restart.
+- (New Feature): Created the option to hide gameObjects' component icons for inactive gameObjects in the advanced settings.
+- (New Feature): Created many options, such as the ability to enable tooltips for component icons, in the advanced settings.
+- (New Feature): Created a new tool 'Activate'.
+- (New Feature): Created many new MenuItems for all tools (count, lock, rename, ...).
+- (New Feature): Created a 'Layout Mode' option. You can now choose the layout of Hierarchy Designer's features. Currently available: Consecutive, Docked, Split.
+- (New Feature): You can now dynamically add, remove, organize, and reassign selected gameObjects in the Rename tool window.
+- (Improvement): Lock State Tool operations are now slightly faster.
+- (Improvement): Rename Tool operations are now slightly faster.
+- (Improvement): Reorganized the 'Tools' options (Menu Items) for better visual clarity.
+- (Improvement): Disabling features you don't use from any settings (General, Advanced, and Design settings) will greatly improve performance, especially in larger scenes.
+- (Improvement): Added an Inspector Icon for Separators gameObjects similar to folders.
+- (Improvement): Overall performance improvements.
+- (Improvement): Slightly modified the name, import settings, and/or image of all resources textures for better visuals, organization, data size, and performance.
+- (Improvement): Updated all editor windows (e.g., General Settings) for better usability.
+- (Improvement): Major shortcuts operations were improved; they are now faster and more efficient.
+- (Bug Fix): If a gameObject only has an invalid script component alongside the transform, it will now set the invalid script icon as the main icon.
+- (Bug Fix): Fixed an error that was thrown when trying to rename gameObjects with the Rename tool window due to data loss caused by a script recompilation or similar action.
+- Much more...
+
+| Version 1.1.0.3f
+- Hotfix: Fixed a bug where deleting a script from a GameObject while the Hierarchy Buttons were enabled would throw a NullReferenceException.
+
+| Version 1.1.0.2f
+- Modified the 'FolderExists()' and 'SeparatorExists()' methods in their respective utility classes to support UNITY_6000_0_OR_NEWER versions. 
+- Added a 'ReadMe.txt' file to the Documentation folder.
+
+| Version 1.1.0.1f
+- Hotfix: Fixed a bug where the folders and separators data would occasionally be deleted when applying a preset to them.
+
+| Version 1.1.0
+- Reworked the Saving System. Hierarchy Designer's data is now project-based and sharable.
+- Created a new feature 'Hierarchy Buttons', which can be edited in the Hierarchy General Settings.
+- Created a new feature 'Display Component Name On Mouse Hover.' Simply hover your mouse over a component icon of a gameObject in the hierarchy to display its name. (This only works if you have 'Show Component Icons' toggled on in the general settings).
+- Created the following new classes: HierarchyDesigner_Data_Folder, HierarchyDesigner_Data_Separator, HierarchyDesigner_Shared_SerializableList, HierarchyDesigner_Shared_Data, 'HierarchyDesigner_Info_Buttons', HierarchyDesigner_Manager_Buttons.
+- Modified the Default Folder to automatically call the rename command event when it is created.
+- Updated the Demo Scene Text to better reflect the new changes.
+- Removed the 'Hierarchy Designer Survey Form.txt' from the Documentation Folder.
+- Implemented minor changes, improvements, and refactoring across various classes.
+
+| Version 1.0.9
+- Created a new class HierarchyDesigner_Shared_EditorState.
+- Created a new feature 'Exclude Tags and Layers', located in the General Settings window.
+- Added a new section 'Filtering' to the General Settings.
+- Added two buttons, 'Enable All' and 'Disable All', to the Hierarchy Presets Window.
+- Added the 'SkinnedMeshRenderer' and 'MonoBehaviour (Script)' components to the 'Counting' and 'Selecting' features in Hierarchy Tools.
+- Added a new folder image type, 'Modern I'.
+- Added a new image to the resources folder, 'Hierarchy Designer Folder Icon Modern I'.
+- Renamed the 'Default' folder images and type to 'Classic'.
+- Potentially fixed a rare bug where the HierarchyDesigner_Utility_Documentation.cs would throw a directory/path error for some users (Solution not tested!).
+- Modified the behavior of the enable/disable and lock/unlock major shortcuts. If there are any gameObjects selected, the action will apply to those selected; if no gameObject is selected, it will apply to the gameObject currently being hovered over in the hierarchy.
+- Implemented minor changes, improvements, and refactoring across various classes.
+
+| Version 1.0.8
+- Added a new preset, 'Blue Harmony', to Hierarchy Helpers' Presets.
+- Added '4' new shortcuts to the Minor Shortcuts' Feature, which are: Create All/Missing Folders/Separators.
+- Major refactoring in the HierarchyDesigner_Visual_Separator class.
+- Reworked the Tag and Layer Feature; they are now treated separately.
+- Implemented minor changes, improvements, and refactoring across various classes.
+- Overall Performance Improvements.
+
+| Version 1.0.7
+- Created a new feature: 'Hierarchy Minor Shortcuts'.
+- Created two new classes: HierarchyDesigner_Utility_MinorShortcuts and HierarchyDesigner_Window_MinorShortcuts.
+- Added '7' shortcuts to the Minor Shortcuts feature. These shortcuts can only be modified through UnityEditor.ShortcutManagement (Edit/Shortcuts.../Hierarchy Designer).
+- Added a new preset, 'Dunes', to Hierarchy Helpers' Presets.
+- Modified the label 'Shortcuts' to 'Major Shortcuts' in the Hierarchy General Settings to better reflect the new changes.
+- Modified the Global Fields display for Folders and Separators Managers' windows.
+- Fixed a bug where the main icon for Text (TMP), Dropdown (TMP), Input Field (TMP), Scroll View, Dropdown (Legacy), and InputField (Legacy) GameObjects were incorrect.
+- Fixed a bug where sub-folders (a folder inside another folder) that were set to FlattenFolder to false would be destroyed when not supposed to if the parent folder was set to flatten.
+- Implemented minor changes, improvements, and refactoring across some classes.
+
+| Version 1.0.6
+- Added the following presets: 'Azure Dreamscape', 'Deep Ocean', and 'Sunflower' to Hierarchy Helpers' Presets.
+- Added 'Global Fields' in the Folders and Separators Manager, allowing quick value changes for each item in the list simultaneously.
+- Added 8 new items for sorting GameObjects by tag or layer, under the Sorting section in Hierarchy Tools and Hierarchy Helper's Tools Master.
+- Added a 'Hierarchy Designer Survey Form.txt' to the Documentation Folder.
+- Fixed a bug where the image types for folders were not being displayed in the Folder's list.
+- Fixed a bug that prevented 'Unlock GameObject' from being displayed in the Tools Master.
+- Minor changes, improvements, and refactoring in some classes.
+
+| Version 1.0.5
+- Added more items to 'Counting and Selecting' in Hierarchy Tools and Tools Master.
+- Fixed a bug where 'Creating Missing Folders' was not working.
+- Fixed a bug where if you just created a folder/separator from your manager's list without making any modifications, it would prompt the 'has modification' warning window.
+- Fixed a bug where the 'Sort Alphabetically Ascending' and 'Descending' would give the wrong order in certain cases.
+- Modified the 'Counting-Selecting Tool' for 3D Objects to be based on the mesh name rather than the gameObject name.
+- Modified all warning dialog box messages in Hierarchy Tools to be a normal debug.log.
+- Modified the inspector for locked gameObjects; the transform component is now displayed but still unavailable for editing.
+- Improved all Editor Windows (e.g., Folder-Separators Manager, General Settings, and so on).
+- Small changes and improvements in some classes.
+
+| Version 1.0.4
+- Added a new background image to separators: "Modern III."
+- Added a new MenuItem 'Rename Selected GameObjects With Same Name' in 'Hierarchy Tools - Renaming.'
+- Created three new classes: HierarchyDesigner_Info_Tools, HierarchyDesigner_Window_Tools and HierarchyDesigner_Shared_EnumFilter.
+- Created a new Hierarchy Helper, 'Tool Master,' which handles all the available hierarchy tools in one editor window.
+- Improved the 'Hierarchy Tool Selection' logic to always focus on the Hierarchy after a successful selection is made.
+- Improved the logic of the Enable/Disable and Lock/Unlock GameObject shortcut. You can now select multiple GameObjects to apply the shortcut logic.
+- Refactored the following classes: HierarchyDesigner_Window_Renaming, HierarchyDesigner_Visual_Tools.
+- Modified the shortcuts to also be disabled during play mode if your 'Disable Hierarchy Designer During Play Mode' is toggled on for performance reasons.
+- Modified the loading logic for Folders and Separators to return to default values if certain preference values are invalid, null, or corrupted, in order to avoid errors in the editor.
+- Fixed a bug where the Main GameObject icon would not be displayed if the 'Show Components Icons' option was disabled.
+- Fixed a bug where, if the Hierarchy Separator Manager Window was open, it would stop working after a script recompilation or an action of a similar sort.
+- Small changes in some classes.
+- Small performance improvements.
+
+| Version 1.0.3
+- Added 'Tree Color' field in the 'General Setting Styling' for editing.
+- Added a new section 'Hierarchy Helpers' within Hierarchy Designer.
+- Added 'Sort Randomly', 'Sort By Components Amount Ascending', and 'Sort By Components Amount Descending' in Hierarchy Tool 'Sorting'.
+- Added a warning message to the Hierarchy Folder and Separator Manager to be displayed if you close the editor window with unsaved values.
+- Created a new feature 'Presets' which can be found in 'Hierarchy Helpers'.
+- Created four new classes: 'HierarchyDesigner_Info_Tree', 'HierarchyDesigner_Info_Presets', 'HierarchyDesigner_Utility_Presets', and 'HierarchyDesigner_Window_Presets'.
+- Modified the 'Branches Icons' textures and some import values for the other textures found in Resources.
+- Refactored the following classes: HierarchyDesigner_Utility_Folder, HierarchyDesigner_Visual_Folder, HierarchyDesigner_Utility_Separator, HierarchyDesigner_Visual_Separator, HierarchyDesigner_Override_Inspector.
+- Divided 'Update Separators' button into 2 parts, 'Update' and 'Save', in Hierarchy Separator Manager to better reflect the new changes.
+- Divided 'Update Folders' button into 2 parts, 'Update' and 'Save', in Hierarchy Folder Manager to better reflect the new changes.
+- Updated the texts in the Demo Scene to better reflect the new changes.
+- Made small changes in various classes.
+- Overall performance improved.
+- Removed the 'up' and 'down' button from the Folder/Separator manager for the time being due to the refactoring of the classes.
+- Manually created separators are now obsolete. You must now use the default separator or the separators from your list if you weren't already doing so.
+
+| Version 1.0.2
+- Added a 'Font Size' option to the Separators.
+- Added three new background image types for Separators: 'Classic Faded Left and Right', 'Modern I', and 'Modern II'.
+- Added a new 'Counting' tool type to Hierarchy Tools.
+- Added a '2D' option for 'Selecting' within Hierarchy Tools.
+- Added 'Select All Audio Sources', 'Select All Folders', and 'Select All Separators' options in Hierarchy Tools.
+- Added a new section in the General Settings named "Styling", allowing customization of features within Hierarchy Designer, currently available for customization 'Tag and Layer'.
+- Created a new class, 'HierarchyDesigner_Info_TagLayer', to enable customization of the Tag and Layer feature.
+- Modified the warning message for creating a folder or separators to also display for names that are null or empty.
+- Modified the 'HierarchyDesigner_Window_TagLayer' EditorWindow to automatically close after setting a tag or layer for a gameObject.
+- Renamed the previous Background Images types for Separators and Texture Names to 'Classic'.
+- Fixed a bug where the OnGUI background color would not work occasionally.
+- Made small tweaks in various classes.
+
+| Version 1.0.1
+- Added 'Background Image Type' to Hierarchy Separators.
+- Added 'Folder Image Type' to Hierarchy Folders.
+- Added 'Patch Notes' to the package.
+- Fixed a bug where PerformReimport() would be called repetitiously if textures were corrupted or not found.
+- Updated Hierarchy Designer Media on the Asset Store.
+
+| Version 1.0.0
+- First release of Hierarchy Designer.
