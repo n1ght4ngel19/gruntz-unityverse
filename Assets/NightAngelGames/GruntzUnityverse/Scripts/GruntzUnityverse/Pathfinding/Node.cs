@@ -233,7 +233,7 @@ public class Node : MonoBehaviour {
 			grunt.between = false;
 			occupied = true;
 
-			if (grunt.stateHandler.goToState == StateHandler.State.Playing) {
+			if (grunt.stateHandler.goToState is StateHandler.State.Playing or StateHandler.State.Committed) {
 				return;
 			}
 

@@ -607,9 +607,9 @@ MonoBehaviour:
   previewSprite: {fileID: 0}
   skinColor: {fileID: 0}
   statz:
-    health: 0
-    stamina: 0
-    staminaRegenRate: 0
+    health: 20
+    stamina: 20
+    staminaRegenRate: 1
     powerupTime: 0
     toyTime: 0
     wingzTime: 0
@@ -729,7 +729,7 @@ SpriteRenderer:
 --- !u!95 &675440660885839045
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -750,7 +750,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2696681730146241315
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
@@ -67,16 +66,13 @@ public abstract class LevelItem : MonoBehaviour {
 	/// different properties of the Grunt picking up the item.)
 	/// </summary>
 	protected virtual async void Pickup(Grunt targetGrunt) {
-		Debug.Log($"Pickup: {displayName}");
-
+		targetGrunt.GoToState(StateHandler.State.Committed);
 		targetGrunt.enabled = false;
 
-		targetGrunt.animancer.Stop();
 		targetGrunt.animancer.Play(pickupAnim);
 		await UniTask.WaitForSeconds(pickupAnim.length);
 
 		targetGrunt.enabled = true;
-
 		targetGrunt.GoToState(StateHandler.State.Walking);
 	}
 

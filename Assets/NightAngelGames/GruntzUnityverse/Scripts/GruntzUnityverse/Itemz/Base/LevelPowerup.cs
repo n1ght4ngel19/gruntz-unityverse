@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
-using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Base {
 /// <summary>
@@ -17,9 +15,9 @@ public class LevelPowerup : LevelItem {
 	public EquippedPowerup equippedPowerup;
 
 	protected override async void Pickup(Grunt targetGrunt) {
+		targetGrunt.GoToState(StateHandler.State.Committed);
 		targetGrunt.enabled = false;
 
-		targetGrunt.animancer.Stop();
 		targetGrunt.animancer.Play(pickupAnim);
 		await UniTask.WaitForSeconds(pickupAnim.length);
 
@@ -31,10 +29,9 @@ public class LevelPowerup : LevelItem {
 		// targetGrunt.gruntEntry.SetPowerup(codeName);
 
 		targetGrunt.enabled = true;
-
 		targetGrunt.GoToState(StateHandler.State.Walking);
 
-		Destroy(gameObject, 0.5f);
+		Destroy(gameObject);
 	}
 }
 }

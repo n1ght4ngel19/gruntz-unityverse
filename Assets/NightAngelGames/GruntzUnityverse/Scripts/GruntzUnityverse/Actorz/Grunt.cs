@@ -1133,10 +1133,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		circleCollider2D = GetComponent<CircleCollider2D>();
 		circleCollider2D.isTrigger = isTrigger;
 
-		GetComponent<Animator>().hideFlags = HideFlags.HideInInspector;
+		// GetComponent<Animator>().hideFlags = HideFlags.HideInInspector;
 
 		animancer = GetComponent<AnimancerComponent>();
-		animancer.hideFlags = HideFlags.HideInInspector;
+		// animancer.hideFlags = HideFlags.HideInInspector;
 
 		GetComponent<TrimName>().hideFlags = HideFlags.HideInInspector;
 	}

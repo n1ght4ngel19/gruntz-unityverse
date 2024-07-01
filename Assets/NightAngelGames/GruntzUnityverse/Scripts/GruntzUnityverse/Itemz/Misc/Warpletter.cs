@@ -8,19 +8,18 @@ public class Warpletter : LevelItem {
 	public WarpletterType type;
 
 	protected override async void Pickup(Grunt targetGrunt) {
+		targetGrunt.GoToState(StateHandler.State.Committed);
 		targetGrunt.enabled = false;
 
-		targetGrunt.animancer.Stop();
 		targetGrunt.animancer.Play(pickupAnim);
 		await UniTask.WaitForSeconds(pickupAnim.length);
 
 		Level.instance.levelStatz.warpletterzCollected++;
 
 		targetGrunt.enabled = true;
-
 		targetGrunt.GoToState(StateHandler.State.Walking);
 
-		Destroy(gameObject, 0.5f);
+		Destroy(gameObject);
 	}
 }
 
