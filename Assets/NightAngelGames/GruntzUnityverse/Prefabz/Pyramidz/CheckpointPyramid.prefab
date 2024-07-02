@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1650484674513923455}
-  - component: {fileID: 6109165329942239614}
   - component: {fileID: 983884921842910713}
+  - component: {fileID: 6109165329942239614}
   - component: {fileID: 6260734195924743711}
   - component: {fileID: 6911840383049941242}
   - component: {fileID: 2112480764236570727}
@@ -38,9 +38,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &983884921842910713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008980603784178169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484e4249eeb44fc2bf0e87a1bbded928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hideComponents: 1
+  isObstacle: 1
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 6109165329942239614}
+  circleCollider2D: {fileID: 2112480764236570727}
+  raiseAnim: {fileID: 7400000, guid: 24ca07e9b534c3549ae243ba7bbf9c5b, type: 2}
+  lowerAnim: {fileID: 7400000, guid: 47ce3b5afdfb26540b2a818b835dbd56, type: 2}
+  animancer: {fileID: 6911840383049941242}
+  switchez: []
 --- !u!212 &6109165329942239614
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -92,34 +117,10 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &983884921842910713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9008980603784178169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 484e4249eeb44fc2bf0e87a1bbded928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isObstacle: 1
-  isWater: 0
-  isFire: 0
-  isVoid: 0
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  circleCollider2D: {fileID: 0}
-  raiseAnim: {fileID: 7400000, guid: 24ca07e9b534c3549ae243ba7bbf9c5b, type: 2}
-  lowerAnim: {fileID: 7400000, guid: 47ce3b5afdfb26540b2a818b835dbd56, type: 2}
-  animancer: {fileID: 6911840383049941242}
-  switchez: []
 --- !u!95 &6260734195924743711
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -140,7 +141,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6911840383049941242
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -154,7 +155,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!58 &2112480764236570727
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -190,7 +191,7 @@ CircleCollider2D:
   m_Radius: 0.05
 --- !u!114 &2781197877592555232
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

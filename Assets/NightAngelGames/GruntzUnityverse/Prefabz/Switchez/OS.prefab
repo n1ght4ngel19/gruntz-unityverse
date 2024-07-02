@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1650484674513923455}
-  - component: {fileID: 6109165329942239614}
   - component: {fileID: 2485552757251220367}
+  - component: {fileID: 6109165329942239614}
+  - component: {fileID: -1942601343497356831}
   - component: {fileID: 6260734195924743711}
   - component: {fileID: 6911840383049941242}
-  - component: {fileID: -1942601343497356831}
   - component: {fileID: 4033438698971304446}
   - component: {fileID: 5346760584424587181}
   m_Layer: 0
@@ -38,9 +38,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2485552757251220367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008980603784178169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a879089acb34774b6bc8e8c4e3b63ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hideComponents: 1
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 6109165329942239614}
+  circleCollider2D: {fileID: -1942601343497356831}
+  hideUnderMound: 0
+  isPressed: 0
+  pressedSprite: {fileID: 750127726, guid: 817bca252d2f34f48bf2a470bf19cec4, type: 3}
+  releasedSprite: {fileID: 1329744227, guid: 817bca252d2f34f48bf2a470bf19cec4, type: 3}
+  pyramidz: []
+  otherSwitchez: []
 --- !u!212 &6109165329942239614
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -92,70 +119,9 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2485552757251220367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9008980603784178169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a879089acb34774b6bc8e8c4e3b63ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isObstacle: 0
-  isWater: 0
-  isFire: 0
-  isVoid: 0
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  spriteRenderer: {fileID: 6109165329942239614}
-  circleCollider2D: {fileID: -1942601343497356831}
-  <IsPressed>k__BackingField: 0
-  <PressedSprite>k__BackingField: {fileID: 750127726, guid: 817bca252d2f34f48bf2a470bf19cec4, type: 3}
-  <ReleasedSprite>k__BackingField: {fileID: 1329744227, guid: 817bca252d2f34f48bf2a470bf19cec4, type: 3}
-  pyramidz: []
-  otherSwitchez: []
---- !u!95 &6260734195924743711
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9008980603784178169}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6911840383049941242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9008980603784178169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Animator: {fileID: 6260734195924743711}
-  _ActionOnDisable: 0
 --- !u!58 &-1942601343497356831
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -189,9 +155,45 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.05
+--- !u!95 &6260734195924743711
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008980603784178169}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6911840383049941242
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008980603784178169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 6260734195924743711}
+  _ActionOnDisable: 0
 --- !u!114 &4033438698971304446
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

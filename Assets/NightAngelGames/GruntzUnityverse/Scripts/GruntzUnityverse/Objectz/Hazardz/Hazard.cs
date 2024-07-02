@@ -2,13 +2,19 @@
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Objectz.Interactablez;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Hazardz {
 public class Hazard : GridObject {
+	[BoxGroup("Hazard Data")]
 	public float damage;
+
+	[BoxGroup("Hazard Data")]
 	public bool hideUnderMound;
 
+	[BoxGroup("Hazard Data")]
+	[ReadOnly]
 	public Grunt gruntOnTop;
 
 	public override void Setup() {

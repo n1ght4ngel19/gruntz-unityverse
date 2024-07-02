@@ -1,10 +1,26 @@
 ﻿using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Objectz.Interactablez;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
 public abstract class Switch : GridObject {
+	[BoxGroup("Switch Data")]
+	public bool hideUnderMound;
+
+	[BoxGroup("Switch Data")]
+	[DisableIf(nameof(isInstance))]
+	public bool isPressed;
+
+	[BoxGroup("Switch Data")]
+	[DisableIf(nameof(isInstance))]
+	public Sprite pressedSprite;
+
+	[BoxGroup("Switch Data")]
+	[DisableIf(nameof(isInstance))]
+	public Sprite releasedSprite;
+
 	public override void Setup() {
 		base.Setup();
 
@@ -23,23 +39,19 @@ public abstract class Switch : GridObject {
 		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
 
-		if (hole != null) {
-			hole.hiddenSwitch = this;
-			spriteRenderer.enabled = false;
-			circleCollider2D.isTrigger = false;
-			enabled = false;
-
+		if (hole == null || !hideUnderMound) {
 			return;
 		}
+
+		hole.hiddenSwitch = this;
+		spriteRenderer.enabled = false;
+		circleCollider2D.isTrigger = false;
+		enabled = false;
 	}
 
-	[field: SerializeField] public bool IsPressed { get; set; }
-	[field: SerializeField] public Sprite PressedSprite { get; set; }
-	[field: SerializeField] public Sprite ReleasedSprite { get; set; }
-
 	public virtual void Toggle() {
-		IsPressed = !IsPressed;
-		spriteRenderer.sprite = IsPressed ? PressedSprite : ReleasedSprite;
+		isPressed = !isPressed;
+		spriteRenderer.sprite = isPressed ? pressedSprite : releasedSprite;
 	}
 
 	protected virtual void OnTriggerEnter2D(Collider2D other) {
@@ -47,7 +59,7 @@ public abstract class Switch : GridObject {
 			return;
 		}
 
-		if (!IsPressed) {
+		if (!isPressed) {
 			Toggle();
 		}
 	}

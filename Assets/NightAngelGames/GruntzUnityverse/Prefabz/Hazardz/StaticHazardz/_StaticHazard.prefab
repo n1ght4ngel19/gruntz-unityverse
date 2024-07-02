@@ -186,14 +186,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: effc3f4b5c8440348c596b65c41e5995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideComponents: 1
   isObstacle: 0
   isWater: 0
   isFire: 0
   isVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  circleCollider2D: {fileID: 0}
+  spriteRenderer: {fileID: 3619936631406877757}
+  circleCollider2D: {fileID: 4219197871974475022}
   damage: 40
   hideUnderMound: 0
   gruntOnTop: {fileID: 0}
@@ -205,7 +206,7 @@ MonoBehaviour:
   animTargetSpriteRenderer: {fileID: 3424025184044969397}
 --- !u!212 &3619936631406877757
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -259,7 +260,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!58 &4219197871974475022
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -295,7 +296,7 @@ CircleCollider2D:
   m_Radius: 0.05
 --- !u!114 &-8106760000374903310
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

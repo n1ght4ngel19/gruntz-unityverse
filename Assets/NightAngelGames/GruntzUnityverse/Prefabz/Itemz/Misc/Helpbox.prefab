@@ -51,16 +51,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94218d794e53415785fcd192edc19230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEditable: 0
+  hideComponents: 1
   displayName: Helpbox
-  codeName: Helpbox
+  codename: Helpbox
+  hideUnderMound: 0
   rotatingAnim: {fileID: 7400000, guid: b939da36098b15e408bd07daf79c65a1, type: 2}
   pickupAnim: {fileID: 7400000, guid: fad22746528bb8542b099aaf351fadf2, type: 2}
-  hideUnderMound: 0
   animancer: {fileID: 2246782752537131454}
   helpboxText: 
 --- !u!212 &8039597177016830541
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -150,7 +152,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!58 &6215631924038186651
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -226,7 +228,7 @@ MonoBehaviour:
     RefIds: []
 --- !u!114 &8716681340583196438
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

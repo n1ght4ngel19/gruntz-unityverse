@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a036f6248054be08a008f6e3cf3ffd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideComponents: 1
   isObstacle: 0
   isWater: 0
   isFire: 0
@@ -65,7 +66,7 @@ MonoBehaviour:
   animancer: {fileID: 6911840383049941242}
 --- !u!212 &6109165329942239614
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -120,7 +121,7 @@ SpriteRenderer:
 --- !u!95 &6260734195924743711
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -141,7 +142,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6911840383049941242
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -155,7 +156,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!58 &-1133532738482388959
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -191,7 +192,7 @@ CircleCollider2D:
   m_Radius: 0.05
 --- !u!114 &-6346116922107712457
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

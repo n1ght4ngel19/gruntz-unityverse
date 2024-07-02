@@ -51,16 +51,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ce4dafa1f54954ab945e9953f96435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEditable: 0
+  hideComponents: 1
   displayName: 
-  codeName: 
+  codename: 
+  hideUnderMound: 0
   rotatingAnim: {fileID: 0}
   pickupAnim: {fileID: 0}
-  hideUnderMound: 0
   animancer: {fileID: 7485570136701087826}
   toy: {fileID: 0}
 --- !u!212 &8755766392133860014
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -150,7 +152,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!58 &-1104639947942641169
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -214,7 +216,7 @@ MonoBehaviour:
     RefIds: []
 --- !u!114 &-3707789536163036583
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

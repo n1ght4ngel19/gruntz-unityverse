@@ -2,16 +2,31 @@
 using Animancer;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Hazardz {
 public class StaticHazard : Hazard {
+	[BoxGroup("Hazard Data")]
+	[ReadOnly]
 	public bool active;
+
+	[BoxGroup("Hazard Data")]
 	public float delay;
+
+	[BoxGroup("Hazard Data")]
 	public float timeGap;
 
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip hazardAnim;
+
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimancerComponent animTargetAnimancer;
+
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public SpriteRenderer animTargetSpriteRenderer;
 
 	protected override IEnumerator Start() {

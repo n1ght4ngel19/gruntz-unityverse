@@ -1,35 +1,56 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Objectz.Interactablez;
 using GruntzUnityverse.Utils;
+using HierarchyIcons;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Base {
 public abstract class LevelItem : MonoBehaviour {
+	public bool isInstance => gameObject.scene.name != null;
+
+	public bool isEditable;
+
+	public bool hideComponents;
+
 	/// <summary>
 	/// The display name of the item.
 	/// </summary>
+	[BoxGroup("Item Data")]
+	[EnableIf(nameof(isEditable))]
 	public string displayName;
 
 	/// <summary>
-	/// The code-name of the item.
+	/// The codename of the item.
 	/// </summary>
-	public string codeName;
+	[BoxGroup("Item Data")]
+	[HideIf(nameof(isInstance))]
+	public string codename;
+
+	[BoxGroup("Item Data")]
+	[EnableIf(nameof(isEditable))]
+	public bool hideUnderMound;
 
 	/// <summary>
 	/// The animation clip used to display the item on the level.
 	/// </summary>
+	[Foldout("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip rotatingAnim;
 
 	/// <summary>
 	/// The animation clip used by a Grunt picking up the item.
 	/// </summary>
+	[Foldout("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip pickupAnim;
 
-	public bool hideUnderMound;
-
+	[Foldout("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimancerComponent animancer;
 
 	public void Setup() {
@@ -102,10 +123,18 @@ public abstract class LevelItem : MonoBehaviour {
 
 	#if UNITY_EDITOR
 	private void OnValidate() {
-		GetComponent<Animator>().hideFlags = HideFlags.HideInInspector;
-		animancer.hideFlags = HideFlags.HideInInspector;
+		HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
 
-		GetComponent<TrimName>().hideFlags = HideFlags.HideInInspector;
+		GetComponent<SpriteRenderer>().hideFlags = newHideFlags;
+		GetComponent<CircleCollider2D>().hideFlags = newHideFlags;
+		animancer.hideFlags = newHideFlags;
+		animancer.Animator.hideFlags = newHideFlags;
+		GetComponent<TrimName>().hideFlags = newHideFlags;
+		GetComponent<HierarchyIcon>().hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
+	}
+
+	private void OnDrawGizmosSelected() {
+		transform.hideFlags = HideFlags.HideInInspector;
 	}
 	#endif
 }

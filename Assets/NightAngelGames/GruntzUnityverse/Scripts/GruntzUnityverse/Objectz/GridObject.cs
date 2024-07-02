@@ -1,50 +1,66 @@
 ﻿using System;
 using System.Linq;
+using Animancer;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utils;
+using HierarchyIcons;
 using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
 public abstract class GridObject : MonoBehaviour {
+	public bool hideComponents;
+
 	/// <summary>
 	/// Represents whether this GridObject behaves like an obstacle.
 	/// </summary>
-	[BoxGroup("Flags")]
+	[BoxGroup("Flagz")]
+	[DisableIf((nameof(isInstance)))]
 	public bool isObstacle;
 
-	[BoxGroup("Flags")]
+	[BoxGroup("Flagz")]
+	[DisableIf((nameof(isInstance)))]
 	public bool isWater;
 
-	[BoxGroup("Flags")]
+	[BoxGroup("Flagz")]
+	[DisableIf((nameof(isInstance)))]
 	public bool isFire;
 
-	[BoxGroup("Flags")]
+	[BoxGroup("Flagz")]
+	[DisableIf((nameof(isInstance)))]
 	public bool isVoid;
 
 	/// <summary>
 	/// The location of this GridObject in 2D space.
 	/// </summary>
 	[BoxGroup("GridObject Data")]
+	[ReadOnly]
 	public Vector2Int location2D;
 
 	/// <summary>
 	/// The <see cref="Node"/> that this GridObject currently occupies.
 	/// </summary>
 	[BoxGroup("GridObject Data")]
+	[ReadOnly]
 	public Node node;
 
 	/// <summary>
 	/// The SpriteRenderer of this GridObject.
 	/// </summary>
 	[BoxGroup("GridObject Data")]
+	[Required]
+	[HideIf((nameof(isInstance)))]
 	public SpriteRenderer spriteRenderer;
 
 	/// <summary>
 	/// The collider used for checking interactions with this GridObject.
 	/// </summary>
+	[Required]
 	[BoxGroup("GridObject Data")]
+	[HideIf((nameof(isInstance)))]
 	public CircleCollider2D circleCollider2D;
+
+	public bool isInstance => gameObject.scene.name != null;
 
 	public virtual void Setup() {
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -101,8 +117,48 @@ public abstract class GridObject : MonoBehaviour {
 
 	#if UNITY_EDITOR
 	private void OnValidate() {
-		if (gameObject.TryGetComponent(out TrimName tn)) {
-			tn.hideFlags = HideFlags.HideInInspector;
+		HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
+
+		spriteRenderer.hideFlags = newHideFlags;
+		circleCollider2D.hideFlags = newHideFlags;
+
+		GetComponent<HierarchyIcon>().hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
+
+		if (TryGetComponent(out AnimancerComponent animancer)) {
+			animancer.hideFlags = newHideFlags;
+			animancer.Animator.hideFlags = newHideFlags;
+		}
+
+		if (TryGetComponent(out TrimName trimName)) {
+			trimName.hideFlags = newHideFlags;
+		}
+
+		if (TryGetComponent(out HierarchyIcon hierarchyIcon)) {
+			hierarchyIcon.hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
+		}
+	}
+
+	private void OnDrawGizmosSelected() {
+		transform.hideFlags = HideFlags.HideInInspector;
+
+		HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
+
+		spriteRenderer.hideFlags = newHideFlags;
+		circleCollider2D.hideFlags = newHideFlags;
+
+		GetComponent<HierarchyIcon>().hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
+
+		if (TryGetComponent(out AnimancerComponent animancer)) {
+			animancer.hideFlags = newHideFlags;
+			animancer.Animator.hideFlags = newHideFlags;
+		}
+
+		if (TryGetComponent(out TrimName trimName)) {
+			trimName.hideFlags = newHideFlags;
+		}
+
+		if (TryGetComponent(out HierarchyIcon hierarchyIcon)) {
+			hierarchyIcon.hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
 		}
 	}
 	#endif

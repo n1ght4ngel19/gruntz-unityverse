@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1650484674513923455}
-  - component: {fileID: 6109165329942239614}
   - component: {fileID: 4784778906575088561}
+  - component: {fileID: 6109165329942239614}
   - component: {fileID: 6260734195924743711}
   - component: {fileID: 6911840383049941242}
   - component: {fileID: 1404313238273128611}
@@ -38,9 +38,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4784778906575088561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008980603784178169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54c556fa63954098bc490e5e743f38be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hideComponents: 1
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 6109165329942239614}
+  circleCollider2D: {fileID: 1404313238273128611}
+  warpz: []
 --- !u!212 &6109165329942239614
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -92,31 +114,10 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4784778906575088561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9008980603784178169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54c556fa63954098bc490e5e743f38be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actAsObstacle: 0
-  actAsWater: 0
-  actAsFire: 0
-  actAsVoid: 0
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  spriteRenderer: {fileID: 6109165329942239614}
-  circleCollider2D: {fileID: 1404313238273128611}
-  warpz: []
 --- !u!95 &6260734195924743711
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -137,7 +138,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6911840383049941242
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -151,7 +152,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!58 &1404313238273128611
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -187,7 +188,7 @@ CircleCollider2D:
   m_Radius: 0.05
 --- !u!114 &3558857562111191717
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -203,7 +204,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &8632969964019440431
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

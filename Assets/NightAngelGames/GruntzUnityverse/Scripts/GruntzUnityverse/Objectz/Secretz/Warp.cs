@@ -8,6 +8,7 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Secretz {
 public class Warp : GridObject {
 	[BoxGroup("Warp Data")]
+	[DisableIf(nameof(isInstance))]
 	public WarpType warpType;
 
 	[BoxGroup("Warp Data")]
@@ -17,24 +18,29 @@ public class Warp : GridObject {
 	[BoxGroup("Warp Data")]
 	public int duration;
 
-	[BoxGroup("Animation")]
+	[Foldout("Animation")]
 	[Required]
+	[DisableIf(nameof(isInstance))]
 	public Animator animator;
 
-	[BoxGroup("Animation")]
+	[Foldout("Animation")]
 	[Required]
+	[DisableIf(nameof(isInstance))]
 	public AnimancerComponent animancer;
 
-	[BoxGroup("Animation")]
+	[Foldout("Animation")]
 	[Required]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip appearAnim;
 
-	[BoxGroup("Animation")]
+	[Foldout("Animation")]
 	[Required]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip disappearAnim;
 
-	[BoxGroup("Animation")]
+	[Foldout("Animation")]
 	[Required]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip swirlingAnim;
 
 	private void Awake() {
@@ -58,12 +64,15 @@ public class Warp : GridObject {
 
 		await UniTask.WaitForSeconds(duration);
 
-		Deactivate();
+		animancer.Play(disappearAnim);
+		await UniTask.WaitForSeconds(disappearAnim.length);
+
+		spriteRenderer.enabled = false;
+
+		Destroy(gameObject);
 	}
 
 	public async void Deactivate() {
-		circleCollider2D.isTrigger = false;
-
 		await UniTask.WaitForSeconds(AnimationManager.instance.gruntWarpEnterAnim.length);
 
 		animancer.Play(disappearAnim);
@@ -71,7 +80,7 @@ public class Warp : GridObject {
 
 		spriteRenderer.enabled = false;
 
-		Destroy(gameObject, 1f);
+		Destroy(gameObject);
 	}
 
 	private void OnTriggerEnter2D(Collider2D other) {
@@ -81,7 +90,9 @@ public class Warp : GridObject {
 
 		grunt.Teleport(warpDestination.transform);
 
-		Deactivate();
+		if (warpType is WarpType.Red) {
+			Deactivate();
+		}
 	}
 
 	protected override void OnDestroy() {

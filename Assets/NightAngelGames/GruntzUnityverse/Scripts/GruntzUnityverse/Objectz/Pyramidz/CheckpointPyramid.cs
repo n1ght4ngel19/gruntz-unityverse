@@ -7,7 +7,7 @@ public class CheckpointPyramid : Pyramid {
 	public List<CheckpointSwitch> switchez;
 
 	private void FixedUpdate() {
-		if (!switchez.TrueForAll(sw => sw.IsPressed)) {
+		if (!switchez.TrueForAll(sw => sw.isPressed)) {
 			return;
 		}
 

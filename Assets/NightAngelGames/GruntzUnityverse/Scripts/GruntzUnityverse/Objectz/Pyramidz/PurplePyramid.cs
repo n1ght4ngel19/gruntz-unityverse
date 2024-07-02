@@ -8,14 +8,14 @@ public class PurplePyramid : Pyramid {
 	private bool _toggled;
 
 	private void FixedUpdate() {
-		if (switchez.TrueForAll(sw => sw.IsPressed) && !_toggled) {
+		if (switchez.TrueForAll(sw => sw.isPressed) && !_toggled) {
 			_toggled = true;
 			Toggle();
 
 			return;
 		}
 
-		if (!switchez.TrueForAll(sw => sw.IsPressed) && _toggled) {
+		if (!switchez.TrueForAll(sw => sw.isPressed) && _toggled) {
 			_toggled = false;
 			Toggle();
 		}

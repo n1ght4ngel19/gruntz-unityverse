@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e367dfcd2a54473a2278b08ea6de082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideComponents: 1
   isObstacle: 0
   isWater: 0
   isFire: 0
@@ -58,16 +59,17 @@ MonoBehaviour:
   node: {fileID: 0}
   spriteRenderer: {fileID: -3545400475140903149}
   circleCollider2D: {fileID: 488162456941055788}
+  warpType: 0
   warpDestination: {fileID: 0}
   duration: 0
+  animator: {fileID: 0}
+  animancer: {fileID: 0}
   appearAnim: {fileID: 7400000, guid: b7ca74733b7d86142b343f97f8c1564d, type: 2}
   disappearAnim: {fileID: 7400000, guid: f20212d2766a10a46b6798b8c46c167e, type: 2}
   swirlingAnim: {fileID: 7400000, guid: e8b4eb32fe9862a49bf78baadda5ffa4, type: 2}
-  <Animator>k__BackingField: {fileID: 9016402309710290321}
-  <Animancer>k__BackingField: {fileID: -9060245815341626296}
 --- !u!212 &-3545400475140903149
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -121,7 +123,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!58 &488162456941055788
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -158,7 +160,7 @@ CircleCollider2D:
 --- !u!95 &9016402309710290321
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -179,7 +181,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-9060245815341626296
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -193,7 +195,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!114 &7794643590084647622
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

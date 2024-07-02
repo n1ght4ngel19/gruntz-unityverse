@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7551997526358950449}
-  - component: {fileID: 3265490177155826962}
+  - component: {fileID: 3763292206829779655}
   - component: {fileID: 5815314111842147071}
   - component: {fileID: 4254177391780796272}
   - component: {fileID: 9201240117648399314}
@@ -39,7 +39,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3265490177155826962
+--- !u!114 &3763292206829779655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,18 +48,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 8487385849171467816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c926a1f7f7634b8383a1a8dc829ec3b6, type: 3}
+  m_Script: {fileID: 11500000, guid: 021cfbd44e324e639fa199d9c23a4d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayName: MEGAPHONE
-  codeName: Megaphone
+  isEditable: 0
+  hideComponents: 1
+  displayName: Megaphone
+  codename: Megaphone
+  hideUnderMound: 0
   rotatingAnim: {fileID: 7400000, guid: 54bb335f62e52a84585a1cdd0c17cbf1, type: 2}
   pickupAnim: {fileID: 7400000, guid: ff42568bc9da8904e8f8d9aef0c62685, type: 2}
-  hideUnderMound: 0
   animancer: {fileID: 9201240117648399314}
 --- !u!212 &5815314111842147071
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -149,7 +151,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!58 &8395786750345868902
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -197,9 +199,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:a60f76d707e206a43b25264b219157c5
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 49644918710538240
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -213,7 +215,7 @@ MonoBehaviour:
     RefIds: []
 --- !u!114 &7311307071493022588
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

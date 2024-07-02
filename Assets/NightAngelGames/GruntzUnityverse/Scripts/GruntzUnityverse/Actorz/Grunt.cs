@@ -18,49 +18,65 @@ using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.UI;
 using GruntzUnityverse.Utils;
 using GruntzUnityverse.Utils.Extensionz;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace GruntzUnityverse.Actorz {
-/// <summary>
-/// The class representing a Grunt in the game.
-/// </summary>
 public class Grunt : MonoBehaviour, IDataPersistence {
-	public int spriteSortingOrder;
+	public bool hideComponents;
 
-	public UnityEvent onStateChanged;
+	public bool isInstance => gameObject.scene.name != null;
+
+	public bool isPlayer => team == 0;
 
 	#region Fieldz
 	// --------------------------------------------------
 	// Statz
 	// --------------------------------------------------
 
-	[Header("Statz")]
+	[BoxGroup("Statz")]
+	[Label("Grunt ID")]
+	[ReadOnly]
 	public int gruntId;
 
+	[BoxGroup("Statz")]
 	[Range(0, 5)]
 	public int team;
 
+	[BoxGroup("Statz")]
 	public string displayName;
 
+	[BoxGroup("Statz")]
+	[DisableIf(nameof(isInstance))]
 	public Sprite previewSprite;
 
+	[BoxGroup("Statz")]
+	[DisableIf(nameof(isPlayer))]
 	[Tooltip("The material to be applied to achieve the Grunt's final look.")]
 	public Material skinColor;
 
 	public string textSkinColor => skinColor.name.Split("_").Last();
 
+	[BoxGroup("Statz")]
 	public Statz statz;
 
+	[BoxGroup("Statz")]
 	[Range(0, 5)]
 	[Tooltip("The movement speed of the Grunt, in seconds/tile.")]
 	public float moveSpeed;
 
+	[BoxGroup("Statz")]
+	[ReadOnly]
+	[Label("Damage Reduction %")]
 	[Tooltip("Reduce damage dealt by non-hazard sourcez by this percentage.")]
 	public float damageReductionPercentage;
 
+	[BoxGroup("Statz")]
+	[ReadOnly]
+	[Label("Damage Reflection %")]
 	[Tooltip("Reflect damage dealt by other actorz by this percentage ")]
 	public float damageReflectionPercentage;
 
@@ -68,19 +84,30 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	// Flagz
 	// --------------------------------------------------
 
-	[Header("Flagz")]
+	[Foldout("Flagz")]
+	[ReadOnly]
 	public bool selected;
 
+	[Foldout("Flagz")]
+	[ReadOnly]
 	[Tooltip("Whether the Grunt is currently in between two nodes.")]
 	public bool between;
 
+	[Foldout("Flagz")]
+	[ReadOnly]
 	[Tooltip("Whether the Grunt is currently being forced to move.")]
 	public bool forced;
 
+	[Foldout("Flagz")]
+	[ReadOnly]
 	public bool isTrigger;
 
+	[Foldout("Flagz")]
+	[ReadOnly]
 	public bool waiting;
 
+	[Foldout("Flagz")]
+	[ReadOnly]
 	public bool committed;
 
 	private bool _onSpikez;
@@ -91,25 +118,34 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	// Equipment
 	// --------------------------------------------------
 
-	[Header("Equipment")]
+	[BoxGroup("Equipment")]
+	[Label("Tool")]
 	public EquippedTool equippedTool;
 
+	[BoxGroup("Equipment")]
+	[Label("Toy")]
 	public EquippedToy equippedToy;
 
 	/// <summary>
 	/// The powerup(z) currently active on this Grunt.
 	/// </summary>
+	[BoxGroup("Equipment")]
 	public List<EquippedPowerup> equippedPowerupz;
 
 	// --------------------------------------------------
 	// Animation
 	// --------------------------------------------------
 
-	[Header("Animation")]
+	[Foldout("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimancerComponent animancer;
 
+	[Foldout("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationPack animationPack;
 
+	[Foldout("Animation")]
+	[ReadOnly]
 	public Direction facingDirection;
 
 	// -------------------------------------------------- //
@@ -120,17 +156,22 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <summary>
 	/// The node this Grunt is currently on.
 	/// </summary>
-	[Header("Pathfinding")]
+	[BoxGroup("Pathfinding")]
+	[ReadOnly]
 	public Node node;
 
 	/// <summary>
 	/// The node the Grunt is moving towards.
 	/// </summary>
+	[BoxGroup("Pathfinding")]
+	[ReadOnly]
 	public Node travelGoal;
 
 	/// <summary>
 	/// The next node the Grunt will move to.
 	/// </summary>
+	[BoxGroup("Pathfinding")]
+	[ReadOnly]
 	public Node next;
 
 	/// <summary>
@@ -147,17 +188,22 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <summary>
 	/// The target the Grunt will try to interact with.
 	/// </summary>
-	[Header("Action")]
+	[BoxGroup("Interaction")]
+	[ReadOnly]
 	public GridObject interactionTarget;
 
 	/// <summary>
 	/// The target the Grunt will try to attack.
 	/// </summary>
+	[BoxGroup("Interaction")]
+	[ReadOnly]
 	public Grunt attackTarget;
 
 	/// <summary>
 	/// The target the Grunt will try to give a toy to.
 	/// </summary>
+	[BoxGroup("Interaction")]
+	[ReadOnly]
 	public Grunt giveTarget;
 
 	public List<Grunt> enemiez => gameManager.allGruntz.Where(gr => gr.team != team).ToList();
@@ -168,7 +214,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	// --------------------------------------------------
 
 	#region UI
-	[Header("UI")]
+	[BoxGroup("UI")]
+	[ReadOnly]
 	public GruntEntry gruntEntry;
 	#endregion
 
@@ -177,13 +224,20 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	// --------------------------------------------------
 
 	#region Eventz
-	[Header("Eventz")]
+	[Foldout("Eventz")]
+	[DisableIf(nameof(isInstance))]
+	public UnityEvent onStateChanged;
+
+	[Foldout("Eventz")]
 	public UnityEvent onStaminaDrained;
 
+	[Foldout("Eventz")]
 	public UnityEvent onStaminaRegenerated;
 
+	[Foldout("Eventz")]
 	public UnityEvent onHit;
 
+	[Foldout("Eventz")]
 	public UnityEvent onDeath;
 	#endregion
 
@@ -191,18 +245,29 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	// Componentz
 	// --------------------------------------------------
 
-	[Header("Componentz")]
+	[Foldout("Componentz")]
+	[DisableIf(nameof(isInstance))]
 	public SpriteRenderer spriteRenderer;
 
+	[Foldout("Componentz")]
+	[DisableIf(nameof(isInstance))]
 	public CircleCollider2D circleCollider2D;
 
+	[Foldout("Componentz")]
+	[DisableIf(nameof(isInstance))]
 	public GameObject selectionMarker;
 
+	[Foldout("Componentz")]
+	[DisableIf(nameof(isInstance))]
 	public Barz barz;
 	#endregion
 
+	[Foldout("Componentz")]
+	[DisableIf(nameof(isInstance))]
 	public StateHandler stateHandler;
 
+	[Foldout("Componentz")]
+	[ReadOnly]
 	public GameManager gameManager;
 
 	public void Idle(bool hostile = false) {
@@ -270,8 +335,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 	#region Lifecycle
 	private void Awake() {
-		spriteSortingOrder = spriteRenderer.sortingOrder;
-
 		gameManager = FindFirstObjectByType<GameManager>();
 
 		if (team == 0) {
@@ -976,8 +1039,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			Debug.Log("Added puddle");
 		};
 
-		spriteRenderer.sortingLayerName = "AlwaysBottom";
-		spriteRenderer.sortingOrder = 8;
+		// spriteRenderer.sortingLayerName = "AlwaysBottom";
+		// spriteRenderer.sortingOrder = 8;
 
 		animancer.Play(animationPack.deathAnimation);
 		await UniTask.WaitForSeconds(animationPack.deathAnimation.length);
@@ -1047,6 +1110,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 
 	public async void Teleport(Transform destination) {
+		GoToState(StateHandler.State.Committed);
 		enabled = false;
 
 		Debug.Log("Sucked in anim");
@@ -1120,25 +1184,28 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	#endregion
 
 	#if UNITY_EDITOR
-	/// <summary>
-	/// Hide components not meant to be edited or observed in the Inspector.
-	/// This also removes visual clutter in the Inspector for easier editing.
-	/// </summary>
 	private void OnValidate() {
-		spriteRenderer = GetComponent<SpriteRenderer>();
+		transform.hideFlags = HideFlags.HideInInspector;
+
+		HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
+
 		spriteRenderer.material = skinColor;
-		spriteRenderer.hideFlags = HideFlags.HideInInspector;
 		spriteRenderer.sprite = previewSprite;
+		spriteRenderer.hideFlags = newHideFlags;
 
-		circleCollider2D = GetComponent<CircleCollider2D>();
 		circleCollider2D.isTrigger = isTrigger;
+		circleCollider2D.hideFlags = newHideFlags;
 
-		// GetComponent<Animator>().hideFlags = HideFlags.HideInInspector;
+		GetComponent<Rigidbody2D>().hideFlags = newHideFlags;
 
-		animancer = GetComponent<AnimancerComponent>();
-		// animancer.hideFlags = HideFlags.HideInInspector;
+		animancer.hideFlags = newHideFlags;
+		animancer.Animator.hideFlags = newHideFlags;
 
-		GetComponent<TrimName>().hideFlags = HideFlags.HideInInspector;
+		GetComponent<TrimName>().hideFlags = newHideFlags;
+	}
+
+	private void OnDrawGizmos() {
+		transform.hideFlags = HideFlags.HideInInspector;
 	}
 	#endif
 }

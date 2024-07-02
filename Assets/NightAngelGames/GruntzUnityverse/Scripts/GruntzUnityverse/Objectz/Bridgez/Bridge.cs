@@ -3,16 +3,29 @@ using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.Pathfinding;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Bridgez {
 public class Bridge : GridObject {
+	[BoxGroup("Bridge Data")]
+	[DisableIf(nameof(isInstance))]
 	public bool isDeathBridge;
+
+	[BoxGroup("Bridge Data")]
+	[DisableIf(nameof(isInstance))]
 	public bool raised;
 
+	[BoxGroup("Animation Data")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip raiseAnim;
+
+	[BoxGroup("Animation Data")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip lowerAnim;
 
+	[BoxGroup("Animation Data")]
+	[DisableIf(nameof(isInstance))]
 	public AnimancerComponent animancer;
 
 	public override void Setup() {

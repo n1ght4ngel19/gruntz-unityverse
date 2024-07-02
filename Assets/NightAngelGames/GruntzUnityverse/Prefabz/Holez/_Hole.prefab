@@ -9,10 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3054646349070589313}
-  - component: {fileID: 7645925870725461127}
   - component: {fileID: -5726753848013130225}
-  - component: {fileID: 4300557024391976298}
-  - component: {fileID: 8570923833956571361}
+  - component: {fileID: 7645925870725461127}
   - component: {fileID: 8828216859535645462}
   - component: {fileID: -1987086842362241305}
   - component: {fileID: 5929135158334311289}
@@ -39,9 +37,37 @@ Transform:
   - {fileID: 2081875928284540073}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5726753848013130225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2394704318599999940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88170c4934154a96973a02811a02c74c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hideComponents: 1
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 7645925870725461127}
+  circleCollider2D: {fileID: 8828216859535645462}
+  open: 0
+  openSprite: {fileID: 0}
+  filledSprite: {fileID: 0}
+  dirt: {fileID: 6869903058248389659}
+  heldItem: {fileID: 0}
+  hiddenHazard: {fileID: 0}
+  hiddenSwitch: {fileID: 0}
 --- !u!212 &7645925870725461127
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -93,72 +119,9 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-5726753848013130225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2394704318599999940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88170c4934154a96973a02811a02c74c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isObstacle: 0
-  isWater: 0
-  isFire: 0
-  isVoid: 0
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  spriteRenderer: {fileID: 7645925870725461127}
-  circleCollider2D: {fileID: 8828216859535645462}
-  open: 0
-  openSprite: {fileID: 0}
-  filledSprite: {fileID: 0}
-  dirt: {fileID: 6869903058248389659}
-  <heldItem>k__BackingField: {fileID: 0}
-  <hiddenHazard>k__BackingField: {fileID: 0}
-  <hiddenSwitch>k__BackingField: {fileID: 0}
---- !u!95 &4300557024391976298
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2394704318599999940}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8570923833956571361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2394704318599999940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Animator: {fileID: 4300557024391976298}
-  _ActionOnDisable: 0
 --- !u!58 &8828216859535645462
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -194,7 +157,7 @@ CircleCollider2D:
   m_Radius: 0.05
 --- !u!114 &-1987086842362241305
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

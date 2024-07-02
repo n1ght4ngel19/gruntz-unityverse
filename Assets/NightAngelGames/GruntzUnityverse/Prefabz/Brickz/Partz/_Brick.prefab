@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5681220022434557099}
   - component: {fileID: 7338986239497006201}
   - component: {fileID: 6139874613863076091}
+  - component: {fileID: 9094272021972172766}
   - component: {fileID: 2652936171020154195}
   - component: {fileID: 3054060385357070287}
   m_Layer: 0
@@ -47,20 +48,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a85058f7524099a9ecd0545c2e0851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideComponents: 1
   isObstacle: 1
   isWater: 0
   isFire: 0
   isVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  circleCollider2D: {fileID: 0}
+  spriteRenderer: {fileID: 6139874613863076091}
+  circleCollider2D: {fileID: 9094272021972172766}
   animancer: {fileID: 3054060385357070287}
   breakAnim: {fileID: 0}
   type: 0
 --- !u!212 &6139874613863076091
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -112,6 +114,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &9094272021972172766
+CircleCollider2D:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2709610960727189318}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!95 &2652936171020154195
 Animator:
   serializedVersion: 7

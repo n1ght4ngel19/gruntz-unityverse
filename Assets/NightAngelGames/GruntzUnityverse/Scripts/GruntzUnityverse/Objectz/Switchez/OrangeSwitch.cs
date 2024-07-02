@@ -21,13 +21,13 @@ public class OrangeSwitch : Switch {
 			return;
 		}
 
-		if (!IsPressed) {
+		if (!isPressed) {
 			Toggle();
 
 			pyramidz.ForEach(pyramid => pyramid.Toggle());
 
 			otherSwitchez
-				.Where(sw => sw.IsPressed)
+				.Where(sw => sw.isPressed)
 				.ToList()
 				.ForEach(
 					sw1 => {

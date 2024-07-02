@@ -3,36 +3,61 @@ using System.Linq;
 using Animancer;
 using GruntzUnityverse.Animation;
 using GruntzUnityverse.Pathfinding;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
 public class RollingBall : MonoBehaviour {
-	[Header("Pathfinding")]
+	[BoxGroup("Pathfinding")]
+	[ReadOnly]
 	public Node node;
 
+	[BoxGroup("Pathfinding")]
+	[ReadOnly]
 	public Node next;
 
+	[BoxGroup("Ball Data")]
 	[Range(0, 5)]
 	public float moveSpeed;
 
+	[BoxGroup("Ball Data")]
 	public Direction direction;
 
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip rollAnimUp;
+
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip rollAnimDown;
+
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip rollAnimLeft;
+
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip rollAnimRight;
+
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip breakAnim;
+
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip sinkAnim;
 
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
 	public AnimancerComponent animancer;
+
+	public bool isInstance => gameObject.scene.name != null;
 
 	public void Setup() {
 		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
 			.First(n => n.location2D == new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y)));
 
 		animancer ??= GetComponent<AnimancerComponent>();
-
-		direction = direction;
 	}
 
 	private void Start() {

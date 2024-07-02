@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
+using NaughtyAttributes;
 
 namespace GruntzUnityverse.Itemz.Base {
 /// <summary>
@@ -10,8 +11,12 @@ public class LevelPowerup : LevelItem {
 	/// <summary>
 	/// The duration of the Powerup.
 	/// </summary>
+	[BoxGroup("Item Data")]
+	[EnableIf(nameof(isEditable))]
 	public float duration;
 
+	[BoxGroup("Item Data")]
+	[DisableIf(nameof(isInstance))]
 	public EquippedPowerup equippedPowerup;
 
 	protected override async void Pickup(Grunt targetGrunt) {

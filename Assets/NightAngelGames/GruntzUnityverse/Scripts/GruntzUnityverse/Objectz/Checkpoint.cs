@@ -12,7 +12,7 @@ public class Checkpoint : MonoBehaviour {
 	public List<Flag> flagz;
 
 	private void FixedUpdate() {
-		if (!switchez.TrueForAll(sw => sw.IsPressed)) {
+		if (!switchez.TrueForAll(sw => sw.isPressed)) {
 			return;
 		}
 

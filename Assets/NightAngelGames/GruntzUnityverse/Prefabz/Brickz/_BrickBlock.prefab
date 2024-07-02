@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3589213392465663605}
   - component: {fileID: 4147945692001858804}
   - component: {fileID: 6461304322997638595}
+  - component: {fileID: -2093542087062007550}
   - component: {fileID: -6378293646426855420}
   - component: {fileID: 744256651088824828}
   - component: {fileID: -4520872213484394346}
@@ -50,18 +51,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1cc3ccb9b9473a8c9d82c070ca40da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideComponents: 1
   isObstacle: 0
   isWater: 0
   isFire: 0
   isVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  circleCollider2D: {fileID: 0}
+  spriteRenderer: {fileID: 6461304322997638595}
+  circleCollider2D: {fileID: -2093542087062007550}
   cloaked: 0
 --- !u!212 &6461304322997638595
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -113,10 +115,46 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &-2093542087062007550
+CircleCollider2D:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3338190730484562782}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!95 &-6378293646426855420
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -137,7 +175,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &744256651088824828
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -151,7 +189,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!114 &-4520872213484394346
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

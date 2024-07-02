@@ -2,9 +2,11 @@
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Itemz.Base;
+using NaughtyAttributes;
 
 namespace GruntzUnityverse.Itemz.Misc {
 public class Warpletter : LevelItem {
+	[DisableIf(nameof(isInstance))]
 	public WarpletterType type;
 
 	protected override async void Pickup(Grunt targetGrunt) {

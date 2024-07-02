@@ -3,11 +3,13 @@ using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Itemz.Base;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Misc {
 public class Helpbox : LevelItem {
+	[ResizableTextArea]
 	public string helpboxText;
 
 	protected override void Start() {

@@ -1,9 +1,11 @@
 ﻿using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
+using NaughtyAttributes;
 
 namespace GruntzUnityverse.Itemz.Base {
 public class LevelToy : LevelItem {
+	[DisableIf(nameof(isInstance))]
 	public EquippedToy toy;
 
 	protected override async void Pickup(Grunt targetGrunt) {
@@ -17,7 +19,7 @@ public class LevelToy : LevelItem {
 
 		// targetGrunt.animationPack = animationPack;
 		targetGrunt.equippedToy = toy;
-		targetGrunt.gruntEntry.SetToy(codeName);
+		targetGrunt.gruntEntry.SetToy(codename);
 
 		targetGrunt.enabled = true;
 		targetGrunt.GoToState(StateHandler.State.Walking);

@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1650484674513923455}
-  - component: {fileID: 6109165329942239614}
   - component: {fileID: 2925561267326677495}
+  - component: {fileID: 6109165329942239614}
+  - component: {fileID: 5824896594191904902}
   - component: {fileID: 6683694277298422766}
   - component: {fileID: 3362648874358342409}
   m_Layer: 0
@@ -35,9 +36,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2925561267326677495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008980603784178169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba55067ebc514f70b03888a864f4e271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hideComponents: 1
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 6109165329942239614}
+  circleCollider2D: {fileID: 5824896594191904902}
 --- !u!212 &6109165329942239614
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -89,29 +111,45 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2925561267326677495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
+--- !u!58 &5824896594191904902
+CircleCollider2D:
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9008980603784178169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba55067ebc514f70b03888a864f4e271, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actAsObstacle: 0
-  actAsWater: 0
-  actAsFire: 0
-  actAsVoid: 0
-  location2D: {x: 0, y: 0}
-  node: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  circleCollider2D: {fileID: 0}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!114 &6683694277298422766
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -127,7 +165,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &3362648874358342409
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

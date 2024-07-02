@@ -4,26 +4,50 @@ using GruntzUnityverse.Core;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.Objectz.Hazardz;
-using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Objectz.Switchez;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Interactablez {
-public class Hole : GridObject, IObjectHolder {
+public class Hole : GridObject {
+	// --------------------------------------------------
+	// Hole Data
+	// --------------------------------------------------
+
+	#region Hole Data
+	[BoxGroup("Hole Data")]
+	[DisableIf(nameof(isInstance))]
 	public bool open;
+
+	[BoxGroup("Hole Data")]
+	[DisableIf(nameof(isInstance))]
 	public Sprite openSprite;
+
+	[BoxGroup("Hole Data")]
+	[DisableIf(nameof(isInstance))]
 	public Sprite filledSprite;
+
+	[BoxGroup("Hole Data")]
+	[DisableIf(nameof(isInstance))]
 	public GameObject dirt;
+	#endregion
 
 	// --------------------------------------------------
-	// IObjectHolder
+	// Held Objectz
 	// --------------------------------------------------
 
-	#region IObjectHolder
-	[Header("IObjectHolder")]
-	[field: SerializeField] public LevelItem heldItem { get; set; }
-	[field: SerializeField] public Hazard hiddenHazard { get; set; }
-	[field: SerializeField] public Switch hiddenSwitch { get; set; }
+	#region Held Objectz
+	[BoxGroup("Held Objectz")]
+	[ReadOnly]
+	public LevelItem heldItem;
+
+	[BoxGroup("Held Objectz")]
+	[ReadOnly]
+	public Hazard hiddenHazard;
+
+	[BoxGroup("Held Objectz")]
+	[ReadOnly]
+	public Switch hiddenSwitch;
 
 	public void RevealHidden(bool isSceneLoaded) {
 		if (heldItem != null) {

@@ -7,6 +7,10 @@ public class AttributeBar : MonoBehaviour {
 	public SpriteRenderer spriteRenderer;
 	public List<Sprite> frames;
 
+	private void Awake() {
+		spriteRenderer = GetComponent<SpriteRenderer>();
+	}
+
 	public void SetHidden(bool hidden) {
 		spriteRenderer.enabled = !hidden;
 	}

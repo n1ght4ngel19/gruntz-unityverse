@@ -9,7 +9,7 @@ public class PurplePuzzle : MonoBehaviour {
 	public List<PurplePyramid> pyramidz;
 
 	private void Update() {
-		if (!switchez.TrueForAll(sw => sw.IsPressed)) {
+		if (!switchez.TrueForAll(sw => sw.isPressed)) {
 			return;
 		}
 

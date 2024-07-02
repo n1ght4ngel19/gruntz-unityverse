@@ -2,14 +2,17 @@
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Animation;
 using GruntzUnityverse.Core;
+using NaughtyAttributes;
 
 namespace GruntzUnityverse.Itemz.Base {
 public class LevelTool : LevelItem {
+	[DisableIf(nameof(isInstance))]
 	public EquippedTool tool;
 
 	/// <summary>
 	/// The animation pack set for the Grunt picking up the item.
 	/// </summary>
+	[DisableIf(nameof(isInstance))]
 	public AnimationPack animationPack;
 
 	protected override async void Pickup(Grunt targetGrunt) {
@@ -23,7 +26,7 @@ public class LevelTool : LevelItem {
 
 		targetGrunt.animationPack = animationPack;
 		targetGrunt.equippedTool = tool;
-		targetGrunt.gruntEntry.SetTool(codeName);
+		targetGrunt.gruntEntry.SetTool(codename);
 
 		targetGrunt.enabled = true;
 		targetGrunt.GoToState(StateHandler.State.Walking);
