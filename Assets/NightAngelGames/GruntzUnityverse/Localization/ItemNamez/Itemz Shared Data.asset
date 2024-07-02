@@ -9,79 +9,88 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: ItemNamez_en
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Itemz Shared Data
   m_EditorClassIdentifier: 
-  m_LocaleId:
-    m_Code: en
-  m_SharedData: {fileID: 11400000, guid: a60f76d707e206a43b25264b219157c5, type: 2}
-  m_Metadata:
-    m_Items: []
-  m_TableData:
+  m_TableCollectionName: Itemz
+  m_TableCollectionNameGuidString: a60f76d707e206a43b25264b219157c5
+  m_Entries:
   - m_Id: 7103385600
-    m_Localized: COIN
+    m_Key: Coin
     m_Metadata:
       m_Items: []
   - m_Id: 86279262208
-    m_Localized: WARPSTONE
+    m_Key: Warpstone
     m_Metadata:
       m_Items: []
   - m_Id: 167086723072
-    m_Localized: HELPBOX
+    m_Key: Helpbox
     m_Metadata:
       m_Items: []
   - m_Id: 4978951655424
-    m_Localized: WARPLETTER
+    m_Key: Warpletter
     m_Metadata:
       m_Items: []
   - m_Id: 5075701665792
-    m_Localized: BOMB
+    m_Key: Bomb
     m_Metadata:
       m_Items: []
   - m_Id: 5623855255552
-    m_Localized: BOXING GLOVEZ
+    m_Key: BoxingGlovez
     m_Metadata:
       m_Items: []
   - m_Id: 5625818189824
-    m_Localized: CLUB
+    m_Key: Club
     m_Metadata:
       m_Items: []
   - m_Id: 7206575616102400
-    m_Localized: GAUNTLETZ
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7206781812281344
-    m_Localized: SPYGEAR
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7206577901998080
-    m_Localized: SHOVEL
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7206577134440448
-    m_Localized: ROCKZ
+    m_Key: Gauntletz
     m_Metadata:
       m_Items: []
   - m_Id: 7206576375271424
-    m_Localized: GOOBER STRAW
+    m_Key: GooberStraw
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7206577134440448
+    m_Key: Rockz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7206577901998080
+    m_Key: Shovel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7206781812281344
+    m_Key: SpyGear
     m_Metadata:
       m_Items: []
   - m_Id: 7207099216236544
-    m_Localized: WELDER KIT
+    m_Key: WelderKit
     m_Metadata:
       m_Items: []
   - m_Id: 7207099576946688
-    m_Localized: TOOB
+    m_Key: Toob
     m_Metadata:
       m_Items: []
   - m_Id: 7207100269006848
-    m_Localized: NERF GUN
+    m_Key: NerfGun
     m_Metadata:
       m_Items: []
   - m_Id: 22674261802659840
-    m_Localized: SCROLL
+    m_Key: Scroll
     m_Metadata:
       m_Items: []
+  - m_Id: 49644918710538240
+    m_Key: Megaphone
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 2698268982932144382
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2698268982932144382
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1708106669326
