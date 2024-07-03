@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4276066817981512663}
   - component: {fileID: -4678422730058095440}
   - component: {fileID: 2370631032454505541}
+  - component: {fileID: 8512763895478724607}
   - component: {fileID: -7228001487219068154}
   - component: {fileID: -3034496724958681285}
   - component: {fileID: -7565159396473258776}
@@ -49,14 +50,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d5fda21fc34d64b205888f3fcb9779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideComponents: 0
   isObstacle: 0
   isWater: 0
   isFire: 0
   isVoid: 0
   location2D: {x: 0, y: 0}
   node: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  circleCollider2D: {fileID: 0}
+  spriteRenderer: {fileID: 2370631032454505541}
+  circleCollider2D: {fileID: 8512763895478724607}
   gooAmount: 1
   animancer: {fileID: -3034496724958681285}
   appearAnim: {fileID: 7400000, guid: dc2fa5c5a27abee43b892a0080afe9ad, type: 2}
@@ -116,6 +118,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &8512763895478724607
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154651464123102031}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5625
 --- !u!95 &-7228001487219068154
 Animator:
   serializedVersion: 7
@@ -154,7 +192,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!114 &-7565159396473258776
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -170,7 +208,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &4238708448035536302
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

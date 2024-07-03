@@ -15,7 +15,6 @@ public class GruntPuddle : GridObject {
 	public AnimationClip disappearAnim;
 
 	private void Start() {
-		location2D = Vector2Int.RoundToInt(transform.position);
 		node = Level.instance.levelNodes.First(n => n.location2D == location2D);
 
 		animancer.Play(bubblingAnim);

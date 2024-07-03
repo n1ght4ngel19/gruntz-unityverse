@@ -4,6 +4,7 @@ using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Itemz.Misc;
 using GruntzUnityverse.Objectz.Switchez;
 using GruntzUnityverse.Pathfinding;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -40,6 +41,7 @@ public class Level : MonoBehaviour {
 		levelNodes = FindObjectsByType<Node>(FindObjectsSortMode.None).ToHashSet();
 	}
 
+	[Button]
 	public void Initialize() {
 		// Clear existing nodes
 		nodeGrid.GetComponentsInChildren<Node>().ToList().ForEach(n => DestroyImmediate(n.gameObject));

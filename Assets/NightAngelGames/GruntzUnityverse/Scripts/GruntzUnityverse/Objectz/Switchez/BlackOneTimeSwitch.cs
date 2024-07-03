@@ -7,9 +7,7 @@ namespace GruntzUnityverse.Objectz.Switchez {
 public class BlackOneTimeSwitch : Switch {
 	public List<BlackPyramid> pyramidz;
 
-	public override void Setup() {
-		base.Setup();
-
+	public void Start() {
 		pyramidz = transform.parent.GetComponentsInChildren<BlackPyramid>().ToList();
 	}
 

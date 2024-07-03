@@ -689,12 +689,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3935007023129770469}
+  - component: {fileID: 7991388554387338345}
   - component: {fileID: 9170192803179765584}
   - component: {fileID: 2489647879768017451}
   - component: {fileID: 3948105402190184548}
   - component: {fileID: 5445749907412998715}
   - component: {fileID: 8916873256689183752}
-  - component: {fileID: 7991388554387338345}
   - component: {fileID: 5591946397138564041}
   m_Layer: 5
   m_Name: PauseMenu
@@ -725,6 +725,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &7991388554387338345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743648966949896533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fdba70bff14863ae28fac8ac6627e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 9170192803179765584}
 --- !u!223 &9170192803179765584
 Canvas:
   m_ObjectHideFlags: 0
@@ -826,19 +839,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7991388554387338345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 743648966949896533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20fdba70bff14863ae28fac8ac6627e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 9170192803179765584}
 --- !u!114 &5591946397138564041
 MonoBehaviour:
   m_ObjectHideFlags: 0

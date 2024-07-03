@@ -78,6 +78,8 @@ public class GameManager : MonoBehaviour {
 		FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.worldCamera =
 			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
 
+		GameObject.Find("Visualizer")?.SetActive(false);
+
 		Init();
 	}
 
@@ -135,13 +137,15 @@ public class GameManager : MonoBehaviour {
 		// --------------------------------------------------
 		redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();
 
-		gridObjectz = FindObjectsByType<GridObject>(FindObjectsSortMode.None).Where(go => go is not Blocker).ToList();
-
-		gridObjectz = gridObjectz.Where(go => go is not Brick).ToList();
+		gridObjectz = FindObjectsByType<GridObject>(FindObjectsSortMode.None)
+			.Where(go => go is not Blocker or Brick)
+			.ToList();
 
 		spikez = FindObjectsByType<Spikez>(FindObjectsSortMode.None).ToList();
 
-		FindObjectsByType<Blocker>(FindObjectsSortMode.None).ToList().ForEach(bl => bl.Setup());
+		FindObjectsByType<Blocker>(FindObjectsSortMode.None)
+			.ToList()
+			.ForEach(bl => bl.Setup());
 
 		foreach (GridObject go in gridObjectz) {
 			go.Setup();

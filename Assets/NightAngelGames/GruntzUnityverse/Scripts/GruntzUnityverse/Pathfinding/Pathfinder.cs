@@ -117,31 +117,31 @@ public static class Pathfinder {
 
 	private static int Manhattan(Node start, Node end) {
 		return
-			Math.Abs(start.location2D.x - end.location2D.x)
-			+ Math.Abs(start.location2D.y - end.location2D.y);
+			Mathf.Abs(start.location2D.x - end.location2D.x)
+			+ Mathf.Abs(start.location2D.y - end.location2D.y);
 	}
 
 	private static int Chebyshev(Node start, Node end) {
-		return Math.Max(
-			Math.Abs(start.location2D.x - end.location2D.x),
-			Math.Abs(start.location2D.y - end.location2D.y)
+		return Mathf.Max(
+			Mathf.Abs(start.location2D.x - end.location2D.x),
+			Mathf.Abs(start.location2D.y - end.location2D.y)
 		);
 	}
 
 	private static int Euclidean(Node start, Node end) {
-		int dxE = Math.Abs(start.location2D.x - end.location2D.x);
-		int dyE = Math.Abs(start.location2D.y - end.location2D.y);
+		int dxE = Mathf.Abs(start.location2D.x - end.location2D.x);
+		int dyE = Mathf.Abs(start.location2D.y - end.location2D.y);
 
-		int euclideanDistance = (int)Math.Sqrt(dxE * dxE + dyE * dyE);
+		int euclideanDistance = (int)Mathf.Sqrt(dxE * dxE + dyE * dyE);
 
 		return euclideanDistance;
 	}
 
 	private static int Octile(Node start, Node end) {
-		int dX = Math.Abs(start.location2D.x - end.location2D.x);
-		int dY = Math.Abs(start.location2D.y - end.location2D.y);
+		int dX = Mathf.Abs(start.location2D.x - end.location2D.x);
+		int dY = Mathf.Abs(start.location2D.y - end.location2D.y);
 
-		return dX + dY + (int)((Math.Sqrt(2) - 2) * Math.Min(dX, dY));
+		return dX + dY + (int)((Mathf.Sqrt(2) - 2) * Mathf.Min(dX, dY));
 	}
 
 	/// <summary>

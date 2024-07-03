@@ -3,8 +3,8 @@ using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz.Hazardz;
-using GruntzUnityverse.Objectz.Interfacez;
 using GruntzUnityverse.Objectz.Switchez;
+using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,7 +12,8 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 /// <summary>
 /// A Grunt-sized piece of rock that blocks the path, possibly hiding something under it.
 /// </summary>
-public class Rock : GridObject, IObjectHolder {
+public class Rock : GridObject {
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip breakAnimation;
 
 	private AnimancerComponent animancer => GetComponent<AnimancerComponent>();
@@ -25,14 +26,21 @@ public class Rock : GridObject, IObjectHolder {
 	}
 
 	// --------------------------------------------------
-	// IObjectHolder
+	// Held Objectz
 	// --------------------------------------------------
 
-	#region IObjectHolder
-	[Header("IObjectHolder")]
-	[field: SerializeField] public LevelItem heldItem { get; set; }
-	[field: SerializeField] public Hazard hiddenHazard { get; set; }
-	[field: SerializeField] public Switch hiddenSwitch { get; set; }
+	#region Held Objectz
+	[BoxGroup("Held Objectz")]
+	[ReadOnly]
+	public LevelItem heldItem;
+
+	[BoxGroup("Held Objectz")]
+	[ReadOnly]
+	public Hazard hiddenHazard;
+
+	[BoxGroup("Held Objectz")]
+	[ReadOnly]
+	public Switch hiddenSwitch;
 
 	public void RevealHidden(bool isSceneLoaded) {
 		if (heldItem != null) {

@@ -1,10 +1,18 @@
 ﻿using System;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
 public class StateHandler : MonoBehaviour {
+	public bool isInstance => gameObject.scene.name != null;
+
+	[DisableIf(nameof(isInstance))]
 	public Grunt grunt;
+
+	[ReadOnly]
 	public State currentState;
+
+	[ReadOnly]
 	public State goToState;
 
 	public void SwitchState() {

@@ -32,7 +32,7 @@ public class CameraMovement : MonoBehaviour {
 		float zoom = value.Get<float>();
 
 		_targetZoom -= zoom * zoomFactor;
-		_targetZoom = Math.Clamp(_targetZoom, minZoom, maxZoom);
+		_targetZoom = Mathf.Clamp(_targetZoom, minZoom, maxZoom);
 
 		GetComponent<Camera>().orthographicSize = Mathf.Lerp(
 			GetComponent<Camera>().orthographicSize,
@@ -50,7 +50,7 @@ public class CameraMovement : MonoBehaviour {
 		}
 
 		_targetZoom -= Input.GetAxis("Mouse ScrollWheel") * zoomFactor;
-		_targetZoom = Math.Clamp(_targetZoom, 4f, 11f);
+		_targetZoom = Mathf.Clamp(_targetZoom, 4f, 11f);
 
 		_cameraComponent.orthographicSize = Mathf.Lerp(
 			_cameraComponent.orthographicSize,

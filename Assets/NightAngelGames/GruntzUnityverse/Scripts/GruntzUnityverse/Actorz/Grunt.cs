@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Animancer;
@@ -43,14 +42,18 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public int gruntId;
 
 	[BoxGroup("Statz")]
+	[DisableIf(nameof(isInstance))]
 	[Range(0, 5)]
 	public int team;
 
 	[BoxGroup("Statz")]
+	[Label("Name")]
 	public string displayName;
 
 	[BoxGroup("Statz")]
-	[DisableIf(nameof(isInstance))]
+	[Label("Preview")]
+	[ShowAssetPreview]
+	[HideIf(nameof(isInstance))]
 	public Sprite previewSprite;
 
 	[BoxGroup("Statz")]
@@ -130,6 +133,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// The powerup(z) currently active on this Grunt.
 	/// </summary>
 	[BoxGroup("Equipment")]
+	[Label("Powerupz")]
 	public List<EquippedPowerup> equippedPowerupz;
 
 	// --------------------------------------------------
@@ -156,21 +160,21 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <summary>
 	/// The node this Grunt is currently on.
 	/// </summary>
-	[BoxGroup("Pathfinding")]
+	[Foldout("Pathfinding")]
 	[ReadOnly]
 	public Node node;
 
 	/// <summary>
 	/// The node the Grunt is moving towards.
 	/// </summary>
-	[BoxGroup("Pathfinding")]
+	[Foldout("Pathfinding")]
 	[ReadOnly]
 	public Node travelGoal;
 
 	/// <summary>
 	/// The next node the Grunt will move to.
 	/// </summary>
-	[BoxGroup("Pathfinding")]
+	[Foldout("Pathfinding")]
 	[ReadOnly]
 	public Node next;
 
@@ -188,21 +192,21 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <summary>
 	/// The target the Grunt will try to interact with.
 	/// </summary>
-	[BoxGroup("Interaction")]
+	[Foldout("Interaction")]
 	[ReadOnly]
 	public GridObject interactionTarget;
 
 	/// <summary>
 	/// The target the Grunt will try to attack.
 	/// </summary>
-	[BoxGroup("Interaction")]
+	[Foldout("Interaction")]
 	[ReadOnly]
 	public Grunt attackTarget;
 
 	/// <summary>
 	/// The target the Grunt will try to give a toy to.
 	/// </summary>
-	[BoxGroup("Interaction")]
+	[Foldout("Interaction")]
 	[ReadOnly]
 	public Grunt giveTarget;
 
@@ -214,7 +218,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	// --------------------------------------------------
 
 	#region UI
-	[BoxGroup("UI")]
+	[Foldout("UI")]
+	[Label("UI Entry")]
 	[ReadOnly]
 	public GruntEntry gruntEntry;
 	#endregion
@@ -980,7 +985,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public void TakeDamage(float damage, bool hazardDamage = false, Grunt attacker = null) {
 		damage = hazardDamage ? damage : damage * (1 - damageReductionPercentage);
 
-		statz.health = Math.Clamp(statz.health - damage, 0, Statz.MAX_VALUE);
+		statz.health = Mathf.Clamp(statz.health - damage, 0, Statz.MAX_VALUE);
 		barz.healthBar.Adjust(statz.health);
 
 		if (team == 0) {

@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 568542564107618629}
   - component: {fileID: 348981896787965690}
-  - component: {fileID: 4476565028802911114}
-  - component: {fileID: 7428102330645021550}
-  - component: {fileID: 6601067919079895591}
   - component: {fileID: 7042981222681237864}
+  - component: {fileID: 6601067919079895591}
+  - component: {fileID: 7428102330645021550}
+  - component: {fileID: 4476565028802911114}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -48,9 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec451db272a0164eb737fde28f77fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelName: TEMPLATE LEVEL
-  area: 1
-  allGruntz: []
+  levelData: {fileID: 0}
   playerGruntz: []
   dizgruntled: []
   selectedGruntz: []
@@ -58,12 +56,12 @@ MonoBehaviour:
   gridObjectz: []
   spikez: []
   gooWell: {fileID: 0}
+  helpboxUI: {fileID: 0}
   selector: {fileID: 0}
   actorz: {fileID: 0}
   itemz: {fileID: 0}
   objectz: {fileID: 0}
-  helpboxUI: {fileID: 0}
---- !u!114 &4476565028802911114
+--- !u!114 &7042981222681237864
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,39 +70,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4723173462031229406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c809d4017b74d62b78c04be9c0cefec, type: 3}
+  m_Script: {fileID: 11500000, guid: c51d65a8482a4c7a86261fc9b706cef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7428102330645021550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4723173462031229406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: dacdceb490c394d48aa04de3a73fc45c, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: GameManager
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  gameSettings: {fileID: 11400000, guid: 8ea4aa3a39a3a4c4795d7cb0b652ed95, type: 2}
 --- !u!114 &6601067919079895591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +114,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
---- !u!114 &7042981222681237864
+--- !u!114 &7428102330645021550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,7 +123,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 4723173462031229406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c51d65a8482a4c7a86261fc9b706cef9, type: 3}
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSettings: {fileID: 11400000, guid: 8ea4aa3a39a3a4c4795d7cb0b652ed95, type: 2}
+  m_Actions: {fileID: -944628639613478452, guid: dacdceb490c394d48aa04de3a73fc45c, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: GameManager
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &4476565028802911114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4723173462031229406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c809d4017b74d62b78c04be9c0cefec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

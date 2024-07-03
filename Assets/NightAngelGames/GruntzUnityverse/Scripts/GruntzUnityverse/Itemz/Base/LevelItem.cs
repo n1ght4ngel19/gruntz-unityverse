@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
@@ -13,15 +12,16 @@ namespace GruntzUnityverse.Itemz.Base {
 public abstract class LevelItem : MonoBehaviour {
 	public bool isInstance => gameObject.scene.name != null;
 
+	[BoxGroup("Inspector Toggles")]
 	public bool isEditable;
 
+	[BoxGroup("Inspector Toggles")]
 	public bool hideComponents;
 
 	/// <summary>
 	/// The display name of the item.
 	/// </summary>
 	[BoxGroup("Item Data")]
-	[EnableIf(nameof(isEditable))]
 	public string displayName;
 
 	/// <summary>
@@ -32,8 +32,7 @@ public abstract class LevelItem : MonoBehaviour {
 	public string codename;
 
 	[BoxGroup("Item Data")]
-	[EnableIf(nameof(isEditable))]
-	public bool hideUnderMound;
+	public bool hideInObject;
 
 	/// <summary>
 	/// The animation clip used to display the item on the level.
@@ -70,7 +69,7 @@ public abstract class LevelItem : MonoBehaviour {
 		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
 			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
 
-		if (hole != null && hideUnderMound) {
+		if (hole != null && hideInObject) {
 			hole.heldItem = this;
 			GetComponent<SpriteRenderer>().enabled = false;
 			GetComponent<CircleCollider2D>().isTrigger = false;

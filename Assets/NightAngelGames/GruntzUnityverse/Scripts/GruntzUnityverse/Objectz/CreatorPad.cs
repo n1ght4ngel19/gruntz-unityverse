@@ -1,12 +1,15 @@
 ﻿using Animancer;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace GruntzUnityverse.Objectz {
 public class CreatorPad : GridObject {
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip padAnim;
+	
 	private AnimancerComponent animancer => GetComponent<AnimancerComponent>();
 
 	private void Start() {

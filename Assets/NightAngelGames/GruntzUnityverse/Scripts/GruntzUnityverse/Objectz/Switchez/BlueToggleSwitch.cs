@@ -13,9 +13,7 @@ public class BlueToggleSwitch : Switch {
 	[ReadOnly]
 	public List<Bridge> bridgez;
 
-	public override void Setup() {
-		base.Setup();
-
+	public void Start() {
 		bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
 	}
 

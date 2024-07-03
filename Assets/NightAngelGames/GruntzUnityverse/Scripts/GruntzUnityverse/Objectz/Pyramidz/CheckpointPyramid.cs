@@ -6,6 +6,10 @@ namespace GruntzUnityverse.Objectz.Pyramidz {
 public class CheckpointPyramid : Pyramid {
 	public List<CheckpointSwitch> switchez;
 
+	private void Start() {
+		switchez = transform.parent.GetComponentsInChildren<CheckpointSwitch>().ToList();
+	}
+
 	private void FixedUpdate() {
 		if (!switchez.TrueForAll(sw => sw.isPressed)) {
 			return;
@@ -15,16 +19,6 @@ public class CheckpointPyramid : Pyramid {
 		Toggle();
 
 		enabled = false;
-	}
-
-	public override void Setup() {
-		base.Setup();
-
-		switchez = transform.parent.GetComponentsInChildren<CheckpointSwitch>().ToList();
-
-		if (switchez.Count == 0) {
-			enabled = false;
-		}
 	}
 }
 }

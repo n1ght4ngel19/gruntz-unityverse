@@ -88,6 +88,18 @@ public class Arrow : GridObject {
 			ball.transform.position = node.transform.position;
 			ball.next = pointedNode;
 			ball.direction = direction;
+
+			ball.currentRollAnim = direction switch {
+				Direction.Up => ball.rollAnimUp,
+				Direction.UpRight => ball.rollAnimUp,
+				Direction.Right => ball.rollAnimRight,
+				Direction.DownRight => ball.rollAnimDown,
+				Direction.Down => ball.rollAnimDown,
+				Direction.DownLeft => ball.rollAnimDown,
+				Direction.Left => ball.rollAnimLeft,
+				Direction.UpLeft => ball.rollAnimUp,
+				_ => null,
+			};
 		}
 	}
 

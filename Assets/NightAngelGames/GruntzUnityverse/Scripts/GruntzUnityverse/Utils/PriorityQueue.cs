@@ -3,6 +3,8 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 // ReSharper disable once CheckNamespace
 namespace System.Collections.Generic {
@@ -204,7 +206,7 @@ public class PriorityQueue<TElement, TPriority> {
 
 	#if DEBUG
 	static PriorityQueue() {
-		Debug.Assert(Log2Arity > 0 && Math.Pow(2, Log2Arity) == Arity);
+		Debug.Assert(Log2Arity > 0 && Mathf.Pow(2, Log2Arity) == Arity);
 	}
 	#endif
 
@@ -620,7 +622,7 @@ public class PriorityQueue<TElement, TPriority> {
 		}
 
 		// Ensure minimum growth is respected.
-		newcapacity = Math.Max(newcapacity, _nodes.Length + MinimumGrow);
+		newcapacity = Mathf.Max(newcapacity, _nodes.Length + MinimumGrow);
 
 		// If the computed capacity is still less than specified, set to the original argument.
 		// Capacities exceeding Array.MaxLength will be surfaced as OutOfMemoryException by Array.Resize.
@@ -762,7 +764,7 @@ public class PriorityQueue<TElement, TPriority> {
 			(TElement Element, TPriority Priority) minChild = nodes[i];
 			int minChildIndex = i;
 
-			int childIndexUpperBound = Math.Min(i + Arity, size);
+			int childIndexUpperBound = Mathf.Min(i + Arity, size);
 
 			while (++i < childIndexUpperBound) {
 				(TElement Element, TPriority Priority) nextChild = nodes[i];
@@ -809,7 +811,7 @@ public class PriorityQueue<TElement, TPriority> {
 			(TElement Element, TPriority Priority) minChild = nodes[i];
 			int minChildIndex = i;
 
-			int childIndexUpperBound = Math.Min(i + Arity, size);
+			int childIndexUpperBound = Mathf.Min(i + Arity, size);
 
 			while (++i < childIndexUpperBound) {
 				(TElement Element, TPriority Priority) nextChild = nodes[i];

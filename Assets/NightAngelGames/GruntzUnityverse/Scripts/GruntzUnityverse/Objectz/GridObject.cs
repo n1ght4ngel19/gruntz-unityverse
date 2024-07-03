@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Animancer;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utils;
@@ -14,19 +13,19 @@ public abstract class GridObject : MonoBehaviour {
 	/// <summary>
 	/// Represents whether this GridObject behaves like an obstacle.
 	/// </summary>
-	[BoxGroup("Flagz")]
+	[Foldout("Flagz")]
 	[DisableIf((nameof(isInstance)))]
 	public bool isObstacle;
 
-	[BoxGroup("Flagz")]
+	[Foldout("Flagz")]
 	[DisableIf((nameof(isInstance)))]
 	public bool isWater;
 
-	[BoxGroup("Flagz")]
+	[Foldout("Flagz")]
 	[DisableIf((nameof(isInstance)))]
 	public bool isFire;
 
-	[BoxGroup("Flagz")]
+	[Foldout("Flagz")]
 	[DisableIf((nameof(isInstance)))]
 	public bool isVoid;
 
@@ -65,7 +64,6 @@ public abstract class GridObject : MonoBehaviour {
 	public virtual void Setup() {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		circleCollider2D = GetComponent<CircleCollider2D>();
-		location2D = Vector2Int.RoundToInt(transform.position);
 
 		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
 			.First(n => Vector2Int.RoundToInt(n.transform.position) == Vector2Int.RoundToInt(transform.position));
@@ -89,8 +87,8 @@ public abstract class GridObject : MonoBehaviour {
 	/// <param name="other">The <see cref="GridObject"/> to check.</param>
 	/// <returns>A boolean indicating whether this GridObject is diagonal to <see cref="other"/> or not.</returns>
 	protected bool IsDiagonalTo(GridObject other) {
-		return Math.Abs(other.location2D.x - location2D.x) != 0
-			&& Math.Abs(other.location2D.y - location2D.y) != 0;
+		return Mathf.Abs(other.location2D.x - location2D.x) != 0
+			&& Mathf.Abs(other.location2D.y - location2D.y) != 0;
 	}
 
 	/// <summary>
@@ -122,7 +120,9 @@ public abstract class GridObject : MonoBehaviour {
 		spriteRenderer.hideFlags = newHideFlags;
 		circleCollider2D.hideFlags = newHideFlags;
 
-		GetComponent<HierarchyIcon>().hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
+		if (TryGetComponent(out HierarchyIcon hi)) {
+			hi.hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
+		}
 
 		if (TryGetComponent(out AnimancerComponent animancer)) {
 			animancer.hideFlags = newHideFlags;
@@ -139,6 +139,8 @@ public abstract class GridObject : MonoBehaviour {
 	}
 
 	private void OnDrawGizmosSelected() {
+		location2D = Vector2Int.RoundToInt(transform.position);
+
 		transform.hideFlags = HideFlags.HideInInspector;
 
 		HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;

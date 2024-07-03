@@ -16,7 +16,6 @@ public class SecretTile : GridObject {
 	public override void Setup() {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		circleCollider2D = GetComponent<CircleCollider2D>();
-		location2D = Vector2Int.RoundToInt(transform.position);
 
 		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
 			.First(n => Vector2Int.RoundToInt(n.transform.position) == Vector2Int.RoundToInt(transform.position));

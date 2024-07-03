@@ -12,7 +12,6 @@ public class LevelPowerup : LevelItem {
 	/// The duration of the Powerup.
 	/// </summary>
 	[BoxGroup("Item Data")]
-	[EnableIf(nameof(isEditable))]
 	public float duration;
 
 	[BoxGroup("Item Data")]

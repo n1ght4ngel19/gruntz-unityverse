@@ -10,9 +10,7 @@ public class BlueHoldSwitch : Switch {
 	/// </summary>
 	public List<Bridge> bridgez;
 
-	public override void Setup() {
-		base.Setup();
-
+	public void Start() {
 		bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
 	}
 

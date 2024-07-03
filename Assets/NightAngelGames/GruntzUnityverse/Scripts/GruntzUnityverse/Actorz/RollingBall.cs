@@ -46,6 +46,10 @@ public class RollingBall : MonoBehaviour {
 	[BoxGroup("Animation")]
 	[DisableIf(nameof(isInstance))]
 	public AnimationClip sinkAnim;
+	
+	[BoxGroup("Animation")]
+	[DisableIf(nameof(isInstance))]
+	public AnimationClip currentRollAnim;
 
 	[BoxGroup("Animation")]
 	[DisableIf(nameof(isInstance))]
@@ -60,12 +64,9 @@ public class RollingBall : MonoBehaviour {
 		animancer ??= GetComponent<AnimancerComponent>();
 	}
 
-	private void Start() {
-		animancer.Play(rollAnimUp);
-	}
-
 	private void FixedUpdate() {
 		ChangePosition();
+		animancer.Play(currentRollAnim);
 	}
 
 	private void ChangePosition() {
@@ -74,21 +75,23 @@ public class RollingBall : MonoBehaviour {
 	}
 
 	private IEnumerator OnTriggerEnter2D(Collider2D other) {
-		if (other.TryGetComponent(out RollingBall ball) && ball.enabled) {
-			enabled = false;
-
-			transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
-			GetComponent<SpriteRenderer>().sortingLayerName = "Default";
-			GetComponent<SpriteRenderer>().sortingOrder = 4;
-
-			animancer.Play(breakAnim);
-
-			yield return new WaitForSeconds(breakAnim.length);
-
-			transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-			GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
-			GetComponent<SpriteRenderer>().sortingOrder = 4;
+		if (!other.TryGetComponent(out RollingBall ball) || !ball.enabled) {
+			yield break;
 		}
+
+		enabled = false;
+
+		transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+		GetComponent<SpriteRenderer>().sortingLayerName = "Default";
+		GetComponent<SpriteRenderer>().sortingOrder = 4;
+
+		animancer.Play(breakAnim);
+
+		yield return new WaitForSeconds(breakAnim.length);
+
+		transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+		GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
+		GetComponent<SpriteRenderer>().sortingOrder = 4;
 	}
 }
 }
