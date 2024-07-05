@@ -72,7 +72,6 @@ public class Rock : GridObject {
 		spriteRenderer.sortingOrder = 5;
 
 		animancer.Play(breakAnimation);
-
 		await UniTask.WaitForSeconds(breakAnimation.length * 0.25f);
 
 		spriteRenderer.sortingLayerName = "AlwaysBottom";
@@ -86,17 +85,6 @@ public class Rock : GridObject {
 
 		node.isBlocked = false;
 		node.hardCorner = false;
-	}
-
-	private async void OnTriggerEnter2D(Collider2D other) {
-		if (other.TryGetComponent(out RollingBall ball)) {
-			ball.moveSpeed *= 5;
-			await ball.animancer.Play(ball.breakAnim);
-			ball.enabled = false;
-
-			ball.GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
-			ball.GetComponent<SpriteRenderer>().sortingOrder = 6;
-		}
 	}
 }
 }

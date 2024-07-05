@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6810939526122669025}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -51,10 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813e3764d3a942b2a5711b634c39be59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideComponents: 1
   node: {fileID: 0}
   next: {fileID: 0}
   moveSpeed: 0.6
-  direction: 0
+  direction: 1
+  location2D: {x: 0, y: 0}
   rollAnimUp: {fileID: 0}
   rollAnimDown: {fileID: 0}
   rollAnimLeft: {fileID: 0}
@@ -64,7 +66,7 @@ MonoBehaviour:
   animancer: {fileID: 6692175141834480640}
 --- !u!212 &2610784273270893467
 SpriteRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -119,7 +121,7 @@ SpriteRenderer:
 --- !u!95 &6656072478803166852
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -140,7 +142,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6692175141834480640
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -154,7 +156,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!58 &1418852096642353058
 CircleCollider2D:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -191,7 +193,7 @@ CircleCollider2D:
 --- !u!50 &5681716009480919324
 Rigidbody2D:
   serializedVersion: 4
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -217,7 +219,7 @@ Rigidbody2D:
   m_Constraints: 7
 --- !u!114 &2221538386988235659
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -233,7 +235,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &692566019470335862
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

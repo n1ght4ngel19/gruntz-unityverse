@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour {
 
 		GameObject.Find("Visualizer")?.SetActive(false);
 
-		Init();
+		InitializeLevel();
 	}
 
 	public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public void Init() {
+	public void InitializeLevel() {
 		// --------------------------------------------------
 		// UI setup
 		// --------------------------------------------------
@@ -192,7 +192,7 @@ public class GameManagerEditor : UnityEditor.Editor {
 
 			level.Initialize();
 
-			gameManager.Init();
+			gameManager.InitializeLevel();
 
 
 			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other

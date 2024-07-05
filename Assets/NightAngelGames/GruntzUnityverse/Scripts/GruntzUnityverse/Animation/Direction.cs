@@ -1,6 +1,5 @@
 ﻿namespace GruntzUnityverse.Animation {
 public enum Direction {
-	None = 0,
 	Up = 1,
 	UpRight = 2,
 	Right = 3,

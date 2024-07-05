@@ -120,10 +120,6 @@ public abstract class GridObject : MonoBehaviour {
 		spriteRenderer.hideFlags = newHideFlags;
 		circleCollider2D.hideFlags = newHideFlags;
 
-		if (TryGetComponent(out HierarchyIcon hi)) {
-			hi.hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
-		}
-
 		if (TryGetComponent(out AnimancerComponent animancer)) {
 			animancer.hideFlags = newHideFlags;
 			animancer.Animator.hideFlags = newHideFlags;
@@ -147,8 +143,6 @@ public abstract class GridObject : MonoBehaviour {
 
 		spriteRenderer.hideFlags = newHideFlags;
 		circleCollider2D.hideFlags = newHideFlags;
-
-		GetComponent<HierarchyIcon>().hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
 
 		if (TryGetComponent(out AnimancerComponent animancer)) {
 			animancer.hideFlags = newHideFlags;

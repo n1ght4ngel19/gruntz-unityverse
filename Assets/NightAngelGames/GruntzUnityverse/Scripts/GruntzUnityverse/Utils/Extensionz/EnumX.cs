@@ -12,7 +12,7 @@ public static class EnumX {
 			Direction.DownLeft => Direction.UpRight,
 			Direction.Left => Direction.Right,
 			Direction.UpLeft => Direction.DownRight,
-			_ => Direction.None,
+			_ => Direction.Up,
 		};
 	}
 }

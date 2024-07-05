@@ -89,17 +89,15 @@ public class Arrow : GridObject {
 			ball.next = pointedNode;
 			ball.direction = direction;
 
-			ball.currentRollAnim = direction switch {
-				Direction.Up => ball.rollAnimUp,
-				Direction.UpRight => ball.rollAnimUp,
-				Direction.Right => ball.rollAnimRight,
-				Direction.DownRight => ball.rollAnimDown,
-				Direction.Down => ball.rollAnimDown,
-				Direction.DownLeft => ball.rollAnimDown,
-				Direction.Left => ball.rollAnimLeft,
-				Direction.UpLeft => ball.rollAnimUp,
-				_ => null,
+			ball.transform.rotation = Quaternion.identity;
+
+			float rotateAngle = ball.direction switch {
+				Direction.UpRight or Direction.DownLeft => -45,
+				Direction.UpLeft or Direction.DownRight => 45,
+				_ => 0,
 			};
+
+			ball.transform.Rotate(0, 0, rotateAngle);
 		}
 	}
 
