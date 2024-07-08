@@ -19,7 +19,7 @@ public class EquippedPowerup : ScriptableObject {
 
 		DeactivateEffect(affectedGrunt);
 
-		affectedGrunt.equippedPowerupz.Remove(this);
+		affectedGrunt.powerupz.Remove(this);
 	}
 
 	protected virtual void ActivateEffect(Grunt affectedGrunt) { }

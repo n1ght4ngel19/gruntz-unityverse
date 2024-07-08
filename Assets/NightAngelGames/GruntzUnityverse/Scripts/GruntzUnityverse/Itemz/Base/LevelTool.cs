@@ -25,7 +25,7 @@ public class LevelTool : LevelItem {
 		Level.instance.levelStatz.toolzCollected++;
 
 		targetGrunt.animationPack = animationPack;
-		targetGrunt.equippedTool = tool;
+		targetGrunt.tool = tool;
 		targetGrunt.gruntEntry.SetTool(codename);
 
 		targetGrunt.enabled = true;

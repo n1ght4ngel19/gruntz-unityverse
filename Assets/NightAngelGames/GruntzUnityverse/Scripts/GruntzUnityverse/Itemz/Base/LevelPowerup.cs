@@ -28,7 +28,7 @@ public class LevelPowerup : LevelItem {
 		Level.instance.levelStatz.powerupzCollected++;
 
 		// targetGrunt.animationPack = animationPack;
-		targetGrunt.equippedPowerupz.Add(equippedPowerup);
+		targetGrunt.powerupz.Add(equippedPowerup);
 		equippedPowerup.Equip(targetGrunt, duration);
 		// targetGrunt.gruntEntry.SetPowerup(codeName);
 

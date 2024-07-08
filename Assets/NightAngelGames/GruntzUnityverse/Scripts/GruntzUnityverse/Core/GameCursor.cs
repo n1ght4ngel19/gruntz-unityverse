@@ -41,9 +41,9 @@ public class GameCursor : MonoBehaviour {
 		}
 
 		if (GameManager.instance.firstSelected != null) {
-			bool doSwap = GameManager.instance.firstSelected.equippedTool.CompatibleWith(GameManager.instance.selector.hoveredObject);
+			bool doSwap = GameManager.instance.firstSelected.tool.CompatibleWith(GameManager.instance.selector.hoveredObject);
 
-			SwapCursor(doSwap ? GameManager.instance.firstSelected.equippedTool.cursor : AnimationManager.instance.cursorDefault);
+			SwapCursor(doSwap ? GameManager.instance.firstSelected.tool.cursor : AnimationManager.instance.cursorDefault);
 		}
 	}
 

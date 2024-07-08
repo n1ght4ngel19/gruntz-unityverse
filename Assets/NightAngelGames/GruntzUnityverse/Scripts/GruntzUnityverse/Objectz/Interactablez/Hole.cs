@@ -90,7 +90,7 @@ public class Hole : GridObject {
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
-			if (open && grunt.equippedTool is not Wingz) {
+			if (open && grunt.tool is not Wingz) {
 				grunt.Die(AnimationManager.instance.holeDeathAnimation, leavePuddle: false, playBelow: false);
 			}
 		}

@@ -1,5 +1,4 @@
 ﻿using GruntzUnityverse.Core;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -7,25 +6,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GruntzUnityverse.UI {
-public class LevelLoader : MonoBehaviour {
-	[Expandable]
-	public LevelData levelData;
-
-	public TMP_Text buttonText;
-
-	[BoxGroup("Old")]
-	public string levelKey;
-
-	[BoxGroup("Old")]
-	public string levelName;
-
-	[BoxGroup("Old")]
-	public string areaName;
-
-	[BoxGroup("Old")]
-	public Sprite loadMenuBackground;
-
-	public virtual void LoadLevel() {
+public class QuickStartLevelLoader : LevelLoader {
+	public override void LoadLevel() {
 		Addressables.LoadSceneAsync("LoadMenu", LoadSceneMode.Additive, false).Completed += handle => {
 			FindFirstObjectByType<GameCursor>().spriteRenderer.enabled = false;
 
@@ -36,18 +18,12 @@ public class LevelLoader : MonoBehaviour {
 
 				GameObject.Find("LoadMenuBackground").GetComponent<Image>().sprite = levelData.loadMenuBackground;
 
-				FindFirstObjectByType<ContinueToLevel>().LoadLevel(levelData.levelKey);
+				Addressables.LoadAssetAsync<GameSettings>("GameSettings").Completed += settingsHandle => {
+					FindFirstObjectByType<ContinueToLevel>()
+						.LoadLevel(settingsHandle.Result.quickStartLevel.levelKey);
+				};
 			};
 		};
-	}
-
-	public void LocalizeLevelName(string toSet) {
-		buttonText.SetText(toSet);
-		levelName = toSet;
-	}
-
-	public void LocalizeAreaName(string toSet) {
-		areaName = toSet;
 	}
 }
 }

@@ -115,7 +115,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 	private bool _onSpikez;
 
-	public bool canFly => equippedTool is Wingz;
+	public bool canFly => tool is Wingz;
 
 	// --------------------------------------------------
 	// Equipment
@@ -123,18 +123,20 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 	[BoxGroup("Equipment")]
 	[Label("Tool")]
-	public EquippedTool equippedTool;
+	[Expandable]
+	public EquippedTool tool;
 
 	[BoxGroup("Equipment")]
 	[Label("Toy")]
-	public EquippedToy equippedToy;
+	[Expandable]
+	public EquippedToy toy;
 
 	/// <summary>
 	/// The powerup(z) currently active on this Grunt.
 	/// </summary>
 	[BoxGroup("Equipment")]
 	[Label("Powerupz")]
-	public List<EquippedPowerup> equippedPowerupz;
+	public List<EquippedPowerup> powerupz;
 
 	// --------------------------------------------------
 	// Animation
@@ -358,12 +360,12 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			gruntEntry = FindObjectsByType<GruntEntry>(FindObjectsSortMode.None)
 				.First(entry => entry.entryId == gruntId);
 
-			if (equippedTool != null) {
-				gruntEntry.SetTool(equippedTool.toolName.Replace(" ", ""));
+			if (tool != null) {
+				gruntEntry.SetTool(tool.toolName.Replace(" ", ""));
 			}
 
-			if (equippedToy != null) {
-				gruntEntry.SetToy(equippedToy.toyName.Replace(" ", ""));
+			if (toy != null) {
+				gruntEntry.SetToy(toy.toyName.Replace(" ", ""));
 			}
 
 			gruntEntry.SetHealth(statz.health);
@@ -482,7 +484,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		}
 
 		interactionTarget = gameManager.gridObjectz
-			.FirstOrDefault(go => go.enabled && go.node == gameManager.selector.node && equippedTool.CompatibleWith(go));
+			.FirstOrDefault(go => go.enabled && go.node == gameManager.selector.node && tool.CompatibleWith(go));
 
 		if (interactionTarget != null) {
 			attackTarget = null;
@@ -581,10 +583,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		} else {
 			travelGoal = node;
 
-			StartCoroutine(giveTarget.PlayWithToy(equippedToy));
+			StartCoroutine(giveTarget.PlayWithToy(toy));
 
 			giveTarget = null;
-			equippedToy = null;
+			toy = null;
 			gruntEntry.ClearSlot("Toy");
 
 			GoToState(StateHandler.State.Idle);
@@ -704,12 +706,19 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		}
 
 		if (interactionTarget is BrickBlock brickBlock) {
-			if (equippedTool is Gauntletz) {
-				yield return BreakBlock(brickBlock);
-			} else if (equippedTool is SpyGear) {
-				yield return IdentifyBlock(brickBlock);
-			} else if (equippedTool is BrickLayer) {
-				yield return BuildBlock(brickBlock);
+			switch (tool) {
+				case Gauntletz:
+					yield return BreakBlock(brickBlock);
+
+					break;
+				case SpyGear:
+					yield return IdentifyBlock(brickBlock);
+
+					break;
+				case BrickLayer:
+					yield return BuildBlock(brickBlock);
+
+					break;
 			}
 		}
 
@@ -776,7 +785,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		if (breakGauntletz) {
 			Addressables.LoadAssetAsync<BareHandz>("BareHandz").Completed += handle => {
 				animationPack = handle.Result.animationPack;
-				equippedTool = handle.Result;
+				tool = handle.Result;
 				gruntEntry.SetTool("BareHandz");
 
 				animancer.Play(AnimationPack.GetRandomClip(facingDirection, animationPack.idle));
@@ -876,11 +885,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		yield return new WaitForSeconds(toPlay.length / 2);
 
-		attackTarget.TakeDamage(equippedTool.damage, attacker: this);
+		attackTarget.TakeDamage(tool.damage, attacker: this);
 
 		// Reflected damage dealt to self, when applicable
 		if (attackTarget.damageReflectionPercentage > 0) {
-			TakeDamage(equippedTool.damage * attackTarget.damageReflectionPercentage);
+			TakeDamage(tool.damage * attackTarget.damageReflectionPercentage);
 		}
 
 		yield return new WaitForSeconds(toPlay.length / 2);
@@ -972,8 +981,8 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <param name="otherNode">The node to check.</param>
 	/// <returns>True when the node is in range, false otherwise.</returns>
 	public bool InToolRange(Node otherNode) {
-		return Mathf.Abs(node.location2D.x - otherNode.location2D.x) <= equippedTool.range
-			&& Mathf.Abs(node.location2D.y - otherNode.location2D.y) <= equippedTool.range;
+		return Mathf.Abs(node.location2D.x - otherNode.location2D.x) <= tool.range
+			&& Mathf.Abs(node.location2D.y - otherNode.location2D.y) <= tool.range;
 	}
 
 	/// <summary>

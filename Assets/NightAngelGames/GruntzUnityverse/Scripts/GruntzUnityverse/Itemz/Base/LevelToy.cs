@@ -18,7 +18,7 @@ public class LevelToy : LevelItem {
 		Level.instance.levelStatz.toyzCollected++;
 
 		// targetGrunt.animationPack = animationPack;
-		targetGrunt.equippedToy = toy;
+		targetGrunt.toy = toy;
 		targetGrunt.gruntEntry.SetToy(codename);
 
 		targetGrunt.enabled = true;

@@ -47,11 +47,11 @@ public class CrumbleBridge : GridObject {
 		// Check if a Grunt is standing no the Bridge when it's lowered
 		if (node.gruntOnNode != null && !node.gruntOnNode.between) {
 			// Kill the Grunt if it doesn't have a Toob or Wingz equipped
-			if (node.isWater && node.gruntOnNode.equippedTool is not Wingz or Toob) {
+			if (node.isWater && node.gruntOnNode.tool is not Wingz or Toob) {
 				node.gruntOnNode.Die(AnimationManager.instance.sinkDeathAnimation, false, false);
 			}
 
-			if (node.isFire && node.gruntOnNode.equippedTool is not Wingz) {
+			if (node.isFire && node.gruntOnNode.tool is not Wingz) {
 				node.gruntOnNode.Die(AnimationManager.instance.burnDeathAnimation, false, false);
 			}
 		}

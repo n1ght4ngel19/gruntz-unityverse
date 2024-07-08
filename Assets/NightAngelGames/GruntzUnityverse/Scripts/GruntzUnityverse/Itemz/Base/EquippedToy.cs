@@ -16,7 +16,7 @@ public class EquippedToy : ScriptableObject {
 	public AnimationPack animationPack;
 
 	public virtual void ForcePlay(Grunt targetGrunt) {
-		targetGrunt.equippedToy = null;
+		targetGrunt.toy = null;
 	}
 }
 }

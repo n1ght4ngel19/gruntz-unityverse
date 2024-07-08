@@ -21,7 +21,7 @@ public class BrickLayerAI : AI {
 		}
 
 		foreach (BrickBlock bb in FindObjectsByType<BrickBlock>(FindObjectsSortMode.None)) {
-			if (bb.enabled && InOriginalRange(bb.node) && self.equippedTool.CompatibleWith(bb)) {
+			if (bb.enabled && InOriginalRange(bb.node) && self.tool.CompatibleWith(bb)) {
 				self.attackTarget = null;
 				self.interactionTarget = bb;
 

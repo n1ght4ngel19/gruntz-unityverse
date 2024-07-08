@@ -57,8 +57,8 @@ public class GruntEntry : MonoBehaviour {
 	public void Initialize(Grunt grunt) {
 		SetHealth(grunt.statz.health);
 		SetStamina(grunt.statz.stamina);
-		SetTool(grunt.equippedTool.toolName);
-		SetToy(grunt.equippedToy.toyName);
+		SetTool(grunt.tool.toolName);
+		SetToy(grunt.toy.toyName);
 		// SetPowerup(grunt.equippedPowerupz.First().powerupName);
 		// SetHeal();
 	}

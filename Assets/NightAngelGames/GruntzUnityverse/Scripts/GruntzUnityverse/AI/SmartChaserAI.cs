@@ -5,7 +5,7 @@ namespace GruntzUnityverse.AI {
 public class SmartChaserAI : AI {
 	protected override void FixedUpdate() {
 		foreach (Grunt grunt in GameManager.instance.playerGruntz) {
-			if (grunt.equippedTool.damage > self.equippedTool.damage) {
+			if (grunt.tool.damage > self.tool.damage) {
 				continue;
 			}
 
