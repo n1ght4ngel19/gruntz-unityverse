@@ -1,20 +1,17 @@
 ﻿using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Core;
 
 namespace GruntzUnityverse.AI {
 public class DumbChaserAI : AI {
-	protected override void FixedUpdate() {
-		foreach (Grunt grunt in GameManager.instance.playerGruntz) {
-			if (InRange(grunt.node)) {
-				self.interactionTarget = null;
-				self.attackTarget = grunt;
+	protected override void Update() {
+		foreach (Grunt grunt in gruntzInRange) {
+			self.interactionTarget = null;
+			self.attackTarget = grunt;
 
-				self.GoToState(StateHandler.State.Attacking);
+			self.GoToState(StateHandler.State.Attacking);
 
-				enabled = false;
+			enabled = false;
 
-				return;
-			}
+			return;
 		}
 
 		self.interactionTarget = null;

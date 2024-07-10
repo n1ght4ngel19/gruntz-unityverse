@@ -31,7 +31,7 @@ public class LevelTool : LevelItem {
 		targetGrunt.enabled = true;
 		targetGrunt.GoToState(StateHandler.State.Walking);
 
-		Destroy(gameObject, 0.5f);
+		Destroy(gameObject);
 	}
 }
 }

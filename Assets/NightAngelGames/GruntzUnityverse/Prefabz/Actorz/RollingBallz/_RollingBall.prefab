@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5681716009480919324}
   - component: {fileID: 2221538386988235659}
   - component: {fileID: 692566019470335862}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: _RollingBall
   m_TagString: Dizgruntled
   m_Icon: {fileID: 0}
@@ -57,6 +57,8 @@ MonoBehaviour:
   moveSpeed: 0.6
   direction: 1
   location2D: {x: 0, y: 0}
+  spriteRenderer: {fileID: 0}
+  circleCollider2D: {fileID: 0}
   rollAnimUp: {fileID: 0}
   rollAnimDown: {fileID: 0}
   rollAnimLeft: {fileID: 0}

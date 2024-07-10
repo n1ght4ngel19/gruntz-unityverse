@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Animancer;
+using GruntzUnityverse.Core;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utils;
 using HierarchyIcons;
@@ -8,11 +10,12 @@ using UnityEngine;
 
 namespace GruntzUnityverse.Objectz {
 public abstract class GridObject : MonoBehaviour {
-	public bool hideComponents;
 
-	/// <summary>
-	/// Represents whether this GridObject behaves like an obstacle.
-	/// </summary>
+	#region Fieldz
+	public int objectID;
+
+	public bool hideComponents;
+	
 	[Foldout("Flagz")]
 	[DisableIf((nameof(isInstance)))]
 	public bool isObstacle;
@@ -28,97 +31,143 @@ public abstract class GridObject : MonoBehaviour {
 	[Foldout("Flagz")]
 	[DisableIf((nameof(isInstance)))]
 	public bool isVoid;
-
-	/// <summary>
-	/// The location of this GridObject in 2D space.
-	/// </summary>
+	
 	[BoxGroup("GridObject Data")]
 	[ReadOnly]
 	public Vector2Int location2D;
-
-	/// <summary>
-	/// The <see cref="Node"/> that this GridObject currently occupies.
-	/// </summary>
+	
 	[BoxGroup("GridObject Data")]
 	[ReadOnly]
 	public Node node;
-
-	/// <summary>
-	/// The SpriteRenderer of this GridObject.
-	/// </summary>
+	
 	[BoxGroup("GridObject Data")]
 	[Required]
 	[HideIf((nameof(isInstance)))]
 	public SpriteRenderer spriteRenderer;
-
-	/// <summary>
-	/// The collider used for checking interactions with this GridObject.
-	/// </summary>
+	
 	[Required]
 	[BoxGroup("GridObject Data")]
 	[HideIf((nameof(isInstance)))]
 	public CircleCollider2D circleCollider2D;
 
+	protected GameManager gameManager;
+
 	public bool isInstance => gameObject.scene.name != null;
+	#endregion
 
-	public virtual void Setup() {
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		circleCollider2D = GetComponent<CircleCollider2D>();
-
-		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
-			.First(n => Vector2Int.RoundToInt(n.transform.position) == Vector2Int.RoundToInt(transform.position));
-
-		node.isBlocked = isObstacle || node.isBlocked;
-		node.isWater = isWater || node.isWater;
-		node.isFire = isFire || node.isFire;
-		node.isVoid = isVoid || node.isVoid;
+	/// <summary>
+	/// Checks whether this GridObject is diagonal to the given GridObject.
+	/// </summary>
+	protected bool IsDiagonalTo(GridObject other) {
+		return Mathf.Abs(other.location2D.x - location2D.x) != 0
+			&& Mathf.Abs(other.location2D.y - location2D.y) != 0;
 	}
 
-	public virtual void Dismantle() {
+	public virtual void Activate() {
+		circleCollider2D.isTrigger = true;
+	}
+
+	public virtual void Deactivate() {
+		circleCollider2D.isTrigger = false;
+	}
+
+	protected virtual void AssignNodeValues() {
 		node.isBlocked = isObstacle;
 		node.isWater = isWater;
 		node.isFire = isFire;
 		node.isVoid = isVoid;
 	}
 
+	protected virtual void UnAssignNodeValues() {
+		node.isBlocked = isObstacle;
+		node.isWater = isWater;
+		node.isFire = isFire;
+		node.isVoid = isVoid;
+	}
+
+	protected List<T> GetSiblings<T>(bool includeInactive = false) where T : MonoBehaviour {
+		return transform.parent.GetComponentsInChildren<T>(includeInactive).ToList();
+	}
+
+	// --------------------------------------------------
+	// Lifecycle
+	// --------------------------------------------------
+
 	/// <summary>
-	/// Checks whether this GridObject is diagonal to the given GridObject.
+	/// Initialization. Referencing other objects is NOT allowed.
 	/// </summary>
-	/// <param name="other">The <see cref="GridObject"/> to check.</param>
-	/// <returns>A boolean indicating whether this GridObject is diagonal to <see cref="other"/> or not.</returns>
-	protected bool IsDiagonalTo(GridObject other) {
-		return Mathf.Abs(other.location2D.x - location2D.x) != 0
-			&& Mathf.Abs(other.location2D.y - location2D.y) != 0;
+	protected virtual void Awake() {
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		circleCollider2D = GetComponent<CircleCollider2D>();
+		location2D = Vector2Int.RoundToInt(transform.position);
 	}
 
 	/// <summary>
-	/// Disables the ability of this GridObject to collide with other objects (with a <see cref="Rigidbody2D"/>).
-	/// This is needed since OnTriggerExit2D can be called even after the object or its
-	/// collider has been destroyed. If we disable the collider's ability to be triggered,
-	/// we can check it before inside OnTriggerEnter2D and OnTriggerExit2D.
+	/// Initialization. Referencing other objects is NOT allowed.
 	/// </summary>
-	public void DisableTrigger() {
-		circleCollider2D.isTrigger = false;
-	}
+	protected virtual void OnEnable() { }
 
-	protected bool SceneLoaded() {
-		return gameObject.scene.isLoaded;
+	/// <summary>
+	/// Initialization. Runs only in the editor
+	/// </summary>
+	protected virtual void Reset() { }
+
+	/// <summary>
+	/// Initialization. Referencing other objects is allowed.
+	/// </summary>
+	protected virtual void Start() {
+		gameManager = FindFirstObjectByType<GameManager>();
+
+		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
+			.First(n => n.location2D.Equals(location2D));
+
+		AssignNodeValues();
 	}
 
 	/// <summary>
-	/// Reverts the effects this GridObject has on the Node it is occupying.
-	/// Can be overridden to add additional effects specific to child classes.
+	/// Physics-related or time-dependent updates.
+	/// </summary>
+	protected virtual void FixedUpdate() { }
+
+	/// <summary>
+	/// Main loop. Update the game state here.
+	/// </summary>
+	protected virtual void Update() { }
+
+	/// <summary>
+	/// Called when another object enters this object's collider.
+	/// </summary>
+	protected virtual void OnTriggerEnter2D(Collider2D other) { }
+
+	/// <summary>
+	/// Called when another object exits this object's collider.
+	/// </summary>
+	protected virtual void OnTriggerExit2D(Collider2D other) { }
+
+	/// <summary>
+	/// Called after all Update functions have been called.
+	/// </summary>
+	protected virtual void LateUpdate() { }
+
+	/// <summary>
+	/// Decommissioning. Called when the object is disabled during a frame.
+	/// </summary>
+	protected virtual void OnDisable() { }
+
+
+	/// <summary>
+	/// Decommissioning. Called when the object is destroyed.
 	/// </summary>
 	protected virtual void OnDestroy() {
-		// node.isBlocked = isObstacle ? false : node.isBlocked;
+		UnAssignNodeValues();
 	}
 
 	#if UNITY_EDITOR
-	private void OnValidate() {
+	protected virtual void OnValidate() {
 		HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
 
-		spriteRenderer.hideFlags = newHideFlags;
-		circleCollider2D.hideFlags = newHideFlags;
+		GetComponent<SpriteRenderer>().hideFlags = newHideFlags;
+		GetComponent<CircleCollider2D>().hideFlags = newHideFlags;
 
 		if (TryGetComponent(out AnimancerComponent animancer)) {
 			animancer.hideFlags = newHideFlags;

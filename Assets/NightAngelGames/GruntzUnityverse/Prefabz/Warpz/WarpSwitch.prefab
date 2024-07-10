@@ -19,7 +19,7 @@ GameObject:
   m_Layer: 0
   m_Name: WarpSwitch
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: 5d4c21afad3878747bc77aa4ca088dbe, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -50,7 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c556fa63954098bc490e5e743f38be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideComponents: 1
+  objectID: 0
+  hideComponents: 0
   isObstacle: 0
   isWater: 0
   isFire: 0
@@ -62,7 +63,7 @@ MonoBehaviour:
   warpz: []
 --- !u!212 &6109165329942239614
 SpriteRenderer:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -103,7 +104,7 @@ SpriteRenderer:
   m_SortingLayerID: -370743279
   m_SortingLayer: -4
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 37bde04cdab83d84caf27f73e6837e0f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,13 +112,13 @@ SpriteRenderer:
   m_Size: {x: 8, y: 8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &6260734195924743711
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -138,7 +139,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6911840383049941242
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -152,7 +153,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!58 &1404313238273128611
 CircleCollider2D:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -163,10 +164,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 183
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -204,7 +205,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &8632969964019440431
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

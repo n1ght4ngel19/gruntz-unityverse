@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7551997526358950449}
   - component: {fileID: 3763292206829779655}
   - component: {fileID: 5815314111842147071}
+  - component: {fileID: 8395786750345868902}
   - component: {fileID: 4254177391780796272}
   - component: {fileID: 9201240117648399314}
-  - component: {fileID: 8395786750345868902}
   - component: {fileID: 203201511879525448}
   - component: {fileID: 7311307071493022588}
   - component: {fileID: 2241332790788927376}
@@ -51,11 +51,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021cfbd44e324e639fa199d9c23a4d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEditable: 0
+  objectID: 0
   hideComponents: 1
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 5815314111842147071}
+  circleCollider2D: {fileID: 8395786750345868902}
   displayName: Megaphone
   codename: Megaphone
-  hideUnderMound: 0
+  hideInObject: 0
   rotatingAnim: {fileID: 7400000, guid: 54bb335f62e52a84585a1cdd0c17cbf1, type: 2}
   pickupAnim: {fileID: 7400000, guid: ff42568bc9da8904e8f8d9aef0c62685, type: 2}
   animancer: {fileID: 9201240117648399314}
@@ -113,6 +121,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &8395786750345868902
+CircleCollider2D:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8487385849171467816}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 183
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.05
 --- !u!95 &4254177391780796272
 Animator:
   serializedVersion: 7
@@ -149,42 +193,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Animator: {fileID: 4254177391780796272}
   _ActionOnDisable: 0
---- !u!58 &8395786750345868902
-CircleCollider2D:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8487385849171467816}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.05
 --- !u!114 &203201511879525448
 MonoBehaviour:
   m_ObjectHideFlags: 0

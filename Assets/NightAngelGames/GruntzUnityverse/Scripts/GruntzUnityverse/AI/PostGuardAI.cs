@@ -1,5 +1,5 @@
 ﻿namespace GruntzUnityverse.AI {
 public class PostGuardAI : AI {
-	protected override void FixedUpdate() { }
+	protected override void Update() { }
 }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using GruntzUnityverse.Objectz.Arrowz;
 using UnityEngine;
 
@@ -7,16 +6,16 @@ namespace GruntzUnityverse.Objectz.Switchez {
 public class YellowArrowToggleSwitch : Switch {
 	public List<TwoWayArrow> arrowz;
 
-	public override void Setup() {
-		base.Setup();
+	protected override void Start() {
+		base.Start();
 
-		arrowz = transform.parent.GetComponentsInChildren<TwoWayArrow>().ToList();
+		arrowz = GetSiblings<TwoWayArrow>();
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D other) {
 		base.OnTriggerEnter2D(other);
 
-		arrowz.ForEach(ar => ar.Toggle());
+		arrowz.ForEach(arrow => arrow.Toggle());
 	}
 }
 }

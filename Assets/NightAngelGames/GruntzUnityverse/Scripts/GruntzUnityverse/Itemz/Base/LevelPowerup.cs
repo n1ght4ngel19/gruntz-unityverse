@@ -4,13 +4,7 @@ using GruntzUnityverse.Core;
 using NaughtyAttributes;
 
 namespace GruntzUnityverse.Itemz.Base {
-/// <summary>
-/// The base class for Powerupz.
-/// </summary>
 public class LevelPowerup : LevelItem {
-	/// <summary>
-	/// The duration of the Powerup.
-	/// </summary>
 	[BoxGroup("Item Data")]
 	public float duration;
 

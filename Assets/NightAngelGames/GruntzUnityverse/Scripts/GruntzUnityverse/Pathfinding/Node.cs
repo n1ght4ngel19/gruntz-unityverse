@@ -11,6 +11,8 @@ namespace GruntzUnityverse.Pathfinding {
 /// Custom representation of a node used for pathfinding.
 /// </summary>
 public class Node : MonoBehaviour {
+	public GameManager gameManager;
+
 	/// <summary>
 	/// The location of this Node in 2D space.
 	/// </summary>
@@ -21,7 +23,7 @@ public class Node : MonoBehaviour {
 	/// </summary>
 	public CircleCollider2D circleCollider2D;
 
-	public Grunt gruntOnNode => GameManager.instance.allGruntz.FirstOrDefault(gr => gr.node == this);
+	public Grunt grunt => gameManager.gruntz.FirstOrDefault(gr => Vector2Int.RoundToInt(gr.transform.position) == location2D);
 
 	// --------------------------------------------------
 	// Pathfinding
@@ -132,6 +134,8 @@ public class Node : MonoBehaviour {
 	public void SetupNode(Vector3Int position, string tileName) {
 		transform.position = position - Vector3Int.one / 2;
 		location2D = new Vector2Int(position.x, position.y);
+		circleCollider2D = GetComponent<CircleCollider2D>();
+
 		AssignTileType(tileName);
 	}
 
@@ -192,14 +196,18 @@ public class Node : MonoBehaviour {
 		orthogonalNeighbours = neighbourSet.AsList().Except(diagonalNeighbours).ToList();
 	}
 
+	private void Start() {
+		gameManager = FindFirstObjectByType<GameManager>();
+	}
+
 	private async void OnTriggerEnter2D(Collider2D other) {
 		if (!circleCollider2D.isTrigger) {
 			return;
 		}
 
 		if (other.TryGetComponent(out Grunt grunt)) {
-			if (gruntOnNode != null && gruntOnNode != grunt && !gruntOnNode.between) {
-				gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
+			if (this.grunt != null && this.grunt != grunt && !this.grunt.between) {
+				this.grunt.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 
 			grunt.node = this;
@@ -299,8 +307,8 @@ public class Node : MonoBehaviour {
 				return;
 			}
 
-			if (gruntOnNode != null && !gruntOnNode.between) {
-				gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
+			if (this.grunt != null && !this.grunt.between) {
+				this.grunt.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 		}
 	}

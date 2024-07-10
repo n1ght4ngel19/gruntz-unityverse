@@ -7,8 +7,8 @@ namespace GruntzUnityverse.Objectz.Arrowz {
 public class FourWayArrow : GridObject {
 	private void OnTriggerEnter2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
-			if (node.gruntOnNode != null && node.gruntOnNode != grunt && !grunt.between) {
-				node.gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
+			if (node.grunt != null && node.grunt != grunt && !grunt.between) {
+				node.grunt.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 
 			grunt.node = node;
@@ -38,8 +38,8 @@ public class FourWayArrow : GridObject {
 		}
 
 		if (other.TryGetComponent(out RollingBall ball)) {
-			if (node.gruntOnNode != null && !node.gruntOnNode.between) {
-				node.gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
+			if (node.grunt != null && !node.grunt.between) {
+				node.grunt.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 
 			ball.node = node;

@@ -8,34 +8,27 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz {
 public class Checkpoint : MonoBehaviour {
 	public List<CheckpointSwitch> switchez;
+
 	public List<CheckpointPyramid> pyramidz;
+
 	public List<Flag> flagz;
 
-	private void FixedUpdate() {
+	private void Start() {
+		switchez = GetComponentsInChildren<CheckpointSwitch>().ToList();
+		pyramidz = GetComponentsInChildren<CheckpointPyramid>().ToList();
+		flagz = GetComponentsInChildren<Flag>().ToList();
+	}
+
+	private void Update() {
 		if (!switchez.TrueForAll(sw => sw.isPressed)) {
 			return;
 		}
 
-		flagz.ForEach(flag => flag.PlayAnim());
 		enabled = false;
-	}
 
-	public void Setup() {
-		switchez = GetComponentsInChildren<CheckpointSwitch>().ToList();
-
-		if (switchez == null || switchez.Count == 0) {
-			Debug.LogWarning($"No Switchez found for checkpoint {gameObject.name}!");
-			enabled = false;
-		}
-
-		pyramidz = GetComponentsInChildren<CheckpointPyramid>().ToList();
-
-		if (pyramidz == null || pyramidz.Count == 0) {
-			Debug.LogWarning($"No Pyramidz found for checkpoint {gameObject.name}!");
-			enabled = false;
-		}
-
-		flagz = GetComponentsInChildren<Flag>().ToList();
+		switchez.ForEach(sw => sw.Deactivate());
+		pyramidz.ForEach(py => py.Deactivate());
+		flagz.ForEach(flag => flag.PlayAnim());
 	}
 }
 }

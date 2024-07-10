@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -84,7 +84,9 @@ public class AnimationManager : MonoBehaviour {
 
 	public AnimationClip dirtEffect;
 
-	public void Setup() {
+
+	[Button("Load Animationz")]
+	public void LoadAnimationz() {
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_Default").Completed += handle => cursorDefault = handle.Result;
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_BareHandz").Completed += handle => cursorBareHandz = handle.Result;
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_Bomb").Completed += handle => cursorBomb = handle.Result;
@@ -119,17 +121,4 @@ public class AnimationManager : MonoBehaviour {
 		Addressables.LoadAssetAsync<AnimationClip>("Cursor_YoYo").Completed += handle => cursorYoYo = handle.Result;
 	}
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(AnimationManager))]
-public class AnimationManagerEditor : UnityEditor.Editor {
-	public override void OnInspectorGUI() {
-		base.OnInspectorGUI();
-
-		if (GUILayout.Button("Load Animationz")) {
-			((AnimationManager)target).Setup();
-		}
-	}
-}
-#endif
 }

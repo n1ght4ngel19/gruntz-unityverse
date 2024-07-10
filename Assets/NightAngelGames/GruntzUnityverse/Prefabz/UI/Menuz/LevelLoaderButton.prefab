@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6007398749575278780}
   - component: {fileID: 5772793147808579642}
   - component: {fileID: 9128157581176196061}
+  - component: {fileID: -2610170998856402686}
   m_Layer: 5
   m_Name: LevelLoaderButton
   m_TagString: Untagged
@@ -53,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db467450d04f4fbd963464953a90d595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelData: {fileID: 0}
   buttonText: {fileID: 8305482179548570086}
   levelKey: _TemplateLevel
   levelName: TEMPLATE LEVEL
@@ -293,3 +295,16 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &-2610170998856402686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4754797927430689588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82cc0e025fc54ecb884dea69d127cf84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  next: {fileID: 0}

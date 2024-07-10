@@ -7,16 +7,8 @@ using UnityEngine;
 namespace GruntzUnityverse.Objectz.Arrowz {
 public class Arrow : GridObject {
 	public Direction direction;
+
 	public Node pointedNode;
-
-	public override void Setup() {
-		base.Setup();
-
-		SetDirection();
-		SetTargetNode(direction);
-
-		node.circleCollider2D.isTrigger = false;
-	}
 
 	private void SetDirection() {
 		string spriteName = spriteRenderer.sprite.name;
@@ -56,10 +48,25 @@ public class Arrow : GridObject {
 		};
 	}
 
-	private void OnTriggerEnter2D(Collider2D other) {
+	// --------------------------------------------------
+	// Lifecycle
+	// --------------------------------------------------
+
+	protected override void Start() {
+		base.Start();
+
+		SetDirection();
+		SetTargetNode(direction);
+
+		Deactivate();
+	}
+
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		base.OnTriggerEnter2D(other);
+
 		if (other.TryGetComponent(out Grunt grunt)) {
-			if (node.gruntOnNode != null && node.gruntOnNode != grunt && !node.gruntOnNode.between) {
-				node.gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
+			if (node.grunt != null && node.grunt != grunt && !node.grunt.between) {
+				node.grunt.Die(AnimationManager.instance.squashDeathAnimation);
 			}
 
 			grunt.node = node;
@@ -78,9 +85,9 @@ public class Arrow : GridObject {
 		}
 
 		if (other.TryGetComponent(out RollingBall ball)) {
-			if (node.gruntOnNode != null) {
-				if (!node.gruntOnNode.between) {
-					node.gruntOnNode.Die(AnimationManager.instance.squashDeathAnimation);
+			if (node.grunt != null) {
+				if (!node.grunt.between) {
+					node.grunt.Die(AnimationManager.instance.squashDeathAnimation);
 				}
 			}
 
@@ -101,7 +108,7 @@ public class Arrow : GridObject {
 		}
 	}
 
-	private void OnTriggerExit2D(Collider2D other) {
+	protected override void OnTriggerExit2D(Collider2D other) {
 		if (other.TryGetComponent(out Grunt grunt)) {
 			grunt.between = true;
 			node.occupied = false;

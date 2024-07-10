@@ -1,38 +1,31 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using GruntzUnityverse.Actorz;
-using GruntzUnityverse.Core;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Secretz {
 public class WarpSwitch : GridObject {
+	[ReadOnly]
 	public List<Warp> warpz;
 
-	private void Start() {
+	protected override void Start() {
+		base.Start();
+
+		warpz = GetSiblings<Warp>();
 		spriteRenderer.enabled = false;
 	}
 
-	public override void Setup() {
-		base.Setup();
-
-		warpz = transform.parent.GetComponentsInChildren<Warp>().ToList();
-	}
-
-	private void OnTriggerEnter2D(Collider2D other) {
-		if (!other.TryGetComponent(out Grunt _)) {
-			return;
-		}
-
+	protected override void OnTriggerEnter2D(Collider2D other) {
 		circleCollider2D.isTrigger = false;
+		Deactivate();
 		warpz.ForEach(warp => warp.Activate());
 
-		Destroy(gameObject, 1f);
+		Destroy(gameObject);
 	}
 
 	protected override void OnDestroy() {
 		base.OnDestroy();
 
-		GameManager.instance.gridObjectz.Remove(this);
+		gameManager.gridObjectz.Remove(this);
 	}
 }
 }

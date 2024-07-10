@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Objectz.Interactablez;
 using NaughtyAttributes;
@@ -13,68 +12,64 @@ public class Hazard : GridObject {
 	[BoxGroup("Hazard Data")]
 	public bool hideUnderMound;
 
-	[BoxGroup("Hazard Data")]
-	[ReadOnly]
-	public Grunt gruntOnTop;
-
-	public override void Setup() {
-		base.Setup();
-
-		Rock rock = FindObjectsByType<Rock>(FindObjectsSortMode.None)
-			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
-
-		if (rock != null) {
-			rock.hiddenHazard = this;
-			spriteRenderer.enabled = false;
-			enabled = false;
-			circleCollider2D.isTrigger = false;
-
-			return;
-		}
-
-		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
-			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
-
-		if (hole != null && hideUnderMound) {
-			hole.hiddenHazard = this;
-			spriteRenderer.enabled = false;
-			circleCollider2D.isTrigger = false;
-			enabled = false;
-
-			return;
-		}
-	}
-
-	protected virtual IEnumerator Start() {
-		StopAllCoroutines();
-
-		StartCoroutine(Damage());
-
-		yield break;
-	}
-
-	protected virtual void OnEnable() {
-		StopAllCoroutines();
-
-		StartCoroutine(Damage());
-	}
+	public Grunt gruntOnTop => node.grunt;
 
 	public virtual async void OnRevealed() { }
 
-	protected virtual IEnumerator Damage() {
-		yield return null;
+	protected virtual async void Damage() { }
+
+	private void SetupRockOnTop() {
+		Rock rockOnTop = FindObjectsByType<Rock>(FindObjectsSortMode.None)
+			.FirstOrDefault(r => r.location2D == location2D);
+
+		if (rockOnTop == null) {
+			return;
+		}
+
+		rockOnTop.hiddenHazard = this;
+
+		spriteRenderer.enabled = false;
+		enabled = false;
+
+		Deactivate();
 	}
 
-	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.TryGetComponent(out Grunt grunt)) {
-			gruntOnTop = grunt;
+	private void SetupHole() {
+		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
+			.FirstOrDefault(h => h.location2D == location2D);
+
+		if (hole == null) {
+			return;
 		}
+
+		if (hole.open) {
+			Debug.LogError("An open hole cannot have a hidden item!");
+
+			return;
+		}
+
+		hole.hiddenHazard = this;
+
+		spriteRenderer.enabled = false;
+		enabled = false;
+
+		Deactivate();
 	}
 
-	private void OnTriggerExit2D(Collider2D other) {
-		if (other.TryGetComponent(out Grunt _)) {
-			gruntOnTop = null;
-		}
+	// --------------------------------------------------
+	// Lifecycle
+	// --------------------------------------------------
+
+	protected override void OnEnable() {
+		Damage();
+	}
+
+	protected override void Start() {
+		base.Start();
+
+		SetupRockOnTop();
+
+		SetupHole();
 	}
 }
 }

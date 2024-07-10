@@ -13,7 +13,7 @@ public class PurplePuzzle : MonoBehaviour {
 			return;
 		}
 
-		switchez.ForEach(sw => sw.DisableTrigger());
+		switchez.ForEach(sw => sw.Deactivate());
 		pyramidz.ForEach(pyramid => pyramid.Toggle());
 
 		enabled = false;

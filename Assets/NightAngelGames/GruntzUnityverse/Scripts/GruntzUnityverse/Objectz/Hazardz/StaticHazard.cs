@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Animancer;
+using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
 using NaughtyAttributes;
@@ -29,13 +30,17 @@ public class StaticHazard : Hazard {
 	[DisableIf(nameof(isInstance))]
 	public SpriteRenderer animTargetSpriteRenderer;
 
-	protected override IEnumerator Start() {
-		yield return new WaitForSeconds(delay);
+	public bool recurse;
 
-		StartCoroutine(Damage());
+	protected override async void Start() {
+		base.Start();
+
+		await UniTask.WaitForSeconds(delay);
+
+		Damage();
 	}
 
-	protected override IEnumerator Damage() {
+	protected override async void Damage() {
 		animTargetSpriteRenderer.enabled = true;
 		animTargetAnimancer.Play(hazardAnim);
 
@@ -45,27 +50,23 @@ public class StaticHazard : Hazard {
 
 		active = true;
 
-		yield return new WaitForSeconds(hazardAnim.length);
+		await UniTask.WaitForSeconds(hazardAnim.length);
 
 		active = false;
 
 		animTargetSpriteRenderer.enabled = false;
 		animTargetAnimancer.Stop();
 
-		yield return new WaitForSeconds(timeGap);
+		await UniTask.WaitForSeconds(timeGap);
 
-		StartCoroutine(Damage());
+		if (recurse) {
+			Damage();
+		}
 	}
 
-	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.TryGetComponent(out Grunt grunt)) {
-			gruntOnTop = grunt;
-
-			if (active) {
-				gruntOnTop.Die(AnimationManager.instance.burnDeathAnimation, false, false);
-
-				gruntOnTop = null;
-			}
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		if (active) {
+			gruntOnTop.Die(AnimationManager.instance.burnDeathAnimation, leavePuddle: false, playBelow: false);
 		}
 	}
 }

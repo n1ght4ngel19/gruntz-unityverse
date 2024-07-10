@@ -50,7 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8128617f5c1f4af09ede8871389b8422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideComponents: 1
+  objectID: 0
+  hideComponents: 0
   isObstacle: 0
   isWater: 0
   isFire: 0
@@ -59,13 +60,13 @@ MonoBehaviour:
   node: {fileID: 0}
   spriteRenderer: {fileID: 6109165329942239614}
   circleCollider2D: {fileID: -1133532738482388959}
-  isDeathBridge: 0
   crumbleDelay: 1
+  isDeathBridge: 0
   crumbleAnim: {fileID: 0}
   animancer: {fileID: 6911840383049941242}
 --- !u!212 &6109165329942239614
 SpriteRenderer:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -120,7 +121,7 @@ SpriteRenderer:
 --- !u!95 &6260734195924743711
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -141,7 +142,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6911840383049941242
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -155,7 +156,7 @@ MonoBehaviour:
   _ActionOnDisable: 0
 --- !u!58 &-1133532738482388959
 CircleCollider2D:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -166,10 +167,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 55
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -207,7 +208,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &-7214476272324547920
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

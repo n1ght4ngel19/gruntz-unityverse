@@ -3,22 +3,20 @@ using GruntzUnityverse.Core;
 
 namespace GruntzUnityverse.AI {
 public class SmartChaserAI : AI {
-	protected override void FixedUpdate() {
-		foreach (Grunt grunt in GameManager.instance.playerGruntz) {
+	protected override void Update() {
+		foreach (Grunt grunt in gruntzInRange) {
 			if (grunt.tool.damage > self.tool.damage) {
 				continue;
 			}
 
-			if (InRange(grunt.node)) {
-				self.interactionTarget = null;
-				self.attackTarget = grunt;
+			self.interactionTarget = null;
+			self.attackTarget = grunt;
 
-				self.GoToState(StateHandler.State.Attacking);
+			self.GoToState(StateHandler.State.Attacking);
 
-				enabled = false;
+			enabled = false;
 
-				return;
-			}
+			return;
 		}
 
 		self.interactionTarget = null;

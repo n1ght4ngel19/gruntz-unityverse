@@ -1,6 +1,5 @@
 ﻿using Animancer;
 using Cysharp.Threading.Tasks;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Itemz.Base;
 using GruntzUnityverse.Objectz.Hazardz;
 using GruntzUnityverse.Objectz.Switchez;
@@ -13,39 +12,29 @@ namespace GruntzUnityverse.Objectz.Interactablez {
 /// A Grunt-sized piece of rock that blocks the path, possibly hiding something under it.
 /// </summary>
 public class Rock : GridObject {
+	[BoxGroup("Animation Data")]
 	[DisableIf(nameof(isInstance))]
 	public AnimationClip breakAnimation;
 
-	private AnimancerComponent animancer => GetComponent<AnimancerComponent>();
+	[BoxGroup("Animation Data")]
+	public AnimancerComponent animancer;
 
-	public override void Setup() {
-		base.Setup();
-
-		node.isBlocked = isObstacle;
-		node.hardCorner = isObstacle;
-	}
-
-	// --------------------------------------------------
-	// Held Objectz
-	// --------------------------------------------------
-
-	#region Held Objectz
-	[BoxGroup("Held Objectz")]
+	[BoxGroup("Rock Objectz")]
 	[ReadOnly]
-	public LevelItem heldItem;
+	public LevelItem hiddenItem;
 
-	[BoxGroup("Held Objectz")]
+	[BoxGroup("Rock Objectz")]
 	[ReadOnly]
 	public Hazard hiddenHazard;
 
-	[BoxGroup("Held Objectz")]
+	[BoxGroup("Rock Objectz")]
 	[ReadOnly]
 	public Switch hiddenSwitch;
 
-	public void RevealHidden(bool isSceneLoaded) {
-		if (heldItem != null) {
-			heldItem.GetComponent<SpriteRenderer>().enabled = true;
-			heldItem.GetComponent<CircleCollider2D>().isTrigger = true;
+	public void RevealHidden() {
+		if (hiddenItem != null) {
+			hiddenItem.GetComponent<SpriteRenderer>().enabled = true;
+			hiddenItem.GetComponent<CircleCollider2D>().isTrigger = true;
 		}
 
 		if (hiddenHazard != null) {
@@ -62,7 +51,6 @@ public class Rock : GridObject {
 			hiddenSwitch.enabled = true;
 		}
 	}
-	#endregion
 
 	public async void Break() {
 		enabled = false;
@@ -81,10 +69,16 @@ public class Rock : GridObject {
 
 		transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 
-		RevealHidden(gameObject.scene.isLoaded);
+		RevealHidden();
 
 		node.isBlocked = false;
 		node.hardCorner = false;
+	}
+
+	protected override void Start() {
+		base.Start();
+
+		animancer = GetComponent<AnimancerComponent>();
 	}
 }
 }

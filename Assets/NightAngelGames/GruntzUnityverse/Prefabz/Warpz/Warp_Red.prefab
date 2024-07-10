@@ -9,9 +9,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -3545400475140903149, guid: 65aa1e0ae100f90459fe192926f9cf3d, type: 3}
-      propertyPath: m_Sprite
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: -216057642, guid: d3ec401071990024bb8f426727702956, type: 3}
+      objectReference: {fileID: 2100000, guid: 125a18300e61ba544bb293d83524f1ec, type: 2}
     - target: {fileID: 1518840653018344445, guid: 65aa1e0ae100f90459fe192926f9cf3d, type: 3}
       propertyPath: animator
       value: 
@@ -20,18 +20,6 @@ PrefabInstance:
       propertyPath: animancer
       value: 
       objectReference: {fileID: 3141821007193459285}
-    - target: {fileID: 1518840653018344445, guid: 65aa1e0ae100f90459fe192926f9cf3d, type: 3}
-      propertyPath: appearAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: 9b9c35cfe05ee67428f9f17c079e814e, type: 2}
-    - target: {fileID: 1518840653018344445, guid: 65aa1e0ae100f90459fe192926f9cf3d, type: 3}
-      propertyPath: swirlingAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: de6baf5e051b70f46bc28dedf2724d55, type: 2}
-    - target: {fileID: 1518840653018344445, guid: 65aa1e0ae100f90459fe192926f9cf3d, type: 3}
-      propertyPath: disappearAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: a4ca044a30dd54d4aa6b89b2149a4b74, type: 2}
     - target: {fileID: 7272777101606193511, guid: 65aa1e0ae100f90459fe192926f9cf3d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -72,6 +60,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7794643590084647622, guid: 65aa1e0ae100f90459fe192926f9cf3d, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 2800000, guid: e96e5c49fe092e745893e86e4413f6ea, type: 3}
+    - target: {fileID: 8440524143769846458, guid: 65aa1e0ae100f90459fe192926f9cf3d, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 2800000, guid: 76bf5609caa951642aa823a974fd99d7, type: 3}
     - target: {fileID: 8440524143769846458, guid: 65aa1e0ae100f90459fe192926f9cf3d, type: 3}
       propertyPath: m_Name
       value: Warp_Red

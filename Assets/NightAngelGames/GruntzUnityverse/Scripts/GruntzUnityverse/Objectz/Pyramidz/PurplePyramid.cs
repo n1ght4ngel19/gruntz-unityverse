@@ -1,26 +1,28 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using GruntzUnityverse.Objectz.Switchez;
 
 namespace GruntzUnityverse.Objectz.Pyramidz {
 public class PurplePyramid : Pyramid {
 	public List<PurpleSwitch> switchez;
-	private bool _toggled;
 
-	public void Start() {
-		switchez = transform.parent.GetComponentsInChildren<PurpleSwitch>().ToList();
+	public bool toggled;
+
+	protected override void Start() {
+		base.Start();
+
+		switchez = GetSiblings<PurpleSwitch>();
 	}
 
-	private void FixedUpdate() {
-		if (switchez.TrueForAll(sw => sw.isPressed) && !_toggled) {
-			_toggled = true;
-			Toggle();
+	protected override void Update() {
+		if (switchez.TrueForAll(sw => sw.isPressed) && !toggled) {
+			toggled = true;
 
-			return;
+			Toggle();
 		}
 
-		if (!switchez.TrueForAll(sw => sw.isPressed) && _toggled) {
-			_toggled = false;
+		if (!switchez.TrueForAll(sw => sw.isPressed) && toggled) {
+			toggled = false;
+
 			Toggle();
 		}
 	}

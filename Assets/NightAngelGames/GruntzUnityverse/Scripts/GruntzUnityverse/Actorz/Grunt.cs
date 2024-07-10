@@ -212,7 +212,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	[ReadOnly]
 	public Grunt giveTarget;
 
-	public List<Grunt> enemiez => gameManager.allGruntz.Where(gr => gr.team != team).ToList();
+	public List<Grunt> enemiez => gameManager.gruntz.Where(gr => gr.team != team).ToList();
 	#endregion
 
 	// --------------------------------------------------
@@ -340,25 +340,19 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	// Lifecycle
 	// --------------------------------------------------
 
-	#region Lifecycle
-	private void Awake() {
+	private void Start() {
 		gameManager = FindFirstObjectByType<GameManager>();
 
 		if (team == 0) {
 			gameManager.playerGruntz.Add(this);
 
 			gruntId = gameManager.playerGruntz.Count;
-		} else {
-			gameManager.dizgruntled.Add(this);
-		}
-	}
-
-	private void Start() {
-		if (team == 0) {
-			selectionMarker = transform.Find("SelectionMarker").gameObject;
 
 			gruntEntry = FindObjectsByType<GruntEntry>(FindObjectsSortMode.None)
 				.First(entry => entry.entryId == gruntId);
+
+			gruntEntry.SetHealth(statz.health);
+			gruntEntry.SetStamina(statz.stamina);
 
 			if (tool != null) {
 				gruntEntry.SetTool(tool.toolName.Replace(" ", ""));
@@ -368,8 +362,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 				gruntEntry.SetToy(toy.toyName.Replace(" ", ""));
 			}
 
-			gruntEntry.SetHealth(statz.health);
-			gruntEntry.SetStamina(statz.stamina);
+
+			selectionMarker = transform.Find("SelectionMarker").gameObject;
+		} else {
+			gameManager.dizgruntled.Add(this);
 		}
 
 		node = Level.instance.levelNodes.First(n => n.location2D == Vector2Int.RoundToInt(transform.position));
@@ -378,9 +374,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 
 	private void FixedUpdate() {
-		if (between) {
-			ChangePosition();
-		}
+		ChangePosition();
 	}
 
 	private void OnTriggerEnter2D(Collider2D other) {
@@ -398,7 +392,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			CancelInvoke(nameof(SpikezDamage));
 		}
 	}
-	#endregion
 
 	// --------------------------------------------------
 	// Input Actions
@@ -473,7 +466,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			return;
 		}
 
-		attackTarget = gameManager.allGruntz
+		attackTarget = gameManager.gruntz
 			.FirstOrDefault(g => g.enabled && g.node == gameManager.selector.node && !g.between && g != this);
 
 		if (attackTarget != null) {
@@ -562,7 +555,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		attackTarget = null;
 		interactionTarget = null;
 
-		giveTarget = gameManager.allGruntz
+		giveTarget = gameManager.gruntz
 			.FirstOrDefault(g => g.enabled && g.node == gameManager.selector.node && !g.between && g != this);
 
 		GoToState(StateHandler.State.Giving);
@@ -951,6 +944,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// Continually moves the Grunt's physical position between the current and next node.
 	/// </summary>
 	private void ChangePosition() {
+		if (!between) {
+			return;
+		}
+
 		Vector3 moveVector = (next.transform.position - node.transform.position);
 		gameObject.transform.position += moveVector * (Time.fixedDeltaTime / moveSpeed);
 	}
@@ -1029,7 +1026,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		animancer.Stop();
 
 		gameManager.selectedGruntz.Remove(this);
-		gameManager.allGruntz.Remove(this);
+		gameManager.gruntz.Remove(this);
 
 		if (team == 0) {
 			gruntEntry.Clear();
@@ -1045,12 +1042,12 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 		Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor}", GameObject.Find("Puddlez").transform).Completed += handle => {
 			GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
-			puddle.GetComponent<SpriteRenderer>().sortingOrder = 7;
+
+			puddle.spriteRenderer.sortingOrder = 7;
 			puddle.transform.position = transform.position;
-			puddle.Setup();
 			puddle.Appear();
+
 			gameManager.gridObjectz.Add(puddle);
-			Debug.Log("Added puddle");
 		};
 
 		// spriteRenderer.sortingLayerName = "AlwaysBottom";
@@ -1081,7 +1078,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		animancer.Stop();
 
 		gameManager.selectedGruntz.Remove(this);
-		gameManager.allGruntz.Remove(this);
+		gameManager.gruntz.Remove(this);
 
 		if (team == 0) {
 			gruntEntry.Clear();
@@ -1098,12 +1095,12 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		if (leavePuddle) {
 			Addressables.InstantiateAsync($"GruntPuddle_{textSkinColor}", GameObject.Find("Puddlez").transform).Completed += handle => {
 				GruntPuddle puddle = handle.Result.GetComponent<GruntPuddle>();
+
 				puddle.GetComponent<SpriteRenderer>().sortingOrder = 7;
 				puddle.transform.position = transform.position;
-				puddle.Setup();
 				puddle.Appear();
+
 				gameManager.gridObjectz.Add(puddle);
-				Debug.Log("Added puddle");
 			};
 		}
 
@@ -1118,7 +1115,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		await UniTask.WaitForSeconds(toPlay.length);
 
 		spriteRenderer.enabled = false;
-		gameManager.allGruntz.Remove(this);
+		gameManager.gruntz.Remove(this);
 		Level.instance.levelStatz.deathz++;
 		Destroy(gameObject, 0.5f);
 	}

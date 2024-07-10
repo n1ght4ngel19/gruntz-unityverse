@@ -1,19 +1,22 @@
-﻿using GruntzUnityverse.Core;
+﻿using System.Collections.Generic;
+using System.Linq;
 using GruntzUnityverse.Objectz.Pyramidz;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Switchez {
 public class RedToggleSwitch : Switch {
-	public override void Toggle() {
-		base.Toggle();
+	public List<RedPyramid> redPyramidz;
 
-		foreach (RedPyramid rp in GameManager.instance.redPyramidz) {
-			rp.Toggle();
-		}
+	protected override void Toggle(bool checkPressed = false) {
+		base.Toggle(checkPressed);
+
+		redPyramidz.ForEach(rp => rp.Toggle());
 	}
 
-	protected override void OnTriggerExit2D(Collider2D other) {
-		base.Toggle();
+	protected override void Start() {
+		base.Start();
+
+		redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();
 	}
 }
 }

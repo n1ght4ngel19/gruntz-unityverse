@@ -4,20 +4,31 @@ using UnityEngine.SceneManagement;
 
 namespace GruntzUnityverse.Core {
 public class GameCursor : MonoBehaviour {
+	public GameManager gameManager;
+
 	public SpriteRenderer spriteRenderer;
+
 	public AnimationClip toPlay;
 
 	public Material brownSkinColor;
+
 	public Material defaultMaterial;
 
 	public AnimancerComponent animancer;
 
 	public static GameCursor instance;
 
+	private bool doSwap => gameManager.firstSelected.tool.CompatibleWith(gameManager.selector.hoveredObject);
+
 	private void Awake() {
 		instance = this;
 
 		defaultMaterial = spriteRenderer.material;
+	}
+
+	private void Start() {
+		gameManager = FindFirstObjectByType<GameManager>();
+
 		animancer = GetComponent<AnimancerComponent>();
 	}
 
@@ -40,11 +51,17 @@ public class GameCursor : MonoBehaviour {
 			return;
 		}
 
-		if (GameManager.instance.firstSelected != null) {
-			bool doSwap = GameManager.instance.firstSelected.tool.CompatibleWith(GameManager.instance.selector.hoveredObject);
+		gameManager = FindFirstObjectByType<GameManager>();
 
-			SwapCursor(doSwap ? GameManager.instance.firstSelected.tool.cursor : AnimationManager.instance.cursorDefault);
+		if (gameManager == null) {
+			return;
 		}
+
+		if (gameManager.firstSelected == null) {
+			return;
+		}
+
+		SwapCursor(doSwap ? gameManager.firstSelected.tool.cursor : AnimationManager.instance.cursorDefault);
 	}
 
 	public void SwapCursor(AnimationClip newCursor) {

@@ -3,7 +3,7 @@ using GruntzUnityverse.Core;
 
 namespace GruntzUnityverse.AI {
 public class DefenderAI : AI {
-	protected override void FixedUpdate() {
+	protected override void Update() {
 		// When straying too far from the defended location, go back to it 
 		if (self.next && !InOriginalRange(self.next)) {
 			self.interactionTarget = null;
@@ -31,15 +31,17 @@ public class DefenderAI : AI {
 			return;
 		}
 
-		foreach (Grunt grunt in GameManager.instance.playerGruntz) {
-			if (InOriginalRange(grunt.node)) {
-				self.interactionTarget = null;
-				self.attackTarget = grunt;
-
-				self.GoToState(StateHandler.State.Attacking);
-
-				return;
+		foreach (Grunt grunt in gruntzInRange) {
+			if (!InOriginalRange(grunt.node)) {
+				continue;
 			}
+
+			self.interactionTarget = null;
+			self.attackTarget = grunt;
+
+			self.GoToState(StateHandler.State.Attacking);
+
+			return;
 		}
 
 		self.interactionTarget = null;

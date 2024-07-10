@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Objectz.Interactablez;
 using NaughtyAttributes;
 using UnityEngine;
@@ -21,54 +20,86 @@ public abstract class Switch : GridObject {
 	[DisableIf(nameof(isInstance))]
 	public Sprite releasedSprite;
 
-	public override void Setup() {
-		base.Setup();
+	private void SetupRockOnTop() {
+		Rock rockOnTop = FindObjectsByType<Rock>(FindObjectsSortMode.None)
+			.FirstOrDefault(r => r.location2D == location2D);
 
-		Rock rock = FindObjectsByType<Rock>(FindObjectsSortMode.None)
-			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
-
-		if (rock != null) {
-			rock.hiddenSwitch = this;
-			spriteRenderer.enabled = false;
-			circleCollider2D.isTrigger = false;
-			enabled = false;
-
+		if (rockOnTop == null) {
 			return;
 		}
 
-		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
-			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
+		rockOnTop.hiddenSwitch = this;
 
-		if (hole == null || !hideUnderMound) {
+		spriteRenderer.enabled = false;
+		enabled = false;
+
+		Deactivate();
+	}
+
+	private void SetupHole() {
+		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
+			.FirstOrDefault(h => h.location2D == location2D);
+
+		if (hole == null) {
+			return;
+		}
+
+		if (hole.open) {
+			Debug.LogError("An open hole cannot have a hidden switch!");
+
 			return;
 		}
 
 		hole.hiddenSwitch = this;
+
 		spriteRenderer.enabled = false;
-		circleCollider2D.isTrigger = false;
 		enabled = false;
+
+		Deactivate();
 	}
 
-	public virtual void Toggle() {
+	// --------------------------------------------------
+	// Overrides
+	// --------------------------------------------------
+
+	protected virtual void Toggle(bool checkPressed = false) {
+		if (isPressed && checkPressed) {
+			return;
+		}
+
 		isPressed = !isPressed;
 		spriteRenderer.sprite = isPressed ? pressedSprite : releasedSprite;
 	}
 
-	protected virtual void OnTriggerEnter2D(Collider2D other) {
-		if (!other.TryGetComponent(out Grunt _) && !other.TryGetComponent(out RollingBall _)) {
-			return;
-		}
+	// --------------------------------------------------
+	// Lifecycle
+	// --------------------------------------------------
 
-		if (!isPressed) {
-			Toggle();
-		}
+	protected override void Reset() {
+		GetComponent<CircleCollider2D>().excludeLayers = LayerMask.GetMask("Default", "TransparentFX", "Ignore Raycast", "Water", "UI");
+		GetComponent<CircleCollider2D>().includeLayers = LayerMask.GetMask("RollingBall", "Grunt");
 	}
 
-	protected virtual void OnTriggerExit2D(Collider2D other) {
-		if (!other.TryGetComponent(out Grunt _) && !other.TryGetComponent(out RollingBall _)) {
-			return;
-		}
+	protected override void OnValidate() {
+		base.OnValidate();
 
+		GetComponent<CircleCollider2D>().excludeLayers = LayerMask.GetMask("Default", "TransparentFX", "Ignore Raycast", "Water", "UI");
+		GetComponent<CircleCollider2D>().includeLayers = LayerMask.GetMask("RollingBall", "Grunt");
+	}
+
+	protected override void Start() {
+		base.Start();
+
+		SetupRockOnTop();
+
+		SetupHole();
+	}
+
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		Toggle(checkPressed: true);
+	}
+
+	protected override void OnTriggerExit2D(Collider2D other) {
 		Toggle();
 	}
 }

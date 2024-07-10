@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2737916579984190390}
   - component: {fileID: -6060591633135223939}
   - component: {fileID: 8755766392133860014}
+  - component: {fileID: -1104639947942641169}
   - component: {fileID: 3373029965003962344}
   - component: {fileID: 7485570136701087826}
-  - component: {fileID: -1104639947942641169}
   - component: {fileID: 1352911591195265201}
   - component: {fileID: -3707789536163036583}
   - component: {fileID: 5514687302341194583}
@@ -51,11 +51,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c635683900468a8746a4026dd85e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEditable: 0
-  hideComponents: 1
+  objectID: 0
+  hideComponents: 0
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 8755766392133860014}
+  circleCollider2D: {fileID: -1104639947942641169}
   displayName: 
   codename: 
-  hideUnderMound: 0
+  hideInObject: 0
   rotatingAnim: {fileID: 0}
   pickupAnim: {fileID: 0}
   animancer: {fileID: 7485570136701087826}
@@ -63,7 +71,7 @@ MonoBehaviour:
   animationPack: {fileID: 0}
 --- !u!212 &8755766392133860014
 SpriteRenderer:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -115,10 +123,46 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &-1104639947942641169
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7856108286464215537}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 183
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.05
 --- !u!95 &3373029965003962344
 Animator:
   serializedVersion: 7
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -139,7 +183,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7485570136701087826
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -151,42 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Animator: {fileID: 3373029965003962344}
   _ActionOnDisable: 0
---- !u!58 &-1104639947942641169
-CircleCollider2D:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7856108286464215537}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.05
 --- !u!114 &1352911591195265201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +253,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &5514687302341194583
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

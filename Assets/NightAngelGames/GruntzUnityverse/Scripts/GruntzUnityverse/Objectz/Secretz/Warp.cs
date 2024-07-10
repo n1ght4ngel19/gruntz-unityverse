@@ -1,6 +1,5 @@
 ﻿using Animancer;
 using Cysharp.Threading.Tasks;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
 using NaughtyAttributes;
 using UnityEngine;
@@ -17,11 +16,6 @@ public class Warp : GridObject {
 
 	[BoxGroup("Warp Data")]
 	public int duration;
-
-	[Foldout("Animation")]
-	[Required]
-	[DisableIf(nameof(isInstance))]
-	public Animator animator;
 
 	[Foldout("Animation")]
 	[Required]
@@ -43,21 +37,32 @@ public class Warp : GridObject {
 	[DisableIf(nameof(isInstance))]
 	public AnimationClip swirlingAnim;
 
-	private void Awake() {
+	protected override void Awake() {
+		base.Awake();
+
+		animancer = GetComponent<AnimancerComponent>();
+
 		spriteRenderer.enabled = warpType is not WarpType.Red;
+		circleCollider2D.isTrigger = warpType is not WarpType.Red;
+		enabled = warpType is not WarpType.Red;
+
+		if (warpType is not WarpType.Red) {
+			animancer.Play(swirlingAnim);
+		}
 	}
 
-	public async void Activate() {
-		circleCollider2D.isTrigger = true;
+	public override async void Activate() {
 		spriteRenderer.enabled = true;
 
 		await animancer.Play(appearAnim);
 
 		circleCollider2D.isTrigger = true;
+		enabled = true;
 
 		animancer.Play(swirlingAnim);
 
-		// If the duration is not positive, the warp will be active indefinitely (or until a Grunt steps on it).
+		// If the duration is not positive,
+		// the warp will be active indefinitely (or until a Grunt steps into it)
 		if (duration <= 0) {
 			return;
 		}
@@ -67,38 +72,34 @@ public class Warp : GridObject {
 		animancer.Play(disappearAnim);
 		await UniTask.WaitForSeconds(disappearAnim.length);
 
+		circleCollider2D.isTrigger = false;
 		spriteRenderer.enabled = false;
-
-		Destroy(gameObject);
 	}
 
-	public async void Deactivate() {
+	public override async void Deactivate() {
 		await UniTask.WaitForSeconds(AnimationManager.instance.gruntWarpEnterAnim.length);
 
 		animancer.Play(disappearAnim);
 		await UniTask.WaitForSeconds(disappearAnim.length);
 
+		circleCollider2D.isTrigger = false;
 		spriteRenderer.enabled = false;
-
-		Destroy(gameObject);
 	}
 
-	private void OnTriggerEnter2D(Collider2D other) {
-		if (!circleCollider2D.isTrigger || !other.TryGetComponent(out Grunt grunt)) {
-			return;
-		}
-
-		grunt.Teleport(warpDestination.transform);
+	protected override async void OnTriggerEnter2D(Collider2D other) {
+		node.grunt.Teleport(warpDestination.transform);
 
 		if (warpType is WarpType.Red) {
 			Deactivate();
 		}
-	}
 
-	protected override void OnDestroy() {
-		base.OnDestroy();
+		if (warpType is WarpType.Blue or WarpType.Green) {
+			animancer.Play(disappearAnim);
+			await UniTask.WaitForSeconds(disappearAnim.length);
 
-		GameManager.instance.gridObjectz.Remove(this);
+			circleCollider2D.isTrigger = false;
+			spriteRenderer.enabled = false;
+		}
 	}
 }
 

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3413833982615174554}
   - component: {fileID: 6692591537356093792}
   - component: {fileID: 8039597177016830541}
+  - component: {fileID: 6215631924038186651}
   - component: {fileID: 2779727153241040291}
   - component: {fileID: 2246782752537131454}
-  - component: {fileID: 6215631924038186651}
   - component: {fileID: 304189941644232124}
   - component: {fileID: 8716681340583196438}
   - component: {fileID: 7210827145444986502}
@@ -51,11 +51,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94218d794e53415785fcd192edc19230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEditable: 0
+  objectID: 0
   hideComponents: 1
+  isObstacle: 0
+  isWater: 0
+  isFire: 0
+  isVoid: 0
+  location2D: {x: 0, y: 0}
+  node: {fileID: 0}
+  spriteRenderer: {fileID: 8039597177016830541}
+  circleCollider2D: {fileID: 6215631924038186651}
   displayName: Helpbox
   codename: Helpbox
-  hideUnderMound: 0
+  hideInObject: 0
   rotatingAnim: {fileID: 7400000, guid: b939da36098b15e408bd07daf79c65a1, type: 2}
   pickupAnim: {fileID: 7400000, guid: fad22746528bb8542b099aaf351fadf2, type: 2}
   animancer: {fileID: 2246782752537131454}
@@ -114,6 +122,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &6215631924038186651
+CircleCollider2D:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7858689345019746892}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 183
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.05
 --- !u!95 &2779727153241040291
 Animator:
   serializedVersion: 7
@@ -150,42 +194,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Animator: {fileID: 2779727153241040291}
   _ActionOnDisable: 0
---- !u!58 &6215631924038186651
-CircleCollider2D:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7858689345019746892}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.05
 --- !u!114 &304189941644232124
 MonoBehaviour:
   m_ObjectHideFlags: 0

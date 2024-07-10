@@ -33,19 +33,19 @@ public class Hole : GridObject {
 	#endregion
 
 	// --------------------------------------------------
-	// Held Objectz
+	// Hidden Objectz
 	// --------------------------------------------------
 
-	#region Held Objectz
-	[BoxGroup("Held Objectz")]
+	#region Hidden Objectz
+	[BoxGroup("Hidden Objectz")]
 	[ReadOnly]
 	public LevelItem heldItem;
 
-	[BoxGroup("Held Objectz")]
+	[BoxGroup("Hidden Objectz")]
 	[ReadOnly]
 	public Hazard hiddenHazard;
 
-	[BoxGroup("Held Objectz")]
+	[BoxGroup("Hidden Objectz")]
 	[ReadOnly]
 	public Switch hiddenSwitch;
 
@@ -74,7 +74,8 @@ public class Hole : GridObject {
 			node.isVoid = false;
 
 			circleCollider2D.isTrigger = false;
-			GameManager.instance.gridObjectz.Remove(this);
+			gameManager.gridObjectz.Remove(this);
+
 			Destroy(gameObject);
 		}
 	}

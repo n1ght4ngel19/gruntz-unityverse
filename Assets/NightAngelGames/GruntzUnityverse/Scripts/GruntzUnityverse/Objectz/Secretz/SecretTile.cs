@@ -1,43 +1,38 @@
-﻿using System.Collections;
-using System.Linq;
-using GruntzUnityverse.Pathfinding;
-using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
 
 namespace GruntzUnityverse.Objectz.Secretz {
 public class SecretTile : GridObject {
 	public float delay;
+
 	public float duration;
 
 	private bool _initiallyBlocked;
+
 	private bool _initiallyWater;
+
 	private bool _initiallyFire;
+
 	private bool _initiallyVoid;
 
-	public override void Setup() {
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		circleCollider2D = GetComponent<CircleCollider2D>();
-
-		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
-			.First(n => Vector2Int.RoundToInt(n.transform.position) == Vector2Int.RoundToInt(transform.position));
-
+	private void AssignInitialNodeValues() {
 		_initiallyBlocked = node.isBlocked;
 		_initiallyWater = node.isWater;
 		_initiallyFire = node.isFire;
 		_initiallyVoid = node.isVoid;
 	}
 
-	public IEnumerator Reveal() {
-		Setup();
+	public async void Reveal() {
+		AssignInitialNodeValues();
 
-		yield return new WaitForSeconds(delay);
+		await UniTask.WaitForSeconds(delay);
 
-		gameObject.SetActive(true);
 		node.isBlocked = isObstacle;
 		node.isWater = isWater;
 		node.isFire = isFire;
 		node.isVoid = isVoid;
+		gameObject.SetActive(true);
 
-		yield return new WaitForSeconds(duration);
+		await UniTask.WaitForSeconds(duration);
 
 		node.isBlocked = _initiallyBlocked;
 		node.isWater = _initiallyWater;

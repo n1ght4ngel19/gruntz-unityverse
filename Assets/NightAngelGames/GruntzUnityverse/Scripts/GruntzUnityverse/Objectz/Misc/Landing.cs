@@ -1,8 +1,6 @@
 ﻿namespace GruntzUnityverse.Objectz.Misc {
 public class Landing : GridObject {
-	public override void Setup() {
-		base.Setup();
-
+	protected override void AssignNodeValues() {
 		node.isWater = false;
 		node.isFire = false;
 	}

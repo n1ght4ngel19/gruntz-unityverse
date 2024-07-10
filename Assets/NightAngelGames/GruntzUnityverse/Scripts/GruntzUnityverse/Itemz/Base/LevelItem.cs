@@ -2,31 +2,16 @@
 using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Actorz;
+using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Objectz.Interactablez;
-using GruntzUnityverse.Utils;
-using HierarchyIcons;
 using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Itemz.Base {
-public abstract class LevelItem : MonoBehaviour {
-	public bool isInstance => gameObject.scene.name != null;
-
-	[BoxGroup("Inspector Toggles")]
-	public bool isEditable;
-
-	[BoxGroup("Inspector Toggles")]
-	public bool hideComponents;
-
-	/// <summary>
-	/// The display name of the item.
-	/// </summary>
+public abstract class LevelItem : GridObject {
 	[BoxGroup("Item Data")]
 	public string displayName;
 
-	/// <summary>
-	/// The codename of the item.
-	/// </summary>
 	[BoxGroup("Item Data")]
 	[HideIf(nameof(isInstance))]
 	public string codename;
@@ -34,16 +19,10 @@ public abstract class LevelItem : MonoBehaviour {
 	[BoxGroup("Item Data")]
 	public bool hideInObject;
 
-	/// <summary>
-	/// The animation clip used to display the item on the level.
-	/// </summary>
 	[Foldout("Animation")]
 	[DisableIf(nameof(isInstance))]
 	public AnimationClip rotatingAnim;
 
-	/// <summary>
-	/// The animation clip used by a Grunt picking up the item.
-	/// </summary>
 	[Foldout("Animation")]
 	[DisableIf(nameof(isInstance))]
 	public AnimationClip pickupAnim;
@@ -52,89 +31,82 @@ public abstract class LevelItem : MonoBehaviour {
 	[DisableIf(nameof(isInstance))]
 	public AnimancerComponent animancer;
 
-	public void Setup() {
-		animancer ??= GetComponent<AnimancerComponent>();
+	private void SetupRockOnTop() {
+		Rock rockOnTop = FindObjectsByType<Rock>(FindObjectsSortMode.None)
+			.FirstOrDefault(r => r.location2D == location2D);
 
-		Rock rock = FindObjectsByType<Rock>(FindObjectsSortMode.None)
-			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
+		if (rockOnTop == null) {
+			return;
+		}
 
-		if (rock != null) {
-			rock.heldItem = this;
-			GetComponent<SpriteRenderer>().enabled = false;
-			GetComponent<CircleCollider2D>().isTrigger = false;
+		rockOnTop.hiddenItem = this;
+
+		spriteRenderer.enabled = false;
+		enabled = false;
+
+		Deactivate();
+	}
+
+	private void SetupHole() {
+		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
+			.FirstOrDefault(h => h.location2D == location2D);
+
+		if (hole == null) {
+			return;
+		}
+
+		if (hole.open) {
+			Debug.LogError("An open hole cannot have a hidden item!");
 
 			return;
 		}
 
-		Hole hole = FindObjectsByType<Hole>(FindObjectsSortMode.None)
-			.FirstOrDefault(r => Vector2Int.RoundToInt(r.transform.position) == Vector2Int.RoundToInt(transform.position));
+		hole.heldItem = this;
 
-		if (hole != null && hideInObject) {
-			hole.heldItem = this;
-			GetComponent<SpriteRenderer>().enabled = false;
-			GetComponent<CircleCollider2D>().isTrigger = false;
-		}
+		spriteRenderer.enabled = false;
+		enabled = false;
+
+		Deactivate();
 	}
 
-	protected virtual void Start() {
-		animancer.Play(rotatingAnim);
-	}
-
-	/// <summary>
-	/// Called when a <see cref="Grunt"/> picks up this item.
-	/// (Provides no implementation since child classes need to modify
-	/// different properties of the Grunt picking up the item.)
-	/// </summary>
 	protected virtual async void Pickup(Grunt targetGrunt) {
 		targetGrunt.GoToState(StateHandler.State.Committed);
 		targetGrunt.enabled = false;
 
 		targetGrunt.animancer.Play(pickupAnim);
 		await UniTask.WaitForSeconds(pickupAnim.length);
-
-		targetGrunt.enabled = true;
-		targetGrunt.GoToState(StateHandler.State.Walking);
 	}
 
-	/// <summary>
-	/// Called when an <see cref="Grunt"/> moves onto this Item.
-	/// Other than RollingBallz, only Gruntz have the ability to collide with Items.
-	/// This is checked inside the method, so there is no need to expose this method to child classes.
-	/// </summary>
-	/// <param name="other">The collider of the colliding object.</param>
-	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.TryGetComponent(out Grunt grunt)) {
-			GetComponent<SpriteRenderer>().enabled = false;
+	// --------------------------------------------------
+	// Lifecycle
+	// --------------------------------------------------
 
-			Pickup(grunt);
-		}
+	protected override void Start() {
+		base.Start();
+
+		animancer = GetComponent<AnimancerComponent>();
+
+		SetupRockOnTop();
+
+		SetupHole();
+
+		animancer.Play(rotatingAnim);
 	}
 
-	private void OnTriggerExit2D(Collider2D other) {
-		if (other.TryGetComponent(out Grunt _)) {
-			GetComponent<SpriteRenderer>().enabled = true;
-		}
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		base.OnTriggerEnter2D(other);
+
+		spriteRenderer.enabled = false;
+
+		Pickup(node.grunt);
+	}
+
+	protected override void OnTriggerExit2D(Collider2D other) {
+		spriteRenderer.enabled = true;
 	}
 
 	public void LocalizeName(string newDisplayName) {
 		displayName = newDisplayName;
 	}
-
-	#if UNITY_EDITOR
-	private void OnValidate() {
-		HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
-
-		GetComponent<SpriteRenderer>().hideFlags = newHideFlags;
-		GetComponent<CircleCollider2D>().hideFlags = newHideFlags;
-		animancer.hideFlags = newHideFlags;
-		animancer.Animator.hideFlags = newHideFlags;
-		GetComponent<TrimName>().hideFlags = newHideFlags;
-		GetComponent<HierarchyIcon>().hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
-	}
-
-	private void OnDrawGizmosSelected() {
-		transform.hideFlags = HideFlags.HideInInspector;
-	}
-	#endif
 }
 }

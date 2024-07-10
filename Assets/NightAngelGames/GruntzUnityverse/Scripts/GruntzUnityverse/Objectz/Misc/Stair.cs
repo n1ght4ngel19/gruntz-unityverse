@@ -1,8 +1,6 @@
 ﻿namespace GruntzUnityverse.Objectz.Misc {
 public class Stair : GridObject {
-	public override void Setup() {
-		base.Setup();
-
+	protected override void AssignNodeValues() {
 		node.isBlocked = isObstacle;
 	}
 }

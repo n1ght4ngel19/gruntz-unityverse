@@ -19,7 +19,7 @@ GameObject:
   m_Layer: 0
   m_Name: _Warp
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: 37bde04cdab83d84caf27f73e6837e0f, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e367dfcd2a54473a2278b08ea6de082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   hideComponents: 1
   isObstacle: 0
   isWater: 0
@@ -62,11 +63,10 @@ MonoBehaviour:
   warpType: 0
   warpDestination: {fileID: 0}
   duration: 0
-  animator: {fileID: 0}
-  animancer: {fileID: 0}
-  appearAnim: {fileID: 7400000, guid: b7ca74733b7d86142b343f97f8c1564d, type: 2}
-  disappearAnim: {fileID: 7400000, guid: f20212d2766a10a46b6798b8c46c167e, type: 2}
-  swirlingAnim: {fileID: 7400000, guid: e8b4eb32fe9862a49bf78baadda5ffa4, type: 2}
+  animancer: {fileID: -9060245815341626296}
+  appearAnim: {fileID: 7400000, guid: 613f4f7034c2cb24e9ad6303ae17b59e, type: 2}
+  disappearAnim: {fileID: 7400000, guid: 2e63f672738f16840b82255dc026b971, type: 2}
+  swirlingAnim: {fileID: 7400000, guid: 771f50e7169acb945a65efdedf6a5c7d, type: 2}
 --- !u!212 &-3545400475140903149
 SpriteRenderer:
   m_ObjectHideFlags: 2
@@ -110,7 +110,7 @@ SpriteRenderer:
   m_SortingLayerID: -370743279
   m_SortingLayer: -4
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 72fea91e963397549be417b734285257, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,7 +118,7 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!58 &488162456941055788
@@ -134,10 +134,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 183
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

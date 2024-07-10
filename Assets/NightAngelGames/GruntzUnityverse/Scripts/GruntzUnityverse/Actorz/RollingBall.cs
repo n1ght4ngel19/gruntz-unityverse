@@ -35,6 +35,14 @@ public class RollingBall : MonoBehaviour {
 	[ReadOnly]
 	public Vector2Int location2D;
 
+	[BoxGroup("Ball Data")]
+	[ReadOnly]
+	public SpriteRenderer spriteRenderer;
+
+	[BoxGroup("Ball Data")]
+	[ReadOnly]
+	public CircleCollider2D circleCollider2D;
+
 	[Foldout("Animation")]
 	[DisableIf(nameof(isInstance))]
 	public AnimationClip rollAnimUp;
@@ -72,30 +80,6 @@ public class RollingBall : MonoBehaviour {
 	public AnimancerComponent animancer;
 
 	public bool isInstance => gameObject.scene.name != null;
-
-	public void Setup() {
-		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
-			.First(n => n.location2D == new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y)));
-
-		animancer ??= GetComponent<AnimancerComponent>();
-	}
-
-	private void Start() {
-		location2D = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
-
-		DirectByArrow();
-
-		animancer.Play(currentRollAnim);
-	}
-
-	private void Update() {
-		animancer.Play(currentRollAnim);
-	}
-
-	private void FixedUpdate() {
-		Debug.Log(currentRollAnim.name);
-		ChangePosition();
-	}
 
 	private void ChangePosition() {
 		Vector3 moveVector = (next.transform.position - node.transform.position);
@@ -137,12 +121,45 @@ public class RollingBall : MonoBehaviour {
 		transform.Rotate(0, 0, rotateAngle);
 	}
 
+	// --------------------------------------------------
+	// Lifecycle
+	// --------------------------------------------------
+
+	private void Awake() {
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		circleCollider2D = GetComponent<CircleCollider2D>();
+		animancer = GetComponent<AnimancerComponent>();
+		location2D = Vector2Int.RoundToInt(transform.position);
+	}
+
+	private void Start() {
+		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
+			.First(n => n.location2D == location2D);
+
+		DirectByArrow();
+
+		animancer.Play(currentRollAnim);
+	}
+
+	private void FixedUpdate() {
+		ChangePosition();
+	}
+
+	private void Update() {
+		animancer.Play(currentRollAnim);
+	}
+
 	private void OnTriggerEnter2D(Collider2D other) {
-		if (!other.TryGetComponent(out RollingBall _) && !other.TryGetComponent(out Brick _) && !other.TryGetComponent(out Rock _)) {
+		bool hitBall = other.TryGetComponent(out RollingBall _);
+		bool hitBrick = other.TryGetComponent(out Brick _);
+		bool hitRock = other.TryGetComponent(out Rock _);
+		bool hitGrunt = other.TryGetComponent(out Grunt _);
+
+		if (!hitBall && !hitBrick && !hitRock) {
 			return;
 		}
 
-		GetComponent<CircleCollider2D>().isTrigger = false;
+		circleCollider2D.isTrigger = false;
 		Break();
 	}
 

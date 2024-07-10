@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663f2894e606417db490fbecdb56e828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   hideComponents: 1
   isObstacle: 1
   isWater: 0
@@ -63,6 +64,7 @@ MonoBehaviour:
   lowerAnim: {fileID: 7400000, guid: e28f72b4527e1c14c8f28b41ada5e1b1, type: 2}
   animancer: {fileID: 7911234983759819221}
   switchez: []
+  toggled: 0
 --- !u!212 &6109165329942239614
 SpriteRenderer:
   m_ObjectHideFlags: 2
@@ -130,10 +132,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 55
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

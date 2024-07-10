@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e185902864442e89b9a3b5a8aa9a33a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideComponents: 1
+  objectID: 0
+  hideComponents: 0
   isObstacle: 0
   isWater: 0
   isFire: 0
@@ -64,7 +65,7 @@ MonoBehaviour:
   bridgez: []
 --- !u!212 &6109165329942239614
 SpriteRenderer:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -118,7 +119,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!58 &-7165575812261857949
 CircleCollider2D:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -129,11 +130,11 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
+    m_Bits: 55
+  m_LayerOverridePriority: 1
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -170,7 +171,7 @@ MonoBehaviour:
   tooltip: 
 --- !u!114 &-830601167858207169
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

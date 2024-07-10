@@ -11,6 +11,6 @@ public interface IAnimatable {
 	/// <summary>
 	/// The Animancer component of this object, used for easy access to animations.
 	/// </summary>
-	AnimancerComponent Animancer { get; set; }
+	AnimancerComponent animancer { get; set; }
 }
 }

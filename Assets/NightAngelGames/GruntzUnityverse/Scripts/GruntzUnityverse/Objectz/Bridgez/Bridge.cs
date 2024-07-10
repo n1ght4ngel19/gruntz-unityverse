@@ -10,11 +10,11 @@ namespace GruntzUnityverse.Objectz.Bridgez {
 public class Bridge : GridObject {
 	[BoxGroup("Bridge Data")]
 	[DisableIf(nameof(isInstance))]
-	public bool isDeathBridge;
+	public bool raised;
 
 	[BoxGroup("Bridge Data")]
 	[DisableIf(nameof(isInstance))]
-	public bool raised;
+	public bool isDeathBridge;
 
 	[BoxGroup("Animation Data")]
 	[DisableIf(nameof(isInstance))]
@@ -24,22 +24,15 @@ public class Bridge : GridObject {
 	[DisableIf(nameof(isInstance))]
 	public AnimationClip lowerAnim;
 
+	private AnimationClip animToPlay => raised ? lowerAnim : raiseAnim;
+
 	[BoxGroup("Animation Data")]
 	[DisableIf(nameof(isInstance))]
 	public AnimancerComponent animancer;
 
-	public override void Setup() {
-		base.Setup();
-
-		animancer ??= GetComponent<AnimancerComponent>();
-		node.isWater = !raised;
-	}
-
 	public async void Toggle() {
-		AnimationClip toPlay = raised ? lowerAnim : raiseAnim;
-
-		animancer.Play(toPlay);
-		await UniTask.WaitForSeconds(toPlay.length);
+		animancer.Play(animToPlay);
+		await UniTask.WaitForSeconds(animToPlay.length);
 
 		raised = !raised;
 
@@ -54,17 +47,27 @@ public class Bridge : GridObject {
 				break;
 		}
 
-		// Check if a Grunt is standing no the Bridge when it's lowered
-		if (node.gruntOnNode != null && !node.gruntOnNode.between) {
-			// Kill the Grunt if it doesn't have a Toob or Wingz equipped
-			if (node.isWater && node.gruntOnNode.tool is not Wingz or Toob) {
-				node.gruntOnNode.Die(AnimationManager.instance.sinkDeathAnimation, false, false);
-			}
-
-			if (node.isFire && node.gruntOnNode.tool is not Wingz) {
-				node.gruntOnNode.Die(AnimationManager.instance.burnDeathAnimation, false, false);
-			}
+		if (node.grunt == null || node.grunt.between) {
+			return;
 		}
+
+		if (node.isWater && node.grunt.tool is not Wingz or Toob) {
+			node.grunt.Die(AnimationManager.instance.sinkDeathAnimation, false, false);
+		}
+
+		if (node.isFire && node.grunt.tool is not Wingz) {
+			node.grunt.Die(AnimationManager.instance.burnDeathAnimation, false, false);
+		}
+	}
+
+	protected override void AssignNodeValues() {
+		node.isWater = !raised;
+	}
+
+	protected override void Start() {
+		base.Start();
+
+		animancer = GetComponent<AnimancerComponent>();
 	}
 }
 }

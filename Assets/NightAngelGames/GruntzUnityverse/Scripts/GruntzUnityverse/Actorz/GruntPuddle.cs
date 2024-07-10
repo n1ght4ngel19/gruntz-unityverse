@@ -1,21 +1,30 @@
-﻿using System.Linq;
-using Animancer;
+﻿using Animancer;
 using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Objectz;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Actorz {
 public class GruntPuddle : GridObject {
 	public int gooAmount;
 
-	public AnimancerComponent animancer;
-	public AnimationClip appearAnim;
+	[BoxGroup("Animation")]
 	public AnimationClip bubblingAnim;
+
+	[BoxGroup("Animation")]
+	public AnimationClip appearAnim;
+
+	[BoxGroup("Animation")]
 	public AnimationClip disappearAnim;
 
-	private void Start() {
-		node = Level.instance.levelNodes.First(n => n.location2D == location2D);
+	[BoxGroup("Animation")]
+	public AnimancerComponent animancer;
+
+	protected override void Start() {
+		base.Start();
+
+		animancer = GetComponent<AnimancerComponent>();
 
 		animancer.Play(bubblingAnim);
 	}
@@ -29,7 +38,8 @@ public class GruntPuddle : GridObject {
 	public async void Disappear() {
 		await animancer.Play(disappearAnim);
 
-		GameManager.instance.gridObjectz.Remove(this);
+		gameManager.gridObjectz.Remove(this);
+
 		Destroy(gameObject, 0.1f);
 	}
 }

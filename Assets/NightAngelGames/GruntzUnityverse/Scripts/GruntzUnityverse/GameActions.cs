@@ -32,7 +32,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""name"": ""Select"",
                     ""type"": ""Button"",
                     ""id"": ""938e4eb9-b43e-431d-b5b1-17d3dd2e6cf7"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -308,7 +308,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""name"": ""SwitchLocale"",
                     ""type"": ""Button"",
                     ""id"": ""6e8c03fc-d679-46b3-a665-9aa960387f1c"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -376,7 +376,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""name"": ""Escape"",
                     ""type"": ""Button"",
                     ""id"": ""25d1d973-535f-4da8-bec9-f1d323a84d0c"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -518,7 +518,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""name"": ""ContinueToLevel"",
                     ""type"": ""Button"",
                     ""id"": ""0ea4e8d7-8a49-4304-b875-11c7a8b48d07"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -546,7 +546,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""name"": ""Escape"",
                     ""type"": ""Button"",
                     ""id"": ""bb2cab97-4b9b-438f-904c-f5ca28ed72ff"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -574,7 +574,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""name"": ""TryPlaceGrunt"",
                     ""type"": ""Button"",
                     ""id"": ""0371cfd4-1989-4595-a2b0-47315fd0ba3a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -589,6 +589,114 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TryPlaceGrunt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""MainMenu"",
+            ""id"": ""1b8c08b7-57c5-4728-804f-e96ac62bf289"",
+            ""actions"": [
+                {
+                    ""name"": ""ToggleBack"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b2e31ad-c0a5-4d60-b2da-6e65814fcb79"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActivateNext"",
+                    ""type"": ""Button"",
+                    ""id"": ""f403bf99-c5cf-4038-942e-42e7450984b4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActivatePrevious"",
+                    ""type"": ""Button"",
+                    ""id"": ""87991f5f-aa41-447c-bf76-201ab83dd97d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PressEnter"",
+                    ""type"": ""Button"",
+                    ""id"": ""dbffc3f1-b4dd-4469-8262-9f75809fd8b1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveMouse"",
+                    ""type"": ""Value"",
+                    ""id"": ""d192e152-8a8d-45c1-831c-c670ed65bbf1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""45b03ca1-a63b-4263-94bc-95c675fbc638"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleBack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d78a2149-278e-4176-8928-3da53fdbcb43"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActivateNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ca06211c-24eb-4b55-9ae9-7bf0a69d1da6"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActivatePrevious"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc7c6468-f3c4-4fd5-8b70-470a31245ac8"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PressEnter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e140138c-44aa-48ac-be49-6c03c78f1cb8"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -629,6 +737,13 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         // CreatorPad
         m_CreatorPad = asset.FindActionMap("CreatorPad", throwIfNotFound: true);
         m_CreatorPad_TryPlaceGrunt = m_CreatorPad.FindAction("TryPlaceGrunt", throwIfNotFound: true);
+        // MainMenu
+        m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
+        m_MainMenu_ToggleBack = m_MainMenu.FindAction("ToggleBack", throwIfNotFound: true);
+        m_MainMenu_ActivateNext = m_MainMenu.FindAction("ActivateNext", throwIfNotFound: true);
+        m_MainMenu_ActivatePrevious = m_MainMenu.FindAction("ActivatePrevious", throwIfNotFound: true);
+        m_MainMenu_PressEnter = m_MainMenu.FindAction("PressEnter", throwIfNotFound: true);
+        m_MainMenu_MoveMouse = m_MainMenu.FindAction("MoveMouse", throwIfNotFound: true);
     }
 
     ~@GameActions()
@@ -640,6 +755,7 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         Debug.Assert(!m_ContinueInput.enabled, "This will cause a leak and performance issues, GameActions.ContinueInput.Disable() has not been called.");
         Debug.Assert(!m_PauseMenu.enabled, "This will cause a leak and performance issues, GameActions.PauseMenu.Disable() has not been called.");
         Debug.Assert(!m_CreatorPad.enabled, "This will cause a leak and performance issues, GameActions.CreatorPad.Disable() has not been called.");
+        Debug.Assert(!m_MainMenu.enabled, "This will cause a leak and performance issues, GameActions.MainMenu.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -1107,6 +1223,84 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
         }
     }
     public CreatorPadActions @CreatorPad => new CreatorPadActions(this);
+
+    // MainMenu
+    private readonly InputActionMap m_MainMenu;
+    private List<IMainMenuActions> m_MainMenuActionsCallbackInterfaces = new List<IMainMenuActions>();
+    private readonly InputAction m_MainMenu_ToggleBack;
+    private readonly InputAction m_MainMenu_ActivateNext;
+    private readonly InputAction m_MainMenu_ActivatePrevious;
+    private readonly InputAction m_MainMenu_PressEnter;
+    private readonly InputAction m_MainMenu_MoveMouse;
+    public struct MainMenuActions
+    {
+        private @GameActions m_Wrapper;
+        public MainMenuActions(@GameActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ToggleBack => m_Wrapper.m_MainMenu_ToggleBack;
+        public InputAction @ActivateNext => m_Wrapper.m_MainMenu_ActivateNext;
+        public InputAction @ActivatePrevious => m_Wrapper.m_MainMenu_ActivatePrevious;
+        public InputAction @PressEnter => m_Wrapper.m_MainMenu_PressEnter;
+        public InputAction @MoveMouse => m_Wrapper.m_MainMenu_MoveMouse;
+        public InputActionMap Get() { return m_Wrapper.m_MainMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MainMenuActions set) { return set.Get(); }
+        public void AddCallbacks(IMainMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MainMenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MainMenuActionsCallbackInterfaces.Add(instance);
+            @ToggleBack.started += instance.OnToggleBack;
+            @ToggleBack.performed += instance.OnToggleBack;
+            @ToggleBack.canceled += instance.OnToggleBack;
+            @ActivateNext.started += instance.OnActivateNext;
+            @ActivateNext.performed += instance.OnActivateNext;
+            @ActivateNext.canceled += instance.OnActivateNext;
+            @ActivatePrevious.started += instance.OnActivatePrevious;
+            @ActivatePrevious.performed += instance.OnActivatePrevious;
+            @ActivatePrevious.canceled += instance.OnActivatePrevious;
+            @PressEnter.started += instance.OnPressEnter;
+            @PressEnter.performed += instance.OnPressEnter;
+            @PressEnter.canceled += instance.OnPressEnter;
+            @MoveMouse.started += instance.OnMoveMouse;
+            @MoveMouse.performed += instance.OnMoveMouse;
+            @MoveMouse.canceled += instance.OnMoveMouse;
+        }
+
+        private void UnregisterCallbacks(IMainMenuActions instance)
+        {
+            @ToggleBack.started -= instance.OnToggleBack;
+            @ToggleBack.performed -= instance.OnToggleBack;
+            @ToggleBack.canceled -= instance.OnToggleBack;
+            @ActivateNext.started -= instance.OnActivateNext;
+            @ActivateNext.performed -= instance.OnActivateNext;
+            @ActivateNext.canceled -= instance.OnActivateNext;
+            @ActivatePrevious.started -= instance.OnActivatePrevious;
+            @ActivatePrevious.performed -= instance.OnActivatePrevious;
+            @ActivatePrevious.canceled -= instance.OnActivatePrevious;
+            @PressEnter.started -= instance.OnPressEnter;
+            @PressEnter.performed -= instance.OnPressEnter;
+            @PressEnter.canceled -= instance.OnPressEnter;
+            @MoveMouse.started -= instance.OnMoveMouse;
+            @MoveMouse.performed -= instance.OnMoveMouse;
+            @MoveMouse.canceled -= instance.OnMoveMouse;
+        }
+
+        public void RemoveCallbacks(IMainMenuActions instance)
+        {
+            if (m_Wrapper.m_MainMenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMainMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MainMenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MainMenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MainMenuActions @MainMenu => new MainMenuActions(this);
     public interface IInGameActions
     {
         void OnSelect(InputAction.CallbackContext context);
@@ -1145,5 +1339,13 @@ public partial class @GameActions: IInputActionCollection2, IDisposable
     public interface ICreatorPadActions
     {
         void OnTryPlaceGrunt(InputAction.CallbackContext context);
+    }
+    public interface IMainMenuActions
+    {
+        void OnToggleBack(InputAction.CallbackContext context);
+        void OnActivateNext(InputAction.CallbackContext context);
+        void OnActivatePrevious(InputAction.CallbackContext context);
+        void OnPressEnter(InputAction.CallbackContext context);
+        void OnMoveMouse(InputAction.CallbackContext context);
     }
 }

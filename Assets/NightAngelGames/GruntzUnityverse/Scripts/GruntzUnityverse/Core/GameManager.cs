@@ -16,30 +16,16 @@ using UnityEngine.SceneManagement;
 
 namespace GruntzUnityverse.Core {
 public class GameManager : MonoBehaviour {
-	/// <summary>
-	/// The singleton accessor of the GM.
-	/// </summary>
-	public static GameManager instance { get; private set; }
-
-	/// <summary>
-	/// The name of the current Level (not the scene name/address).
-	/// </summary>
 	[Expandable]
 	public LevelData levelData;
 
-	/// <summary>
-	/// All the Gruntz in the current level.
-	/// </summary>
-	public List<Grunt> allGruntz => playerGruntz.Concat(dizgruntled).ToList();
-
 	[Header("Gruntz")]
+	public List<Grunt> gruntz => playerGruntz.Concat(dizgruntled).ToList();
+
 	public List<Grunt> playerGruntz;
 
 	public List<Grunt> dizgruntled;
 
-	/// <summary>
-	/// The Gruntz currently selected by the player.
-	/// </summary>
 	public List<Grunt> selectedGruntz;
 
 	[Header("Cached Objectz")]
@@ -69,8 +55,6 @@ public class GameManager : MonoBehaviour {
 	public GameObject objectz;
 
 	private void Awake() {
-		instance = this;
-
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
@@ -116,24 +100,11 @@ public class GameManager : MonoBehaviour {
 		Time.timeScale = 0f;
 
 		// --------------------------------------------------
-		// Actorz setup
+		// Collecting Actorz
 		// --------------------------------------------------
-		// allGruntz = FindObjectsByType<Grunt>(FindObjectsSortMode.None).ToList();
-
-		playerGruntz = allGruntz
-			.Where(grunt => grunt.team == 0)
-			.ToList();
-
-		dizgruntled = allGruntz
-			.Where(grunt => grunt.team != 0)
-			.ToList();
-
-		FindObjectsByType<RollingBall>(FindObjectsSortMode.None)
-			.ToList()
-			.ForEach(rb => rb.Setup());
 
 		// --------------------------------------------------
-		// Objectz setup
+		// Collecting Objectz
 		// --------------------------------------------------
 		redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();
 
@@ -142,14 +113,6 @@ public class GameManager : MonoBehaviour {
 			.ToList();
 
 		spikez = FindObjectsByType<Spikez>(FindObjectsSortMode.None).ToList();
-
-		FindObjectsByType<Blocker>(FindObjectsSortMode.None)
-			.ToList()
-			.ForEach(bl => bl.Setup());
-
-		foreach (GridObject go in gridObjectz) {
-			go.Setup();
-		}
 	}
 
 	private void OnSwitchLocale() {
@@ -161,7 +124,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void OnChangeGameSpeed() {
-		// ReSharper disable once CompareOfFloatsByEqualityOperator
 		Time.timeScale = Time.timeScale switch {
 			0 => 0,
 			2f => 1f,
@@ -203,19 +165,7 @@ public class GameManagerEditor : UnityEditor.Editor {
 
 			List<Checkpoint> checkpointz = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None).ToList();
 
-			foreach (Checkpoint cp in checkpointz) {
-				cp.Setup();
-				EditorUtility.SetDirty(cp);
-			}
-
 			List<LevelItem> levelItemz = FindObjectsByType<LevelItem>(FindObjectsSortMode.None).ToList();
-
-			foreach (LevelItem li in levelItemz) {
-				li.Setup();
-				EditorUtility.SetDirty(li);
-			}
-
-			EditorUtility.SetDirty(gameManager);
 
 			Debug.Log($"Initialization took {DateTime.Now - start}");
 		}

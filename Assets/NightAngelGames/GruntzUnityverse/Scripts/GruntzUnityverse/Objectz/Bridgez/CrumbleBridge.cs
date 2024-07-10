@@ -1,33 +1,29 @@
 ﻿using Animancer;
 using Cysharp.Threading.Tasks;
-using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
 using GruntzUnityverse.Itemz.Toolz;
 using GruntzUnityverse.Pathfinding;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace GruntzUnityverse.Objectz.Bridgez {
 public class CrumbleBridge : GridObject {
-	public bool isDeathBridge;
-
+	[BoxGroup("Bridge Data")]
 	public int crumbleDelay;
 
+	[BoxGroup("Bridge Data")]
+	[DisableIf(nameof(isInstance))]
+	public bool isDeathBridge;
+
+	[BoxGroup("Animation Data")]
+	[DisableIf(nameof(isInstance))]
 	public AnimationClip crumbleAnim;
 
+	[BoxGroup("Animation Data")]
+	[DisableIf(nameof(isInstance))]
 	public AnimancerComponent animancer;
 
-	public override void Setup() {
-		base.Setup();
-
-		animancer ??= GetComponent<AnimancerComponent>();
-		node.isWater = false;
-	}
-
-	private async void OnTriggerEnter2D(Collider2D other) {
-		if (!other.TryGetComponent(out Grunt _) && !other.TryGetComponent(out RollingBall _)) {
-			return;
-		}
-
+	private async void Crumble() {
 		await UniTask.WaitForSeconds(crumbleDelay);
 
 		animancer.Play(crumbleAnim);
@@ -44,20 +40,37 @@ public class CrumbleBridge : GridObject {
 				break;
 		}
 
-		// Check if a Grunt is standing no the Bridge when it's lowered
-		if (node.gruntOnNode != null && !node.gruntOnNode.between) {
-			// Kill the Grunt if it doesn't have a Toob or Wingz equipped
-			if (node.isWater && node.gruntOnNode.tool is not Wingz or Toob) {
-				node.gruntOnNode.Die(AnimationManager.instance.sinkDeathAnimation, false, false);
+		if (node.grunt != null && !node.grunt.between) {
+			if (node.isWater && node.grunt.tool is not Wingz or Toob) {
+				node.grunt.Die(AnimationManager.instance.sinkDeathAnimation, leavePuddle: false, playBelow: false);
 			}
 
-			if (node.isFire && node.gruntOnNode.tool is not Wingz) {
-				node.gruntOnNode.Die(AnimationManager.instance.burnDeathAnimation, false, false);
+			if (node.isFire && node.grunt.tool is not Wingz) {
+				node.grunt.Die(AnimationManager.instance.burnDeathAnimation, leavePuddle: false, playBelow: false);
 			}
 		}
 
-		GameManager.instance.gridObjectz.Remove(this);
-		Destroy(gameObject, 0.5f);
+		gameManager.gridObjectz.Remove(this);
+
+		Destroy(gameObject);
+	}
+
+	protected override void AssignNodeValues() {
+		node.isWater = false;
+	}
+
+	protected override void UnAssignNodeValues() { }
+
+	protected override void Start() {
+		base.Start();
+
+		animancer = GetComponent<AnimancerComponent>();
+	}
+
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		Deactivate();
+
+		Crumble();
 	}
 }
 }

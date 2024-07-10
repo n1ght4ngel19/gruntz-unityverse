@@ -12,16 +12,14 @@ namespace GruntzUnityverse.Objectz {
 public class Fort : GridObject {
 	public List<Flag> fortFlagz;
 
-	private GameManager _gameManager;
+	protected override void Start() {
+		base.Start();
 
-	private void Start() {
 		fortFlagz = transform.parent.GetComponentsInChildren<Flag>().ToList();
 		fortFlagz.ForEach(fl => fl.PlayAnim());
-
-		_gameManager = FindFirstObjectByType<GameManager>();
 	}
 
-	private async void OnTriggerEnter2D(Collider2D other) {
+	protected override async void OnTriggerEnter2D(Collider2D other) {
 		if (!other.TryGetComponent(out Grunt grunt)) {
 			return;
 		}
@@ -30,24 +28,24 @@ public class Fort : GridObject {
 			return;
 		}
 
-		_gameManager.allGruntz.ForEach(g => g.enabled = false);
+		gameManager.gruntz.ForEach(g => g.enabled = false);
 
-		_gameManager.playerGruntz.ForEach(pg => pg.animancer.Play(AnimationManager.instance.gruntVictoryAnimz.First()));
+		gameManager.playerGruntz.ForEach(pg => pg.animancer.Play(AnimationManager.instance.gruntVictoryAnimz.First()));
 		await UniTask.WaitForSeconds(AnimationManager.instance.gruntVictoryAnimz.First().length);
 
-		_gameManager.playerGruntz.ForEach(pg => pg.animancer.Play(AnimationManager.instance.gruntWarpEnterAnim));
+		gameManager.playerGruntz.ForEach(pg => pg.animancer.Play(AnimationManager.instance.gruntWarpEnterAnim));
 		await UniTask.WaitForSeconds(AnimationManager.instance.gruntWarpEnterAnim.length);
 
-		_gameManager.allGruntz.ForEach(g => g.spriteRenderer.enabled = false);
+		gameManager.gruntz.ForEach(g => g.spriteRenderer.enabled = false);
 
 		await UniTask.WaitForSeconds(1f);
 
 		Level.instance.gameObject.SetActive(false);
-		_gameManager.actorz.SetActive(false);
-		_gameManager.itemz.SetActive(false);
-		_gameManager.objectz.SetActive(false);
+		gameManager.actorz.SetActive(false);
+		gameManager.itemz.SetActive(false);
+		gameManager.objectz.SetActive(false);
 
-		_gameManager.GetComponent<Settings>().gameSettings.quickStartLevel = _gameManager.levelData;
+		gameManager.GetComponent<Settings>().gameSettings.quickStartLevel = gameManager.levelData;
 
 		StatzMenu.instance.Activate();
 	}

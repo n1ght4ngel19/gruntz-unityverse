@@ -11,16 +11,13 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 	public int delay;
 
 	[field: SerializeField] public Animator Animator { get; set; }
-	[field: SerializeField] public AnimancerComponent Animancer { get; set; }
+	[field: SerializeField] public AnimancerComponent animancer { get; set; }
 
 	public override async void OnRevealed() {
-		Debug.Log("OnRevealed");
-
-		Animancer.Play(AnimationManager.instance.timeBombTickingAnim);
-
+		animancer.Play(AnimationManager.instance.timeBombTickingAnim);
 		await UniTask.WaitForSeconds(delay);
 
-		GameManager.instance.allGruntz
+		gameManager.gruntz
 			.Where(gr => node.neighbours.Contains(gr.node) || node == gr.node)
 			.ToList()
 			.ForEach(gr1 => gr1.Die(AnimationManager.instance.explodeDeathAnimation, false, false));
@@ -32,10 +29,10 @@ public class TimeBomb : Hazard, IAnimatable, IExplodable {
 
 		spriteRenderer.sortingLayerName = "Default";
 		spriteRenderer.sortingOrder = 6;
-		
-		await Animancer.Play(AnimationManager.instance.explosionAnim1);
 
-		GameManager.instance.gridObjectz.Remove(this);
+		await animancer.Play(AnimationManager.instance.explosionAnim1);
+
+		gameManager.gridObjectz.Remove(this);
 		Destroy(gameObject);
 	}
 }

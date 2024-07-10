@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using GruntzUnityverse.Objectz.Bridgez;
 using NaughtyAttributes;
 using UnityEngine;
@@ -13,8 +12,10 @@ public class BlueToggleSwitch : Switch {
 	[ReadOnly]
 	public List<Bridge> bridgez;
 
-	public void Start() {
-		bridgez = transform.parent.GetComponentsInChildren<Bridge>().ToList();
+	protected override void Start() {
+		base.Start();
+
+		bridgez = GetSiblings<Bridge>();
 	}
 
 	protected override void OnTriggerEnter2D(Collider2D other) {
