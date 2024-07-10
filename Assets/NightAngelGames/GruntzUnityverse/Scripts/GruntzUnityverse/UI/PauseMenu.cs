@@ -9,10 +9,16 @@ using Debug = UnityEngine.Debug;
 
 namespace GruntzUnityverse.UI {
 public class PauseMenu : MonoBehaviour {
+	public GameManager gameManager;
+
 	public Canvas canvas;
 
 	private void Awake() {
 		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	private void Start() {
+		gameManager = FindFirstObjectByType<GameManager>();
 	}
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
@@ -36,9 +42,9 @@ public class PauseMenu : MonoBehaviour {
 
 		loader.levelKey = SceneManager.GetActiveScene().name;
 
-		loader.levelName = GameManager.instance.levelData.levelName;
+		loader.levelName = gameManager.levelData.levelName;
 
-		loader.areaName = GameManager.instance.levelData.area switch {
+		loader.areaName = gameManager.levelData.area switch {
 			Area.RockyRoadz => "ROCKY ROADZ",
 			Area.Gruntziclez => "GRUNTZICLEZ",
 			Area.TroubleInTheTropicz => "TROUBLE IN THE TROPICZ",
@@ -67,7 +73,7 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	public void OnEscape() {
-		if (!GameManager.instance.helpboxUI.GetComponent<Canvas>().enabled) {
+		if (!gameManager.helpboxUI.GetComponent<Canvas>().enabled) {
 			Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
 			canvas.enabled = Time.timeScale == 0f;
 
@@ -78,7 +84,7 @@ public class PauseMenu : MonoBehaviour {
 			Time.timeScale = 1f;
 		}
 
-		GameManager.instance.selector.enabled = Time.timeScale is not 0;
+		gameManager.selector.enabled = Time.timeScale is not 0;
 		FindFirstObjectByType<CameraMovement>().enabled = Time.timeScale is not 0;
 	}
 

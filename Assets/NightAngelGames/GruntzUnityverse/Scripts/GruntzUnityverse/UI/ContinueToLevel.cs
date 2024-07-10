@@ -48,8 +48,6 @@ public class ContinueToLevel : MonoBehaviour {
 		if (_completedLoad) {
 			_currentlyLoadedLevel.ActivateAsync().completed += _ => {
 				SceneManager.UnloadSceneAsync("LoadMenu");
-
-				// GameManager.instance.Init();
 			};
 		}
 	}

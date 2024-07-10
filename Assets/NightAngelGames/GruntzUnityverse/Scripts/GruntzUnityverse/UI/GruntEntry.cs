@@ -10,25 +10,34 @@ using UnityEngine.UI;
 namespace GruntzUnityverse.UI {
 public class GruntEntry : MonoBehaviour {
 	public int entryId => int.Parse(gameObject.name.Split("_").Last());
-	private Grunt connectedGrunt => GameManager.instance.allGruntz.First(gr => gr.gruntId == entryId);
+
+	private Grunt connectedGrunt => FindFirstObjectByType<GameManager>().gruntz.First(gr => gr.gruntId == entryId);
 
 	[Header("Slotz")]
 	public GameObject slotz;
 
 	public Sprite simpleSlotzSprite;
+
 	public Sprite highlightedSlotzSprite;
 
 	public Image headSlot;
+
 	public Sprite greenHead;
+
 	public Sprite yellowHead;
+
 	public Sprite redHead;
 
 	public Image toolSlot;
+
 	public Image toySlot;
+
 	public Image powerupSlot;
+
 	public Image healSlot;
 
 	public Sprite blankSlotIcon;
+
 	public Sprite blackAttributeBar;
 
 	[Header("Attribute Barz")]

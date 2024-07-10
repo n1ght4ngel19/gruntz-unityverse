@@ -46,7 +46,7 @@ public class StatzMenu : MonoBehaviour {
 			GameObject.Find("TimeIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
 		};
 
-		survivorzValue.text = GameManager.instance.playerGruntz.Count.ToString();
+		survivorzValue.text = FindFirstObjectByType<GameManager>().playerGruntz.Count.ToString();
 
 		Addressables.LoadAssetAsync<AnimationClip>("Grunt_Exit_01_Loop").Completed += handle => {
 			GameObject.Find("SurvivorzIcon").GetComponent<AnimancerComponent>().Play(handle.Result);
