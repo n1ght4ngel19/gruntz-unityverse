@@ -5,43 +5,48 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
+
 namespace GruntzUnityverse.Objectz {
 public class CreatorPad : GridObject {
-	[DisableIf(nameof(isInstance))]
-	public AnimationClip padAnim;
+    [DisableIf(nameof(isInstance))]
+    public AnimationClip padAnim;
 
-	[ReadOnly]
-	public AnimancerComponent animancer;
+    [ReadOnly]
+    public AnimancerComponent animancer;
 
-	private void OnTryPlaceGrunt() {
-		if (!gameManager.selector.placingGrunt || gameManager.selector.node != node) {
-			return;
-		}
+    private void OnTryPlaceGrunt() {
+        if (gameManager == null) {
+            return;
+        }
 
-		gameManager.selector.placingGrunt = false;
-		GameCursor.instance.SwapCursor(AnimationManager.instance.cursorDefault);
-		GameCursor.instance.spriteRenderer.material = GameCursor.instance.defaultMaterial;
+        if (!gameManager.selector.placingGrunt || gameManager.selector.node != node) {
+            return;
+        }
 
-		Addressables.InstantiateAsync("PG_BareHandz").Completed += handle => {
-			handle.Result.transform.position = new Vector3(location2D.x, location2D.y, 0);
+        gameManager.selector.placingGrunt = false;
+        GameCursor.instance.SwapCursor(AnimationManager.instance.cursorDefault);
+        GameCursor.instance.spriteRenderer.material = GameCursor.instance.defaultMaterial;
 
-			gameManager.gruntz.Add(handle.Result.GetComponent<Grunt>());
-			gameManager.playerGruntz.Add(handle.Result.GetComponent<Grunt>());
-		};
-	}
+        Addressables.InstantiateAsync("PG_BareHandz").Completed += handle => {
+            handle.Result.transform.position = new Vector3(location2D.x, location2D.y, 0);
 
-	// --------------------------------------------------
-	// Lifecycle
-	// --------------------------------------------------
+            gameManager.gruntz.Add(handle.Result.GetComponent<Grunt>());
+            gameManager.playerGruntz.Add(handle.Result.GetComponent<Grunt>());
+        };
+    }
 
-	protected override void Awake() {
-		base.Awake();
+    // --------------------------------------------------
+    // Lifecycle
+    // --------------------------------------------------
 
-		animancer = GetComponent<AnimancerComponent>();
-	}
+    protected override void Awake() {
+        base.Awake();
 
-	protected override void Start() {
-		animancer.Play(padAnim);
-	}
+        animancer = GetComponent<AnimancerComponent>();
+    }
+
+    protected override void Start() {
+        animancer.Play(padAnim);
+    }
 }
 }

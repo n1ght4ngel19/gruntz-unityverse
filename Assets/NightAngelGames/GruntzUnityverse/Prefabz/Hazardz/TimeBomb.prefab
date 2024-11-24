@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2abd92c8c74ebeaa3886db1df69c27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   hideComponents: 1
   isObstacle: 0
   isWater: 0
@@ -61,10 +62,9 @@ MonoBehaviour:
   circleCollider2D: {fileID: -5503057545475255136}
   damage: 40
   hideUnderMound: 0
-  gruntOnTop: {fileID: 0}
   delay: 2
   <Animator>k__BackingField: {fileID: 6434050401306643285}
-  <Animancer>k__BackingField: {fileID: 1213498051442215585}
+  <animancer>k__BackingField: {fileID: 0}
 --- !u!212 &-64569934111272732
 SpriteRenderer:
   m_ObjectHideFlags: 2

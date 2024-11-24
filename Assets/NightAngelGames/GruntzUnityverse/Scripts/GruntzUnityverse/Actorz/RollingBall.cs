@@ -10,201 +10,204 @@ using HierarchyIcons;
 using NaughtyAttributes;
 using UnityEngine;
 
+
 namespace GruntzUnityverse.Actorz {
 public class RollingBall : MonoBehaviour {
-	public bool hideComponents;
+    public bool hideComponents;
 
-	[Foldout("Pathfinding")]
-	[ReadOnly]
-	public Node node;
+    [Foldout("Pathfinding")]
+    [ReadOnly]
+    public Node node;
 
-	[Foldout("Pathfinding")]
-	[ReadOnly]
-	public Node next;
+    [Foldout("Pathfinding")]
+    [ReadOnly]
+    public Node next;
 
-	[BoxGroup("Ball Data")]
-	[Label("Seconds / Tile")]
-	[Range(0, 5)]
-	public float moveSpeed;
+    [BoxGroup("Ball Data")]
+    [Label("Seconds / Tile")]
+    [Range(0, 5)]
+    public float moveSpeed;
 
-	[BoxGroup("Ball Data")]
-	[ReadOnly]
-	public Direction direction;
+    [BoxGroup("Ball Data")]
+    [ReadOnly]
+    public Direction direction;
 
-	[BoxGroup("Ball Data")]
-	[ReadOnly]
-	public Vector2Int location2D;
+    [BoxGroup("Ball Data")]
+    [ReadOnly]
+    public Vector2Int location2D;
 
-	[BoxGroup("Ball Data")]
-	[ReadOnly]
-	public SpriteRenderer spriteRenderer;
+    [BoxGroup("Ball Data")]
+    [ReadOnly]
+    public SpriteRenderer spriteRenderer;
 
-	[BoxGroup("Ball Data")]
-	[ReadOnly]
-	public CircleCollider2D circleCollider2D;
+    [BoxGroup("Ball Data")]
+    [ReadOnly]
+    public CircleCollider2D circleCollider2D;
 
-	[Foldout("Animation")]
-	[DisableIf(nameof(isInstance))]
-	public AnimationClip rollAnimUp;
+    [Foldout("Animation")]
+    [DisableIf(nameof(isInstance))]
+    public AnimationClip rollAnimUp;
 
-	[Foldout("Animation")]
-	[DisableIf(nameof(isInstance))]
-	public AnimationClip rollAnimDown;
+    [Foldout("Animation")]
+    [DisableIf(nameof(isInstance))]
+    public AnimationClip rollAnimDown;
 
-	[Foldout("Animation")]
-	[DisableIf(nameof(isInstance))]
-	public AnimationClip rollAnimLeft;
+    [Foldout("Animation")]
+    [DisableIf(nameof(isInstance))]
+    public AnimationClip rollAnimLeft;
 
-	[Foldout("Animation")]
-	[DisableIf(nameof(isInstance))]
-	public AnimationClip rollAnimRight;
+    [Foldout("Animation")]
+    [DisableIf(nameof(isInstance))]
+    public AnimationClip rollAnimRight;
 
-	[Foldout("Animation")]
-	[DisableIf(nameof(isInstance))]
-	public AnimationClip breakAnim;
+    [Foldout("Animation")]
+    [DisableIf(nameof(isInstance))]
+    public AnimationClip breakAnim;
 
-	[Foldout("Animation")]
-	[DisableIf(nameof(isInstance))]
-	public AnimationClip sinkAnim;
+    [Foldout("Animation")]
+    [DisableIf(nameof(isInstance))]
+    public AnimationClip sinkAnim;
 
-	private AnimationClip currentRollAnim => direction switch {
-		Direction.Up or Direction.UpRight or Direction.UpLeft => rollAnimUp,
-		Direction.Down or Direction.DownRight or Direction.DownLeft => rollAnimDown,
-		Direction.Left => rollAnimLeft,
-		Direction.Right => rollAnimRight,
-		_ => currentRollAnim,
-	};
+    private AnimationClip currentRollAnim => direction switch {
+        Direction.Up or Direction.UpRight or Direction.UpLeft => rollAnimUp,
+        Direction.Down or Direction.DownRight or Direction.DownLeft => rollAnimDown,
+        Direction.Left => rollAnimLeft,
+        Direction.Right => rollAnimRight,
+        _ => currentRollAnim,
+    };
 
-	[Foldout("Animation")]
-	[DisableIf(nameof(isInstance))]
-	public AnimancerComponent animancer;
+    [Foldout("Animation")]
+    [DisableIf(nameof(isInstance))]
+    public AnimancerComponent animancer;
 
-	public bool isInstance => gameObject.scene.name != null;
+    public bool isInstance => gameObject.scene.name != null;
 
-	private void ChangePosition() {
-		Vector3 moveVector = (next.transform.position - node.transform.position);
-		gameObject.transform.position += moveVector * (Time.fixedDeltaTime / moveSpeed);
-	}
+    private void ChangePosition() {
+        if (next == null || node == null) {
+            return;
+        }
 
-	private async void Break() {
-		moveSpeed *= 5;
+        Vector3 moveVector = (next.transform.position - node.transform.position);
+        gameObject.transform.position += moveVector * (Time.fixedDeltaTime / moveSpeed);
+    }
 
-		animancer.Play(breakAnim);
-		await UniTask.WaitForSeconds(breakAnim.length);
+    private async void Break() {
+        moveSpeed *= 5;
 
-		animancer.enabled = false;
-		enabled = false;
+        animancer.Play(breakAnim);
+        await UniTask.WaitForSeconds(breakAnim.length);
 
-		transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-		GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
-		GetComponent<SpriteRenderer>().sortingOrder = 6;
-	}
+        animancer.enabled = false;
+        enabled = false;
 
-	private void DirectByArrow() {
-		Arrow belowArrow = FindObjectsByType<Arrow>(FindObjectsSortMode.None)
-			.FirstOrDefault(ar => ar.location2D == location2D);
+        transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+        GetComponent<SpriteRenderer>().sortingLayerName = "AlwaysBottom";
+        GetComponent<SpriteRenderer>().sortingOrder = 6;
+    }
 
-		if (belowArrow != null) {
-			direction = belowArrow.direction;
-		}
+    private void DirectByArrow() {
+        Arrow belowArrow = FindObjectsByType<Arrow>(FindObjectsSortMode.None).FirstOrDefault(ar => ar.location2D == location2D);
 
-		transform.rotation = Quaternion.identity;
+        if (belowArrow != null) {
+            direction = belowArrow.direction;
+        }
 
-		float rotateAngle = direction switch {
-			Direction.UpRight => -45,
-			Direction.UpLeft => 45,
-			Direction.DownRight => -135,
-			Direction.DownLeft => 135,
-			_ => 0,
-		};
+        transform.rotation = Quaternion.identity;
 
-		transform.Rotate(0, 0, rotateAngle);
-	}
+        float rotateAngle = direction switch {
+            Direction.UpRight => -45,
+            Direction.UpLeft => 45,
+            Direction.DownRight => -135,
+            Direction.DownLeft => 135,
+            _ => 0,
+        };
 
-	// --------------------------------------------------
-	// Lifecycle
-	// --------------------------------------------------
+        transform.Rotate(0, 0, rotateAngle);
+    }
 
-	private void Awake() {
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		circleCollider2D = GetComponent<CircleCollider2D>();
-		animancer = GetComponent<AnimancerComponent>();
-		location2D = Vector2Int.RoundToInt(transform.position);
-	}
+    // --------------------------------------------------
+    // Lifecycle
+    // --------------------------------------------------
 
-	private void Start() {
-		node = FindObjectsByType<Node>(FindObjectsSortMode.None)
-			.First(n => n.location2D == location2D);
+    private void Awake() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
+        animancer = GetComponent<AnimancerComponent>();
+        location2D = Vector2Int.RoundToInt(transform.position);
+    }
 
-		DirectByArrow();
+    private void Start() {
+        node = FindObjectsByType<Node>(FindObjectsSortMode.None).First(n => n.location2D == location2D);
 
-		animancer.Play(currentRollAnim);
-	}
+        DirectByArrow();
 
-	private void FixedUpdate() {
-		ChangePosition();
-	}
+        animancer.Play(currentRollAnim);
+    }
 
-	private void Update() {
-		animancer.Play(currentRollAnim);
-	}
+    private void FixedUpdate() {
+        ChangePosition();
+    }
 
-	private void OnTriggerEnter2D(Collider2D other) {
-		bool hitBall = other.TryGetComponent(out RollingBall _);
-		bool hitBrick = other.TryGetComponent(out Brick _);
-		bool hitRock = other.TryGetComponent(out Rock _);
-		bool hitGrunt = other.TryGetComponent(out Grunt _);
+    private void Update() {
+        animancer.Play(currentRollAnim);
+    }
 
-		if (!hitBall && !hitBrick && !hitRock) {
-			return;
-		}
+    private void OnTriggerEnter2D(Collider2D other) {
+        bool hitBall = other.TryGetComponent(out RollingBall _);
+        bool hitBrick = other.TryGetComponent(out Brick _);
+        bool hitRock = other.TryGetComponent(out Rock _);
+        bool hitGrunt = other.TryGetComponent(out Grunt _);
 
-		circleCollider2D.isTrigger = false;
-		Break();
-	}
+        if (!hitBall && !hitBrick && !hitRock) {
+            return;
+        }
 
-	#if UNITY_EDITOR
-	private void OnValidate() {
-		HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
+        circleCollider2D.isTrigger = false;
+        Break();
+    }
 
-		GetComponent<SpriteRenderer>().hideFlags = newHideFlags;
-		GetComponent<CircleCollider2D>().hideFlags = newHideFlags;
-		GetComponent<Rigidbody2D>().hideFlags = newHideFlags;
+    #if UNITY_EDITOR
+    private void OnValidate() {
+        HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
 
-		animancer.hideFlags = newHideFlags;
-		animancer.Animator.hideFlags = newHideFlags;
+        GetComponent<SpriteRenderer>().hideFlags = newHideFlags;
+        GetComponent<CircleCollider2D>().hideFlags = newHideFlags;
+        GetComponent<Rigidbody2D>().hideFlags = newHideFlags;
 
-		if (TryGetComponent(out TrimName trimName)) {
-			trimName.hideFlags = newHideFlags;
-		}
+        animancer.hideFlags = newHideFlags;
+        animancer.Animator.hideFlags = newHideFlags;
 
-		if (TryGetComponent(out HierarchyIcon hierarchyIcon)) {
-			hierarchyIcon.hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
-		}
-	}
+        if (TryGetComponent(out TrimName trimName)) {
+            trimName.hideFlags = newHideFlags;
+        }
 
-	private void OnDrawGizmosSelected() {
-		location2D = Vector2Int.RoundToInt(transform.position);
+        if (TryGetComponent(out HierarchyIcon hierarchyIcon)) {
+            hierarchyIcon.hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
+        }
+    }
 
-		transform.hideFlags = HideFlags.HideInInspector;
+    private void OnDrawGizmosSelected() {
+        location2D = Vector2Int.RoundToInt(transform.position);
 
-		HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
+        transform.hideFlags = HideFlags.HideInInspector;
 
-		GetComponent<SpriteRenderer>().hideFlags = newHideFlags;
-		GetComponent<CircleCollider2D>().hideFlags = newHideFlags;
-		GetComponent<Rigidbody2D>().hideFlags = newHideFlags;
+        HideFlags newHideFlags = hideComponents ? HideFlags.HideInInspector : HideFlags.None;
 
-		animancer.hideFlags = newHideFlags;
-		animancer.Animator.hideFlags = newHideFlags;
+        GetComponent<SpriteRenderer>().hideFlags = newHideFlags;
+        GetComponent<CircleCollider2D>().hideFlags = newHideFlags;
+        GetComponent<Rigidbody2D>().hideFlags = newHideFlags;
 
-		if (TryGetComponent(out TrimName trimName)) {
-			trimName.hideFlags = newHideFlags;
-		}
+        animancer.hideFlags = newHideFlags;
+        animancer.Animator.hideFlags = newHideFlags;
 
-		if (TryGetComponent(out HierarchyIcon hierarchyIcon)) {
-			hierarchyIcon.hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
-		}
-	}
-	#endif
+        if (TryGetComponent(out TrimName trimName)) {
+            trimName.hideFlags = newHideFlags;
+        }
+
+        if (TryGetComponent(out HierarchyIcon hierarchyIcon)) {
+            hierarchyIcon.hideFlags = isInstance ? HideFlags.None : HideFlags.HideInInspector;
+        }
+    }
+    #endif
 }
 }

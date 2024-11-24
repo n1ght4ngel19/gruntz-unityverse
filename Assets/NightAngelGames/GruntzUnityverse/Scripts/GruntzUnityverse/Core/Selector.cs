@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using Cysharp.Threading.Tasks;
 using GruntzUnityverse.Objectz;
 using GruntzUnityverse.Pathfinding;
 using GruntzUnityverse.Utils.Extensionz;
 using UnityEngine;
+
 
 namespace GruntzUnityverse.Core {
 public class Selector : MonoBehaviour {
@@ -17,12 +17,14 @@ public class Selector : MonoBehaviour {
 
 	public bool placingGrunt;
 
+	public new Camera camera;
+
 	private void Start() {
 		gameManager = FindFirstObjectByType<GameManager>();
 	}
 
 	private void Update() {
-		transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition).RoundedToInt(z: 15f);
+		transform.position = Vector3Int.RoundToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).RoundedToInt(z: 15f));
 	}
 }
 }

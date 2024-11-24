@@ -1,71 +1,81 @@
 ﻿using Animancer;
+using GruntzUnityverse.Utils.Extensionz;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 namespace GruntzUnityverse.Core {
 public class GameCursor : MonoBehaviour {
-	public GameManager gameManager;
+    public GameManager gameManager;
 
-	public SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
 
-	public AnimationClip toPlay;
+    public Material brownSkinColor;
 
-	public Material brownSkinColor;
+    public Material defaultMaterial;
 
-	public Material defaultMaterial;
+    public AnimancerComponent animancer;
 
-	public AnimancerComponent animancer;
+    public AnimationClip toPlay;
 
-	public static GameCursor instance;
+    private Camera displayCamera => Camera.main;
 
-	private bool doSwap => gameManager.firstSelected.tool.CompatibleWith(gameManager.selector.hoveredObject);
+    private Camera interfaceCamera => GameObject.Find("InterfaceCamera").GetComponent<Camera>();
 
-	private void Awake() {
-		instance = this;
+    private Vector3 mousePosition => displayCamera.ScreenToWorldPoint(Input.mousePosition);
 
-		defaultMaterial = spriteRenderer.material;
-	}
+    private Vector4 cameraBounds => new(
+        x: displayCamera.transform.position.y + displayCamera.orthographicSize * displayCamera.aspect,
+        y: displayCamera.transform.position.y - displayCamera.orthographicSize * displayCamera.aspect,
+        z: displayCamera.transform.position.x - displayCamera.orthographicSize * displayCamera.aspect,
+        w: displayCamera.transform.position.x + displayCamera.orthographicSize * displayCamera.aspect
+    );
 
-	private void Start() {
-		gameManager = FindFirstObjectByType<GameManager>();
+    private bool doSwap => gameManager.firstSelected.tool.CompatibleWith(gameManager.selector.hoveredObject);
 
-		animancer = GetComponent<AnimancerComponent>();
-	}
+    public static GameCursor instance;
 
-	private void Update() {
-		transform.localScale = new Vector3(
-			Camera.main.orthographicSize / 10f,
-			Camera.main.orthographicSize / 10f,
-			1f
-		);
+    private void Awake() {
+        instance = this;
+        defaultMaterial = spriteRenderer.material;
+    }
 
-		transform.position = new Vector3(
-			Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
-			Camera.main.ScreenToWorldPoint(Input.mousePosition).y,
-			transform.position.z
-		);
+    private void Start() {
+        gameManager = FindFirstObjectByType<GameManager>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animancer = GetComponent<AnimancerComponent>();
+    }
 
-		animancer.Play(toPlay);
+    private void Update() {
+        transform.localScale = new(interfaceCamera.orthographicSize / 10f, interfaceCamera.orthographicSize / 10f, 1f);
 
-		if (SceneManager.GetActiveScene().name == "MainMenu") {
-			return;
-		}
+        transform.position = new(
+            Mathf.Clamp(mousePosition.x, cameraBounds.z, (cameraBounds.w * 1.15f) - spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit / 2),
+            Mathf.Clamp(mousePosition.y, cameraBounds.y, cameraBounds.x),
+            transform.position.z
+        );
 
-		gameManager = FindFirstObjectByType<GameManager>();
+        animancer.Play(toPlay);
 
-		if (gameManager == null) {
-			return;
-		}
+        if (SceneManager.GetActiveScene().name == Namez.MainMenuName) {
+            return;
+        }
 
-		if (gameManager.firstSelected == null) {
-			return;
-		}
+        gameManager = FindFirstObjectByType<GameManager>();
 
-		SwapCursor(doSwap ? gameManager.firstSelected.tool.cursor : AnimationManager.instance.cursorDefault);
-	}
+        if (gameManager == null) {
+            return;
+        }
 
-	public void SwapCursor(AnimationClip newCursor) {
-		toPlay = newCursor;
-	}
+        if (gameManager.firstSelected == null) {
+            return;
+        }
+
+        SwapCursor(doSwap ? gameManager.firstSelected.tool.cursor : AnimationManager.instance.cursorDefault);
+    }
+
+    public void SwapCursor(AnimationClip newCursor) {
+        toPlay = newCursor;
+    }
 }
 }

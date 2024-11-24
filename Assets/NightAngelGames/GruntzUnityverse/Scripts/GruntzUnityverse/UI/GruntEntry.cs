@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GruntzUnityverse.Actorz;
 using GruntzUnityverse.Core;
@@ -50,7 +49,7 @@ public class GruntEntry : MonoBehaviour {
 	public List<Sprite> staminaFrames;
 
 	public void SelectConnected() {
-		Camera.main.transform.position = new Vector3(
+		Camera.main.transform.position = new(
 			connectedGrunt.transform.position.x,
 			connectedGrunt.transform.position.y,
 			Camera.main.transform.position.z
@@ -59,7 +58,7 @@ public class GruntEntry : MonoBehaviour {
 		connectedGrunt.Select();
 	}
 
-	public void HighLight(bool highlight = true) {
+	public void Highlight(bool highlight = true) {
 		slotz.GetComponent<Image>().sprite = highlight ? highlightedSlotzSprite : simpleSlotzSprite;
 	}
 

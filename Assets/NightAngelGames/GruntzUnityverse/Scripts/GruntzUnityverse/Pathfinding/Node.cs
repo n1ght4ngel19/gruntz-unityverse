@@ -214,25 +214,25 @@ public class Node : MonoBehaviour {
 			grunt.transform.position = transform.position;
 			grunt.spriteRenderer.sortingOrder = 10;
 
-			if (this.isBlocked && !grunt.canFly) {
+			if (isBlocked && !grunt.canFly) {
 				grunt.Die(AnimationManager.instance.explodeDeathAnimation, false, false);
 
 				return;
 			}
 
-			if (this.isFire && !grunt.canFly) {
+			if (isFire && !grunt.canFly) {
 				grunt.Die(AnimationManager.instance.burnDeathAnimation, false, false);
 
 				return;
 			}
 
-			if (this.isWater && !grunt.canFly) {
+			if (isWater && !grunt.canFly) {
 				grunt.Die(AnimationManager.instance.sinkDeathAnimation, false, false);
 
 				return;
 			}
 
-			if (this.isVoid && !grunt.canFly) {
+			if (isVoid && !grunt.canFly) {
 				grunt.Die(AnimationManager.instance.fallDeathAnimation, false, false);
 
 				return;

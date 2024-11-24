@@ -7,7 +7,7 @@ public class MainMenuInitializer : MonoBehaviour {
 		Application.targetFrameRate = 120;
 
 		Cursor.visible = false;
-		FindFirstObjectByType<GameCursor>().enabled = true;
+		// FindFirstObjectByType<GameCursor>().enabled = true;
 	}
 }
 }

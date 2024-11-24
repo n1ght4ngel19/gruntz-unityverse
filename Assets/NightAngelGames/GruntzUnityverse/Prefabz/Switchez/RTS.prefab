@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce348885e8c8454fa7f2a512216badf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   hideComponents: 1
   isObstacle: 0
   isWater: 0
@@ -63,6 +64,7 @@ MonoBehaviour:
   isPressed: 0
   pressedSprite: {fileID: 474572707, guid: aec2b823dd80fc94a8b06f092fbc37b9, type: 3}
   releasedSprite: {fileID: 524929026, guid: aec2b823dd80fc94a8b06f092fbc37b9, type: 3}
+  redPyramidz: []
 --- !u!212 &6109165329942239614
 SpriteRenderer:
   m_ObjectHideFlags: 2
@@ -130,10 +132,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 55
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

@@ -80,7 +80,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ReferenceResolution: {x: 288, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -362,7 +362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8633902898422297105, guid: da3908d098231844b91f48748b1ad59d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 288
       objectReference: {fileID: 0}
     - target: {fileID: 8633902898422297105, guid: da3908d098231844b91f48748b1ad59d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -415,10 +415,6 @@ PrefabInstance:
     - target: {fileID: 8633902898422297105, guid: da3908d098231844b91f48748b1ad59d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654990864330316561, guid: da3908d098231844b91f48748b1ad59d, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 8817561087584508839, guid: da3908d098231844b91f48748b1ad59d, type: 3}
       propertyPath: m_Enabled
@@ -467,6 +463,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6948450829330351333}
     m_Modifications:
+    - target: {fileID: 788100934504153744, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3315266298481400482, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -493,7 +493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3315266298481400482, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 288
       objectReference: {fileID: 0}
     - target: {fileID: 3315266298481400482, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
       propertyPath: m_SizeDelta.y
@@ -547,10 +547,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4446262200187247881, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5058097329057283794, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7269882220966532901, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1889815290464788143}
+    - target: {fileID: 7496409706790052186, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7662261342187471059, guid: 6cff6a10db51ff54abc2b22145b2e040, type: 3}
       propertyPath: m_Name
       value: GooWellTab

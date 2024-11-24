@@ -18,7 +18,7 @@
                     "name": "AdditionalSelect",
                     "type": "Button",
                     "id": "af7c99b8-9b86-45ca-bb01-5dc0774151ba",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -27,7 +27,7 @@
                     "name": "SelectAll",
                     "type": "Button",
                     "id": "5ca4c0ee-4de5-4645-8606-56150e570575",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -36,7 +36,7 @@
                     "name": "Move",
                     "type": "Button",
                     "id": "3bc64928-1cd8-4aa5-ab40-980fb6bfa2fc",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -45,7 +45,7 @@
                     "name": "Action",
                     "type": "Button",
                     "id": "ef9ea3b1-3197-4165-ae0f-9506499649b9",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -54,7 +54,7 @@
                     "name": "Give",
                     "type": "Button",
                     "id": "219e16dc-18c1-4175-8859-dc5d04e44403",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -63,7 +63,7 @@
                     "name": "ForceIdle",
                     "type": "Button",
                     "id": "01ecc06a-ef1f-433b-8c45-b6c43bb14896",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -72,7 +72,7 @@
                     "name": "SaveGame",
                     "type": "Button",
                     "id": "1bd05a8e-ef76-41c2-89b3-5a80a4480a63",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -81,7 +81,7 @@
                     "name": "LoadGame",
                     "type": "Button",
                     "id": "fb69b610-44ff-439e-af18-f6be369e3572",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -313,7 +313,7 @@
                 {
                     "name": "",
                     "id": "1eac66c6-6eb0-467a-9d6d-62f6d9b9efc8",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -378,8 +378,8 @@
             "id": "e1231cdb-2016-49c1-9e6d-9a49928314f5",
             "actions": [
                 {
-                    "name": "Zoom",
-                    "type": "Value",
+                    "name": "ZoomIn",
+                    "type": "Button",
                     "id": "5853ef35-f2ad-47b1-a23a-2e7c8d8ca9e3",
                     "expectedControlType": "",
                     "processors": "",
@@ -387,10 +387,28 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Move",
+                    "name": "ZoomOut",
                     "type": "Button",
+                    "id": "52d5e21c-7c4c-4beb-9a84-5429321ab134",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Move",
+                    "type": "Value",
                     "id": "430abcee-791c-4b11-b1ec-c2c0c753b774",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ScrollZoom",
+                    "type": "Value",
+                    "id": "1d478082-7ee0-499a-be74-1567c829d7b2",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -398,40 +416,7 @@
             ],
             "bindings": [
                 {
-                    "name": "Mouse Scroll",
-                    "id": "361641f0-1440-4a5e-8564-10d10a3922dd",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "3a94cb12-efdb-4573-b2e1-96485e8d555a",
-                    "path": "<Mouse>/scroll/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "f1aa7c76-6bbc-4749-89f7-4c27303fac0e",
-                    "path": "<Mouse>/scroll/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "MoveVector",
+                    "name": "WASD",
                     "id": "0956f398-acee-4b52-8492-568dc5464477",
                     "path": "2DVector(mode=2)",
                     "interactions": "",
@@ -484,6 +469,39 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "a72b06b9-33db-42c9-b4a9-5529cf953ebc",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrollZoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "23e00528-b9b2-4f6b-99db-2d47914d63b4",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomOut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc965c5e-1833-43da-85c9-b2895be3c5ad",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomIn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -576,7 +594,7 @@
             "id": "1b8c08b7-57c5-4728-804f-e96ac62bf289",
             "actions": [
                 {
-                    "name": "ToggleBack",
+                    "name": "Cancel",
                     "type": "Button",
                     "id": "7b2e31ad-c0a5-4d60-b2da-6e65814fcb79",
                     "expectedControlType": "",
@@ -585,31 +603,22 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ActivateNext",
-                    "type": "Button",
-                    "id": "f403bf99-c5cf-4038-942e-42e7450984b4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ActivatePrevious",
-                    "type": "Button",
-                    "id": "87991f5f-aa41-447c-bf76-201ab83dd97d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "PressEnter",
+                    "name": "Submit",
                     "type": "Button",
                     "id": "dbffc3f1-b4dd-4469-8262-9f75809fd8b1",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Navigate",
+                    "type": "Value",
+                    "id": "9989cf7c-9151-4cb7-b916-44530ecddb20",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "MoveMouse",
@@ -629,29 +638,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ToggleBack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d78a2149-278e-4176-8928-3da53fdbcb43",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ActivateNext",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ca06211c-24eb-4b55-9ae9-7bf0a69d1da6",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ActivatePrevious",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -662,7 +649,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PressEnter",
+                    "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -676,6 +663,116 @@
                     "action": "MoveMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "WASD",
+                    "id": "e9a54e30-3bde-457d-96b4-842bcc8d0bab",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "43d1b6d0-becc-4599-885e-a513c3a4cfac",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "5212d1d4-fe1e-4c29-aa63-089bb8525f52",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "4fd7f618-0b98-4647-b352-095fc5875ffe",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "7caa845b-5c75-47bd-a551-2fc274e6f76c",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Arrow",
+                    "id": "1f3eb58a-8cd9-4849-9561-5f04a7b52d64",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "d55b8ed1-2e5a-4c31-aa95-ebb7a577239c",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "67b56b83-cce1-4f14-b0f8-4f494e06db6f",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "2e5e75b9-d281-4907-a6e3-c1d5b1c27c97",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "79c906bf-1e7e-43a2-a034-8830347136b9",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

@@ -25,7 +25,7 @@ public class CameraMovement : MonoBehaviour {
 	}
 
 	private void FixedUpdate() {
-		ScrollWithKeys();
+		// ScrollWithKeys();
 	}
 
 	public void OnZoom(InputValue value) {

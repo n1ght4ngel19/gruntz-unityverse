@@ -23,6 +23,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
+
 namespace GruntzUnityverse.Actorz {
 public class Grunt : MonoBehaviour, IDataPersistence {
 	public bool hideComponents;
@@ -30,6 +31,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public bool isInstance => gameObject.scene.name != null;
 
 	public bool isPlayer => team == 0;
+
 
 	#region Fieldz
 	// --------------------------------------------------
@@ -158,6 +160,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	// Pathfinding
 	// -------------------------------------------------- //
 
+
 	#region Pathfinding
 	/// <summary>
 	/// The node this Grunt is currently on.
@@ -186,9 +189,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	private Vector2Int location2D => Vector2Int.RoundToInt(transform.position);
 	#endregion
 
+
 	// --------------------------------------------------
 	// Interaction
 	// --------------------------------------------------
+
 
 	#region Interaction
 	/// <summary>
@@ -215,9 +220,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public List<Grunt> enemiez => gameManager.gruntz.Where(gr => gr.team != team).ToList();
 	#endregion
 
+
 	// --------------------------------------------------
 	// UI
 	// --------------------------------------------------
+
 
 	#region UI
 	[Foldout("UI")]
@@ -226,9 +233,11 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public GruntEntry gruntEntry;
 	#endregion
 
+
 	// --------------------------------------------------
 	// Eventz
 	// --------------------------------------------------
+
 
 	#region Eventz
 	[Foldout("Eventz")]
@@ -247,6 +256,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	[Foldout("Eventz")]
 	public UnityEvent onDeath;
 	#endregion
+
 
 	// --------------------------------------------------
 	// Componentz
@@ -268,6 +278,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	[DisableIf(nameof(isInstance))]
 	public Barz barz;
 	#endregion
+
 
 	[Foldout("Componentz")]
 	[DisableIf(nameof(isInstance))]
@@ -348,8 +359,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 			gruntId = gameManager.playerGruntz.Count;
 
-			gruntEntry = FindObjectsByType<GruntEntry>(FindObjectsSortMode.None)
-				.First(entry => entry.entryId == gruntId);
+			gruntEntry = FindObjectsByType<GruntEntry>(FindObjectsSortMode.None).First(entry => entry.entryId == gruntId);
 
 			gruntEntry.SetHealth(statz.health);
 			gruntEntry.SetStamina(statz.stamina);
@@ -361,7 +371,6 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			if (toy != null) {
 				gruntEntry.SetToy(toy.toyName.Replace(" ", ""));
 			}
-
 
 			selectionMarker = transform.Find("SelectionMarker").gameObject;
 		} else {
@@ -396,6 +405,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	// --------------------------------------------------
 	// Input Actions
 	// --------------------------------------------------
+
 
 	#region Input Actions
 	#region Selection
@@ -434,6 +444,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 	#endregion
 
+
 	/// <summary>
 	/// Set the Grunt's travel goal to the selector's location, then evaluate the Grunt's state if possible.
 	/// </summary>
@@ -466,8 +477,9 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			return;
 		}
 
-		attackTarget = gameManager.gruntz
-			.FirstOrDefault(g => g.enabled && g.node == gameManager.selector.node && !g.between && g != this);
+		Debug.Log("Action");
+
+		attackTarget = gameManager.gruntz.FirstOrDefault(g => g.enabled && g.node == gameManager.selector.node && !g.between && g != this);
 
 		if (attackTarget != null) {
 			interactionTarget = null;
@@ -476,8 +488,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 			return;
 		}
 
-		interactionTarget = gameManager.gridObjectz
-			.FirstOrDefault(go => go.enabled && go.node == gameManager.selector.node && tool.CompatibleWith(go));
+		interactionTarget = gameManager.gridObjectz.FirstOrDefault(go => go.enabled && go.node == gameManager.selector.node && tool.CompatibleWith(go));
 
 		if (interactionTarget != null) {
 			attackTarget = null;
@@ -555,12 +566,12 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		attackTarget = null;
 		interactionTarget = null;
 
-		giveTarget = gameManager.gruntz
-			.FirstOrDefault(g => g.enabled && g.node == gameManager.selector.node && !g.between && g != this);
+		giveTarget = gameManager.gruntz.FirstOrDefault(g => g.enabled && g.node == gameManager.selector.node && !g.between && g != this);
 
 		GoToState(StateHandler.State.Giving);
 	}
 	#endregion
+
 
 	public void TryGiveToy() {
 		if (giveTarget == null) {
@@ -615,14 +626,10 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 
 				Node toNode = node.freeNeighbours.ToArray()[Random.Range(0, node.freeNeighbours.Count - 1)];
 
-				AnimationClip toAnim = node.neighbourSet.right == toNode ? wheelz.rightAnim
-					: node.neighbourSet.left == toNode ? wheelz.leftAnim
-					: node.neighbourSet.up == toNode ? wheelz.upAnim
-					: node.neighbourSet.down == toNode ? wheelz.downAnim
-					: node.neighbourSet.upLeft == toNode ? wheelz.upLeftAnim
-					: node.neighbourSet.upRight == toNode ? wheelz.upRightAnim
-					: node.neighbourSet.downLeft == toNode ? wheelz.downLeftAnim
-					: wheelz.downRightAnim;
+				AnimationClip toAnim = node.neighbourSet.right == toNode ? wheelz.rightAnim : node.neighbourSet.left == toNode ? wheelz.leftAnim
+					: node.neighbourSet.up == toNode ? wheelz.upAnim : node.neighbourSet.down == toNode ? wheelz.downAnim : node.neighbourSet.upLeft == toNode
+						? wheelz.upLeftAnim : node.neighbourSet.upRight == toNode ? wheelz.upRightAnim : node.neighbourSet.downLeft == toNode ? wheelz.downLeftAnim
+							: wheelz.downRightAnim;
 
 				RandomMove(toNode, toAnim);
 
@@ -656,14 +663,14 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		selected = true;
 		gameManager.selectedGruntz.Add(this);
 		selectionMarker.SetActive(true);
-		gruntEntry.HighLight();
+		gruntEntry.Highlight();
 	}
 
 	public void Deselect() {
 		selected = false;
 		gameManager.selectedGruntz.Remove(this);
 		selectionMarker.SetActive(false);
-		gruntEntry.HighLight(false);
+		gruntEntry.Highlight(false);
 	}
 
 	public void ArrowMove() {
@@ -789,9 +796,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	}
 
 	private IEnumerator IdentifyBlock(BrickBlock brickBlock) {
-		List<BrickBlock> toReveal = FindObjectsByType<BrickBlock>(FindObjectsSortMode.None)
-			.Where(bb => node.neighbours.Contains(bb.node))
-			.ToList();
+		List<BrickBlock> toReveal = FindObjectsByType<BrickBlock>(FindObjectsSortMode.None).Where(bb => node.neighbours.Contains(bb.node)).ToList();
 
 		AnimationClip toPlay = AnimationPack.GetRandomClip(facingDirection, animationPack.interact);
 
@@ -978,8 +983,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	/// <param name="otherNode">The node to check.</param>
 	/// <returns>True when the node is in range, false otherwise.</returns>
 	public bool InToolRange(Node otherNode) {
-		return Mathf.Abs(node.location2D.x - otherNode.location2D.x) <= tool.range
-			&& Mathf.Abs(node.location2D.y - otherNode.location2D.y) <= tool.range;
+		return Mathf.Abs(node.location2D.x - otherNode.location2D.x) <= tool.range && Mathf.Abs(node.location2D.y - otherNode.location2D.y) <= tool.range;
 	}
 
 	/// <summary>
@@ -1152,6 +1156,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 // IDataPersistence
 // --------------------------------------------------
 
+
 	#region IDataPersistence
 	public string Guid { get; set; }
 
@@ -1186,6 +1191,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 	public void Load(GruntDataV2 data) {
 		Guid = data.guid;
 		displayName = data.gruntName;
+
 		// transform.position = data.position;
 	}
 
@@ -1193,6 +1199,7 @@ public class Grunt : MonoBehaviour, IDataPersistence {
 		Guid = System.Guid.NewGuid().ToString();
 	}
 	#endregion
+
 
 	#if UNITY_EDITOR
 	private void OnValidate() {

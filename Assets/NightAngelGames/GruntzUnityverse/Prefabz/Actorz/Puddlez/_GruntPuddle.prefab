@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d5fda21fc34d64b205888f3fcb9779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
   hideComponents: 0
   isObstacle: 0
   isWater: 0
@@ -60,10 +61,10 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2370631032454505541}
   circleCollider2D: {fileID: 8512763895478724607}
   gooAmount: 1
-  animancer: {fileID: -3034496724958681285}
-  appearAnim: {fileID: 7400000, guid: dc2fa5c5a27abee43b892a0080afe9ad, type: 2}
   bubblingAnim: {fileID: 7400000, guid: 6de052fb419b3ba47ace37809f8083ad, type: 2}
+  appearAnim: {fileID: 7400000, guid: dc2fa5c5a27abee43b892a0080afe9ad, type: 2}
   disappearAnim: {fileID: 7400000, guid: 93f5bcb40db780741a830d04dbd90bbd, type: 2}
+  animancer: {fileID: -3034496724958681285}
 --- !u!212 &2370631032454505541
 SpriteRenderer:
   m_ObjectHideFlags: 0

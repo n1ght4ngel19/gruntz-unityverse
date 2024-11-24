@@ -8,7 +8,6 @@ using UnityEngine;
 namespace GruntzUnityverse.Itemz.Base {
 [CreateAssetMenu(fileName = "New Tool", menuName = "Gruntz Unityverse/Toolz/Equipped Tool")]
 public class EquippedTool : ScriptableObject {
-	[EnumFlags]
 	public ToolCode toolCode;
 
 	public string toolName;

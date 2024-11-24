@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8853547363798296489}
   - component: {fileID: 85545274074880432}
   - component: {fileID: 2131250970780050998}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GruntOven
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80537dd0144499f90a1c1630b0d25ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   filled: 0
   bakeAnim: {fileID: 7400000, guid: f727db09bbb4fec438e5ba705acb932f, type: 2}
   emptySprite: {fileID: -797236534, guid: 2c05aa75455137546a8edf58d64518a9, type: 3}
@@ -156,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}

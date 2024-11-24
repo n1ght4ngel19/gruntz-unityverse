@@ -14,162 +14,160 @@ using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 
+
 namespace GruntzUnityverse.Core {
 public class GameManager : MonoBehaviour {
-	[Expandable]
-	public LevelData levelData;
+    [Expandable]
+    public LevelData levelData;
 
-	[Header("Gruntz")]
-	public List<Grunt> gruntz => playerGruntz.Concat(dizgruntled).ToList();
+    [Header("Gruntz")] public List<Grunt> gruntz => playerGruntz.Concat(dizgruntled).ToList();
 
-	public List<Grunt> playerGruntz;
+    public List<Grunt> playerGruntz;
 
-	public List<Grunt> dizgruntled;
+    public List<Grunt> dizgruntled;
 
-	public List<Grunt> selectedGruntz;
+    public List<Grunt> selectedGruntz;
 
-	[Header("Cached Objectz")]
-	public List<RedPyramid> redPyramidz;
+    [Header("Cached Objectz")]
+    public List<RedPyramid> redPyramidz;
 
-	public List<GridObject> gridObjectz;
+    public List<GridObject> gridObjectz;
 
-	public List<Spikez> spikez;
+    public List<Spikez> spikez;
 
-	public Grunt firstSelected => selectedGruntz.FirstOrDefault();
+    public Grunt firstSelected => selectedGruntz.FirstOrDefault();
 
-	[Header("User Interface")]
-	public GooWell gooWell;
+    [Header("User Interface")]
+    public GooWell gooWell;
 
-	public GameObject helpboxUI;
+    public GameObject helpboxUI;
 
-	/// <summary>
-	/// The selector responsible for selecting and highlighting objects.
-	/// </summary>
-	public Selector selector;
+    /// <summary>
+    /// The selector responsible for selecting and highlighting objects.
+    /// </summary>
+    public Selector selector;
 
-	[Header("Level Transformz")]
-	public GameObject actorz;
+    [Header("Level Transformz")]
+    public GameObject actorz;
 
-	public GameObject itemz;
+    public GameObject itemz;
 
-	public GameObject objectz;
+    public GameObject objectz;
 
-	private void Awake() {
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
+    private void Awake() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-	private void Start() {
-		FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.worldCamera =
-			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
+    private void Start() {
+        FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include).canvas.worldCamera =
+            FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
 
-		GameObject.Find("Visualizer")?.SetActive(false);
+        GameObject.Find("Visualizer")?.SetActive(false);
 
-		InitializeLevel();
-	}
+        InitializeLevel();
+    }
 
-	public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		Application.targetFrameRate = 120;
-		Cursor.visible = false;
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        if (scene.name is Namez.MainMenuName or Namez.LoadMenuName) {
+            return;
+        }
 
-		FindFirstObjectByType<GameCursor>().enabled = true;
+        Application.targetFrameRate = 120;
+        Cursor.visible = false;
 
-		PauseMenu pauseMenu = FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include);
+        FindFirstObjectByType<GameCursor>().enabled = true;
 
-		if (pauseMenu != null) {
-			pauseMenu.canvas.enabled = false;
-		}
-	}
+        PauseMenu pauseMenu = FindFirstObjectByType<PauseMenu>(FindObjectsInactive.Include);
 
-	public void InitializeLevel() {
-		// --------------------------------------------------
-		// UI setup
-		// --------------------------------------------------
-		Cursor.visible = false;
-		FindFirstObjectByType<GameCursor>().enabled = true;
+        if (pauseMenu != null) {
+            pauseMenu.canvas.enabled = false;
+        }
+    }
 
-		GameObject.Find("SidebarUI").GetComponent<Canvas>().worldCamera =
-			FindFirstObjectByType<CameraMovement>(FindObjectsInactive.Include).gameObject.GetComponent<Camera>();
+    public void InitializeLevel() {
+        // --------------------------------------------------
+        // UI setup
+        // --------------------------------------------------
+        Cursor.visible = false;
+        FindFirstObjectByType<GameCursor>().enabled = true;
 
-		GameObject.Find("SidebarUI").GetComponent<Canvas>().enabled = true;
+        // GameObject.Find("SidebarUI").GetComponent<Canvas>().worldCamera =
+        // 	FindObjectsByType<Camera>(FindObjectsSortMode.None).First(cam => cam.gameObject.name == "InterfaceCamera");
 
-		gooWell = FindFirstObjectByType<GooWell>();
+        GameObject.Find(Namez.SidebarUIName).GetComponent<Canvas>().enabled = true;
 
-		FindFirstObjectByType<PauseMenu>().canvas.worldCamera =
-			FindFirstObjectByType<CameraMovement>().gameObject.GetComponent<Camera>();
+        gooWell = FindFirstObjectByType<GooWell>();
 
-		Time.timeScale = 0f;
+        FindFirstObjectByType<PauseMenu>().canvas.worldCamera = FindFirstObjectByType<CameraMovement>().gameObject.GetComponent<Camera>();
 
-		// --------------------------------------------------
-		// Collecting Actorz
-		// --------------------------------------------------
+        Time.timeScale = 0f;
 
-		// --------------------------------------------------
-		// Collecting Objectz
-		// --------------------------------------------------
-		redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();
+        // --------------------------------------------------
+        // Collecting Actorz
+        // --------------------------------------------------
 
-		gridObjectz = FindObjectsByType<GridObject>(FindObjectsSortMode.None)
-			.Where(go => go is not Blocker or Brick)
-			.ToList();
+        // --------------------------------------------------
+        // Collecting Objectz
+        // --------------------------------------------------
+        redPyramidz = FindObjectsByType<RedPyramid>(FindObjectsSortMode.None).ToList();
 
-		spikez = FindObjectsByType<Spikez>(FindObjectsSortMode.None).ToList();
-	}
+        gridObjectz = FindObjectsByType<GridObject>(FindObjectsSortMode.None).Where(go => go is not Blocker or Brick).ToList();
 
-	private void OnSwitchLocale() {
-		if (LocalizationSettings.SelectedLocale == LocalizationSettings.AvailableLocales.Locales[1]) {
-			LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
-		} else {
-			LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[1];
-		}
-	}
+        spikez = FindObjectsByType<Spikez>(FindObjectsSortMode.None).ToList();
+    }
 
-	private void OnChangeGameSpeed() {
-		Time.timeScale = Time.timeScale switch {
-			0 => 0,
-			2f => 1f,
-			_ => 2f,
-		};
-	}
+    private void OnSwitchLocale() {
+        LocalizationSettings.SelectedLocale = LocalizationSettings.SelectedLocale == LocalizationSettings.AvailableLocales.Locales[1]
+            ? LocalizationSettings.AvailableLocales.Locales[0]
+            : LocalizationSettings.AvailableLocales.Locales[1];
+    }
 
-	private void OnFreezeGame() {
-		Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
-	}
+    private void OnChangeGameSpeed() {
+        Time.timeScale = Time.timeScale switch {
+            0 => 0,
+            2f => 1f,
+            _ => 2f,
+        };
+    }
 
-	public void LocalizeLevelName(string newLevelName) {
-		levelData.levelName = newLevelName;
-	}
+    private void OnFreezeGame() {
+        Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
+    }
+
+    public void LocalizeLevelName(string newLevelName) {
+        levelData.levelName = newLevelName;
+    }
 }
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(GameManager))]
 public class GameManagerEditor : UnityEditor.Editor {
-	public override void OnInspectorGUI() {
-		base.OnInspectorGUI();
+    public override void OnInspectorGUI() {
+        base.OnInspectorGUI();
 
-		GameManager gameManager = (GameManager)target;
-		Level level = FindFirstObjectByType<Level>();
+        GameManager gameManager = (GameManager)target;
+        Level level = FindFirstObjectByType<Level>();
 
-		if (GUILayout.Button("Initialize Level")) {
-			DateTime start = DateTime.Now;
+        if (GUILayout.Button("Initialize Level")) {
+            DateTime start = DateTime.Now;
 
-			level.Initialize();
+            level.Initialize();
 
-			gameManager.InitializeLevel();
+            gameManager.InitializeLevel();
 
+            // Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
+            // FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
+            // 	.Where(ec => ec.gameObject.CompareTag("HighEyeCandy"))
+            // 	.ToList()
+            // 	.ForEach(ec1 => ec1.gameObject.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(ec1.transform.position.y) * -1);
 
-			// Set the sorting order of all EyeCandy objects so they render properly behind or in front of each other
-			// FindObjectsByType<EyeCandy>(FindObjectsSortMode.None)
-			// 	.Where(ec => ec.gameObject.CompareTag("HighEyeCandy"))
-			// 	.ToList()
-			// 	.ForEach(ec1 => ec1.gameObject.GetComponent<SpriteRenderer>().sortingOrder = Mathf.RoundToInt(ec1.transform.position.y) * -1);
+            List<Checkpoint> checkpointz = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None).ToList();
 
-			List<Checkpoint> checkpointz = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None).ToList();
+            List<LevelItem> levelItemz = FindObjectsByType<LevelItem>(FindObjectsSortMode.None).ToList();
 
-			List<LevelItem> levelItemz = FindObjectsByType<LevelItem>(FindObjectsSortMode.None).ToList();
-
-			Debug.Log($"Initialization took {DateTime.Now - start}");
-		}
-	}
+            Debug.Log($"Initialization took {DateTime.Now - start}");
+        }
+    }
 }
 #endif
 }

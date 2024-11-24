@@ -1,55 +1,71 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 namespace GruntzUnityverse.UI {
 public class ContinueToLevel : MonoBehaviour {
-	public TMP_Text sceneIsLoadedText;
+    public TMP_Text sceneIsLoadedText;
 
-	public Slider sceneLoadProgressBar;
+    public Slider sceneLoadProgressBar;
 
-	private SceneInstance _currentlyLoadedLevel;
+    private SceneInstance _currentlyLoadedLevel;
 
-	private bool _completedLoad;
+    private bool _completedLoad;
 
-	private AsyncOperationHandle<SceneInstance> _loadHandle;
+    private AsyncOperationHandle<SceneInstance> _loadHandle;
 
-	private void Update() {
-		if (_loadHandle.IsValid()) {
-			sceneLoadProgressBar.value = _loadHandle.GetDownloadStatus().Percent;
-		}
-	}
+    private bool wasContinueKeyPressed => Keyboard.current.enterKey.wasPressedThisFrame
+                                           || Keyboard.current.numpadEnterKey.wasPressedThisFrame
+                                           || Keyboard.current.spaceKey.wasPressedThisFrame;
 
-	public void LoadLevel(string levelToLoad) {
-		SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-		// SceneManager.UnloadSceneAsync("MainMenu");
+    private void Update() {
+        if (_loadHandle.IsValid()) {
+            sceneLoadProgressBar.value = _loadHandle.GetDownloadStatus().Percent * 100;
+        }
 
-		_loadHandle = Addressables.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive, false);
+        if (wasContinueKeyPressed) {
+            Continue();
+        }
+    }
 
-		_loadHandle.Completed += handle => {
-			_currentlyLoadedLevel = handle.Result;
-			_completedLoad = true;
+    public void LoadLevel(string levelToLoad) {
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
 
-			sceneIsLoadedText = GameObject.Find("SceneIsLoadedText").GetComponent<TMP_Text>();
+        _loadHandle = Addressables.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive, false);
 
-			InvokeRepeating(nameof(ToggleLoadedMessage), 0, 0.5f);
-		};
-	}
+        _loadHandle.Completed += handle => {
+            _currentlyLoadedLevel = handle.Result;
+            _completedLoad = true;
 
-	private void ToggleLoadedMessage() {
-		sceneIsLoadedText.enabled = !sceneIsLoadedText.enabled;
-	}
+            sceneLoadProgressBar.value = 100;
 
-	private void OnContinueToLevel() {
-		if (_completedLoad) {
-			_currentlyLoadedLevel.ActivateAsync().completed += _ => {
-				SceneManager.UnloadSceneAsync("LoadMenu");
-			};
-		}
-	}
+            sceneIsLoadedText = GameObject.Find(Namez.SceneIsLoadedTextName).GetComponent<TMP_Text>();
+
+            if (gameObject.TryGetComponent(out UnscaledTimeInvoker invoker)) {
+                invoker.InvokeRepeatingUnscaled(nameof(ToggleLoadedMessage), 0, 0.5f);
+            }
+            else {
+                gameObject.AddComponent<UnscaledTimeInvoker>().InvokeRepeatingUnscaled(nameof(ToggleLoadedMessage), 0, 0.5f);
+            }
+        };
+    }
+
+    private void ToggleLoadedMessage() {
+        sceneIsLoadedText.enabled = !sceneIsLoadedText.enabled;
+    }
+
+    private void Continue() {
+        if (_completedLoad) {
+            _currentlyLoadedLevel.ActivateAsync().completed += _ => {
+                SceneManager.UnloadSceneAsync(Namez.LoadMenuName);
+            };
+        }
+    }
 }
 }
