@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verpha.HierarchyDesigner
 {
-    public static class HierarchyDesigner_Shared_ColorUtility
+    internal static class HierarchyDesigner_Shared_ColorUtility
     {
         #region Properties
         public static readonly Color DefaultDarkThemeSkinColor = HexToColor("#383838");
@@ -31,9 +31,20 @@ namespace Verpha.HierarchyDesigner
         public static readonly Color InnerGUILightThemeColor = HexToColor("#E1E1E1");
         public static readonly Color ContentGUIDarkThemeColor = HexToColor("#232323");
         public static readonly Color ContentGUILightThemeColor = HexToColor("#F0F0F0");
+        public static readonly Color HierarchyDesignerColorTextDark = HexToColor("#FFFFFF");
+        public static readonly Color HierarchyDesignerColorTextLight = HexToColor("#000000");
+        public static readonly Color HierarchyDesignerColorHighlightDark = HexToColor("#FFEB5D");
+        public static readonly Color HierarchyDesignerColorHighlightLight = HexToColor("#5E70FF");
+        public static readonly Color HierarchyDesignerColorIDark = HexToColor("#1E1E1E");
+        public static readonly Color HierarchyDesignerColorILight = HexToColor("#E1E1E1");
+        public static readonly Color HierarchyDesignerColorIIDark = HexToColor("#232323");
+        public static readonly Color HierarchyDesignerColorIILight = HexToColor("#DCDCDC");
+        public static readonly Color HierarchyDesignerColorIIIDark = HexToColor("#282828");
+        public static readonly Color HierarchyDesignerColorIIILight = HexToColor("#D7D7D7");
         #endregion
 
-        #region Getters Methods
+        #region Methods
+        #region Getters
         public static Color GetDefaultEditorBackgroundColor()
         {
             return HierarchyDesigner_Manager_Editor.IsProSkin ? DefaultDarkThemeSkinColor : DefaultLightThemeSkinColor;
@@ -82,9 +93,29 @@ namespace Verpha.HierarchyDesigner
         {
             return HierarchyDesigner_Manager_Editor.IsProSkin ? ContentGUIDarkThemeColor : ContentGUILightThemeColor;
         }
+        public static Color GetHierarchyDesignerColorHighlight()
+        {
+            return HierarchyDesigner_Manager_Editor.IsProSkin ? HierarchyDesignerColorHighlightDark : HierarchyDesignerColorHighlightLight;
+        }
+        public static Color GetHierarchyDesignerColorText()
+        {
+            return HierarchyDesigner_Manager_Editor.IsProSkin ? HierarchyDesignerColorTextDark : HierarchyDesignerColorTextLight;
+        }
+        public static Color GetHierarchyDesignerColorI()
+        {
+            return HierarchyDesigner_Manager_Editor.IsProSkin ? HierarchyDesignerColorIDark : HierarchyDesignerColorILight;
+        }
+        public static Color GetHierarchyDesignerColorII()
+        {
+            return HierarchyDesigner_Manager_Editor.IsProSkin ? HierarchyDesignerColorIIDark : HierarchyDesignerColorIILight;
+        }
+        public static Color GetHierarchyDesignerColorIII()
+        {
+            return HierarchyDesigner_Manager_Editor.IsProSkin ? HierarchyDesignerColorIIIDark : HierarchyDesignerColorIIILight;
+        }
         #endregion
 
-        #region Conversion Methods
+        #region Operations
         public static Color HexToColor(string hex)
         {
             try
@@ -129,6 +160,7 @@ namespace Verpha.HierarchyDesigner
 
             return gradient;
         }
+        #endregion
         #endregion
     }
 }

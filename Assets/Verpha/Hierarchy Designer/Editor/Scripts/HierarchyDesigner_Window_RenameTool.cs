@@ -6,25 +6,25 @@ using UnityEngine;
 
 namespace Verpha.HierarchyDesigner
 {
-    public class HierarchyDesigner_Window_RenameTool : EditorWindow
+    internal class HierarchyDesigner_Window_RenameTool : EditorWindow
     {
         #region Properties
         #region GUI
-        private Vector2 outerScroll;
-        private GUIStyle headerGUIStyle;
-        private GUIStyle contentGUIStyle;
-        private GUIStyle outerBackgroundGUIStyle;
-        private GUIStyle innerBackgroundGUIStyle;
-        private GUIStyle contentBackgroundGUIStyle;
+        private Vector2 mainScroll;
+        private GUIStyle rightPanel;
+        private GUIStyle categoryLabel;
+        private GUIStyle contentPanel;
+        private GUIStyle contentLabel;
         #endregion
         #region Const
-        private const float fieldsWidth = 100;
+        private const float minimumSpaceMargin = 2f;
+        private const float fieldsWidth = 95;
         #endregion
         #region Rename Tool Values
         private static string newName = "";
         private static bool automaticIndexing = true;
         private static int startingIndex = 0;
-        [SerializeField] private List<GameObject> selectedGameObjects = new List<GameObject>();
+        [SerializeField] private List<GameObject> selectedGameObjects = new();
         private ReorderableList reorderableList;
         #endregion
         #endregion
@@ -76,44 +76,37 @@ namespace Verpha.HierarchyDesigner
         #region Main
         private void OnGUI()
         {
-            HierarchyDesigner_Shared_GUI.DrawGUIStyles(out headerGUIStyle, out contentGUIStyle, out GUIStyle _, out outerBackgroundGUIStyle, out innerBackgroundGUIStyle, out contentBackgroundGUIStyle);
+            HierarchyDesigner_Shared_GUI.GetHierarchyDesignerGUIStyles(out GUIStyle _, out GUIStyle _, out GUIStyle _, out GUIStyle _, out rightPanel, out categoryLabel, out GUIStyle _, out GUIStyle _, out contentPanel, out contentLabel, out GUIStyle _, out GUIStyle _, out GUIStyle _);
 
             #region Header
-            EditorGUILayout.BeginVertical(outerBackgroundGUIStyle);
-            EditorGUILayout.LabelField("Rename Tool", headerGUIStyle);
-            GUILayout.Space(8);
+            EditorGUILayout.BeginVertical(rightPanel);
+            EditorGUILayout.LabelField("Rename Tool", categoryLabel);
+            GUILayout.Space(minimumSpaceMargin);
             #endregion
 
-            outerScroll = EditorGUILayout.BeginScrollView(outerScroll, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            EditorGUILayout.BeginVertical(innerBackgroundGUIStyle);
+            mainScroll = EditorGUILayout.BeginScrollView(mainScroll, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
-            #region Main
+            #region Body
             #region New Values
-            EditorGUILayout.BeginVertical(contentBackgroundGUIStyle);
-            EditorGUILayout.LabelField("Parameters:", contentGUIStyle, GUILayout.ExpandWidth(true));
-            GUILayout.Space(4);
-            using (new HierarchyDesigner_Shared_GUI.LabelWidth(fieldsWidth))
-            {
-                newName = EditorGUILayout.TextField("New Name", newName);
-                GUILayout.Space(2);
-                automaticIndexing = HierarchyDesigner_Shared_GUI.DrawToggle("Auto-Index", fieldsWidth, automaticIndexing);
-                if (automaticIndexing) { startingIndex = EditorGUILayout.DelayedIntField("Starting Index", startingIndex); }
-            }
+            EditorGUILayout.BeginVertical(contentPanel);
+            EditorGUILayout.LabelField("Parameters", contentLabel, GUILayout.ExpandWidth(true));
+            GUILayout.Space(minimumSpaceMargin);
+
+            newName = HierarchyDesigner_Shared_GUI.DrawTextField("New Name", fieldsWidth, newName);
+            automaticIndexing = HierarchyDesigner_Shared_GUI.DrawToggle("Auto-Index", fieldsWidth, automaticIndexing);
+            if (automaticIndexing) { startingIndex = HierarchyDesigner_Shared_GUI.DrawDelayedIntField("Starting Index", fieldsWidth, startingIndex); }
+
             EditorGUILayout.EndVertical();
-            GUILayout.Space(4);
+            GUILayout.Space(minimumSpaceMargin);
             #endregion
 
             #region Selected GameObjects List
-            EditorGUILayout.BeginVertical(contentBackgroundGUIStyle);
-            EditorGUILayout.LabelField("Selected GameObjects:", contentGUIStyle, GUILayout.ExpandWidth(true));
-            GUILayout.Space(4);
+            EditorGUILayout.BeginVertical(contentPanel);
             if (reorderableList != null) { reorderableList.DoLayoutList(); }
             EditorGUILayout.EndVertical();
             #endregion
             #endregion
-
             EditorGUILayout.EndScrollView();
-            EditorGUILayout.EndVertical();
 
             #region Footer
             EditorGUILayout.BeginHorizontal();
@@ -145,7 +138,7 @@ namespace Verpha.HierarchyDesigner
         }
         #endregion
 
-        #region Operations Methods
+        #region Operations
         private void ReassignSelectedGameObjects()
         {
             selectedGameObjects = new List<GameObject>(Selection.gameObjects);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Verpha.HierarchyDesigner
 {
     [System.Serializable]
-    public class HierarchyDesigner_Shared_SerializableList<T>
+    internal class HierarchyDesigner_Shared_SerializableList<T>
     {
         public List<T> items;
 

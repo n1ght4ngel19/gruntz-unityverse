@@ -4,21 +4,18 @@ using UnityEngine;
 
 namespace Verpha.HierarchyDesigner
 {
-    public class HierarchyDesigner_Window_TagLayer : EditorWindow
+    internal class HierarchyDesigner_Window_TagLayer : EditorWindow
     {
         #region Properties
         #region GUI
-        private Vector2 outerScroll;
-        private GUIStyle headerGUIStyle;
-        private GUIStyle contentGUIStyle;
-        private GUIStyle messageGUIStyle;
-        private GUIStyle outerBackgroundGUIStyle;
-        private GUIStyle innerBackgroundGUIStyle;
-        private GUIStyle contentBackgroundGUIStyle;
+        private Vector2 mainScroll;
+        private GUIStyle rightPanel;
+        private GUIStyle categoryLabel;
+        private GUIStyle contentPanel;
+        private GUIStyle fieldsLabel;
         #endregion
         #region Const
-        private const float tagLabelWidth = 80;
-        private const float layerLabelWidth = 90;
+        private const float minimumSpaceMargin = 2f;
         #endregion
         #region Tag and Layer Values
         private GameObject gameObject;
@@ -31,8 +28,11 @@ namespace Verpha.HierarchyDesigner
         public static void OpenWindow(GameObject gameObject, bool isTag, Vector2 position)
         {
             HierarchyDesigner_Window_TagLayer window = GetWindow<HierarchyDesigner_Window_TagLayer>("Tag and Layer");
-            window.minSize = new Vector2(250, 120);
-            window.position = new Rect(position, new Vector2(300, 120));
+            window.minSize = new Vector2(250, 105);
+            window.maxSize = new Vector2(300, window.minSize.y);
+            Vector2 offset = new Vector2(-12, 25);
+            Vector2 adjustedPosition = position - offset;
+            window.position = new Rect(adjustedPosition, window.minSize);
             window.gameObject = gameObject;
             window.isTag = isTag;
             window.windowLabel = isTag ? "Tag" : "Layer";
@@ -42,31 +42,29 @@ namespace Verpha.HierarchyDesigner
         #region Main
         private void OnGUI()
         {
-            HierarchyDesigner_Shared_GUI.DrawGUIStyles(out headerGUIStyle, out contentGUIStyle, out messageGUIStyle, out outerBackgroundGUIStyle, out innerBackgroundGUIStyle, out contentBackgroundGUIStyle);
+            HierarchyDesigner_Shared_GUI.GetHierarchyDesignerGUIStyles(out GUIStyle _, out GUIStyle _, out GUIStyle _, out GUIStyle _, out rightPanel, out categoryLabel, out GUIStyle _, out GUIStyle _, out contentPanel, out _, out fieldsLabel, out GUIStyle _, out GUIStyle _);
 
             #region Header
             bool cancelLayout = false;
-            EditorGUILayout.BeginVertical(outerBackgroundGUIStyle);
-            EditorGUILayout.LabelField(windowLabel, headerGUIStyle);
-            GUILayout.Space(8);
+            EditorGUILayout.BeginVertical(rightPanel);
+            EditorGUILayout.LabelField(windowLabel, categoryLabel);
+            GUILayout.Space(minimumSpaceMargin);
             #endregion
 
-            outerScroll = EditorGUILayout.BeginScrollView(outerScroll, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            EditorGUILayout.BeginVertical(innerBackgroundGUIStyle);
+            mainScroll = EditorGUILayout.BeginScrollView(mainScroll, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            EditorGUILayout.BeginVertical(contentPanel);
 
-            #region Main
+            #region Body
             GUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("GameObject:", EditorStyles.boldLabel, GUILayout.Width(80));
-            EditorGUILayout.LabelField(gameObject.name, EditorStyles.boldLabel, GUILayout.ExpandWidth(true));
+            EditorGUILayout.LabelField($"<color={(HierarchyDesigner_Manager_Editor.IsProSkin ? "#FFEB5D" : "#5E70FF")}>GameObject:</color> {gameObject.name}", fieldsLabel, GUILayout.ExpandWidth(true));
             GUILayout.EndHorizontal();
-            GUILayout.Space(4);
+            GUILayout.Space(minimumSpaceMargin);
 
             EditorGUILayout.BeginHorizontal();
             EditorGUI.BeginChangeCheck();
             if (isTag)
             {
-                EditorGUILayout.LabelField("Current Tag:", EditorStyles.boldLabel, GUILayout.Width(tagLabelWidth));
-                string newTag = EditorGUILayout.TagField(gameObject.tag, GUILayout.Width(180));
+                string newTag = EditorGUILayout.TagField(gameObject.tag);
                 if (EditorGUI.EndChangeCheck())
                 {
                     Undo.RecordObject(gameObject, "Change Tag");
@@ -76,8 +74,7 @@ namespace Verpha.HierarchyDesigner
             }
             else
             {
-                EditorGUILayout.LabelField("Current Layer:", EditorStyles.boldLabel, GUILayout.Width(layerLabelWidth));
-                int newLayer = EditorGUILayout.LayerField(gameObject.layer, GUILayout.Width(180));
+                int newLayer = EditorGUILayout.LayerField(gameObject.layer);
                 if (EditorGUI.EndChangeCheck())
                 {
                     bool shouldChangeLayer = true;
@@ -105,10 +102,12 @@ namespace Verpha.HierarchyDesigner
             EditorGUILayout.EndScrollView();
             EditorGUILayout.EndVertical();
 
-            if (cancelLayout) 
-            { 
-                return; 
+            #region Footer
+            if (cancelLayout)
+            {
+                return;
             }
+            #endregion
         }
         #endregion
 

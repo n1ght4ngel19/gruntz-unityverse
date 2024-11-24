@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verpha.HierarchyDesigner
 {
-    public static class HierarchyDesigner_Shared_EnumFilter
+    internal static class HierarchyDesigner_Shared_EnumFilter
     {
         public static T ParseEnum<T>(string value, T defaultValue) where T : struct
         {

@@ -6,29 +6,39 @@ using UnityEngine;
 
 namespace Verpha.HierarchyDesigner
 {
-    public static class HierarchyDesigner_Configurable_GeneralSettings
+    internal static class HierarchyDesigner_Configurable_GeneralSettings
     {
         #region Properties
         [System.Serializable]
         private class HierarchyDesigner_GeneralSettings
         {
+            #region Core
             public HierarchyLayoutMode LayoutMode = HierarchyLayoutMode.Docked;
+            public HierarchyTreeMode TreeMode = HierarchyTreeMode.Default;
+            #endregion
+            #region General
             public bool EnableGameObjectMainIcon = true;
             public bool EnableGameObjectComponentIcons = true;
             public bool EnableHierarchyTree = true;
             public bool EnableGameObjectTag = true;
             public bool EnableGameObjectLayer = true;
             public bool EnableHierarchyRows = true;
+            public bool EnableHierarchyLines = true;
             public bool EnableHierarchyButtons = true;
             public bool EnableMajorShortcuts = true;
             public bool DisableHierarchyDesignerDuringPlayMode = true;
+            #endregion
+            #region Filtering
             public bool ExcludeFolderProperties = true;
             public bool ExcludeTransformForGameObjectComponentIcons = true;
             public bool ExcludeCanvasRendererForGameObjectComponentIcons = true;
+            public int MaximumComponentIconsAmount = 10;
             public List<string> ExcludedTags = new List<string>();
             public List<string> ExcludedLayers = new List<string>();
+            #endregion
         }
         public enum HierarchyLayoutMode { Consecutive, Docked, Split };
+        public enum HierarchyTreeMode { Minimal, Default};
         private static HierarchyDesigner_GeneralSettings generalSettings = new HierarchyDesigner_GeneralSettings();
         private const string settingsFileName = "HierarchyDesigner_SavedData_GeneralSettings.json";
         #endregion
@@ -43,24 +53,28 @@ namespace Verpha.HierarchyDesigner
         private static void LoadHierarchyDesignerManagerGameObjectCaches()
         {
             HierarchyDesigner_Manager_GameObject.LayoutModeCache = LayoutMode;
+            HierarchyDesigner_Manager_GameObject.TreeModeCache = TreeMode;
             HierarchyDesigner_Manager_GameObject.EnableGameObjectMainIconCache = EnableGameObjectMainIcon;
             HierarchyDesigner_Manager_GameObject.EnableGameObjectComponentIconsCache = EnableGameObjectComponentIcons;
             HierarchyDesigner_Manager_GameObject.EnableHierarchyTreeCache = EnableHierarchyTree;
             HierarchyDesigner_Manager_GameObject.EnableGameObjectTagCache = EnableGameObjectTag;
             HierarchyDesigner_Manager_GameObject.EnableGameObjectLayerCache = EnableGameObjectLayer;
             HierarchyDesigner_Manager_GameObject.EnableHierarchyRowsCache = EnableHierarchyRows;
+            HierarchyDesigner_Manager_GameObject.EnableHierarchyLinesCache = EnableHierarchyLines;
             HierarchyDesigner_Manager_GameObject.EnableHierarchyButtonsCache = EnableHierarchyButtons;
             HierarchyDesigner_Manager_GameObject.EnableMajorShortcutsCache = EnableMajorShortcuts;
             HierarchyDesigner_Manager_GameObject.DisableHierarchyDesignerDuringPlayModeCache = DisableHierarchyDesignerDuringPlayMode;
             HierarchyDesigner_Manager_GameObject.ExcludeFolderProperties = ExcludeFolderProperties;
             HierarchyDesigner_Manager_GameObject.ExcludeTransformComponentCache = ExcludeTransformForGameObjectComponentIcons;
             HierarchyDesigner_Manager_GameObject.ExcludeCanvasRendererComponentCache = ExcludeCanvasRendererForGameObjectComponentIcons;
+            HierarchyDesigner_Manager_GameObject.MaximumComponentIconsAmountCache = MaximumComponentIconsAmount;
             HierarchyDesigner_Manager_GameObject.ExcludedTagsCache = ExcludedTags;
             HierarchyDesigner_Manager_GameObject.ExcludedLayersCache = ExcludedLayers;
         }
         #endregion
 
         #region Accessors
+        #region Core
         public static HierarchyLayoutMode LayoutMode
         {
             get => generalSettings.LayoutMode;
@@ -74,6 +88,21 @@ namespace Verpha.HierarchyDesigner
             }
         }
 
+        public static HierarchyTreeMode TreeMode
+        {
+            get => generalSettings.TreeMode;
+            set
+            {
+                if (generalSettings.TreeMode != value)
+                {
+                    generalSettings.TreeMode = value;
+                    HierarchyDesigner_Manager_GameObject.TreeModeCache = value;
+                }
+            }
+        }
+        #endregion
+
+        #region General
         public static bool EnableGameObjectMainIcon
         {
             get => generalSettings.EnableGameObjectMainIcon;
@@ -152,6 +181,19 @@ namespace Verpha.HierarchyDesigner
             }
         }
 
+        public static bool EnableHierarchyLines
+        {
+            get => generalSettings.EnableHierarchyLines;
+            set
+            {
+                if (generalSettings.EnableHierarchyLines != value)
+                {
+                    generalSettings.EnableHierarchyLines = value;
+                    HierarchyDesigner_Manager_GameObject.EnableHierarchyLinesCache = value;
+                }
+            }
+        }
+
         public static bool EnableHierarchyButtons
         {
             get => generalSettings.EnableHierarchyButtons;
@@ -190,7 +232,9 @@ namespace Verpha.HierarchyDesigner
                 }
             }
         }
+        #endregion
 
+        #region Filtering
         public static bool ExcludeFolderProperties
         {
             get => generalSettings.ExcludeFolderProperties;
@@ -213,7 +257,7 @@ namespace Verpha.HierarchyDesigner
                 {
                     generalSettings.ExcludeTransformForGameObjectComponentIcons = value;
                     HierarchyDesigner_Manager_GameObject.ExcludeTransformComponentCache = value;
-                    HierarchyDesigner_Manager_GameObject.ClearComponentIconsCache();
+                    HierarchyDesigner_Manager_GameObject.ClearGameObjectDataCache();
                 }
             }
         }
@@ -227,7 +271,21 @@ namespace Verpha.HierarchyDesigner
                 {
                     generalSettings.ExcludeCanvasRendererForGameObjectComponentIcons = value;
                     HierarchyDesigner_Manager_GameObject.ExcludeCanvasRendererComponentCache = value;
-                    HierarchyDesigner_Manager_GameObject.ClearComponentIconsCache();
+                    HierarchyDesigner_Manager_GameObject.ClearGameObjectDataCache();
+                }
+            }
+        }
+
+        public static int MaximumComponentIconsAmount
+        {
+            get => generalSettings.MaximumComponentIconsAmount;
+            set
+            {
+                int clampedValue = Mathf.Clamp(value, 1, 20);
+                if (generalSettings.MaximumComponentIconsAmount != clampedValue)
+                {
+                    generalSettings.MaximumComponentIconsAmount = clampedValue;
+                    HierarchyDesigner_Manager_GameObject.MaximumComponentIconsAmountCache = value;
                 }
             }
         }
@@ -258,6 +316,7 @@ namespace Verpha.HierarchyDesigner
             }
         }
         #endregion
+        #endregion
 
         #region Save and Load
         public static void SaveSettings()
@@ -276,6 +335,7 @@ namespace Verpha.HierarchyDesigner
                 string json = File.ReadAllText(dataFilePath);
                 HierarchyDesigner_GeneralSettings loadedSettings = JsonUtility.FromJson<HierarchyDesigner_GeneralSettings>(json);
                 loadedSettings.LayoutMode = HierarchyDesigner_Shared_EnumFilter.ParseEnum(loadedSettings.LayoutMode.ToString(), HierarchyLayoutMode.Docked);
+                loadedSettings.TreeMode = HierarchyDesigner_Shared_EnumFilter.ParseEnum(loadedSettings.TreeMode.ToString(), HierarchyTreeMode.Default);
                 generalSettings = loadedSettings;
             }
             else
@@ -289,18 +349,21 @@ namespace Verpha.HierarchyDesigner
             generalSettings = new HierarchyDesigner_GeneralSettings()
             {
                 LayoutMode = HierarchyLayoutMode.Docked,
+                TreeMode = HierarchyTreeMode.Default,
                 EnableGameObjectMainIcon = true,
                 EnableGameObjectComponentIcons = true,
                 EnableHierarchyTree = true,
                 EnableGameObjectTag = true,
                 EnableGameObjectLayer = true,
                 EnableHierarchyRows = true,
+                EnableHierarchyLines = true,
                 EnableHierarchyButtons = true,
                 EnableMajorShortcuts = true,
                 DisableHierarchyDesignerDuringPlayMode = true,
                 ExcludeFolderProperties = true,
                 ExcludeTransformForGameObjectComponentIcons = true,
                 ExcludeCanvasRendererForGameObjectComponentIcons = true,
+                MaximumComponentIconsAmount = 10,
                 ExcludedTags = new List<string>(),
                 ExcludedLayers = new List<string>()
             };

@@ -1,3 +1,134 @@
+| Version 1.1.8
+• (New): The left panel of the Hierarchy Designer window now supports a collapsed mode.
+• (New): You can now edit the offset for the 'Separator Left-Right Text Anchor' in Design Settings.
+• (New): Added a new core feature to General Settings, 'Hierarchy Tree Mode', with the following modes: Minimal, Default.
+• (New): Added a 'Maximum Component Icons Amount' option in the Filtering Features section of General Settings.
+• (New): Created a new class, 'HierarchyDesigner_Manager_State'.
+• (Improvement): Various small tweaks have been made to the Hierarchy Designer window.
+• (Improvement): The "Minor Shortcut" (Alt + 1) now opens the last-used panel instead of resetting to the home panel.
+• (Improvement): The foldout state of Utilities and Configurations is now preserved when reopening the Hierarchy Designer window.
+• (Improvement): Made small GUI adjustments to the Tag-Layer, Rename window, and Hierarchy Designer Folder Custom Inspector.
+• (Improvement): Changed the access modifiers of Hierarchy Designer classes from public to internal.
+• (Bug Fix): Fixed the warning, "'Verpha.HierarchyDesigner.HierarchyDesigner_Manager_State' is missing the FilePathAttribute."
+• (Bug Fix): Fixed an overflow issue with long folder names and separators in their list.
+• (Bug Fix): Fixed an error that prevented the Rename Tool window from opening.
+• (Other): Corrected the label "No separators found. Please create a new separator." on the Separator tab, which previously referenced folders.
+• (Other): Made a minor change to 'The Update Board' initialization.
+• (Other): Performed a small cleanup of unused logic, organization, and refactoring in the Shared GUI, Rename Tool, and Tag-Layer classes.
+• (Other): Added new resource images.
+• (Other): Updated the font of the Hierarchy Designer.
+• (Other): Replaced the resource icons for Tools and Presets.
+• (Other): Made other small changes.
+
+| Version 1.1.7
+• (New): Created a centralized window that unifies all previous windows.
+• (New): Introduced 'The Update Board', located in the Home tab, which displays the latest news in real time.
+• (New): Added a 'Check for Latest Updates' feature available on the Home tab, allowing you to always have the newest version of Hierarchy Designer. // New versions, including those in development, will be announced on 'The Update Board'.
+• (New): Added two new resource fonts used by the Hierarchy Designer Window.
+• (New): Created a new class 'HierarchyDesigner_Window_Main'.
+• (Improvement): Folder and Separator creation fields will now reset to the values set in the design settings, rather than the previous default values, upon creation.
+• (Bug Fix): Fixed a null/empty gradient error in the separator fields.
+• (Other): Most minor shortcuts are now uncategorized by default due to the new changes. Folder (Alt + 2 by default) and separators (Alt + 3 by default) remain for quick access.
+• (Other): Implemented major and minor changes in some classes.
+• (Other): Other small changes.
+• (Remove): Removed the following windows/classes: General-Design-Shortcut-Advanced Settings, Folder Manager, Separator Manager, Presets, Tools Master (obsolete due to the new changes).
+• (Remove): Removed all MenuItems (Top Bar/Tools/) except Hierarchy Designer (Window).
+
+Additional Notes: This update requires a fresh download. If you have Hierarchy Designer in your project, please delete it (except the Saved Data) before updating to the new version.
+
+| Version 1.1.6
+• (New): Created a new feature, 'Tree Branch Image Type', which allows you to modify the image type of the Hierarchy Tree (available in the Design Settings Window).
+• (New): Created five new presets: 'Fresh Swamp', 'Iron Cinder', 'Jade Lake', 'The Two Realms', and 'Young Monarch'.
+• (New): Added twelve new resource images for the Hierarchy Tree, divided into three new types: 'Curved', 'Dotted', and 'Segmented'.
+• (New): Added three new resource images for the Hierarchy Buttons: 'Hierarchy Designer Visibility Icon', 'Hierarchy Designer Visibility Off Icon', and 'Hierarchy Designer Unlock Icon'.
+• (New): Added the option to edit the default values for Folders and Separators (available in the Design Settings Window).
+• (New): Added 'Folder Default Values' and 'Separator Default Values' to the Presets apply fields.
+• (Improvement): The Hierarchy Lock Button icon now reflects with the GameObject's lock state.
+• (Improvement): Modified the activate state button's label (On, Off) to use icons instead (Visibility On, Visibility Off).
+• (Improvement): Minor performance improvements.
+• (Other): Renamed the original Hierarchy Tree resource images due to the new changes.
+• (Other): Made minor changes to some presets.
+• (Other): Replaced the 'Hierarchy Designer Lock Icon' sprite.  
+• (Other): Hierarchy buttons now have the same width.
+• (Other): Implemented major and minor changes in a few classes.
+• (Other): Made other small changes.
+
+| Version 1.1.5
+• (New): Added a new feature, 'Update Mode (Dynamic, Smart),' found in the Advanced Settings. The following features are available in Update Mode: Main Icon, Components Icons, Hierarchy Tree, Tag, and Layer.
+• (New): Added two new context menu items related to the Folder and Separator: 'Transform Folder into a GameObject' and 'Transform Separator into a GameObject,'.
+• (New): Added seven new context menu items related to Update Mode.
+• (New): Added seven new minor shortcuts related to Update Mode, such as 'Refresh All GameObjects' Data' (Shift + R, by default) and 'Refresh Selected GameObject's Data' (Alt + R, by default).
+• (New): Added a new class, 'HierarchyDesigner_Utility_GameObject.cs.'
+• (Improvement): Prefab overlay signs are now displayed for GameObjects when the main icon is enabled.
+• (Improvement): Overall performance improvements.
+• (Improvement): Improved the efficiency of the custom Hierarchy Designer's Folder inspector, and added a maximum allowed children limit to optimize the editor utility logic.
+• (Bug Fix): GameObjects that were transformed into a folder via the context menu now have the correct inspector icon.
+• (Other): Other small changes.
+• (Other): Major and minor changes in most classes.
+• (Removed): Removed the Advanced Settings feature 'enableDynamicChangesCheckForGameObjectMainIcon' (obsolete due to the new changes).
+
+Additional notes: In Smart Mode, changes are only checked periodically or when refreshed through the context menu or the refresh minor shortcuts. If you are working on larger scenes or want to increase performance, I recommend setting all features to Smart Mode and refreshing when needed.
+
+| Version 1.1.4.1f
+• (Bug fix): Fixed the folder label alignment.
+
+| Version 1.1.4
+• (New): Created a new feature, 'Hierarchy Lines,' available in the General and Design Settings.
+• (Improvement): Transforming a GameObject into a folder will check if the GameObject already has the folder script before adding a new one.
+• (Improvement): Minor performance improvements.
+• (Bug Fix): Fixed the Layout/Rect calculations for folders.
+• (Bug Fix): Fixed the Hierarchy Buttons not showing for folders.
+• (Other): Added the Hierarchy Lines feature to the presets.
+• (Other): Updated all presets to include Hierarchy Lines.
+• (Other): Major and/or minor changes in most classes.
+• (Remove): Removed 'HierarchyDesigner_Shared_ImportReload.cs' (obsolete due to new changes).
+
+| Version 1.1.3
+• (New): Added 'Text Color', 'Font Size', and 'Font Style' to the folders.
+• (New): Added the following new folder images: 'Modern II', 'Modern III', and 'Modern Outline'.
+• (New): Created two new context menu items: 'Transform GameObject into a Folder' and 'Transform GameObject into a Separator', allowing you to convert GameObjects into folders or separators via context menus.
+• (Improvement): Modified the folder resource images.
+• (Improvement): Updated the HierarchyDesignerFolder.cs to use the same icon as the inspector.
+• (Improvement): Improved the debug log of the Count Tool.
+• (Improvement): Made minor performance improvements.
+• (Other): Updated all presets to reflect the new folder changes.
+• (Other): Minor rearrangement of the context menus.
+• (Other): Made minor changes in some classes.
+• (Other): Renamed 'Important Read Me' to 'Hierarchy Designer Welcome!'.
+• (Other): Updated the Folder Section Text in the Demo Scene to reflect the recent folder changes.
+• (Other): Updated the default Hierarchy Designer location from the 'Top Bar' to 'Tools' to "follow the guidelines".
+• (Remove): Removed 'Hierarchy Designer Folder Icon Default Outline 2x'.
+
+| Version 1.1.2
+• (New): Added 'Context Menu(s)' to the Hierarchy Window.
+• (New): Created a new class 'HierarchyDesigner_Inspector_Folder'.
+• (New): Added three new variables: FlattenEvent, OnFlattenEvent, and OnFolderDestroy to the HierarchyDesignerFolder, allowing you to choose between the Awake or Start method to flatten the folder, and to call events OnFlattenEvent and OnFolderDestroyed.
+• (New): Added custom editor inspector functionalities to the Hierarchy Designer's Folder.
+• (New): Added a new value 'Include Editor Utilities for Hierarchy Designer's Runtime Folder' to the Advanced Settings.
+• (New): Added a new Separator Background type: Next-Gen. Currently available: 'Next-Gen I-II'.
+• (Improvement): Hierarchy Designer's Folder Flatten operation is now slightly faster.
+• (Improvement): Added all the missing main features' design values to the presets, which are: 'Tag Text Anchor', 'Layer Text Anchor', 'Lock Font Size', 'Lock Font Style', and 'Lock Text Anchor'.
+• (Improvement): Made small modifications in all presets.
+• (Improvement): Made small modifications to some resource images.
+• (Improvement): Organized the folders' and separators' image types in their manager windows into groups (e.g., "Default", "Modern", etc.).
+• (Improvement): Added a tooltip for the FlattenFolder variable in the HierarchyDesignerFolder script.
+• (Bug Fix): Fixed a bug where the Design Settings would not be saved when applying a preset to them.
+• (Others): Renamed 'Hierarchy Designer Separator Background Image Default Faded Left and Right' to 'Hierarchy Designer Separator Background Image Default Faded Sideways'.
+• (Others): Made major and/or minor changes in most classes.
+• (Others): Made a few other small changes.
+
+| Version 1.1.1.3p
+• (New): Added the 'Lock Label' feature to the presets.
+• (New): Added two new Separator Background types: 'Classic' and 'Neo'. Currently available: 'Classic I-II' and 'Neo I-II'.
+• (New): Created the following new presets: 'Age of Enlightenment', 'Frosty Fog', 'Little Red', 'Strawberry Salmon'.
+• (Improvements): The presets list is now organized into alphabetical groups (e.g., A-E, F-J, ...).
+• (Bug Fix): Fixed a bug related to the GradientMode in Unity 2022.2 or older versions.
+• (Others): Minor changes to some classes.
+• (Others): A few other small changes.
+
+| Version 1.1.1.2f
+• (Bug Fix) Fixed a bug where the gradient background for separators would become null after entering and exiting play mode.
+
 | Version 1.1.1.2p
 • (New): Added a new feature, 'Gradient Background', to Separators.
 • (New): Added a new feature, 'Hierarchy Designer Location', in the Advanced Settings window.
@@ -25,7 +156,6 @@
 - (Others): Major and/or minor changes in some classes.
 
 | Version 1.1.1 (Hierarchy Designer Remake)
-
 - (New Feature): Created two new types of settings (Design and Advanced Settings) which allow you to customize your Hierarchy even further.
 - (New Feature): Disabled Components for each gameObject can now be easily identified in the Hierarchy if enabled by the settings.
 - (New Feature): GameObject Properties (Main Icon, Component Icons, Tag-Layer, Tree, and Buttons) now update their visuals based on the gameObject's active state (Active, Inactive).

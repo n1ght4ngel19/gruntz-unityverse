@@ -4,11 +4,31 @@ using System.Collections.Generic;
 
 namespace Verpha.HierarchyDesigner
 {
-    public static class HierarchyDesigner_Shared_TextureLoader
+    internal static class HierarchyDesigner_Shared_TextureLoader
     {
         #region Properties
+        private static Dictionary<string, Font> fontCache = new Dictionary<string, Font>();
+
         private static Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
         #endregion
+
+        #region Methods
+        public static Font LoadFont(string fontName)
+        {
+            if (!fontCache.TryGetValue(fontName, out Font font))
+            {
+                font = Resources.Load<Font>(fontName);
+                if (font != null)
+                {
+                    fontCache[fontName] = font;
+                }
+                else
+                {
+                    font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                }
+            }
+            return font;
+        }
 
         public static Texture2D LoadTexture(string textureName)
         {
@@ -44,8 +64,10 @@ namespace Verpha.HierarchyDesigner
 
         public static bool IsTextureLoaded(string textureName)
         {
-            return textureCache.ContainsKey(textureName) && textureCache[textureName] != null;
+            Debug.Log("<color=#FFCE74>HierarchyDesigner_Shared_ImportReload.cs</color> is <color=#FF7674>obsolete</color>. Please <color=#FF7674>delete</color> it from the Hierarchy Designer folder (<color=#FF7674>DELETE: Assets/.../Hierarchy Designer/Editor/Scripts/HierarchyDesigner_Shared_ImportReload.cs</color>).");
+            return true;
         }
+        #endregion
     }
 }
 #endif

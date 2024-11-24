@@ -1,9 +1,8 @@
 #if UNITY_EDITOR
 namespace Verpha.HierarchyDesigner
 {
-    public static class HierarchyDesigner_Shared_MenuItems
+    internal static class HierarchyDesigner_Shared_MenuItems
     {
-        #region Properties
         #region Priority
         public const int LayerZero = 0;
         public const int LayerOne = 11;
@@ -27,13 +26,14 @@ namespace Verpha.HierarchyDesigner
         public const int LayerNineteen = 209;
         public const int LayerTwenty = 220;
         #endregion
-        #region Item Name
+
+        #region Items Name
         public const string Base_HierarchyDesigner = HierarchyDesigner_Shared_Constants.Base_HierarchyDesigner;
-        public const string Group_Folder = Base_HierarchyDesigner + "/Folders";
-        public const string Group_Separator = Base_HierarchyDesigner + "/Separators";
-        public const string Group_Configurations = Base_HierarchyDesigner + "/Configurations";
-        public const string Group_Tools = Base_HierarchyDesigner + "/Tools";
-        public const string Group_Helpers = Base_HierarchyDesigner + "/Helpers";
+        public const string Base_Group = "GameObject/Hierarchy Designer";
+        public const string Group_Folders = Base_Group + "/Folders";
+        public const string Group_Separators = Base_Group + "/Separators";
+        public const string Group_Tools = Base_Group + "/Tools";
+        public const string Group_Refresh = Base_Group + "/Refresh";
         public const string Section_Activate = Group_Tools + "/Activate";
         public const string Section_Activate_General = Section_Activate + "/General";
         public const string Section_Activate_Type = Section_Activate + "/Activate by Type";
@@ -128,7 +128,6 @@ namespace Verpha.HierarchyDesigner
         public const string Section_Select_Type_UI_Legacy = Section_Select_Type_UI + "/Legacy";
         public const string Section_Select_Type_UI_Effects = Section_Select_Type_UI + "/Effects";
         public const string Section_Sort = Group_Tools + "/Sort";
-        #endregion
         #endregion
     }
 }

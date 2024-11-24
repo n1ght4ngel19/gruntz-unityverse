@@ -1,29 +1,48 @@
 #if UNITY_EDITOR
 using System.IO;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
 namespace Verpha.HierarchyDesigner
 {
-    public static class HierarchyDesigner_Configurable_AdvancedSettings
+    internal static class HierarchyDesigner_Configurable_AdvancedSettings
     {
         #region Properties
         [System.Serializable]
         private class HierarchyDesigner_AdvancedSettings
         {
-            public HierarchyDesignerLocation HierarchyLocation = HierarchyDesignerLocation.TopBar;
-            public bool EnableDynamicChangesCheckForGameObjectMainIcon = true;
+            #region Core
+            public HierarchyDesignerLocation HierarchyLocation = HierarchyDesignerLocation.Tools;
+            public UpdateMode MainIconUpdateMode = UpdateMode.Dynamic;
+            public UpdateMode ComponentsIconsUpdateMode = UpdateMode.Dynamic;
+            public UpdateMode HierarchyTreeUpdateMode = UpdateMode.Dynamic;
+            public UpdateMode TagUpdateMode = UpdateMode.Dynamic;
+            public UpdateMode LayerUpdateMode = UpdateMode.Dynamic;
+            #endregion
+            #region Main Icon
             public bool EnableDynamicBackgroundForGameObjectMainIcon = true;
             public bool EnablePreciseRectForDynamicBackgroundForGameObjectMainIcon = true;
+            #endregion
+            #region Component Icons
             public bool EnableCustomizationForGameObjectComponentIcons = true;
             public bool EnableTooltipOnComponentIconHovered = true;
             public bool EnableActiveStateEffectForComponentIcons = true;
             public bool DisableComponentIconsForInactiveGameObjects = true;
+            #endregion
+            #region Folder
+            public bool IncludeEditorUtilitiesForHierarchyDesignerRuntimeFolder = true;
+            #endregion
+            #region Separator
             public bool IncludeBackgroundImageForGradientBackground = true;
+            #endregion
+            #region Hierarchy Tools
             public bool ExcludeFoldersFromCountSelectToolCalculations = true;
             public bool ExcludeSeparatorsFromCountSelectToolCalculations = true;
+            #endregion
         }
         public enum HierarchyDesignerLocation { Author, Plugins, Tools, TopBar, Window };
+        public enum UpdateMode { Dynamic, Smart }
         private static HierarchyDesigner_AdvancedSettings advancedSettings = new HierarchyDesigner_AdvancedSettings();
         private const string settingsFileName = "HierarchyDesigner_SavedData_AdvancedSettings.json";
         #endregion
@@ -69,7 +88,7 @@ namespace Verpha.HierarchyDesigner
                 HierarchyDesignerLocation.Author => "Verpha/Hierarchy Designer",
                 HierarchyDesignerLocation.Plugins => "Plugins/Hierarchy Designer",
                 HierarchyDesignerLocation.Tools => "Tools/Hierarchy Designer",
-                HierarchyDesignerLocation.TopBar => "Hierarchy Designer",
+                HierarchyDesignerLocation.TopBar => "Hierarchy Designer/Open Window",
                 HierarchyDesignerLocation.Window => "Window/Hierarchy Designer",
                 _ => "Hierarchy Designer"
             };
@@ -85,22 +104,29 @@ namespace Verpha.HierarchyDesigner
                 File.Delete(filePath);
             }
 
-            string fileContent = $@"#if UNITY_EDITOR
-namespace Verpha.HierarchyDesigner
-{{
-    public static class HierarchyDesigner_Shared_Constants
-    {{
-        public const string Base_HierarchyDesigner = ""{baseHierarchyDesigner}"";
-    }}
-}}
-#endif";
-            File.WriteAllText(filePath, fileContent);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("#if UNITY_EDITOR");
+            sb.AppendLine("namespace Verpha.HierarchyDesigner");
+            sb.AppendLine("{");
+            sb.AppendLine("    public static class HierarchyDesigner_Shared_Constants");
+            sb.AppendLine("    {");
+            sb.AppendFormat("        public const string Base_HierarchyDesigner = \"{0}\";", baseHierarchyDesigner);
+            sb.AppendLine();
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
+            sb.AppendLine("#endif");
+
+            File.WriteAllText(filePath, sb.ToString());
             AssetDatabase.Refresh();
         }
 
         private static void LoadHierarchyDesignerManagerGameObjectCaches()
         {
-            HierarchyDesigner_Manager_GameObject.EnableDynamicChangesCheckForGameObjectMainIconCache = EnableDynamicChangesCheckForGameObjectMainIcon;
+            HierarchyDesigner_Manager_GameObject.MainIconUpdateModeCache = MainIconUpdateMode;
+            HierarchyDesigner_Manager_GameObject.ComponentsIconsUpdateModeCache = ComponentsIconsUpdateMode;
+            HierarchyDesigner_Manager_GameObject.HierarchyTreeUpdateModeCache = HierarchyTreeUpdateMode;
+            HierarchyDesigner_Manager_GameObject.TagUpdateModeCache = TagUpdateMode;
+            HierarchyDesigner_Manager_GameObject.LayerUpdateModeCache = LayerUpdateMode;
             HierarchyDesigner_Manager_GameObject.EnableDynamicBackgroundForGameObjectMainIconCache = EnableDynamicBackgroundForGameObjectMainIcon;
             HierarchyDesigner_Manager_GameObject.EnablePreciseRectForDynamicBackgroundForGameObjectMainIconCache = EnablePreciseRectForDynamicBackgroundForGameObjectMainIcon;
             HierarchyDesigner_Manager_GameObject.DisableComponentIconsForInactiveGameObjectsCache = DisableComponentIconsForInactiveGameObjects;
@@ -112,6 +138,7 @@ namespace Verpha.HierarchyDesigner
         #endregion
 
         #region Accessors
+        #region Core
         public static HierarchyDesignerLocation HierarchyLocation
         {
             get => advancedSettings.HierarchyLocation;
@@ -124,19 +151,73 @@ namespace Verpha.HierarchyDesigner
             }
         }
 
-        public static bool EnableDynamicChangesCheckForGameObjectMainIcon
+        public static UpdateMode MainIconUpdateMode
         {
-            get => advancedSettings.EnableDynamicChangesCheckForGameObjectMainIcon;
+            get => advancedSettings.MainIconUpdateMode;
             set
             {
-                if (advancedSettings.EnableDynamicChangesCheckForGameObjectMainIcon != value)
+                if (advancedSettings.MainIconUpdateMode != value)
                 {
-                    advancedSettings.EnableDynamicChangesCheckForGameObjectMainIcon = value;
-                    HierarchyDesigner_Manager_GameObject.EnableDynamicChangesCheckForGameObjectMainIconCache = value;
+                    advancedSettings.MainIconUpdateMode = value;
+                    HierarchyDesigner_Manager_GameObject.MainIconUpdateModeCache = value;
                 }
             }
         }
 
+        public static UpdateMode ComponentsIconsUpdateMode
+        {
+            get => advancedSettings.ComponentsIconsUpdateMode;
+            set
+            {
+                if (advancedSettings.ComponentsIconsUpdateMode != value)
+                {
+                    advancedSettings.ComponentsIconsUpdateMode = value;
+                    HierarchyDesigner_Manager_GameObject.ComponentsIconsUpdateModeCache = value;
+                }
+            }
+        }
+
+        public static UpdateMode HierarchyTreeUpdateMode
+        {
+            get => advancedSettings.HierarchyTreeUpdateMode;
+            set
+            {
+                if (advancedSettings.HierarchyTreeUpdateMode != value)
+                {
+                    advancedSettings.HierarchyTreeUpdateMode = value;
+                    HierarchyDesigner_Manager_GameObject.HierarchyTreeUpdateModeCache = value;
+                }
+            }
+        }
+
+        public static UpdateMode TagUpdateMode
+        {
+            get => advancedSettings.TagUpdateMode;
+            set
+            {
+                if (advancedSettings.TagUpdateMode != value)
+                {
+                    advancedSettings.TagUpdateMode = value;
+                    HierarchyDesigner_Manager_GameObject.TagUpdateModeCache = value;
+                }
+            }
+        }
+
+        public static UpdateMode LayerUpdateMode
+        {
+            get => advancedSettings.LayerUpdateMode;
+            set
+            {
+                if (advancedSettings.LayerUpdateMode != value)
+                {
+                    advancedSettings.LayerUpdateMode = value;
+                    HierarchyDesigner_Manager_GameObject.LayerUpdateModeCache = value;
+                }
+            }
+        }
+        #endregion
+
+        #region #region Main Icon
         public static bool EnableDynamicBackgroundForGameObjectMainIcon
         {
             get => advancedSettings.EnableDynamicBackgroundForGameObjectMainIcon;
@@ -162,7 +243,9 @@ namespace Verpha.HierarchyDesigner
                 }
             }
         }
+        #endregion
 
+        #region #region Component Icons
         public static bool EnableCustomizationForGameObjectComponentIcons
         {
             get => advancedSettings.EnableCustomizationForGameObjectComponentIcons;
@@ -214,7 +297,23 @@ namespace Verpha.HierarchyDesigner
                 }
             }
         }
+        #endregion
 
+        #region Folder
+        public static bool IncludeEditorUtilitiesForHierarchyDesignerRuntimeFolder
+        {
+            get => advancedSettings.IncludeEditorUtilitiesForHierarchyDesignerRuntimeFolder;
+            set
+            {
+                if (advancedSettings.IncludeEditorUtilitiesForHierarchyDesignerRuntimeFolder != value)
+                {
+                    advancedSettings.IncludeEditorUtilitiesForHierarchyDesignerRuntimeFolder = value;
+                }
+            }
+        }
+        #endregion
+
+        #region Separator
         public static bool IncludeBackgroundImageForGradientBackground
         {
             get => advancedSettings.IncludeBackgroundImageForGradientBackground;
@@ -227,7 +326,9 @@ namespace Verpha.HierarchyDesigner
                 }
             }
         }
+        #endregion
 
+        #region Hierarchy Tools
         public static bool ExcludeFoldersFromCountSelectToolCalculations
         {
             get => advancedSettings.ExcludeFoldersFromCountSelectToolCalculations;
@@ -252,6 +353,7 @@ namespace Verpha.HierarchyDesigner
             }
         }
         #endregion
+        #endregion
 
         #region Save and Load
         public static void SaveSettings()
@@ -269,7 +371,12 @@ namespace Verpha.HierarchyDesigner
             {
                 string json = File.ReadAllText(dataFilePath);
                 HierarchyDesigner_AdvancedSettings loadedSettings = JsonUtility.FromJson<HierarchyDesigner_AdvancedSettings>(json);
-                loadedSettings.HierarchyLocation = HierarchyDesigner_Shared_EnumFilter.ParseEnum(loadedSettings.HierarchyLocation.ToString(), HierarchyDesignerLocation.TopBar);
+                loadedSettings.HierarchyLocation = HierarchyDesigner_Shared_EnumFilter.ParseEnum(loadedSettings.HierarchyLocation.ToString(), HierarchyDesignerLocation.Tools);
+                loadedSettings.MainIconUpdateMode = HierarchyDesigner_Shared_EnumFilter.ParseEnum(loadedSettings.MainIconUpdateMode.ToString(), UpdateMode.Dynamic);
+                loadedSettings.ComponentsIconsUpdateMode = HierarchyDesigner_Shared_EnumFilter.ParseEnum(loadedSettings.ComponentsIconsUpdateMode.ToString(), UpdateMode.Dynamic);
+                loadedSettings.HierarchyTreeUpdateMode = HierarchyDesigner_Shared_EnumFilter.ParseEnum(loadedSettings.HierarchyTreeUpdateMode.ToString(), UpdateMode.Dynamic);
+                loadedSettings.TagUpdateMode = HierarchyDesigner_Shared_EnumFilter.ParseEnum(loadedSettings.TagUpdateMode.ToString(), UpdateMode.Dynamic);
+                loadedSettings.LayerUpdateMode = HierarchyDesigner_Shared_EnumFilter.ParseEnum(loadedSettings.LayerUpdateMode.ToString(), UpdateMode.Dynamic);
                 advancedSettings = loadedSettings;
             }
             else
@@ -282,14 +389,19 @@ namespace Verpha.HierarchyDesigner
         {
             advancedSettings = new HierarchyDesigner_AdvancedSettings()
             {
-                HierarchyLocation = HierarchyDesignerLocation.TopBar,
-                EnableDynamicChangesCheckForGameObjectMainIcon = true,
+                HierarchyLocation = HierarchyDesignerLocation.Tools,
+                MainIconUpdateMode = UpdateMode.Dynamic,
+                ComponentsIconsUpdateMode = UpdateMode.Dynamic,
+                HierarchyTreeUpdateMode = UpdateMode.Dynamic,
+                TagUpdateMode = UpdateMode.Dynamic,
+                LayerUpdateMode = UpdateMode.Dynamic,
                 EnableDynamicBackgroundForGameObjectMainIcon = true,
                 EnablePreciseRectForDynamicBackgroundForGameObjectMainIcon = true,
                 EnableCustomizationForGameObjectComponentIcons = true,
                 EnableTooltipOnComponentIconHovered = true,
                 EnableActiveStateEffectForComponentIcons = true,
                 DisableComponentIconsForInactiveGameObjects = true,
+                IncludeEditorUtilitiesForHierarchyDesignerRuntimeFolder = true,
                 IncludeBackgroundImageForGradientBackground = true,
                 ExcludeFoldersFromCountSelectToolCalculations = true,
                 ExcludeSeparatorsFromCountSelectToolCalculations = true,

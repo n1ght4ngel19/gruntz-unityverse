@@ -4,7 +4,7 @@ using System;
 namespace Verpha.HierarchyDesigner
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class HierarchyDesigner_Shared_Attributes : Attribute
+    internal class HierarchyDesigner_Shared_Attributes : Attribute
     {
         public HierarchyDesigner_Attribute_Tools Category { get; private set; }
 
@@ -14,7 +14,7 @@ namespace Verpha.HierarchyDesigner
         }
     }
 
-    public enum HierarchyDesigner_Attribute_Tools
+    internal enum HierarchyDesigner_Attribute_Tools
     {
         Activate,
         Count,

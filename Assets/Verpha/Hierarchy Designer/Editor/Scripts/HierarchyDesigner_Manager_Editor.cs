@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace Verpha.HierarchyDesigner
 {
-    public static class HierarchyDesigner_Manager_Editor
+    internal static class HierarchyDesigner_Manager_Editor
     {
         #region Properties
         #region State
@@ -15,7 +15,7 @@ namespace Verpha.HierarchyDesigner
         #endregion
 
         #region Initialization
-        public static void LoadCaches()
+        public static void LoadCache()
         {
             UpdateEditorThemeCache();
         }

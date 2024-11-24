@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Verpha.HierarchyDesigner
 {
-    public static class HierarchyDesigner_Configurable_ShortcutsSettings
+    internal static class HierarchyDesigner_Configurable_ShortcutsSettings
     {
         #region Properties
         [System.Serializable]
@@ -129,55 +129,69 @@ namespace Verpha.HierarchyDesigner
 
         #region Minor Shortcuts
         #region Windows
-        [Shortcut("Hierarchy Designer/Open Folder Manager Window", KeyCode.Alpha1, ShortcutModifiers.Alt)]
-        private static void OpenFolderManagerWindow()
+        [Shortcut("Hierarchy Designer/Open Hierarchy Designer Window", KeyCode.Alpha1, ShortcutModifiers.Alt)]
+        private static void OpenHierarchyDesignerWindow()
         {
-            HierarchyDesigner_Window_Folder.OpenWindow();
+            HierarchyDesigner_Window_Main.OpenWindow();
         }
 
-        [Shortcut("Hierarchy Designer/Open Separator Manager Window", KeyCode.Alpha2, ShortcutModifiers.Alt)]
-        private static void OpenSeparatorManagerWindow()
+        [Shortcut("Hierarchy Designer/Open Folder Panel", KeyCode.Alpha2, ShortcutModifiers.Alt)]
+        private static void OpenFolderManagerPanel()
         {
-            HierarchyDesigner_Window_Separator.OpenWindow();
+            HierarchyDesigner_Window_Main.SetCurrentWindow(HierarchyDesigner_Window_Main.CurrentWindow.Folders);
+            HierarchyDesigner_Window_Main.OpenWindow();
         }
 
-        [Shortcut("Hierarchy Designer/Open Presets Window", KeyCode.Alpha3, ShortcutModifiers.Alt)]
-        private static void OpenPresetsWindow()
+        [Shortcut("Hierarchy Designer/Open Separator Panel", KeyCode.Alpha3, ShortcutModifiers.Alt)]
+        private static void OpenSeparatorManagerPanel()
         {
-            HierarchyDesigner_Window_Presets.OpenWindow();
+            HierarchyDesigner_Window_Main.SetCurrentWindow(HierarchyDesigner_Window_Main.CurrentWindow.Separators);
+            HierarchyDesigner_Window_Main.OpenWindow();
         }
 
-        [Shortcut("Hierarchy Designer/Open Tools Master Window", KeyCode.Alpha4, ShortcutModifiers.Alt)]
-        private static void OpenToolsMasterWindow()
+        [Shortcut("Hierarchy Designer/Open Tools Panel")]
+        private static void OpenToolsPanel()
         {
-            HierarchyDesigner_Window_ToolsMaster.OpenWindow();
+            HierarchyDesigner_Window_Main.SetCurrentWindow(HierarchyDesigner_Window_Main.CurrentWindow.Tools);
+            HierarchyDesigner_Window_Main.OpenWindow();
         }
 
-        [Shortcut("Hierarchy Designer/Open General Settings Window", KeyCode.Alpha1, ShortcutModifiers.Alt | ShortcutModifiers.Shift)]
-        private static void OpenGeneralSettingsWindow()
+        [Shortcut("Hierarchy Designer/Open Presets Panel")]
+        private static void OpenPresetsPanel()
         {
-            HierarchyDesigner_Window_GeneralSettings.OpenWindow();
+            HierarchyDesigner_Window_Main.SetCurrentWindow(HierarchyDesigner_Window_Main.CurrentWindow.Presets);
+            HierarchyDesigner_Window_Main.OpenWindow();
         }
 
-        [Shortcut("Hierarchy Designer/Open Design Settings Window", KeyCode.Alpha2, ShortcutModifiers.Alt | ShortcutModifiers.Shift)]
-        private static void OpenDesignSettingsWindow()
+        [Shortcut("Hierarchy Designer/Open General Settings Panel")]
+        private static void OpenGeneralSettingsPanel()
         {
-            HierarchyDesigner_Window_DesignSettings.OpenWindow();
+            HierarchyDesigner_Window_Main.SetCurrentWindow(HierarchyDesigner_Window_Main.CurrentWindow.GeneralSettings);
+            HierarchyDesigner_Window_Main.OpenWindow();
         }
 
-        [Shortcut("Hierarchy Designer/Open Shortcut Settings Window", KeyCode.Alpha3, ShortcutModifiers.Alt | ShortcutModifiers.Shift)]
-        private static void OpenShortcutSettingsWindow()
+        [Shortcut("Hierarchy Designer/Open Design Settings Panel")]
+        private static void OpenDesignSettingsPanel()
         {
-            HierarchyDesigner_Window_ShortcutSettings.OpenWindow();
+            HierarchyDesigner_Window_Main.SetCurrentWindow(HierarchyDesigner_Window_Main.CurrentWindow.DesignSettings);
+            HierarchyDesigner_Window_Main.OpenWindow();
         }
 
-        [Shortcut("Hierarchy Designer/Open Advanced Settings Window", KeyCode.Alpha4, ShortcutModifiers.Alt | ShortcutModifiers.Shift)]
-        private static void OpenAdvancedSettingsWindow()
+        [Shortcut("Hierarchy Designer/Open Shortcut Settings Panel")]
+        private static void OpenShortcutSettingsPanel()
         {
-            HierarchyDesigner_Window_AdvancedSettings.OpenWindow();
+            HierarchyDesigner_Window_Main.SetCurrentWindow(HierarchyDesigner_Window_Main.CurrentWindow.ShortcutSettings);
+            HierarchyDesigner_Window_Main.OpenWindow();
         }
 
-        [Shortcut("Hierarchy Designer/Open Rename Tool Window", KeyCode.Alpha1, ShortcutModifiers.Control | ShortcutModifiers.Alt | ShortcutModifiers.Shift)]
+        [Shortcut("Hierarchy Designer/Open Advanced Settings Panel")]
+        private static void OpenAdvancedSettingsPanel()
+        {
+            HierarchyDesigner_Window_Main.SetCurrentWindow(HierarchyDesigner_Window_Main.CurrentWindow.AdvancedSettings);
+            HierarchyDesigner_Window_Main.OpenWindow();
+        }
+
+        [Shortcut("Hierarchy Designer/Open Rename Tool Window")]
         private static void OpenRenameToolWindow()
         {
             HierarchyDesigner_Window_RenameTool.OpenWindow(null, true, 0);
@@ -219,6 +233,50 @@ namespace Verpha.HierarchyDesigner
         private static void CreateMissingHierarchySeparators()
         {
             HierarchyDesigner_Utility_Separator.CreateMissingSeparators();
+        }
+        #endregion
+
+        #region Refresh
+        [Shortcut("Hierarchy Designer/Refresh All GameObjects' Data", KeyCode.R, ShortcutModifiers.Shift)]
+        private static void RefreshAllGameObjectsData()
+        {
+            HierarchyDesigner_Utility_GameObject.RefreshAllGameObjectsData();
+        }
+
+        [Shortcut("Hierarchy Designer/Refresh Selected GameObject's Data", KeyCode.R, ShortcutModifiers.Alt)]
+        private static void RefreshSelectedGameObjectsData()
+        {
+            HierarchyDesigner_Utility_GameObject.RefreshSelectedGameObjectsData();
+        }
+
+        [Shortcut("Hierarchy Designer/Refresh Selected Main Icon")]
+        private static void RefreshMainIconForSelectedGameObject()
+        {
+            HierarchyDesigner_Utility_GameObject.RefreshMainIconForSelectedGameObject();
+        }
+
+        [Shortcut("Hierarchy Designer/Refresh Selected Component Icons")]
+        private static void RefreshComponentIconsForSelectedGameObjects()
+        {
+            HierarchyDesigner_Utility_GameObject.RefreshComponentIconsForSelectedGameObjects();
+        }
+
+        [Shortcut("Hierarchy Designer/Refresh Selected Hierarchy Tree Icon")]
+        private static void RefreshHierarchyTreeIconForSelectedGameObjects()
+        {
+            HierarchyDesigner_Utility_GameObject.RefreshHierarchyTreeIconForSelectedGameObjects();
+        }
+
+        [Shortcut("Hierarchy Designer/Refresh Selected Tag")]
+        private static void RefreshTagForSelectedGameObjects()
+        {
+            HierarchyDesigner_Utility_GameObject.RefreshTagForSelectedGameObjects();
+        }
+
+        [Shortcut("Hierarchy Designer/Refresh Selected Layer")]
+        private static void RefreshLayerForSelectedGameObjects()
+        {
+            HierarchyDesigner_Utility_GameObject.RefreshLayerForSelectedGameObjects();
         }
         #endregion
         #endregion

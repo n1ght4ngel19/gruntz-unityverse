@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Verpha.HierarchyDesigner
 {
-    public static class HierarchyDesigner_Utility_Tools
+    internal static class HierarchyDesigner_Utility_Tools
     {
         #region Properties
         #region Const Values
@@ -37,7 +37,7 @@ namespace Verpha.HierarchyDesigner
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Activate_General + "/Activate All GameObjects", false, HierarchyDesigner_Shared_MenuItems.LayerEight)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
-        public static void MenuItem_Activate_SlGameObjects() => Activate_AllGameObjects(true);
+        public static void MenuItem_Activate_AllGameObjects() => Activate_AllGameObjects(true);
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Activate_General + "/Activate All Parent GameObjects", false, HierarchyDesigner_Shared_MenuItems.LayerEight)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
@@ -61,7 +61,7 @@ namespace Verpha.HierarchyDesigner
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Activate_General + "/Deactivate All GameObjects", false, HierarchyDesigner_Shared_MenuItems.LayerTwelve)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
-        public static void MenuItem_Deactivate_GameObjects() => Activate_AllGameObjects(false);
+        public static void MenuItem_Deactivate_AllGameObjects() => Activate_AllGameObjects(false);
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Activate_General + "/Deactivate All Parent GameObjects", false, HierarchyDesigner_Shared_MenuItems.LayerTwelve)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
@@ -250,7 +250,7 @@ namespace Verpha.HierarchyDesigner
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Activate_Type_Effects + "/Activate All Lens Flares", false, HierarchyDesigner_Shared_MenuItems.LayerNine + 3)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
-        public static void MenuIte_Activate_LensFlares() => Activate_AllComponentOfType<LensFlare>(true);
+        public static void MenuItem_Activate_LensFlares() => Activate_AllComponentOfType<LensFlare>(true);
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Activate_Type_Effects + "/Activate All Projectors", false, HierarchyDesigner_Shared_MenuItems.LayerNine + 3)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
@@ -388,7 +388,7 @@ namespace Verpha.HierarchyDesigner
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Activate_Type_UI + "/Activate All Masks", false, HierarchyDesigner_Shared_MenuItems.LayerTwelve + 9)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
-        public static void MenuItem__Activate_Masks() => Activate_AllComponentOfType<Mask>(true);
+        public static void MenuItem_Activate_Masks() => Activate_AllComponentOfType<Mask>(true);
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Activate_Type_UI + "/Activate All Rect Masks 2D", false, HierarchyDesigner_Shared_MenuItems.LayerTwelve + 9)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
@@ -440,7 +440,7 @@ namespace Verpha.HierarchyDesigner
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Deactivate_Type_2D_Sprites + "/Deactivate All Hexagon Flat-Top Sprites", false, HierarchyDesigner_Shared_MenuItems.LayerNine + 1)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
-        public static void MenuItem__Deactivate_HexagonFlatTopSprites() => Activate_All2DSpritesByType("Hexagon Flat-Top", false);
+        public static void MenuItem_Deactivate_HexagonFlatTopSprites() => Activate_All2DSpritesByType("Hexagon Flat-Top", false);
 
         [MenuItem(HierarchyDesigner_Shared_MenuItems.Section_Deactivate_Type_2D_Sprites + "/Deactivate All Hexagon Pointed-Top Sprites", false, HierarchyDesigner_Shared_MenuItems.LayerNine + 1)]
         [HierarchyDesigner_Shared_Attributes(HierarchyDesigner_Attribute_Tools.Activate)]
@@ -2564,9 +2564,8 @@ namespace Verpha.HierarchyDesigner
                     gameObjectNames += gameObject.name + ", ";
                 }
             }
-
             gameObjectNames = count == 0 ? "none" : gameObjectNames.TrimEnd(',', ' ');
-            Debug.Log($"Total <{description}> in the scene: {count}\nAll <{description}> found: {gameObjectNames}.\n");
+            Debug.Log($"Total <color=#73FF7A>{description}</color> in the scene: <b>{count}</b>\n<i>All {description} found:</i> <b>{gameObjectNames}</b>.\n");
         }
         #endregion
 
@@ -2586,7 +2585,7 @@ namespace Verpha.HierarchyDesigner
                     selectedGameObjectNames += ", ";
                 }
             }
-            Debug.Log($"Total <Selected GameObjects> in the scene: {count}\nAll <Selected GameObjects> found: {selectedGameObjectNames}.\n");
+            Debug.Log($"Total <color=#73FF7A>Selected GameObjects</color> in the scene: <b>{count}</b>\n<i>All <Selected GameObjects> found:</i> <b>{selectedGameObjectNames}</b>.\n");
         }
 
         private static void Count_AllGameObjects()
